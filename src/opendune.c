@@ -9,8 +9,6 @@
 #include <ctype.h>
 #include <time.h>
 #include "types.h"
-#include "libemu.h"
-#include "global.h"
 #include "os/common.h"
 #include "os/math.h"
 #include "os/strings.h"
@@ -19,6 +17,8 @@
 #include "opendune.h"
 
 #include "animation.h"
+#include "config.h"
+#include "driver.h"
 #include "file.h"
 #include "gfx.h"
 #include "gui/font.h"
@@ -37,6 +37,7 @@
 #include "pool/team.h"
 #include "scenario.h"
 #include "security.h"
+#include "sound.h"
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"

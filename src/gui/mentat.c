@@ -7,7 +7,6 @@
 #include <string.h>
 #include <assert.h>
 #include "types.h"
-#include "../global.h"
 #include "../os/endian.h"
 #include "../os/sleep.h"
 #include "../os/strings.h"
@@ -17,6 +16,8 @@
 #include "font.h"
 #include "gui.h"
 #include "widget.h"
+#include "../driver.h"
+#include "../sound.h"
 #include "../file.h"
 #include "../gfx.h"
 #include "../house.h"

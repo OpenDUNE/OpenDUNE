@@ -7,14 +7,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include "types.h"
-#include "libemu.h"
-#include "global.h"
 #include "os/endian.h"
 #include "os/math.h"
 #include "os/strings.h"
 
 #include "driver.h"
 
+#include "config.h"
 #include "dsp.h"
 #include "file.h"
 #include "mt32mpu.h"

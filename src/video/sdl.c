@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <SDL.h>
 #include "types.h"
-#include "libemu.h"
 
 #include "video.h"
 

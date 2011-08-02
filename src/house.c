@@ -4,14 +4,13 @@
 
 #include <stdio.h>
 #include "types.h"
-#include "libemu.h"
-#include "global.h"
 #include "os/strings.h"
 #include "os/sleep.h"
 #include "os/math.h"
 
 #include "house.h"
 
+#include "driver.h"
 #include "gfx.h"
 #include "gui/gui.h"
 #include "map.h"
@@ -21,6 +20,7 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "scenario.h"
+#include "sound.h"
 #include "string.h"
 #include "structure.h"
 #include "tile.h"

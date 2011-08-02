@@ -6,11 +6,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "global.h"
 
 #include "config.h"
 
 #include "file.h"
+#include "sound.h"
 
 GameCfg g_gameConfig;
 DuneCfg g_config;

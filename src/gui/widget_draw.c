@@ -5,12 +5,12 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "../global.h"
 
 #include "font.h"
 #include "gui.h"
 #include "mentat.h"
 #include "widget.h"
+#include "../config.h"
 #include "../opendune.h"
 #include "../gfx.h"
 #include "../house.h"

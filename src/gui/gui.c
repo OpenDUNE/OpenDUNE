@@ -8,8 +8,6 @@
 #include <stdarg.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "../global.h"
 #include "../os/common.h"
 #include "../os/math.h"
 #include "../os/sleep.h"
@@ -21,6 +19,8 @@
 #include "mentat.h"
 #include "widget.h"
 #include "../codec/format80.h"
+#include "../config.h"
+#include "../driver.h"
 #include "../file.h"
 #include "../gfx.h"
 #include "../house.h"
@@ -34,6 +34,7 @@
 #include "../pool/house.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
+#include "../sound.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"

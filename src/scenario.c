@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "global.h"
 #include "os/strings.h"
 
 #include "scenario.h"

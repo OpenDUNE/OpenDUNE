@@ -7,12 +7,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "global.h"
 #include "os/sleep.h"
 #include "os/strings.h"
 
 #include "tools.h"
 
+#include "config.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "structure.h"

@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include "types.h"
-#include "../global.h"
 
 #include "saveload.h"
 #include "../house.h"
@@ -165,7 +164,7 @@ static const SaveLoadDesc s_saveInfoOld[] = {
 bool Info_Load(FILE *fp, uint32 length)
 {
 	if (SaveLoad_GetLength(s_saveInfo) != length) return false;
-	if (!SaveLoad_Load(s_saveInfo, fp, g_global)) return false;
+	if (!SaveLoad_Load(s_saveInfo, fp, NULL)) return false;
 
 	g_viewportPosition = g_minimapPosition;
 	g_selectionPosition = g_selectionRectanglePosition;
@@ -203,7 +202,7 @@ bool Info_Save(FILE *fp)
 
 	if (fwrite(&savegameVersion, sizeof(uint16), 1, fp) != 1) return false;
 
-	if (!SaveLoad_Save(s_saveInfo, fp, g_global)) return false;
+	if (!SaveLoad_Save(s_saveInfo, fp, NULL)) return false;
 
 	return true;
 }

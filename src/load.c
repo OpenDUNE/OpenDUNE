@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "global.h"
 #include "os/endian.h"
 #include "os/math.h"
 #include "os/strings.h"
@@ -15,6 +14,7 @@
 
 #include "file.h"
 #include "gui/gui.h"
+#include "gui/widget.h"
 #include "house.h"
 #include "map.h"
 #include "opendune.h"
@@ -24,6 +24,7 @@
 #include "save.h"
 #include "saveload/saveload.h"
 #include "scenario.h"
+#include "sound.h"
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"

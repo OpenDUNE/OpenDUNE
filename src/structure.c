@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "global.h"
 #include "os/strings.h"
 #include "os/math.h"
 
@@ -27,6 +25,7 @@
 #include "pool/unit.h"
 #include "scenario.h"
 #include "script/script.h"
+#include "sound.h"
 #include "sprites.h"
 #include "string.h"
 #include "team.h"

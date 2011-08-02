@@ -7,11 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "global.h"
 
 #include "gfx.h"
 
+#include "gui/widget.h"
 #include "house.h"
 #include "opendune.h"
 #include "sprites.h"

@@ -4,12 +4,13 @@
 
 #include <string.h>
 #include "types.h"
-#include "../global.h"
 #include "../os/sleep.h"
 #include "../os/math.h"
 #include "../gfx.h"
+
 #include "unknown.h"
 
+#include "../gui/widget.h"
 #include "../timer.h"
 
 

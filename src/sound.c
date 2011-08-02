@@ -13,6 +13,8 @@
 
 #include "sound.h"
 
+#include "config.h"
+#include "driver.h"
 #include "file.h"
 #include "gui/gui.h"
 #include "house.h"

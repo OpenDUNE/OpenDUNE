@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "global.h"
 #include "os/common.h"
 #include "os/endian.h"
 #include "os/sleep.h"
@@ -18,12 +16,13 @@
 
 #include "codec/format80.h"
 #include "file.h"
-#include "mouse.h"
 #include "gfx.h"
 #include "house.h"
 #include "ini.h"
 #include "gui/gui.h"
+#include "mouse.h"
 #include "pool/house.h"
+#include "script/script.h"
 #include "string.h"
 #include "tools.h"
 #include "unknown/unknown.h"

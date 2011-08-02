@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "../global.h"
 #include "../os/common.h"
 #include "../os/math.h"
 
@@ -17,6 +15,7 @@
 #include "../animation.h"
 #include "../gfx.h"
 #include "../gui/gui.h"
+#include "../gui/widget.h"
 #include "../house.h"
 #include "../map.h"
 #include "../opendune.h"

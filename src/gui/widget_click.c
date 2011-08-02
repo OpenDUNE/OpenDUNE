@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "../global.h"
 #include "../os/endian.h"
 #include "../os/math.h"
 #include "../os/sleep.h"
@@ -15,6 +13,8 @@
 
 #include "gui.h"
 #include "widget.h"
+#include "../config.h"
+#include "../driver.h"
 #include "../file.h"
 #include "../gfx.h"
 #include "../house.h"
@@ -26,6 +26,7 @@
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../save.h"
+#include "../sound.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
