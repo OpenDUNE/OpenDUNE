@@ -669,7 +669,7 @@ typedef struct GlobalData {
 	/* 35FE(2)   */ PACK uint16  removed_35FE;              /*!< REMOVED - Amount of houses on the map. */
 	/* 3600(4)   */ PACK csip32  removed_3600;              /*!< REMOVED - Buffer for screen backup when drawing modal windows. */
 	/* 3604(40)  */ PACK uint16  removed_3604[5][4];        /*!< REMOVED - Colours used for the border of widgets. */
-	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< Read Only - ?? */
+	/* 362C(16)  */ PACK uint16  removed_362C[4][2];        /*!< REMOVED - Read Only Array of border indices and sizes */
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
 	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
 	/* 3640(4)   */ PACK uint32  removed_3640;              /*!< REMOVED - Next tick when credits animation needs an update. */

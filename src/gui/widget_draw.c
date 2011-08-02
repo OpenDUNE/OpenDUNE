@@ -926,6 +926,10 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
  */
 void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 {
+	static const uint16 borderIndexSize[][2] = {
+		{0, 0}, {2, 4}, {1, 1}, {2, 1}
+	};
+
 	uint16 left   = g_widgetProperties[widgetIndex].xBase << 3;
 	uint16 top    = g_widgetProperties[widgetIndex].yBase;
 	uint16 width  = g_widgetProperties[widgetIndex].width << 3;
@@ -941,8 +945,8 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 
 	GUI_DrawBorder(left, top, width, height, colourSchemaIndex + 1, true);
 
-	colourSchemaIndexDiff = g_global->variable_362C[borderType][0];
-	size = g_global->variable_362C[borderType][1];
+	colourSchemaIndexDiff = borderIndexSize[borderType][0];
+	size = borderIndexSize[borderType][1];
 
 	if (size != 0) {
 		GUI_DrawBorder(left + size, top + size, width - (size * 2), height - (size * 2), colourSchemaIndexDiff + colourSchemaIndex, false);
