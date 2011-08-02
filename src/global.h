@@ -1182,12 +1182,12 @@ typedef struct GlobalData {
 	/* 7094(2)   */ PACK uint16  removed_7094;              /*!< REMOVED - Paramerer 2 for proc at 66B4. */
 	/* 7096(1)   */ PACK uint8  mouseInstalled;             /*!< If non-zero, the mouse callback is installed. */
 	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
-	/* 7098(1)   */ PACK uint8  variable_7098;              /*!< ?? If zero, no mouse handling. */
+	/* 7098(1)   */ PACK uint8   removed_7098;              /*!< REMOVED - ?? If zero, no mouse handling. */
 	/* 7099(1)   */ PACK uint8   removed_7099;              /*!< REMOVED - Previous mouse button state. */
-	/* 709A(2)   */ PACK uint16 mouseSpriteLeft;            /*!< Left of the mouse sprite region (which is copied in the buffer). */
-	/* 709C(2)   */ PACK uint16 mouseSpriteTop;             /*!< Top of the mouse sprite region (which is copied in the buffer). */
-	/* 709E(2)   */ PACK uint16 mouseSpriteWidth;           /*!< Width of the mouse sprite region (which is copied in the buffer). */
-	/* 70A0(2)   */ PACK uint16 mouseSpriteHeight;          /*!< Height of the mouse sprite region (which is copied in the buffer). */
+	/* 709A(2)   */ PACK uint16  removed_709A;              /*!< REMOVED - Left of the mouse sprite region (which is copied in the buffer). */
+	/* 709C(2)   */ PACK uint16  removed_709C;              /*!< REMOVED - Top of the mouse sprite region (which is copied in the buffer). */
+	/* 709E(2)   */ PACK uint16  removed_709E;              /*!< REMOVED - Width of the mouse sprite region (which is copied in the buffer). */
+	/* 70A0(2)   */ PACK uint16  removed_70A0;              /*!< REMOVED - Height of the mouse sprite region (which is copied in the buffer). */
 	/* 70A2(768) */ PACK uint8   removed_70A2[768];         /*!< REMOVED - Current active palette. */
 	/* 73A2()    */ PACK uint8   unknown_73A2[0x0300];
 	/* 76A2(4)   */ PACK uint8   removed_76A2[4];           /*!< REMOVED - Seed for pseudo-random generator. */

@@ -2294,7 +2294,7 @@ static bool Unknown_25C4_000E()
 	Timer_Add(Video_Tick, 1000000 / 60);
 	Timer_Add(Timer_Tick, 1000000 / 60);
 
-	g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
+	g_global->variable_7097 = -1;
 
 	GFX_Init();
 	GFX_ClearScreen();

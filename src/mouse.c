@@ -54,7 +54,6 @@ void Mouse_Init()
 	g_mouseRegionRight = SCREEN_WIDTH - 1;
 	g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
-	g_global->mouseInstalled = true;
 	g_global->variable_7097 = true;
 
 	Video_Mouse_SetPosition(g_mouseX * 2, g_mouseY * 2);
@@ -67,7 +66,7 @@ void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft
 {
 	uint8 newButtonState = (mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0);
 
-	if (g_global->variable_7097 == 0 && g_global->variable_7098 != 0 && (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || g_inputIgnore == 0)) {
+	if (g_global->variable_7097 == 0 && (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || g_inputIgnore == 0)) {
 		if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & 0x1000) == 0) {
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}
@@ -110,9 +109,7 @@ void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
 	g_mouseRegionTop    = top;
 	g_mouseRegionBottom = bottom;
 
-	if (g_global->mouseInstalled) {
-		Video_Mouse_SetRegion(left * 2, right * 2, top * 2, bottom * 2);
-	}
+	Video_Mouse_SetRegion(left * 2, right * 2, top * 2, bottom * 2);
 }
 
 /**

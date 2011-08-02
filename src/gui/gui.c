@@ -115,6 +115,11 @@ bool g_var_81E6;
 static uint8 s_var_81BA[24];
 static bool s_strategicMapFastForward;
 
+static uint16 s_mouseSpriteLeft;
+static uint16 s_mouseSpriteTop;
+static uint16 s_mouseSpriteWidth;
+static uint16 s_mouseSpriteHeight;
+
 /*!< Colours used for the border of widgets. */
 static uint16 s_colourBorderSchema[5][4] = {
 	{ 26,  29,  29,  29},
@@ -3805,17 +3810,17 @@ void GUI_Mouse_Show()
 	left = g_mouseX - g_global->mouseSpriteHotspotX;
 	top  = g_mouseY - g_global->mouseSpriteHotspotY;
 
-	g_global->mouseSpriteLeft = (left < 0) ? 0 : (left >> 3);
-	g_global->mouseSpriteTop = (top < 0) ? 0 : top;
+	s_mouseSpriteLeft = (left < 0) ? 0 : (left >> 3);
+	s_mouseSpriteTop = (top < 0) ? 0 : top;
 
-	g_global->mouseSpriteWidth = g_global->mouseWidth;
-	if ((left >> 3) + g_global->mouseWidth >= SCREEN_WIDTH / 8) g_global->mouseSpriteWidth -= (left >> 3) + g_global->mouseWidth - SCREEN_WIDTH / 8;
+	s_mouseSpriteWidth = g_global->mouseWidth;
+	if ((left >> 3) + g_global->mouseWidth >= SCREEN_WIDTH / 8) s_mouseSpriteWidth -= (left >> 3) + g_global->mouseWidth - SCREEN_WIDTH / 8;
 
-	g_global->mouseSpriteHeight = g_global->mouseHeight;
-	if (top + g_global->mouseHeight >= SCREEN_HEIGHT) g_global->mouseSpriteHeight -= top + g_global->mouseHeight - SCREEN_HEIGHT;
+	s_mouseSpriteHeight = g_global->mouseHeight;
+	if (top + g_global->mouseHeight >= SCREEN_HEIGHT) s_mouseSpriteHeight -= top + g_global->mouseHeight - SCREEN_HEIGHT;
 
 	if (g_mouseSpriteBuffer != NULL) {
-		GFX_CopyToBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, g_mouseSpriteBuffer);
+		GFX_CopyToBuffer(s_mouseSpriteLeft, s_mouseSpriteTop, s_mouseSpriteWidth, s_mouseSpriteHeight, g_mouseSpriteBuffer);
 	}
 
 	GUI_DrawSprite(0, g_mouseSprite, left, top, 0, 0);
@@ -3829,12 +3834,12 @@ void GUI_Mouse_Hide()
 {
 	if (g_global->variable_7097) return;
 
-	if (g_global->mouseHiddenDepth == 0 && g_global->mouseSpriteWidth != 0) {
+	if (g_global->mouseHiddenDepth == 0 && s_mouseSpriteWidth != 0) {
 		if (g_mouseSpriteBuffer != NULL) {
-			GFX_CopyFromBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, g_mouseSpriteBuffer);
+			GFX_CopyFromBuffer(s_mouseSpriteLeft, s_mouseSpriteTop, s_mouseSpriteWidth, s_mouseSpriteHeight, g_mouseSpriteBuffer);
 		}
 
-		g_global->mouseSpriteWidth = 0;
+		s_mouseSpriteWidth = 0;
 	}
 
 	g_global->mouseHiddenDepth++;
@@ -4059,7 +4064,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 	g_mouseX = x;
 	g_mouseY = y;
 
-	if (g_global->mouseInstalled) Video_Mouse_SetPosition(x * 2, y * 2);
+	Video_Mouse_SetPosition(x * 2, y * 2);
 
 	if (g_mouseX != g_mousePrevX || g_mouseY != g_mousePrevY) {
 		GUI_Mouse_Hide();
