@@ -48,6 +48,8 @@ uint16 g_selectionWidth;                /*!< Width of the selection. */
 uint16 g_selectionHeight;               /*!< Height of the selection. */
 int16  g_selectionState = 1;            /*!< State of the selection (\c 1 is valid, \c 0 is not valid, \c <0 valid but missing some slabs. */
 
+static uint16 s_var_8DE3;
+
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
  *
@@ -178,13 +180,13 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		sprite = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
 
-		g_global->variable_8DE3 = 0x200;
+		s_var_8DE3 = 0x200;
 
-		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
 
 		if (u != g_unitSelected) continue;
 
@@ -260,7 +262,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					case 2:
 						if (ui->movementType == MOVEMENT_SLITHER) break;
 						index += values_32A4[orientation][0];
-						g_global->variable_8DE3 = values_32A4[orientation][1];
+						s_var_8DE3 = values_32A4[orientation][1];
 						break;
 
 					case 3: {
@@ -268,28 +270,28 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 						index += values_32C4[orientation][0] * 3;
 						index += values_334A[u->variable_6D & 3];
-						g_global->variable_8DE3 = values_32C4[orientation][1];
+						s_var_8DE3 = values_32C4[orientation][1];
 					} break;
 
 					case 4:
 						index += values_32C4[orientation][0] * 4;
 						index += u->variable_6D & 3;
-						g_global->variable_8DE3 = values_32C4[orientation][1];
+						s_var_8DE3 = values_32C4[orientation][1];
 						break;
 
 					default:
-						g_global->variable_8DE3 = 0;
+						s_var_8DE3 = 0;
 						break;
 				}
 			} else {
 				index = ui->variable_4C - u->variable_6D - 1;
-				g_global->variable_8DE3 = 0;
+				s_var_8DE3 = 0;
 			}
 
-			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) g_global->variable_8DE3 |= 0x100;
-			if (ui->o.flags.variable_0020) g_global->variable_8DE3 |= 0x200;
+			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) s_var_8DE3 |= 0x100;
+			if (ui->o.flags.variable_0020) s_var_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
+			GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, s_var_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -343,10 +345,10 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						break;
 				}
 
-				g_global->variable_8DE3 = values_32A4[orientation][1];
+				s_var_8DE3 = values_32A4[orientation][1];
 				index += values_32A4[orientation][0];
 
-				GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
+				GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, s_var_8DE3 | 0xE000, g_global->variable_8420);
 			}
 
 			if (u->o.flags.s.isSmoking) {
@@ -382,9 +384,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 		if (!Map_IsPositionInViewport(s->position, &x, &y)) continue;
 
-		g_global->variable_8DE3 = 0xC000;
+		s_var_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, s_var_8DE3, g_global->variable_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || updateDisplay) {
@@ -424,7 +426,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			index = ui->spriteID;
 			orientation = u->orientation[0].current;
-			g_global->variable_8DE3 = 0xC000;
+			s_var_8DE3 = 0xC000;
 
 			switch (ui->displayMode) {
 				case 0:
@@ -435,7 +437,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 					index += values_32E4[orientation][0];
-					g_global->variable_8DE3 |= values_32E4[orientation][1];
+					s_var_8DE3 |= values_32E4[orientation][1];
 					break;
 
 				case 2: {
@@ -449,7 +451,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					orientation = Orientation_Orientation256ToOrientation16(orientation);
 
 					index += values_3304[orientation][0];
-					g_global->variable_8DE3 |= values_3304[orientation][1];
+					s_var_8DE3 |= values_3304[orientation][1];
 				} break;
 
 				case 5: {
@@ -458,11 +460,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 					index += (values_32E4[orientation][0] * 3) + values_33AE[u->variable_6D & 3];
-					g_global->variable_8DE3 |= values_32E4[orientation][1];
+					s_var_8DE3 |= values_32E4[orientation][1];
 				} break;
 
 				default:
-					g_global->variable_8DE3 = 0x0;
+					s_var_8DE3 = 0x0;
 					break;
 			}
 
@@ -471,11 +473,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			sprite = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+			if (ui->o.flags.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (s_var_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
 
-			if (ui->o.flags.variable_0020) g_global->variable_8DE3 |= 0x200;
+			if (ui->o.flags.variable_0020) s_var_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
+			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0x2000, g_global->variable_8420);
 		}
 
 		g_global->variable_39E8 = 0;

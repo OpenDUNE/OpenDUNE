@@ -1353,7 +1353,7 @@ typedef struct GlobalData {
 	/* 8BEA(275) */ PACK uint8   removed_8BEA[25][11];      /*!< REMOVED - Items for the factory window. */
 	/* 8CFD(2)   */ PACK uint16  removed_8CFD;              /*!< REMOVED - Savegame version. */
 	/* 8CFF(228) */ PACK uint8   removed_8CFF[228];         /*!< REMOVED - Scenario data */
-	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
+	/* 8DE3(2)   */ PACK uint16  removed_8DE3;              /*!< REMOVED - ?? */
 	/* 8DE5(512) */ PACK uint8   removed_8DE5[512];         /*!< REMOVED - dirty minimap tiles. */
 	/* 8FE5(512) */ PACK uint8   removed_8FE5[512];         /*!< REMOVED - dirty viewport tiles. */
 	/* 91E5(512) */ PACK uint8   removed_91E5[512];         /*!< REMOVED - ?? array size is unsure. */
