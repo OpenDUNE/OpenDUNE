@@ -1008,38 +1008,38 @@ typedef struct GlobalData {
 	/* 66FC()    */ PACK uint8   unknown_66FC[0x0004];
 	/* 6700(33)  */ PACK char   string_6700[17];            /*!< "0123456789ABCDEF" NULL terminated. */
 	/* 6711()    */ PACK uint8   unknown_6711[0x0001];
-	/* 6712(4)   */ PACK csip32 variable_6712;              /*!< ?? Pointer to string_6792. */
-	/* 6716(4)   */ PACK csip32 variable_6716;              /*!< ?? Pointer to string_67C2. */
-	/* 671A(4)   */ PACK csip32 variable_671C;              /*!< ?? Pointer to string_67F9. */
-	/* 671E(4)   */ PACK csip32 variable_671E;              /*!< ?? Pointer to string_6834. */
-	/* 6722(4)   */ PACK csip32 variable_6722;              /*!< ?? Pointer to string_6866. */
-	/* 6726(4)   */ PACK csip32 variable_6726;              /*!< ?? Pointer to string_687C. */
-	/* 672A(4)   */ PACK csip32 variable_672A;              /*!< ?? Pointer to string_68BE. */
-	/* 672E(4)   */ PACK csip32 variable_672E;              /*!< ?? Pointer to string_68ED. */
-	/* 6732(4)   */ PACK csip32 variable_6732;              /*!< ?? Pointer to string_6911. */
-	/* 6736(4)   */ PACK csip32 variable_6736;              /*!< ?? Pointer to string_692C. */
-	/* 673C(4)   */ PACK csip32 variable_673C;              /*!< ?? Pointer to string_6946. */
-	/* 673E(4)   */ PACK csip32 variable_673E;              /*!< ?? Pointer to string_695B. */
-	/* 6742(4)   */ PACK csip32 variable_6742;              /*!< ?? Pointer to string_697A. */
-	/* 6746(4)   */ PACK csip32 variable_6746;              /*!< ?? Pointer to string_6998. */
-	/* 674C(4)   */ PACK csip32 variable_674C;              /*!< ?? Pointer to string_69B7. */
-	/* 674E(4)   */ PACK csip32 variable_674E;              /*!< ?? Pointer to string_69D5. */
-	/* 6752(4)   */ PACK csip32 variable_6752;              /*!< ?? Pointer to string_69FD. */
-	/* 6756(4)   */ PACK csip32 variable_6756;              /*!< ?? Pointer to string_6A21. */
-	/* 675C(4)   */ PACK csip32 variable_675C;              /*!< ?? Pointer to string_6A4F. */
-	/* 675E(4)   */ PACK csip32 variable_675E;              /*!< ?? Pointer to string_6A70. */
-	/* 6762(4)   */ PACK csip32 variable_6762;              /*!< ?? Pointer to string_6AA7. */
-	/* 6766(4)   */ PACK csip32 variable_6766;              /*!< ?? Pointer to string_6ACB. */
-	/* 676C(4)   */ PACK csip32 variable_676C;              /*!< ?? Pointer to string_6B01. */
-	/* 676E(4)   */ PACK csip32 variable_676E;              /*!< ?? Pointer to string_6B22. */
-	/* 6772(4)   */ PACK csip32 variable_6772;              /*!< ?? Pointer to string_6B48. */
-	/* 6776(4)   */ PACK csip32 variable_6776;              /*!< ?? Pointer to string_6B71. */
-	/* 677C(4)   */ PACK csip32 variable_677C;              /*!< ?? Pointer to string_6BA0. */
-	/* 677E(4)   */ PACK csip32 variable_677E;              /*!< ?? Pointer to string_6BBB. */
-	/* 6782(4)   */ PACK csip32 variable_6782;              /*!< ?? Pointer to string_6BDD. */
-	/* 6786(4)   */ PACK csip32 variable_6786;              /*!< ?? Pointer to string_6C06. */
-	/* 678A(4)   */ PACK csip32 variable_678A;              /*!< ?? Pointer to string_6C39. */
-	/* 678E(4)   */ PACK csip32 variable_678E;              /*!< ?? Pointer to string_6C5F. */
+	/* 6712(4)   */ PACK csip32  removed_6712;              /*!< REMOVED - ?? Pointer to string_6792. */
+	/* 6716(4)   */ PACK csip32  removed_6716;              /*!< REMOVED - ?? Pointer to string_67C2. */
+	/* 671A(4)   */ PACK csip32  removed_671C;              /*!< REMOVED - ?? Pointer to string_67F9. */
+	/* 671E(4)   */ PACK csip32  removed_671E;              /*!< REMOVED - ?? Pointer to string_6834. */
+	/* 6722(4)   */ PACK csip32  removed_6722;              /*!< REMOVED - ?? Pointer to string_6866. */
+	/* 6726(4)   */ PACK csip32  removed_6726;              /*!< REMOVED - ?? Pointer to string_687C. */
+	/* 672A(4)   */ PACK csip32  removed_672A;              /*!< REMOVED - ?? Pointer to string_68BE. */
+	/* 672E(4)   */ PACK csip32  removed_672E;              /*!< REMOVED - ?? Pointer to string_68ED. */
+	/* 6732(4)   */ PACK csip32  removed_6732;              /*!< REMOVED - ?? Pointer to string_6911. */
+	/* 6736(4)   */ PACK csip32  removed_6736;              /*!< REMOVED - ?? Pointer to string_692C. */
+	/* 673C(4)   */ PACK csip32  removed_673C;              /*!< REMOVED - ?? Pointer to string_6946. */
+	/* 673E(4)   */ PACK csip32  removed_673E;              /*!< REMOVED - ?? Pointer to string_695B. */
+	/* 6742(4)   */ PACK csip32  removed_6742;              /*!< REMOVED - ?? Pointer to string_697A. */
+	/* 6746(4)   */ PACK csip32  removed_6746;              /*!< REMOVED - ?? Pointer to string_6998. */
+	/* 674C(4)   */ PACK csip32  removed_674C;              /*!< REMOVED - ?? Pointer to string_69B7. */
+	/* 674E(4)   */ PACK csip32  removed_674E;              /*!< REMOVED - ?? Pointer to string_69D5. */
+	/* 6752(4)   */ PACK csip32  removed_6752;              /*!< REMOVED - ?? Pointer to string_69FD. */
+	/* 6756(4)   */ PACK csip32  removed_6756;              /*!< REMOVED - ?? Pointer to string_6A21. */
+	/* 675C(4)   */ PACK csip32  removed_675C;              /*!< REMOVED - ?? Pointer to string_6A4F. */
+	/* 675E(4)   */ PACK csip32  removed_675E;              /*!< REMOVED - ?? Pointer to string_6A70. */
+	/* 6762(4)   */ PACK csip32  removed_6762;              /*!< REMOVED - ?? Pointer to string_6AA7. */
+	/* 6766(4)   */ PACK csip32  removed_6766;              /*!< REMOVED - ?? Pointer to string_6ACB. */
+	/* 676C(4)   */ PACK csip32  removed_676C;              /*!< REMOVED - ?? Pointer to string_6B01. */
+	/* 676E(4)   */ PACK csip32  removed_676E;              /*!< REMOVED - ?? Pointer to string_6B22. */
+	/* 6772(4)   */ PACK csip32  removed_6772;              /*!< REMOVED - ?? Pointer to string_6B48. */
+	/* 6776(4)   */ PACK csip32  removed_6776;              /*!< REMOVED - ?? Pointer to string_6B71. */
+	/* 677C(4)   */ PACK csip32  removed_677C;              /*!< REMOVED - ?? Pointer to string_6BA0. */
+	/* 677E(4)   */ PACK csip32  removed_677E;              /*!< REMOVED - ?? Pointer to string_6BBB. */
+	/* 6782(4)   */ PACK csip32  removed_6782;              /*!< REMOVED - ?? Pointer to string_6BDD. */
+	/* 6786(4)   */ PACK csip32  removed_6786;              /*!< REMOVED - ?? Pointer to string_6C06. */
+	/* 678A(4)   */ PACK csip32  removed_678A;              /*!< REMOVED - ?? Pointer to string_6C39. */
+	/* 678E(4)   */ PACK csip32  removed_678E;              /*!< REMOVED - ?? Pointer to string_6C5F. */
 	/* 6792(48)  */ PACK char   string_6792[48];            /*!< "Ram Free Error! Press any key to exit to DOS.\r\n" NULL terminated. */
 	/* 67C2(55)  */ PACK char   string_67C2[55];            /*!< "Taking advantage of extended memory.\r\nPlease wait...\r\n" NULL terminated. */
 	/* 67F9(59)  */ PACK char   string_67F9[59];            /*!< "Taking advantage of extended memory.\r\nPlease wait...\r\n" NULL terminated. */
