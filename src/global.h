@@ -951,56 +951,56 @@ typedef struct GlobalData {
 	/* 660D(9)   */ PACK char  string_660D[9];              /*!< "DEFAULT." NULL terminated. */
 	/* 6616(5)   */ PACK char  string_6616[5];              /*!< "ALFX" NULL terminated. */
 	/* 661B()    */ PACK uint8   unknown_661B[0x0009];
-	/* 6624(4)   */ PACK csip32 variable_6624;              /*!< CS:IP of routine. */
-	/* 6628(4)   */ PACK csip32 variable_6628;              /*!< CS:IP of routine (not called). */
-	/* 662C(4)   */ PACK csip32 variable_662C;              /*!< CS:IP of routine. */
-	/* 6630(4)   */ PACK csip32 variable_6630;              /*!< CS:IP of routine. */
-	/* 6634(4)   */ PACK csip32 variable_6634;              /*!< CS:IP of routine (not called). */
-	/* 6638(4)   */ PACK csip32 variable_6638;              /*!< CS:IP of routine. */
-	/* 663C(4)   */ PACK csip32 variable_663C;              /*!< CS:IP of routine. */
-	/* 6640(4)   */ PACK csip32 variable_6640;              /*!< CS:IP of routine. */
-	/* 6644(4)   */ PACK csip32 variable_6644;              /*!< CS:IP of routine (not called). */
-	/* 6648(4)   */ PACK csip32 variable_6648;              /*!< CS:IP of routine (not called). */
-	/* 664C(4)   */ PACK csip32 variable_664C;              /*!< CS:IP of routine. */
-	/* 6650(4)   */ PACK csip32 variable_6650;              /*!< CS:IP of routine. */
-	/* 6654(4)   */ PACK csip32 variable_6654;              /*!< CS:IP of routine. */
-	/* 6658(4)   */ PACK csip32 variable_6658;              /*!< CS:IP of routine (not called). */
-	/* 665C(4)   */ PACK csip32 variable_665C;              /*!< CS:IP of routine. */
-	/* 6660(4)   */ PACK csip32 variable_6660;              /*!< CS:IP of routine (not called). */
-	/* 6664(4)   */ PACK csip32 variable_6664;              /*!< CS:IP of routine (not called). */
-	/* 6668(4)   */ PACK csip32 variable_6668;              /*!< CS:IP of routine. */
-	/* 666C(4)   */ PACK csip32 variable_666C;              /*!< CS:IP of routine. */
-	/* 6670(4)   */ PACK csip32 variable_6670;              /*!< CS:IP of routine (not called). */
-	/* 6674(4)   */ PACK csip32 variable_6674;              /*!< CS:IP of routine. */
-	/* 6678(4)   */ PACK csip32 variable_6678;              /*!< CS:IP of routine (not called). */
-	/* 667C(4)   */ PACK csip32 variable_667C;              /*!< CS:IP of routine (not called). */
-	/* 6680(4)   */ PACK csip32 variable_6680;              /*!< CS:IP of routine (not called). */
-	/* 6684(4)   */ PACK csip32 variable_6684;              /*!< CS:IP of routine (not called). */
-	/* 6688(4)   */ PACK csip32 variable_6688;              /*!< CS:IP of routine (not called). */
-	/* 668C(4)   */ PACK csip32 variable_668C;              /*!< CS:IP of routine (not called). */
-	/* 6690(4)   */ PACK csip32 variable_6690;              /*!< CS:IP of routine (not called). */
-	/* 6694(4)   */ PACK csip32 variable_6694;              /*!< CS:IP of routine (not called). */
-	/* 6698(4)   */ PACK csip32 variable_6698;              /*!< CS:IP of routine (not called). */
-	/* 669C(4)   */ PACK csip32 variable_669C;              /*!< CS:IP of routine (not called). */
-	/* 66A0(4)   */ PACK csip32 variable_66A0;              /*!< CS:IP of routine. */
-	/* 66A4(4)   */ PACK csip32 callbackAfterMouse;         /*!< CS:IP of routine called after mouse change. */
-	/* 66A8(4)   */ PACK csip32 variable_66A8;              /*!< CS:IP of routine (not called). */
-	/* 66AC(4)   */ PACK csip32 variable_66AC;              /*!< CS:IP of routine (not called). */
-	/* 66B0(4)   */ PACK csip32 variable_66B0;              /*!< CS:IP of routine (not called). */
-	/* 66B4(4)   */ PACK csip32 callbackBeforeMouse;        /*!< CS:IP of routine called before mouse change. */
-	/* 66B8(4)   */ PACK csip32 variable_66B8;              /*!< CS:IP of routine (not called). */
-	/* 66BC(4)   */ PACK csip32 variable_66BC;              /*!< CS:IP of routine (not called). */
-	/* 66C0(4)   */ PACK csip32 variable_66C0;              /*!< CS:IP of routine. */
-	/* 66C4(4)   */ PACK csip32 variable_66C4;              /*!< CS:IP of routine. */
-	/* 66C8(4)   */ PACK csip32 variable_66C8;              /*!< CS:IP of routine (not called). */
-	/* 66CC(4)   */ PACK csip32 variable_66CC;              /*!< CS:IP of routine (not called). */
-	/* 66D0(4)   */ PACK csip32 variable_66D0;              /*!< CS:IP of routine. */
-	/* 66D4(4)   */ PACK csip32 variable_66D4;              /*!< CS:IP of routine (not called). */
-	/* 66D8(4)   */ PACK csip32 variable_66D8;              /*!< CS:IP of routine (not called). */
-	/* 66DC(4)   */ PACK csip32 variable_66DC;              /*!< CS:IP of routine. */
-	/* 66E0(4)   */ PACK csip32 variable_66E0;              /*!< CS:IP of routine. */
-	/* 66E4(4)   */ PACK csip32 variable_66E4;              /*!< CS:IP of routine. */
-	/* 66E8(4)   */ PACK csip32 variable_66E8;              /*!< CS:IP of routine (not called). */
+	/* 6624(4)   */ PACK csip32  removed_6624;              /*!< REMOVED - CS:IP of routine. */
+	/* 6628(4)   */ PACK csip32  removed_6628;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 662C(4)   */ PACK csip32  removed_662C;              /*!< REMOVED - CS:IP of routine. */
+	/* 6630(4)   */ PACK csip32  removed_6630;              /*!< REMOVED - CS:IP of routine. */
+	/* 6634(4)   */ PACK csip32  removed_6634;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6638(4)   */ PACK csip32  removed_6638;              /*!< REMOVED - CS:IP of routine. */
+	/* 663C(4)   */ PACK csip32  removed_663C;              /*!< REMOVED - CS:IP of routine. */
+	/* 6640(4)   */ PACK csip32  removed_6640;              /*!< REMOVED - CS:IP of routine. */
+	/* 6644(4)   */ PACK csip32  removed_6644;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6648(4)   */ PACK csip32  removed_6648;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 664C(4)   */ PACK csip32  removed_664C;              /*!< REMOVED - CS:IP of routine. */
+	/* 6650(4)   */ PACK csip32  removed_6650;              /*!< REMOVED - CS:IP of routine. */
+	/* 6654(4)   */ PACK csip32  removed_6654;              /*!< REMOVED - CS:IP of routine. */
+	/* 6658(4)   */ PACK csip32  removed_6658;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 665C(4)   */ PACK csip32  removed_665C;              /*!< REMOVED - CS:IP of routine. */
+	/* 6660(4)   */ PACK csip32  removed_6660;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6664(4)   */ PACK csip32  removed_6664;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6668(4)   */ PACK csip32  removed_6668;              /*!< REMOVED - CS:IP of routine. */
+	/* 666C(4)   */ PACK csip32  removed_666C;              /*!< REMOVED - CS:IP of routine. */
+	/* 6670(4)   */ PACK csip32  removed_6670;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6674(4)   */ PACK csip32  removed_6674;              /*!< REMOVED - CS:IP of routine. */
+	/* 6678(4)   */ PACK csip32  removed_6678;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 667C(4)   */ PACK csip32  removed_667C;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6680(4)   */ PACK csip32  removed_6680;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6684(4)   */ PACK csip32  removed_6684;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6688(4)   */ PACK csip32  removed_6688;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 668C(4)   */ PACK csip32  removed_668C;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6690(4)   */ PACK csip32  removed_6690;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6694(4)   */ PACK csip32  removed_6694;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 6698(4)   */ PACK csip32  removed_6698;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 669C(4)   */ PACK csip32  removed_669C;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66A0(4)   */ PACK csip32  removed_66A0;              /*!< REMOVED - CS:IP of routine. */
+	/* 66A4(4)   */ PACK csip32  removed_66A4;              /*!< REMOVED - CS:IP of routine called after mouse change. */
+	/* 66A8(4)   */ PACK csip32  removed_66A8;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66AC(4)   */ PACK csip32  removed_66AC;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66B0(4)   */ PACK csip32  removed_66B0;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66B4(4)   */ PACK csip32  removed_66B4;              /*!< REMOVED - CS:IP of routine called before mouse change. */
+	/* 66B8(4)   */ PACK csip32  removed_66B8;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66BC(4)   */ PACK csip32  removed_66BC;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66C0(4)   */ PACK csip32  removed_66C0;              /*!< REMOVED - CS:IP of routine. */
+	/* 66C4(4)   */ PACK csip32  removed_66C4;              /*!< REMOVED - CS:IP of routine. */
+	/* 66C8(4)   */ PACK csip32  removed_66C8;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66CC(4)   */ PACK csip32  removed_66CC;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66D0(4)   */ PACK csip32  removed_66D0;              /*!< REMOVED - CS:IP of routine. */
+	/* 66D4(4)   */ PACK csip32  removed_66D4;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66D8(4)   */ PACK csip32  removed_66D8;              /*!< REMOVED - CS:IP of routine (not called). */
+	/* 66DC(4)   */ PACK csip32  removed_66DC;              /*!< REMOVED - CS:IP of routine. */
+	/* 66E0(4)   */ PACK csip32  removed_66E0;              /*!< REMOVED - CS:IP of routine. */
+	/* 66E4(4)   */ PACK csip32  removed_66E4;              /*!< REMOVED - CS:IP of routine. */
+	/* 66E8(4)   */ PACK csip32  removed_66E8;              /*!< REMOVED - CS:IP of routine (not called). */
 	/* 66EC(4)   */ PACK csip32  removed_66EC;              /*!< REMOVED - CS:IP of routine. Contains array with Y-offsets on the screen (so index * 320). */
 	/* 66F0(4)   */ PACK uint32  removed_66F0;              /*!< REMOVED - Information for Tools_Free and Tools_Alloc. */
 	/* 66F4(4)   */ PACK uint32  removed_66F4;              /*!< REMOVED - Information for Tools_Free and Tools_Alloc. */
