@@ -29,7 +29,6 @@ extern tile32 Tools_Index_GetTile(uint16 encoded);
 extern struct Unit *Tools_Index_GetUnit(uint16 encoded);
 extern struct Structure *Tools_Index_GetStructure(uint16 encoded);
 extern struct Object *Tools_Index_GetObject(uint16 encoded);
-extern csip32 Tools_GetSmallestIP(csip32 csip);
 
 extern uint8 Tools_Random_256();
 extern void Tools_Random_Seed(uint32 seed);

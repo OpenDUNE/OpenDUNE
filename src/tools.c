@@ -237,22 +237,6 @@ Object *Tools_Index_GetObject(uint16 encoded)
 }
 
 /**
- * Moves as much of the IP to CS
- *
- * @param csip The CS:IP to modify.
- * @return The modified CS:IP.
- */
-csip32 Tools_GetSmallestIP(csip32 csip)
-{
-	if (csip.s.cs < 0xF000) {
-		csip.s.cs += csip.s.ip >> 4;
-		csip.s.ip &= 0xF;
-	}
-
-	return csip;
-}
-
-/**
  * Get a random value between 0 and 255.
  *
  * @return The random value.
