@@ -899,19 +899,19 @@ typedef struct GlobalData {
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
 	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */
 	/* 62F5()    */ PACK uint8   unknown_62F5[0x0001];
-	/* 62F6(1)   */ PACK uint8  not_used_62F6;              /*!< Not used (any more). */
-	/* 62F7(9)   */ PACK uint8  variable_62F7[9];           /*!< ?? */
+	/* 62F6(1)   */ PACK uint8   removed_62F6;              /*!< REMOVED - ??. */
+	/* 62F7(9)   */ PACK uint8   removed_62F7[9];           /*!< REMOVED - ?? */
 	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
 	/* 6302(38)  */ PACK uint8   removed_6302[38];          /*!< REMOVED - Sound driver. */
-	/* 6328(2)   */ PACK uint16 variable_6328;              /*!< ?? */
-	/* 632A(2)   */ PACK uint16 soundBufferIndex;           /*!< ?? */
+	/* 6328(2)   */ PACK uint16  removed_6328;              /*!< REMOVEd - ?? */
+	/* 632A(2)   */ PACK uint16  removed_632A;              /*!< REMOVED - ?? */
 	/* 632C(24)  */ PACK uint8   removed_632C[4][6];        /*!< REMOVED - Sound buffer. */
 	/* 6344(38)  */ PACK uint8   removed_6344[38];          /*!< REMOVED - Music driver. */
-	/* 636A(2)   */ PACK uint16 variable_636A;              /*!< ?? */
+	/* 636A(2)   */ PACK uint16  removed_636A;              /*!< REMOVED - ?? */
 	/* 636C(6)   */ PACK uint8   removed_636C[6];           /*!< REMOVED - Music buffer. */
 	/* 6372(2)   */ PACK uint16  removed_6372;              /*!< REMOVED - ?? */
 	/* 6374(38)  */ PACK uint8   removed_6374[38];          /*!< REMOVED - Voice driver. */
-	/* 639A(2)   */ PACK uint16 variable_639A;              /*!< ?? */
+	/* 639A(2)   */ PACK uint16  removed_639A;              /*!< REMOVED - ?? */
 	/* 639C(2)   */ PACK uint16  removed_639C;              /*!< REMOVED - ?? */
 	/* 639E(6)   */ PACK uint8   removed_639E[6];           /*!< REMOVED - ?? */
 	/* 63A4(6)   */ PACK uint8   removed_63A4[6];           /*!< REMOVED - ?? */

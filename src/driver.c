@@ -43,6 +43,8 @@ MSBuffer s_bufferSound[4];
 MSBuffer *g_bufferMusic = &s_bufferMusic;
 MSBuffer *g_bufferSound[4] = { &s_bufferSound[0], &s_bufferSound[1], &s_bufferSound[2], &s_bufferSound[3] };
 
+static uint8 s_bufferSoundIndex;
+
 void Drivers_Tick()
 {
 	if (emu_flags.inf) MPU_Interrupt();
@@ -262,11 +264,7 @@ uint16 Drivers_Sound_Init(uint16 index)
 			buf->buffer = Tools_Malloc(value, 0x10);
 			buf->index  = 0xFFFF;
 		}
-		g_global->soundBufferIndex = 0;
-	}
-
-	if (driver->variable_000A != 0) {
-		g_global->variable_6328 = 1;
+		s_bufferSoundIndex = 0;
 	}
 
 	return index;
@@ -294,7 +292,6 @@ uint16 Drivers_Music_Init(uint16 index)
 		if (!Drivers_Init(filename, driver->filename, music, (char *)emu_get_memorycsip(driver->extension))) return 0;
 	}
 
-	g_global->variable_636A = driver->variable_000A;
 	if (driver->variable_0008 != 0) return index;
 
 	value = MPU_GetDataSize();
@@ -382,7 +379,7 @@ bool Driver_Voice_IsPlaying()
 void Driver_Sound_Play(int16 index, int16 volume)
 {
 	Driver *sound = g_driverSound;
-	MSBuffer *soundBuffer = g_bufferSound[g_global->soundBufferIndex];
+	MSBuffer *soundBuffer = g_bufferSound[s_bufferSoundIndex];
 
 	if (index < 0 || index >= 120) return;
 
@@ -401,7 +398,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	MPU_Play(soundBuffer->index);
 	MPU_SetVolume(soundBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
 
-	g_global->soundBufferIndex = (g_global->soundBufferIndex + 1) % 4;
+	s_bufferSoundIndex = (s_bufferSoundIndex + 1) % 4;
 }
 
 void Driver_Music_Stop()
@@ -447,6 +444,8 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 
 void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 {
+	static int16 l_var_639A = -1;
+
 	Driver *voice = g_driverVoice;
 
 	if (!g_global->soundsEnabled || voice->index == 0xFFFF) return;
@@ -457,15 +456,15 @@ void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 		arg0A = min(arg0A, 0xFF);
 	}
 
-	if (!Driver_Voice_IsPlaying()) g_global->variable_639A = 0xFFFF;
+	if (!Driver_Voice_IsPlaying()) l_var_639A = -1;
 
-	if (arg0A < (int16)g_global->variable_639A) return;
+	if (arg0A < l_var_639A) return;
 
 	Driver_Voice_Stop();
 
 	if (arg06 == NULL) return;
 
-	g_global->variable_639A = arg0A;
+	l_var_639A = arg0A;
 
 	if (arg06 == NULL) return;
 
