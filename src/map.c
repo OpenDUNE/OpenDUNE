@@ -808,6 +808,8 @@ static void Map_B4CD_04D9(uint16 arg06, MapActivity *s)
 
 static bool Map_06F7_072B(MapActivity *s)
 {
+	static const uint16 bloomLocations[] = {0xFFFF, 0x0002, 0x0001};
+
 	uint16 packed;
 	uint16 type;
 	Tile *t;
@@ -830,8 +832,7 @@ static bool Map_06F7_072B(MapActivity *s)
 		Map_Update(packed, 0, false);
 	}
 
-	loc06 = g_global->variable_329E[g_global->variable_3A3E[type][10]];
-
+	loc06 = bloomLocations[g_global->variable_3A3E[type][10]];
 	if (loc06 == 0xFFFF) return false;
 
 	overlaySpriteID = t->overlaySpriteID;
