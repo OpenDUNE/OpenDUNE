@@ -69,9 +69,9 @@ bool Config_Read(char *filename, DuneCfg *config)
  */
 bool GameOptions_Load()
 {
-	if (!File_Exists(g_global->string_2AB7)) return false;
+	if (!File_Exists("OPTIONS.CFG")) return false;
 
-	File_ReadBlockFile(g_global->string_2AB7, &g_gameConfig, sizeof(g_gameConfig));
+	File_ReadBlockFile("OPTIONS.CFG", &g_gameConfig, sizeof(g_gameConfig));
 
 	Drivers_EnableMusic(g_gameConfig.music);
 
@@ -87,7 +87,7 @@ void GameOptions_Save()
 {
 	uint8 index;
 
-	index = File_Open(g_global->string_2AB7, 2);
+	index = File_Open("OPTIONS.CFG", 2);
 
 	File_Write(index, &g_gameConfig, sizeof(g_gameConfig));
 

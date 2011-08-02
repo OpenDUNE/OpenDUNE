@@ -5,6 +5,8 @@
 #ifndef STRING_H
 #define STRING_H
 
+extern const char * const g_languageSuffixes[];
+
 extern void *g_strings;
 extern void *g_stringsHint;
 

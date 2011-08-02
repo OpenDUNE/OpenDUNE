@@ -2527,7 +2527,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 	g_global->variable_38BC++;
 
 	if (!Scenario_Load(scenarioID, houseID)) {
-		GUI_DisplayModalMessage(g_global->string_2BCA, 0xFFFF);
+		GUI_DisplayModalMessage("No more scenarios!", 0xFFFF);
 
 		PrepareEnd();
 		exit(0);

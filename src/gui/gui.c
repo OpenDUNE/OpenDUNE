@@ -1922,7 +1922,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	g_global->variable_3A12 = 1;
 
-	Sprites_LoadImage(g_global->string_3777, 3, NULL, 1);
+	Sprites_LoadImage("SCREEN.CPS", 3, NULL, 1);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
@@ -3129,7 +3129,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 			if (region != 0) {
 				char buffer[81];
 
-				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_config.language], region);
+				sprintf(key, "%sTXT%d", g_languageSuffixes[g_config.language], region);
 
 				if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer), g_fileRegionINI) != NULL) {
 					GUI_StrategicMap_DrawText(buffer);

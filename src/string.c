@@ -19,6 +19,7 @@
 void *g_strings = NULL;
 void *g_stringsHint = NULL;
 
+const char * const g_languageSuffixes[] = { "ENG", "FRE", "GER", "ITA", "SPA" };
 static char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";
 
 /**
@@ -60,11 +61,10 @@ uint16 String_Decompress(char *source, char *dest)
 char *String_GenerateFilename(char *name)
 {
 	static char filename[14];
-	static const char * const languageSuffixes[] = {"ENG", "FRE", "GER", "ITA", "SPA"};
 
-	assert(g_config.language < lengthof(languageSuffixes));
+	assert(g_config.language < lengthof(g_languageSuffixes));
 
-	snprintf(filename, sizeof(filename), "%s.%s", name, languageSuffixes[g_config.language]);
+	snprintf(filename, sizeof(filename), "%s.%s", name, g_languageSuffixes[g_config.language]);
 	return filename;
 }
 
