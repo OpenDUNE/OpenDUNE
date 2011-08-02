@@ -73,10 +73,6 @@ bool GameOptions_Load()
 
 	File_ReadBlockFile("OPTIONS.CFG", &g_gameConfig, sizeof(g_gameConfig));
 
-	Drivers_EnableMusic(g_gameConfig.music);
-
-	Drivers_EnableSounds(g_gameConfig.sounds);
-
 	return true;
 }
 

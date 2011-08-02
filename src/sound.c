@@ -34,7 +34,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	Driver *music = g_driverMusic;
 	MSBuffer *musicBuffer = g_bufferMusic;
 
-	if (index < 0 || index > 120 || g_global->musicEnabled == 0) return;
+	if (index < 0 || index > 120 || g_gameConfig.music == 0) return;
 
 	if (music->index == 0xFFFF) return;
 
@@ -111,7 +111,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 	uint16 volume;
 
 	if (voiceID < 0) return;
-	if (!g_global->soundsEnabled) return;
+	if (!g_gameConfig.sounds) return;
 	assert(voiceID < 120);
 
 	volume = 255;
@@ -266,7 +266,7 @@ void Voice_LoadVoices(uint16 voiceSet)
  */
 void Sound_StartSound(uint16 index)
 {
-	if (index == 0xFFFF || g_global->soundsEnabled == 0 || (int16)g_table_voices[index].variable_04 < (int16)g_global->variable_4060) return;
+	if (index == 0xFFFF || g_gameConfig.sounds == 0 || (int16)g_table_voices[index].variable_04 < (int16)g_global->variable_4060) return;
 
 	g_global->variable_4060 = g_table_voices[index].variable_04;
 
@@ -317,7 +317,7 @@ void Sound_Output_Feedback(uint16 index)
 		return;
 	}
 
-	if (g_config.voiceDrv == 0 || g_global->soundsEnabled == 0) {
+	if (g_config.voiceDrv == 0 || g_gameConfig.sounds == 0) {
 		Driver_Sound_Play(g_feedback[index].soundId, 0xFF);
 
 		g_viewportMessageText = String_Get_ByIndex(g_feedback[index].messageId);
@@ -350,7 +350,7 @@ void Sound_Output_Feedback(uint16 index)
  */
 bool Sound_StartSpeech()
 {
-	if (g_global->soundsEnabled == 0) return false;
+	if (g_gameConfig.sounds == 0) return false;
 
 	if (Driver_Voice_IsPlaying()) return true;
 

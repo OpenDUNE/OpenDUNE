@@ -2203,7 +2203,7 @@ static void GameLoop_Main()
 		}
 
 		if (!Driver_Voice_IsPlaying() && !Sound_StartSpeech()) {
-			if (g_global->musicEnabled == 0) {
+			if (g_gameConfig.music == 0) {
 				Music_Play(2);
 
 				g_global->variable_3E52 = 0;

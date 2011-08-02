@@ -1140,8 +1140,8 @@ typedef struct GlobalData {
 	/* 6F18(4)   */ PACK csip32  removed_6F18;              /*!< REMOVED - Pointer to a buffer. */
 	/* 6F1C(2)   */ PACK uint16  removed_6F1C;              /*!< REMOVED - Size of the above buffer. */
 	/* 6F1E()    */ PACK uint8   unknown_6F1E[0x00EC];
-	/* 700A(2)   */ PACK uint16 soundsEnabled;              /*!< 1 if sounds are enabled in game options, 0 otherwise. */
-	/* 700C(2)   */ PACK uint16 musicEnabled;               /*!< 1 if music is enabled in game options, 0 otherwise. */
+	/* 700A(2)   */ PACK uint16  removed_700A;              /*!< REMOVED - 1 if sounds are enabled in game options, 0 otherwise. */
+	/* 700C(2)   */ PACK uint16  removed_700C;              /*!< REMOVED - 1 if music is enabled in game options, 0 otherwise. */
 	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
 	/* 7010(1)   */ PACK uint8  mouseMode;                  /*!< Mouse mode. See InputMouseMode. */
 	/* 7011(1)   */ PACK uint8  mouseFileID;                /*!< ?? */

@@ -47,30 +47,6 @@ static void Driver_Init(uint16 driver)
 	s_driverLoaded[driver] = true;
 }
 
-uint16 Drivers_EnableSounds(uint16 sounds)
-{
-	uint16 ret;
-
-	ret = g_global->soundsEnabled;
-	g_global->soundsEnabled = sounds;
-
-	if (sounds == 0) Driver_Sound_Stop();
-
-	return ret;
-}
-
-uint16 Drivers_EnableMusic(uint16 music)
-{
-	uint16 ret;
-
-	ret = g_global->musicEnabled;
-	g_global->musicEnabled = music;
-
-	if (music == 0) Driver_Music_Stop();
-
-	return ret;
-}
-
 static void Driver_Uninstall(uint16 driver)
 {
 	if (driver >= 16) return;
@@ -203,7 +179,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 
 	if (index < 0 || index >= 120) return;
 
-	if (g_global->soundsEnabled == 0 && index > 1) return;
+	if (g_gameConfig.sounds == 0 && index > 1) return;
 
 	if (sound->index == 0xFFFF) return;
 
@@ -268,7 +244,7 @@ void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 
 	Driver *voice = g_driverVoice;
 
-	if (!g_global->soundsEnabled || voice->index == 0xFFFF) return;
+	if (!g_gameConfig.sounds || voice->index == 0xFFFF) return;
 
 	if (arg06 == NULL) {
 		arg0A = 0x100;

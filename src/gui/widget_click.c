@@ -591,12 +591,12 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 			switch ((key & 0x7FFF) - 0x1E) {
 				case 0:
 					g_gameConfig.music ^= 0x1;
-					Drivers_EnableMusic(g_gameConfig.music);
+					if (g_gameConfig.music == 0) Driver_Music_Stop();
 					break;
 
 				case 1:
 					g_gameConfig.sounds ^= 0x1;
-					Drivers_EnableSounds(g_gameConfig.sounds);
+					if (g_gameConfig.sounds == 0) Driver_Sound_Stop();
 					break;
 
 				case 2:
