@@ -1235,25 +1235,30 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 				} while (Script_Unit_Pathfind_GetScore(packedNext, dir) <= 255);
 			}
 
-			if (!foundCounterclockwise && !foundClockwise && packedNext == packedDst) break;
+			if (foundCounterclockwise || foundClockwise) {
+				/* Find the best (partial) route */
+				if (!foundClockwise) {
+					bestRoute = &routes[1];
+				} else if (!foundCounterclockwise) {
+					bestRoute = &routes[0];
+				} else {
+					bestRoute = &routes[routes[1].score < routes[0].score ? 1 : 0];
+				}
 
-			/* Find the best (partial) route */
-			if (!foundClockwise) {
-				bestRoute = &routes[1];
-			} else if (!foundCounterclockwise) {
-				bestRoute = &routes[0];
-			} else {
-				bestRoute = &routes[routes[1].score < routes[0].score ? 1 : 0];
+				/* Calculate how much more we can copy into our own buffer */
+				routeSize = min(bufferSize - res.routeSize, bestRoute->routeSize);
+				if (routeSize <= 0) break;
+
+				/* Copy the rest into our own buffer */
+				memcpy(&res.buffer[res.routeSize], bestRoute->buffer, routeSize);
+				res.routeSize += routeSize;
+				res.score     += bestRoute->score;
+
+				continue;
 			}
 
-			/* Calculate how much more we can copy into our own buffer */
-			routeSize = min(bufferSize - res.routeSize, bestRoute->routeSize);
-			if (routeSize <= 0) break;
-
-			/* Copy the rest into our own buffer */
-			memcpy(&res.buffer[res.routeSize], bestRoute->buffer, routeSize);
-			res.routeSize += routeSize;
-			res.score     += bestRoute->score;
+			/* Means we didn't find a route. packedNext is now equal to packedDst */
+			break;
 		}
 
 		packedCur = packedNext;
