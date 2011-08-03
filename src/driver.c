@@ -107,10 +107,15 @@ static uint8 Drivers_SoundMusic_Init(uint8 index)
 	sound  = g_driverSound;
 	music  = g_driverMusic;
 
+	if (!MPU_Init()) {
+		sound->index = 0xFFFF;
+		music->index = 0xFFFF;
+		return 0;
+	}
+
 	if (!Drivers_Init(sound, "C55")) return 0;
 	memcpy(music, sound, sizeof(Driver));
 
-	MPU_Init();
 	Timer_Add(MPU_Interrupt, 1000000 / 120);
 
 	size = MPU_GetDataSize();
@@ -137,9 +142,13 @@ static uint8 Drivers_Voice_Init(uint8 index)
 
 	voice  = g_driverVoice;
 
+	if (!DSP_Init()) {
+		voice->index = 0xFFFF;
+		return 0;
+	}
+
 	if (!Drivers_Init(voice, "VOC")) return 0;
 
-	if (!DSP_Init()) return 0;
 
 	return index;
 }
@@ -155,7 +164,7 @@ void Drivers_All_Init(uint8 sound, uint8 music, uint8 voice)
 	Drivers_Reset();
 
 	assert(music == sound);
-	assert(Drivers_SoundMusic_Init(sound) == sound);
+	g_config.musicDrv = g_config.soundDrv = Drivers_SoundMusic_Init(sound);
 	g_config.voiceDrv = Drivers_Voice_Init(voice);
 }
 

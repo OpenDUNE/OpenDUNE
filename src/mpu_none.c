@@ -9,8 +9,9 @@
 #include "types.h"
 #include "mpu.h"
 
-void mpu_init()
+bool mpu_init()
 {
+	return false;
 }
 
 void mpu_uninit()

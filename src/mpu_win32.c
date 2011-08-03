@@ -13,13 +13,15 @@
 
 static HMIDIOUT _midi = NULL;
 
-void mpu_init()
+bool mpu_init()
 {
 	if (midiOutOpen(&_midi, 0, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR) {
 		fprintf(stderr, "Failed to initialize MPU\n");
 		_midi = NULL;
-		return;
+		return false;
 	}
+
+	return true;
 }
 
 void mpu_uninit()

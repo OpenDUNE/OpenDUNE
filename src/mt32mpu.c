@@ -781,11 +781,11 @@ uint16 MPU_GetDataSize()
 	return sizeof(MSData);
 }
 
-void MPU_Init()
+bool MPU_Init()
 {
 	uint8 i;
 
-	mpu_init();
+	if (!mpu_init()) return false;
 
 	s_mpu_msdataSize = 0;
 	s_mpu_msdataCurrent = 0;
@@ -833,6 +833,7 @@ void MPU_Init()
 	}
 
 	s_mpu_initialized = true;
+	return true;
 }
 
 void MPU_Uninit()

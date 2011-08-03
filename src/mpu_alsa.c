@@ -19,7 +19,7 @@ static snd_seq_port_subscribe_t *_midiSubscription = NULL;
 
 char *s_mpu_caption = "OpenDUNE MIDI Port";
 
-void mpu_init() {
+bool mpu_init() {
 	snd_seq_addr_t sender, receiver;
 	snd_seq_port_info_t *pinfo;
 	snd_seq_client_info_t *cinfo;
@@ -28,7 +28,7 @@ void mpu_init() {
 	if (snd_seq_open(&_midi, "default", SND_SEQ_OPEN_OUTPUT, 0) < 0) {
 		fprintf(stderr, "Failed to initialize MPU\n");
 		_midi = NULL;
-		return;
+		return false;
 	}
 	snd_seq_set_client_name(_midi, s_mpu_caption);
 
@@ -38,7 +38,7 @@ void mpu_init() {
 		fprintf(stderr, "Failed to initialize MPU\n");
 		snd_seq_close(_midi);
 		_midi = NULL;
-		return;
+		return false;
 	}
 
 	/* Try to find a MIDI out */
@@ -68,7 +68,7 @@ void mpu_init() {
 		snd_seq_delete_port(_midi, _midiPort);
 		snd_seq_close(_midi);
 		_midi = NULL;
-		return;
+		return false;
 	}
 
 	/* Subscribe ourself to the port */
@@ -87,7 +87,7 @@ void mpu_init() {
 		snd_seq_delete_port(_midi, _midiPort);
 		snd_seq_close(_midi);
 		_midi = NULL;
-		return;
+		return false;
 	}
 
 	/* Start the MIDI decoder */
@@ -96,9 +96,11 @@ void mpu_init() {
 		snd_seq_delete_port(_midi, _midiPort);
 		snd_seq_close(_midi);
 		_midi = NULL;
-		return;
+		return false;
 	}
 	snd_midi_event_init(_midiCoder);
+
+	return true;
 }
 
 void mpu_uninit() {
