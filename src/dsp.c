@@ -21,26 +21,17 @@ static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 {
 	VARIABLE_NOT_USED(userdata);
 
-	if (s_bufferLen == 0) return;
+	if (s_status == 0 || s_bufferLen == 0) return;
 
 	if (len <= s_bufferLen) {
-		if (s_buffer == NULL) {
-			memset(stream, 0, len);
-		} else {
-			memcpy(stream, s_buffer, len);
-		}
+		memcpy(stream, s_buffer, len);
 		s_bufferLen -= len;
 		s_buffer += len;
 	} else {
-		if (s_buffer == NULL) {
-			memset(stream, 0, s_bufferLen);
-		} else {
-			memcpy(stream, s_buffer, s_bufferLen);
-		}
+		memcpy(stream, s_buffer, s_bufferLen);
 		s_bufferLen = 0;
+		s_status = 0;
 	}
-
-	if (s_bufferLen == 0 && s_status != 0) DSP_ProcessBlock();
 }
 
 static void DSP_SetTimeConst(uint16 tc)
@@ -61,44 +52,13 @@ static void DSP_SetTimeConst(uint16 tc)
 	}
 }
 
-static void DSP_ProcessBlock()
-{
-	if (s_status != 0) s_data += (*(uint32 *)s_data >> 8) + 4;
-
-	switch (*s_data) {
-		default: /* Unhandled block types */
-			assert(0);
-			break;
-
-		case 0: /* End of Data Block */
-		case 4: /* Marker */
-			s_status = 0;
-			break;
-
-		case 1: /* New Sample Data */
-			DSP_SetTimeConst(s_data[4]);
-			s_bufferLen = (*(uint32 *)s_data >> 8) - 2;
-			s_buffer = s_data + 6;
-			s_status = 2;
-			SDL_PauseAudio(0);
-			break;
-
-		case 3: /* Silence */
-			DSP_SetTimeConst(((uint16 *)s_data)[3]);
-			s_bufferLen = ((uint16 *)s_data)[2];
-			s_buffer = NULL;
-			s_status = 2;
-			SDL_PauseAudio(0);
-			break;
-	}
-}
-
 void DSP_Stop()
 {
 	SDL_PauseAudio(1);
 
 	s_bufferLen = 0;
 	s_buffer = NULL;
+	s_status = 0;
 }
 
 void DSP_Uninit()
@@ -131,10 +91,14 @@ void DSP_Play(uint8 *data)
 	DSP_Stop();
 
 	s_data = data + ((uint16 *)data)[10];
-	s_bufferLen = 0;
 
-	DSP_ProcessBlock();
-
+	if (*s_data == 1) {
+		DSP_SetTimeConst(s_data[4]);
+		s_bufferLen = (*(uint32 *)s_data >> 8) - 2;
+		s_buffer = s_data + 6;
+		s_status = 2;
+		SDL_PauseAudio(0);
+	}
 }
 
 uint8 DSP_GetStatus()
