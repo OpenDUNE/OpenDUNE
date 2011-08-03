@@ -146,7 +146,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		Object_Script_Variable4_Clear(&u->o);
 		u->targetAttack   = 0;
 		u->targetMove     = 0;
-		u->variable_72[0] = 0xFF;
+		u->route[0] = 0xFF;
 
 		if (action != ACTION_MOVE && action != ACTION_HARVEST) {
 			encoded = Tools_Index_Encode(Unit_FindTargetAround(packed), IT_TILE);

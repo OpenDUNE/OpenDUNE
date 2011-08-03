@@ -28,12 +28,12 @@
 #include "../string.h"
 #include "../unit.h"
 
-typedef struct struct_1319 {
-	uint16 packed;
-	uint16 variable_0002;
-	uint16 variable_0004;
-	uint8 *buffer;
-} struct_1319;
+typedef struct Pathfinder_Data {
+	uint16 packed;                                          /*!< From where we are pathfinding. */
+	uint16 score;                                           /*!< The total score for this route. */
+	uint16 routeSize;                                       /*!< The size of this route. */
+	uint8 *buffer;                                          /*!< A buffer to store the route. */
+} Pathfinder_Data;
 
 static const int16 s_mapDirection[8] = {-64, -63, 1, 65, 64, 63, -1, -65}; /*!< Tile index change when moving in a direction. */
 
@@ -798,7 +798,7 @@ uint16 Script_Unit_Unknown1A9F(ScriptEngine *script)
 		s = Tools_Index_GetStructure(encoded);
 		if (s == NULL) {
 			u->targetMove = encoded;
-			u->variable_72[0] = 0xFF;
+			u->route[0] = 0xFF;
 			return 0;
 		}
 
@@ -964,13 +964,13 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 }
 
 /**
- * Calls Unit_Unknown3146 for current Unit.
+ * Get the score to enter this tile from a direction.
  *
  * @param packed The packed tile.
- * @param arg0C ??.
- * @return ??.
+ * @param direction The direction we move on this tile.
+ * @return 256 if tile is not accessable, or a score for entering otherwise.
  */
-static int16 Script_Unit_176C_1F21(uint16 packed, uint8 arg08)
+static int16 Script_Unit_Pathfind_GetScore(uint16 packed, uint8 direction)
 {
 	int16 res;
 	Unit *u;
@@ -979,303 +979,334 @@ static int16 Script_Unit_176C_1F21(uint16 packed, uint8 arg08)
 
 	u = g_scriptCurrentUnit;
 
-	res = Unit_Unknown3146(u, packed, arg08 << 5);
+	res = Unit_GetTileEnterScore(u, packed, direction << 5);
 
 	if (res == -1) res = 256;
 
 	return res;
 }
 
-static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, int16 arg0E)
+/**
+ * Smoothen the route found by the pathfinder.
+ * @param data The found route to smoothen.
+ * @param scoreTileMax The maximal score per tile allowed.
+ */
+static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data, int16 scoreTileMax)
 {
 	static const int8 var3792[8] = {0, 0, 1, 2, 3, -2, -1, 0};
 
 	uint16 packed;
-	uint8 *loc04;
-	uint8 *loc08;
+	uint8 *bufferFrom;
+	uint8 *bufferTo;
 
-	if (arg06 == NULL || arg06->buffer == NULL) return 0;
+	data->buffer[data->routeSize] = 0xFF;
+	packed = data->packed;
 
-	arg06->buffer[arg06->variable_0004] = 0xFF;
-	packed = arg06->packed;
+	if (data->routeSize > 1) {
+		bufferTo = data->buffer + 1;
 
-	if (arg06->variable_0004 > 1) {
-		loc08 = arg06->buffer + 1;
+		while (*bufferTo != 0xFF) {
+			int8 direction;
+			uint8 dir;
 
-		while (*loc08 != 0xFF) {
-			int8 loc09;
-			uint8 loc0C;
+			bufferFrom = bufferTo - 1;
 
-			loc04 = loc08 - 1;
+			while (*bufferFrom == 0xFE && bufferFrom != data->buffer) bufferFrom--;
 
-			while (*loc04 == 0xFE && loc04 != arg06->buffer) loc04--;
-
-			if (*loc04 == 0xFE) {
-				loc08++;
+			if (*bufferFrom == 0xFE) {
+				bufferTo++;
 				continue;
 			}
 
-			loc09 = *loc08 - *loc04;
-			if (loc09 < 0) loc09 += 8;
+			direction = *bufferTo - *bufferFrom;
+			if (direction < 0) direction += 8;
 
-			loc09 = var3792[loc09];
+			direction = var3792[direction];
 
-			if (loc09 == 3) {
-				*loc04 = 0xFE;
-				*loc08++ = 0xFE;
+			/* The directions are opposite of each other, so they can both be removed */
+			if (direction == 3) {
+				*bufferFrom = 0xFE;
+				*bufferTo   = 0xFE;
+
+				bufferTo++;
 				continue;
 			}
 
-			if (loc09 == 0) {
-				packed += s_mapDirection[*loc04];
-				loc08++;
+			/* The directions are close to each other, so follow */
+			if (direction == 0) {
+				packed += s_mapDirection[*bufferFrom];
+				bufferTo++;
 				continue;
 			}
 
-			if ((*loc04 & 0x1) != 0) {
-				loc0C = (*loc04 + (loc09 < 0 ? -1 : 1)) & 0x7;
+			/* Try to smooth out the movement a bit */
+			if ((*bufferFrom & 0x1) != 0) {
+				dir = (*bufferFrom + (direction < 0 ? -1 : 1)) & 0x7;
 
-				if (abs(loc09) == 1) {
-					if (Script_Unit_176C_1F21(packed + s_mapDirection[loc0C], loc0C) <= arg0E) {
-						*loc08 = loc0C;
-						*loc04 = loc0C;
+				if (abs(direction) == 1) {
+					if (Script_Unit_Pathfind_GetScore(packed + s_mapDirection[dir], dir) <= scoreTileMax) {
+						*bufferTo = dir;
+						*bufferFrom = dir;
 					}
-					packed += s_mapDirection[*loc04];
-					loc08++;
+					packed += s_mapDirection[*bufferFrom];
+					bufferTo++;
 					continue;
 				}
 			} else {
-				loc0C = (*loc04 + loc09) & 0x7;
+				dir = (*bufferFrom + direction) & 0x7;
 			}
 
-			*loc08 = loc0C;
-			*loc04 = 0xFE;
+			*bufferTo = dir;
+			*bufferFrom = 0xFE;
 
-			while (*loc04 == 0xFE && arg06->buffer != loc04) loc04--;
+			while (*bufferFrom == 0xFE && data->buffer != bufferFrom) bufferFrom--;
 
-			if (*loc04 != 0xFE) {
-				packed += s_mapDirection[(*loc04 + 4) & 0x7];
+			if (*bufferFrom != 0xFE) {
+				packed += s_mapDirection[(*bufferFrom + 4) & 0x7];
 			} else {
-				packed = arg06->packed;
+				packed = data->packed;
 			}
 		}
 	}
 
-	loc04 = arg06->buffer;
-	loc08 = arg06->buffer;
-	packed = arg06->packed;
-	arg06->variable_0002 = 0;
-	arg06->variable_0004 = 0;
+	bufferFrom = data->buffer;
+	bufferTo   = data->buffer;
+	packed     = data->packed;
+	data->score     = 0;
+	data->routeSize = 0;
 
-	for (; *loc08 != 0xFF; loc08++) {
-		if (*loc08 == 0xFE) continue;
+	/* Build the new improved route, without gaps */
+	for (; *bufferTo != 0xFF; bufferTo++) {
+		if (*bufferTo == 0xFE) continue;
 
-		packed += s_mapDirection[*loc08];
-		arg06->variable_0002 = Script_Unit_176C_1F21(packed, *loc08);
-		arg06->variable_0004++;
-		*loc04++ = *loc08;
+		packed += s_mapDirection[*bufferTo];
+		data->score = Script_Unit_Pathfind_GetScore(packed, *bufferTo);
+		data->routeSize++;
+		*bufferFrom++ = *bufferTo;
 	}
 
-	arg06->variable_0004++;
-	*loc04 = 0xFF;
+	data->routeSize++;
+	*bufferFrom = 0xFF;
 
-	return arg06->variable_0004;
+	return;
 }
 
-static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C, uint8 arg0E, int16 arg14)
+/**
+ * Try to connect two tiles (packedDst and data->packed) via a simplistic algorithm.
+ * @param packedDst The tile to try to get to.
+ * @param data Information about the found route, and the start point.
+ * @param searchDirection The search direction (1 for clockwise, -1 for counterclockwise).
+ * @param directionStart The direction to start looking at.
+ * @param scoreTileMax The maximal score per tile allowed.
+ * @return True if a route was found.
+ */
+static bool Script_Unit_Pathfinder_Connect(uint16 packedDst, Pathfinder_Data *data, int8 searchDirection, uint8 directionStart, int16 scoreTileMax)
 {
-	uint16 locsi;
-	uint16 loc04;
-	uint8 *loc08;
-	uint16 loc0A;
+	uint16 packedNext;
+	uint16 packedCur;
+	uint8 *buffer;
+	uint16 bufferSize;
 
-	if (arg08 == NULL) return false;
+	packedCur  = data->packed;
+	buffer     = data->buffer;
+	bufferSize = 0;
 
-	loc04 = arg08->packed;
-	loc08 = arg08->buffer;
-	loc0A = 0x0;
-
-	while (loc0A < 100) {
-		uint8 loc02 = arg0E;
+	while (bufferSize < 100) {
+		uint8 direction = directionStart;
 
 		while (true) {
-			loc02 = (loc02 + arg0C) & 0x7;
+			/* Look around us, first in the start direction, for a valid tile */
+			direction = (direction + searchDirection) & 0x7;
 
-			if ((loc02 & 0x1) != 0 && (loc04 + s_mapDirection[(loc02 + arg0C) & 0x7]) == packed) {
-				loc02 = (loc02 + arg0C) & 0x7;
-				locsi = loc04 + s_mapDirection[loc02];
+			/* In case we are directly looking at our destination tile, we are pretty much done */
+			if ((direction & 0x1) != 0 && (packedCur + s_mapDirection[(direction + searchDirection) & 0x7]) == packedDst) {
+				direction = (direction + searchDirection) & 0x7;
+				packedNext = packedCur + s_mapDirection[direction];
 				break;
 			} else {
-				if (loc02 == arg0E) return false;
+				/* If we are back to our start direction, we didn't find a route */
+				if (direction == directionStart) return false;
 
-				locsi = loc04 + s_mapDirection[loc02];
-
-				if (Script_Unit_176C_1F21(locsi, loc02) <= arg14) break;
+				/* See if the tile next to us is a valid position */
+				packedNext = packedCur + s_mapDirection[direction];
+				if (Script_Unit_Pathfind_GetScore(packedNext, direction) <= scoreTileMax) break;
 			}
 		}
 
-		*loc08++ = loc02;
-		loc0A++;
+		*buffer++ = direction;
+		bufferSize++;
 
-		if (locsi == packed) {
-			*loc08 = 0xFF;
-			arg08->variable_0004 = loc0A;
-			Script_Unit_1319_03E8(arg08, arg14);
-			arg08->variable_0004--;
+		/* If we found the destination, smooth the route and we are done */
+		if (packedNext == packedDst) {
+			*buffer = 0xFF;
+			data->routeSize = bufferSize;
+			Script_Unit_Pathfinder_Smoothen(data, scoreTileMax);
+			data->routeSize--;
 			return true;
 		}
 
-		if (arg08->packed == locsi) return false;
+		/* If we return to our start tile, we didn't find a route */
+		if (data->packed == packedNext) return false;
 
-		arg0E = (loc02 - arg0C * 3) & 0x7;
-		loc04 = locsi;
+		/* Now look at the next tile, starting 3 directions back */
+		directionStart = (direction - searchDirection * 3) & 0x7;
+		packedCur = packedNext;
 	}
 
+	/* We ran out of search space and didn't find a route */
 	return false;
 }
 
 /**
- * ?? Guessing this function is the pathfinder.
+ * Try to find a path between two points.
+ *
+ * @param packedSrc The start point.
+ * @param packedDst The end point.
+ * @param buffer The buffer to store the route in.
+ * @param bufferSize The size of the buffer.
+ * @param scoreTileMax The maximal score per tile allowed.
+ * @return A struct with information about the found route.
  */
-static struct_1319 Script_Unit_Pathfinder_1319_002D(uint16 packedSrc, uint16 packedDest, void *buffer, int16 bufferSize, int16 arg14)
+static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst, void *buffer, int16 bufferSize, int16 scoreTileMax)
 {
-	uint16 curPacked;
-	struct_1319 res;
+	uint16 packedCur;
+	Pathfinder_Data res;
 
-	res.packed        = packedSrc;
-	res.variable_0002 = 0;
-	res.variable_0004 = 0;
-	res.buffer        = buffer;
+	res.packed    = packedSrc;
+	res.score     = 0;
+	res.routeSize = 0;
+	res.buffer    = buffer;
 
 	res.buffer[0] = 0xFF;
 
 	bufferSize--;
-	curPacked = packedSrc;
 
-	while (res.variable_0004 < bufferSize) {
-		uint8  loc04;
-		uint16 locsi;
-		int16  loc08;
+	packedCur = packedSrc;
+	while (res.routeSize < bufferSize) {
+		uint8  direction;
+		uint16 packedNext;
+		int16  score;
 
-		if (curPacked == packedDest) break;
+		if (packedCur == packedDst) break;
 
-		loc04 = (Tile_GetDirectionPacked(curPacked, packedDest) >> 5) & 7;
+		/* Try going directly to the destination tile */
+		direction = Tile_GetDirectionPacked(packedCur, packedDst) / 32;
+		packedNext = packedCur + s_mapDirection[direction];
 
-		locsi = curPacked + s_mapDirection[loc04];
-		loc08 = Script_Unit_176C_1F21(locsi, loc04);
-
-		if (loc08 <= arg14) {
-			res.buffer[res.variable_0004++] = loc04;
-			res.variable_0002 += loc08;
+		/* Check for valid movement towards the tile */
+		score = Script_Unit_Pathfind_GetScore(packedNext, direction);
+		if (score <= scoreTileMax) {
+			res.buffer[res.routeSize++] = direction;
+			res.score += score;
 		} else {
-			uint8 loc06;
-			bool loc0A;
-			bool loc0C;
-			int16 loc0E;
-			struct_1319 loc22[2];
-			uint8 locF2[2][102];
-			struct_1319 *loc26;
+			uint8 dir;
+			bool foundCounterclockwise;
+			bool foundClockwise;
+			int16 routeSize;
+			Pathfinder_Data routes[2];
+			uint8 routesBuffer[2][102];
+			Pathfinder_Data *bestRoute;
 
 			while (true) {
-				if (locsi == packedDest) break;
+				if (packedNext == packedDst) break;
 
-				loc06 = Tile_GetDirectionPacked(locsi, packedDest) >> 5;
-				locsi += s_mapDirection[loc06];
+				/* Find the first valid tile on the (direct) route. */
+				dir = Tile_GetDirectionPacked(packedNext, packedDst) / 32;
+				packedNext += s_mapDirection[dir];
+				if (Script_Unit_Pathfind_GetScore(packedNext, dir) > scoreTileMax) continue;
 
-				if (Script_Unit_176C_1F21(locsi, loc06) > arg14) continue;
+				/* Try to find a connection between our last valid tile and the new valid tile */
+				routes[1].packed    = packedCur;
+				routes[1].score     = 0;
+				routes[1].routeSize = 0;
+				routes[1].buffer    = routesBuffer[0];
+				foundCounterclockwise = Script_Unit_Pathfinder_Connect(packedNext, &routes[1], -1, direction, scoreTileMax);
 
-				loc22[1].packed        = curPacked;
-				loc22[1].variable_0002 = 0;
-				loc22[1].variable_0004 = 0;
-				loc22[1].buffer        = locF2[0];
+				routes[0].packed    = packedCur;
+				routes[0].score     = 0;
+				routes[0].routeSize = 0;
+				routes[0].buffer    = routesBuffer[1];
+				foundClockwise = Script_Unit_Pathfinder_Connect(packedNext, &routes[0], 1, direction, scoreTileMax);
 
-				loc0A = Script_Unit_1319_02AC(locsi, &loc22[1], -1, loc04, arg14);
-
-				loc22[0].packed        = curPacked;
-				loc22[0].variable_0002 = 0;
-				loc22[0].variable_0004 = 0;
-				loc22[0].buffer        = locF2[1];
-
-				loc0C = Script_Unit_1319_02AC(locsi, &loc22[0], 1, loc04, arg14);
-
-				if (loc0A || loc0C) break;
+				if (foundCounterclockwise || foundClockwise) break;
 
 				do {
-					if (locsi == packedDest) break;
+					if (packedNext == packedDst) break;
 
-					loc06 = Tile_GetDirectionPacked(locsi, packedDest) >> 5;
-					locsi += s_mapDirection[loc06];
-				} while (Script_Unit_176C_1F21(locsi, loc06) <= arg14);
+					dir = Tile_GetDirectionPacked(packedNext, packedDst) / 32;
+					packedNext += s_mapDirection[dir];
+				} while (Script_Unit_Pathfind_GetScore(packedNext, dir) <= scoreTileMax);
 			}
 
-			if (locsi == packedDest) break;
+			if (packedNext == packedDst) break;
 
-			if (!loc0C) {
-				loc26 = &loc22[1];
-			} else if (!loc0A) {
-				loc26 = &loc22[0];
+			/* Find the best (partial) route */
+			if (!foundClockwise) {
+				bestRoute = &routes[1];
+			} else if (!foundCounterclockwise) {
+				bestRoute = &routes[0];
 			} else {
-				loc26 = &loc22[loc22[1].variable_0002 < loc22[0].variable_0002 ? 1 : 0];
+				bestRoute = &routes[routes[1].score < routes[0].score ? 1 : 0];
 			}
 
-			loc0E = min(bufferSize - res.variable_0004, loc26->variable_0004);
+			/* Calculate how much more we can copy into our own buffer */
+			routeSize = min(bufferSize - res.routeSize, bestRoute->routeSize);
+			if (routeSize <= 0) break;
 
-			if (loc0E <= 0) break;
-
-			memcpy(&res.buffer[res.variable_0004], loc26->buffer, loc0E);
-
-			res.variable_0004 += loc0E;
-			res.variable_0002 += loc26->variable_0002;
+			/* Copy the rest into our own buffer */
+			memcpy(&res.buffer[res.routeSize], bestRoute->buffer, routeSize);
+			res.routeSize += routeSize;
+			res.score     += bestRoute->score;
 		}
 
-		curPacked = locsi;
+		packedCur = packedNext;
 	}
 
-	if (res.variable_0004 < bufferSize) res.buffer[res.variable_0004++] = 0xFF;
+	if (res.routeSize < bufferSize) res.buffer[res.routeSize++] = 0xFF;
 
-	Script_Unit_1319_03E8(&res, arg14);
+	Script_Unit_Pathfinder_Smoothen(&res, scoreTileMax);
 
 	return res;
 }
 
 /**
- * Unknown function 1F51.
+ * Calculate the route to a tile.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 0 - An encoded tile to calculate the route to.
  *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return 0 if we arrived on location, 1 otherwise.
  */
-uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
+uint16 Script_Unit_CalculateRoute(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 encoded;
-	uint16 packed;
-	uint16 locdi;
+	uint16 packedSrc;
+	uint16 packedDst;
 
 	u = g_scriptCurrentUnit;
 	encoded = script->stack[script->stackPointer];
 
 	if (u->variable_49.tile != 0 || !Tools_Index_IsValid(encoded)) return 1;
 
-	packed = Tile_PackTile(u->o.position);
-	locdi = Tools_Index_GetPackedTile(encoded);
+	packedSrc = Tile_PackTile(u->o.position);
+	packedDst = Tools_Index_GetPackedTile(encoded);
 
-	if (locdi == packed) {
-		u->variable_72[0] = 0xFF;
+	if (packedDst == packedSrc) {
+		u->route[0] = 0xFF;
 		u->targetMove = 0;
 		return 0;
 	}
 
-	if (u->variable_72[0] == 0xFF) {
-		struct_1319 loc08;
-		uint8 buffer[40];
+	if (u->route[0] == 0xFF) {
+		Pathfinder_Data res;
+		uint8 buffer[42];
 
-		loc08 = Script_Unit_Pathfinder_1319_002D(packed, locdi, buffer, 40, 255);
+		res = Script_Unit_Pathfinder(packedSrc, packedDst, buffer, 40, 255);
 
-		memcpy(u->variable_72, loc08.buffer, min(loc08.variable_0004, 14));
+		memcpy(u->route, res.buffer, min(res.routeSize, 14));
 
-		if (u->variable_72[0] == 0xFF) {
+		if (u->route[0] == 0xFF) {
 			u->targetMove = 0;
 			if (u->o.type == UNIT_SANDWORM) {
 				script->delay = 720;
@@ -1284,24 +1315,24 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 	} else {
 		uint16 distance;
 
-		distance = Tile_GetDistancePacked(locdi, packed);
-		if (distance < 14) u->variable_72[distance] = 0xFF;
+		distance = Tile_GetDistancePacked(packedDst, packedSrc);
+		if (distance < 14) u->route[distance] = 0xFF;
 	}
 
-	if (u->variable_72[0] == 0xFF) return 1;
+	if (u->route[0] == 0xFF) return 1;
 
-	if (u->orientation[0].current != (int8)(u->variable_72[0] * 32)) {
-		Unit_SetOrientation(u, (int8)(u->variable_72[0] * 32), false, 0);
+	if (u->orientation[0].current != (int8)(u->route[0] * 32)) {
+		Unit_SetOrientation(u, (int8)(u->route[0] * 32), false, 0);
 		return 1;
 	}
 
 	if (!Unit_Unknown167C(u)) {
-		u->variable_72[0] = 0xFF;
+		u->route[0] = 0xFF;
 		return 0;
 	}
 
-	memmove(&u->variable_72[0], &u->variable_72[1], 13);
-	u->variable_72[13] = 0xFF;
+	memmove(&u->route[0], &u->route[1], 13);
+	u->route[13] = 0xFF;
 	return 1;
 }
 

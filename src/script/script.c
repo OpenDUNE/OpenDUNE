@@ -71,7 +71,7 @@ const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 09 */ &Script_Unit_MCVDeploy,
 	/* 0A */ &Script_Unit_SetActionDefault,
 	/* 0B */ &Script_Unit_Blink,
-	/* 0C */ &Script_Unit_Unknown1F51,
+	/* 0C */ &Script_Unit_CalculateRoute,
 	/* 0D */ &Script_General_Unknown050C,
 	/* 0E */ &Script_Unit_SelfExplode,
 	/* 0F */ &Script_Unit_Unknown12CE,

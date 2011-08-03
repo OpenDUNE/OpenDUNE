@@ -406,7 +406,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->o.hitpoints      = ui->o.hitpoints;
 	u->variable_49.tile = 0;
 	u->originEncoded    = 0x0000;
-	u->variable_72[0]   = 0xFF;
+	u->route[0]         = 0xFF;
 
 	if (position.tile != 0xFFFFFFFF) {
 		u->originEncoded    = Unit_FindClosestRefinery(u);
@@ -716,8 +716,8 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 		}
 	}
 
-	u->targetMove  = destination;
-	u->variable_72[0] = 0xFF;
+	u->targetMove = destination;
+	u->route[0]   = 0xFF;
 }
 
 /**
@@ -1089,7 +1089,7 @@ bool Unit_Unknown167C(Unit *unit)
 
 	unit->variable_52 = 0x7FFF;
 
-	locax = Unit_Unknown3146(unit, packed, locsi / 32);
+	locax = Unit_GetTileEnterScore(unit, packed, locsi / 32);
 
 	if (locax > 255 || locax == -1) return false;
 
@@ -1168,7 +1168,7 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
 
 	if (!g_table_unitInfo[unit->o.type].o.flags.hasTurret) {
 		unit->targetMove = encoded;
-		unit->variable_72[0] = 0xFF;
+		unit->route[0] = 0xFF;
 	}
 }
 
@@ -2287,14 +2287,15 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 }
 
 /**
- * Unknwown function 3146.
+ * Get the score of entering this tile from a direction.
  *
  * @param unit The Unit to operate on.
  * @param packed The packed tile.
- * @param arg0C ??.
- * @return ??.
+ * @param direction The direction entering this tile from.
+ * @return 256 if tile is not accessable, -1 when it is an accessable structure,
+ *   or a score to enter the tile otherwise.
  */
-int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
+int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction)
 {
 	const UnitInfo *ui;
 	Unit *u;
@@ -2339,7 +2340,7 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 	if (res == 0) return 256;
 	res ^= 0xFF;
 
-	if ((arg0C & 1) != 0) {
+	if ((direction & 1) != 0) {
 		res -= res / 4 + res / 8;
 	}
 

@@ -147,7 +147,7 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 	u->o.flags.s.allocated       = true;
 	u->o.flags.s.variable_6_0001 = true;
 	u->o.script.delay      = 0;
-	u->variable_72[0]            = 0xFF;
+	u->route[0]            = 0xFF;
 	if (type == UNIT_SANDWORM) u->amount = 3;
 
 	g_unitFindArray[g_unitFindCount++] = u;

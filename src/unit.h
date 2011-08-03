@@ -120,7 +120,7 @@ typedef struct Unit {
 	uint8  blinkCounter;                                    /*!< If non-zero, it indicates how many more ticks this unit is blinking. */
 	uint8  team;                                            /*!< If non-zero, unit is part of team. Value 1 means team 0, etc. */
 	uint16 variable_70;                                     /*!< ?? */
-	uint8  variable_72[14];                                 /*!< ?? Related to pathfinding. */
+	uint8  route[14];                                       /*!< The current route the Unit is following. */
 } Unit;
 
 /**
@@ -239,7 +239,7 @@ extern void Unit_DisplayStatusText(Unit *unit);
 extern void Unit_Unknown2AAA(Unit *unit);
 extern Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C);
 extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
-extern int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C);
+extern int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 arg0C);
 extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
 extern bool Unit_Unknown379B(Unit *unit);
 extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);

@@ -285,7 +285,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	Object_Script_Variable4_Clear(&u->o);
 	u->targetAttack = 0;
 	u->targetMove = 0;
-	u->variable_72[0] = 0xFF;
+	u->route[0] = 0xFF;
 
 	Unit_SetAction(u, action);
 
