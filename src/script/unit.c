@@ -1080,7 +1080,7 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data, int16 scoreTi
 		if (*bufferTo == 0xFE) continue;
 
 		packed += s_mapDirection[*bufferTo];
-		data->score = Script_Unit_Pathfind_GetScore(packed, *bufferTo);
+		data->score += Script_Unit_Pathfind_GetScore(packed, *bufferTo);
 		data->routeSize++;
 		*bufferFrom++ = *bufferTo;
 	}
