@@ -115,7 +115,7 @@ bool DSP_Init()
 {
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) return false;
 
-	DSP_SetTimeConst(255);
+	DSP_SetTimeConst(0);
 
 	if (SDL_GetAudioStatus() == 0) return false;
 
