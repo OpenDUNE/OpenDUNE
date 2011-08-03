@@ -1235,7 +1235,7 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 				} while (Script_Unit_Pathfind_GetScore(packedNext, dir) <= 255);
 			}
 
-			if (packedNext == packedDst) break;
+			if (!foundCounterclockwise && !foundClockwise && packedNext == packedDst) break;
 
 			/* Find the best (partial) route */
 			if (!foundClockwise) {
