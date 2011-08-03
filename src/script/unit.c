@@ -989,9 +989,8 @@ static int16 Script_Unit_Pathfind_GetScore(uint16 packed, uint8 direction)
 /**
  * Smoothen the route found by the pathfinder.
  * @param data The found route to smoothen.
- * @param scoreTileMax The maximal score per tile allowed.
  */
-static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data, int16 scoreTileMax)
+static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 {
 	static const int8 var3792[8] = {0, 0, 1, 2, 3, -2, -1, 0};
 
@@ -1044,7 +1043,7 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data, int16 scoreTi
 				dir = (*bufferFrom + (direction < 0 ? -1 : 1)) & 0x7;
 
 				if (abs(direction) == 1) {
-					if (Script_Unit_Pathfind_GetScore(packed + s_mapDirection[dir], dir) <= scoreTileMax) {
+					if (Script_Unit_Pathfind_GetScore(packed + s_mapDirection[dir], dir) <= 255) {
 						*bufferTo = dir;
 						*bufferFrom = dir;
 					}
@@ -1097,10 +1096,9 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data, int16 scoreTi
  * @param data Information about the found route, and the start point.
  * @param searchDirection The search direction (1 for clockwise, -1 for counterclockwise).
  * @param directionStart The direction to start looking at.
- * @param scoreTileMax The maximal score per tile allowed.
  * @return True if a route was found.
  */
-static bool Script_Unit_Pathfinder_Connect(uint16 packedDst, Pathfinder_Data *data, int8 searchDirection, uint8 directionStart, int16 scoreTileMax)
+static bool Script_Unit_Pathfinder_Connect(uint16 packedDst, Pathfinder_Data *data, int8 searchDirection, uint8 directionStart)
 {
 	uint16 packedNext;
 	uint16 packedCur;
@@ -1129,7 +1127,7 @@ static bool Script_Unit_Pathfinder_Connect(uint16 packedDst, Pathfinder_Data *da
 
 				/* See if the tile next to us is a valid position */
 				packedNext = packedCur + s_mapDirection[direction];
-				if (Script_Unit_Pathfind_GetScore(packedNext, direction) <= scoreTileMax) break;
+				if (Script_Unit_Pathfind_GetScore(packedNext, direction) <= 255) break;
 			}
 		}
 
@@ -1140,7 +1138,7 @@ static bool Script_Unit_Pathfinder_Connect(uint16 packedDst, Pathfinder_Data *da
 		if (packedNext == packedDst) {
 			*buffer = 0xFF;
 			data->routeSize = bufferSize;
-			Script_Unit_Pathfinder_Smoothen(data, scoreTileMax);
+			Script_Unit_Pathfinder_Smoothen(data);
 			data->routeSize--;
 			return true;
 		}
@@ -1164,10 +1162,9 @@ static bool Script_Unit_Pathfinder_Connect(uint16 packedDst, Pathfinder_Data *da
  * @param packedDst The end point.
  * @param buffer The buffer to store the route in.
  * @param bufferSize The size of the buffer.
- * @param scoreTileMax The maximal score per tile allowed.
  * @return A struct with information about the found route.
  */
-static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst, void *buffer, int16 bufferSize, int16 scoreTileMax)
+static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst, void *buffer, int16 bufferSize)
 {
 	uint16 packedCur;
 	Pathfinder_Data res;
@@ -1195,7 +1192,7 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 
 		/* Check for valid movement towards the tile */
 		score = Script_Unit_Pathfind_GetScore(packedNext, direction);
-		if (score <= scoreTileMax) {
+		if (score <= 255) {
 			res.buffer[res.routeSize++] = direction;
 			res.score += score;
 		} else {
@@ -1213,20 +1210,20 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 				/* Find the first valid tile on the (direct) route. */
 				dir = Tile_GetDirectionPacked(packedNext, packedDst) / 32;
 				packedNext += s_mapDirection[dir];
-				if (Script_Unit_Pathfind_GetScore(packedNext, dir) > scoreTileMax) continue;
+				if (Script_Unit_Pathfind_GetScore(packedNext, dir) > 255) continue;
 
 				/* Try to find a connection between our last valid tile and the new valid tile */
 				routes[1].packed    = packedCur;
 				routes[1].score     = 0;
 				routes[1].routeSize = 0;
 				routes[1].buffer    = routesBuffer[0];
-				foundCounterclockwise = Script_Unit_Pathfinder_Connect(packedNext, &routes[1], -1, direction, scoreTileMax);
+				foundCounterclockwise = Script_Unit_Pathfinder_Connect(packedNext, &routes[1], -1, direction);
 
 				routes[0].packed    = packedCur;
 				routes[0].score     = 0;
 				routes[0].routeSize = 0;
 				routes[0].buffer    = routesBuffer[1];
-				foundClockwise = Script_Unit_Pathfinder_Connect(packedNext, &routes[0], 1, direction, scoreTileMax);
+				foundClockwise = Script_Unit_Pathfinder_Connect(packedNext, &routes[0], 1, direction);
 
 				if (foundCounterclockwise || foundClockwise) break;
 
@@ -1235,7 +1232,7 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 
 					dir = Tile_GetDirectionPacked(packedNext, packedDst) / 32;
 					packedNext += s_mapDirection[dir];
-				} while (Script_Unit_Pathfind_GetScore(packedNext, dir) <= scoreTileMax);
+				} while (Script_Unit_Pathfind_GetScore(packedNext, dir) <= 255);
 			}
 
 			if (packedNext == packedDst) break;
@@ -1264,7 +1261,7 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 
 	if (res.routeSize < bufferSize) res.buffer[res.routeSize++] = 0xFF;
 
-	Script_Unit_Pathfinder_Smoothen(&res, scoreTileMax);
+	Script_Unit_Pathfinder_Smoothen(&res);
 
 	return res;
 }
@@ -1302,7 +1299,7 @@ uint16 Script_Unit_CalculateRoute(ScriptEngine *script)
 		Pathfinder_Data res;
 		uint8 buffer[42];
 
-		res = Script_Unit_Pathfinder(packedSrc, packedDst, buffer, 40, 255);
+		res = Script_Unit_Pathfinder(packedSrc, packedDst, buffer, 40);
 
 		memcpy(u->route, res.buffer, min(res.routeSize, 14));
 
