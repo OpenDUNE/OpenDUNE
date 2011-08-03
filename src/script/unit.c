@@ -1194,8 +1194,8 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 			res.score += score;
 		} else {
 			uint8 dir;
-			bool foundCounterclockwise;
-			bool foundClockwise;
+			bool foundCounterclockwise = false;
+			bool foundClockwise = false;
 			int16 routeSize;
 			Pathfinder_Data routes[2];
 			uint8 routesBuffer[2][102];
