@@ -992,7 +992,7 @@ static int16 Script_Unit_Pathfind_GetScore(uint16 packed, uint8 direction)
  */
 static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 {
-	static const int8 var3792[8] = {0, 0, 1, 2, 3, -2, -1, 0};
+	static const int8 directionOffset[8] = {0, 0, 1, 2, 3, -2, -1, 0};
 
 	uint16 packed;
 	uint8 *bufferFrom;
@@ -1018,7 +1018,7 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 			}
 
 			direction = (*bufferTo - *bufferFrom) & 0x7;
-			direction = var3792[direction];
+			direction = directionOffset[direction];
 
 			/* The directions are opposite of each other, so they can both be removed */
 			if (direction == 3) {
@@ -1036,10 +1036,10 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 				continue;
 			}
 
-			/* Try to smooth out the movement a bit */
 			if ((*bufferFrom & 0x1) != 0) {
 				dir = (*bufferFrom + (direction < 0 ? -1 : 1)) & 0x7;
 
+				/* If we go 45 degrees with 90 degree difference, we can also go straight */
 				if (abs(direction) == 1) {
 					if (Script_Unit_Pathfind_GetScore(packed + s_mapDirection[dir], dir) <= 255) {
 						*bufferTo = dir;
@@ -1053,10 +1053,11 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 				dir = (*bufferFrom + direction) & 0x7;
 			}
 
+			/* In these cases we can do with 1 direction change less, so remove one */
 			*bufferTo = dir;
 			*bufferFrom = 0xFE;
 
-			/* Find our next tile again in the new direction */
+			/* Walk back one tile */
 			while (*bufferFrom == 0xFE && data->buffer != bufferFrom) bufferFrom--;
 			if (*bufferFrom != 0xFE) {
 				packed += s_mapDirection[(*bufferFrom + 4) & 0x7];
@@ -1084,8 +1085,6 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 
 	data->routeSize++;
 	*bufferFrom = 0xFF;
-
-	return;
 }
 
 /**
