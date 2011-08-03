@@ -102,16 +102,15 @@ static uint8 Drivers_SoundMusic_Init(uint8 index)
 	uint32 size;
 	uint8 i;
 
-	if (index == 0) return 0;
-
 	sound  = g_driverSound;
 	music  = g_driverMusic;
 
-	if (!MPU_Init()) {
-		sound->index = 0xFFFF;
-		music->index = 0xFFFF;
-		return 0;
-	}
+	sound->index = 0xFFFF;
+	music->index = 0xFFFF;
+
+	if (index == 0) return 0;
+
+	if (!MPU_Init()) return 0;
 
 	if (!Drivers_Init(sound, "C55")) return 0;
 	memcpy(music, sound, sizeof(Driver));
@@ -138,17 +137,15 @@ static uint8 Drivers_Voice_Init(uint8 index)
 {
 	Driver *voice;
 
+	voice = g_driverVoice;
+
+	voice->index = 0xFFFF;
+
 	if (index == 0) return 0;
 
-	voice  = g_driverVoice;
-
-	if (!DSP_Init()) {
-		voice->index = 0xFFFF;
-		return 0;
-	}
+	if (!DSP_Init()) return 0;
 
 	if (!Drivers_Init(voice, "VOC")) return 0;
-
 
 	return index;
 }
