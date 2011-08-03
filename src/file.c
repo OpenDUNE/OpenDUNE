@@ -13,8 +13,8 @@
 
 #include "file.h"
 
+#include "tools.h"
 #include "input/input.h"
-#include "timer.h"
 
 
 /**
@@ -200,17 +200,14 @@ bool File_Exists(const char *filename)
 	uint8 index;
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
-	index = _File_Open(filename, 1);
 
+	index = _File_Open(filename, 1);
 	if (index == FILE_INVALID) {
-		Timer_InterruptResume();
 		g_inputIgnore--;
 		return false;
 	}
 	File_Close(index);
 
-	Timer_InterruptResume();
 	g_inputIgnore--;
 
 	return true;
@@ -228,11 +225,7 @@ uint8 File_Open(const char *filename, uint8 mode)
 	uint8 res;
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
-
 	res = _File_Open(filename, mode);
-
-	Timer_InterruptResume();
 	g_inputIgnore--;
 
 	if (res == FILE_INVALID) {
@@ -254,12 +247,10 @@ void File_Close(uint8 index)
 	if (s_file[index].fp == NULL) return;
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
 
 	fclose(s_file[index].fp);
 	s_file[index].fp = NULL;
 
-	Timer_InterruptResume();
 	g_inputIgnore--;
 }
 
@@ -281,16 +272,12 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 	if (length > s_file[index].size - s_file[index].position) length = s_file[index].size - s_file[index].position;
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
-
 	if (fread(buffer, length, 1, s_file[index].fp) != 1) {
 		fprintf(stderr, "ERROR: read error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-
-	Timer_InterruptResume();
 	g_inputIgnore--;
 
 	s_file[index].position += length;
@@ -311,16 +298,12 @@ uint32 File_Write(uint8 index, void *buffer, uint32 length)
 	if (s_file[index].fp == NULL) return 0;
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
-
 	if (fwrite(buffer, length, 1, s_file[index].fp) != 1) {
 		fprintf(stderr, "ERROR: write error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-
-	Timer_InterruptResume();
 	g_inputIgnore--;
 
 	s_file[index].position += length;
@@ -343,8 +326,6 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 	if (mode > 2) { File_Close(index); return 0; }
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
-
 	switch (mode) {
 		case 0:
 			fseek(s_file[index].fp, s_file[index].start + position, SEEK_SET);
@@ -359,8 +340,6 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 			s_file[index].position = s_file[index].size - position;
 			break;
 	}
-
-	Timer_InterruptResume();
 	g_inputIgnore--;
 
 	return s_file[index].position;
@@ -400,11 +379,7 @@ void File_Delete(const char *filename)
 	}
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
-
 	unlink(filenameComplete);
-
-	Timer_InterruptResume();
 	g_inputIgnore--;
 }
 
@@ -418,17 +393,14 @@ void File_Create(const char *filename)
 	uint8 index;
 
 	g_inputIgnore++;
-	Timer_InterruptSuspend();
 
 	index = _File_Open(filename, 2);
 	if (index == FILE_INVALID) {
-		Timer_InterruptResume();
 		g_inputIgnore--;
 		return;
 	}
 	File_Close(index);
 
-	Timer_InterruptResume();
 	g_inputIgnore--;
 }
 

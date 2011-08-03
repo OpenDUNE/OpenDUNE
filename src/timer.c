@@ -145,7 +145,7 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 /**
  * Suspend the timer interrupt handling.
  */
-void Timer_InterruptSuspend()
+static void Timer_InterruptSuspend()
 {
 #if defined(_WIN32)
 	if (s_timerThread != NULL) DeleteTimerQueueTimer(NULL, s_timerThread, NULL);
@@ -158,7 +158,7 @@ void Timer_InterruptSuspend()
 /**
  * Resume the timer interrupt handling.
  */
-void Timer_InterruptResume()
+static void Timer_InterruptResume()
 {
 #if defined(_WIN32)
 	CreateTimerQueueTimer(&s_timerThread, NULL, Timer_InterruptWindows, NULL, s_timerTime, s_timerTime, WT_EXECUTEINTIMERTHREAD);
