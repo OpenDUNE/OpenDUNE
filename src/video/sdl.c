@@ -191,6 +191,8 @@ void Video_Tick()
 	if (!s_video_initialized) return;
 #endif /* _WIN32 */
 
+	if (g_inputIgnore != 0) return;
+
 	if (s_video_lock) return;
 	s_video_lock = true;
 
