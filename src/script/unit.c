@@ -1250,12 +1250,10 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 				memcpy(&res.buffer[res.routeSize], bestRoute->buffer, routeSize);
 				res.routeSize += routeSize;
 				res.score     += bestRoute->score;
-
-				continue;
+			} else {
+				/* Means we didn't find a route. packedNext is now equal to packedDst */
+				break;
 			}
-
-			/* Means we didn't find a route. packedNext is now equal to packedDst */
-			break;
 		}
 
 		packedCur = packedNext;
