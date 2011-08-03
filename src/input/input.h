@@ -35,8 +35,6 @@ typedef enum InputMouseMode {
 	INPUT_MOUSE_MODE_PLAY   = 2                             /*!< Plays mouse events from a file. */
 } InputMouseMode;
 
-extern int g_inputIgnore;
-
 extern void Input_Init();
 extern void Input_EventHandler(uint8 key);
 extern uint16 Input_Flags_ClearBits(uint16 bits);

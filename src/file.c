@@ -29,6 +29,8 @@ typedef struct File {
 
 static File s_file[FILE_MAX];
 
+uint16 g_fileOperation = 0; /*!< If non-zero, input (keyboard + mouse), video is not updated, .. Basically, any operation that might trigger a free() in the signal handler, which can collide with malloc() of file operations. */
+
 /**
  * Find the FileInfo index for the given filename.
  *
@@ -199,16 +201,16 @@ bool File_Exists(const char *filename)
 {
 	uint8 index;
 
-	g_inputIgnore++;
+	g_fileOperation++;
 
 	index = _File_Open(filename, 1);
 	if (index == FILE_INVALID) {
-		g_inputIgnore--;
+		g_fileOperation--;
 		return false;
 	}
 	File_Close(index);
 
-	g_inputIgnore--;
+	g_fileOperation--;
 
 	return true;
 }
@@ -224,9 +226,9 @@ uint8 File_Open(const char *filename, uint8 mode)
 {
 	uint8 res;
 
-	g_inputIgnore++;
+	g_fileOperation++;
 	res = _File_Open(filename, mode);
-	g_inputIgnore--;
+	g_fileOperation--;
 
 	if (res == FILE_INVALID) {
 		fprintf(stderr, "ERROR: unable to open file '%s'.\n", filename);
@@ -246,12 +248,12 @@ void File_Close(uint8 index)
 	if (index >= FILE_MAX) return;
 	if (s_file[index].fp == NULL) return;
 
-	g_inputIgnore++;
+	g_fileOperation++;
 
 	fclose(s_file[index].fp);
 	s_file[index].fp = NULL;
 
-	g_inputIgnore--;
+	g_fileOperation--;
 }
 
 /**
@@ -271,14 +273,14 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 
 	if (length > s_file[index].size - s_file[index].position) length = s_file[index].size - s_file[index].position;
 
-	g_inputIgnore++;
+	g_fileOperation++;
 	if (fread(buffer, length, 1, s_file[index].fp) != 1) {
 		fprintf(stderr, "ERROR: read error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-	g_inputIgnore--;
+	g_fileOperation--;
 
 	s_file[index].position += length;
 	return length;
@@ -297,14 +299,14 @@ uint32 File_Write(uint8 index, void *buffer, uint32 length)
 	if (index >= FILE_MAX) return 0;
 	if (s_file[index].fp == NULL) return 0;
 
-	g_inputIgnore++;
+	g_fileOperation++;
 	if (fwrite(buffer, length, 1, s_file[index].fp) != 1) {
 		fprintf(stderr, "ERROR: write error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-	g_inputIgnore--;
+	g_fileOperation--;
 
 	s_file[index].position += length;
 	if (s_file[index].position > s_file[index].size) s_file[index].size = s_file[index].position;
@@ -325,7 +327,7 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 	if (s_file[index].fp == NULL) return 0;
 	if (mode > 2) { File_Close(index); return 0; }
 
-	g_inputIgnore++;
+	g_fileOperation++;
 	switch (mode) {
 		case 0:
 			fseek(s_file[index].fp, s_file[index].start + position, SEEK_SET);
@@ -340,7 +342,7 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 			s_file[index].position = s_file[index].size - position;
 			break;
 	}
-	g_inputIgnore--;
+	g_fileOperation--;
 
 	return s_file[index].position;
 }
@@ -378,9 +380,9 @@ void File_Delete(const char *filename)
 		}
 	}
 
-	g_inputIgnore++;
+	g_fileOperation++;
 	unlink(filenameComplete);
-	g_inputIgnore--;
+	g_fileOperation--;
 }
 
 /**
@@ -392,16 +394,16 @@ void File_Create(const char *filename)
 {
 	uint8 index;
 
-	g_inputIgnore++;
+	g_fileOperation++;
 
 	index = _File_Open(filename, 2);
 	if (index == FILE_INVALID) {
-		g_inputIgnore--;
+		g_fileOperation--;
 		return;
 	}
 	File_Close(index);
 
-	g_inputIgnore--;
+	g_fileOperation--;
 }
 
 /**

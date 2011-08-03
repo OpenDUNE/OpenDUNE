@@ -8,6 +8,7 @@
 
 #include "video.h"
 
+#include "../file.h"
 #include "../gfx.h"
 #include "../input/input.h"
 #include "../mouse.h"
@@ -191,7 +192,7 @@ void Video_Tick()
 	if (!s_video_initialized) return;
 #endif /* _WIN32 */
 
-	if (g_inputIgnore != 0) return;
+	if (g_fileOperation != 0) return;
 
 	if (s_video_lock) return;
 	s_video_lock = true;
