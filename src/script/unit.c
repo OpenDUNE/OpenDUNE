@@ -1017,9 +1017,7 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 				continue;
 			}
 
-			direction = *bufferTo - *bufferFrom;
-			if (direction < 0) direction += 8;
-
+			direction = (*bufferTo - *bufferFrom) & 0x7;
 			direction = var3792[direction];
 
 			/* The directions are opposite of each other, so they can both be removed */
@@ -1058,8 +1056,8 @@ static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data *data)
 			*bufferTo = dir;
 			*bufferFrom = 0xFE;
 
+			/* Find our next tile again in the new direction */
 			while (*bufferFrom == 0xFE && data->buffer != bufferFrom) bufferFrom--;
-
 			if (*bufferFrom != 0xFE) {
 				packed += s_mapDirection[(*bufferFrom + 4) & 0x7];
 			} else {
