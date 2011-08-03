@@ -22,6 +22,9 @@ extern bool Timer_SetTimer(TimerType timer, bool set);
 extern void Timer_Init();
 extern void Timer_Uninit();
 
+extern void Timer_InterruptSuspend();
+extern void Timer_InterruptResume();
+
 extern void Timer_Tick();
 
 extern void Timer_Add(void (*callback)(), uint32 usec_delay);
