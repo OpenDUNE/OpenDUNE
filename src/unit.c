@@ -2681,7 +2681,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 			if (hp->variable_24 == 0) {
 				if (g_var_3E52 == 0) g_var_3E52 = 1;
 
-				if (unit->o.type != UNIT_SABOTEUR) {
+				if (unit->o.type == UNIT_SABOTEUR) {
 					Sound_Output_Feedback(12);
 				} else {
 					if (g_scenarioID < 3) {
