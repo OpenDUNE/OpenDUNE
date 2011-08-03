@@ -2301,7 +2301,7 @@ int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction)
 	Unit *u;
 	Structure *s;
 	uint16 type;
-	int16 res;
+	uint16 res;
 
 	if (unit == NULL) return 0;
 
@@ -2344,7 +2344,7 @@ int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction)
 		res -= res / 4 + res / 8;
 	}
 
-	return res;
+	return (int16)res;
 }
 
 /**
