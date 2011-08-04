@@ -56,35 +56,21 @@ static TimerNode *s_timerNodes = NULL;
 static int s_timerNodeCount = 0;
 static int s_timerNodeSize  = 0;
 
-static uint32 s_timerLastSec;
-static uint32 s_timerLastUSec;
+static uint32 s_timerLastTime;
 
 const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
 
 
-static uint32 Timer_GetSec()
+static uint32 Timer_GetTime()
 {
 #if defined(_MSC_VER)
 	DWORD t;
 	t = timeGetTime();
-	return t / 1000;
+	return t;
 #else
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	return tv.tv_sec;
-#endif /* _MSC_VER */
-}
-
-static uint32 Timer_GetUSec()
-{
-#if defined(_MSC_VER)
-	DWORD t;
-	t = timeGetTime();
-	return (t % 1000) * 1000;
-#else
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	return tv.tv_usec;
+	return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 #endif /* _MSC_VER */
 }
 
@@ -94,7 +80,7 @@ static uint32 Timer_GetUSec()
 static void Timer_InterruptRun()
 {
 	TimerNode *node;
-	uint32 new_sec, new_usec, usec_delta, delta;
+	uint32 new_time, usec_delta, delta;
 	int i;
 
 	/* Lock the timer, to avoid double-calls */
@@ -103,11 +89,9 @@ static void Timer_InterruptRun()
 	timerLock = true;
 
 	/* Calculate the time between calls */
-	new_sec    = Timer_GetSec();
-	new_usec   = Timer_GetUSec();
-	usec_delta = (new_sec - s_timerLastSec) * 1000000 + (new_usec - s_timerLastUSec);
-	s_timerLastSec  = new_sec;
-	s_timerLastUSec = new_usec;
+	new_time   = Timer_GetTime();
+	usec_delta = (new_time - s_timerLastTime) * 1000;
+	s_timerLastTime = new_time;
 
 	/* Walk all our timers, see which (and how often) it should be triggered */
 	node = s_timerNodes;
@@ -172,8 +156,7 @@ static void Timer_InterruptResume()
  */
 void Timer_Init()
 {
-	s_timerLastSec  = Timer_GetSec();
-	s_timerLastUSec = Timer_GetUSec();
+	s_timerLastTime = Timer_GetTime();
 
 #if defined(_WIN32)
 	s_timerTime = s_timerSpeed / 1000;
