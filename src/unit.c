@@ -2665,7 +2665,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 	if (houseID == g_playerHouseID && g_selectionType != 0) {
 		if (unit->o.type == UNIT_SANDWORM) {
 			if (hp->variable_26 == 0) {
-				if (g_var_3E52 == 0) g_var_3E52 = 1;
+				if (g_musicInBattle == 0) g_musicInBattle = 1;
 
 				Sound_Output_Feedback(37);
 
@@ -2679,7 +2679,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 			Team *t;
 
 			if (hp->variable_24 == 0) {
-				if (g_var_3E52 == 0) g_var_3E52 = 1;
+				if (g_musicInBattle == 0) g_musicInBattle = 1;
 
 				if (unit->o.type == UNIT_SABOTEUR) {
 					Sound_Output_Feedback(12);

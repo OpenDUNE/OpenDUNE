@@ -116,7 +116,7 @@ uint16 g_selectionTypeNew = 0;
 bool g_var_3A12 = false;
 bool g_var_3A14 = false;
 
-int16 g_var_3E52 = 0;
+int16 g_musicInBattle = 0; /*!< 0 = no battle, 1 = fight is going on, -1 = music of fight is going on is active. */
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
@@ -2246,13 +2246,13 @@ static void GameLoop_Main()
 			if (g_gameConfig.music == 0) {
 				Music_Play(2);
 
-				g_var_3E52 = 0;
-			} else if (g_var_3E52 > 0) {
+				g_musicInBattle = 0;
+			} else if (g_musicInBattle > 0) {
 				Music_Play(Tools_RandomRange(0, 5) + 17);
 				l_timerNext = g_timerGUI + 300;
-				g_var_3E52 = -1;
+				g_musicInBattle = -1;
 			} else {
-				g_var_3E52 = 0;
+				g_musicInBattle = 0;
 				if (g_config.musicDrv != 0 && g_timerGUI > l_timerNext) {
 					if (!Driver_Music_IsPlaying()) {
 						Music_Play(Tools_RandomRange(0, 8) + 8);
