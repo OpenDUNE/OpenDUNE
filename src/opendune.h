@@ -52,7 +52,7 @@ extern uint16 g_selectionTypeNew;
 extern bool g_var_3A12;
 extern bool g_var_3A14;
 
-extern uint16 g_var_3E52;
+extern int16 g_var_3E52;
 
 extern void *g_readBuffer;
 extern uint32 g_readBufferSize;
