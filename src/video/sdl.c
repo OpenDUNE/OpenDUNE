@@ -94,7 +94,7 @@ static void Video_Mouse_Move(uint16 x, uint16 y)
 
 	/* If we moved, send the signal back to the window to correct for it */
 	if (x != rx || y != ry) {
-		Video_Mouse_SetPosition(rx, ry);
+		SDL_WarpMouse(rx, ry);
 		return;
 	}
 
@@ -127,7 +127,7 @@ static void Video_Mouse_Button(bool left, bool down)
  */
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SDL_WarpMouse(x, y);
+	SDL_WarpMouse(x * 2, y * 2);
 }
 
 /**
@@ -139,10 +139,10 @@ void Video_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX;
-	s_mouseMaxX = maxX;
-	s_mouseMinY = minY;
-	s_mouseMaxY = maxY;
+	s_mouseMinX = minX * 2;
+	s_mouseMaxX = maxX * 2;
+	s_mouseMinY = minY * 2;
+	s_mouseMaxY = maxY * 2;
 }
 
 /**
@@ -167,7 +167,7 @@ bool Video_Init()
 	SDL_ShowCursor(SDL_DISABLE);
 
 	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
-	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * 4);
+	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * 2 * 2);
 
 	s_video_initialized = true;
 
@@ -256,8 +256,8 @@ void Video_Tick()
 		int x, y;
 
 		/* Double every pixel so 320x200 is readable on modern machines */
-		for (y = 0; y < SCREEN_HEIGHT * 2; y += 2) {
-			for (x = 0; x < SCREEN_WIDTH * 2; x += 2) {
+		for (y = 0; y < SCREEN_HEIGHT; y++) {
+			for (x = 0; x < SCREEN_WIDTH; x++) {
 				*(gfx + SCREEN_WIDTH * 2) = *data;
 				*gfx++                    = *data;
 				*(gfx + SCREEN_WIDTH * 2) = *data;

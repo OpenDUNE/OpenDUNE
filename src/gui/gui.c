@@ -4096,7 +4096,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 	g_mouseX = x;
 	g_mouseY = y;
 
-	Video_Mouse_SetPosition(x * 2, y * 2);
+	Video_Mouse_SetPosition(x, y);
 
 	if (g_mouseX != g_mousePrevX || g_mouseY != g_mousePrevY) {
 		GUI_Mouse_Hide();

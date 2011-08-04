@@ -68,7 +68,7 @@ void Mouse_Init()
 
 	g_var_7097 = true;
 
-	Video_Mouse_SetPosition(g_mouseX * 2, g_mouseY * 2);
+	Video_Mouse_SetPosition(g_mouseX, g_mouseY);
 }
 
 /**
@@ -121,7 +121,7 @@ void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
 	g_mouseRegionTop    = top;
 	g_mouseRegionBottom = bottom;
 
-	Video_Mouse_SetRegion(left * 2, right * 2, top * 2, bottom * 2);
+	Video_Mouse_SetRegion(left, right, top, bottom);
 }
 
 /**
