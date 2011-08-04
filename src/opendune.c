@@ -1310,7 +1310,10 @@ static void Gameloop_Logos()
 	}
 
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
+			sleepIdle();
+			continue;
+		}
 
 		Unknown_259E_0006(g_palette2, 30);
 
@@ -1322,10 +1325,13 @@ static void Gameloop_Logos()
 
 	Unknown_259E_0006(g_palette2, 60);
 
-	while (Driver_Music_IsPlaying());
+	while (Driver_Music_IsPlaying()) sleepIdle();
 
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
+			sleepIdle();
+			continue;
+		}
 
 		Unknown_259E_0006(g_palette2, 30);
 
@@ -1347,7 +1353,10 @@ static void Gameloop_Logos()
 
 	g_timerTimeout = 60;
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
+			sleepIdle();
+			continue;
+		}
 
 		Unknown_259E_0006(g_palette2, 30);
 
@@ -1369,7 +1378,10 @@ static void Gameloop_Logos()
 
 	g_timerTimeout = 180;
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
+			sleepIdle();
+			continue;
+		}
 	}
 
 	Unknown_259E_0006(g_palette2, 30);
