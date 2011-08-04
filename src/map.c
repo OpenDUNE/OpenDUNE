@@ -1877,7 +1877,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 	position.tile -= tileOffsets[arg06 - 15];
 	loc12.tile = 0;
 	loc04 = 0;
-	for (loc0A = 0; loc0A < 8; loc0A++) {
+	for (loc0A = 0; loc0A < 9; loc0A++) {
 		tile32 loc08 = Tile_AddTileDiff(position, loc12);
 
 		if (Tile_IsValid(loc08)) {
