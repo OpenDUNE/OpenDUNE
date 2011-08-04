@@ -66,7 +66,7 @@ static uint8 s_SDL_keymap[] = {
  */
 static void Video_Mouse_Callback()
 {
-	Mouse_EventHandler(s_mousePosX / 2, s_mousePosY / 2, s_mouseButtonLeft, s_mouseButtonRight);
+	Mouse_EventHandler(s_mousePosX / SCREEN_MAGNIFICATION, s_mousePosY / SCREEN_MAGNIFICATION, s_mouseButtonLeft, s_mouseButtonRight);
 }
 
 /**
