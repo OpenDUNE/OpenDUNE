@@ -278,7 +278,7 @@ static void Scenario_Load_Structure(const char *key, char *settings)
 
 		s->o.hitpoints = hitpoints * g_table_structureInfo[s->o.type].o.hitpoints / 256;
 		s->o.flags.s.degrades = false;
-		s->animation = 0;
+		s->state = STRUCTURE_STATE_IDLE;
 	}
 }
 

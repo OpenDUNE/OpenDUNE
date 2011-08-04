@@ -21,7 +21,7 @@ static const SaveLoadDesc s_saveStructure[] = {
 	SLD_ENTRY (Structure, SLDT_UINT8,  upgradeTimeLeft),
 	SLD_ENTRY (Structure, SLDT_UINT16, countDown),
 	SLD_ENTRY (Structure, SLDT_UINT16, variable_52),
-	SLD_ENTRY (Structure,  SLDT_INT16, animation),
+	SLD_ENTRY (Structure,  SLDT_INT16, state),
 	SLD_ENTRY (Structure, SLDT_UINT16, hitpointsMax),
 	SLD_END
 };

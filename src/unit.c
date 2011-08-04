@@ -797,7 +797,7 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 	while (true) {
 		s2 = Structure_Find(&find);
 		if (s2 == NULL) break;
-		if (s2->animation != 1) continue;
+		if (s2->state != STRUCTURE_STATE_BUSY) continue;
 		d = Tile_GetDistance(unit->o.position, s2->o.position);
 		if (mind != 0 && d >= mind) continue;
 		mind = d;
@@ -2173,7 +2173,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 	Unit_Unknown2AAA(unit);
 
 	if (House_AreAllied(s->o.houseID, Unit_GetHouseID(unit))) {
-		Structure_SetAnimation(s, si->o.flags.variable_0010 ? 2 : 1);
+		Structure_SetState(s, si->o.flags.variable_0010 ? STRUCTURE_STATE_READY : STRUCTURE_STATE_BUSY);
 
 		if (s->o.type == STRUCTURE_REPAIR) {
 			uint16 countDown;

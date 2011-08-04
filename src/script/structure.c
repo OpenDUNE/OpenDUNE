@@ -29,52 +29,52 @@
 
 
 /**
- * Get the animation frame of the current structure.
+ * Get the state of the current structure.
  *
  * Stack: *none*
  *
  * @param script The script engine to operate on.
- * @return Animation frame of current structure.
+ * @return State of current structure.
  */
-uint16 Script_Structure_GetAnimation(ScriptEngine *script)
+uint16 Script_Structure_GetState(ScriptEngine *script)
 {
 	Structure *s;
 
 	VARIABLE_NOT_USED(script);
 
 	s = g_scriptCurrentStructure;
-	return s->animation;
+	return s->state;
 }
 
 /**
- * Set the animation for the current structure.
+ * Set the state for the current structure.
  *
- * Stack: 0 - The animation.
+ * Stack: 0 - The state.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Structure_SetAnimation(ScriptEngine *script)
+uint16 Script_Structure_SetState(ScriptEngine *script)
 {
 	Structure *s;
-	int16 animation;
+	int16 state;
 
 	s = g_scriptCurrentStructure;
-	animation = script->stack[script->stackPointer];
+	state = script->stack[script->stackPointer];
 
-	if (animation == -2) {
+	if (state == STRUCTURE_STATE_DETECT) {
 		if (s->o.linkedID == 0xFF) {
-			animation = 0;
+			state = STRUCTURE_STATE_IDLE;
 		} else {
 			if (s->countDown == 0) {
-				animation = 2;
+				state = STRUCTURE_STATE_READY;
 			} else {
-				animation = 1;
+				state = STRUCTURE_STATE_BUSY;
 			}
 		}
 	}
 
-	Structure_SetAnimation(s, animation);
+	Structure_SetState(s, state);
 
 	return 0;
 }
@@ -126,7 +126,7 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 	s = g_scriptCurrentStructure;
 
 	if (s->o.linkedID == 0xFF) {
-		Structure_SetAnimation(s, 0);
+		Structure_SetState(s, STRUCTURE_STATE_IDLE);
 		return 0;
 	}
 
@@ -213,7 +213,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 
 	s = g_scriptCurrentStructure;
 
-	if (s->animation != 2) return IT_NONE;
+	if (s->state != STRUCTURE_STATE_READY) return IT_NONE;
 	if (s->o.linkedID == 0xFF) return IT_NONE;
 
 	loc06 = script->stack[script->stackPointer];
@@ -263,7 +263,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		s->o.linkedID = u->o.linkedID;
 		u->o.linkedID = 0xFF;
 
-		if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);
+		if (s->o.linkedID == 0xFF) Structure_SetState(s, STRUCTURE_STATE_IDLE);
 		Object_Script_Variable4_Clear(&s->o);
 
 		if (s->o.houseID == g_playerHouseID) Sound_Output_Feedback(g_playerHouseID + 49);
@@ -290,7 +290,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		GUI_DisplayHint(27, 0x6A);
 	}
 
-	if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);
+	if (s->o.linkedID == 0xFF) Structure_SetState(s, STRUCTURE_STATE_IDLE);
 	Object_Script_Variable4_Clear(&s->o);
 
 	if (s->o.houseID != g_playerHouseID) return 1;

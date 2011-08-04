@@ -171,7 +171,7 @@ void GameLoop_Structure()
 					s->o.flags.s.repairing = false;
 				}
 			} else {
-				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->animation == 1 && si->o.flags.factory) {
+				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->state == STRUCTURE_STATE_BUSY && si->o.flags.factory) {
 					ObjectInfo *oi;
 					uint16 buildSpeed;
 					uint16 buildCost;
@@ -216,7 +216,7 @@ void GameLoop_Structure()
 							s->countDown = 0;
 							s->variable_52 = 0;
 
-							Structure_SetAnimation(s, 2);
+							Structure_SetState(s, STRUCTURE_STATE_READY);
 
 							if (s->o.houseID == g_playerHouseID) {
 								if (s->o.type != STRUCTURE_BARRACKS && s->o.type != STRUCTURE_WOR_TROOPER) {
@@ -237,7 +237,7 @@ void GameLoop_Structure()
 								s->o.linkedID = 0xFF;
 
 								/* The AI places structures which are operational immediatly */
-								Structure_SetAnimation(s, 0);
+								Structure_SetState(s, STRUCTURE_STATE_IDLE);
 
 								/* Find the position to place the structure */
 								for (i = 0; i < 5; i++) {
@@ -295,7 +295,7 @@ void GameLoop_Structure()
 							} else {
 								s->countDown = 0;
 
-								Structure_SetAnimation(s, 2);
+								Structure_SetState(s, STRUCTURE_STATE_READY);
 
 								if (s->o.houseID == g_playerHouseID) Sound_Output_Feedback(g_playerHouseID + 55);
 							}
@@ -388,7 +388,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->o.flags.s.isNotOnMap = true;
 	s->o.position.tile      = 0;
 	s->o.linkedID           = 0xFF;
-	s->animation            = (g_debugScenario) ? 0 : -1;
+	s->state                = (g_debugScenario) ? STRUCTURE_STATE_IDLE : STRUCTURE_STATE_JUSTBUILT;
 
 	if (typeID == STRUCTURE_TURRET) {
 		s->variable_49 = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
@@ -662,15 +662,15 @@ void Structure_CalculateHitpointsMax(House *h)
 }
 
 /**
- * Set the animation for the given structure.
+ * Set the state for the given structure.
  *
- * @param s The structure to set the animation of.
- * @param animation The new animation value.
+ * @param s The structure to set the state of.
+ * @param state The new sate value.
  */
-void Structure_SetAnimation(Structure *s, int16 animation)
+void Structure_SetState(Structure *s, int16 state)
 {
 	if (s == NULL) return;
-	s->animation = animation;
+	s->state = state;
 
 	Structure_UpdateMap(s);
 }
@@ -1658,7 +1658,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 		s->objectType = objectType;
 		s->countDown = oi->buildTime << 8;
 
-		Structure_SetAnimation(s, 1);
+		Structure_SetState(s, STRUCTURE_STATE_BUSY);
 
 		if (s->o.houseID != g_playerHouseID) return true;
 
@@ -1812,8 +1812,8 @@ void Structure_UpdateMap(Structure *s)
 
 	s->o.flags.s.variable_4_1000 = true;
 
-	if (s->animation >= 0) {
-		uint16 animationIndex = (s->animation > 2) ? 2 : s->animation;
+	if (s->state >= STRUCTURE_STATE_IDLE) {
+		uint16 animationIndex = (s->state > STRUCTURE_STATE_READY) ? STRUCTURE_STATE_READY : s->state;
 
 		if (si->animationIndex[animationIndex] == 0xFF) {
 			Animation_Start(NULL, s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);

@@ -415,7 +415,7 @@ uint16 Script_General_Unknown0594(ScriptEngine *script)
 		if (Tools_Index_GetType(index) != IT_STRUCTURE) return 0;
 		s = Tools_Index_GetStructure(index);
 		if (s->o.houseID != houseID) return 0;
-		if (s->animation != 0) return 0;
+		if (s->state != STRUCTURE_STATE_IDLE) return 0;
 		return 1;
 	}
 
@@ -426,7 +426,7 @@ uint16 Script_General_Unknown0594(ScriptEngine *script)
 	while (true) {
 		s = Structure_Find(&find);
 		if (s == NULL) return 0;
-		if (s->animation != 0) continue;
+		if (s->state != STRUCTURE_STATE_IDLE) continue;
 		return Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 	}
 }

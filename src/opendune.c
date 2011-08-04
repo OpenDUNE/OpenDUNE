@@ -2455,7 +2455,7 @@ void Game_Prepare()
 				s->o.linkedID = 0xFF;
 				s->countDown = 0;
 			} else {
-				Structure_SetAnimation(s, 2);
+				Structure_SetState(s, STRUCTURE_STATE_READY);
 			}
 		}
 

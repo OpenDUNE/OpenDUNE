@@ -73,7 +73,7 @@ void Object_Script_Variable4_Set(Object *o, uint16 encoded)
 	s = (Structure *)o;
 	if (Structure_GetLinkedUnit(s) != NULL) return;
 
-	Structure_SetAnimation(s, 1);
+	Structure_SetState(s, STRUCTURE_STATE_BUSY);
 }
 
 /**

@@ -84,8 +84,8 @@ extern uint16 Script_General_Unknown050C(ScriptEngine *script);
 extern uint16 Script_General_Unknown0594(ScriptEngine *script);
 
 /* Structure Script Functions */
-extern uint16 Script_Structure_GetAnimation(ScriptEngine *script);
-extern uint16 Script_Structure_SetAnimation(ScriptEngine *script);
+extern uint16 Script_Structure_GetState(ScriptEngine *script);
+extern uint16 Script_Structure_SetState(ScriptEngine *script);
 extern uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script);
 extern uint16 Script_Structure_RefineSpice(ScriptEngine *script);
 extern uint16 Script_Structure_Unknown0A81(ScriptEngine *script);
