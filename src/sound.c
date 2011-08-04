@@ -273,8 +273,7 @@ void Sound_StartSound(uint16 index)
 	s_variable_4060 = g_table_voices[index].variable_04;
 
 	if (g_variable_3E54[index] != NULL) {
-		memmove(g_readBuffer, g_variable_3E54[index], g_variable_3E54_size[index]);
-		Driver_Voice_Play(g_readBuffer, 0xFF);
+		Driver_Voice_Play(g_variable_3E54[index], 0xFF);
 	} else {
 		char filenameBuffer[16];
 		const char *filename;
