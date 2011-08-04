@@ -13,6 +13,8 @@
 static uint8 *s_buffer;
 static int s_bufferLen;
 static uint8 s_status;
+static uint8 *s_data;
+static int s_dataLen;
 
 static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 {
@@ -65,6 +67,10 @@ void DSP_Uninit()
 	DSP_Stop();
 	SDL_CloseAudio();
 
+	free(s_data);
+	s_data = NULL;
+	s_dataLen = 0;
+
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
@@ -79,6 +85,8 @@ bool DSP_Init()
 	s_bufferLen = 0;
 	s_buffer = NULL;
 	s_status = 0;
+	s_data = NULL;
+	s_dataLen = 0;
 
 	return true;
 }
@@ -87,15 +95,24 @@ void DSP_Play(uint8 *data)
 {
 	DSP_Stop();
 
-	s_buffer = data + ((uint16 *)data)[10];
+	data += ((uint16 *)data)[10];
 
-	if (*s_buffer == 1) {
-		DSP_SetTimeConst(s_buffer[4]);
-		s_bufferLen = (*(uint32 *)s_buffer >> 8) - 2;
-		s_buffer += 6;
-		s_status = 2;
-		SDL_PauseAudio(0);
+	if (*data != 1) return;
+
+	DSP_SetTimeConst(data[4]);
+
+	s_bufferLen = (*(uint32 *)data >> 8) - 2;
+
+	if (s_dataLen < s_bufferLen) {
+		s_data = realloc(s_data, s_bufferLen);
+		s_dataLen = s_bufferLen;
 	}
+
+	memcpy(s_data, data + 6, s_bufferLen);
+
+	s_buffer = s_data;
+	s_status = 2;
+	SDL_PauseAudio(0);
 }
 
 uint8 DSP_GetStatus()
