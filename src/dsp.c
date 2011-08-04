@@ -11,10 +11,12 @@
 #include "driver.h"
 
 static uint8 *s_buffer;
-static int s_bufferLen;
+static uint32 s_bufferLen;
 static uint8 s_status;
 static uint8 *s_data;
-static int s_dataLen;
+static uint32 s_dataLen;
+
+static SDL_AudioSpec s_spec;
 
 static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 {
@@ -22,7 +24,7 @@ static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 
 	if (s_status == 0 || s_bufferLen == 0 || s_buffer == NULL) return;
 
-	if (len <= s_bufferLen) {
+	if (len <= (int)s_bufferLen) {
 		memcpy(stream, s_buffer, len);
 		s_bufferLen -= len;
 		s_buffer += len;
@@ -30,24 +32,8 @@ static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 		memcpy(stream, s_buffer, s_bufferLen);
 		s_bufferLen = 0;
 		s_status = 0;
-	}
-}
 
-static void DSP_SetTimeConst(uint16 tc)
-{
-	static int old_freq = 0;
-	SDL_AudioSpec spec;
-
-	spec.freq = 1000000 / (256 - tc);
-	spec.format = AUDIO_U8;
-	spec.channels = 1;
-	spec.samples = 512;
-	spec.callback = DSP_Callback;
-
-	if (old_freq != spec.freq) {
-		SDL_CloseAudio();
-		old_freq = spec.freq;
-		SDL_OpenAudio(&spec, &spec);
+		SDL_PauseAudio(1);
 	}
 }
 
@@ -78,7 +64,13 @@ bool DSP_Init()
 {
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) return false;
 
-	DSP_SetTimeConst(0);
+	s_spec.freq     = 22050;
+	s_spec.format   = AUDIO_U8;
+	s_spec.channels = 1;
+	s_spec.samples  = 512;
+	s_spec.callback = DSP_Callback;
+
+	SDL_OpenAudio(&s_spec, &s_spec);
 
 	if (SDL_GetAudioStatus() == 0) return false;
 
@@ -91,6 +83,49 @@ bool DSP_Init()
 	return true;
 }
 
+/**
+ * In Dune2, the frequency of the VOC files are all over the place. SDL really
+ *  dislikes it when we close/open the audio driver a lot. So, we convert all
+ *  audio to one frequency, which resolves all issues. Sadly, our knowledge of
+ *  audio is not really good, so this is a linear scaler.
+ */
+static void DSP_ConvertAudio(uint32 freq)
+{
+	uint32 newlen = s_bufferLen * s_spec.freq / freq;
+	uint8 *r;
+	uint8 *w;
+	uint32 i, j;
+
+	assert(freq < s_spec.freq);
+
+	if (s_dataLen < newlen) {
+		s_data = realloc(s_data, newlen);
+		s_dataLen = newlen;
+	}
+
+	w = s_data + newlen - 1;
+	r = s_data + s_bufferLen - 1;
+	j = 0;
+	for (i = 0; i < s_bufferLen; i++) {
+		do {
+			*w-- = *r;
+			j++;
+		} while (j <= i * s_spec.freq / freq);
+		r--;
+	}
+	r++;
+	while (j < i * s_spec.freq / freq) {
+		*w-- = *r;
+		j++;
+	}
+	w++;
+
+	assert(w == s_data);
+	assert(r == s_data);
+
+	s_bufferLen = newlen;
+}
+
 void DSP_Play(const uint8 *data)
 {
 	DSP_Stop();
@@ -98,8 +133,6 @@ void DSP_Play(const uint8 *data)
 	data += ((uint16 *)data)[10];
 
 	if (*data != 1) return;
-
-	DSP_SetTimeConst(data[4]);
 
 	s_bufferLen = (*(uint32 *)data >> 8) - 2;
 
@@ -109,6 +142,7 @@ void DSP_Play(const uint8 *data)
 	}
 
 	memcpy(s_data, data + 6, s_bufferLen);
+	DSP_ConvertAudio(1000000 / (256 - data[4]));
 
 	s_buffer = s_data;
 	s_status = 2;
