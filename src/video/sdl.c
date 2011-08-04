@@ -256,18 +256,20 @@ void Video_Tick()
 	{
 		uint8 *data = GFX_Screen_Get_ByIndex(0);
 		uint8 *gfx  = s_gfx_screen;
-		int x, y;
+		int x, y, i, j;
 
 		/* Double every pixel so 320x200 is readable on modern machines */
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			for (x = 0; x < SCREEN_WIDTH; x++) {
-				*(gfx + SCREEN_WIDTH * SCREEN_MAGNIFICATION) = *data;
-				*gfx++                                       = *data;
-				*(gfx + SCREEN_WIDTH * SCREEN_MAGNIFICATION) = *data;
-				*gfx++                                       = *data;
+				for (i = 0; i < SCREEN_MAGNIFICATION; i++) {
+					for (j = 0; j < SCREEN_MAGNIFICATION; j++) {
+						*(gfx + SCREEN_WIDTH * SCREEN_MAGNIFICATION * j) = *data;
+					}
+					gfx++;
+				}
 				data++;
 			}
-			gfx += SCREEN_WIDTH * SCREEN_MAGNIFICATION;
+			gfx += SCREEN_WIDTH * SCREEN_MAGNIFICATION * (SCREEN_MAGNIFICATION - 1);
 		}
 	}
 
