@@ -414,7 +414,7 @@ bool House_UpdateRadarState(House *h)
 
 	GUI_Mouse_Hide_Safe();
 
-	while (Driver_Voice_IsPlaying()) sleep(0);
+	while (Driver_Voice_IsPlaying()) msleep(0);
 
 	Voice_Play(62);
 
@@ -427,7 +427,7 @@ bool House_UpdateRadarState(House *h)
 		GUI_PaletteAnimate();
 
 		g_timerTimeout = 3;
-		while (g_timerTimeout != 0) sleep(0);
+		while (g_timerTimeout != 0) sleepIdle();
 	}
 
 	h->flags.radarActivated = activate;

@@ -79,7 +79,7 @@ void Unknown_259E_0006(uint8 *palette, int16 unknown)
 		if (progress != 0x0) {
 			GFX_SetPalette(data);
 
-			while (g_timerSleep < loc0C) sleep(0); /* Spin-lock */
+			while (g_timerSleep < loc0C) sleepIdle();
 		}
 	} while (progress != 0);
 }

@@ -1207,7 +1207,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 						textTick = g_timerGUI + textDelay;
 
 						if (textLines != 0) {
-							while (*text++ != '\0') sleep(0);
+							while (*text++ != '\0') {}
 						} else {
 							textDone = true;
 						}
@@ -1261,7 +1261,10 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 			dirty = true;
 		}
 
-		if (!dirty) continue;
+		if (!dirty) {
+			sleepIdle();
+			continue;
+		}
 
 		GUI_Mentat_DrawInfo(pictureDetails, (g_curWidgetXBase << 3) + 5, g_curWidgetYBase + 3, 8, 0, lines, 0x31);
 
@@ -1270,6 +1273,8 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 		GUI_Mouse_Show_InWidget();
 		dirty = false;
+
+		sleepIdle();
 	}
 
 	if (wsa != NULL) WSA_Unload(wsa);

@@ -767,7 +767,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 					Sound_Output_Feedback(0xFFFE);
 
-					while (Driver_Voice_IsPlaying()) sleep(0);
+					while (Driver_Voice_IsPlaying()) msleep(0);
 					break;
 
 				default: break;
@@ -1360,9 +1360,7 @@ static void GUI_Purchase_ShowInvoice()
 	w = GUI_Widget_Get_ByIndex(w, 10);
 
 	if (w != NULL && Mouse_InsideRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height) != 0) {
-		while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) {
-			sleep(0); /* Spin-lock */
-		}
+		while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) msleep(0);
 		Input_History_Clear();
 	}
 

@@ -650,6 +650,7 @@ static void GameLoop_PlayAnimation()
 
 			do {
 				GameLoop_PalettePart_Update(false);
+				sleepIdle();
 			} while (g_timerTimeout != 0 && loc10 > g_timerGUI);
 		}
 
@@ -684,7 +685,7 @@ static void GameLoop_PlayAnimation()
 		animationMode++;
 		animation++;
 
-		while (loc14 > g_timerGUI) sleep(0);
+		while (loc14 > g_timerGUI) sleepIdle();
 	}
 }
 
@@ -857,7 +858,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	Input_History_Clear();
 
 	while (true) {
-		while (loc0C > g_timerSleep) sleep(0);
+		while (loc0C > g_timerSleep) sleepIdle();
 
 		loc0C = g_timerSleep + delay;
 
@@ -1111,6 +1112,7 @@ static void GameLoop_GameCredits()
 		if (Input_Keyboard_NextKey() != 0) break;
 
 		Music_Play(33);
+		sleepIdle();
 	}
 
 	Unknown_259E_0006(g_palette2, 60);
@@ -1294,7 +1296,7 @@ static void Gameloop_Logos()
 		if (!displayed) break;
 
 		loc04 = g_timerGUI + 6;
-		while (loc04 > g_timerGUI) sleep(0);
+		while (loc04 > g_timerGUI) sleepIdle();
 	}
 
 	WSA_Unload(wsa);
@@ -2025,6 +2027,8 @@ static void GameLoop_GameIntroAnimationMenu()
 			GUI_PaletteAnimate();
 
 			if (stringID == 0x1B) break;
+
+			sleepIdle();
 		}
 	} else {
 		Music_Play(0);
@@ -2281,6 +2285,8 @@ static void GameLoop_Main()
 		}
 
 		if (!g_var_38F8) break;
+
+		sleepIdle();
 	}
 
 	GUI_Mouse_Hide_Safe();

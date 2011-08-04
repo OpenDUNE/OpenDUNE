@@ -422,7 +422,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	if (sprite == NULL || g_var_7097 != 0) return;
 
-	while (g_mouseLock != 0) sleep(0);
+	while (g_mouseLock != 0) msleep(0);
 
 	g_mouseLock++;
 

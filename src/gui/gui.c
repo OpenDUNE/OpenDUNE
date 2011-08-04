@@ -1640,7 +1640,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	while (true) {
 		GUI_HallOfFame_Tick();
 		if (Input_Keyboard_NextKey() != 0) break;
-		sleep(0); /* Spin-lock? */
+		sleepIdle();
 	}
 
 	Input_History_Clear();
@@ -1723,6 +1723,8 @@ uint8 GUI_PickHouse()
 				case 0x8003: houseID = HOUSE_HARKONNEN; break;
 				default: break;
 			}
+
+			sleepIdle();
 		}
 
 		GUI_Mouse_Hide_Safe();
@@ -1730,7 +1732,7 @@ uint8 GUI_PickHouse()
 		if (g_config.voiceDrv != 0) {
 			Sound_Output_Feedback(houseID + 62);
 
-			while (Sound_StartSpeech()) sleep(0);
+			while (Sound_StartSpeech()) msleep(0);
 		}
 
 		while (w != NULL) {
@@ -1776,6 +1778,7 @@ uint8 GUI_PickHouse()
 			yes_no = GUI_Mentat_Loop(House_GetWSAHouseFilename(houseID), NULL, NULL, true, w);
 
 			if ((yes_no & 0x8000) != 0) break;
+			sleepIdle();
 		}
 
 		if (yes_no == 0x8001) {
@@ -1797,9 +1800,11 @@ uint8 GUI_PickHouse()
 
 		GFX_Screen_SetActive(oldScreenID);
 
-		while (Driver_Voice_IsPlaying());
+		while (Driver_Voice_IsPlaying()) msleep(0);
 
 		if (yes_no == 0x8001) break;
+
+		sleepIdle();
 	}
 
 	Music_Play(0);
@@ -2992,7 +2997,7 @@ static void GUI_StrategicMap_DrawText(char *string)
 
 	GUI_DrawText_Wrapper(string, 64, 175, 12, 0, 0x12);
 
-	while (g_timerGUI + 90 < l_timerNext) sleep(0);
+	while (g_timerGUI + 90 < l_timerNext) sleepIdle();
 
 	for (y = 185; y > 172; y--) {
 		GUI_Screen_Copy(8, y, 8, 165, 24, 14, 2, 0);
@@ -3675,7 +3680,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 		/* XXX -- This delays the system so you can in fact see the animation */
 		if ((y % 4) == 0) {
 			tick = g_timerSleep;
-			while (tick == g_timerSleep) sleep(0);
+			while (tick == g_timerSleep) sleepIdle();
 		}
 	}
 
@@ -3797,7 +3802,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 
 		tick = g_timerSleep + delay;
 
-		while (g_timerSleep < tick) sleep(0);
+		while (g_timerSleep < tick) sleepIdle();
 	}
 
 	if (screenDst == 0) {
@@ -3862,7 +3867,7 @@ void GUI_Mouse_Hide()
  */
 void GUI_Mouse_Hide_Safe()
 {
-	while (g_mouseLock != 0) sleep(0);
+	while (g_mouseLock != 0) msleep(0);
 	g_mouseLock++;
 
 	if (g_var_7097 == 1) {
@@ -3881,7 +3886,7 @@ void GUI_Mouse_Hide_Safe()
  */
 void GUI_Mouse_Show_Safe()
 {
-	while (g_mouseLock != 0) sleep(0);
+	while (g_mouseLock != 0) msleep(0);
 	g_mouseLock++;
 
 	if (g_var_7097 == 1) {
@@ -3902,7 +3907,7 @@ void GUI_Mouse_Show_InRegion()
 {
 	uint8 counter;
 
-	while (g_mouseLock != 0) sleep(0);
+	while (g_mouseLock != 0) msleep(0);
 	g_mouseLock++;
 
 	counter = g_regionFlags & 0xFF;
@@ -3942,7 +3947,7 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	maxy = bottom + g_mouseSpriteHotspotY;
 	if (maxy > SCREEN_HEIGHT - 1) maxy = SCREEN_HEIGHT - 1;
 
-	while (g_mouseLock != 0) sleep(0);
+	while (g_mouseLock != 0) msleep(0);
 	g_mouseLock++;
 
 	if (g_regionFlags == 0) {
@@ -4064,7 +4069,7 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
  */
 void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	while (g_mouseLock != 0) sleep(0);
+	while (g_mouseLock != 0) msleep(0);
 	g_mouseLock++;
 
 	if (x < g_mouseRegionLeft)   x = g_mouseRegionLeft;
