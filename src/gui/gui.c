@@ -813,7 +813,10 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	GUI_Mouse_Show_Safe();
 
 	g_timerTimeout = 30;
-	while (g_timerTimeout != 0) GUI_PaletteAnimate();
+	while (g_timerTimeout != 0) {
+		GUI_PaletteAnimate();
+		sleepIdle();
+	}
 
 	Input_History_Clear();
 
@@ -821,6 +824,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		GUI_PaletteAnimate();
 
 		ret = Input_WaitForValidInput();
+		sleepIdle();
 	} while (ret == 0 || (ret & 0x800) != 0);
 
 	Input_HandleInput(0x841);
@@ -2796,6 +2800,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 		if (event == 0x6E) GUI_Production_ResumeGame_Click(NULL);
 
 		GUI_PaletteAnimate();
+		sleepIdle();
 	}
 
 	GUI_DrawCredits(g_playerHouseID, 1);
