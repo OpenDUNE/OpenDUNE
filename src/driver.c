@@ -247,7 +247,7 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 	File_ReadBlockFile(filename, buffer, length);
 }
 
-void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
+void Driver_Voice_Play(const uint8 *data, int16 arg0A)
 {
 	static int16 l_var_639A = -1;
 
@@ -255,7 +255,7 @@ void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 
 	if (!g_gameConfig.sounds || voice->index == 0xFFFF) return;
 
-	if (arg06 == NULL) {
+	if (data == NULL) {
 		arg0A = 0x100;
 	} else {
 		arg0A = min(arg0A, 0xFF);
@@ -267,13 +267,13 @@ void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 
 	Driver_Voice_Stop();
 
-	if (arg06 == NULL) return;
+	if (data == NULL) return;
 
 	l_var_639A = arg0A;
 
-	if (arg06 == NULL) return;
+	if (data == NULL) return;
 
-	DSP_Play(arg06);
+	DSP_Play(data);
 }
 
 void Driver_Voice_Stop()

@@ -91,7 +91,7 @@ bool DSP_Init()
 	return true;
 }
 
-void DSP_Play(uint8 *data)
+void DSP_Play(const uint8 *data)
 {
 	DSP_Stop();
 
