@@ -14,6 +14,9 @@
 #include "../mouse.h"
 #include "../opendune.h"
 
+enum {
+	SCREEN_MAGNIFICATION = 2
+};
 
 static SDL_Surface *s_gfx_surface = NULL;
 static uint8 *s_gfx_screen = NULL;
@@ -127,7 +130,7 @@ static void Video_Mouse_Button(bool left, bool down)
  */
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SDL_WarpMouse(x * 2, y * 2);
+	SDL_WarpMouse(x * SCREEN_MAGNIFICATION, y * SCREEN_MAGNIFICATION);
 }
 
 /**
@@ -139,10 +142,10 @@ void Video_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX * 2;
-	s_mouseMaxX = maxX * 2;
-	s_mouseMinY = minY * 2;
-	s_mouseMaxY = maxY * 2;
+	s_mouseMinX = minX * SCREEN_MAGNIFICATION;
+	s_mouseMaxX = maxX * SCREEN_MAGNIFICATION;
+	s_mouseMinY = minY * SCREEN_MAGNIFICATION;
+	s_mouseMaxY = maxY * SCREEN_MAGNIFICATION;
 }
 
 /**
@@ -158,7 +161,7 @@ bool Video_Init()
 	}
 
 	SDL_WM_SetCaption(window_caption, "");
-	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, 8, SDL_SWSURFACE | SDL_HWPALETTE);
+	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, 8, SDL_SWSURFACE | SDL_HWPALETTE);
 	if (s_gfx_surface == NULL) {
 		fprintf(stderr, "Could not set resolution: %s\n", SDL_GetError());
 		return false;
@@ -167,7 +170,7 @@ bool Video_Init()
 	SDL_ShowCursor(SDL_DISABLE);
 
 	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
-	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * 2 * 2);
+	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * SCREEN_MAGNIFICATION * SCREEN_MAGNIFICATION);
 
 	s_video_initialized = true;
 
@@ -258,13 +261,13 @@ void Video_Tick()
 		/* Double every pixel so 320x200 is readable on modern machines */
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			for (x = 0; x < SCREEN_WIDTH; x++) {
-				*(gfx + SCREEN_WIDTH * 2) = *data;
-				*gfx++                    = *data;
-				*(gfx + SCREEN_WIDTH * 2) = *data;
-				*gfx++                    = *data;
+				*(gfx + SCREEN_WIDTH * SCREEN_MAGNIFICATION) = *data;
+				*gfx++                                       = *data;
+				*(gfx + SCREEN_WIDTH * SCREEN_MAGNIFICATION) = *data;
+				*gfx++                                       = *data;
 				data++;
 			}
-			gfx += SCREEN_WIDTH * 2;
+			gfx += SCREEN_WIDTH * SCREEN_MAGNIFICATION;
 		}
 	}
 
