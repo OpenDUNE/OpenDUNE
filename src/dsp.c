@@ -96,7 +96,7 @@ static void DSP_ConvertAudio(uint32 freq)
 	uint8 *w;
 	uint32 i, j;
 
-	assert(freq < s_spec.freq);
+	assert((int)freq < s_spec.freq);
 
 	if (s_dataLen < newlen) {
 		s_data = realloc(s_data, newlen);
