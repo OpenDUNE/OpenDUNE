@@ -14,8 +14,6 @@ static uint8 *s_buffer;
 static int s_bufferLen;
 static uint8 s_status;
 
-static void DSP_ProcessBlock();
-
 static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 {
 	VARIABLE_NOT_USED(userdata);
