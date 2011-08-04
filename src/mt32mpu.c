@@ -70,9 +70,13 @@ static uint8 s_mpu_noteOnCount[16];
 static uint8 s_mpu_lockStatus[16];
 static bool s_mpu_initialized;
 
+static bool s_mpuIgnore = false;
+
 static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 {
+	s_mpuIgnore = true;
 	mpu_send(status | (data1 << 8) | (data2 << 16));
+	s_mpuIgnore = false;
 }
 
 static void MPU_ApplyVolume(MSData *data)
@@ -426,8 +430,8 @@ void MPU_Interrupt()
 	static bool locked = false;
 	uint16 count;
 
+	if (s_mpuIgnore) return;
 	if (locked) return;
-
 	locked = true;
 
 	s_mpu_msdataCurrent = -1;
@@ -798,7 +802,9 @@ bool MPU_Init()
 	memset(s_mpu_noteOnCount, 0, sizeof(s_mpu_noteOnCount));
 	memset(s_mpu_lockStatus, 0, sizeof(s_mpu_lockStatus));
 
+	s_mpuIgnore = true;
 	mpu_reset();
+	s_mpuIgnore = false;
 
 	for (i = 0; i < 9; i++) {
 		static const uint8 defaultPrograms[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
@@ -848,11 +854,13 @@ void MPU_Uninit()
 		MPU_ClearData(i);
 	}
 
+	s_mpuIgnore = true;
 	mpu_reset();
 
 	s_mpu_initialized = false;
 
 	mpu_uninit();
+	s_mpuIgnore = false;
 }
 
 void MPU_ClearData(uint16 index)
