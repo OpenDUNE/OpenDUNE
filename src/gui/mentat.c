@@ -106,6 +106,8 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 		snprintf(filename, sizeof(filename), "TEXT%c", g_table_houseInfo[houseID].name[0]);
 		String_LoadFile(String_GenerateFilename(filename), stringID, g_readBuffer, g_readBufferSize);
 		String_TranslateSpecial(g_readBuffer, g_readBuffer);
+
+		sleepIdle();
 	} while (GUI_Mentat_Show(g_readBuffer, wsaFilename, w1, true) == 0x8002);
 
 	free(w2);
@@ -190,6 +192,8 @@ static void GUI_Mentat_HelpListLoop()
 		}
 
 		s_selectMentatHelp = false;
+
+		sleepIdle();
 	}
 }
 
@@ -447,6 +451,8 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 
 			GUI_PaletteAnimate();
 			GUI_Mentat_Animation(0);
+
+			sleepIdle();
 		} while ((ret & 0x8000) == 0);
 	}
 
