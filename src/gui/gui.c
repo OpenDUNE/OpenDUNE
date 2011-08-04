@@ -1732,7 +1732,7 @@ uint8 GUI_PickHouse()
 		if (g_config.voiceDrv != 0) {
 			Sound_Output_Feedback(houseID + 62);
 
-			while (Sound_StartSpeech()) msleep(0);
+			while (Sound_StartSpeech()) sleepIdle();
 		}
 
 		while (w != NULL) {
@@ -1800,7 +1800,7 @@ uint8 GUI_PickHouse()
 
 		GFX_Screen_SetActive(oldScreenID);
 
-		while (Driver_Voice_IsPlaying()) msleep(0);
+		while (Driver_Voice_IsPlaying()) sleepIdle();
 
 		if (yes_no == 0x8001) break;
 

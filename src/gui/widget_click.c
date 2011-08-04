@@ -767,7 +767,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 					Sound_Output_Feedback(0xFFFE);
 
-					while (Driver_Voice_IsPlaying()) msleep(0);
+					while (Driver_Voice_IsPlaying()) sleepIdle();
 					break;
 
 				default: break;
