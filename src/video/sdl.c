@@ -33,6 +33,8 @@ static uint16 s_mouseMaxX = 0;
 static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
+static uint8 s_gfx_screen8[SCREEN_WIDTH * SCREEN_HEIGHT];
+
 /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
 static uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
@@ -240,6 +242,13 @@ void Video_Tick()
 			} break;
 		}
 	}
+
+	/* Do a quick compare to see if the screen changed at all */
+	if (memcmp(GFX_Screen_Get_ByIndex(0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
+		s_video_lock = false;
+		return;
+	}
+	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(0), SCREEN_WIDTH * SCREEN_HEIGHT);
 
 	{
 		uint8 *data = GFX_Screen_Get_ByIndex(0);
