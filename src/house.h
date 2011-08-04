@@ -127,16 +127,16 @@ typedef struct HouseAnimation_Subtitle {
  * Voice information part of House Information. It is part of an array that
  *  stops when voiceID is 0xFF.
  */
-typedef struct HouseAnimation_Voice {
+typedef struct HouseAnimation_SoundEffect {
 	uint8  variable_0000;                                   /*!< ?? */
 	uint8  voiceID;                                         /*!< ?? */
 	uint8  variable_0002;                                   /*!< ?? */
-} HouseAnimation_Voice;
+} HouseAnimation_SoundEffect;
 
 extern const HouseInfo g_table_houseInfo[];
 extern const HouseAnimation_Animation g_table_houseAnimation_animation[][32];
 extern const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32];
-extern const HouseAnimation_Voice g_table_houseAnimation_voice[][90];
+extern const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[][90];
 
 extern House *g_playerHouse;
 extern HouseType g_playerHouseID;

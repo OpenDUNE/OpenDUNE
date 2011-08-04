@@ -1548,7 +1548,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 	}
 };
 
-const HouseAnimation_Voice g_table_houseAnimation_voice[][90] = {
+const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[][90] = {
 	{ /* 0 - intro */
 		{ /* 0 */
 			/* variable_0000 */ 5,

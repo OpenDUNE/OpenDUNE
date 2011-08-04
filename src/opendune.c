@@ -74,14 +74,14 @@ bool   g_debugSkipDialogs = false; /*!< When non-zero, you immediately go to hou
 void *g_readBuffer = NULL;
 uint32 g_readBufferSize = 0;
 
-static const HouseAnimation_Animation *s_houseAnimation_animation = NULL; /*!< Animation part of animation data. */
-static const HouseAnimation_Subtitle  *s_houseAnimation_subtitle = NULL;  /*!< Subtitle part of animation data. */
-static const HouseAnimation_Voice     *s_houseAnimation_voice = NULL;     /*!< Voice part of animation data. */
+static const HouseAnimation_Animation   *s_houseAnimation_animation = NULL;   /*!< Animation part of animation data. */
+static const HouseAnimation_Subtitle    *s_houseAnimation_subtitle = NULL;    /*!< Subtitle part of animation data. */
+static const HouseAnimation_SoundEffect *s_houseAnimation_soundEffect = NULL; /*!< Soundeffect part of animation data. */
 static uint16 s_var_8062 = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_var_8068 = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_var_806A = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_houseAnimation_currentSubtitle = 0; /*!< Current subtitle (index) part of animation. */
-static uint16 s_houseAnimation_currentVoice = 0; /* Current voice (index) part of animation. */
+static uint16 s_houseAnimation_currentSoundEffect = 0; /* Current voice (index) part of animation. */
 static bool s_var_8074 = false; /* Unknown animation data. */
 
 /** Direction of change in the #GameLoop_PalettePart_Update function. */
@@ -248,17 +248,17 @@ static bool GameLoop_IsLevelWon()
 	return win;
 }
 
-static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation, const HouseAnimation_Subtitle *subtitle, uint16 arg_8062, const HouseAnimation_Voice *voice)
+static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation, const HouseAnimation_Subtitle *subtitle, uint16 arg_8062, const HouseAnimation_SoundEffect *soundEffect)
 {
 	uint8 i;
 	uint8 colors[16];
 
-	s_houseAnimation_animation = animation;
-	s_houseAnimation_subtitle  = subtitle;
-	s_houseAnimation_voice     = voice;
+	s_houseAnimation_animation   = animation;
+	s_houseAnimation_subtitle    = subtitle;
+	s_houseAnimation_soundEffect = soundEffect;
 
-	s_houseAnimation_currentSubtitle = 0;
-	s_houseAnimation_currentVoice    = 0;
+	s_houseAnimation_currentSubtitle    = 0;
+	s_houseAnimation_currentSoundEffect = 0;
 
 	g_fontCharOffset = 0;
 
@@ -324,13 +324,13 @@ static void GameLoop_FinishAnimation()
 
 static void GameLoop_PlaySoundEffect(uint8 animation)
 {
-	const HouseAnimation_Voice *var8056 = &s_houseAnimation_voice[s_houseAnimation_currentVoice];
+	const HouseAnimation_SoundEffect *soundEffect = &s_houseAnimation_soundEffect[s_houseAnimation_currentSoundEffect];
 
-	if (var8056->variable_0000 > animation || var8056->variable_0002 > s_var_8068) return;
+	if (soundEffect->variable_0000 > animation || soundEffect->variable_0002 > s_var_8068) return;
 
-	Voice_Play(var8056->voiceID);
+	Voice_Play(soundEffect->voiceID);
 
-	s_houseAnimation_currentVoice++;
+	s_houseAnimation_currentSoundEffect++;
 }
 
 static void GameLoop_DrawText(char *string, uint16 top)
@@ -693,7 +693,7 @@ static void GameLoop_LevelEndAnimation()
 {
 	const HouseAnimation_Animation *animation;
 	const HouseAnimation_Subtitle *subtitle;
-	const HouseAnimation_Voice *voice;
+	const HouseAnimation_SoundEffect *soundEffect;
 
 	Input_History_Clear();
 
@@ -701,21 +701,21 @@ static void GameLoop_LevelEndAnimation()
 		case 4:
 			switch (g_playerHouseID) {
 				case HOUSE_HARKONNEN:
-					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_HARKONNEN];
-					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_HARKONNEN];
-					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL4_HARKONNEN];
 					break;
 
 				case HOUSE_ATREIDES:
-					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ARTREIDES];
-					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ARTREIDES];
-					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL4_ARTREIDES];
 					break;
 
 				case HOUSE_ORDOS:
-					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ORDOS];
-					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ORDOS];
-					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ORDOS];
+					animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ORDOS];
+					subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ORDOS];
+					soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL4_ORDOS];
 					break;
 
 				default: return;
@@ -724,21 +724,21 @@ static void GameLoop_LevelEndAnimation()
 		case 8:
 			switch (g_playerHouseID) {
 				case HOUSE_HARKONNEN:
-					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_HARKONNEN];
-					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_HARKONNEN];
-					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL8_HARKONNEN];
 					break;
 
 				case HOUSE_ATREIDES:
-					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ARTREIDES];
-					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ARTREIDES];
-					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL8_ARTREIDES];
 					break;
 
 				case HOUSE_ORDOS:
-					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ORDOS];
-					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ORDOS];
-					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ORDOS];
+					animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ORDOS];
+					subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ORDOS];
+					soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL8_ORDOS];
 					break;
 
 				default: return;
@@ -748,7 +748,7 @@ static void GameLoop_LevelEndAnimation()
 		default: return;
 	}
 
-	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, voice);
+	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, soundEffect);
 
 	Music_Play(0x22);
 
@@ -1129,7 +1129,7 @@ static void GameLoop_GameEndAnimation()
 {
 	const HouseAnimation_Animation *animation;
 	const HouseAnimation_Subtitle *subtitle;
-	const HouseAnimation_Voice *voice;
+	const HouseAnimation_SoundEffect *soundEffect;
 	uint16 sound;
 
 	String_Load("INTRO");
@@ -1138,29 +1138,29 @@ static void GameLoop_GameEndAnimation()
 
 	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
-			animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_HARKONNEN];
-			subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_HARKONNEN];
-			voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL9_HARKONNEN];
-			sound     = 0x1E;
+			animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			sound       = 0x1E;
 			break;
 
 		default:
 		case HOUSE_ATREIDES:
-			animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ARTREIDES];
-			subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ARTREIDES];
-			voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ARTREIDES];
-			sound     = 0x1F;
+			animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			sound       = 0x1F;
 			break;
 
 		case HOUSE_ORDOS:
-			animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ORDOS];
-			subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ORDOS];
-			voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ORDOS];
-			sound     = 0x20;
+			animation   = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ORDOS];
+			subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ORDOS];
+			soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_LEVEL9_ORDOS];
+			sound       = 0x20;
 			break;
 	}
 
-	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, voice);
+	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, soundEffect);
 
 	Music_Play(sound);
 
@@ -1405,13 +1405,13 @@ static void GameLoop_GameIntroAnimation()
 	Gameloop_Logos();
 
 	if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
-		const HouseAnimation_Animation *animation = g_table_houseAnimation_animation[HOUSEANIMATION_INTRO];
-		const HouseAnimation_Subtitle  *subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
-		const HouseAnimation_Voice     *voice     = g_table_houseAnimation_voice[HOUSEANIMATION_INTRO];
+		const HouseAnimation_Animation   *animation   = g_table_houseAnimation_animation[HOUSEANIMATION_INTRO];
+		const HouseAnimation_Subtitle    *subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
+		const HouseAnimation_SoundEffect *soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_INTRO];
 
 		Music_Play(0x1B);
 
-		GameLoop_PrepareAnimation(animation, subtitle, 0x4A, voice);
+		GameLoop_PrepareAnimation(animation, subtitle, 0x4A, soundEffect);
 
 		GameLoop_PlayAnimation();
 
