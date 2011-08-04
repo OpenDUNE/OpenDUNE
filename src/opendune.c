@@ -1382,6 +1382,8 @@ static void Gameloop_Logos()
 			sleepIdle();
 			continue;
 		}
+
+		break;
 	}
 
 	Unknown_259E_0006(g_palette2, 30);
