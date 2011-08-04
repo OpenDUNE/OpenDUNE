@@ -1482,7 +1482,10 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 static void GUI_EndStats_Sleep(uint16 delay)
 {
 	g_timerTimeout = delay;
-	while (g_timerTimeout != 0) GUI_HallOfFame_Tick();
+	while (g_timerTimeout != 0) {
+		GUI_HallOfFame_Tick();
+		sleepIdle();
+	}
 }
 
 /**
@@ -2933,7 +2936,10 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 		GUI_Mouse_Show_Safe();
 
 		g_timerTimeout = 20;
-		while (g_timerTimeout != 0) GUI_StrategicMap_AnimateArrows();
+		while (g_timerTimeout != 0) {
+			GUI_StrategicMap_AnimateArrows();
+			sleepIdle();
+		}
 	}
 }
 
@@ -3011,6 +3017,7 @@ static void GUI_StrategicMap_DrawText(char *string)
 
 		while (g_timerTimeout != 0) {
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
+			sleepIdle();
 		}
 	}
 
@@ -3090,6 +3097,8 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 				break;
 			}
 		}
+
+		sleepIdle();
 	}
 
 	GUI_StrategicMap_SetRegion(region, true);
@@ -3309,6 +3318,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		while (g_timerTimeout != 0) {
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
+			sleepIdle();
 		}
 
 		Sprites_LoadImage("DUNEMAP.CPS", 3 , g_palette_998A, 1);
@@ -3322,6 +3332,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		while (g_timerTimeout != 0) {
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
+			sleepIdle();
 		}
 
 		/* "That has become divided." */
@@ -4328,7 +4339,10 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	g_var_81E6 = false;
 
-	while (!g_var_81E6) GUI_Widget_HandleEvents(w);
+	while (!g_var_81E6) {
+		GUI_Widget_HandleEvents(w);
+		sleepIdle();
+	}
 
 	GUI_HallOfFame_DeleteButtons(w);
 
