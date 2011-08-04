@@ -253,7 +253,7 @@ uint16 Script_Unit_Pickup(ScriptEngine *script)
 			u2 = Unit_Get_ByIndex(s->o.linkedID);
 
 			/* Pickup the unit */
-			u->o.linkedID = u2->o.index;
+			u->o.linkedID = u2->o.index & 0xFF;
 			s->o.linkedID = u2->o.linkedID;
 			u2->o.linkedID = 0xFF;
 
@@ -316,7 +316,7 @@ uint16 Script_Unit_Pickup(ScriptEngine *script)
 			if (u2 == g_unitSelected) Unit_Select(NULL);
 
 			/* Pickup the unit */
-			u->o.linkedID = u2->o.index;
+			u->o.linkedID = u2->o.index & 0xFF;
 			u->o.flags.s.inTransport = true;
 
 			Unit_B4CD_01BF(0, u2);
