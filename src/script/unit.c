@@ -476,14 +476,14 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 }
 
 /**
- * Unknown function 12CE.
+ * Kill a unit. When it was a saboteur, expect a big explosion.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
+uint16 Script_Unit_Die(ScriptEngine *script)
 {
 	const UnitInfo *ui;
 	Unit *u;
@@ -519,14 +519,14 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 
 /**
  * Make an explosion at the coordinates of the unit.
- * Part of unit destruction of ground vehicles.
+ *  It does damage to the surrounding units based on the unit.
  *
  * Stack: 0 - Explosion type
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_SelfExplode(ScriptEngine *script)
+uint16 Script_Unit_ExplosionSingle(ScriptEngine *script)
 {
 	Unit *u;
 
@@ -537,14 +537,16 @@ uint16 Script_Unit_SelfExplode(ScriptEngine *script)
 }
 
 /**
- * Unknown function 13CD.
+ * Make 8 explosions: 1 at the unit, and 7 around him.
+ * It does damage to the surrounding units with predefined damage, but
+ *  anonymous.
  *
- * Stack: 0 - ??.
+ * Stack: 0 - The radius of the 7 explosions.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
+uint16 Script_Unit_ExplosionMultiple(ScriptEngine *script)
 {
 	Unit *u;
 	uint8 i;
@@ -698,7 +700,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
  * @param script The script engine to operate on.
  * @return The current orientation of the unit (it will move to the requested over time).
  */
-uint16 Script_Unit_GetOrientation(ScriptEngine *script)
+uint16 Script_Unit_SetOrientation(ScriptEngine *script)
 {
 	Unit *u;
 
@@ -710,18 +712,18 @@ uint16 Script_Unit_GetOrientation(ScriptEngine *script)
 }
 
 /**
- * Unknown function 196C.
+ * Rotate the unit to aim at the enemy.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return 0 if the enemy is no longer there or if we are looking at him, 1 otherwise.
  */
-uint16 Script_Unit_Unknown196C(ScriptEngine *script)
+uint16 Script_Unit_Rotate(ScriptEngine *script)
 {
 	const UnitInfo *ui;
 	Unit *u;
-	uint16 locdi;
+	uint16 index;
 	int8 current;
 	tile32 tile;
 	int8 orientation;
@@ -733,33 +735,34 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
 
-	locdi = ui->o.flags.hasTurret ? 1 : 0;
+	index = ui->o.flags.hasTurret ? 1 : 0;
 
-	if (u->orientation[locdi].speed != 0) return 1;
-	current = u->orientation[locdi].current;
+	/* Check if we are already rotating */
+	if (u->orientation[index].speed != 0) return 1;
+	current = u->orientation[index].current;
 
 	if (!Tools_Index_IsValid(u->targetAttack)) return 0;
 
+	/* Check where we should rotate to */
 	tile = Tools_Index_GetTile(u->targetAttack);
-
 	orientation = Tile_GetDirection(u->o.position, tile);
 
+	/* If we aren't already looking at it, rotate */
 	if (orientation == current) return 0;
-
-	Unit_SetOrientation(u, orientation, false, locdi);
+	Unit_SetOrientation(u, orientation, false, index);
 
 	return 1;
 }
 
 /**
- * Unknown function 1A40.
+ * Get the direction to a tile or our current direction.
  *
- * Stack: 0 - An encoded tile.
+ * Stack: 0 - An encoded tile to get the direction to.
  *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return The direction to the encoded tile if valid, otherwise our current orientation.
  */
-uint16 Script_Unit_Unknown1A40(ScriptEngine *script)
+uint16 Script_Unit_GetOrientation(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 encoded;
@@ -779,14 +782,14 @@ uint16 Script_Unit_Unknown1A40(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1A9F.
+ * Set the new destination of the unit.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 0 - An encoded index where to move to.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown1A9F(ScriptEngine *script)
+uint16 Script_Unit_SetDestination(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 encoded;
@@ -817,14 +820,14 @@ uint16 Script_Unit_Unknown1A9F(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1B45.
+ * Set a new target, and rotate towards him if needed.
  *
- * Stack: 0 - An encoded tile.
+ * Stack: 0 - An encoded tile of the unit/tile to target.
  *
  * @param script The script engine to operate on.
- * @return The new targetAttack of current unit.
+ * @return The new target.
  */
-uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
+uint16 Script_Unit_SetTarget(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 target;
@@ -928,14 +931,14 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1CFE.
+ * Get information about the unit, like hitpoints, current target, etc.
  *
- * Stack: 0 - What to return.
+ * Stack: 0 - Which information you would like.
  *
  * @param script The script engine to operate on.
- * @return The value.
+ * @return The information you requested.
  */
-uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
+uint16 Script_Unit_GetInfo(ScriptEngine *script)
 {
 	const UnitInfo *ui;
 	Unit *u;
@@ -1341,14 +1344,15 @@ uint16 Script_Unit_CalculateRoute(ScriptEngine *script)
 }
 
 /**
- * Unknown function 212E.
+ * Move the unit to the first available structure it can find of the required
+ *  type.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 0 - Type of structure.
  *
  * @param script The script engine to operate on.
  * @return An encoded structure index.
  */
-uint16 Script_Unit_Unknown212E(ScriptEngine *script)
+uint16 Script_Unit_MoveToStructure(ScriptEngine *script)
 {
 	Unit *u;
 	PoolFindStruct find;
@@ -1440,14 +1444,14 @@ uint16 Script_Unit_IsInTransport(ScriptEngine *script)
 }
 
 /**
- * Unknown function 22C4.
+ * Start the animation on the current tile.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return The value 1. Always.
  */
-uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
+uint16 Script_Unit_StartAnimation(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 animationUnitID;
@@ -1524,7 +1528,7 @@ uint16 Script_Unit_Unknown2552(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	u = g_scriptCurrentUnit;
-	if (u->o.script.variables[4] == 0) return u->o.script.variables[4];
+	if (u->o.script.variables[4] == 0) return 0;
 
 	u2 = Tools_Index_GetUnit(u->o.script.variables[4]);
 	if (u2 == NULL || u2->o.type != UNIT_CARRYALL) return 0;
@@ -1657,14 +1661,16 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 }
 
 /**
- * Unknown function 27A4.
+ * Check if the given tile is a valid destination. In case of for example
+ *  a carry-all it checks if the unit carrying can be placed on destination.
+ * In case of structures, it checks if you can walk into it.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 0 - An encoded tile, indicating the destination.
  *
  * @param script The script engine to operate on.
  * @return ??.
  */
-uint16 Script_Unit_Unknown27A4(ScriptEngine *script)
+uint16 Script_Unit_IsValidDestination(ScriptEngine *script)
 {
 	Unit *u;
 	Unit *u2;
