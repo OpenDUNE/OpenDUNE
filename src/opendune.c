@@ -361,7 +361,7 @@ static void GameLoop_DrawText(char *string, uint16 top)
 	s[-1] = 0xD;
 }
 
-static void GameLoop_B4ED_07B6(uint8 animation)
+static void GameLoop_PlaySubtitle(uint8 animation)
 {
 	const HouseAnimation_Subtitle *subtitle;
 	uint8 i;
@@ -377,7 +377,6 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	if (s_var_8074) {
 		if (s_var_806A == 0xFFFF) s_var_806A = subtitle->variable_0008;
-
 		if (s_var_806A-- != 0) return;
 
 		s_var_8074 = false;
@@ -403,7 +402,6 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 	}
 
 	if (s_var_806A == 0xFFFF) s_var_806A = subtitle->variable_0006;
-
 	if (s_var_806A-- != 0) return;
 
 	memcpy(s_palettePartTarget, &g_palette1[(144 + (subtitle->variable_0002 * 16)) * 3], 18);
@@ -575,7 +573,7 @@ static void GameLoop_PlayAnimation()
 		}
 
 		if ((animation->flags & 0x4) != 0) {
-			GameLoop_B4ED_07B6(animationMode);
+			GameLoop_PlaySubtitle(animationMode);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 			GameLoop_PalettePart_Update(true);
 
@@ -586,7 +584,7 @@ static void GameLoop_PlayAnimation()
 			locdi++;
 		} else {
 			if ((animation->flags & 0x480) != 0) {
-				GameLoop_B4ED_07B6(animationMode);
+				GameLoop_PlaySubtitle(animationMode);
 				WSA_DisplayFrame(wsa, frame++, posX, posY, 2);
 				locdi++;
 
@@ -634,7 +632,7 @@ static void GameLoop_PlayAnimation()
 		while (loc10 > g_timerGUI) {
 			g_timerTimeout = loc18;
 
-			GameLoop_B4ED_07B6(animationMode);
+			GameLoop_PlaySubtitle(animationMode);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 
 			if (mode == 1 && frame == loc04) {
@@ -657,7 +655,7 @@ static void GameLoop_PlayAnimation()
 		if (mode == 2) {
 			bool displayed;
 			do {
-				GameLoop_B4ED_07B6(animationMode);
+				GameLoop_PlaySubtitle(animationMode);
 				displayed = WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 			} while (displayed);
 		}
