@@ -116,7 +116,7 @@ uint16 g_selectionTypeNew = 0;
 bool g_var_3A12 = false;
 bool g_var_3A14 = false;
 
-uint16 g_var_3E52 = 0;
+int16 g_var_3E52 = 0;
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
