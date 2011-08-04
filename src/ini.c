@@ -30,6 +30,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 	char *ret;
 
 	if (dest != NULL) {
+		*dest = '\0';
 		/* Set the default value in case we jump out early */
 		if (defaultValue != NULL) strncpy(dest, defaultValue, length);
 		dest[length - 1] = '\0';
