@@ -184,9 +184,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0xC000);
 
 		if (u != g_unitSelected) continue;
 

@@ -93,7 +93,7 @@ const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 1F */ &Script_Unit_IsInTransport,
 	/* 20 */ &Script_Unit_GetAmount,
 	/* 21 */ &Script_Unit_RandomSoldier,
-	/* 22 */ &Script_Unit_Unknown0BC3,
+	/* 22 */ &Script_Unit_Pickup,
 	/* 23 */ &Script_Unit_Unknown246C,
 	/* 24 */ &Script_Unit_Unknown2552,
 	/* 25 */ &Script_Unit_FindStructure,

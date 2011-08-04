@@ -108,8 +108,8 @@ typedef struct Unit {
 	                                                         * - Harvester : harvested spice.
 	                                                         */
 	uint8  deviated;                                        /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
-	tile32 variable_5A;                                     /*!< ?? */
-	tile32 variable_5E;                                     /*!< ?? */
+	tile32 targetLast;                                      /*!< The last position of the Unit. Carry-alls will return the Unit here. */
+	tile32 targetPreLast;                                   /*!< The position before the last position of the Unit. */
 	dir24  orientation[2];                                  /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
 	uint8  variable_68;                                     /*!< ?? */
 	uint8  variable_69;                                     /*!< ?? */

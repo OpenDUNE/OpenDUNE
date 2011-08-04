@@ -222,7 +222,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 
 	u = Unit_Get_ByIndex(s->o.linkedID);
 
-	if (g_playerHouseID == s->o.houseID && u->o.type == UNIT_HARVESTER && u->variable_5A.tile == 0 && position != 0) {
+	if (g_playerHouseID == s->o.houseID && u->o.type == UNIT_HARVESTER && u->targetLast.tile == 0 && position != 0) {
 		return IT_NONE;
 	}
 

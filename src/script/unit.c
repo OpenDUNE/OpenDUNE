@@ -213,13 +213,15 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0BC3.
+ * Pickup a unit (either from structure or on the map). The unit that does the
+ *  picking up returns the unit to his last position.
  *
  * Stack: *none*.
+ *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
+uint16 Script_Unit_Pickup(ScriptEngine *script)
 {
 	Unit *u;
 
@@ -236,6 +238,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			s = Tools_Index_GetStructure(u->targetMove);
 
+			/* There was nothing to pickup here */
 			if (s->animation != 2) {
 				Object_Script_Variable4_Clear(&u->o);
 				u->targetMove = 0;
@@ -249,14 +252,16 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			u2 = Unit_Get_ByIndex(s->o.linkedID);
 
-			u->o.linkedID = u2->o.index & 0xFF;
+			/* Pickup the unit */
+			u->o.linkedID = u2->o.index;
 			s->o.linkedID = u2->o.linkedID;
 			u2->o.linkedID = 0xFF;
 
 			if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);
 
-			if (u2->variable_5A.tile != 0) {
-				u->targetMove = Tools_Index_Encode(Tile_PackTile(u2->variable_5A), IT_TILE);
+			/* Check if the unit has a return-to position or try to find spice in case of a harvester */
+			if (u2->targetLast.tile != 0) {
+				u->targetMove = Tools_Index_Encode(Tile_PackTile(u2->targetLast), IT_TILE);
 			} else if (u2->o.type == UNIT_HARVESTER && Unit_GetHouseID(u2) != g_playerHouseID) {
 				u->targetMove = Tools_Index_Encode(Map_SearchSpice(Tile_PackTile(u->o.position), 20), IT_TILE);
 			}
@@ -280,6 +285,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			find.index   = 0xFFFF;
 			find.type    = 0xFFFF;
 
+			/* Find closest refinery / repair station */
 			while (true) {
 				Structure *s2;
 				int16 distance;
@@ -306,28 +312,29 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			if (s == NULL) return 0;
 
-			{
-				if (u2 == g_unitSelected) Unit_Select(NULL);
-			}
+			/* Deselect the unit as it is about to be picked up */
+			if (u2 == g_unitSelected) Unit_Select(NULL);
 
-			u->o.linkedID = u2->o.index & 0xFF;
+			/* Pickup the unit */
+			u->o.linkedID = u2->o.index;
 			u->o.flags.s.inTransport = true;
 
 			Unit_B4CD_01BF(0, u2);
 
 			Unit_Unknown2AAA(u2);
 
+			/* Set where we are going to */
 			Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), Tools_Index_Encode(s->o.index, IT_STRUCTURE));
-
 			u->targetMove = u->o.script.variables[4];
 
 			Unit_B4CD_01BF(2, u);
 
 			if (u2->o.type != UNIT_HARVESTER) return 0;
 
+			/* Check if we want to return to this spice field later */
 			if (Map_SearchSpice(Tile_PackTile(u2->o.position), 2) == 0) {
-				u2->variable_5E.tile = 0;
-				u2->variable_5A.tile = 0;
+				u2->targetPreLast.tile = 0;
+				u2->targetLast.tile    = 0;
 			}
 
 			return 0;

@@ -409,9 +409,9 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->route[0]         = 0xFF;
 
 	if (position.tile != 0xFFFFFFFF) {
-		u->originEncoded    = Unit_FindClosestRefinery(u);
-		u->variable_5A.tile = position.tile;
-		u->variable_5E.tile = position.tile;
+		u->originEncoded      = Unit_FindClosestRefinery(u);
+		u->targetLast.tile    = position.tile;
+		u->targetPreLast.tile = position.tile;
 	}
 
 	u->o.linkedID    = 0xFF;
@@ -1449,8 +1449,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			} else {
 				if (ui->flags.variable_0040) {
 					if (position_49.tile != 0) newPosition = position_49;
-					unit->variable_5E = unit->variable_5A;
-					unit->variable_5A = unit->o.position;
+					unit->targetPreLast = unit->targetLast;
+					unit->targetLast    = unit->o.position;
 					unit->variable_49.tile = 0;
 
 					if (unit->o.flags.s.degrades && (Tools_Random_256() & 3) == 0) {
@@ -1475,8 +1475,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 						s = Structure_Get_ByPackedTile(packed);
 						if (s != NULL) {
-							unit->variable_5E.tile = 0;
-							unit->variable_5A.tile = 0;
+							unit->targetPreLast.tile = 0;
+							unit->targetLast.tile    = 0;
 							Unit_EnterStructure(unit, s);
 							return true;
 						}
@@ -2487,8 +2487,8 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	if (unit->o.type != UNIT_HARVESTER) return;
 
-	Map_B4CD_057B(loc06, unit->variable_5E, unit, g_functions[1][arg06]);
-	Map_B4CD_057B(loc06, unit->variable_5A, unit, g_functions[1][arg06]);
+	Map_B4CD_057B(loc06, unit->targetPreLast, unit, g_functions[1][arg06]);
+	Map_B4CD_057B(loc06, unit->targetLast, unit, g_functions[1][arg06]);
 }
 
 /**
