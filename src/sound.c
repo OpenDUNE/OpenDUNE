@@ -126,7 +126,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	index = g_table_voiceMapping[voiceID];
 
-	if (g_config.voiceDrv != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && g_table_voices[index].variable_04 >= s_variable_4060) {
+	if (g_enableVoices != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && g_table_voices[index].variable_04 >= s_variable_4060) {
 		s_variable_4060 = g_table_voices[index].variable_04;
 		memmove(g_readBuffer, g_variable_3E54[index], g_variable_3E54_size[index]);
 
@@ -158,7 +158,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 	uint16 i;
 	uint16 voice;
 
-	if (g_config.voiceDrv == 0) return;
+	if (g_enableVoices == 0) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
 		switch (g_table_voices[voice].string[0]) {
@@ -318,7 +318,7 @@ void Sound_Output_Feedback(uint16 index)
 		return;
 	}
 
-	if (g_config.voiceDrv == 0 || g_gameConfig.sounds == 0) {
+	if (g_enableVoices == 0 || g_gameConfig.sounds == 0) {
 		Driver_Sound_Play(g_feedback[index].soundId, 0xFF);
 
 		g_viewportMessageText = String_Get_ByIndex(g_feedback[index].messageId);

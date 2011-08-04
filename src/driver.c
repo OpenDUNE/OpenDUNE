@@ -95,7 +95,7 @@ static bool Drivers_Init(Driver *driver, const char *extension)
 	return true;
 }
 
-static uint8 Drivers_SoundMusic_Init(uint8 index)
+static bool Drivers_SoundMusic_Init(bool enable)
 {
 	Driver *sound;
 	Driver *music;
@@ -108,11 +108,11 @@ static uint8 Drivers_SoundMusic_Init(uint8 index)
 	sound->index = 0xFFFF;
 	music->index = 0xFFFF;
 
-	if (index == 0) return 0;
+	if (!enable) return false;
 
-	if (!MPU_Init()) return 0;
+	if (!MPU_Init()) return false;
 
-	if (!Drivers_Init(sound, "C55")) return 0;
+	if (!Drivers_Init(sound, "C55")) return false;
 	memcpy(music, sound, sizeof(Driver));
 
 	Timer_Add(MPU_Interrupt, 1000000 / 120);
@@ -130,10 +130,10 @@ static uint8 Drivers_SoundMusic_Init(uint8 index)
 	g_bufferMusic->buffer = calloc(1, size);
 	g_bufferMusic->index  = 0xFFFF;
 
-	return index;
+	return true;
 }
 
-static uint8 Drivers_Voice_Init(uint8 index)
+static bool Drivers_Voice_Init(bool enable)
 {
 	Driver *voice;
 
@@ -141,13 +141,13 @@ static uint8 Drivers_Voice_Init(uint8 index)
 
 	voice->index = 0xFFFF;
 
-	if (index == 0) return 0;
+	if (!enable) return false;
 
-	if (!DSP_Init()) return 0;
+	if (!DSP_Init()) return false;
 
-	if (!Drivers_Init(voice, "VOC")) return 0;
+	if (!Drivers_Init(voice, "VOC")) return false;
 
-	return index;
+	return true;
 }
 
 static void Drivers_Reset()
@@ -156,13 +156,12 @@ static void Drivers_Reset()
 	memset(s_driverLoaded, 0, sizeof(s_driverLoaded));
 }
 
-void Drivers_All_Init(uint8 sound, uint8 music, uint8 voice)
+void Drivers_All_Init()
 {
 	Drivers_Reset();
 
-	assert(music == sound);
-	g_config.musicDrv = g_config.soundDrv = Drivers_SoundMusic_Init(sound);
-	g_config.voiceDrv = Drivers_Voice_Init(voice);
+	g_enableSoundMusic = Drivers_SoundMusic_Init(g_enableSoundMusic);
+	g_enableVoices = Drivers_Voice_Init(g_enableVoices);
 }
 
 bool Driver_Music_IsPlaying()

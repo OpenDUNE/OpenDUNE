@@ -410,7 +410,7 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, subtitle->top == 85 ? 0 : subtitle->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_config.voiceDrv != 0 && s_var_8062 != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && g_config.language == LANGUAGE_ENGLISH) {
+	if (g_enableVoices != 0 && s_var_8062 != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && g_config.language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = s_var_8062 + s_houseAnimation_currentSubtitle;
 
 		Sound_Output_Feedback(loc06);
@@ -1891,7 +1891,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					Music_Play(0);
 
 					free(g_readBuffer);
-					g_readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x6D60;
+					g_readBufferSize = (g_enableVoices == 0) ? 0x2EE0 : 0x6D60;
 					g_readBuffer = calloc(1, g_readBufferSize);
 
 					GUI_Mouse_Hide_Safe();
@@ -1916,7 +1916,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					Music_Play(0);
 
 					free(g_readBuffer);
-					g_readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
+					g_readBufferSize = (g_enableVoices == 0) ? 0x2EE0 : 0x4E20;
 					g_readBuffer = calloc(1, g_readBufferSize);
 
 					String_Load("DUNE");
@@ -2046,7 +2046,7 @@ static void GameLoop_GameIntroAnimationMenu()
 		Music_Play(0);
 
 		free(g_readBuffer);
-		g_readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
+		g_readBufferSize = (g_enableVoices == 0) ? 0x2EE0 : 0x4E20;
 		g_readBuffer = calloc(1, g_readBufferSize);
 
 		String_Load("DUNE");
@@ -2251,7 +2251,7 @@ static void GameLoop_Main()
 				g_musicInBattle = -1;
 			} else {
 				g_musicInBattle = 0;
-				if (g_config.musicDrv != 0 && g_timerGUI > l_timerNext) {
+				if (g_enableSoundMusic != 0 && g_timerGUI > l_timerNext) {
 					if (!Driver_Music_IsPlaying()) {
 						Music_Play(Tools_RandomRange(0, 8) + 8);
 						l_timerNext = g_timerGUI + 300;
@@ -2389,7 +2389,7 @@ int main(int argc, char **argv)
 
 	Input_Init();
 
-	Drivers_All_Init(g_config.soundDrv, g_config.musicDrv, g_config.voiceDrv);
+	Drivers_All_Init();
 
 	if (!Unknown_25C4_000E()) exit(1);
 

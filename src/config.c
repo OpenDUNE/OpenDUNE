@@ -14,6 +14,8 @@
 
 GameCfg g_gameConfig;
 DuneCfg g_config;
+bool g_enableSoundMusic = true;
+bool g_enableVoices = true;
 
 /**
  * Reads and decode the config.
@@ -53,11 +55,6 @@ bool Config_Read(char *filename, DuneCfg *config)
 	}
 
 	sum ^= 0xA5;
-
-	/* Force audio drivers. */
-	if (config->soundDrv != 0) config->soundDrv = 7;
-	if (config->musicDrv != 0) config->musicDrv = 7;
-	if (config->voiceDrv != 0) config->voiceDrv = 1;
 
 	return (sum == config->checksum);
 }
