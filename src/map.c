@@ -527,7 +527,7 @@ void Map_SetSelection(uint16 packed)
 		return;
 	}
 
-	if (g_map[packed].overlaySpriteID != g_veiledSpriteID || g_debugScenario) {
+	if ((packed != 0xFFFF && g_map[packed].overlaySpriteID != g_veiledSpriteID) || g_debugScenario) {
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(packed);
