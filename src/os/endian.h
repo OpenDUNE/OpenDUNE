@@ -18,6 +18,18 @@
 	#endif /* _MSC_VER */
 #elif defined(__APPLE__)
 	#include <machine/endian.h>
+#elif defined(__TINYC__)
+	#include <endian.h>
+
+	static uint32 __builtin_bswap32(uint32 x)
+	{
+		uint32 r = 0;
+		r |= (x & 0xFF000000) >> 24;
+		r |= (x & 0x00FF0000) >> 8;
+		r |= (x & 0x0000FF00) << 8;
+		r |= (x & 0x000000FF) << 24;
+		return r;
+	}
 #else
 	#include <endian.h>
 #endif /* _WIN32 */
