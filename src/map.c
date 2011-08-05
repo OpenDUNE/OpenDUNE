@@ -1310,7 +1310,7 @@ uint16 Map_GetLandscapeType(uint16 packed)
 
 	if (t->groundSpriteID == g_bloomSpriteID || t->groundSpriteID == g_bloomSpriteID + 1) return LST_BLOOM_FIELD;
 
-	if (t->groundSpriteID > g_wallSpriteID && t->groundSpriteID - 75 < g_wallSpriteID) return LST_WALL;
+	if (t->groundSpriteID > g_wallSpriteID && (uint16)t->groundSpriteID < g_wallSpriteID + 75) return LST_WALL;
 
 	if (t->overlaySpriteID == g_wallSpriteID) return LST_DESTROYED_WALL;
 
