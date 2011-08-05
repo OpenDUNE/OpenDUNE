@@ -140,7 +140,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 
 				case SLDT_SLD:
-					SaveLoad_Load(sld->sld, fp, ptr);
+					if (!SaveLoad_Load(sld->sld, fp, ptr)) return false;
 					break;
 
 				case SLDT_CALLBACK:
@@ -203,7 +203,7 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 
 				case SLDT_SLD:
-					SaveLoad_Save(sld->sld, fp, ptr);
+					if (!SaveLoad_Save(sld->sld, fp, ptr)) return false;
 					break;
 
 				case SLDT_CALLBACK:
