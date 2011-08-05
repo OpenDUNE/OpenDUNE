@@ -24,7 +24,7 @@
 /**
  * Suspend the script execution for a set amount of ticks.
  *
- * Stack: 0 - delay value in ticks.
+ * Stack: 1 - delay value in ticks.
  *
  * @param script The script engine to operate on.
  * @return Amount of ticks the script will be suspended, divided by 5.
@@ -36,7 +36,7 @@ uint16 Script_General_Delay(ScriptEngine *script)
 {
 	uint16 delay;
 
-	delay = script->stack[script->stackPointer] / 5;
+	delay = STACK_PEEK(1) / 5;
 
 	script->delay = delay;
 
@@ -47,7 +47,7 @@ uint16 Script_General_Delay(ScriptEngine *script)
  * Suspend the script execution for a randomized amount of ticks, with an
  *  upper limit given.
  *
- * Stack: 0 - maximum amount of delay in ticks.
+ * Stack: 1 - maximum amount of delay in ticks.
  *
  * @param script The script engine to operate on.
  * @return Amount of ticks the script will be suspended, divided by 5.
@@ -56,7 +56,7 @@ uint16 Script_General_DelayRandom(ScriptEngine *script)
 {
 	uint16 delay;
 
-	delay = Tools_Random_256() * script->stack[script->stackPointer] / 256;
+	delay = Tools_Random_256() * STACK_PEEK(1) / 256;
 	delay /= 5;
 
 	script->delay = delay;
@@ -67,7 +67,7 @@ uint16 Script_General_DelayRandom(ScriptEngine *script)
 /**
  * Get the distance from the current unit to the given structure/unit.
  *
- * Stack: 0 - Structure / Unit ID.
+ * Stack: 1 - Structure / Unit ID.
  *
  * @param script The script engine to operate on.
  * @return Distance to it, where distance is (longest(x,y) + shortest(x,y) / 2).
@@ -77,7 +77,7 @@ uint16 Script_General_GetDistance(ScriptEngine *script)
 	Object *o;
 	uint16 objectID;
 
-	objectID = script->stack[script->stackPointer];
+	objectID = STACK_PEEK(1);
 	o = g_scriptCurrentObject;
 
 	if (!Tools_Index_IsValid(objectID)) return 0xFFFF;
@@ -103,8 +103,8 @@ uint16 Script_General_NoOperation(ScriptEngine *script)
 /**
  * Draws a string.
  *
- * Stack: 0 - The index of the string to draw.
- *        1-3 - The arguments for the string.
+ * Stack: 1 - The index of the string to draw.
+ *        2-4 - The arguments for the string.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -114,10 +114,10 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
 	char *text;
 	uint16 offset;
 
-	offset = BETOH16(*(script->scriptInfo->text + script->stack[script->stackPointer]));
+	offset = BETOH16(*(script->scriptInfo->text + STACK_PEEK(1)));
 	text = (char *)script->scriptInfo->text + offset;
 
-	GUI_DisplayText(text, 0, script->stack[script->stackPointer + 1], script->stack[script->stackPointer + 2], script->stack[script->stackPointer + 3]);
+	GUI_DisplayText(text, 0, STACK_PEEK(2), STACK_PEEK(3), STACK_PEEK(4));
 
 	return 0;
 }
@@ -125,21 +125,21 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
 /**
  * Get a random value between min and max.
  *
- * Stack: 0 - The minimum value.
- *        1 - The maximum value.
+ * Stack: 1 - The minimum value.
+ *        2 - The maximum value.
  *
  * @param script The script engine to operate on.
  * @return The random value.
  */
 uint16 Script_General_RandomRange(ScriptEngine *script)
 {
-	return Tools_RandomRange(script->stack[script->stackPointer + 0], script->stack[script->stackPointer + 1]);
+	return Tools_RandomRange(STACK_PEEK(1), STACK_PEEK(2));
 }
 
 /**
  * Unknown function 0184.
  *
- * Stack: 0 - The index of a string.
+ * Stack: 1 - The index of a string.
  *
  * @param script The script engine to operate on.
  * @return unknown.
@@ -149,7 +149,7 @@ uint16 Script_General_Unknown0184(ScriptEngine *script)
 	char *text;
 	uint16 offset;
 
-	offset = BETOH16(*(script->scriptInfo->text + script->stack[script->stackPointer]));
+	offset = BETOH16(*(script->scriptInfo->text + STACK_PEEK(1)));
 	text = (char *)script->scriptInfo->text + offset;
 
 	return GUI_DisplayModalMessage(text, 0xFFFF);
@@ -158,7 +158,7 @@ uint16 Script_General_Unknown0184(ScriptEngine *script)
 /**
  * Unknown function 024B.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return unknown.
@@ -167,7 +167,7 @@ uint16 Script_General_Unknown024B(ScriptEngine *script)
 {
 	uint16 index;
 
-	index = script->stack[script->stackPointer];
+	index = STACK_PEEK(1);
 
 	if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
@@ -177,7 +177,7 @@ uint16 Script_General_Unknown024B(ScriptEngine *script)
 /**
  * Unknown function 0288.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return unknown.
@@ -187,7 +187,7 @@ uint16 Script_General_Unknown0288(ScriptEngine *script)
 	uint16 index;
 	Structure *s;
 
-	index = script->stack[script->stackPointer];
+	index = STACK_PEEK(1);
 	s = Tools_Index_GetStructure(index);
 
 	if (s != NULL && Tools_Index_Encode(s->o.index, IT_STRUCTURE) != index) return 1;
@@ -198,7 +198,7 @@ uint16 Script_General_Unknown0288(ScriptEngine *script)
 /**
  * Get orientation of a unit.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return The orientation of the unit.
@@ -207,7 +207,7 @@ uint16 Script_General_GetOrientation(ScriptEngine *script)
 {
 	Unit *u;
 
-	u = Tools_Index_GetUnit(script->stack[script->stackPointer]);
+	u = Tools_Index_GetUnit(STACK_PEEK(1));
 
 	if (u == NULL) return 128;
 
@@ -217,7 +217,7 @@ uint16 Script_General_GetOrientation(ScriptEngine *script)
 /**
  * Counts how many unit of the given type are owned by current object's owner.
  *
- * Stack: 0 - An unit type.
+ * Stack: 1 - An unit type.
  *
  * @param script The script engine to operate on.
  * @return The count.
@@ -228,7 +228,7 @@ uint16 Script_General_UnitCount(ScriptEngine *script)
 	PoolFindStruct find;
 
 	find.houseID = g_scriptCurrentObject->houseID;
-	find.type    = script->stack[script->stackPointer];
+	find.type    = STACK_PEEK(1);
 	find.index   = 0xFFFF;
 
 	while (true) {
@@ -243,7 +243,7 @@ uint16 Script_General_UnitCount(ScriptEngine *script)
 /**
  * Decodes the given encoded index.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return The decoded index, or 0xFFFF if invalid.
@@ -252,7 +252,7 @@ uint16 Script_General_DecodeIndex(ScriptEngine *script)
 {
 	uint16 index;
 
-	index = script->stack[script->stackPointer];
+	index = STACK_PEEK(1);
 
 	if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
@@ -262,7 +262,7 @@ uint16 Script_General_DecodeIndex(ScriptEngine *script)
 /**
  * Gets the type of the given encoded index.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return The type, or 0xFFFF if invalid.
@@ -271,7 +271,7 @@ uint16 Script_General_GetIndexType(ScriptEngine *script)
 {
 	uint16 index;
 
-	index = script->stack[script->stackPointer];
+	index = STACK_PEEK(1);
 
 	if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
@@ -302,7 +302,7 @@ uint16 Script_General_GetLinkedUnitType(ScriptEngine *script)
 /**
  * Play a voice.
  *
- * Stack: 0 - The VoiceID to play.
+ * Stack: 1 - The VoiceID to play.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -313,7 +313,7 @@ uint16 Script_General_VoicePlay(ScriptEngine *script)
 
 	position = g_scriptCurrentObject->position;
 
-	Voice_PlayAtTile(script->stack[script->stackPointer], position);
+	Voice_PlayAtTile(STACK_PEEK(1), position);
 
 	return 0;
 }
@@ -321,7 +321,7 @@ uint16 Script_General_VoicePlay(ScriptEngine *script)
 /**
  * Get position of spice.
  *
- * Stack: 0 - Radius of the search.
+ * Stack: 1 - Radius of the search.
  *
  * @param script The script engine to operate on.
  * @return Encoded position with spice, or \c 0 if no spice nearby.
@@ -335,7 +335,7 @@ uint16 Script_General_Unknown0456(ScriptEngine *script)
 	houseID = g_scriptCurrentObject->houseID;
 	position = g_scriptCurrentObject->position;
 
-	packedSpicePos = Map_SearchSpice(Tile_PackTile(position), script->stack[script->stackPointer]);
+	packedSpicePos = Map_SearchSpice(Tile_PackTile(position), STACK_PEEK(1));
 
 	if (packedSpicePos == 0) return 0;
 	return Tools_Index_Encode(packedSpicePos, IT_TILE);
@@ -344,7 +344,7 @@ uint16 Script_General_Unknown0456(ScriptEngine *script)
 /**
  * Unknown function 04AE.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return Unknown.
@@ -355,7 +355,7 @@ uint16 Script_General_Unknown04AE(ScriptEngine *script)
 	Object *o;
 	uint16 res;
 
-	index = script->stack[script->stackPointer];
+	index = STACK_PEEK(1);
 
 	o = Tools_Index_GetObject(index);
 
@@ -369,7 +369,7 @@ uint16 Script_General_Unknown04AE(ScriptEngine *script)
 /**
  * Unknown function 050C.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return Unknown.
@@ -379,7 +379,7 @@ uint16 Script_General_Unknown050C(ScriptEngine *script)
 	uint8 houseID;
 	uint16 index;
 
-	index = script->stack[script->stackPointer];
+	index = STACK_PEEK(1);
 
 	if (!Tools_Index_IsValid(index)) return 0;
 
@@ -395,7 +395,7 @@ uint16 Script_General_Unknown050C(ScriptEngine *script)
 /**
  * Unknown function 0594.
  *
- * Stack: 0 - An encoded index or a Structure type.
+ * Stack: 1 - An encoded index or a Structure type.
  *
  * @param script The script engine to operate on.
  * @return ??.
@@ -407,7 +407,7 @@ uint16 Script_General_Unknown0594(ScriptEngine *script)
 	Structure *s;
 	PoolFindStruct find;
 
-	index = script->stack[script->stackPointer];
+	index = STACK_PEEK(1);
 
 	houseID = g_scriptCurrentObject->houseID;
 

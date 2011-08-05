@@ -49,7 +49,7 @@ uint16 Script_Structure_GetState(ScriptEngine *script)
 /**
  * Set the state for the current structure.
  *
- * Stack: 0 - The state.
+ * Stack: 1 - The state.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -60,7 +60,7 @@ uint16 Script_Structure_SetState(ScriptEngine *script)
 	int16 state;
 
 	s = g_scriptCurrentStructure;
-	state = script->stack[script->stackPointer];
+	state = STACK_PEEK(1);
 
 	if (state == STRUCTURE_STATE_DETECT) {
 		if (s->o.linkedID == 0xFF) {
@@ -197,7 +197,7 @@ uint16 Script_Structure_Unknown0A81(ScriptEngine *script)
 /**
  * Unknown function 0AFC.
  *
- * Stack: 0 - Unknown.
+ * Stack: 1 - Unknown.
  *
  * @param script The script engine to operate on.
  * @return unknown.
@@ -216,7 +216,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	if (s->state != STRUCTURE_STATE_READY) return IT_NONE;
 	if (s->o.linkedID == 0xFF) return IT_NONE;
 
-	loc06 = script->stack[script->stackPointer];
+	loc06 = STACK_PEEK(1);
 
 	position = Structure_FindFreePosition(s, false);
 
@@ -304,7 +304,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 /**
  * Find a Unit which is within range and not an ally.
  *
- * Stack: 0 - Range to find a target in (amount of tiles multiplied with 256).
+ * Stack: 1 - Range to find a target in (amount of tiles multiplied with 256).
  *
  * @param script The script engine to operate on.
  * @return The Unit Index of the closest unit within range and not friendly,
@@ -319,7 +319,7 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 	uint32 targetRange;
 
 	s = g_scriptCurrentStructure;
-	targetRange = script->stack[script->stackPointer];
+	targetRange = STACK_PEEK(1);
 	distanceCurrent = 32000;
 	u = NULL;
 
@@ -361,7 +361,7 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 /**
  * Rotate the turret to look at a tile.
  *
- * Stack: 0 - Tile to look at.
+ * Stack: 1 - Tile to look at.
  *
  * @param script The script engine to operate on.
  * @return 0 if looking at target, otherwise 1.
@@ -377,7 +377,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	int16 rotationNeeded;
 	int16 rotateDiff;
 
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	if (encoded == 0) return 0;
 
@@ -425,7 +425,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
  * Find the direction a tile is, seen from the structure. If the tile is
  *  invalid it gives the direction the structure is currently looking at.
  *
- * Stack: 0 - Tile to get the direction to, or the current direction of the
+ * Stack: 1 - Tile to get the direction to, or the current direction of the
  *   structure in case the tile is invalid.
  *
  * @param script The script engine to operate on.
@@ -438,7 +438,7 @@ uint16 Script_Structure_GetDirection(ScriptEngine *script)
 	uint16 encoded;
 
 	s = g_scriptCurrentStructure;
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	if (!Tools_Index_IsValid(encoded)) return s->variable_49 << 5;
 
@@ -450,7 +450,7 @@ uint16 Script_Structure_GetDirection(ScriptEngine *script)
 /**
  * Unknown function 11B9.
  *
- * Stack: *none*
+ * Stack: 1 - Encoded tile.
  *
  * @param script The script engine to operate on.
  * @return unknown.
@@ -460,7 +460,7 @@ uint16 Script_Structure_Unknown11B9(ScriptEngine *script)
 	uint16 encoded;
 	Unit *u;
 
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	if (!Tools_Index_IsValid(encoded)) return 0;
 	if (Tools_Index_GetType(encoded) != IT_UNIT) return 0;
@@ -477,7 +477,7 @@ uint16 Script_Structure_Unknown11B9(ScriptEngine *script)
 /**
  * Play a voice on the structure.
  *
- * Stack: 0 - The VoiceID to play.
+ * Stack: 1 - The VoiceID to play.
  *
  * @param script The script engine to operate on.
  * @return unknown.
@@ -490,7 +490,7 @@ uint16 Script_Structure_VoicePlay(ScriptEngine *script)
 
 	if (s->o.houseID != g_playerHouseID) return 0;
 
-	Voice_PlayAtTile(script->stack[script->stackPointer], s->o.position);
+	Voice_PlayAtTile(STACK_PEEK(1), s->o.position);
 
 	return 0;
 }

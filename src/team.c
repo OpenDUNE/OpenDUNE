@@ -32,6 +32,10 @@ void GameLoop_Team()
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
+	g_scriptCurrentObject    = NULL;
+	g_scriptCurrentUnit      = NULL;
+	g_scriptCurrentStructure = NULL;
+
 	while (true) {
 		Team *t;
 		House *h;

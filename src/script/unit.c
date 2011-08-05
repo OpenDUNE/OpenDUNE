@@ -40,7 +40,7 @@ static const int16 s_mapDirection[8] = {-64, -63, 1, 65, 64, 63, -1, -65}; /*!< 
 /**
  * Create a new soldier unit.
  *
- * Stack: 0 - Action for the new Unit.
+ * Stack: 1 - Action for the new Unit.
  *
  * @param script The script engine to operate on.
  * @return 1 if a new Unit has been created, 0 otherwise.
@@ -63,7 +63,7 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 
 	nu->deviated = u->deviated;
 
-	Unit_SetAction(nu, script->stack[script->stackPointer]);
+	Unit_SetAction(nu, STACK_PEEK(1));
 
 	return 1;
 }
@@ -71,7 +71,7 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 /**
  * Gets the best target for the current unit.
  *
- * Stack: 0 - How to determine the best target.
+ * Stack: 1 - How to determine the best target.
  *
  * @param script The script engine to operate on.
  * @return The encoded index of the best target or 0 if none found.
@@ -82,13 +82,13 @@ uint16 Script_Unit_FindBestTarget(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	return Unit_FindBestTargetEncoded(u, script->stack[script->stackPointer]);
+	return Unit_FindBestTargetEncoded(u, STACK_PEEK(1));
 }
 
 /**
  * Get the priority a target has for the current unit.
  *
- * Stack: 0 - The encoded target.
+ * Stack: 1 - The encoded target.
  *
  * @param script The script engine to operate on.
  * @return The priority of the target.
@@ -101,7 +101,7 @@ uint16 Script_Unit_GetTargetPriority(ScriptEngine *script)
 	uint16 encoded;
 
 	u = g_scriptCurrentUnit;
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	target = Tools_Index_GetUnit(encoded);
 	if (target != NULL) return Unit_GetTargetUnitPriority(u, target);
@@ -370,7 +370,7 @@ uint16 Script_Unit_Unknown0FA2(ScriptEngine *script)
 /**
  * Unknown function 0FD2.
  *
- * Stack: 0 - ??.
+ * Stack: 1 - ??.
  *
  * @param script The script engine to operate on.
  * @return ??.
@@ -381,7 +381,7 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 	uint16 param;
 
 	u = g_scriptCurrentUnit;
-	param = clamp(script->stack[script->stackPointer], 0, 255);
+	param = clamp(STACK_PEEK(1), 0, 255);
 
 	if (!u->o.flags.s.byScenario) param = param * 192 / 256;
 
@@ -395,7 +395,7 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 /**
  * Unknown function 105E.
  *
- * Stack: 0 - ??.
+ * Stack: 1 - ??.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -406,7 +406,7 @@ uint16 Script_Unit_Unknown105E(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	u->variable_6D = -(script->stack[script->stackPointer] & 0xFF);
+	u->variable_6D = -(STACK_PEEK(1) & 0xFF);
 
 	Unit_B4CD_01BF(2, u);
 
@@ -521,7 +521,7 @@ uint16 Script_Unit_Die(ScriptEngine *script)
  * Make an explosion at the coordinates of the unit.
  *  It does damage to the surrounding units based on the unit.
  *
- * Stack: 0 - Explosion type
+ * Stack: 1 - Explosion type
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -532,7 +532,7 @@ uint16 Script_Unit_ExplosionSingle(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Map_MakeExplosion(script->stack[script->stackPointer], u->o.position, g_table_unitInfo[u->o.type].o.hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
+	Map_MakeExplosion(STACK_PEEK(1), u->o.position, g_table_unitInfo[u->o.type].o.hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
 	return 0;
 }
 
@@ -541,7 +541,7 @@ uint16 Script_Unit_ExplosionSingle(ScriptEngine *script)
  * It does damage to the surrounding units with predefined damage, but
  *  anonymous.
  *
- * Stack: 0 - The radius of the 7 explosions.
+ * Stack: 1 - The radius of the 7 explosions.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -556,7 +556,7 @@ uint16 Script_Unit_ExplosionMultiple(ScriptEngine *script)
 	Map_MakeExplosion(11, u->o.position, Tools_RandomRange(25, 50), 0);
 
 	for (i = 0; i < 7; i++) {
-		Map_MakeExplosion(11, Tile_MoveByRandom(u->o.position, script->stack[script->stackPointer], false), Tools_RandomRange(75, 150), 0);
+		Map_MakeExplosion(11, Tile_MoveByRandom(u->o.position, STACK_PEEK(1), false), Tools_RandomRange(75, 150), 0);
 	}
 
 	return 0;
@@ -695,7 +695,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 /**
  * Set the orientation of a unit.
  *
- * Stack: 0 - New orientation for unit.
+ * Stack: 1 - New orientation for unit.
  *
  * @param script The script engine to operate on.
  * @return The current orientation of the unit (it will move to the requested over time).
@@ -706,7 +706,7 @@ uint16 Script_Unit_SetOrientation(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Unit_SetOrientation(u, (int8)script->stack[script->stackPointer], false, 0);
+	Unit_SetOrientation(u, (int8)STACK_PEEK(1), false, 0);
 
 	return u->orientation[0].current;
 }
@@ -757,7 +757,7 @@ uint16 Script_Unit_Rotate(ScriptEngine *script)
 /**
  * Get the direction to a tile or our current direction.
  *
- * Stack: 0 - An encoded tile to get the direction to.
+ * Stack: 1 - An encoded tile to get the direction to.
  *
  * @param script The script engine to operate on.
  * @return The direction to the encoded tile if valid, otherwise our current orientation.
@@ -768,7 +768,7 @@ uint16 Script_Unit_GetOrientation(ScriptEngine *script)
 	uint16 encoded;
 
 	u = g_scriptCurrentUnit;
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	if (Tools_Index_IsValid(encoded)) {
 		tile32 tile;
@@ -784,7 +784,7 @@ uint16 Script_Unit_GetOrientation(ScriptEngine *script)
 /**
  * Set the new destination of the unit.
  *
- * Stack: 0 - An encoded index where to move to.
+ * Stack: 1 - An encoded index where to move to.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -795,7 +795,7 @@ uint16 Script_Unit_SetDestination(ScriptEngine *script)
 	uint16 encoded;
 
 	u = g_scriptCurrentUnit;
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	if (encoded == 0 || !Tools_Index_IsValid(encoded)) {
 		u->targetMove = 0;
@@ -822,7 +822,7 @@ uint16 Script_Unit_SetDestination(ScriptEngine *script)
 /**
  * Set a new target, and rotate towards him if needed.
  *
- * Stack: 0 - An encoded tile of the unit/tile to target.
+ * Stack: 1 - An encoded tile of the unit/tile to target.
  *
  * @param script The script engine to operate on.
  * @return The new target.
@@ -836,7 +836,7 @@ uint16 Script_Unit_SetTarget(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	target = script->stack[script->stackPointer];
+	target = STACK_PEEK(1);
 
 	if (target == 0 || !Tools_Index_IsValid(target)) {
 		u->targetAttack = 0;
@@ -860,7 +860,7 @@ uint16 Script_Unit_SetTarget(ScriptEngine *script)
 /**
  * Sets the action for the current unit.
  *
- * Stack: 0 - The action.
+ * Stack: 1 - The action.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -872,7 +872,7 @@ uint16 Script_Unit_SetAction(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	action = script->stack[script->stackPointer];
+	action = STACK_PEEK(1);
 
 	if (u->o.houseID == g_playerHouseID && action == ACTION_HARVEST && u->nextActionID != ACTION_INVALID) return 0;
 
@@ -905,7 +905,7 @@ uint16 Script_Unit_SetActionDefault(ScriptEngine *script)
 /**
  * Unknown function 1C6F.
  *
- * Stack: 0 - An encoded tile.
+ * Stack: 1 - An encoded tile.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -915,7 +915,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 	Unit *u;
 	uint16 encoded;
 
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	if (!Tools_Index_IsValid(encoded)) return 0;
 
@@ -933,7 +933,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 /**
  * Get information about the unit, like hitpoints, current target, etc.
  *
- * Stack: 0 - Which information you would like.
+ * Stack: 1 - Which information you would like.
  *
  * @param script The script engine to operate on.
  * @return The information you requested.
@@ -946,7 +946,7 @@ uint16 Script_Unit_GetInfo(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 	ui = &g_table_unitInfo[u->o.type];
 
-	switch (script->stack[script->stackPointer]) {
+	switch (STACK_PEEK(1)) {
 		case 0x00: return u->o.hitpoints * 256 / ui->o.hitpoints;
 		case 0x01: return Tools_Index_IsValid(u->targetMove) ? u->targetMove : 0;
 		case 0x02: return ui->variable_50 << 8;
@@ -1279,7 +1279,7 @@ static Pathfinder_Data Script_Unit_Pathfinder(uint16 packedSrc, uint16 packedDst
 /**
  * Calculate the route to a tile.
  *
- * Stack: 0 - An encoded tile to calculate the route to.
+ * Stack: 1 - An encoded tile to calculate the route to.
  *
  * @param script The script engine to operate on.
  * @return 0 if we arrived on location, 1 otherwise.
@@ -1292,7 +1292,7 @@ uint16 Script_Unit_CalculateRoute(ScriptEngine *script)
 	uint16 packedDst;
 
 	u = g_scriptCurrentUnit;
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 
 	if (u->variable_49.tile != 0 || !Tools_Index_IsValid(encoded)) return 1;
 
@@ -1347,7 +1347,7 @@ uint16 Script_Unit_CalculateRoute(ScriptEngine *script)
  * Move the unit to the first available structure it can find of the required
  *  type.
  *
- * Stack: 0 - Type of structure.
+ * Stack: 1 - Type of structure.
  *
  * @param script The script engine to operate on.
  * @return An encoded structure index.
@@ -1379,7 +1379,7 @@ uint16 Script_Unit_MoveToStructure(ScriptEngine *script)
 
 	find.houseID = Unit_GetHouseID(u);
 	find.index   = 0xFFFF;
-	find.type    = script->stack[script->stackPointer];
+	find.type    = STACK_PEEK(1);
 
 	while (true) {
 		Structure *s;
@@ -1482,7 +1482,7 @@ uint16 Script_Unit_StartAnimation(ScriptEngine *script)
 /**
  * Unknown function 246C.
  *
- * Stack: 0 - An unit type.
+ * Stack: 1 - An unit type.
  *
  * @param script The script engine to operate on.
  * @return An encoded unit index.
@@ -1501,7 +1501,7 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 
 	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
-	u2 = Unit_Unknown2BB5(script->stack[script->stackPointer], Unit_GetHouseID(u), encoded, false);
+	u2 = Unit_Unknown2BB5(STACK_PEEK(1), Unit_GetHouseID(u), encoded, false);
 	if (u2 == NULL) return 0;
 
 	encoded2 = Tools_Index_Encode(u2->o.index, IT_UNIT);
@@ -1542,7 +1542,7 @@ uint16 Script_Unit_Unknown2552(ScriptEngine *script)
 /**
  * Finds a structure.
  *
- * Stack: 0 - A structure type.
+ * Stack: 1 - A structure type.
  *
  * @param script The script engine to operate on.
  * @return An encoded structure index, or 0 if none found.
@@ -1556,7 +1556,7 @@ uint16 Script_Unit_FindStructure(ScriptEngine *script)
 
 	find.houseID = Unit_GetHouseID(u);
 	find.index   = 0xFFFF;
-	find.type    = script->stack[script->stackPointer];
+	find.type    = STACK_PEEK(1);
 
 	while (true) {
 		Structure *s;
@@ -1665,7 +1665,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
  *  a carry-all it checks if the unit carrying can be placed on destination.
  * In case of structures, it checks if you can walk into it.
  *
- * Stack: 0 - An encoded tile, indicating the destination.
+ * Stack: 1 - An encoded tile, indicating the destination.
  *
  * @param script The script engine to operate on.
  * @return ??.
@@ -1678,7 +1678,7 @@ uint16 Script_Unit_IsValidDestination(ScriptEngine *script)
 	uint16 index;
 
 	u = g_scriptCurrentUnit;
-	encoded = script->stack[script->stackPointer];
+	encoded = STACK_PEEK(1);
 	index = Tools_Index_Decode(encoded);
 
 	switch (Tools_Index_GetType(encoded)) {
@@ -1708,7 +1708,7 @@ uint16 Script_Unit_IsValidDestination(ScriptEngine *script)
 /**
  * Unknown function 28B1.
  *
- * Stack: 0 - An encoded index.
+ * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
  * @return An encoded tile, or 0.
@@ -1720,7 +1720,7 @@ uint16 Script_Unit_Unknown28B1(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (Tools_Index_GetType(script->stack[script->stackPointer]) != 1) return 0;
+	if (Tools_Index_GetType(STACK_PEEK(1)) != 1) return 0;
 
 	tile = Tile_MoveByRandom(u->o.position, 80, true);
 
@@ -1768,7 +1768,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 /**
  * Makes the current unit to go to the closest structure of the given type.
  *
- * Stack: 0 - The type of the structure.
+ * Stack: 1 - The type of the structure.
  *
  * @param script The script engine to operate on.
  * @return The value 1 if and only if a structure has been found.
@@ -1784,7 +1784,7 @@ uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script)
 
 	find.houseID = Unit_GetHouseID(u);
 	find.index   = 0xFFFF;
-	find.type    = script->stack[script->stackPointer];
+	find.type    = STACK_PEEK(1);
 
 	while (true) {
 		Structure *s2;

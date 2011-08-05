@@ -5,12 +5,14 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include "types.h"
 #include "../os/endian.h"
 
 #include "script.h"
 
 #include "../file.h"
+#include "../object.h"
 
 struct Object *g_scriptCurrentObject;
 struct Structure *g_scriptCurrentStructure;
@@ -147,6 +149,79 @@ const ScriptFunction g_scriptFunctionsTeam[SCRIPT_FUNCTIONS_COUNT] = {
 };
 
 /**
+ * Show a script error with additional information (Type, Index, ..).
+ * @param error The error to show.
+ */
+static void Script_Error(const char *error, ...)
+{
+	static const char *l_types[4] = { "Unit", "Structure", "Team", "Unknown" };
+	const char *type = l_types[3];
+	char buffer[64];
+	va_list va;
+
+	if (g_scriptCurrentUnit      != NULL) type = l_types[0];
+	if (g_scriptCurrentStructure != NULL) type = l_types[1];
+	if (g_scriptCurrentTeam      != NULL) type = l_types[2];
+
+	va_start(va, error);
+	vsnprintf(buffer, sizeof(buffer), error, va);
+	va_end(va);
+
+	fprintf(stderr, "[SCRIPT] [ERROR] %s; Type: %s; Index: %d; Type: %d;\n", buffer, type, g_scriptCurrentObject->index, g_scriptCurrentObject->type);
+}
+
+/**
+ * Push a value on the stack.
+ * @param value The value to push.
+ * @note Use SCRIPT_PUSH(position) to use; do not use this function directly.
+ */
+void Script_Stack_Push(ScriptEngine *script, uint16 value, const char *filename, int lineno)
+{
+	if (script->stackPointer == 0) {
+		Script_Error("Stack Overflow at %s:%d", filename, lineno);
+		script->script = NULL;
+		return;
+	}
+
+	script->stack[--script->stackPointer] = value;
+}
+
+/**
+ * Pop a value from the stack.
+ * @return The value that was on the stack.
+ * @note Use SCRIPT_POP(position) to use; do not use this function directly.
+ */
+uint16 Script_Stack_Pop(ScriptEngine *script, const char *filename, int lineno)
+{
+	if (script->stackPointer >= 15) {
+		Script_Error("Stack Overflow at %s:%d", filename, lineno);
+		script->script = NULL;
+		return 0;
+	}
+
+	return script->stack[script->stackPointer++];
+}
+
+/**
+ * Peek a value from the stack.
+ * @param position At which position you want to peek (1 = current, ..).
+ * @return The value that was on the stack.
+ * @note Use SCRIPT_PEEK(position) to use; do not use this function directly.
+ */
+uint16 Script_Stack_Peek(ScriptEngine *script, int position, const char *filename, int lineno)
+{
+	assert(position > 0);
+
+	if (script->stackPointer >= 16 - position) {
+		Script_Error("Stack Overflow at %s:%d", filename, lineno);
+		script->script = NULL;
+		return 0;
+	}
+
+	return script->stack[script->stackPointer + position - 1];
+}
+
+/**
  * Reset a script engine. It forgets the correct script it was executing,
  *  and resets stack and frame pointer. It also loads in the scriptInfo given
  *  by the parameter.
@@ -250,7 +325,7 @@ bool Script_Run(ScriptEngine *script)
 
 		case 2: {
 			if (parameter == 0) { /* PUSH RETURNVALUE */
-				script->stack[--script->stackPointer] = script->returnValue;
+				STACK_PUSH(script->returnValue);
 				return true;
 			}
 
@@ -258,69 +333,92 @@ bool Script_Run(ScriptEngine *script)
 				uint32 location;
 				location = (script->script - scriptInfo->start) + 1;
 
-				script->stack[--script->stackPointer] = location;
-				script->stack[--script->stackPointer] = script->framePointer;
+				STACK_PUSH(location);
+				STACK_PUSH(script->framePointer);
 				script->framePointer = script->stackPointer + 2;
 
 				return true;
 			}
 
+			Script_Error("Unknown parameter %d for opcode 2", parameter);
 			script->script = NULL;
 			return false;
 		}
 
 		case 3: case 4: { /* PUSH $parameter */
-			script->stack[--script->stackPointer] = parameter;
+			STACK_PUSH(parameter);
 			return true;
 		}
 
 		case 5: { /* PUSH VARIABLE[$parameter] */
-			script->stack[--script->stackPointer] = script->variables[parameter];
+			STACK_PUSH(script->variables[parameter]);
 			return true;
 		}
 
 		case 6: { /* PUSH LOCAL_VARIABLE[$parameter] (framepointer - parameter) */
-			script->stack[--script->stackPointer] = script->stack[script->framePointer - parameter - 2];
+			if (script->framePointer - parameter - 2 >= 15) {
+				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+				script->script = NULL;
+				return false;
+			}
+
+			STACK_PUSH(script->stack[script->framePointer - parameter - 2]);
 			return true;
 		}
 
 		case 7: { /* PUSH PARAMETER[$parameter] (framepointer + parameter)  */
-			script->stack[--script->stackPointer] = script->stack[script->framePointer + parameter - 1];
+			if (script->framePointer + parameter - 1 >= 15) {
+				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+				script->script = NULL;
+				return false;
+			}
+
+			STACK_PUSH(script->stack[script->framePointer + parameter - 1]);
 			return true;
 		}
 
 		case 8: {
 			if (parameter == 0) { /* POP RETURNVALUE */
-				script->returnValue = script->stack[script->stackPointer++];
+				script->returnValue = STACK_POP();
 				return true;
 			}
 			if (parameter == 1) { /* POP FRAMEPOINTER + LOCATION */
-				if (script->stackPointer == 15) {
-					script->script = NULL;
-					return false;
-				}
+				STACK_PEEK(2); if (script->script == NULL) return false;
 
-				script->framePointer = (uint8)script->stack[script->stackPointer++];
-				script->script = scriptInfo->start + script->stack[script->stackPointer++];
+				script->framePointer = (uint8)STACK_POP();
+				script->script = scriptInfo->start + STACK_POP();
 				return true;
 			}
 
+			Script_Error("Unknown parameter %d for opcode 8", parameter);
 			script->script = NULL;
 			return false;
 		}
 
 		case 9: { /* POP VARIABLE[$parameter] */
-			script->variables[parameter] = script->stack[script->stackPointer++];
+			script->variables[parameter] = STACK_POP();
 			return true;
 		}
 
 		case 10: { /* POP LOCAL_VARIABLE[$parameter] (framepointer - parameter) */
-			script->stack[script->framePointer - parameter - 2] = script->stack[script->stackPointer++];
+			if (script->framePointer - parameter - 2 >= 15) {
+				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+				script->script = NULL;
+				return false;
+			}
+
+			script->stack[script->framePointer - parameter - 2] = STACK_POP();
 			return true;
 		}
 
 		case 11: { /* POP PARAMETER[$parameter] (framepointer + parameter) */
-			script->stack[script->framePointer + parameter - 1] = script->stack[script->stackPointer++];
+			if (script->framePointer + parameter - 1 >= 15) {
+				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+				script->script = NULL;
+				return false;
+			}
+
+			script->stack[script->framePointer + parameter - 1] =STACK_POP();
 			return true;
 		}
 
@@ -338,7 +436,7 @@ bool Script_Run(ScriptEngine *script)
 			parameter &= 0xFF;
 
 			if (parameter >= SCRIPT_FUNCTIONS_COUNT || scriptInfo->functions[parameter] == NULL) {
-				script->script = NULL;
+				Script_Error("Unknown function %d for opcode 14", parameter);
 				return false;
 			}
 
@@ -347,7 +445,9 @@ bool Script_Run(ScriptEngine *script)
 		}
 
 		case 15: { /* IF NOT EQUAL JUMP TO INSTRUCTION $parameter */
-			if (script->stack[script->stackPointer++] != 0) return true;
+			STACK_PEEK(1); if (script->script == NULL) return false;
+
+			if (STACK_POP() != 0) return true;
 
 			script->script = scriptInfo->start + (parameter & 0x7FFF);
 			return true;
@@ -355,47 +455,49 @@ bool Script_Run(ScriptEngine *script)
 
 		case 16: {
 			if (parameter == 0) { /* STACK = !STACK */
-				script->stack[script->stackPointer] = (script->stack[script->stackPointer] == 0) ? 1 : 0;
+				STACK_PUSH((STACK_POP() == 0) ? 1 : 0);
 				return true;
 			}
 			if (parameter == 1) { /* STACK = -STACK */
-				script->stack[script->stackPointer] = -script->stack[script->stackPointer];
+				STACK_PUSH(-STACK_POP());
 				return true;
 			}
 			if (parameter == 2) { /* STACK = ~STACK */
-				script->stack[script->stackPointer] = ~script->stack[script->stackPointer];
+				STACK_PUSH(~STACK_POP());
 				return true;
 			}
 
+			Script_Error("Unknown parameter %d for opcode 16", parameter);
 			script->script = NULL;
 			return false;
 		}
 
 		case 17: { /* EVALUATE STACK[0] $parameter STACK[1] */
-			int16 right = script->stack[script->stackPointer++];
-			int16 left  = script->stack[script->stackPointer++];
+			int16 right = STACK_POP();
+			int16 left  = STACK_POP();
 
 			switch (parameter) {
-				case 0:  script->stack[--script->stackPointer] = (left && right) ? 1 : 0; break; /* left && right */
-				case 1:  script->stack[--script->stackPointer] = (left || right) ? 1 : 0; break; /* left || right */
-				case 2:  script->stack[--script->stackPointer] = (left == right) ? 1 : 0; break; /* left == right */
-				case 3:  script->stack[--script->stackPointer] = (left != right) ? 1 : 0; break; /* left != right */
-				case 4:  script->stack[--script->stackPointer] = (left <  right) ? 1 : 0; break; /* left <  right */
-				case 5:  script->stack[--script->stackPointer] = (left <= right) ? 1 : 0; break; /* left <= right */
-				case 6:  script->stack[--script->stackPointer] = (left >  right) ? 1 : 0; break; /* left >  right */
-				case 7:  script->stack[--script->stackPointer] = (left >= right) ? 1 : 0; break; /* left >= right */
-				case 8:  script->stack[--script->stackPointer] =  left +  right;          break; /* left +  right */
-				case 9:  script->stack[--script->stackPointer] =  left -  right;          break; /* left -  right */
-				case 10: script->stack[--script->stackPointer] =  left *  right;          break; /* left *  right */
-				case 11: script->stack[--script->stackPointer] =  left /  right;          break; /* left /  right */
-				case 12: script->stack[--script->stackPointer] =  left >> right;          break; /* left >> right */
-				case 13: script->stack[--script->stackPointer] =  left << right;          break; /* left << right */
-				case 14: script->stack[--script->stackPointer] =  left &  right;          break; /* left &  right */
-				case 15: script->stack[--script->stackPointer] =  left |  right;          break; /* left |  right */
-				case 16: script->stack[--script->stackPointer] =  left %  right;          break; /* left %  right */
-				case 17: script->stack[--script->stackPointer] =  left ^  right;          break; /* left ^  right */
+				case 0:  STACK_PUSH((left && right) ? 1 : 0); break; /* left && right */
+				case 1:  STACK_PUSH((left || right) ? 1 : 0); break; /* left || right */
+				case 2:  STACK_PUSH((left == right) ? 1 : 0); break; /* left == right */
+				case 3:  STACK_PUSH((left != right) ? 1 : 0); break; /* left != right */
+				case 4:  STACK_PUSH((left <  right) ? 1 : 0); break; /* left <  right */
+				case 5:  STACK_PUSH((left <= right) ? 1 : 0); break; /* left <= right */
+				case 6:  STACK_PUSH((left >  right) ? 1 : 0); break; /* left >  right */
+				case 7:  STACK_PUSH((left >= right) ? 1 : 0); break; /* left >= right */
+				case 8:  STACK_PUSH( left +  right         ); break; /* left +  right */
+				case 9:  STACK_PUSH( left -  right         ); break; /* left -  right */
+				case 10: STACK_PUSH( left *  right         ); break; /* left *  right */
+				case 11: STACK_PUSH( left /  right         ); break; /* left /  right */
+				case 12: STACK_PUSH( left >> right         ); break; /* left >> right */
+				case 13: STACK_PUSH( left << right         ); break; /* left << right */
+				case 14: STACK_PUSH( left &  right         ); break; /* left &  right */
+				case 15: STACK_PUSH( left |  right         ); break; /* left |  right */
+				case 16: STACK_PUSH( left %  right         ); break; /* left %  right */
+				case 17: STACK_PUSH( left ^  right         ); break; /* left ^  right */
 
 				default:
+					Script_Error("Unknown parameter %d for opcode 17", parameter);
 					script->script = NULL;
 					return false;
 			}
@@ -403,19 +505,17 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 		case 18: { /* RETURN FROM SUBROUTINE WITHOUT RESETTING FRAMEPOINTER */
-			if (script->stackPointer == 15) {
-				script->script = NULL;
-				return false;
-			}
+			STACK_PEEK(2); if (script->script == NULL) return false;
 
-			script->returnValue = script->stack[script->stackPointer++];
-			script->script = scriptInfo->start + script->stack[script->stackPointer++];
+			script->returnValue = STACK_POP();
+			script->script = scriptInfo->start + STACK_POP();
 
 			script->isSubroutine = 0;
 			return true;
 		}
 
 		default:
+			Script_Error("Unknown opcode %d", opcode);
 			script->script = NULL;
 			return false;
 	}
@@ -437,8 +537,8 @@ void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 	scriptInfo = script->scriptInfo;
 	script->isSubroutine = 1;
 
-	script->stack[--script->stackPointer] = (script->script - scriptInfo->start);
-	script->stack[--script->stackPointer] = script->returnValue;
+	STACK_PUSH((script->script - scriptInfo->start));
+	STACK_PUSH(script->returnValue);
 
 	script->script = scriptInfo->start + scriptInfo->offsets[typeID];
 }

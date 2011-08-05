@@ -101,6 +101,7 @@ void GameLoop_Structure()
 		g_scriptCurrentObject    = &s->o;
 		g_scriptCurrentStructure = s;
 		g_scriptCurrentUnit      = NULL;
+		g_scriptCurrentTeam      = NULL;
 
 		if (tickPalace && s->o.type == STRUCTURE_PALACE) {
 			if (s->countDown != 0) {

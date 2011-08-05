@@ -184,6 +184,7 @@ void GameLoop_Unit()
 		g_scriptCurrentObject    = &u->o;
 		g_scriptCurrentStructure = NULL;
 		g_scriptCurrentUnit      = u;
+		g_scriptCurrentTeam      = NULL;
 
 		if (u->o.flags.s.isNotOnMap) continue;
 

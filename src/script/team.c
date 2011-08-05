@@ -193,7 +193,7 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 /**
  * Unknown function 0543.
  *
- * Stack: 0 - A distance.
+ * Stack: 1 - A distance.
  *
  * @param script The script engine to operate on.
  * @return The number of moving units.
@@ -206,7 +206,7 @@ uint16 Script_Team_Unknown0543(ScriptEngine *script)
 	PoolFindStruct find;
 
 	t = g_scriptCurrentTeam;
-	distance = script->stack[script->stackPointer];
+	distance = STACK_PEEK(1);
 
 	find.houseID = t->houseID;
 	find.index   = 0xFFFF;
@@ -293,7 +293,7 @@ uint16 Script_Team_FindBestTarget(ScriptEngine *script)
 /**
  * Loads a new script for the current team.
  *
- * Stack: 0 - The script type.
+ * Stack: 1 - The script type.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -304,7 +304,7 @@ uint16 Script_Team_Load(ScriptEngine *script)
 	uint16 type;
 
 	t = g_scriptCurrentTeam;
-	type = script->stack[script->stackPointer];
+	type = STACK_PEEK(1);
 
 	if (t->variable_0C == type) return 0;
 
@@ -411,8 +411,8 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 /**
  * Draws a string.
  *
- * Stack: 0 - The index of the string to draw.
- *        1-3 - The arguments for the string.
+ * Stack: 1 - The index of the string to draw.
+ *        2-4 - The arguments for the string.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -426,10 +426,10 @@ uint16 Script_Team_DisplayText(ScriptEngine *script)
 	t = g_scriptCurrentTeam;
 	if (t->houseID == g_playerHouseID) return 0;
 
-	offset = BETOH16(*(script->scriptInfo->text + script->stack[script->stackPointer]));
+	offset = BETOH16(*(script->scriptInfo->text + STACK_PEEK(1)));
 	text = (char *)script->scriptInfo->text + offset;
 
-	GUI_DisplayText(text, 0, script->stack[script->stackPointer + 1], script->stack[script->stackPointer + 2], script->stack[script->stackPointer + 3]);
+	GUI_DisplayText(text, 0, STACK_PEEK(2), STACK_PEEK(3), STACK_PEEK(4));
 
 	return 0;
 }

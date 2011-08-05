@@ -41,6 +41,10 @@ typedef struct ScriptInfo {
 	uint16 isAllocated;                                     /*!< Memory has been allocated on load. */
 } ScriptInfo;
 
+#define STACK_PUSH(value) Script_Stack_Push(script, value, __FILE__, __LINE__)
+#define STACK_POP() Script_Stack_Pop(script, __FILE__, __LINE__)
+#define STACK_PEEK(position) Script_Stack_Peek(script, position, __FILE__, __LINE__)
+
 extern struct Object *g_scriptCurrentObject;
 extern struct Structure *g_scriptCurrentStructure;
 extern struct Unit *g_scriptCurrentUnit;
@@ -61,6 +65,10 @@ extern bool Script_Run(ScriptEngine *script);
 extern void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID);
 extern void Script_ClearInfo(ScriptInfo *scriptInfo);
 extern uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const ScriptFunction *functions, uint8 *data);
+
+extern void Script_Stack_Push(ScriptEngine *script, uint16 value, const char *filename, int lineno);
+extern uint16 Script_Stack_Pop(ScriptEngine *script, const char *filename, int lineno);
+extern uint16 Script_Stack_Peek(ScriptEngine *script, int position, const char *filename, int lineno);
 
 /* General Script Functions */
 extern uint16 Script_General_Delay(ScriptEngine *script);
