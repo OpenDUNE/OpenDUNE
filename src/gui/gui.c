@@ -3086,7 +3086,10 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	while (loop) {
 		region = GUI_StrategicMap_ClickedRegion();
 
-		if (region == 0) continue;
+		if (region == 0) {
+			sleepIdle();
+			continue;
+		}
 
 		for (i = 0; i < count; i++) {
 			GUI_StrategicMap_AnimateArrows();
