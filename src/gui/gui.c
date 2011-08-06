@@ -1440,7 +1440,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 		if (s_ticksPlayed < 60) {
 			char *hours = strchr(buffer, '0');
-			while (*hours != ' ') strcpy(hours, hours + 1);
+			while (*hours != ' ') memmove(hours, hours + 1, strlen(hours));
 		}
 
 		/* "Score: %d" */
