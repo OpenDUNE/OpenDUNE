@@ -2482,7 +2482,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	loc06 = ui->variable_38 + 3;
 
-	if (!unit->o.flags.s.variable_4_0040 && !unit->o.flags.s.isSmoking && unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST) loc06 = 33;
+	if (unit->o.flags.s.variable_4_0040 || unit->o.flags.s.isSmoking || (unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST)) loc06 = 33;
 
 	Map_B4CD_057B(loc06, position, unit, g_functions[1][arg06]);
 
