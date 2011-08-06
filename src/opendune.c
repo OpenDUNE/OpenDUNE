@@ -2337,9 +2337,12 @@ static bool Unknown_25C4_000E()
 	g_fontNew8p = Font_LoadFile("new8p.fnt");
 
 	if (g_fontNew8p == NULL) {
-		printf("\r\nUnable to load font new8p.fnt\r\nReinstall program.\r\n");
+		printf("--------------------------\n");
+		printf("ERROR LOADING DATA FILE\n");
+		printf("\n");
+		printf("Did you copy the Dune2 1.07eu data files into the data directory ?\n");
+		printf("\n");
 
-		Input_WaitForValidInput();
 		return false;
 	}
 
