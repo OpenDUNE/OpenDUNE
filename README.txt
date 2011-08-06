@@ -46,8 +46,11 @@ OpenDUNE requires LibSDL to run. For most platforms we supply SDL in our
 Installation & Running
 ----------------------
 Extract OpenDUNE.
-Copy the original Dune2 1.07eu data files (including dune2.exe) to data/. All
+Copy the original Dune2 1.07 data files (including dune2.exe) to data/. All
  filenames should be lowercase for case-sensitive file systems (Linux, MacOSX).
+ All three existing versions of the Dune 1.07 data files (eu, hs and us) will
+  work, but only with the eu/hs data files the French language will work, and
+  only with the eu data files the German language will work.
 Start 'opendune'.
 
 
