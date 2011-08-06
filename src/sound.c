@@ -234,6 +234,22 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				snprintf(filename, sizeof(filename), str + 1, i);
 
+				/* XXX - In the 1.07us datafiles, a few files are named differently:
+				 *
+				 *  moveout.voc
+				 *  overout.voc
+				 *  report1.voc
+				 *  report2.voc
+				 *  report3.voc
+				 *
+				 * They come without letter in front of them. To make things a bit
+				 *  easier, just check if the file exists, then remove the first
+				 *  letter and see if it works then.
+				 */
+				if (!File_Exists(filename)) {
+					memmove(filename, filename + 1, strlen(filename));
+				}
+
 				g_variable_3E54[voice] = Sound_Unknown0823(filename, &g_variable_3E54_size[voice]);
 				break;
 
