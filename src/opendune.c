@@ -625,7 +625,7 @@ static void GameLoop_PlayAnimation()
 
 			default:
 				PrepareEnd();
-				printf("Bad mode in animation #%i.\r\n", animationMode);
+				printf("Bad mode in animation #%i.\n", animationMode);
 				exit(0);
 		}
 
@@ -2383,10 +2383,7 @@ int main(int argc, char **argv)
 	VARIABLE_NOT_USED(argv);
 
 	if (!Config_Read("dune.cfg", &g_config)) {
-		printf("\r\nThe setup program must be run first.\r\n"
-		       "\r\nZuerst muß das Setup-Programm betrieben werden.\r\n"
-		       "\r\nLe programme de configuration doit d'abord être lancé.\r\n"
-		       "\r\n");
+		printf("Missing dune.cfg file.\n");
 		exit(1);
 	}
 
