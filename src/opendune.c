@@ -1944,7 +1944,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					loc06 = true;
 					break;
 
-				case 0x0153: /* Load Game */
+				case 0x005C: /* Load Game */
 					GUI_Mouse_Hide_Safe();
 					Unknown_259E_0006(g_palette2, 30);
 					GUI_ClearScreen(0);
