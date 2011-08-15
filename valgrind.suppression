@@ -1,0 +1,42 @@
+{
+   SDL Video Globals
+   Memcheck:Leak
+   ...
+   fun:SDL_VideoInit
+   fun:SDL_InitSubSystem
+   fun:SDL_Init
+   fun:Video_Init
+   ...
+}
+{
+   SDL Audio Globals
+   Memcheck:Leak
+   ...
+   fun:SDL_AudioInit
+   fun:SDL_InitSubSystem
+   fun:DSP_Init
+   ...
+}
+{
+   MPU Audio globals
+   Memcheck:Leak
+   ...
+   fun:snd_seq_open
+   fun:mpu_init
+   ...
+}
+{
+   libdl
+   Memcheck:Leak
+   ...
+   fun:dlclose
+   ...
+}
+{
+   libdl
+   Memcheck:Cond
+   ...
+   fun:dl_main
+   ...
+}
+

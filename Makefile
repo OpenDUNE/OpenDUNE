@@ -127,5 +127,8 @@ run-gdb: all
 run-prof: all
 	$(Q)./opendune$(EXTENSION) && gprof opendune | less
 
+run-valgrind: all
+	$(Q)valgrind --track-origins=yes --leak-check=full --show-reachable=yes --suppressions=valgrind.suppression --num-callers=50 ./opendune$(EXTENSION)
+
 FORCE:
 
