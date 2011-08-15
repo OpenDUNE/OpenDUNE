@@ -107,10 +107,14 @@ void mpu_uninit() {
 	if (_midi == NULL) return;
 
 	snd_midi_event_free(_midiCoder);
+	snd_seq_port_subscribe_free(_midiSubscription);
 	snd_seq_delete_port(_midi, _midiPort);
 	snd_seq_close(_midi);
 
 	_midi = NULL;
+
+	/* Release some global memory asound keeps active, even if you close all seqs */
+	snd_config_update_free_global();
 }
 
 void mpu_send(uint32 data)
