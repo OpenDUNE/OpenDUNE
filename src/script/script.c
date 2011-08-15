@@ -156,7 +156,7 @@ static void Script_Error(const char *error, ...)
 {
 	static const char *l_types[4] = { "Unit", "Structure", "Team", "Unknown" };
 	const char *type = l_types[3];
-	char buffer[64];
+	char buffer[256];
 	va_list va;
 
 	if (g_scriptCurrentUnit      != NULL) type = l_types[0];
