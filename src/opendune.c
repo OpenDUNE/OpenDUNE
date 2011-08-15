@@ -2613,6 +2613,6 @@ void PrepareEnd()
 
 	if (g_mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
-	Video_Uninit();
 	Timer_Uninit();
+	Video_Uninit();
 }
