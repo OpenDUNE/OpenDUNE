@@ -792,7 +792,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	screenBackup = malloc(GFX_GetSize(g_curWidgetWidth, g_curWidgetHeight));
 
 	if (screenBackup != NULL) {
-		GFX_CopyToBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, screenBackup);
+		GFX_CopyToBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, screenBackup);
 	}
 
 	GUI_Widget_DrawBorder(1, 1, 1);
@@ -838,7 +838,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	}
 
 	if (screenBackup != NULL) {
-		GFX_CopyFromBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, screenBackup);
+		GFX_CopyFromBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, screenBackup);
 	}
 
 	Widget_SetCurrentWidget(oldValue_07AE_0000);
@@ -3855,7 +3855,7 @@ void GUI_Mouse_Show()
 	if (top + g_mouseHeight >= SCREEN_HEIGHT) s_mouseSpriteHeight -= top + g_mouseHeight - SCREEN_HEIGHT;
 
 	if (g_mouseSpriteBuffer != NULL) {
-		GFX_CopyToBuffer(s_mouseSpriteLeft, s_mouseSpriteTop, s_mouseSpriteWidth, s_mouseSpriteHeight, g_mouseSpriteBuffer);
+		GFX_CopyToBuffer(s_mouseSpriteLeft * 8, s_mouseSpriteTop, s_mouseSpriteWidth * 8, s_mouseSpriteHeight, g_mouseSpriteBuffer);
 	}
 
 	GUI_DrawSprite(0, g_mouseSprite, left, top, 0, 0);
@@ -3871,7 +3871,7 @@ void GUI_Mouse_Hide()
 
 	if (g_mouseHiddenDepth == 0 && s_mouseSpriteWidth != 0) {
 		if (g_mouseSpriteBuffer != NULL) {
-			GFX_CopyFromBuffer(s_mouseSpriteLeft, s_mouseSpriteTop, s_mouseSpriteWidth, s_mouseSpriteHeight, g_mouseSpriteBuffer);
+			GFX_CopyFromBuffer(s_mouseSpriteLeft * 8, s_mouseSpriteTop, s_mouseSpriteWidth * 8, s_mouseSpriteHeight, g_mouseSpriteBuffer);
 		}
 
 		s_mouseSpriteWidth = 0;
