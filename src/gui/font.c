@@ -13,7 +13,6 @@
 void *g_fontIntro = NULL;
 void *g_fontNew6p = NULL;
 void *g_fontNew8p = NULL;
-void *g_fontNew8p2 = NULL;
 
 uint16 g_var_6C70;
 uint8 g_var_6C71;
@@ -105,4 +104,15 @@ void Font_Select(void *font)
 
 	g_var_6C71 = ((uint8 *)f + f->heightOffset)[4];
 	g_var_6C70 = ((uint8 *)f + f->heightOffset)[5];
+}
+
+void Font_Uninit()
+{
+	free(g_fontIntro);
+	free(g_fontNew6p);
+	free(g_fontNew8p);
+
+	g_fontIntro = NULL;
+	g_fontNew6p = NULL;
+	g_fontNew8p = NULL;
 }

@@ -24,7 +24,6 @@ assert_compile(sizeof(FontHeader) == 0xE);
 extern void *g_fontIntro;
 extern void *g_fontNew6p;
 extern void *g_fontNew8p;
-extern void *g_fontNew8p2;
 
 extern uint16 g_var_6C70;
 extern uint8 g_var_6C71;
@@ -33,6 +32,7 @@ extern int8 g_fontCharOffset;
 
 extern FontHeader *g_fontCurrent;
 
+extern void Font_Uninit();
 extern uint16 Font_GetCharWidth(char c);
 extern uint16 Font_GetStringWidth(char *string);
 extern void *Font_LoadFile(const char *filename);

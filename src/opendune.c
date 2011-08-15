@@ -309,6 +309,7 @@ static void Memory_ClearBlock(uint16 index)
 static void GameLoop_FinishAnimation()
 {
 	free(g_fontIntro);
+	g_fontIntro = NULL;
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
@@ -888,7 +889,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				Font_Select(g_fontNew6p);
 			} else if (*text == 2) {
 				text++;
-				Font_Select(g_fontNew8p2);
+				Font_Select(g_fontNew8p);
 			}
 
 			strings[stringCount].charHeight = g_var_6C71;
@@ -966,7 +967,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			if ((int16)strings[loc02].y < g_curWidgetHeight) {
 				GFX_Screen_SetActive(screenID);
 
-				Font_Select(g_fontNew8p2);
+				Font_Select(g_fontNew8p);
 
 				if (strings[loc02].charHeight != g_var_6C71) Font_Select(g_fontNew6p);
 
@@ -1839,7 +1840,6 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_stringsHint = File_ReadWholeFile(String_GenerateFilename("MESSAGE"));
 
 	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
-	g_fontNew8p2 = g_fontNew8p;
 
 	Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, NULL);
 	Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, NULL);
@@ -2598,12 +2598,12 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 }
 
 /**
- * Close down facilities used by the program such as resetting the interrupt
- *   vector and clearing the mouse callback.
- * Always called just before the program terminates.
+ * Close down facilities used by the program. Always called just before the
+ *  program terminates.
  */
 void PrepareEnd()
 {
+	Font_Uninit();
 	GFX_Uninit();
 
 	Drivers_All_Uninit();

@@ -531,9 +531,9 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 
 	if ((arg12low != displayedarg12low && arg12low != 0) || string == NULL) {
 		switch (arg12low) {
-			case 1:  Font_Select(g_fontNew6p);  break;
-			case 2:  Font_Select(g_fontNew8p2); break;
-			default: Font_Select(g_fontNew8p);  break;
+			case 1:  Font_Select(g_fontNew6p); break;
+			case 2:  Font_Select(g_fontNew8p); break;
+			default: Font_Select(g_fontNew8p); break;
 		}
 
 		displayedarg12low = arg12low;
