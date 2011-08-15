@@ -428,7 +428,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	GUI_Mouse_Hide();
 
-	size = GFX_GetSize((*(uint16 *)(sprite + 3) >> 3) + 2, sprite[5]);
+	size = GFX_GetSize(*(uint16 *)(sprite + 3) + 16, sprite[5]);
 
 	if (s_mouseSpriteBufferSize < size) {
 		if (g_mouseSpriteBuffer != NULL) {

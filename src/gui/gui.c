@@ -789,7 +789,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	Widget_SetCurrentWidget(1);
 
-	screenBackup = malloc(GFX_GetSize(g_curWidgetWidth, g_curWidgetHeight));
+	screenBackup = malloc(GFX_GetSize(g_curWidgetWidth * 8, g_curWidgetHeight));
 
 	if (screenBackup != NULL) {
 		GFX_CopyToBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, screenBackup);
@@ -2553,7 +2553,7 @@ void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 		yDst = 0;
 	}
 
-	GFX_Screen_Copy(xSrc, ySrc, xDst, yDst, width, height, screenSrc, screenDst);
+	GFX_Screen_Copy(xSrc * 8, ySrc, xDst * 8, yDst, width * 8, height, screenSrc, screenDst);
 }
 
 static uint32 GUI_FactoryWindow_CreateWidgets()

@@ -150,11 +150,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					continue;
 				}
 
-				GFX_DrawSprite(t->groundSpriteID, left >> 3, top, t->houseID);
+				GFX_DrawSprite(t->groundSpriteID, left, top, t->houseID);
 
 				if (t->overlaySpriteID == 0 || g_debugScenario) continue;
 
-				GFX_DrawSprite(t->overlaySpriteID, left >> 3, top, t->houseID);
+				GFX_DrawSprite(t->overlaySpriteID, left, top, t->houseID);
 			}
 		}
 		g_var_39E2 = 0;

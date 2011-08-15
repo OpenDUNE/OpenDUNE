@@ -133,7 +133,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 	if (s_spriteMode == 4) return;
 
 	wptr = GFX_Screen_GetActive();
-	wptr += y * SCREEN_WIDTH + (x << 3);
+	wptr += y * SCREEN_WIDTH + x;
 	rptr = g_spriteInfo + ((spriteID * s_spriteInfoSize) << 4);
 
 	spacing = s_spriteSpacing;
@@ -277,11 +277,11 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 
 /**
  * Copy information from one screenbuffer to the other.
- * @param xSrc The X-coordinate on the source divided by 8.
+ * @param xSrc The X-coordinate on the source.
  * @param ySrc The Y-coordinate on the source.
- * @param xDst The X-coordinate on the destination divided by 8.
+ * @param xDst The X-coordinate on the destination.
  * @param yDst The Y-coordinate on the destination.
- * @param width The width divided by 8.
+ * @param width The width.
  * @param height The height.
  * @param screenSrc The ID of the source screen.
  * @param screenDst The ID of the destination screen.
@@ -291,16 +291,14 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	uint8 *src;
 	uint8 *dst;
 
-	if (xSrc >= SCREEN_WIDTH / 8) return;
+	if (xSrc >= SCREEN_WIDTH) return;
 	if (xSrc < 0) xSrc = 0;
-	xSrc *= 8;
 
 	if (ySrc >= SCREEN_HEIGHT) return;
 	if (ySrc < 0) ySrc = 0;
 
-	if (xDst >= SCREEN_WIDTH / 8) return;
+	if (xDst >= SCREEN_WIDTH) return;
 	if (xDst < 0) xDst = 0;
-	xDst *= 8;
 
 	if ((yDst + height) > SCREEN_HEIGHT) {
 		height = SCREEN_HEIGHT - 1 - yDst;
@@ -316,8 +314,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
 
-	if (width > SCREEN_WIDTH / 8 || width < 1) return;
-	width *= 8;
+	if (width < 1 || width > SCREEN_WIDTH) return;
 
 	while (height-- != 0) {
 		memmove(dst, src, width);
@@ -362,11 +359,11 @@ uint8 GFX_GetPixel(uint16 x, uint16 y)
 uint16 GFX_GetSize(int16 width, int16 height)
 {
 	if (width < 1) width = 1;
-	if (width > SCREEN_WIDTH / 8) width = SCREEN_WIDTH / 8;
+	if (width > SCREEN_WIDTH) width = SCREEN_WIDTH;
 	if (height < 1) height = 1;
 	if (height > SCREEN_HEIGHT) height = SCREEN_HEIGHT;
 
-	return (width * height) << 3;
+	return width * height;
 }
 
 /**
