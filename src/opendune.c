@@ -2607,12 +2607,12 @@ void PrepareEnd()
 
 	Sprites_Uninit();
 	Font_Uninit();
-	GFX_Uninit();
 
 	Drivers_All_Uninit();
 
 	if (g_mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
 	Timer_Uninit();
+	GFX_Uninit();
 	Video_Uninit();
 }
