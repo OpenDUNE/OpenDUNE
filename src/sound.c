@@ -112,9 +112,8 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 	uint16 index;
 	uint16 volume;
 
-	if (voiceID < 0) return;
+	if (voiceID < 0 || voiceID >= 120) return;
 	if (!g_gameConfig.sounds) return;
-	assert(voiceID < 120);
 
 	volume = 255;
 	if (position.tile != 0) {
