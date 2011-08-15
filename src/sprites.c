@@ -576,3 +576,15 @@ uint8 Orientation_Orientation256ToOrientation16(uint8 orientation)
 {
 	return s_orientationTable[orientation] >> 4;
 }
+
+void Sprites_Uninit()
+{
+	free(g_mouseSpriteBuffer); g_mouseSpriteBuffer = NULL;
+	free(g_mouseSprite); g_mouseSprite = NULL;
+
+	free(g_spriteInfo); g_spriteInfo = NULL;
+	free(g_iconRTBL); g_iconRTBL = NULL;
+	free(g_iconRPAL); g_iconRPAL = NULL;
+
+	free(g_iconMap); g_iconMap = NULL;
+}

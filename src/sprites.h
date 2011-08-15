@@ -72,6 +72,7 @@ extern uint16 g_landscapeSpriteID;                          /*!< First landscape
 extern uint16 g_builtSlabSpriteID;                          /*!< SpriteID of the built concrete slab. */
 extern uint16 g_wallSpriteID;                               /*!< First wall spriteID. */
 
+extern void Sprites_Uninit();
 extern void Sprites_Load(uint16 index, uint8 **sprites);
 extern uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index);
 extern uint8 Sprite_GetWidth(uint8 *sprite);

@@ -770,16 +770,16 @@ static void GameLoop_Uninit()
 	Script_ClearInfo(g_scriptStructure);
 	Script_ClearInfo(g_scriptTeam);
 
-	free(s_spriteBuffer);
-	free(g_readBuffer);
+	free(s_spriteBuffer); s_spriteBuffer = NULL;
+	free(g_readBuffer); g_readBuffer = NULL;
 
-	free(g_palette1);
-	free(g_palette2);
-	free(g_paletteMapping1);
-	free(g_paletteMapping2);
+	free(g_palette1); g_palette1 = NULL;
+	free(g_palette2); g_palette2 = NULL;
+	free(g_paletteMapping1); g_paletteMapping1 = NULL;
+	free(g_paletteMapping2); g_paletteMapping2 = NULL;
 
-	free(g_strings);
-	free(g_stringsHint);
+	free(g_strings); g_strings = NULL;
+	free(g_stringsHint); g_stringsHint = NULL;
 }
 
 static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 screenID, void *arg0C)
@@ -2396,10 +2396,10 @@ int main(int argc, char **argv)
 	g_var_7097 = 0;
 
 	GameLoop_Main();
-	PrepareEnd();
 
 	printf("%s\n", String_Get_ByIndex(0x141)); /* "Thank you for playing Dune II." */
 
+	PrepareEnd();
 	exit(0);
 }
 
@@ -2603,6 +2603,11 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
  */
 void PrepareEnd()
 {
+	free(g_palette_998A); g_palette_998A = NULL;
+
+	GameLoop_Uninit();
+
+	Sprites_Uninit();
 	Font_Uninit();
 	GFX_Uninit();
 

@@ -108,11 +108,7 @@ void Font_Select(void *font)
 
 void Font_Uninit()
 {
-	free(g_fontIntro);
-	free(g_fontNew6p);
-	free(g_fontNew8p);
-
-	g_fontIntro = NULL;
-	g_fontNew6p = NULL;
-	g_fontNew8p = NULL;
+	free(g_fontIntro); g_fontIntro = NULL;
+	free(g_fontNew6p); g_fontNew6p = NULL;
+	free(g_fontNew8p); g_fontNew8p = NULL;
 }
