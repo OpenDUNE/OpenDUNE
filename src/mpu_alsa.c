@@ -112,9 +112,6 @@ void mpu_uninit() {
 	snd_seq_close(_midi);
 
 	_midi = NULL;
-
-	/* Release some global memory asound keeps active, even if you close all seqs */
-	snd_config_update_free_global();
 }
 
 void mpu_send(uint32 data)
