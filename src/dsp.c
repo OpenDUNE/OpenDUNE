@@ -69,17 +69,15 @@ bool DSP_Init()
 	s_spec.samples  = 512;
 	s_spec.callback = DSP_Callback;
 
-	SDL_OpenAudio(&s_spec, &s_spec);
-
-	if (SDL_GetAudioStatus() == 0) return false;
-
 	s_bufferLen = 0;
 	s_buffer = NULL;
 	s_status = 0;
 	s_data = NULL;
 	s_dataLen = 0;
 
-	return true;
+	SDL_OpenAudio(&s_spec, &s_spec);
+
+	return (SDL_GetAudioStatus() != 0);
 }
 
 /**
