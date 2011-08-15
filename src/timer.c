@@ -188,6 +188,11 @@ void Timer_Uninit()
 #if defined(_WIN32)
 	CloseHandle(s_timerMainThread);
 #endif /* _WIN32 */
+
+	free(s_timerNodes);
+	s_timerNodes = NULL;
+	s_timerNodeCount = 0;
+	s_timerNodeSize = 0;
 }
 
 /**
