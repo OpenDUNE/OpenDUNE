@@ -136,6 +136,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 
 			if (fread(&pakPosition, sizeof(uint32), 1, s_file[fileIndex].fp) != 1) {
 				fclose(s_file[fileIndex].fp);
+				s_file[fileIndex].fp = NULL;
 				return FILE_INVALID;
 			}
 			if (pakPosition == 0) break;
@@ -144,6 +145,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 			for (i = 0; i < sizeof(pakFilename); i++) {
 				if (fread(&pakFilename[i], 1, 1, s_file[fileIndex].fp) != 1) {
 					fclose(s_file[fileIndex].fp);
+					s_file[fileIndex].fp = NULL;
 					return FILE_INVALID;
 				}
 				if (pakFilename[i] == '\0') break;
@@ -153,6 +155,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 			}
 			if (i == sizeof(pakFilename)) {
 				fclose(s_file[fileIndex].fp);
+				s_file[fileIndex].fp = NULL;
 				return FILE_INVALID;
 			}
 
@@ -179,6 +182,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	/* Check if the file is inside the PAK file */
 	if (!g_table_fileInfo[fileInfoIndex].flags.isLoaded) {
 		fclose(s_file[fileIndex].fp);
+		s_file[fileIndex].fp = NULL;
 		return FILE_INVALID;
 	}
 
