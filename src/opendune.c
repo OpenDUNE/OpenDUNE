@@ -2607,6 +2607,7 @@ void PrepareEnd()
 
 	Sprites_Uninit();
 	Font_Uninit();
+	Voice_UnloadVoices();
 
 	Drivers_All_Uninit();
 

@@ -278,6 +278,19 @@ void Voice_LoadVoices(uint16 voiceSet)
 }
 
 /**
+ * Unload voices.
+ */
+void Voice_UnloadVoices()
+{
+	uint16 voice;
+
+	for (voice = 0; voice < NUM_VOICES; voice++) {
+		free(g_variable_3E54[voice]);
+		g_variable_3E54[voice] = NULL;
+	}
+}
+
+/**
  * Start playing a sound sample.
  * @param index Sample to play.
  */
