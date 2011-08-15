@@ -440,8 +440,11 @@ void *File_ReadWholeFile(const char *filename)
 	index = File_Open(filename, 1);
 	length = File_GetSize(index);
 
-	buffer = malloc(length);
+	buffer = malloc(length + 1);
 	File_Read(index, buffer, length);
+
+	/* In case of text-files it can be very important to have a \0 at the end */
+	((char *)buffer)[length] = '\0';
 
 	File_Close(index);
 
