@@ -83,6 +83,20 @@ void GFX_Init()
 }
 
 /**
+ * Uninitialize the GFX system.
+ */
+void GFX_Uninit()
+{
+	int i;
+
+	free(s_screenBuffer[0]);
+
+	for (i = 0; i < 5; i++) {
+		s_screenBuffer[i] = NULL;
+	}
+}
+
+/**
  * Change the current active screen to the new value.
  * @param screenID The new screen to get active.
  * @return Old screenID that was currently active.

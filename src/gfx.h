@@ -13,6 +13,7 @@ enum {
 extern uint16 g_screenActiveID;
 
 extern void GFX_Init();
+extern void GFX_Uninit();
 extern uint16 GFX_Screen_SetActive(uint16 screenID);
 extern void *GFX_Screen_GetActive();
 extern uint16 GFX_Screen_GetSize_ByIndex(uint16 screenID);

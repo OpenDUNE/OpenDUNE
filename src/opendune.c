@@ -2604,6 +2604,8 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
  */
 void PrepareEnd()
 {
+	GFX_Uninit();
+
 	Drivers_All_Uninit();
 
 	if (g_mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
