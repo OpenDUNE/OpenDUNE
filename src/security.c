@@ -26,8 +26,6 @@
 #include "unknown/unknown.h"
 #include "wsa.h"
 
-Scenario g_scenario;
-
 static void GUI_Security_DrawText(char *text)
 {
 	uint16 oldScreenID;

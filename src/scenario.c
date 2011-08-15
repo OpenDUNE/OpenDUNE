@@ -28,8 +28,9 @@
 #include "unit.h"
 #include "gui/gui.h"
 
-static void *s_scenarioBuffer = NULL;
+Scenario g_scenario;
 
+static void *s_scenarioBuffer = NULL;
 
 static void Scenario_Load_General()
 {
