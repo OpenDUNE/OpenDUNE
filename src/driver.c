@@ -381,6 +381,9 @@ static void Drivers_SoundMusic_Uninit()
 		}
 	}
 
+	if (music->content != sound->content) Driver_UnloadFile(music);
+	Driver_UnloadFile(sound);
+
 	/* Only Uninit() sound, as music is a copy of sound. */
 	Drivers_Uninit(sound);
 	memcpy(music, sound, sizeof(Driver));
