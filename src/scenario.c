@@ -28,20 +28,22 @@
 #include "unit.h"
 #include "gui/gui.h"
 
+static void *s_scenarioBuffer = NULL;
+
 
 static void Scenario_Load_General()
 {
-	g_scenario.winFlags          = Ini_GetInteger("BASIC", "WinFlags",    0,                            g_readBuffer);
-	g_scenario.loseFlags         = Ini_GetInteger("BASIC", "LoseFlags",   0,                            g_readBuffer);
-	g_scenario.mapSeed           = Ini_GetInteger("MAP",   "Seed",        0,                            g_readBuffer);
-	g_scenario.timeOut           = Ini_GetInteger("BASIC", "TimeOut",     0,                            g_readBuffer);
-	g_minimapPosition            = Ini_GetInteger("BASIC", "TacticalPos", g_minimapPosition,            g_readBuffer);
-	g_selectionRectanglePosition = Ini_GetInteger("BASIC", "CursorPos",   g_selectionRectanglePosition, g_readBuffer);
-	g_scenario.mapScale          = Ini_GetInteger("BASIC", "MapScale",    0,                            g_readBuffer);
+	g_scenario.winFlags          = Ini_GetInteger("BASIC", "WinFlags",    0,                            s_scenarioBuffer);
+	g_scenario.loseFlags         = Ini_GetInteger("BASIC", "LoseFlags",   0,                            s_scenarioBuffer);
+	g_scenario.mapSeed           = Ini_GetInteger("MAP",   "Seed",        0,                            s_scenarioBuffer);
+	g_scenario.timeOut           = Ini_GetInteger("BASIC", "TimeOut",     0,                            s_scenarioBuffer);
+	g_minimapPosition            = Ini_GetInteger("BASIC", "TacticalPos", g_minimapPosition,            s_scenarioBuffer);
+	g_selectionRectanglePosition = Ini_GetInteger("BASIC", "CursorPos",   g_selectionRectanglePosition, s_scenarioBuffer);
+	g_scenario.mapScale          = Ini_GetInteger("BASIC", "MapScale",    0,                            s_scenarioBuffer);
 
-	Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA",  g_scenario.pictureBriefing, 14, g_readBuffer);
-	Ini_GetString("BASIC", "WinPicture",   "WIN1.WSA",     g_scenario.pictureWin,      14, g_readBuffer);
-	Ini_GetString("BASIC", "LosePicture",  "LOSTBILD.WSA", g_scenario.pictureLose,     14, g_readBuffer);
+	Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA",  g_scenario.pictureBriefing, 14, s_scenarioBuffer);
+	Ini_GetString("BASIC", "WinPicture",   "WIN1.WSA",     g_scenario.pictureWin,      14, s_scenarioBuffer);
+	Ini_GetString("BASIC", "LosePicture",  "LOSTBILD.WSA", g_scenario.pictureLose,     14, s_scenarioBuffer);
 
 	g_viewportPosition  = g_minimapPosition;
 	g_selectionPosition = g_selectionRectanglePosition;
@@ -56,7 +58,7 @@ static void Scenario_Load_House(uint8 houseID)
 	House *h;
 
 	/* Get the type of the House (CPU / Human) */
-	Ini_GetString(houseName, "Brain", "NONE", buf, 127, g_readBuffer);
+	Ini_GetString(houseName, "Brain", "NONE", buf, 127, s_scenarioBuffer);
 	for (b = buf; *b != '\0'; b++) if (*b >= 'a' && *b <= 'z') *b += 'A' - 'a';
 	houseType = strstr("HUMAN$CPU", buf);
 	if (houseType == NULL) return;
@@ -64,9 +66,9 @@ static void Scenario_Load_House(uint8 houseID)
 	/* Create the house */
 	h = House_Allocate(houseID);
 
-	h->credits      = Ini_GetInteger(houseName, "Credits",  0, g_readBuffer);
-	h->creditsQuota = Ini_GetInteger(houseName, "Quota",    0, g_readBuffer);
-	h->unitCountMax = Ini_GetInteger(houseName, "MaxUnit", 39, g_readBuffer);
+	h->credits      = Ini_GetInteger(houseName, "Credits",  0, s_scenarioBuffer);
+	h->creditsQuota = Ini_GetInteger(houseName, "Quota",    0, s_scenarioBuffer);
+	h->unitCountMax = Ini_GetInteger(houseName, "MaxUnit", 39, s_scenarioBuffer);
 
 	/* For 'Brain = Human' we have to set a few additional things */
 	if (*houseType != 'H') return;
@@ -480,7 +482,7 @@ static void Scenario_Load_MapParts(const char *key, void (*ptr)(uint16 packed, T
 	char *s;
 	char buf[128];
 
-	Ini_GetString("MAP", key, '\0', buf, 127, g_readBuffer);
+	Ini_GetString("MAP", key, '\0', buf, 127, s_scenarioBuffer);
 
 	s = strtok(buf, ",\r\n");
 	while (s != NULL) {
@@ -498,16 +500,15 @@ static void Scenario_Load_MapParts(const char *key, void (*ptr)(uint16 packed, T
 
 static void Scenario_Load_Chunk(const char *category, void (*ptr)(const char *key, char *settings))
 {
-	uint16 length    = strlen(g_readBuffer) + 2;
-	char *buffer     = (char *)g_readBuffer + length;
+	char *buffer = g_readBuffer;
 
-	Ini_GetString(category, NULL, NULL, buffer, g_readBufferSize - length, g_readBuffer);
+	Ini_GetString(category, NULL, NULL, g_readBuffer, g_readBufferSize, s_scenarioBuffer);
 	while (true) {
 		char buf[127];
 
 		if (*buffer == '\0') break;
 
-		Ini_GetString(category, buffer, NULL, buf, 127, g_readBuffer);
+		Ini_GetString(category, buffer, NULL, buf, 127, s_scenarioBuffer);
 
 		(*ptr)(buffer, buf);
 		buffer += strlen(buffer) + 1;
@@ -523,13 +524,10 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 
 	g_scenarioID = scenarioID;
 
-	/* Clear the buffer we will read in */
-	memset(g_readBuffer, 0, g_readBufferSize);
-
 	/* Load scenario file */
 	sprintf(filename, "SCEN%c%03d.INI", g_table_houseInfo[houseID].name[0], scenarioID);
 	if (!File_Exists(filename)) return false;
-	File_ReadBlockFile(filename, g_readBuffer, g_readBufferSize);
+	s_scenarioBuffer = File_ReadWholeFile(filename);
 
 	memset(&g_scenario, 0, sizeof(Scenario));
 
@@ -555,5 +553,7 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 	Scenario_Load_MapParts("Special", Scenario_Load_Map_Special);
 
 	g_tickScenarioStart = g_timerGame;
+
+	free(s_scenarioBuffer);
 	return true;
 }
