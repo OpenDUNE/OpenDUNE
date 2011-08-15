@@ -119,8 +119,7 @@ void String_TranslateSpecial(char *source, char *dest)
 void String_Load(char *name)
 {
 	if (g_strings != NULL) {
-		free(g_strings);
-		g_strings = NULL;
+		free(g_strings); g_strings = NULL;
 	}
 
 	if (name == NULL) return;

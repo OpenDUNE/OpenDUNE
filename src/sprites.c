@@ -431,13 +431,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 	size = GFX_GetSize(*(uint16 *)(sprite + 3) + 16, sprite[5]);
 
 	if (s_mouseSpriteBufferSize < size) {
-		if (g_mouseSpriteBuffer != NULL) {
-			free(g_mouseSpriteBuffer);
-			g_mouseSpriteBuffer = NULL;
-			s_mouseSpriteBufferSize = 0;
-		}
-
-		g_mouseSpriteBuffer = malloc(size);
+		g_mouseSpriteBuffer = realloc(g_mouseSpriteBuffer, size);
 		s_mouseSpriteBufferSize = size;
 	}
 
@@ -445,13 +439,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 	if ((*(uint16 *)sprite & 0x1) != 0) size += 16;
 
 	if (s_mouseSpriteSize < size) {
-		if (g_mouseSprite != NULL) {
-			free(g_mouseSprite);
-			g_mouseSprite = NULL;
-			s_mouseSpriteSize = 0;
-		}
-
-		g_mouseSprite = malloc(size);
+		g_mouseSprite = realloc(g_mouseSprite, size);
 		s_mouseSpriteSize = size;
 	}
 

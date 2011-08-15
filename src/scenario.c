@@ -554,6 +554,6 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 
 	g_tickScenarioStart = g_timerGame;
 
-	free(s_scenarioBuffer);
+	free(s_scenarioBuffer); s_scenarioBuffer = NULL;
 	return true;
 }

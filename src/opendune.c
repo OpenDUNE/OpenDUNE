@@ -308,8 +308,7 @@ static void Memory_ClearBlock(uint16 index)
 
 static void GameLoop_FinishAnimation()
 {
-	free(g_fontIntro);
-	g_fontIntro = NULL;
+	free(g_fontIntro); g_fontIntro = NULL;
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
@@ -1807,8 +1806,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	ReadProfileIni("PROFILE.INI");
 
-	free(g_readBuffer);
-	g_readBuffer = NULL;
+	free(g_readBuffer); g_readBuffer = NULL;
 
 	File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
 

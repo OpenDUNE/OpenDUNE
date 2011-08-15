@@ -53,8 +53,7 @@ void DSP_Uninit()
 	DSP_Stop();
 	SDL_CloseAudio();
 
-	free(s_data);
-	s_data = NULL;
+	free(s_data); s_data = NULL;
 	s_dataLen = 0;
 
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);

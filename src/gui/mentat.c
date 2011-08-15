@@ -344,18 +344,15 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_HelpListLoop();
 
-	free(g_widgetMentatFirst);
+	free(g_widgetMentatFirst); g_widgetMentatFirst = NULL;
 
 	Load_Palette_Mercenaries();
 
 	GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
-
-	free(g_widgetMentatUnknown1);
-	free(g_widgetMentatUnknown2);
-
-	g_widgetMentatUnknown1 = NULL;
-	g_widgetMentatUnknown2 = NULL;
 	g_widgetMentatScrollbar = NULL;
+
+	free(g_widgetMentatUnknown1); g_widgetMentatUnknown1 = NULL;
+	free(g_widgetMentatUnknown2); g_widgetMentatUnknown2 = NULL;
 
 	Input_Flags_ClearBits(INPUT_FLAG_KEY_REPEAT);
 
@@ -844,10 +841,13 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	Widget *w;
 	int i;
 
-	if (g_widgetMentatScrollbar != NULL) GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
+	if (g_widgetMentatScrollbar != NULL) {
+		GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
+		g_widgetMentatScrollbar = NULL;
+	}
 
-	free(g_widgetMentatUnknown2);
-	free(g_widgetMentatUnknown1);
+	free(g_widgetMentatUnknown1); g_widgetMentatUnknown1 = NULL;
+	free(g_widgetMentatUnknown2); g_widgetMentatUnknown2 = NULL;
 
 	g_widgetMentatTail = NULL;
 	ypos = 8;
