@@ -73,7 +73,7 @@ bool DSP_Init()
 	s_data = NULL;
 	s_dataLen = 0;
 
-	SDL_OpenAudio(&s_spec, &s_spec);
+	if (SDL_OpenAudio(&s_spec, &s_spec) != 0) return false;
 
 	return (SDL_GetAudioStatus() != 0);
 }
