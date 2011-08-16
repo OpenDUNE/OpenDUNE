@@ -57,6 +57,10 @@ bool mpu_init() {
 		snd_seq_port_info_set_port(pinfo, -1);
 		while (snd_seq_query_next_port(_midi, pinfo) >= 0) {
 			if ((snd_seq_port_info_get_capability(pinfo) & (SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE)) != (SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE)) continue;
+			/* Most linux installations come with a Midi Through Port.
+			 *  This is 'hardware' support that mostly ends up on your serial, which
+			 *  you most likely do not have connected. So we skip it by default. */
+			if (strncmp("Midi Through Port", snd_seq_port_info_get_name(pinfo), 17) == 0) continue;
 			printf("Found MIDI output: %s\n", snd_seq_port_info_get_name(pinfo));
 			found = true;
 			break;
