@@ -943,6 +943,74 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="crashlog"
+				>
+				<File
+					RelativePath="..\src\crashlog\crashlog.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\crashlog\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\crashlog\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\crashlog\crashlog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\crashlog\crashlog_none.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\crashlog\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\crashlog\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\crashlog\crashlog_win32.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\crashlog\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\crashlog\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="gui"
 				>
 				<File

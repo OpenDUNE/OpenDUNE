@@ -22,6 +22,7 @@
 
 #include "animation.h"
 #include "config.h"
+#include "crashlog/crashlog.h"
 #include "driver.h"
 #include "file.h"
 #include "gfx.h"
@@ -2376,6 +2377,8 @@ int main(int argc, char **argv)
 	if (out != NULL) _dup2(_fileno(out), _fileno(stdout));
 	FreeConsole();
 #endif
+
+	CrashLog_Init();
 
 	VARIABLE_NOT_USED(argc);
 	VARIABLE_NOT_USED(argv);
