@@ -59,6 +59,15 @@ void DSP_Uninit()
 
 bool DSP_Init()
 {
+#if defined(MPU_ALSA)
+	/* XXX - SDL and opening your own asound port are in heavy conflict,
+	 *  causing deadlocks. If we are playing music, the soundcard appear to
+	 *  be locked, on which SDL starts to wait when it wants to play voices.
+	 *  As we always play music, this never happens, and the game deadlocks.
+	 * This is a 'quick and dirty' solution, by the lack of better
+	 *  alternatives. */
+	return false;
+#endif /* MPU_ALSA */
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) return false;
 
 	s_spec.freq     = 22050;
