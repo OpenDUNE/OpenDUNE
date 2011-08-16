@@ -32,8 +32,6 @@ static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 		memcpy(stream, s_buffer, s_bufferLen);
 		s_bufferLen = 0;
 		s_status = 0;
-
-		SDL_PauseAudio(1);
 	}
 }
 
