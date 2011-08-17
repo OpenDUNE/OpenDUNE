@@ -12,7 +12,7 @@
 #include "file.h"
 #include "sound.h"
 
-GameCfg g_gameConfig;
+GameCfg g_gameConfig = { 1, 1, 2, 1, 0 };
 DuneCfg g_config;
 bool g_enableSoundMusic = true;
 bool g_enableVoices = true;
