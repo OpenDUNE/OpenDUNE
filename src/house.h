@@ -49,12 +49,12 @@ typedef enum HouseAnimationType {
  */
 typedef struct House {
 	uint8  index;                      /*!< The index of the House in the array. */
-	uint16 variable_02;                /*!< ?? */
+	uint16 harvestersIncoming;         /*!< How many harvesters are waiting to be delivered. Only happens when we run out of Units to do it immediately. */
 	struct {
 		BIT_U8 used:1;                 /*!< The House is in use (no longer free in the pool). */
 		BIT_U8 human:1;                /*!< The House is controlled by a human. */
-		BIT_U8 variable_0004:1;        /*!< ?? */
-		BIT_U8 variable_0008:1;        /*!< ?? */
+		BIT_U8 doneFullScaleAttack:1;  /*!< The House did his one time attack the human with everything we have. */
+		BIT_U8 isAIActive:1;           /*!< The House has been seen by the human, and everything now becomes active (Team attack, house missiles, rebuilding, ..). */
 		BIT_U8 radarActivated:1;       /*!< The radar is activated. */
 		BIT_U8 unused_0020:3;          /*!< Unused */
 	} flags;                           /*!< General flags of the House. */
@@ -70,9 +70,9 @@ typedef struct House {
 	uint16 windtrapCount;              /*!< Amount of windtraps the House currently has. */
 	uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
 	tile32 palacePosition;             /*!< Position of the Palace. */
-	uint16 variable_24;                /*!< ?? */
-	uint16 variable_26;                /*!< ?? */
-	uint16 variable_28;                /*!< ?? */
+	uint16 timerUnitAttack;            /*!< Timer to count down when next 'unit approaching' message can be showed again. */
+	uint16 timerSandwormAttack;        /*!< Timer to count down when next 'sandworm approaching' message can be showed again. */
+	uint16 timerStructureAttack;       /*!< Timer to count down when next 'base is under attack' message can be showed again. */
 	uint16 starportTimeLeft;           /*!< How much time is left before starport transport arrives. */
 	uint16 starportLinkedID;           /*!< If there is a starport delivery, this indicates the first unit of the linked list. Otherwise it is 0xFFFF. */
 	uint16 ai_structureRebuild[5][2];  /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
@@ -83,9 +83,9 @@ typedef struct House {
  */
 typedef struct HouseInfo {
 	const char *name;                                       /*!< Pointer to name of house. */
-	uint16 variable_04;                                     /*!< ?? Default amount of deviation decreased? */
-	uint16 variable_06;                                     /*!< ?? */
-	uint16 variable_08;                                     /*!< ?? Amount of damage per 'degrade' round? */
+	uint16 toughness;                                       /*!< How though the House is. Gives probability of deviation and chance of retreating. */
+	uint16 degradingChance;                                 /*!< On Unit create, this is the chance a Unit will be set to 'degrading'. */
+	uint16 degradingAmount;                                 /*!< Amount of damage dealt to degrading Structures. */
 	uint16 minimapColor;                                    /*!< The color used on the minimap. */
 	uint16 specialCountDown;                                /*!< Time between activation of Special Weapon. */
 	uint16 starportDeliveryTime;                            /*!< Time it takes for a starport delivery. */

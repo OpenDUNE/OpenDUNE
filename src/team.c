@@ -47,7 +47,7 @@ void GameLoop_Team()
 
 		g_scriptCurrentTeam = t;
 
-		if (!h->flags.variable_0008) continue;
+		if (!h->flags.isAIActive) continue;
 
 		if (t->script.delay != 0) {
 			t->script.delay--;

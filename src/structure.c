@@ -113,13 +113,13 @@ void GameLoop_Structure()
 			}
 
 			/* Check if we have to fire the weapon for the AI immediately */
-			if (s->countDown == 0 && !h->flags.human && h->flags.variable_0008) {
+			if (s->countDown == 0 && !h->flags.human && h->flags.isAIActive) {
 				Structure_ActivateSpecial(s);
 			}
 		}
 
 		if (tickDegrade && s->o.flags.s.degrades && s->o.hitpoints > si->o.hitpoints / 2) {
-			Structure_Damage(s, hi->variable_08 + 1, 0);
+			Structure_Damage(s, hi->degradingAmount, 0);
 		}
 
 		if (tickStructure) {
@@ -308,7 +308,7 @@ void GameLoop_Structure()
 				}
 
 				/* AI maintenance on structures */
-				if (h->flags.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_playerHouseID && h->credits != 0) {
+				if (h->flags.isAIActive && s->o.flags.s.allocated && s->o.houseID != g_playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
 					if (s->o.hitpoints < si->o.hitpoints / 2) {
 						Structure_SetRepairingState(s, 1, NULL);
@@ -1935,16 +1935,15 @@ void Structure_HouseUnderAttack(uint8 houseID)
 
 	h = House_Get_ByIndex(houseID);
 
-	if (houseID != g_playerHouseID && h->flags.variable_0004) return;
-
-	h->flags.variable_0004 = true;
+	if (houseID != g_playerHouseID && h->flags.doneFullScaleAttack) return;
+	h->flags.doneFullScaleAttack = true;
 
 	if (h->flags.human) {
-		if (h->variable_28 != 0) return;
+		if (h->timerStructureAttack != 0) return;
 
 		Sound_Output_Feedback(48);
 
-		h->variable_28 = 8;
+		h->timerStructureAttack = 8;
 		return;
 	}
 

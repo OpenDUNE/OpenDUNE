@@ -205,7 +205,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				g_var_38BC--;
 
 				if (u == NULL) {
-					h->variable_02++;
+					h->harvestersIncoming++;
 				} else {
 					u->originEncoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 				}

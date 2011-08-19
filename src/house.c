@@ -276,10 +276,10 @@ void GameLoop_House()
 			House_CalculatePowerAndCredit(h);
 			Structure_CalculateHitpointsMax(h);
 
-			if (h->variable_24 != 0) h->variable_24--;
-			if (h->variable_26 != 0) h->variable_26--;
-			if (h->variable_28 != 0) h->variable_28--;
-			if (h->variable_02 > 0 && Unit_CreateWrapper((uint8)h->index, UNIT_HARVESTER, 0) != NULL) h->variable_02--;
+			if (h->timerUnitAttack != 0) h->timerUnitAttack--;
+			if (h->timerSandwormAttack != 0) h->timerSandwormAttack--;
+			if (h->timerStructureAttack != 0) h->timerStructureAttack--;
+			if (h->harvestersIncoming > 0 && Unit_CreateWrapper((uint8)h->index, UNIT_HARVESTER, 0) != NULL) h->harvestersIncoming--;
 		}
 
 		if (tickPowerMaintenance) {

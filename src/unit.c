@@ -433,7 +433,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->o.flags.s.allocated = true;
 
 	if (ui->movementType == MOVEMENT_TRACKED) {
-		if (Tools_Random_256() < g_table_houseInfo[houseID].variable_06) {
+		if (Tools_Random_256() < g_table_houseInfo[houseID].degradingChance) {
 			u->o.flags.s.degrades = true;
 		}
 	}
@@ -1191,7 +1191,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	if (!ui->flags.variable_8000) return false;
 
 	if (amount == 0) {
-		amount = g_table_houseInfo[unit->o.houseID].variable_04;
+		amount = g_table_houseInfo[unit->o.houseID].toughness;
 	}
 
 	if (unit->deviated > amount) {
@@ -1258,7 +1258,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 	if (unit->deviated != 0) return false;
 	if (ui->flags.deviateProtection) return false;
 
-	if (probability == 0) probability = g_table_houseInfo[unit->o.houseID].variable_04;
+	if (probability == 0) probability = g_table_houseInfo[unit->o.houseID].toughness;
 
 	if (unit->o.houseID != g_playerHouseID) {
 		probability -= probability / 8;
@@ -1581,7 +1581,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 
 		Unit_B4CD_01BF(2, unit);
 
-		if (Tools_Random_256() < g_table_houseInfo[unit->o.houseID].variable_04) {
+		if (Tools_Random_256() < g_table_houseInfo[unit->o.houseID].toughness) {
 			Unit_SetAction(unit, ACTION_RETREAT);
 		}
 	}
@@ -1790,7 +1790,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	g_var_38BC--;
 
 	if (carryall == NULL) {
-		if (typeID == UNIT_HARVESTER && h->variable_02 == 0) h->variable_02++;
+		if (typeID == UNIT_HARVESTER && h->harvestersIncoming == 0) h->harvestersIncoming++;
 		return NULL;
 	}
 
@@ -1806,7 +1806,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 
 	if (unit == NULL) {
 		Unit_Unknown10EC(carryall);
-		if (typeID == UNIT_HARVESTER && h->variable_02 == 0) h->variable_02++;
+		if (typeID == UNIT_HARVESTER && h->harvestersIncoming == 0) h->harvestersIncoming++;
 		return NULL;
 	}
 
@@ -2638,7 +2638,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 		loc0A |= (1 << HOUSE_FREMEN);
 	}
 
-	if ((unit->o.variable_09 & loc0A) != 0 && h->flags.variable_0008) {
+	if ((unit->o.variable_09 & loc0A) != 0 && h->flags.isAIActive) {
 		unit->o.variable_09 |= loc0A;
 		return;
 	}
@@ -2657,15 +2657,15 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 	if (ui->movementType != MOVEMENT_WINGER) {
 		if (!House_AreAllied(houseID, Unit_GetHouseID(unit))) {
-			h->flags.variable_0008 = true;
+			h->flags.isAIActive = true;
 			/* XXX -- This seems like a bug; Shouldn't it be Unit_GetHouseID(unit)? */
-			House_Get_ByIndex(unit->o.houseID)->flags.variable_0008 = true;
+			House_Get_ByIndex(unit->o.houseID)->flags.isAIActive = true;
 		}
 	}
 
 	if (houseID == g_playerHouseID && g_selectionType != 0) {
 		if (unit->o.type == UNIT_SANDWORM) {
-			if (hp->variable_26 == 0) {
+			if (hp->timerSandwormAttack == 0) {
 				if (g_musicInBattle == 0) g_musicInBattle = 1;
 
 				Sound_Output_Feedback(37);
@@ -2674,12 +2674,12 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 					GUI_DisplayHint(28, 105);
 				}
 
-				hp->variable_26 = 8;
+				hp->timerSandwormAttack = 8;
 			}
 		} else if (!House_AreAllied(g_playerHouseID, Unit_GetHouseID(unit))) {
 			Team *t;
 
-			if (hp->variable_24 == 0) {
+			if (hp->timerUnitAttack == 0) {
 				if (g_musicInBattle == 0) g_musicInBattle = 1;
 
 				if (unit->o.type == UNIT_SABOTEUR) {
@@ -2707,7 +2707,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 					}
 				}
 
-				hp->variable_24 = 8;
+				hp->timerUnitAttack = 8;
 			}
 
 			t = Team_Get_ByIndex(unit->team);

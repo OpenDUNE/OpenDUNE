@@ -10,9 +10,9 @@
 const HouseInfo g_table_houseInfo[] = {
 	{ /* 0 */
 		/* name                 */ "Harkonnen",
-		/* variable_04          */ 200,
-		/* variable_06          */ 85,
-		/* variable_08          */ 2,
+		/* toughness            */ 200,
+		/* degradingChance      */ 85,
+		/* degradingAmount      */ 3,
 		/* minimapColor         */ 144,
 		/* specialCountDown     */ 600,
 		/* starportDeliveryTime */ 10,
@@ -26,9 +26,9 @@ const HouseInfo g_table_houseInfo[] = {
 
 	{ /* 1 */
 		/* name                 */ "Atreides",
-		/* variable_04          */ 77,
-		/* variable_06          */ 0,
-		/* variable_08          */ 0,
+		/* toughness            */ 77,
+		/* degradingChance      */ 0,
+		/* degradingAmount      */ 1,
 		/* minimapColor         */ 160,
 		/* specialCountDown     */ 300,
 		/* starportDeliveryTime */ 10,
@@ -42,9 +42,9 @@ const HouseInfo g_table_houseInfo[] = {
 
 	{ /* 2 */
 		/* name                 */ "Ordos",
-		/* variable_04          */ 128,
-		/* variable_06          */ 10,
-		/* variable_08          */ 1,
+		/* toughness            */ 128,
+		/* degradingChance      */ 10,
+		/* degradingAmount      */ 2,
 		/* minimapColor         */ 176,
 		/* specialCountDown     */ 300,
 		/* starportDeliveryTime */ 10,
@@ -58,9 +58,9 @@ const HouseInfo g_table_houseInfo[] = {
 
 	{ /* 3 */
 		/* name                 */ "Fremen",
-		/* variable_04          */ 10,
-		/* variable_06          */ 0,
-		/* variable_08          */ 0,
+		/* toughness            */ 10,
+		/* degradingChance      */ 0,
+		/* degradingAmount      */ 1,
 		/* minimapColor         */ 192,
 		/* specialCountDown     */ 300,
 		/* starportDeliveryTime */ 0,
@@ -74,9 +74,9 @@ const HouseInfo g_table_houseInfo[] = {
 
 	{ /* 4 */
 		/* name                 */ "Sardaukar",
-		/* variable_04          */ 10,
-		/* variable_06          */ 0,
-		/* variable_08          */ 0,
+		/* toughness            */ 10,
+		/* degradingChance      */ 0,
+		/* degradingAmount      */ 1,
 		/* minimapColor         */ 208,
 		/* specialCountDown     */ 600,
 		/* starportDeliveryTime */ 0,
@@ -90,9 +90,9 @@ const HouseInfo g_table_houseInfo[] = {
 
 	{ /* 5 */
 		/* name                 */ "Mercenary",
-		/* variable_04          */ 0,
-		/* variable_06          */ 0,
-		/* variable_08          */ 0,
+		/* toughness            */ 0,
+		/* degradingChance      */ 0,
+		/* degradingAmount      */ 1,
 		/* minimapColor         */ 224,
 		/* specialCountDown     */ 300,
 		/* starportDeliveryTime */ 0,
