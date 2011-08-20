@@ -3,9 +3,14 @@
 /** @file src/opendune.c Gameloop and other main routines. */
 
 #if defined(_WIN32)
-#include <io.h>
-#include <windows.h>
-#endif
+	#if defined(_MSC_VER)
+		#define _CRTDBG_MAP_ALLOC
+		#include <stdlib.h>
+		#include <crtdbg.h>
+	#endif /* _MSC_VER */
+	#include <io.h>
+	#include <windows.h>
+#endif /* _WIN32 */
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -2372,6 +2377,10 @@ int main(int argc, char **argv)
 	#endif
 	FILE *err = fopen("error.log", "w");
 	FILE *out = fopen("output.log", "w");
+
+	#if defined(_MSC_VER)
+		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	#endif
 
 	if (err != NULL) _dup2(_fileno(err), _fileno(stderr));
 	if (out != NULL) _dup2(_fileno(out), _fileno(stdout));
