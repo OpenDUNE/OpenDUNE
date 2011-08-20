@@ -60,7 +60,7 @@ typedef struct ObjectInfo {
 		BIT_U8 hasShadow:1;                                 /*!< If true, the Unit has a shadow below it. */
 		BIT_U8 factory:1;                                   /*!< Structure can build other Structures or Units. */
 		BIT_U8 notused_0004:1;                              /*!< Never used. */
-		BIT_U8 variable_0008:1;                             /*!< ?? */
+		BIT_U8 notOnConcrete:1;                             /*!< Structure cannot be build on concrete. */
 		BIT_U8 variable_0010:1;                             /*!< ?? */
 		BIT_U8 variable_0020:1;                             /*!< ?? */
 		BIT_U8 hasTurret:1;                                 /*!< If true, the Unit has a turret seperate from his base unit. */

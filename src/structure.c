@@ -762,7 +762,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 
-			if (si->o.flags.variable_0008) {
+			if (si->o.flags.notOnConcrete) {
 				if (!g_table_landscapeInfo[type].isValidForStructure2 && g_var_38BC == 0) {
 					isValid = false;
 					break;

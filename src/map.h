@@ -77,9 +77,9 @@ typedef struct LandscapeInfo {
 	uint16 notused_01;
 	uint8  movementSpeed[6];                                /*!< Per MovementType the speed a Unit has on this LandscapeType. */
 	uint16 variable_05;                                     /*!< ?? */
-	uint16 isValidForStructure;                             /*!< True if a structure can be build on this LandscapeType (under conditions). */
+	uint16 isValidForStructure;                             /*!< True if a structure with notOnConcrete false can be build on this LandscapeType. */
 	uint16 variable_07;                                     /*!< ?? */
-	uint16 isValidForStructure2;                            /*!< True if a structure can be build on this LandscapeType (under conditions). */
+	uint16 isValidForStructure2;                            /*!< True if a structure with notOnConcrete true can be build on this LandscapeType. */
 	uint16 variable_09;                                     /*!< ?? */
 	uint16 variable_10;                                     /*!< ?? */
 	uint16 radarColour;                                     /*!< Colour used on radar for this LandscapeType. */
