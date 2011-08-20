@@ -231,7 +231,7 @@ extern void Unit_Select(Unit *unit);
 extern Unit *Unit_CreateWrapper(uint8 houseID, UnitType type, uint16 location);
 extern uint16 Unit_FindTargetAround(uint16 packed);
 extern bool Unit_Unknown0E2E(Unit *unit);
-extern void Unit_SetSpeed(Unit *unit, uint16 arg0A);
+extern void Unit_SetSpeed(Unit *unit, uint16 speed);
 extern Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 damage, uint16 target);
 extern void Unit_DisplayStatusText(Unit *unit);
 extern void Unit_Unknown2AAA(Unit *unit);
