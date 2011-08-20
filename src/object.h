@@ -31,23 +31,10 @@ typedef struct Object {
 			BIT_U8 variable_4_1000:1;                       /*!< Unit ?? */
 			BIT_U8 repairing:1;                             /*!< Structure is being repaired. */
 			BIT_U8 onHold:1;                                /*!< Structure is on hold. */
-			BIT_U8 unknown_4_8000:1;
+			BIT_U8 notused_4_8000:1;
 			BIT_U8 variable_6_0001:1;                       /*!< Unit ?? If true, this is an unit, otherwise structure? */
 			BIT_U8 upgrading:1;                             /*!< Structure is being upgraded. */
-			BIT_U8 unknown_6_0004:1;
-			BIT_U8 unknown_6_0008:1;
-			BIT_U8 unknown_6_0010:1;
-			BIT_U8 unknown_6_0020:1;
-			BIT_U8 unknown_6_0040:1;
-			BIT_U8 unknown_6_0080:1;
-			BIT_U8 unknown_6_0100:1;
-			BIT_U8 unknown_6_0200:1;
-			BIT_U8 unknown_6_0400:1;
-			BIT_U8 unknown_6_0800:1;
-			BIT_U8 unknown_6_1000:1;
-			BIT_U8 unknown_6_2000:1;
-			BIT_U8 unknown_6_4000:1;
-			BIT_U8 unknown_6_8000:1;
+			BIT_U8 notused_6_0004:14;
 		} s;
 		struct {
 			uint16 low;
