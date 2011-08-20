@@ -249,7 +249,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			orientation = Orientation_Orientation256ToOrientation8(u->orientation[0].current);
 
-			if (u->variable_6D >= 0 || ui->variable_4C == 0) {
+			if (u->spriteOffset >= 0 || ui->variable_4C == 0) {
 				static const uint16 values_32C4[8][2] = {
 					{0, 0}, {1, 0}, {1, 0}, {1, 0},
 					{2, 0}, {1, 1}, {1, 1}, {1, 1}
@@ -269,13 +269,13 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						static const uint16 values_334A[4] = {0, 1, 0, 2};
 
 						index += values_32C4[orientation][0] * 3;
-						index += values_334A[u->variable_6D & 3];
+						index += values_334A[u->spriteOffset & 3];
 						s_var_8DE3 = values_32C4[orientation][1];
 					} break;
 
 					case 4:
 						index += values_32C4[orientation][0] * 4;
-						index += u->variable_6D & 3;
+						index += u->spriteOffset & 3;
 						s_var_8DE3 = values_32C4[orientation][1];
 						break;
 
@@ -284,7 +284,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						break;
 				}
 			} else {
-				index = ui->variable_4C - u->variable_6D - 1;
+				index = ui->variable_4C - u->spriteOffset - 1;
 				s_var_8DE3 = 0;
 			}
 
@@ -293,7 +293,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, s_var_8DE3 | 0xE000, s_var_8420, g_paletteMapping2, 1);
 
-			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
+			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->spriteOffset >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
 				if (type == LST_SPICE || type == LST_THICK_SPICE) {
 					static const int16 values_334E[8][2] = {
@@ -301,11 +301,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						{0, -9}, { 9, -6}, { 14, 1}, { 7,  6}
 					};
 
-					GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
+					GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD((u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
 				}
 			}
 
-			if (u->variable_6D >= 0 && ui->turretSpriteID != 0xFFFF) {
+			if (u->spriteOffset >= 0 && ui->turretSpriteID != 0xFFFF) {
 				int16 offsetX = 0;
 				int16 offsetY = 0;
 				uint16 index = ui->turretSpriteID;
@@ -352,7 +352,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			}
 
 			if (u->o.flags.s.isSmoking) {
-				uint16 spriteID = 180 + (u->variable_6D & 3);
+				uint16 spriteID = 180 + (u->spriteOffset & 3);
 				if (spriteID == 183) spriteID = 181;
 
 				GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
@@ -459,7 +459,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
-					index += (values_32E4[orientation][0] * 3) + values_33AE[u->variable_6D & 3];
+					index += (values_32E4[orientation][0] * 3) + values_33AE[u->spriteOffset & 3];
 					s_var_8DE3 |= values_32E4[orientation][1];
 				} break;
 

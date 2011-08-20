@@ -1750,7 +1750,7 @@ static void ReadProfileIni(char *filename)
 			if (strcasecmp(ui->o.name, key) != 0) continue;
 
 			ui->damage      = damage;
-			ui->variable_40 = variable_40;
+			ui->movingSpeed = variable_40;
 			ui->fireDelay   = fireDelay;
 			ui->variable_50 = variable_50;
 			break;
@@ -1762,7 +1762,7 @@ static void ReadProfileIni(char *filename)
 	for (locsi = 0; locsi < UNIT_MAX; locsi++) {
 		const UnitInfo *ui = &g_table_unitInfo[locsi];
 
-		sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), "", ui->variable_50, ui->damage, ui->fireDelay, ui->variable_40);
+		sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), "", ui->variable_50, ui->damage, ui->fireDelay, ui->movingSpeed);
 		Ini_SetString("combat", ui->o.name, buffer, source);
 	}
 }

@@ -95,12 +95,12 @@ typedef struct dir24 {
  */
 typedef struct Unit {
 	Object o;                                               /*!< Common to Unit and Structures. */
-	tile32 variable_49;                                     /*!< ?? */
+	tile32 currentDestination;                              /*!< Where the Unit is currently going to. */
 	uint16 originEncoded;                                   /*!< Encoded index, indicating the origin. */
 	uint8  actionID;                                        /*!< Current action. */
 	uint8  nextActionID;                                    /*!< Next action. */
-	uint8  fireDelay;                                       /*!< ?? */
-	uint16 variable_52;                                     /*!< ?? */
+	uint8  fireDelay;                                       /*!< Delay between firing. */
+	uint16 distanceToDestination;                           /*!< How much distance between where we are now and where currentDestination is. */
 	uint16 targetAttack;                                    /*!< Target to attack (encoded index). */
 	uint16 targetMove;                                      /*!< Target to move to (encoded index). */
 	uint8  amount;                                          /*!< Meaning depends on type:
@@ -111,15 +111,15 @@ typedef struct Unit {
 	tile32 targetLast;                                      /*!< The last position of the Unit. Carry-alls will return the Unit here. */
 	tile32 targetPreLast;                                   /*!< The position before the last position of the Unit. */
 	dir24  orientation[2];                                  /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
-	uint8  variable_68;                                     /*!< ?? */
-	uint8  variable_69;                                     /*!< ?? */
-	uint8  variable_6A;                                     /*!< ?? */
-	uint8  variable_6B;                                     /*!< ?? */
+	uint8  speedPerTick;                                    /*!< Every tick this amount is added; if over 255 Unit is moved. */
+	uint8  speedRemainder;                                  /*!< Remainder of speedPerTick. */
+	uint8  speed;                                           /*!< The amount to move when speedPerTick goes over 255. */
+	uint8  movingSpeed;                                     /*!< The speed of moving as last set. */
 	uint8  variable_6C;                                     /*!< ?? */
-	 int8  variable_6D;                                     /*!< ?? */
+	 int8  spriteOffset;                                    /*!< Offset of the current sprite for Unit. */
 	uint8  blinkCounter;                                    /*!< If non-zero, it indicates how many more ticks this unit is blinking. */
 	uint8  team;                                            /*!< If non-zero, unit is part of team. Value 1 means team 0, etc. */
-	uint16 variable_70;                                     /*!< ?? */
+	uint16 timer;                                           /*!< Timer used in animation, to count down when to do the next step. */
 	uint8  route[14];                                       /*!< The current route the Unit is following. */
 } Unit;
 
@@ -152,8 +152,8 @@ typedef struct UnitInfo {
 	uint8   unknown_003A[0x0002];
 	uint16 movementType;                                    /*!< MovementType of Unit. */
 	uint16 variable_3E;                                     /*!< ?? */
-	uint16 variable_40;                                     /*!< ?? */
-	uint8  turningSpeed;                                    /*!< Speed of orientation change of the Unit. */
+	uint16 movingSpeed;                                     /*!< Speed of movement of Unit. */
+	uint8  turningSpeed;                                    /*!< Speed of orientation change of Unit. */
 	uint8   unknown_0043[0x0001];
 	uint16 spriteID;                                        /*!< SpriteID for north direction. */
 	uint16 turretSpriteID;                                  /*!< SpriteID of the turret for north direction. */
@@ -233,7 +233,7 @@ extern void Unit_Select(Unit *unit);
 extern Unit *Unit_CreateWrapper(uint8 houseID, UnitType type, uint16 location);
 extern uint16 Unit_FindTargetAround(uint16 packed);
 extern bool Unit_Unknown0E2E(Unit *unit);
-extern void Unit_Unknown204C(Unit *unit, uint16 arg0A);
+extern void Unit_SetSpeed(Unit *unit, uint16 arg0A);
 extern Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 damage, uint16 target);
 extern void Unit_DisplayStatusText(Unit *unit);
 extern void Unit_Unknown2AAA(Unit *unit);

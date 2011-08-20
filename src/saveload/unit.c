@@ -21,12 +21,12 @@ static const SaveLoadDesc s_saveUnitOrientation[] = {
 static const SaveLoadDesc s_saveUnit[] = {
 	SLD_SLD   (Unit,              o, g_saveObject),
 	SLD_EMPTY (      SLDT_UINT16),
-	SLD_ENTRY (Unit, SLDT_UINT32, variable_49),
+	SLD_ENTRY (Unit, SLDT_UINT32, currentDestination),
 	SLD_ENTRY (Unit, SLDT_UINT16, originEncoded),
 	SLD_ENTRY (Unit, SLDT_UINT8,  actionID),
 	SLD_ENTRY (Unit, SLDT_UINT8,  nextActionID),
 	SLD_ENTRY (Unit, SLDT_UINT8,  fireDelay),
-	SLD_ENTRY (Unit, SLDT_UINT16, variable_52),
+	SLD_ENTRY (Unit, SLDT_UINT16, distanceToDestination),
 	SLD_ENTRY (Unit, SLDT_UINT16, targetAttack),
 	SLD_ENTRY (Unit, SLDT_UINT16, targetMove),
 	SLD_ENTRY (Unit, SLDT_UINT8,  amount),
@@ -34,15 +34,15 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT32, targetLast),
 	SLD_ENTRY (Unit, SLDT_UINT32, targetPreLast),
 	SLD_SLD2  (Unit, orientation, s_saveUnitOrientation, 2),
-	SLD_ENTRY (Unit, SLDT_UINT8,  variable_68),
-	SLD_ENTRY (Unit, SLDT_UINT8,  variable_69),
-	SLD_ENTRY (Unit, SLDT_UINT8,  variable_6A),
-	SLD_ENTRY (Unit, SLDT_UINT8,  variable_6B),
+	SLD_ENTRY (Unit, SLDT_UINT8,  speedPerTick),
+	SLD_ENTRY (Unit, SLDT_UINT8,  speedRemainder),
+	SLD_ENTRY (Unit, SLDT_UINT8,  speed),
+	SLD_ENTRY (Unit, SLDT_UINT8,  movingSpeed),
 	SLD_ENTRY (Unit, SLDT_UINT8,  variable_6C),
-	SLD_ENTRY (Unit,  SLDT_INT8,  variable_6D),
+	SLD_ENTRY (Unit,  SLDT_INT8,  spriteOffset),
 	SLD_ENTRY (Unit, SLDT_UINT8,  blinkCounter),
 	SLD_ENTRY (Unit, SLDT_UINT8,  team),
-	SLD_ENTRY (Unit, SLDT_UINT16, variable_70),
+	SLD_ENTRY (Unit, SLDT_UINT16, timer),
 	SLD_ARRAY (Unit, SLDT_UINT8,  route, 14),
 	SLD_END
 };
@@ -68,7 +68,7 @@ bool Unit_Load(FILE *fp, uint32 length)
 		ul.o.script.scriptInfo = g_scriptUnit;
 		ul.o.script.script = g_scriptUnit->start + (size_t)ul.o.script.script;
 		ul.o.script.delay = 0;
-		ul.variable_70 = 0;
+		ul.timer = 0;
 		ul.o.variable_09 |= 1 << ul.o.houseID;
 
 		/* ENHANCEMENT -- Due to wrong parameter orders of Unit_Create in original Dune2,

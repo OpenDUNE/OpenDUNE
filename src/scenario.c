@@ -201,7 +201,7 @@ static void Scenario_Load_Unit(const char *key, char *settings)
 
 	Unit_SetOrientation(u, u->orientation[0].current, true, 0);
 	Unit_SetOrientation(u, u->orientation[0].current, true, 1);
-	Unit_Unknown204C(u, 0);
+	Unit_SetSpeed(u, 0);
 }
 
 static void Scenario_Load_Structure(const char *key, char *settings)

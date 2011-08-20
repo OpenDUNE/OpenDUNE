@@ -96,21 +96,20 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 	Unit_B4CD_01BF(2, unit);
 }
 
-void Unit_Unknown2134(Unit *unit)
+void Unit_MovementTick(Unit *unit)
 {
-	uint16 loc02;
+	uint16 speed;
 
-	if (unit->variable_6A == 0) return;
+	if (unit->speed == 0) return;
 
-	loc02 = unit->variable_69;
+	speed = unit->speedRemainder;
+	speed += Tools_AdjustToGameSpeed(unit->speedPerTick, 1, 255, false);
 
-	loc02 += Tools_AdjustToGameSpeed(unit->variable_68, 1, 255, false);
-
-	if ((loc02 & 0xFF00) != 0) {
-		Unit_Move(unit, min(unit->variable_6A * 16, Tile_GetDistance(unit->o.position, unit->variable_49) + 16));
+	if ((speed & 0xFF00) != 0) {
+		Unit_Move(unit, min(unit->speed * 16, Tile_GetDistance(unit->o.position, unit->currentDestination) + 16));
 	}
 
-	unit->variable_69 = loc02 & 0xFF;
+	unit->speedRemainder = speed & 0xFF;
 }
 
 /**
@@ -119,8 +118,8 @@ void Unit_Unknown2134(Unit *unit)
 void GameLoop_Unit()
 {
 	PoolFindStruct find;
-	bool tickUnknown1  = false;
-	bool tickUnknown2  = false;
+	bool tickMovement  = false;
+	bool tickRotation  = false;
 	bool tickBlinking  = false;
 	bool tickUnknown4  = false;
 	bool tickScript    = false;
@@ -130,12 +129,12 @@ void GameLoop_Unit()
 	if (g_debugScenario) return;
 
 	if (s_tickUnitUnknown1 <= g_timerGame) {
-		tickUnknown1 = true;
+		tickMovement = true;
 		s_tickUnitUnknown1 = g_timerGame + 3;
 	}
 
 	if (s_tickUnitUnknown2 <= g_timerGame) {
-		tickUnknown2 = true;
+		tickRotation = true;
 		s_tickUnitUnknown2 = g_timerGame + Tools_AdjustToGameSpeed(4, 2, 8, true);
 	}
 
@@ -196,14 +195,14 @@ void GameLoop_Unit()
 			Unit_SetOrientation(u, Tile_GetDirection(u->o.position, tile), false, 1);
 		}
 
-		if (tickUnknown1) {
-			Unit_Unknown2134(u);
+		if (tickMovement) {
+			Unit_MovementTick(u);
 
 			if (u->fireDelay != 0) {
 				if (ui->movementType == MOVEMENT_WINGER && !ui->flags.variable_8000) {
 					tile32 tile;
 
-					tile = u->variable_49;
+					tile = u->currentDestination;
 
 					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_table_unitInfo[Tools_Index_GetUnit(u->targetAttack)->o.type].movementType == MOVEMENT_WINGER) {
 						tile = Tools_Index_GetTile(u->targetAttack);
@@ -216,7 +215,7 @@ void GameLoop_Unit()
 			}
 		}
 
-		if (tickUnknown2) {
+		if (tickRotation) {
 			Unit_Rotate(u, 0);
 			if (ui->o.flags.hasTurret) Unit_Rotate(u, 1);
 		}
@@ -237,52 +236,52 @@ void GameLoop_Unit()
 		if (ui->movementType != MOVEMENT_WINGER && Object_GetByPackedTile(Tile_PackTile(u->o.position)) == NULL) Unit_B4CD_01BF(1, u);
 
 		if (tickUnknown5) {
-			if (u->variable_70 == 0) {
-				if ((ui->movementType == MOVEMENT_FOOT && u->variable_6A != 0) || u->o.flags.s.isSmoking) {
-					if (u->variable_6D >= 0) {
-						u->variable_6D &= 0x3F;
-						u->variable_6D++;
+			if (u->timer == 0) {
+				if ((ui->movementType == MOVEMENT_FOOT && u->speed != 0) || u->o.flags.s.isSmoking) {
+					if (u->spriteOffset >= 0) {
+						u->spriteOffset &= 0x3F;
+						u->spriteOffset++;
 
 						Unit_B4CD_01BF(2, u);
 
-						u->variable_70 = ui->variable_3E / 5;
+						u->timer = ui->variable_3E / 5;
 						if (u->o.flags.s.isSmoking) {
-							u->variable_70 = 3;
-							if (u->variable_6D > 32) {
+							u->timer = 3;
+							if (u->spriteOffset > 32) {
 								u->o.flags.s.isSmoking = false;
-								u->variable_6D = 0;
+								u->spriteOffset = 0;
 							}
 						}
 					}
 				}
 
-				if (u->o.type == UNIT_ORNITHOPTER && u->o.flags.s.allocated && u->variable_6D >= 0) {
-					u->variable_6D &= 0x3F;
-					u->variable_6D++;
+				if (u->o.type == UNIT_ORNITHOPTER && u->o.flags.s.allocated && u->spriteOffset >= 0) {
+					u->spriteOffset &= 0x3F;
+					u->spriteOffset++;
 
 					Unit_B4CD_01BF(2, u);
 
-					u->variable_70 = 1;
+					u->timer = 1;
 				}
 
 				if (u->o.type == UNIT_HARVESTER) {
 					if (u->actionID == ACTION_HARVEST || u->o.flags.s.isSmoking) {
-						u->variable_6D &= 0x3F;
-						u->variable_6D++;
+						u->spriteOffset &= 0x3F;
+						u->spriteOffset++;
 
 						Unit_B4CD_01BF(2, u);
 
-						u->variable_70 = 4;
+						u->timer = 4;
 					} else {
-						if (u->variable_6D != 0) {
+						if (u->spriteOffset != 0) {
 							Unit_B4CD_01BF(2, u);
 
-							u->variable_6D = 0;
+							u->spriteOffset = 0;
 						}
 					}
 				}
 			} else {
-				u->variable_70--;
+				u->timer--;
 			}
 		}
 
@@ -306,7 +305,7 @@ void GameLoop_Unit()
 		}
 
 		if (u->nextActionID == ACTION_INVALID) continue;
-		if (u->variable_49.tile != 0) continue;
+		if (u->currentDestination.tile != 0) continue;
 
 		Unit_SetAction(u, u->nextActionID);
 		u->nextActionID = ACTION_INVALID;
@@ -401,11 +400,11 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	Unit_SetOrientation(u, orientation, true, 0);
 	Unit_SetOrientation(u, orientation, true, 1);
 
-	Unit_Unknown204C(u, 0);
+	Unit_SetSpeed(u, 0);
 
 	u->o.position.tile  = position.tile;
 	u->o.hitpoints      = ui->o.hitpoints;
-	u->variable_49.tile = 0;
+	u->currentDestination.tile = 0;
 	u->originEncoded    = 0x0000;
 	u->route[0]         = 0xFF;
 
@@ -420,13 +419,13 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->actionID      = ACTION_GUARD;
 	u->nextActionID  = ACTION_INVALID;
 	u->fireDelay     = 0;
-	u->variable_52   = 0x7FFF;
+	u->distanceToDestination = 0x7FFF;
 	u->targetMove    = 0x0000;
 	u->amount        = 0;
-	u->variable_6C   = 0x00;
-	u->variable_6D   = 0x00;
+	u->variable_6C   = 0;
+	u->spriteOffset  = 0;
 	u->blinkCounter  = 0;
-	u->variable_70   = 0x0000;
+	u->timer   = 0;
 
 	Script_Reset(&u->o.script, g_scriptUnit);
 
@@ -439,7 +438,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	}
 
 	if (ui->movementType == MOVEMENT_WINGER) {
-		Unit_Unknown204C(u, 255);
+		Unit_SetSpeed(u, 255);
 	} else {
 		if (position.tile != 0xFFFFFFFF && Unit_Unknown0E2E(u)) {
 			Unit_Free(u);
@@ -500,7 +499,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 
 	switch (ai->variable_06) {
 		case 0:
-			if (u->variable_49.tile != 0) {
+			if (u->currentDestination.tile != 0) {
 				u->nextActionID = action;
 				return;
 			}
@@ -508,7 +507,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 		case 1:
 			u->actionID = action;
 			u->nextActionID = ACTION_INVALID;
-			u->variable_49.tile = 0;
+			u->currentDestination.tile = 0;
 			u->o.script.delay = 0;
 			Script_Reset(&u->o.script, g_scriptUnit);
 			u->o.script.variables[0] = action;
@@ -852,7 +851,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 		return false;
 	}
 
-	u->variable_49.tile = 0;
+	u->currentDestination.tile = 0;
 	u->targetMove = 0;
 	u->targetAttack = 0;
 
@@ -868,7 +867,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 		Unit_SetAction(u, ui->o.actionsPlayer[3]);
 	}
 
-	u->variable_6D = 0;
+	u->spriteOffset = 0;
 
 	Unit_B4CD_01BF(1, u);
 
@@ -987,7 +986,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 		default:                 res = 0;      break;
 	}
 
-	if (target->variable_6A != 0 || target->fireDelay != 0) res <<= 2;
+	if (target->speed != 0 || target->fireDelay != 0) res <<= 2;
 
 	distance = Tile_GetDistanceRoundedUp(unit->o.position, target->o.position);
 
@@ -1088,7 +1087,7 @@ bool Unit_Unknown167C(Unit *unit)
 
 	packed = Tile_PackTile(position);
 
-	unit->variable_52 = 0x7FFF;
+	unit->distanceToDestination = 0x7FFF;
 
 	locax = Unit_GetTileEnterScore(unit, packed, locsi / 32);
 
@@ -1111,7 +1110,7 @@ bool Unit_Unknown167C(Unit *unit)
 
 	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
 
-	Unit_Unknown204C(unit, locdi);
+	Unit_SetSpeed(unit, locdi);
 
 	if (ui->movementType != MOVEMENT_SLITHER) {
 		tile32 positionOld;
@@ -1124,7 +1123,7 @@ bool Unit_Unknown167C(Unit *unit)
 		unit->o.position = positionOld;
 	}
 
-	unit->variable_49 = position;
+	unit->currentDestination = position;
 
 	Unit_Deviation_Decrease(unit, 10);
 
@@ -1295,7 +1294,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	uint16 packed;
 	tile32 newPosition;
 	bool ret;
-	tile32 position_49;
+	tile32 currentDestination;
 	bool sprite1 = false;
 	bool sprite2 = false;
 
@@ -1331,7 +1330,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		unit->variable_6C = Tools_Random_256() & 7;
 	}
 
-	d = Tile_GetDistance(newPosition, unit->variable_49);
+	d = Tile_GetDistance(newPosition, unit->currentDestination);
 	packed = Tile_PackTile(newPosition);
 
 	if (ui->flags.variable_0020 && d < 48) {
@@ -1361,8 +1360,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		unit->o.flags.s.variable_4_0020 = !unit->o.flags.s.variable_4_0020;
 	}
 
-	position_49 = unit->variable_49;
-	distance = Tile_GetDistance(newPosition, position_49);
+	currentDestination = unit->currentDestination;
+	distance = Tile_GetDistance(newPosition, currentDestination);
 
 	if (unit->o.type == UNIT_SONIC_BLAST) {
 		Unit *u;
@@ -1417,7 +1416,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			}
 		}
 
-		ret = (unit->variable_52 < distance || distance < 16) ? true : false;
+		ret = (unit->distanceToDestination < distance || distance < 16) ? true : false;
 
 		if (ret) {
 			if (ui->flags.variable_0002) {
@@ -1449,10 +1448,10 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				}
 			} else {
 				if (ui->flags.variable_0040) {
-					if (position_49.tile != 0) newPosition = position_49;
+					if (currentDestination.tile != 0) newPosition = currentDestination;
 					unit->targetPreLast = unit->targetLast;
 					unit->targetLast    = unit->o.position;
-					unit->variable_49.tile = 0;
+					unit->currentDestination.tile = 0;
 
 					if (unit->o.flags.s.degrades && (Tools_Random_256() & 3) == 0) {
 						Unit_Damage(unit, 1, 0);
@@ -1465,7 +1464,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						return true;
 					}
 
-					Unit_Unknown204C(unit, 0);
+					Unit_SetSpeed(unit, 0);
 
 					if (unit->targetMove == Tools_Index_Encode(packed, IT_TILE)) {
 						unit->targetMove = 0;
@@ -1499,7 +1498,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 	}
 
-	unit->variable_52 = distance;
+	unit->distanceToDestination = distance;
 	unit->o.position = newPosition;
 
 	Unit_B4CD_01BF(1, unit);
@@ -1589,8 +1588,8 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	if (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER && ui->movementType != MOVEMENT_WHEELED) return false;
 
 	unit->o.flags.s.isSmoking = true;
-	unit->variable_6D = 0;
-	unit->variable_70 = 0;
+	unit->spriteOffset = 0;
+	unit->timer = 0;
 
 	return false;
 }
@@ -1886,45 +1885,47 @@ bool Unit_Unknown0E2E(Unit *unit)
 }
 
 /**
- * Unknwown function 204C.
+ * Set the speed of a Unit.
  *
  * @param unit The Unit to operate on.
- * @param arg0A ??.
+ * @param speed The new speed of the unit (a percent value between 0 and 255).
  */
-void Unit_Unknown204C(Unit *unit, uint16 arg0A)
+void Unit_SetSpeed(Unit *unit, uint16 speed)
 {
-	uint16 loc02;
+	uint16 speedPerTick;
 
 	assert(unit != NULL);
 
-	loc02 = 0;
-	unit->variable_6A = 0;
-	unit->variable_69 = 0;
-	unit->variable_68 = 0;
+	speedPerTick = 0;
+
+	unit->speed          = 0;
+	unit->speedRemainder = 0;
+	unit->speedPerTick   = 0;
 
 	if (unit->o.type == UNIT_HARVESTER) {
-		arg0A = ((255 - unit->amount) * arg0A) / 256;
+		speed = ((255 - unit->amount) * speed) / 256;
 	}
 
-	if (arg0A == 0 || arg0A >= 256) {
-		unit->variable_6B = 0;
+	if (speed == 0 || speed >= 256) {
+		unit->movingSpeed = 0;
 		return;
 	}
 
-	unit->variable_6B = arg0A & 0xFF;
-	arg0A = (g_table_unitInfo[unit->o.type].variable_40 * arg0A) / 256;
-	arg0A = Tools_AdjustToGameSpeed(arg0A, 1, 255, false);
-	loc02 = arg0A << 4;
-	arg0A >>= 4;
+	unit->movingSpeed = speed & 0xFF;
+	speed = g_table_unitInfo[unit->o.type].movingSpeed * speed / 256;
+	speed = Tools_AdjustToGameSpeed(speed, 1, 255, false);
 
-	if (arg0A != 0) {
-		loc02 = 255;
+	speedPerTick = speed << 4;
+	speed        = speed >> 4;
+
+	if (speed != 0) {
+		speedPerTick = 255;
 	} else {
-		arg0A = 1;
+		speed = 1;
 	}
 
-	unit->variable_6A = arg0A & 0xFF;
-	unit->variable_68 = loc02 & 0xFF;
+	unit->speed = speed & 0xFF;
+	unit->speedPerTick = speedPerTick & 0xFF;
 }
 
 /**
@@ -1966,10 +1967,10 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 
 			bullet->targetAttack = target;
 			bullet->o.hitpoints = damage;
-			bullet->variable_49 = tile;
+			bullet->currentDestination = tile;
 
 			if (ui->flags.variable_4000) {
-				bullet->variable_49 = Tile_MoveByRandom(tile, (Tools_Random_256() & 0xF) != 0 ? Tile_GetDistance(position, tile) / 256 + 8 : Tools_Random_256() + 8, false);
+				bullet->currentDestination = Tile_MoveByRandom(tile, (Tools_Random_256() & 0xF) != 0 ? Tile_GetDistance(position, tile) / 256 + 8 : Tools_Random_256() + 8, false);
 			}
 
 			bullet->fireDelay = ui->variable_50 & 0xFF;
@@ -2003,7 +2004,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 				bullet->fireDelay = ui->variable_50 & 0xFF;
 			}
 
-			bullet->variable_49 = tile;
+			bullet->currentDestination = tile;
 			bullet->o.hitpoints = damage;
 
 			if (damage > 15) bullet->o.flags.s.variable_4_0040 = true;
@@ -2188,7 +2189,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 			}
 			unit->o.hitpoints = ui->o.hitpoints;
 			unit->o.flags.s.isSmoking = false;
-			unit->variable_6D = 0;
+			unit->spriteOffset = 0;
 		}
 		unit->o.linkedID = s->o.linkedID;
 		s->o.linkedID = unit->o.index & 0xFF;
@@ -2502,7 +2503,7 @@ void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 {
 	Tile *t = &g_map[packed];
 
-	if (t->hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != Tile_PackTile(unit->variable_49) || unit->o.flags.s.variable_4_0040)) {
+	if (t->hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != Tile_PackTile(unit->currentDestination) || unit->o.flags.s.variable_4_0040)) {
 		t->index = 0;
 		t->hasUnit = false;
 	}

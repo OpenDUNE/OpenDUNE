@@ -197,7 +197,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 
 	Unit_SetOrientation(u2, u->orientation[0].current, true, 0);
 	Unit_SetOrientation(u2, u->orientation[0].current, true, 1);
-	Unit_Unknown204C(u2, 0);
+	Unit_SetSpeed(u2, 0);
 
 	u->o.linkedID = u2->o.linkedID;
 	u2->o.linkedID = 0xFF;
@@ -360,7 +360,7 @@ uint16 Script_Unit_Unknown0FA2(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Unit_Unknown204C(u, 0);
+	Unit_SetSpeed(u, 0);
 
 	Unit_B4CD_01BF(2, u);
 
@@ -387,9 +387,9 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 
 	if (g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
 
-	Unit_Unknown204C(u, param);
+	Unit_SetSpeed(u, param);
 
-	return u->variable_6A;
+	return u->speed;
 }
 
 /**
@@ -406,7 +406,7 @@ uint16 Script_Unit_Unknown105E(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	u->variable_6D = -(STACK_PEEK(1) & 0xFF);
+	u->spriteOffset = -(STACK_PEEK(1) & 0xFF);
 
 	Unit_B4CD_01BF(2, u);
 
@@ -439,7 +439,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	distance = Tile_GetDistance(u->o.position, tile);
 
 	if ((int16)distance < 128) {
-		Unit_Unknown204C(u, 0);
+		Unit_SetSpeed(u, 0);
 
 		u->o.position.s.x += clamp((int16)(tile.s.x - u->o.position.s.x), -16, 16);
 		u->o.position.s.y += clamp((int16)(tile.s.y - u->o.position.s.y), -16, 16);
@@ -460,7 +460,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 	diff = abs(orientation - u->orientation[0].current);
 
-	Unit_Unknown204C(u, Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - diff) / 256);
+	Unit_SetSpeed(u, Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - diff) / 256);
 
 	delay = max((int16)distance / 1024, 1);
 
@@ -733,7 +733,7 @@ uint16 Script_Unit_Rotate(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 	ui = &g_table_unitInfo[u->o.type];
 
-	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
+	if (ui->movementType != MOVEMENT_WINGER && u->currentDestination.tile != 0) return 1;
 
 	index = ui->o.flags.hasTurret ? 1 : 0;
 
@@ -921,11 +921,11 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (u->variable_49.tile == 0 || g_table_unitInfo[u->o.type].flags.variable_8000) {
-		u->variable_49 = Tools_Index_GetTile(encoded);
+	if (u->currentDestination.tile == 0 || g_table_unitInfo[u->o.type].flags.variable_8000) {
+		u->currentDestination = Tools_Index_GetTile(encoded);
 	}
 
-	Unit_SetOrientation(u, Tile_GetDirection(u->o.position, u->variable_49), false, 0);
+	Unit_SetOrientation(u, Tile_GetDirection(u->o.position, u->currentDestination), false, 0);
 
 	return 0;
 }
@@ -958,9 +958,9 @@ uint16 Script_Unit_GetInfo(ScriptEngine *script)
 			return u->originEncoded;
 		case 0x07: return u->o.type;
 		case 0x08: return Tools_Index_Encode(u->o.index, IT_UNIT);
-		case 0x09: return u->variable_6B;
+		case 0x09: return u->movingSpeed;
 		case 0x0A: return abs(u->orientation[0].target - u->orientation[0].current);
-		case 0x0B: return u->variable_49.tile == 0 ? 0 : 1;
+		case 0x0B: return u->currentDestination.tile == 0 ? 0 : 1;
 		case 0x0C: return u->fireDelay == 0 ? 1 : 0;
 		case 0x0D: return ui->flags.variable_0004;
 		case 0x0E: return Unit_GetHouseID(u);
@@ -1294,7 +1294,7 @@ uint16 Script_Unit_CalculateRoute(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 	encoded = STACK_PEEK(1);
 
-	if (u->variable_49.tile != 0 || !Tools_Index_IsValid(encoded)) return 1;
+	if (u->currentDestination.tile != 0 || !Tools_Index_IsValid(encoded)) return 1;
 
 	packedSrc = Tile_PackTile(u->o.position);
 	packedDst = Tools_Index_GetPackedTile(encoded);
@@ -1752,7 +1752,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 	if (movementType != MOVEMENT_FOOT && movementType != MOVEMENT_TRACKED && movementType != MOVEMENT_WHEELED) return 0;
 
 	if (movementType == MOVEMENT_FOOT && random > 8) {
-		u->variable_6D = Tools_Random_256() & 0x3F;
+		u->spriteOffset = Tools_Random_256() & 0x3F;
 		Unit_B4CD_01BF(2, u);
 	}
 
