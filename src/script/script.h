@@ -127,7 +127,7 @@ extern uint16 Script_Unit_FindBestTarget(ScriptEngine *script);
 extern uint16 Script_Unit_GetTargetPriority(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown0882(ScriptEngine *script);
 extern uint16 Script_Unit_Pickup(ScriptEngine *script);
-extern uint16 Script_Unit_Unknown0FA2(ScriptEngine *script);
+extern uint16 Script_Unit_Stop(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown0FD2(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown105E(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1098(ScriptEngine *script);

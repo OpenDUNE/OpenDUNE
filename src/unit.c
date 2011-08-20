@@ -1059,58 +1059,58 @@ static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
 }
 
 /**
- * Unknwown function 167C.
+ * Initiate the first movement of a Unit when the pathfinder has found a route.
  *
  * @param unit The Unit to operate on.
- * @return ??.
+ * @return True if movement was initiated (not blocked etc).
  */
-bool Unit_Unknown167C(Unit *unit)
+bool Unit_StartMovement(Unit *unit)
 {
 	const UnitInfo *ui;
-	int8 locsi;
+	int8 orientation;
 	uint16 packed;
 	uint16 type;
 	tile32 position;
-	uint16 locdi;
-	int16 locax;
+	uint16 speed;
+	int16 score;
 
 	if (unit == NULL) return false;
 
 	ui = &g_table_unitInfo[unit->o.type];
 
-	locsi = (int8)((unit->orientation[0].current + 16) & 0xE0);
+	orientation = (int8)((unit->orientation[0].current + 16) & 0xE0);
 
-	Unit_SetOrientation(unit, locsi, true, 0);
-	Unit_SetOrientation(unit, locsi, false, 1);
+	Unit_SetOrientation(unit, orientation, true, 0);
+	Unit_SetOrientation(unit, orientation, false, 1);
 
-	position = Unit_B4CD_00A5(unit->o.position, locsi);
+	position = Unit_B4CD_00A5(unit->o.position, orientation);
 
 	packed = Tile_PackTile(position);
 
 	unit->distanceToDestination = 0x7FFF;
 
-	locax = Unit_GetTileEnterScore(unit, packed, locsi / 32);
+	score = Unit_GetTileEnterScore(unit, packed, orientation / 32);
 
-	if (locax > 255 || locax == -1) return false;
+	if (score > 255 || score == -1) return false;
 
 	type = Map_GetLandscapeType(packed);
 	if (type == LST_STRUCTURE) type = LST_CONCRETE_SLAB;
 
-	locdi = g_var_3A3E[type][2 + (ui->movementType / 2)];
+	speed = g_var_3A3E[type][2 + (ui->movementType / 2)];
 	if (ui->movementType % 2 == 0) {
-		locdi &= 0xFF;
+		speed &= 0xFF;
 	} else {
-		locdi >>= 8;
+		speed >>= 8;
 	}
 
-	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) locdi = 0xFF;
+	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) speed = 255;
 	unit->o.flags.s.isSmoking = false;
 
 	if (g_var_3A3E[type][5] != 0) unit->o.flags.s.variable_4_0080 = true;
 
-	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
+	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) speed -= speed / 4;
 
-	Unit_SetSpeed(unit, locdi);
+	Unit_SetSpeed(unit, speed);
 
 	if (ui->movementType != MOVEMENT_SLITHER) {
 		tile32 positionOld;

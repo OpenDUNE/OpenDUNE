@@ -345,14 +345,14 @@ uint16 Script_Unit_Pickup(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0FA2.
+ * Stop the Unit.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown0FA2(ScriptEngine *script)
+uint16 Script_Unit_Stop(ScriptEngine *script)
 {
 	Unit *u;
 
@@ -378,16 +378,16 @@ uint16 Script_Unit_Unknown0FA2(ScriptEngine *script)
 uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 {
 	Unit *u;
-	uint16 param;
+	uint16 speed;
 
 	u = g_scriptCurrentUnit;
-	param = clamp(STACK_PEEK(1), 0, 255);
+	speed = clamp(STACK_PEEK(1), 0, 255);
 
-	if (!u->o.flags.s.byScenario) param = param * 192 / 256;
+	if (!u->o.flags.s.byScenario) speed = speed * 192 / 256;
 
-	if (g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
+	if (g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) speed = Tools_AdjustToGameSpeed(speed, 0, 255, true);
 
-	Unit_SetSpeed(u, param);
+	Unit_SetSpeed(u, speed);
 
 	return u->speed;
 }
@@ -1333,7 +1333,7 @@ uint16 Script_Unit_CalculateRoute(ScriptEngine *script)
 		return 1;
 	}
 
-	if (!Unit_Unknown167C(u)) {
+	if (!Unit_StartMovement(u)) {
 		u->route[0] = 0xFF;
 		return 0;
 	}

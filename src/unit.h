@@ -218,7 +218,7 @@ extern bool Unit_SetPosition(Unit *u, tile32 position);
 extern void Unit_Unknown10EC(Unit *u);
 extern Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode);
 extern Unit *Unit_Unknown15F4(Unit *unit);
-extern bool Unit_Unknown167C(Unit *unit);
+extern bool Unit_StartMovement(Unit *unit);
 extern void Unit_SetTarget(Unit* unit, uint16 encoded);
 extern bool Unit_Deviation_Decrease(Unit* unit, uint16 amount);
 extern void Unit_RemoveFog(Unit *unit);

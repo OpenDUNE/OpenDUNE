@@ -87,7 +87,7 @@ const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 17 */ &Script_General_RandomRange,
 	/* 18 */ &Script_General_Unknown0594,
 	/* 19 */ &Script_Unit_Unknown1C6F,
-	/* 1A */ &Script_Unit_Unknown0FA2,
+	/* 1A */ &Script_Unit_Stop,
 	/* 1B */ &Script_Unit_Unknown0FD2,
 	/* 1C */ &Script_Unit_FindBestTarget,
 	/* 1D */ &Script_Unit_GetTargetPriority,
