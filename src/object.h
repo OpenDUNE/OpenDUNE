@@ -35,7 +35,7 @@ typedef struct Object {
 			BIT_U8 variable_6_0001:1;                       /*!< Unit ?? If true, this is an unit, otherwise structure? */
 			BIT_U8 upgrading:1;                             /*!< Structure is being upgraded. */
 			BIT_U8 notused_6_0004:6;
-            BIT_U8 notused_6_0100:8;
+			BIT_U8 notused_6_0100:8;
 		} s;
 		struct {
 			uint16 low;
