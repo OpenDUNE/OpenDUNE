@@ -178,7 +178,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && !g_debugScenario) continue;
 
-		sprite = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
+		sprite = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].groundSpriteID, Unit_GetHouseID(u));
 
 		s_var_8DE3 = 0x200;
 
@@ -249,13 +249,13 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			orientation = Orientation_Orientation256ToOrientation8(u->orientation[0].current);
 
-			if (u->spriteOffset >= 0 || ui->variable_4C == 0) {
+			if (u->spriteOffset >= 0 || ui->destroyedSpriteID == 0) {
 				static const uint16 values_32C4[8][2] = {
 					{0, 0}, {1, 0}, {1, 0}, {1, 0},
 					{2, 0}, {1, 1}, {1, 1}, {1, 1}
 				};
 
-				index = ui->spriteID;
+				index = ui->groundSpriteID;
 
 				switch (ui->displayMode) {
 					case 1:
@@ -284,7 +284,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						break;
 				}
 			} else {
-				index = ui->variable_4C - u->spriteOffset - 1;
+				index = ui->destroyedSpriteID - u->spriteOffset - 1;
 				s_var_8DE3 = 0;
 			}
 
@@ -424,7 +424,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-			index = ui->spriteID;
+			index = ui->groundSpriteID;
 			orientation = u->orientation[0].current;
 			s_var_8DE3 = 0xC000;
 

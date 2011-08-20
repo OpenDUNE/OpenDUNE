@@ -132,9 +132,9 @@ typedef struct UnitInfo {
 	uint16 indexEnd;                                        /*!< At Unit create, between indexStart and this (including) a free index is picked. */
 	struct {
 		BIT_U8 notused_0001:1;                              /*!< Not used. */
-		BIT_U8 variable_0002:1;                             /*!< ?? */
+		BIT_U8 isBullet:1;                                  /*!< If true, Unit is a bullet / missile. */
 		BIT_U8 variable_0004:1;                             /*!< ?? */
-		BIT_U8 sonicProtection:1;                           /*!< If true, the Unit receives no damage of a sonic blast. */
+		BIT_U8 sonicProtection:1;                           /*!< If true, Unit receives no damage of a sonic blast. */
 		BIT_U8 variable_0010:1;                             /*!< ?? */
 		BIT_U8 variable_0020:1;                             /*!< ?? */
 		BIT_U8 variable_0040:1;                             /*!< ?? */
@@ -143,25 +143,23 @@ typedef struct UnitInfo {
 		BIT_U8 notused_0200:1;                              /*!< Not used. */
 		BIT_U8 variable_0400:1;                             /*!< ?? */
 		BIT_U8 variable_0800:1;                             /*!< ?? */
-		BIT_U8 deviateProtection:1;                         /*!< If true, the Unit can't be deviated. */
+		BIT_U8 deviateProtection:1;                         /*!< If true, Unit can't be deviated. */
 		BIT_U8 variable_2000:1;                             /*!< ?? */
 		BIT_U8 variable_4000:1;                             /*!< ?? */
 		BIT_U8 variable_8000:1;                             /*!< ?? */
 	} flags;                                                /*!< General flags of the UnitInfo. */
 	uint16 variable_38;                                     /*!< ?? */
-	uint8   unknown_003A[0x0002];
 	uint16 movementType;                                    /*!< MovementType of Unit. */
-	uint16 variable_3E;                                     /*!< ?? */
+	uint16 animationSpeed;                                  /*!< Speed of sprite animation of Unit. */
 	uint16 movingSpeed;                                     /*!< Speed of movement of Unit. */
 	uint8  turningSpeed;                                    /*!< Speed of orientation change of Unit. */
-	uint8   unknown_0043[0x0001];
-	uint16 spriteID;                                        /*!< SpriteID for north direction. */
+	uint16 groundSpriteID;                                  /*!< SpriteID for north direction. */
 	uint16 turretSpriteID;                                  /*!< SpriteID of the turret for north direction. */
 	uint16 actionAI;                                        /*!< Default action for AI units. */
 	uint16 displayMode;                                     /*!< How to draw the Unit. */
-	uint16 variable_4C;                                     /*!< ?? */
+	uint16 destroyedSpriteID;                               /*!< SpriteID of burning Unit for north direction. Can be zero if no such animation. */
 	uint16 fireDelay;                                       /*!< Time between firing at Normal speed. */
-	uint16 variable_50;                                     /*!< ?? */
+	uint16 fireDistance;                                    /*!< Maximal distance this Unit can fire from. */
 	uint16 damage;                                          /*!< Damage this Unit does to other Units. */
 	uint16 explosionType;                                   /*!< Type of the explosion of Unit. */
 	uint16 bulletType;                                      /*!< Type of the bullets of Unit. */

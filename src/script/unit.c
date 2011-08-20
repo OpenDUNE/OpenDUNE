@@ -602,7 +602,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	distance = Object_GetDistanceToEncoded(&u->o, target);
 
-	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
+	if ((int16)(ui->fireDistance << 8) < (int16)distance) return 0;
 
 	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_table_unitInfo[Tools_Index_GetUnit(target)->o.type].movementType != MOVEMENT_WINGER)) {
 		int16 diff = 0;
@@ -949,7 +949,7 @@ uint16 Script_Unit_GetInfo(ScriptEngine *script)
 	switch (STACK_PEEK(1)) {
 		case 0x00: return u->o.hitpoints * 256 / ui->o.hitpoints;
 		case 0x01: return Tools_Index_IsValid(u->targetMove) ? u->targetMove : 0;
-		case 0x02: return ui->variable_50 << 8;
+		case 0x02: return ui->fireDistance << 8;
 		case 0x03: return u->o.index;
 		case 0x04: return u->orientation[0].current;
 		case 0x05: return u->targetAttack;

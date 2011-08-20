@@ -244,7 +244,7 @@ void GameLoop_Unit()
 
 						Unit_B4CD_01BF(2, u);
 
-						u->timer = ui->variable_3E / 5;
+						u->timer = ui->animationSpeed / 5;
 						if (u->o.flags.s.isSmoking) {
 							u->timer = 3;
 							if (u->spriteOffset > 32) {
@@ -758,7 +758,7 @@ uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target)
 	distance = Tile_GetDistanceRoundedUp(unit->o.position, target->o.position);
 
 	if (!Map_IsValidPosition(Tile_PackTile(unit->o.position))) {
-		if (targetInfo->variable_50 >= distance) return 0;
+		if (targetInfo->fireDistance >= distance) return 0;
 	}
 
 	priority = targetInfo->o.priorityTarget + targetInfo->o.priorityBuild;
@@ -923,7 +923,7 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 		position = Tools_Index_GetTile(u->originEncoded);
 	}
 
-	distance = g_table_unitInfo[u->o.type].variable_50 << 8;
+	distance = g_table_unitInfo[u->o.type].fireDistance << 8;
 	if (mode == 2) distance <<= 1;
 
 	find.houseID = HOUSE_INVALID;
@@ -1419,7 +1419,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		ret = (unit->distanceToDestination < distance || distance < 16) ? true : false;
 
 		if (ret) {
-			if (ui->flags.variable_0002) {
+			if (ui->flags.isBullet) {
 				if (unit->fireDelay == 0 || unit->o.type == UNIT_MISSILE_TURRET) {
 					if (unit->o.type == UNIT_MISSILE_HOUSE) {
 						uint8 i;
@@ -1973,7 +1973,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 				bullet->currentDestination = Tile_MoveByRandom(tile, (Tools_Random_256() & 0xF) != 0 ? Tile_GetDistance(position, tile) / 256 + 8 : Tools_Random_256() + 8, false);
 			}
 
-			bullet->fireDelay = ui->variable_50 & 0xFF;
+			bullet->fireDelay = ui->fireDistance & 0xFF;
 
 			u = Tools_Index_GetUnit(target);
 			if (u != NULL && g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
@@ -2001,7 +2001,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			if (bullet == NULL) return NULL;
 
 			if (type == UNIT_SONIC_BLAST) {
-				bullet->fireDelay = ui->variable_50 & 0xFF;
+				bullet->fireDelay = ui->fireDistance & 0xFF;
 			}
 
 			bullet->currentDestination = tile;
@@ -2244,13 +2244,13 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 	Structure *best = NULL;
 	uint16 bestPriority = 0;
 	tile32 position;
-	uint16 variable_50;
+	uint16 distance;
 	PoolFindStruct find;
 
 	if (unit == NULL) return NULL;
 
 	position = Tools_Index_GetTile(unit->originEncoded);
-	variable_50 = g_table_unitInfo[unit->o.type].variable_50 << 8;
+	distance = g_table_unitInfo[unit->o.type].fireDistance << 8;
 
 	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
@@ -2268,10 +2268,10 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 
 		if (mode != 0 && mode != 4) {
 			if (mode == 1) {
-				if (Tile_GetDistance(unit->o.position, curPosition) > variable_50) continue;
+				if (Tile_GetDistance(unit->o.position, curPosition) > distance) continue;
 			} else {
 				if (mode != 2) continue;
-				if (Tile_GetDistance(position, curPosition) > variable_50 * 2) continue;
+				if (Tile_GetDistance(position, curPosition) > distance * 2) continue;
 			}
 		}
 

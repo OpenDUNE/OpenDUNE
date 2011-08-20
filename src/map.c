@@ -1232,7 +1232,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			attack = Tools_Index_GetUnit(u->targetAttack);
 			if (attack != NULL) {
 				uint16 packed = Tile_PackTile(u->o.position);
-				if (Tile_GetDistancePacked(Tools_Index_GetPackedTile(u->targetAttack), packed) <= ui->variable_50) continue;
+				if (Tile_GetDistancePacked(Tools_Index_GetPackedTile(u->targetAttack), packed) <= ui->fireDistance) continue;
 			}
 
 			Unit_SetTarget(u, unitOriginEncoded);
