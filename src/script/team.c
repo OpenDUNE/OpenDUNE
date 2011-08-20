@@ -47,7 +47,7 @@ uint16 Script_Team_GetMembers(ScriptEngine *script)
 uint16 Script_Team_GetVariable6(ScriptEngine *script)
 {
 	VARIABLE_NOT_USED(script);
-	return g_scriptCurrentTeam->variable_06;
+	return g_scriptCurrentTeam->minMembers;
 }
 
 /**
@@ -65,18 +65,18 @@ uint16 Script_Team_GetTarget(ScriptEngine *script)
 }
 
 /**
- * Adds the closer unit to the current team.
+ * Tries to add the closest unit to the current team.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return The amount of space left in current team.
  */
-uint16 Script_Team_AddCloserUnit(ScriptEngine *script)
+uint16 Script_Team_AddClosestUnit(ScriptEngine *script)
 {
 	Team *t;
-	Unit *closer = NULL;
-	Unit *closer2 = NULL;
+	Unit *closest = NULL;
+	Unit *closest2 = NULL;
 	uint16 minDistance = 0;
 	uint16 minDistance2 = 0;
 	PoolFindStruct find;
@@ -105,24 +105,24 @@ uint16 Script_Team_AddCloserUnit(ScriptEngine *script)
 			distance = Tile_GetDistance(t->position, u->o.position);
 			if (distance >= minDistance && minDistance != 0) continue;
 			minDistance = distance;
-			closer = u;
+			closest = u;
 			continue;
 		}
 
 		t2 = Team_Get_ByIndex(u->team - 1);
-		if (t2->members > t2->variable_06) continue;
+		if (t2->members > t2->minMembers) continue;
 
 		distance = Tile_GetDistance(t->position, u->o.position);
 		if (distance >= minDistance2 && minDistance2 != 0) continue;
 		minDistance2 = distance;
-		closer2 = u;
+		closest2 = u;
 	}
 
-	if (closer == NULL) closer = closer2;
-	if (closer == NULL) return 0;
+	if (closest == NULL) closest = closest2;
+	if (closest == NULL) return 0;
 
-	Unit_RemoveFromTeam(closer);
-	return Unit_AddToTeam(closer, t);
+	Unit_RemoveFromTeam(closest);
+	return Unit_AddToTeam(closest, t);
 }
 
 /**
@@ -183,9 +183,9 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 
 	loc08 /= count;
 
-	if (t->target == 0 || t->variable_18 == 0) return loc08;
+	if (t->target == 0 || t->targetTile == 0) return loc08;
 
-	if (Tile_GetDistancePacked(Tile_PackTile(position), Tools_Index_GetPackedTile(t->target)) <= 10) t->variable_18 = 2;
+	if (Tile_GetDistancePacked(Tile_PackTile(position), Tools_Index_GetPackedTile(t->target)) <= 10) t->targetTile = 2;
 
 	return loc08;
 }
@@ -278,12 +278,12 @@ uint16 Script_Team_FindBestTarget(ScriptEngine *script)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 		if (u->team - 1 != t->index) continue;
-		target = Unit_FindBestTargetEncoded(u, t->variable_0C == 3 ? 4 : 0);
+		target = Unit_FindBestTargetEncoded(u, t->action == TEAM_ACTION_KAMIKAZE ? 4 : 0);
 		if (target == 0) continue;
 		if (t->target == target) return target;
 
 		t->target = target;
-		t->variable_18 = Tile_B4CD_1C1A(Tile_PackTile(u->o.position), Tools_Index_GetPackedTile(target));
+		t->targetTile = Tile_B4CD_1C1A(Tile_PackTile(u->o.position), Tools_Index_GetPackedTile(target));
 		return target;
 	}
 
@@ -306,9 +306,9 @@ uint16 Script_Team_Load(ScriptEngine *script)
 	t = g_scriptCurrentTeam;
 	type = STACK_PEEK(1);
 
-	if (t->variable_0C == type) return 0;
+	if (t->action == type) return 0;
 
-	t->variable_0C = type;
+	t->action = type;
 
 	Script_Reset(&t->script, g_scriptTeam);
 	Script_Load(&t->script, type & 0xFF);
@@ -332,11 +332,11 @@ uint16 Script_Team_Load2(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	t = g_scriptCurrentTeam;
-	type = t->variable_0E;
+	type = t->actionStart;
 
-	if (t->variable_0C == type) return 0;
+	if (t->action == type) return 0;
 
-	t->variable_0C = type;
+	t->action = type;
 
 	Script_Reset(&t->script, g_scriptTeam);
 	Script_Load(&t->script, type & 0xFF);

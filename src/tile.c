@@ -291,28 +291,27 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
 {
 	int16 distance;
-	uint8 loc02;
+	uint8 direction;
 	uint8 i;
 
 	if (packed_from == 0 || packed_to == 0) return 0;
 
 	distance = Tile_GetDistancePacked(packed_from, packed_to);
-
-	loc02 = Tile_GetDirectionPacked(packed_to, packed_from);
+	direction = Tile_GetDirectionPacked(packed_to, packed_from);
 
 	if (distance <= 10) return 0;
 
 	for (i = 0; i < 4; i++) {
-		int16 locsi;
+		int16 dir;
 		tile32 position;
 		uint16 packed;
 
-		locsi = 29 + (Tools_Random_256() & 0x3F);
+		dir = 29 + (Tools_Random_256() & 0x3F);
 
-		if ((Tools_Random_256() & 1) != 0) locsi = -locsi;
+		if ((Tools_Random_256() & 1) != 0) dir = -dir;
 
 		position = Tile_UnpackTile(packed_to);
-		position = Tile_MoveByDirection(position, loc02 + locsi, min(distance, 20) << 8);
+		position = Tile_MoveByDirection(position, direction + dir, min(distance, 20) << 8);
 		packed = Tile_PackTile(position);
 
 		if (Map_IsValidPosition(packed)) return packed;

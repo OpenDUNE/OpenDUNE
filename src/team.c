@@ -70,11 +70,11 @@ void GameLoop_Team()
  * @param houseID The House of the new Team.
  * @param teamActionType The teamActionType of the new Team.
  * @param movementType The movementType of the new Team.
- * @param unknown An unknown parameter.
+ * @param minMembers The minimum amount of members in the new Team.
  * @param maxMembers The maximum amount of members in the new Team.
  * @return The new created Team, or NULL if something failed.
  */
-Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint16 unknown, uint16 maxMembers)
+Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint16 minMembers, uint16 maxMembers)
 {
 	Team *t;
 
@@ -83,10 +83,10 @@ Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint1
 	if (t == NULL) return NULL;
 	t->flags.used  = true;
 	t->houseID     = houseID;
-	t->variable_0C = teamActionType;
-	t->variable_0E = teamActionType;
+	t->action      = teamActionType;
+	t->actionStart = teamActionType;
 	t->movementType = movementType;
-	t->variable_06 = unknown;
+	t->minMembers  = minMembers;
 	t->maxMembers  = maxMembers;
 
 	Script_Reset(&t->script, g_scriptTeam);

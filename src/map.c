@@ -1197,7 +1197,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 				const UnitInfo *targetInfo;
 				Unit *target;
 
-				if (t->variable_0C == 1) {
+				if (t->action == TEAM_ACTION_STAGING) {
 					Unit_RemoveFromTeam(u);
 					Unit_SetAction(u, ACTION_HUNT);
 					continue;

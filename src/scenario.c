@@ -408,7 +408,7 @@ static void Scenario_Load_Reinforcement(const char *key, char *settings)
 static void Scenario_Load_Team(const char *key, char *settings)
 {
 	uint8 houseType, teamActionType, movementType;
-	uint16 unknown, maxMembers;
+	uint16 minMembers, maxMembers;
 	char *split;
 
 	VARIABLE_NOT_USED(key);
@@ -448,8 +448,8 @@ static void Scenario_Load_Team(const char *key, char *settings)
 	if (split == NULL) return;
 	*split = '\0';
 
-	/* XXX -- Fourth value is unknown */
-	unknown = atoi(settings);
+	/* Fourth value is minimum amount of members in team */
+	minMembers = atoi(settings);
 
 	/* Find the next value in the ',' separated list */
 	settings = split + 1;
@@ -460,7 +460,7 @@ static void Scenario_Load_Team(const char *key, char *settings)
 	/* Fifth value is maximum amount of members in team */
 	maxMembers = atoi(settings);
 
-	Team_Create(houseType, teamActionType, movementType, unknown, maxMembers);
+	Team_Create(houseType, teamActionType, movementType, minMembers, maxMembers);
 }
 
 /**

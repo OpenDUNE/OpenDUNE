@@ -31,15 +31,15 @@ typedef struct Team {
 		BIT_U8 used:1;                                      /*!< The Team is in use (no longer free in the pool). */
 		BIT_U8 notused_0002:7;                              /*!< Never used - remaining bits. */
 	} flags;                                                /*!< General flags of the Team. */
-	uint16 members;                                         /*!< Amount of members in team. */
-	uint16 variable_06;                                     /*!< ?? */
-	uint16 maxMembers;                                      /*!< Maximum amount of members in team. */
+	uint16 members;                                         /*!< Amount of members in Team. */
+	uint16 minMembers;                                      /*!< Minimum amount of members in Team. */
+	uint16 maxMembers;                                      /*!< Maximum amount of members in Team. */
 	uint16 movementType;                                    /*!< MovementType of Team. */
-	uint16 variable_0C;                                     /*!< ?? */
-	uint16 variable_0E;                                     /*!< ?? */
+	uint16 action;                                          /*!< Current TeamActionType of Team. */
+	uint16 actionStart;                                     /*!< The TeamActionType Team starts with. */
 	uint8  houseID;                                         /*!< House of Team. */
 	tile32 position;                                        /*!< Position on the map. */
-	uint16 variable_18;                                     /*!< ?? */
+	uint16 targetTile;                                      /*!< Current target tile around the target. Only used as a bool, so either set or not. */
 	uint16 target;                                          /*!< Current target of team (encoded index). */
 	ScriptEngine script;                                    /*!< The script engine instance of this Team. */
 } Team;

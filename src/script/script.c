@@ -134,7 +134,7 @@ const ScriptFunction g_scriptFunctionsTeam[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ &Script_Team_DisplayText,
 	/* 02 */ &Script_Team_GetMembers,
-	/* 03 */ &Script_Team_AddCloserUnit,
+	/* 03 */ &Script_Team_AddClosestUnit,
 	/* 04 */ &Script_Team_GetAverageDistance,
 	/* 05 */ &Script_Team_Unknown0543,
 	/* 06 */ &Script_Team_FindBestTarget,

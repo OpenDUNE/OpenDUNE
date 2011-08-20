@@ -112,7 +112,7 @@ extern uint16 Script_Structure_Destroy(ScriptEngine *script);
 extern uint16 Script_Team_GetMembers(ScriptEngine *script);
 extern uint16 Script_Team_GetVariable6(ScriptEngine *script);
 extern uint16 Script_Team_GetTarget(ScriptEngine *script);
-extern uint16 Script_Team_AddCloserUnit(ScriptEngine *script);
+extern uint16 Script_Team_AddClosestUnit(ScriptEngine *script);
 extern uint16 Script_Team_GetAverageDistance(ScriptEngine *script);
 extern uint16 Script_Team_Unknown0543(ScriptEngine *script);
 extern uint16 Script_Team_FindBestTarget(ScriptEngine *script);
