@@ -433,54 +433,6 @@ const MapInfo g_mapInfos[3] = {
 	{21, 21, 21, 21}
 };
 
-uint16 g_var_3A3E[15][14] = {
-	{ /* 0 */
-		168, 107, 28784, 41072, 49407, 0, 0, 1, 0, 65535, 1, 88, 37, 21
-	},
-	{ /* 1 */
-		169, 109, 28832, 16496, 255, 1, 0, 0, 0, 0, 1, 28, 39, 23
-	},
-	{ /* 2 */
-		170, 108, 41072, 41120, 49407, 0, 0, 1, 0, 65535, 1, 92, 41, 22
-	},
-	{ /* 3 */
-		170, 108, 41072, 41120, 49407, 0, 0, 1, 0, 65535, 1, 89, 43, 22
-	},
-	{ /* 4 */
-		169, 109, 41072, 28832, 255, 1, 1, 0, 1, 0, 2, 30, 45, 23
-	},
-	{ /* 5 */
-		169, 109, 41120, 41120, 255, 1, 1, 0, 1, 0, 2, 29, 47, 23
-	},
-	{ /* 6 */
-		171, 110, 64, 0, 255, 1, 0, 0, 0, 0, 0, 12, 49, 24
-	},
-	{ /* 7 */
-		171, 110, 64, 0, 255, 1, 0, 0, 0, 0, 0, 133, 51, 24
-	},
-	{ /* 8 */
-		172, 106, 41072, 41120, 49407, 0, 0, 1, 0, 25, 1, 88, 37, 25
-	},
-	{ /* 9 */
-		173, 106, 41072, 41120, 49407, 1, 0, 1, 0, 100, 1, 88, 37, 25
-	},
-	{ /* 10 */
-		232, 65, 65535, 65535, 255, 0, 1, 0, 0, 0, 2, 133, 51, 2
-	},
-	{ /* 11 */
-		260, 78, 0, 0, 255, 0, 0, 0, 0, 0, 0, 65535, 31, 15
-	},
-	{ /* 12 */
-		174, 65535, 0, 0, 255, 0, 0, 0, 0, 0, 0, 65535, 31, 0
-	},
-	{ /* 13 */
-		169, 109, 41120, 41120, 255, 1, 1, 0, 1, 0, 2, 29, 47, 23
-	},
-	{ /* 14 */
-		45, 107, 28784, 41072, 49407, 0, 0, 1, 0, 65535, 1, 50, 57, 21
-	}
-};
-
 /**
  * Move the viewport position in the given direction.
  *
@@ -867,12 +819,12 @@ static void Map_B4CD_04D9(uint16 arg06, MapActivity *s)
 
 static bool Map_06F7_072B(MapActivity *s)
 {
-	static const uint16 bloomLocations[] = {0xFFFF, 0x0002, 0x0001};
+	static const int16 bloomLocations[] = { -1, 2, 1 };
 
 	uint16 packed;
 	uint16 type;
 	Tile *t;
-	uint16 loc06;
+	int16 iconMapIndex;
 	uint16 overlaySpriteID;
 	uint16 *iconMap;
 
@@ -891,14 +843,14 @@ static bool Map_06F7_072B(MapActivity *s)
 		Map_Update(packed, 0, false);
 	}
 
-	loc06 = bloomLocations[g_var_3A3E[type][10]];
-	if (loc06 == 0xFFFF) return false;
+	iconMapIndex = bloomLocations[g_table_landscapeInfo[type].variable_10];
+	if (iconMapIndex == -1) return false;
 
 	overlaySpriteID = t->overlaySpriteID;
 
 	if (!Sprite_IsUnveiled(overlaySpriteID)) return false;
 
-	iconMap = &g_iconMap[g_iconMap[loc06]];
+	iconMap = &g_iconMap[g_iconMap[iconMapIndex]];
 	if (iconMap[0] <= overlaySpriteID && overlaySpriteID <= iconMap[10]) {
 		overlaySpriteID -= iconMap[0];
 		if (overlaySpriteID < 4) overlaySpriteID += 2;
@@ -959,7 +911,7 @@ static bool Map_SetAnimation(MapActivity *s, uint16 animationMapID)
 	if (Structure_Get_ByPackedTile(packed) != NULL) return true;
 
 	animationMapID += Tools_Random_256() & 0x1;
-	animationMapID += g_var_3A3E[Map_GetLandscapeType(packed)][7] != 0 ? 0 : 2;
+	animationMapID += g_table_landscapeInfo[Map_GetLandscapeType(packed)].variable_07 ? 0 : 2;
 
 	assert(animationMapID < 16);
 	Animation_Start(g_table_animation_map[animationMapID], s->position, 0, s->houseID, 3);
@@ -2198,7 +2150,7 @@ static void Map_AddSpiceOnTile(uint16 packed)
 
 					t2 = &g_map[packed2];
 
-					if (g_var_3A3E[t2->groundSpriteID][9] == 0) {
+					if (!g_table_landscapeInfo[t2->groundSpriteID].variable_09) {
 						t->groundSpriteID = LST_SPICE;
 						continue;
 					}
@@ -2210,7 +2162,7 @@ static void Map_AddSpiceOnTile(uint16 packed)
 		}
 
 		default:
-			if (g_var_3A3E[t->groundSpriteID][9] != 0) t->groundSpriteID = LST_SPICE;
+			if (g_table_landscapeInfo[t->groundSpriteID].variable_09) t->groundSpriteID = LST_SPICE;
 			return;
 	}
 }
@@ -2372,7 +2324,7 @@ void Map_CreateLandscape(uint32 seed)
 			packed = Tools_Random_256() & 0x3F;
 			packed = Tile_PackXY(Tools_Random_256() & 0x3F, packed);
 
-			if (g_var_3A3E[g_map[packed].groundSpriteID][9] != 0) break;
+			if (g_table_landscapeInfo[g_map[packed].groundSpriteID].variable_09) break;
 		}
 
 		tile = Tile_UnpackTile(packed);

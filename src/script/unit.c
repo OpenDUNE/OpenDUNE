@@ -1464,7 +1464,7 @@ uint16 Script_Unit_StartAnimation(ScriptEngine *script)
 	position = Tile_PackTile(Tile_Center(u->o.position));
 	Animation_Stop_ByTile(position);
 
-	animationUnitID = g_var_3A3E[Map_GetLandscapeType(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
+	animationUnitID = g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(u->o.position))].variable_07 ? 0 : 1;
 	if (u->o.script.variables[1] == 1) animationUnitID += 2;
 
 	g_map[position].houseID = Unit_GetHouseID(u);

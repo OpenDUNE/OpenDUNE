@@ -976,7 +976,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 
 	if (unit == NULL || target == NULL) return 0;
 	if (!Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
-	if (g_var_3A3E[Map_GetLandscapeType(Tile_PackTile(target->o.position))][7] == 0) return 0;
+	if (!g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(target->o.position))].variable_07) return 0;
 
 	switch(g_table_unitInfo[target->o.type].movementType) {
 		case MOVEMENT_FOOT:      res = 0x64;   break;
@@ -1096,17 +1096,12 @@ bool Unit_StartMovement(Unit *unit)
 	type = Map_GetLandscapeType(packed);
 	if (type == LST_STRUCTURE) type = LST_CONCRETE_SLAB;
 
-	speed = g_var_3A3E[type][2 + (ui->movementType / 2)];
-	if (ui->movementType % 2 == 0) {
-		speed &= 0xFF;
-	} else {
-		speed >>= 8;
-	}
+	speed = g_table_landscapeInfo[type].movementSpeed[ui->movementType];
 
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) speed = 255;
 	unit->o.flags.s.isSmoking = false;
 
-	if (g_var_3A3E[type][5] != 0) unit->o.flags.s.variable_4_0080 = true;
+	if (g_table_landscapeInfo[type].variable_05) unit->o.flags.s.variable_4_0080 = true;
 
 	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) speed -= speed / 4;
 
@@ -1861,16 +1856,15 @@ bool Unit_Unknown0E2E(Unit *unit)
 	const UnitInfo *ui;
 	uint16 packed;
 	Unit *u;
-	uint16 loc02;
+	uint16 speed;
 
 	if (unit == NULL) return true;
 
 	ui = &g_table_unitInfo[unit->o.type];
 	packed = Tile_PackTile(unit->o.position);
 
-	loc02 = g_var_3A3E[Map_GetLandscapeType(packed)][2 + ui->movementType / 2];
-	loc02 &= ((ui->movementType & 0x1) != 0) ? 0xFF00 : 0x00FF;
-	if (loc02 == 0) return true;
+	speed = g_table_landscapeInfo[Map_GetLandscapeType(packed)].movementSpeed[ui->movementType];
+	if (speed == 0) return true;
 
 	if (unit->o.type == UNIT_SANDWORM || ui->movementType == MOVEMENT_WINGER) return false;
 
@@ -2328,12 +2322,7 @@ int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction)
 
 	type = Map_GetLandscapeType(packed);
 
-	res = g_var_3A3E[type][2 + (ui->movementType / 2)];
-	if (ui->movementType % 2 == 0) {
-		res &= 0xFF;
-	} else {
-		res >>= 8;
-	}
+	res = g_table_landscapeInfo[type].movementSpeed[ui->movementType];
 
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) {
 		if (!House_AreAllied(g_map[packed].houseID, unit->o.houseID)) res = 255;

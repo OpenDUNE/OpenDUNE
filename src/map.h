@@ -21,7 +21,9 @@ typedef enum LandscapeType {
 	LST_WALL              = 11, /*!< Wall. */
 	LST_STRUCTURE         = 12, /*!< Structure. */
 	LST_DESTROYED_WALL    = 13, /*!< Destroyed wall. */
-	LST_BLOOM_FIELD       = 14  /*!< Bloom field. */
+	LST_BLOOM_FIELD       = 14, /*!< Bloom field. */
+
+	LST_MAX               = 15
 } LandscapeType;
 
 MSVC_PACKED_BEGIN
@@ -70,6 +72,21 @@ typedef struct MapInfo {
 	uint16 sizeY; /*!< Height of the map. */
 } MapInfo;
 
+typedef struct LandscapeInfo {
+	uint16 notused_00;
+	uint16 notused_01;
+	uint8  movementSpeed[6];                                /*!< Per MovementType the speed a Unit has on this LandscapeType. */
+	uint16 variable_05;                                     /*!< ?? */
+	uint16 isValidForStructure;                             /*!< True if a structure can be build on this LandscapeType (under conditions). */
+	uint16 variable_07;                                     /*!< ?? */
+	uint16 isValidForStructure2;                            /*!< True if a structure can be build on this LandscapeType (under conditions). */
+	uint16 variable_09;                                     /*!< ?? */
+	uint16 variable_10;                                     /*!< ?? */
+	uint16 radarColour;                                     /*!< Colour used on radar for this LandscapeType. */
+	uint16 spriteID;                                        /*!< Sprite used on map for this LandscapeType. */
+	uint16 notused_13;
+} LandscapeInfo;
+
 struct Unit;
 
 extern uint16 g_mapSpriteID[];
@@ -89,7 +106,7 @@ extern const tile32 g_table_tilediff[][8];
 extern uint16 g_var_39E2;
 extern uint16 g_var_3A08;
 
-extern uint16 g_var_3A3E[15][14];
+extern LandscapeInfo g_table_landscapeInfo[LST_MAX];
 
 extern uint16 Map_MoveDirection(uint16 direction);
 extern void Map_SetSelection(uint16 packed);

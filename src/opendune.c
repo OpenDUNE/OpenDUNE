@@ -1792,10 +1792,10 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_scenarioID = 1;
 	g_playerHouseID = HOUSE_INVALID;
 	g_debugScenario = false;
-	g_var_3A3E[LST_SPICE][11] = 0xD7;
-	g_var_3A3E[LST_SPICE][12] = 0x35;
-	g_var_3A3E[LST_THICK_SPICE][11] = 0xD8;
-	g_var_3A3E[LST_THICK_SPICE][12] = 0x35;
+	g_table_landscapeInfo[LST_SPICE].radarColour = 0xD7;
+	g_table_landscapeInfo[LST_SPICE].spriteID = 0x35;
+	g_table_landscapeInfo[LST_THICK_SPICE].radarColour = 0xD8;
+	g_table_landscapeInfo[LST_THICK_SPICE].spriteID = 0x35;
 	g_selectionType = 0;
 	g_selectionTypeNew = 0;
 
@@ -2377,7 +2377,6 @@ int main(int argc, char **argv)
 	if (out != NULL) _dup2(_fileno(out), _fileno(stdout));
 	FreeConsole();
 #endif
-
 	CrashLog_Init();
 
 	VARIABLE_NOT_USED(argc);
