@@ -414,7 +414,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	/* Set the new sprites */
 	tile->groundSpriteID = baseSpriteID + rotation;
-	s->variable_49 = rotation;
+	s->rotationSpriteDiff = rotation;
 
 	Map_Update(Tile_PackTile(s->o.position), 0, false);
 
@@ -440,7 +440,7 @@ uint16 Script_Structure_GetDirection(ScriptEngine *script)
 	s = g_scriptCurrentStructure;
 	encoded = STACK_PEEK(1);
 
-	if (!Tools_Index_IsValid(encoded)) return s->variable_49 << 5;
+	if (!Tools_Index_IsValid(encoded)) return s->rotationSpriteDiff << 5;
 
 	tile = Tools_Index_GetTile(encoded);
 

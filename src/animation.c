@@ -139,7 +139,7 @@ static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter
 		assert(s != NULL);
 		assert(layoutTileCount == 1);
 
-		specialMap[0] = s->variable_49 + g_iconMap[g_iconMap[animation->iconGroup]] + 2;
+		specialMap[0] = s->rotationSpriteDiff + g_iconMap[g_iconMap[animation->iconGroup]] + 2;
 		iconMap = &specialMap[0];
 	}
 

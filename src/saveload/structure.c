@@ -13,14 +13,14 @@
 
 static const SaveLoadDesc s_saveStructure[] = {
 	SLD_SLD   (Structure,              o, g_saveObject),
-	SLD_ENTRY (Structure, SLDT_UINT16, variable_47),
-	SLD_ENTRY (Structure, SLDT_UINT16, variable_49),
-	SLD_ENTRY (Structure, SLDT_UINT8,  variable_4B),
+	SLD_ENTRY (Structure, SLDT_UINT16, creatorHouseID),
+	SLD_ENTRY (Structure, SLDT_UINT16, rotationSpriteDiff),
+	SLD_EMPTY (           SLDT_UINT8),
 	SLD_ENTRY (Structure, SLDT_UINT16, objectType),
 	SLD_ENTRY (Structure, SLDT_UINT8,  upgradeLevel),
 	SLD_ENTRY (Structure, SLDT_UINT8,  upgradeTimeLeft),
 	SLD_ENTRY (Structure, SLDT_UINT16, countDown),
-	SLD_ENTRY (Structure, SLDT_UINT16, variable_52),
+	SLD_ENTRY (Structure, SLDT_UINT16, buildCostRemainder),
 	SLD_ENTRY (Structure,  SLDT_INT16, state),
 	SLD_ENTRY (Structure, SLDT_UINT16, hitpointsMax),
 	SLD_END

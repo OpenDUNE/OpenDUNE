@@ -205,17 +205,17 @@ void GameLoop_Structure()
 						buildCost /= 4;
 					}
 
-					buildCost += s->variable_52;
+					buildCost += s->buildCostRemainder;
 
 					if (buildCost / 256 <= h->credits) {
-						s->variable_52 = buildCost & 0xFF;
+						s->buildCostRemainder = buildCost & 0xFF;
 						h->credits -= buildCost / 256;
 
 						if (buildSpeed < s->countDown) {
 							s->countDown -= buildSpeed;
 						} else {
 							s->countDown = 0;
-							s->variable_52 = 0;
+							s->buildCostRemainder = 0;
 
 							Structure_SetState(s, STRUCTURE_STATE_READY);
 
@@ -385,17 +385,17 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	if (s == NULL) return NULL;
 
 	s->o.houseID            = houseID;
-	s->variable_47          = houseID;
+	s->creatorHouseID       = houseID;
 	s->o.flags.s.isNotOnMap = true;
 	s->o.position.tile      = 0;
 	s->o.linkedID           = 0xFF;
 	s->state                = (g_debugScenario) ? STRUCTURE_STATE_IDLE : STRUCTURE_STATE_JUSTBUILT;
 
 	if (typeID == STRUCTURE_TURRET) {
-		s->variable_49 = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
+		s->rotationSpriteDiff = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
 	}
 	if (typeID == STRUCTURE_ROCKET_TURRET) {
-		s->variable_49 = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 1];
+		s->rotationSpriteDiff = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 1];
 	}
 
 	s->o.hitpoints  = si->o.hitpoints;
@@ -548,7 +548,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->o.position.s.x &= 0xFF00;
 	s->o.position.s.y &= 0xFF00;
 
-	s->variable_49  = 0;
+	s->rotationSpriteDiff = 0;
 	s->o.hitpoints  = si->o.hitpoints;
 	s->hitpointsMax = si->o.hitpoints;
 
@@ -1804,7 +1804,7 @@ void Structure_UpdateMap(Structure *s)
 		t->hasStructure = true;
 		t->index = s->o.index + 1;
 
-		t->groundSpriteID = iconMap[i] + s->variable_49;
+		t->groundSpriteID = iconMap[i] + s->rotationSpriteDiff;
 
 		if (Sprite_IsUnveiled(t->overlaySpriteID)) t->overlaySpriteID = 0;
 
@@ -1859,15 +1859,15 @@ uint32 Structure_GetBuildable(Structure *s)
 
 				if (unitType == 0xFFFF) continue;
 
-				if (unitType == UNIT_TRIKE && s->variable_47 == HOUSE_ORDOS) unitType = UNIT_RAIDER_TRIKE;
+				if (unitType == UNIT_TRIKE && s->creatorHouseID == HOUSE_ORDOS) unitType = UNIT_RAIDER_TRIKE;
 
 				ui = &g_table_unitInfo[unitType];
 				upgradeLevelRequired = ui->o.upgradeLevelRequired;
 
-				if (unitType == UNIT_SIEGE_TANK && s->variable_47 == HOUSE_ORDOS) upgradeLevelRequired--;
+				if (unitType == UNIT_SIEGE_TANK && s->creatorHouseID == HOUSE_ORDOS) upgradeLevelRequired--;
 
 				if ((structuresBuilt & ui->o.structuresRequired) != ui->o.structuresRequired) continue;
-				if ((ui->o.availableHouse & (1 << s->variable_47)) == 0) continue;
+				if ((ui->o.availableHouse & (1 << s->creatorHouseID)) == 0) continue;
 
 				if (s->upgradeLevel >= upgradeLevelRequired) {
 					ui->o.available = 1;

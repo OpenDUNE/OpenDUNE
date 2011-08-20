@@ -60,14 +60,13 @@ typedef enum StructureState {
  */
 typedef struct Structure {
 	Object o;                                               /*!< Common to Unit and Structures. */
-	uint16 variable_47;                                     /*!< ?? The 16bit version of HouseID? */
-	uint16 variable_49;                                     /*!< ?? */
-	uint8  variable_4B;                                     /*!< ?? */
+	uint16 creatorHouseID;                                  /*!< The Index of the House who created this Structure. Required in case of take-overs. */
+	uint16 rotationSpriteDiff;                              /*!< Which sprite to show for the current rotation of Turrets etc. */
 	uint16 objectType;                                      /*!< Type of Unit/Structure we are building. */
 	uint8  upgradeLevel;                                    /*!< The current level of upgrade of the Structure. */
 	uint8  upgradeTimeLeft;                                 /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
 	uint16 countDown;                                       /*!< General countdown for various of functions. */
-	uint16 variable_52;                                     /*!< ?? Used as 'overflow' value for building stuff. */
+	uint16 buildCostRemainder;                              /*!< The remainder of the buildCost for next tick. */
 	 int16 state;                                           /*!< The state of the structure. @see StructureState. */
 	uint16 hitpointsMax;                                    /*!< Max amount of hitpoints. */
 }  Structure;
