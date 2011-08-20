@@ -72,6 +72,9 @@ typedef struct MapInfo {
 	uint16 sizeY; /*!< Height of the map. */
 } MapInfo;
 
+/**
+ * Information about LandscapeType.
+ */
 typedef struct LandscapeInfo {
 	uint16 notused_00;
 	uint16 notused_01;
