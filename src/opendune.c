@@ -2291,7 +2291,7 @@ static void GameLoop_Main()
 			GameLoop_Structure();
 			GameLoop_House();
 
-			Unknown_07D4_0000(0);
+			GUI_DrawScreen(0);
 		}
 
 		GUI_DisplayText(NULL, 0);

@@ -4,7 +4,9 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
+#include "../os/common.h"
 #include "../os/math.h"
 #include "../os/strings.h"
 
@@ -13,11 +15,13 @@
 #include "../audio/driver.h"
 #include "../audio/sound.h"
 #include "../config.h"
+#include "../gfx.h"
 #include "../house.h"
 #include "../input/mouse.h"
 #include "../map.h"
 #include "../opendune.h"
 #include "../pool/house.h"
+#include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../scenario.h"
@@ -30,8 +34,11 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
-static uint32 s_tickCursor;    /*!< Stores last time Viewport changed the cursor spriteID. */
-static uint32 s_tickMapScroll; /*!< Stores last time Viewport ran MapScroll function. */
+static uint32 s_tickCursor;                                 /*!< Stores last time Viewport changed the cursor spriteID. */
+static uint32 s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */
+
+static uint8 s_paletteHouse[16];                            /*!< Used for palette manipulation to get housed coloured units etc. */
+static uint16 s_spriteFlags;
 
 /**
  * Handles the Click events for the Viewport widget.
@@ -282,4 +289,669 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	return true;
+}
+
+/**
+ * Get a sprite for the viewport, recolouring it when needed.
+ *
+ * @param spriteID The sprite to get.
+ * @param houseID The House to recolour it with.
+ * @return The sprite if found, otherwise NULL.
+ */
+static uint8 *GUI_Widget_Viewport_Draw_GetSprite(uint16 spriteID, uint8 houseID)
+{
+	uint8 *sprite;
+	uint8 i;
+
+	if (spriteID > 355) return NULL;
+
+	sprite = g_sprites[spriteID];
+
+	if (sprite == NULL) return NULL;
+
+	if ((Sprites_GetType(sprite) & 0x1) == 0) return sprite;
+
+	for (i = 0; i < 16; i++) {
+		uint8 v = sprite[10 + i];
+
+		if (v >= 0x90 && v <= 0x98) {
+			if (v == 0xFF) break;
+			v += houseID * 16;
+		}
+
+		s_paletteHouse[i] = v;
+	}
+
+	return sprite;
+}
+
+/**
+ * Redraw parts of the viewport that require redrawing.
+ *
+ * @param arg06 ??
+ * @param arg08 ??
+ * @param drawToMainScreen True if and only if we are drawing to the main screen and not some buffer screen.
+ */
+void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
+{
+	static const uint16 values_32A4[8][2] = {
+		{0, 0}, {1, 0}, {2, 0}, {3, 0},
+		{4, 0}, {3, 1}, {2, 1}, {1, 1}
+	};
+
+	uint16 x;
+	uint16 y;
+	uint16 i;
+	uint16 curPos;
+	bool updateDisplay;
+	uint16 oldScreenID;
+	uint16 oldValue_07AE_0000;
+	int16 minX[10];
+	int16 maxX[10];
+
+	PoolFindStruct find;
+
+	updateDisplay = arg06;
+
+	memset(minX, 0xF, sizeof(minX));
+	memset(maxX, 0,   sizeof(minX));
+
+	oldScreenID = GFX_Screen_SetActive(2);
+
+	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
+
+	if (g_var_39E2 != 0 || arg06) {
+		for (y = 0; y < 10; y++) {
+			uint16 top = (y << 4) + 0x28;
+			for (x = 0; x < (drawToMainScreen ? 15 : 16); x++) {
+				Tile *t;
+				uint16 left;
+
+				curPos = g_viewportPosition + Tile_PackXY(x, y);
+
+				if (x < 15 && !arg06 && BitArray_Test(g_dirtyViewport, curPos)) {
+					if (maxX[y] < x) maxX[y] = x;
+					if (minX[y] > x) minX[y] = x;
+					updateDisplay = true;
+				}
+
+				if (!BitArray_Test(g_dirtyMinimap, curPos) && !arg06) continue;
+
+				BitArray_Set(g_dirtyViewport, curPos);
+
+				if (x < 15) {
+					updateDisplay = true;
+					if (maxX[y] < x) maxX[y] = x;
+					if (minX[y] > x) minX[y] = x;
+				}
+
+				t = &g_map[curPos];
+				left = x << 4;
+
+				if (!g_debugScenario && g_veiledSpriteID == t->overlaySpriteID) {
+					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
+					continue;
+				}
+
+				GFX_DrawSprite(t->groundSpriteID, left, top, t->houseID);
+
+				if (t->overlaySpriteID == 0 || g_debugScenario) continue;
+
+				GFX_DrawSprite(t->overlaySpriteID, left, top, t->houseID);
+			}
+		}
+		g_var_39E2 = 0;
+	}
+
+	find.type    = UNIT_SANDWORM;
+	find.index   = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
+
+	while (true) {
+		Unit *u;
+		uint8 *sprite;
+
+		u = Unit_Find(&find);
+
+		if (u == NULL) break;
+
+		if (!u->o.flags.s.variable_4_1000 && !arg06) continue;
+
+		u->o.flags.s.variable_4_1000 = false;
+
+		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && !g_debugScenario) continue;
+
+		sprite = GUI_Widget_Viewport_Draw_GetSprite(g_table_unitInfo[u->o.type].groundSpriteID, Unit_GetHouseID(u));
+
+		s_spriteFlags = 0x200;
+
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0xC000);
+
+		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0xC000);
+
+		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0xC000);
+
+		if (u != g_unitSelected) continue;
+
+		if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
+
+		GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
+	}
+
+	if (g_unitSelected == NULL && (g_var_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == 2 || g_debugScenario)) {
+		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
+		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
+		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
+		uint16 y2 = y1 + (g_selectionHeight << 4) - 1;
+
+		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
+		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
+
+		if (g_selectionState == 0 && g_selectionType == 2) {
+			GUI_DrawLine(x1, y1, x2, y2, 0xFF);
+			GUI_DrawLine(x2, y1, x1, y2, 0xFF);
+		}
+
+		GUI_SetClippingArea(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+		g_var_3A08 = 0;
+	}
+
+	if (g_var_39E6 != 0 || arg06 || updateDisplay) {
+		find.type    = 0xFFFF;
+		find.index   = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
+
+		while (true) {
+			Unit *u;
+			UnitInfo *ui;
+			uint16 packed;
+			uint8 orientation;
+			uint16 index;
+
+			u = Unit_Find(&find);
+
+			if (u == NULL) break;
+
+			if (u->o.index < 20 || u->o.index > 101) continue;
+
+			packed = Tile_PackTile(u->o.position);
+
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_dirtyViewport, packed)) continue;
+
+			u->o.flags.s.variable_4_1000 = false;
+
+			if (!g_map[packed].isUnveiled && !g_debugScenario) continue;
+
+			ui = &g_table_unitInfo[u->o.type];
+
+			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
+
+			x += g_table_tilediff[0][u->variable_6C].s.x;
+			y += g_table_tilediff[0][u->variable_6C].s.y;
+
+			orientation = Orientation_Orientation256ToOrientation8(u->orientation[0].current);
+
+			if (u->spriteOffset >= 0 || ui->destroyedSpriteID == 0) {
+				static const uint16 values_32C4[8][2] = {
+					{0, 0}, {1, 0}, {1, 0}, {1, 0},
+					{2, 0}, {1, 1}, {1, 1}, {1, 1}
+				};
+
+				index = ui->groundSpriteID;
+
+				switch (ui->displayMode) {
+					case 1:
+					case 2:
+						if (ui->movementType == MOVEMENT_SLITHER) break;
+						index += values_32A4[orientation][0];
+						s_spriteFlags = values_32A4[orientation][1];
+						break;
+
+					case 3: {
+						static const uint16 values_334A[4] = {0, 1, 0, 2};
+
+						index += values_32C4[orientation][0] * 3;
+						index += values_334A[u->spriteOffset & 3];
+						s_spriteFlags = values_32C4[orientation][1];
+					} break;
+
+					case 4:
+						index += values_32C4[orientation][0] * 4;
+						index += u->spriteOffset & 3;
+						s_spriteFlags = values_32C4[orientation][1];
+						break;
+
+					default:
+						s_spriteFlags = 0;
+						break;
+				}
+			} else {
+				index = ui->destroyedSpriteID - u->spriteOffset - 1;
+				s_spriteFlags = 0;
+			}
+
+			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) s_spriteFlags |= 0x100;
+			if (ui->o.flags.variable_0020) s_spriteFlags |= 0x200;
+
+			GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, s_spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
+
+			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->spriteOffset >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
+				uint16 type = Map_GetLandscapeType(packed);
+				if (type == LST_SPICE || type == LST_THICK_SPICE) {
+					static const int16 values_334E[8][2] = {
+						{0, 7},  {-7,  6}, {-14, 1}, {-9, -6},
+						{0, -9}, { 9, -6}, { 14, 1}, { 7,  6}
+					};
+
+					GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite((u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
+				}
+			}
+
+			if (u->spriteOffset >= 0 && ui->turretSpriteID != 0xFFFF) {
+				int16 offsetX = 0;
+				int16 offsetY = 0;
+				uint16 index = ui->turretSpriteID;
+
+				orientation = Orientation_Orientation256ToOrientation8(u->orientation[ui->o.flags.hasTurret ? 1 : 0].current);
+
+				switch (ui->turretSpriteID) {
+					case 0x8D: /* sonic tank */
+						offsetY = -2;
+						break;
+
+					case 0x92: /* rocket launcher */
+						offsetY = -3;
+						break;
+
+					case 0x7E: { /* siege tank */
+						static const int16 values_336E[8][2] = {
+							{ 0, -5}, { 0, -5}, { 2, -3}, { 2, -1},
+							{-1, -3}, {-2, -1}, {-2, -3}, {-1, -5}
+						};
+
+						offsetX = values_336E[orientation][0];
+						offsetY = values_336E[orientation][1];
+					} break;
+
+					case 0x88: { /* devastator */
+						static const int16 values_338E[8][2] = {
+							{ 0, -4}, {-1, -3}, { 2, -4}, {0, -3},
+							{-1, -3}, { 0, -3}, {-2, -4}, {1, -3}
+						};
+
+						offsetX = values_338E[orientation][0];
+						offsetY = values_338E[orientation][1];
+					} break;
+
+					default:
+						break;
+				}
+
+				s_spriteFlags = values_32A4[orientation][1];
+				index += values_32A4[orientation][0];
+
+				GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, s_spriteFlags | 0xE000, s_paletteHouse);
+			}
+
+			if (u->o.flags.s.isSmoking) {
+				uint16 spriteID = 180 + (u->spriteOffset & 3);
+				if (spriteID == 183) spriteID = 181;
+
+				GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
+			}
+
+			if (u != g_unitSelected) continue;
+
+			GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
+		}
+
+		g_var_39E6 = 0;
+	}
+
+	for (i = 0; i < 32; i++) {
+		MapActivity *s;
+
+		s = &g_mapActivity[i];
+
+		curPos = Tile_PackTile(s->position);
+
+		if (BitArray_Test(g_dirtyViewport, curPos)) s->variable_07 = 1;
+
+		if (s->activities == NULL) continue;
+		if (s->variable_07 == 0 && !arg06) continue;
+		if (s->variable_0A == 0) continue;
+
+		s->variable_07 = 0;
+
+		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
+		if (!Map_IsPositionInViewport(s->position, &x, &y)) continue;
+
+		s_spriteFlags = 0xC000;
+
+		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(s->variable_0A, s->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
+	}
+
+	if (g_var_39E8 != 0 || arg06 || updateDisplay) {
+		find.type    = 0xFFFF;
+		find.index   = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
+
+		while (true) {
+			static const uint16 values_32E4[8][2] = {
+				{0, 0}, {1, 0}, {2, 0}, {1, 2},
+				{0, 2}, {1, 3}, {2, 1}, {1, 1}
+			};
+
+			Unit *u;
+			UnitInfo *ui;
+			uint8 orientation;
+			uint8 *sprite;
+			uint16 index;
+
+			u = Unit_Find(&find);
+
+			if (u == NULL) break;
+
+			if (u->o.index > 15) continue;
+
+			curPos = Tile_PackTile(u->o.position);
+
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_dirtyViewport, curPos)) continue;
+
+			u->o.flags.s.variable_4_1000 = false;
+
+			if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
+
+			ui = &g_table_unitInfo[u->o.type];
+
+			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
+
+			index = ui->groundSpriteID;
+			orientation = u->orientation[0].current;
+			s_spriteFlags = 0xC000;
+
+			switch (ui->displayMode) {
+				case 0:
+					if (u->o.flags.s.variable_4_0040) index++;
+					break;
+
+				case 1:
+					orientation = Orientation_Orientation256ToOrientation8(orientation);
+
+					index += values_32E4[orientation][0];
+					s_spriteFlags |= values_32E4[orientation][1];
+					break;
+
+				case 2: {
+					static const uint16 values_3304[16][2] = {
+						{0, 0}, {1, 0}, {2, 0}, {3, 0},
+						{4, 0}, {3, 2}, {2, 2}, {1, 2},
+						{0, 2}, {3, 3}, {2, 3}, {3, 3},
+						{4, 1}, {3, 1}, {2, 1}, {1, 1}
+					};
+
+					orientation = Orientation_Orientation256ToOrientation16(orientation);
+
+					index += values_3304[orientation][0];
+					s_spriteFlags |= values_3304[orientation][1];
+				} break;
+
+				case 5: {
+					static const uint16 values_33AE[4] = {2, 1, 0, 1};
+
+					orientation = Orientation_Orientation256ToOrientation8(orientation);
+
+					index += (values_32E4[orientation][0] * 3) + values_33AE[u->spriteOffset & 3];
+					s_spriteFlags |= values_32E4[orientation][1];
+				} break;
+
+				default:
+					s_spriteFlags = 0x0;
+					break;
+			}
+
+			if (ui->flags.variable_2000 && u->o.flags.s.variable_4_0020) index += 5;
+			if (u->o.type == UNIT_CARRYALL && u->o.flags.s.inTransport) index += 3;
+
+			sprite = GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u));
+
+			if (ui->o.flags.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (s_spriteFlags & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+
+			if (ui->o.flags.variable_0020) s_spriteFlags |= 0x200;
+
+			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0x2000, s_paletteHouse);
+		}
+
+		g_var_39E8 = 0;
+	}
+
+	if (updateDisplay) {
+		memset(g_dirtyMinimap,  0, sizeof(g_dirtyMinimap));
+		memset(g_dirtyViewport, 0, sizeof(g_dirtyViewport));
+	}
+
+	if (g_changedTilesCount != 0) {
+		bool init = false;
+		bool update = false;
+		uint16 oldScreenID2 = 2;
+
+		for (i = 0; i < g_changedTilesCount; i++) {
+			curPos = g_changedTiles[i];
+			BitArray_Clear(g_changedTilesMap, curPos);
+
+			if (!init) {
+				init = true;
+
+				oldScreenID2 = GFX_Screen_SetActive(2);
+
+				GUI_Mouse_Hide_InWidget(3);
+			}
+
+			GUI_Widget_Viewport_DrawTile(curPos);
+
+			if (!update && BitArray_Test(g_displayedMinimap, curPos)) update = true;
+		}
+
+		if (update) Map_UpdateMinimapPosition(g_minimapPosition, true);
+
+		if (init) {
+			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, g_screenActiveID, 0);
+
+			GFX_Screen_SetActive(oldScreenID2);
+
+			GUI_Mouse_Show_InWidget();
+		}
+
+		if (g_changedTilesCount == lengthof(g_changedTiles)) {
+			g_changedTilesCount = 0;
+
+			for (i = 0; i < 4096; i++) {
+				if (!BitArray_Test(g_changedTilesMap, i)) continue;
+				g_changedTiles[g_changedTilesCount++] = i;
+				if (g_changedTilesCount == lengthof(g_changedTiles)) break;
+			}
+		} else {
+			g_changedTilesCount = 0;
+		}
+	}
+
+	if ((g_viewportMessageCounter & 1) != 0 && g_viewportMessageText != NULL && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || arg06)) {
+		GUI_DrawText_Wrapper(g_viewportMessageText, 112, 139, 15, 0, 0x132);
+		minX[6] = -1;
+		maxX[6] = 14;
+	}
+
+	if (updateDisplay && !drawToMainScreen) {
+		if (g_var_3A14) {
+			GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
+
+			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
+			if (g_dune2_enhanced) {
+				uint16 oldScreenID = g_screenActiveID;
+
+				GFX_Screen_SetActive(0);
+				GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 0);
+				GFX_Screen_SetActive(oldScreenID);
+			}
+
+			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, 0);
+			GUI_Mouse_Show_InWidget();
+
+			g_var_3A14 = false;
+		} else {
+			bool init = false;
+
+			for (i = 0; i < 10; i++) {
+				uint16 width;
+				uint16 height;
+
+				if (arg08) {
+					minX[i] = 0;
+					maxX[i] = 14;
+				}
+
+				if (maxX[i] < minX[i]) continue;
+
+				x = minX[i] * 2;
+				y = (i << 4) + 0x28;
+				width  = (maxX[i] - minX[i] + 1) * 2;
+				height = 16;
+
+				if (!init) {
+					GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
+
+					init = true;
+				}
+
+				GUI_Screen_Copy(x, y, x, y, width, height, g_screenActiveID, 0);
+			}
+
+			if (init) GUI_Mouse_Show_InWidget();
+		}
+	}
+
+	GFX_Screen_SetActive(oldScreenID);
+
+	Widget_SetCurrentWidget(oldValue_07AE_0000);
+}
+
+/**
+ * Draw a single tile on the screen.
+ *
+ * @param packed The tile to draw.
+ */
+void GUI_Widget_Viewport_DrawTile(uint16 packed)
+{
+	uint16 x;
+	uint16 y;
+	uint16 colour;
+	uint16 spriteID;
+	Tile *t;
+	uint16 mapScale;
+
+	colour = 12;
+	spriteID = 0xFFFF;
+
+	if (Tile_IsOutOfMap(packed) || !Map_IsValidPosition(packed)) return;
+
+	x = Tile_GetPackedX(packed);
+	y = Tile_GetPackedY(packed);
+
+	mapScale = g_scenario.mapScale + 1;
+
+	if (mapScale == 0 || BitArray_Test(g_displayedMinimap, packed)) return;
+
+	t = &g_map[packed];
+
+	if ((t->isUnveiled && g_playerHouse->flags.radarActivated) || g_debugScenario) {
+		uint16 type = Map_GetLandscapeType(packed);
+		Unit *u;
+
+		if (mapScale > 1) {
+			spriteID = g_scenario.mapScale + g_table_landscapeInfo[type].spriteID - 1;
+		} else {
+			colour = g_table_landscapeInfo[type].radarColour;
+		}
+
+		if (g_table_landscapeInfo[type].radarColour == 0xFFFF) {
+			if (mapScale > 1) {
+				spriteID = mapScale + t->houseID * 2 + 29;
+			} else {
+				colour = g_table_houseInfo[t->houseID].minimapColor;
+			}
+		}
+
+		u = Unit_Get_ByPackedTile(packed);
+
+		if (u != NULL) {
+			if (mapScale > 1) {
+				if (u->o.type == UNIT_SANDWORM) {
+					spriteID = mapScale + 53;
+				} else {
+					spriteID = mapScale + Unit_GetHouseID(u) * 2 + 29;
+				}
+			} else {
+				if (u->o.type == UNIT_SANDWORM) {
+					colour = 255;
+				} else {
+					colour = g_table_houseInfo[Unit_GetHouseID(u)].minimapColor;
+				}
+			}
+		}
+	} else {
+		Structure *s;
+
+		s = Structure_Get_ByPackedTile(packed);
+
+		if (s != NULL && s->o.houseID == g_playerHouseID) {
+			if (mapScale > 1) {
+				spriteID = mapScale + s->o.houseID * 2 + 29;
+			} else {
+				colour = g_table_houseInfo[s->o.houseID].minimapColor;
+			}
+		} else {
+			if (mapScale > 1) {
+				spriteID = g_scenario.mapScale + g_table_landscapeInfo[LST_ENTIRELY_MOUNTAIN].spriteID - 1;
+			} else {
+				colour = 12;
+			}
+		}
+	}
+
+	x -= g_mapInfos[g_scenario.mapScale].minX;
+	y -= g_mapInfos[g_scenario.mapScale].minY;
+
+	if (spriteID != 0xFFFF) {
+		x *= g_scenario.mapScale + 1;
+		y *= g_scenario.mapScale + 1;
+		GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], x, y, 3, 0x4000);
+	} else {
+		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
+	}
+}
+
+/**
+ * Redraw the whole map.
+ *
+ * @param screenID To which screen we should draw the map. Can only be 0 or 2. Any non-zero is forced to 2.
+ */
+void GUI_Widget_Viewport_RedrawMap(uint16 screenID)
+{
+	uint16 oldScreenID = 2;
+	uint16 i;
+
+	if (screenID == 0) oldScreenID = GFX_Screen_SetActive(2);
+
+	for (i = 0; i < 4096; i++) GUI_Widget_Viewport_DrawTile(i);
+
+	Map_UpdateMinimapPosition(g_minimapPosition, true);
+
+	if (screenID != 0) return;
+
+	GFX_Screen_SetActive(oldScreenID);
+
+	GUI_Mouse_Hide_InWidget(3);
+	GUI_Screen_Copy(32, 136, 32, 136, 8, 64, 2, 0);
+	GUI_Mouse_Show_InWidget();
 }

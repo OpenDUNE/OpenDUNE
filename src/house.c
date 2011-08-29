@@ -14,6 +14,7 @@
 #include "audio/sound.h"
 #include "gfx.h"
 #include "gui/gui.h"
+#include "gui/widget.h"
 #include "map.h"
 #include "opendune.h"
 #include "pool/pool.h"
@@ -438,7 +439,7 @@ bool House_UpdateRadarState(House *h)
 
 	GUI_Mouse_Show_Safe();
 
-	Unknown_07D4_159A(0);
+	GUI_Widget_Viewport_RedrawMap(0);
 
 	return activate;
 }

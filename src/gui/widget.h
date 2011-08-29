@@ -249,6 +249,9 @@ extern void Widget_PaintCurrentWidget();
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
+extern void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen);
+extern void GUI_Widget_Viewport_DrawTile(uint16 packed);
+extern void GUI_Widget_Viewport_RedrawMap(uint16 screenID);
 
 /* widget_click.c */
 extern bool GUI_Widget_SpriteTextButton_Click(Widget *w);

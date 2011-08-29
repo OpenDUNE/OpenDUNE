@@ -15,6 +15,7 @@
 #include "audio/sound.h"
 #include "gfx.h"
 #include "gui/gui.h"
+#include "gui/widget.h"
 #include "house.h"
 #include "opendune.h"
 #include "pool/pool.h"
@@ -33,17 +34,21 @@
 
 
 uint16 g_mapSpriteID[64 * 64];
-Tile g_map[64 * 64];            /*!< All map data. */
+Tile g_map[64 * 64];                                        /*!< All map data. */
 uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
-MapActivity g_mapActivity[32];  /*!< Map activities. */
-static uint32 s_mapActivityTimeout = 0; /*!< Timeout value for next map activity. */
+MapActivity g_mapActivity[32];                              /*!< Map activities. */
+static uint32 s_mapActivityTimeout = 0;                     /*!< Timeout value for next map activity. */
 
-uint8 g_dirtyMinimap[512];      /*!< Dirty tiles of the minimap (must be rendered again). */
-uint8 g_displayedMinimap[512];  /*!< Displayed part of the minimap. */
-uint8 g_dirtyViewport[512];     /*!< Dirty tiles of the viewport (must be rendered again). */
-uint8 g_displayedViewport[512]; /*!< Displayed part of the viewport. */
+uint8 g_dirtyMinimap[512];                                  /*!< Dirty tiles of the minimap (must be rendered again). */
+uint8 g_displayedMinimap[512];                              /*!< Displayed part of the minimap. */
+uint8 g_dirtyViewport[512];                                 /*!< Dirty tiles of the viewport (must be rendered again). */
+uint8 g_displayedViewport[512];                             /*!< Displayed part of the viewport. */
 
-static bool _debugNoExplosionDamage = false; /*!< When non-zero, explosions do no damage to their surrounding. */
+uint16 g_changedTilesCount;                                 /*!< Number of changed tiles in #_changedTiles. */
+uint16 g_changedTiles[200];                                 /*!< Array of positions of changed tiles. */
+uint8 g_changedTilesMap[512];                               /*!< Bit array of changed tiles, in order not to loose changes. */
+
+static bool s_debugNoExplosionDamage = false;               /*!< When non-zero, explosions do no damage to their surrounding. */
 
 uint16 g_var_39E2 = 0;
 uint16 g_var_3A08 = 0;
@@ -645,7 +650,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 			curPacked = minimapPreviousPosition + *m;
 			BitArray_Clear(g_displayedMinimap, curPacked);
 
-			Unknown_07D4_1625(curPacked);
+			GUI_Widget_Viewport_DrawTile(curPacked);
 		}
 	}
 
@@ -1111,7 +1116,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	uint16 reactionDistance = (type == 11) ? 32 : 16;
 	uint16 positionPacked = Tile_PackTile(position);
 
-	if (!_debugNoExplosionDamage && hitpoints != 0) {
+	if (!s_debugNoExplosionDamage && hitpoints != 0) {
 		PoolFindStruct find;
 		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
@@ -1191,7 +1196,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		}
 	}
 
-	if (!_debugNoExplosionDamage && hitpoints != 0) {
+	if (!s_debugNoExplosionDamage && hitpoints != 0) {
 		Structure *s = Structure_Get_ByPackedTile(positionPacked);
 
 		if (s != NULL) {
@@ -1473,7 +1478,7 @@ void Map_FillCircleWithSpice(uint16 packed, uint16 radius)
 			Map_ChangeSpiceAmount(curPacked, 1);
 
 			if (g_debugScenario) {
-				Unknown_07D4_02F8(curPacked);
+				Map_MarkTileDirty(curPacked);
 			}
 		}
 	}
@@ -2101,7 +2106,7 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 	if (t->isUnveiled && Sprite_IsUnveiled(t->overlaySpriteID)) return false;
 	t->isUnveiled = true;
 
-	Unknown_07D4_02F8(packed);
+	Map_MarkTileDirty(packed);
 
 	u = Unit_Get_ByPackedTile(packed);
 	if (u != NULL) Unit_HouseUnitCount_Add(u, houseID);
@@ -2414,4 +2419,17 @@ void Map_CreateLandscape(uint32 seed)
 	}
 
 	for (i = 0; i < 4096; i++) g_mapSpriteID[i] = g_map[i].groundSpriteID;
+}
+
+/**
+ * Mark a specific tile as dirty, so it gets a redrawn next time.
+ *
+ * @param packed The tile to mark as dirty.
+ */
+void Map_MarkTileDirty(uint16 packed)
+{
+	if (BitArray_Test(g_displayedMinimap, packed) && g_scenario.mapScale + 1 == 0) return;
+
+	BitArray_Set(g_changedTilesMap, packed);
+	if (g_changedTilesCount < lengthof(g_changedTiles)) g_changedTiles[g_changedTilesCount++] = packed;
 }

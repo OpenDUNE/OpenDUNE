@@ -18,6 +18,7 @@
 #include "font.h"
 #include "mentat.h"
 #include "widget.h"
+#include "../animation.h"
 #include "../audio/driver.h"
 #include "../audio/sound.h"
 #include "../codec/format80.h"
@@ -38,6 +39,7 @@
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
+#include "../tile.h"
 #include "../timer.h"
 #include "../tools.h"
 #include "../unit.h"
@@ -131,6 +133,18 @@ uint16 g_cursorDefaultSpriteID;
 
 uint16 g_variable_37B2;
 bool g_var_37B8;
+
+uint16 g_viewportMessageCounter;                            /*!< Countdown counter for displaying #g_viewportMessageText, bit 0 means 'display the text'. */
+char *g_viewportMessageText;                                /*!< If not \c NULL, message text displayed in the viewport. */
+
+uint16 g_viewportPosition;                                  /*!< Top-left tile of the viewport. */
+uint16 g_minimapPosition;                                   /*!< Top-left tile of the border in the minimap. */
+uint16 g_selectionRectanglePosition;                        /*!< Position of the structure selection rectangle. */
+uint16 g_selectionPosition;                                 /*!< Current selection position (packed). */
+uint16 g_selectionWidth;                                    /*!< Width of the selection. */
+uint16 g_selectionHeight;                                   /*!< Height of the selection. */
+int16  g_selectionState = 1;                                /*!< State of the selection (\c 1 is valid, \c 0 is not valid, \c <0 valid but missing some slabs. */
+
 
 /*!< Colours used for the border of widgets. */
 static uint16 s_colourBorderSchema[5][4] = {
@@ -1995,9 +2009,9 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	g_textDisplayNeedsUpdate = true;
 
-	Unknown_07D4_159A(g_screenActiveID);
+	GUI_Widget_Viewport_RedrawMap(g_screenActiveID);
 
-	Unknown_07D4_0000(g_screenActiveID);
+	GUI_DrawScreen(g_screenActiveID);
 
 	GUI_Widget_ActionPanel_Draw(true);
 
@@ -4489,4 +4503,104 @@ void GUI_Palette_CreateRemap(uint8 houseID)
 			*remap = (houseID << 4) + 0x90 + loc4;
 		}
 	}
+}
+
+/**
+ * Draw the screen.
+ * This also handles animation tick and other viewport related activity.
+ * @param screenID The screen to draw on.
+ */
+void GUI_DrawScreen(uint16 screenID)
+{
+	static uint32 s_timerViewportMessage = 0;
+	bool loc10;
+	uint16 oldScreenID;
+	uint16 xpos;
+
+	if (g_selectionType < 1 || g_selectionType > 4) return;
+
+	loc10 = false;
+
+	oldScreenID = GFX_Screen_SetActive(screenID);
+
+	if (screenID != 0) g_var_3A12 = true;
+
+	Map_Activity_Tick();
+	Animation_Tick();
+	Unit_Sort();
+
+	if (!g_var_3A12 && g_viewportPosition != g_minimapPosition) {
+		uint16 viewportX = Tile_GetPackedX(g_viewportPosition);
+		uint16 viewportY = Tile_GetPackedY(g_viewportPosition);
+		int16 xOffset = Tile_GetPackedX(g_minimapPosition) - viewportX; /* Horizontal offset between viewport and minimap. */
+		int16 yOffset = Tile_GetPackedY(g_minimapPosition) - viewportY; /* Vertical offset between viewport and minmap. */
+
+		/* Overlap remaining in tiles. */
+		int16 xOverlap = 15 - abs(xOffset);
+		int16 yOverlap = 10 - abs(yOffset);
+
+		int16 x, y;
+
+		if (xOverlap < 1 || yOverlap < 1) g_var_3A12 = true;
+
+		if (!g_var_3A12 && (xOverlap != 15 || yOverlap != 10)) {
+			Map_SetSelectionObjectPosition(0xFFFF);
+			loc10 = true;
+
+			GUI_Mouse_Hide_InWidget(2);
+
+			GUI_Screen_Copy(max(-xOffset << 1, 0), 40 + max(-yOffset << 4, 0), max(0, xOffset << 1), 40 + max(0, yOffset << 4), xOverlap << 1, yOverlap << 4, 0, 2);
+		} else {
+			g_var_3A12 = true;
+		}
+
+		xOffset = max(0, xOffset);
+		yOffset = max(0, yOffset);
+
+		for (y = 0; y < 10; y++) {
+			uint16 mapYBase = (y + viewportY) << 6;
+
+			for (x = 0; x < 15; x++) {
+				if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && !g_var_3A12) continue;
+
+				Map_Update(x + viewportX + mapYBase, 0, true);
+			}
+		}
+	}
+
+	if (loc10) {
+		Map_SetSelectionObjectPosition(0xFFFF);
+
+		for (xpos = 0; xpos < 14; xpos++) {
+			uint16 v = g_minimapPosition + xpos + 6*64;
+
+			BitArray_Set(g_dirtyViewport, v);
+			BitArray_Set(g_dirtyMinimap, v);
+
+			g_var_39E2++;
+		}
+	}
+
+	g_minimapPosition = g_viewportPosition;
+	g_selectionRectanglePosition = g_selectionPosition;
+
+	if (g_viewportMessageCounter != 0 && s_timerViewportMessage < g_timerGUI) {
+		g_viewportMessageCounter--;
+		s_timerViewportMessage = g_timerGUI + 60;
+
+		for (xpos = 0; xpos < 14; xpos++) {
+			Map_Update(g_viewportPosition + xpos + 6 * 64, 0, true);
+		}
+	}
+
+	GUI_Widget_Viewport_Draw(g_var_3A12, loc10, screenID != 0);
+
+	g_var_3A12 = false;
+
+	GFX_Screen_SetActive(oldScreenID);
+
+	Map_SetSelectionObjectPosition(g_selectionRectanglePosition);
+	Map_UpdateMinimapPosition(g_minimapPosition, false);
+
+	GUI_Mouse_Show_InWidget();
 }

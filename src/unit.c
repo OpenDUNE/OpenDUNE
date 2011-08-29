@@ -1035,7 +1035,14 @@ Unit *Unit_Unknown15F4(Unit *unit)
 	return res;
 }
 
-static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
+/**
+ * Move to the given orientation looking from the current position.
+ * @note returns input position when going out-of-bounds.
+ * @param position The position to move from.
+ * @param orientation The orientation to move in.
+ * @return The new position, or the old in case of out-of-bounds.
+ */
+static tile32 Tile_MoveByOrientation(tile32 position, uint8 orientation)
 {
 	uint16 xOffsets[8] = {0, 256, 256, 256, 0, -256, -256, -256};
 	uint16 yOffsets[8] = {-256, -256, 0, 256, 256, 256, 0, -256};
@@ -1083,7 +1090,7 @@ bool Unit_StartMovement(Unit *unit)
 	Unit_SetOrientation(unit, orientation, true, 0);
 	Unit_SetOrientation(unit, orientation, false, 1);
 
-	position = Unit_B4CD_00A5(unit->o.position, orientation);
+	position = Tile_MoveByOrientation(unit->o.position, orientation);
 
 	packed = Tile_PackTile(position);
 
@@ -2414,19 +2421,6 @@ bool Unit_Unknown379B(Unit *unit)
 	return true;
 }
 
-static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
-{
-	if (unit == NULL) return;
-
-	if (arg06 != 0) {
-		unit->o.flags.s.variable_4_1000 = true;
-		g_var_39E8++;
-	}
-
-	Map_B4CD_057B(g_table_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_functions[0][arg06]);
-}
-
-
 void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 {
 	const UnitInfo *ui;
@@ -2440,7 +2434,12 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 	ui = &g_table_unitInfo[unit->o.type];
 
 	if (ui->movementType == MOVEMENT_WINGER) {
-		Unit_B4CD_011A(arg06, unit);
+		if (arg06 != 0) {
+			unit->o.flags.s.variable_4_1000 = true;
+			g_var_39E8++;
+		}
+
+		Map_B4CD_057B(g_table_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_functions[0][arg06]);
 		return;
 	}
 
@@ -2497,7 +2496,7 @@ void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 		t->hasUnit = false;
 	}
 
-	Unknown_07D4_02F8(packed);
+	Map_MarkTileDirty(packed);
 
 	Map_Update(packed, 0, false);
 }
@@ -2505,7 +2504,7 @@ void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 void Unit_AddToTile(Unit *unit, uint16 packed)
 {
 	Map_UnveilTile(packed, Unit_GetHouseID(unit));
-	Unknown_07D4_02F8(packed);
+	Map_MarkTileDirty(packed);
 	Map_Update(packed, 1, false);
 }
 

@@ -103,6 +103,10 @@ extern uint8 g_displayedMinimap[512];
 extern uint8 g_dirtyViewport[512];
 extern uint8 g_displayedViewport[512];
 
+extern uint16 g_changedTilesCount;
+extern uint16 g_changedTiles[200];
+extern uint8 g_changedTilesMap[512];
+
 extern const MapInfo g_mapInfos[3];
 extern const tile32 g_table_tilediff[][8];
 
@@ -137,5 +141,6 @@ extern uint16 Map_SearchSpice(uint16 packed, uint16 radius);
 extern void Map_SelectNext(bool arg06);
 extern bool Map_UnveilTile(uint16 packed, uint8 houseID);
 extern void Map_CreateLandscape(uint32 seed);
+extern void Map_MarkTileDirty(uint16 packed);
 
 #endif /* MAP_H */
