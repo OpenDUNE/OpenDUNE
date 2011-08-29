@@ -73,12 +73,12 @@ extern uint16 Script_Stack_Peek(ScriptEngine *script, int position, const char *
 /* General Script Functions */
 extern uint16 Script_General_Delay(ScriptEngine *script);
 extern uint16 Script_General_DelayRandom(ScriptEngine *script);
-extern uint16 Script_General_GetDistance(ScriptEngine *script);
+extern uint16 Script_General_GetDistanceToTile(ScriptEngine *script);
 extern uint16 Script_General_NoOperation(ScriptEngine *script);
 extern uint16 Script_General_DisplayText(ScriptEngine *script);
 extern uint16 Script_General_RandomRange(ScriptEngine *script);
-extern uint16 Script_General_Unknown0184(ScriptEngine *script);
-extern uint16 Script_General_Unknown024B(ScriptEngine *script);
+extern uint16 Script_General_DisplayModalMessage(ScriptEngine *script);
+extern uint16 Script_General_GetDistanceToObject(ScriptEngine *script);
 extern uint16 Script_General_Unknown0288(ScriptEngine *script);
 extern uint16 Script_General_GetOrientation(ScriptEngine *script);
 extern uint16 Script_General_UnitCount(ScriptEngine *script);
@@ -86,10 +86,10 @@ extern uint16 Script_General_DecodeIndex(ScriptEngine *script);
 extern uint16 Script_General_GetIndexType(ScriptEngine *script);
 extern uint16 Script_General_GetLinkedUnitType(ScriptEngine *script);
 extern uint16 Script_General_VoicePlay(ScriptEngine *script);
-extern uint16 Script_General_Unknown0456(ScriptEngine *script);
-extern uint16 Script_General_Unknown04AE(ScriptEngine *script);
-extern uint16 Script_General_Unknown050C(ScriptEngine *script);
-extern uint16 Script_General_Unknown0594(ScriptEngine *script);
+extern uint16 Script_General_SearchSpice(ScriptEngine *script);
+extern uint16 Script_General_IsFriendly(ScriptEngine *script);
+extern uint16 Script_General_IsEnemy(ScriptEngine *script);
+extern uint16 Script_General_FindIdle(ScriptEngine *script);
 
 /* Structure Script Functions */
 extern uint16 Script_Structure_GetState(ScriptEngine *script);

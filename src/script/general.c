@@ -65,24 +65,24 @@ uint16 Script_General_DelayRandom(ScriptEngine *script)
 }
 
 /**
- * Get the distance from the current unit to the given structure/unit.
+ * Get the distance from the current unit/structure to the tile.
  *
- * Stack: 1 - Structure / Unit ID.
+ * Stack: 1 - An encoded tile index.
  *
  * @param script The script engine to operate on.
  * @return Distance to it, where distance is (longest(x,y) + shortest(x,y) / 2).
  */
-uint16 Script_General_GetDistance(ScriptEngine *script)
+uint16 Script_General_GetDistanceToTile(ScriptEngine *script)
 {
 	Object *o;
-	uint16 objectID;
+	uint16 encoded;
 
-	objectID = STACK_PEEK(1);
+	encoded = STACK_PEEK(1);
 	o = g_scriptCurrentObject;
 
-	if (!Tools_Index_IsValid(objectID)) return 0xFFFF;
+	if (!Tools_Index_IsValid(encoded)) return 0xFFFF;
 
-	return Tile_GetDistance(o->position, Tools_Index_GetTile(objectID));
+	return Tile_GetDistance(o->position, Tools_Index_GetTile(encoded));
 }
 
 /**
@@ -137,14 +137,14 @@ uint16 Script_General_RandomRange(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0184.
+ * Display a modal message.
  *
  * Stack: 1 - The index of a string.
  *
  * @param script The script engine to operate on.
  * @return unknown.
  */
-uint16 Script_General_Unknown0184(ScriptEngine *script)
+uint16 Script_General_DisplayModalMessage(ScriptEngine *script)
 {
 	char *text;
 	uint16 offset;
@@ -156,14 +156,14 @@ uint16 Script_General_Unknown0184(ScriptEngine *script)
 }
 
 /**
- * Unknown function 024B.
+ * Get the distance from the current unit/structure to the unit/structure.
  *
- * Stack: 1 - An encoded index.
+ * Stack: 1 - An encoded unit/structure index.
  *
  * @param script The script engine to operate on.
- * @return unknown.
+ * @return Distance to it, where distance is (longest(x,y) + shortest(x,y) / 2).
  */
-uint16 Script_General_Unknown024B(ScriptEngine *script)
+uint16 Script_General_GetDistanceToObject(ScriptEngine *script)
 {
 	uint16 index;
 
@@ -319,14 +319,14 @@ uint16 Script_General_VoicePlay(ScriptEngine *script)
 }
 
 /**
- * Get position of spice.
+ * Search for spice nearby.
  *
  * Stack: 1 - Radius of the search.
  *
  * @param script The script engine to operate on.
  * @return Encoded position with spice, or \c 0 if no spice nearby.
  */
-uint16 Script_General_Unknown0456(ScriptEngine *script)
+uint16 Script_General_SearchSpice(ScriptEngine *script)
 {
 	uint8 houseID;
 	tile32 position;
@@ -342,14 +342,14 @@ uint16 Script_General_Unknown0456(ScriptEngine *script)
 }
 
 /**
- * Unknown function 04AE.
+ * Check if a Unit/Structure is a friend.
  *
  * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
- * @return Unknown.
+ * @return Either 1 (friendly) or -1 (enemy).
  */
-uint16 Script_General_Unknown04AE(ScriptEngine *script)
+uint16 Script_General_IsFriendly(ScriptEngine *script)
 {
 	uint16 index;
 	Object *o;
@@ -361,20 +361,20 @@ uint16 Script_General_Unknown04AE(ScriptEngine *script)
 
 	if (o == NULL || o->flags.s.isNotOnMap || !o->flags.s.used) return 0;
 
-	res = Script_General_Unknown050C(script);
+	res = Script_General_IsEnemy(script);
 
-	return (res == 0) ? 1 : -res;
+	return (res == 0) ? 1 : -1;
 }
 
 /**
- * Unknown function 050C.
+ * Check if a Unit/Structure is an enemy.
  *
  * Stack: 1 - An encoded index.
  *
  * @param script The script engine to operate on.
- * @return Unknown.
+ * @return Zero if and only if the Unit/Structure is friendly.
  */
-uint16 Script_General_Unknown050C(ScriptEngine *script)
+uint16 Script_General_IsEnemy(ScriptEngine *script)
 {
 	uint8 houseID;
 	uint16 index;
@@ -393,14 +393,17 @@ uint16 Script_General_Unknown050C(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0594.
+ * Two sided function. If the parameter is an index, it will return 1 if and
+ *  only if the structure indicated is idle. If the parameter is not an index,
+ *  it is a structure type, and this function will return the first structure
+ *  that is of that type and idle.
  *
  * Stack: 1 - An encoded index or a Structure type.
  *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return Zero or one to indicate idle, or the index of the structure which is idle, depending on the input parameter.
  */
-uint16 Script_General_Unknown0594(ScriptEngine *script)
+uint16 Script_General_FindIdle(ScriptEngine *script)
 {
 	uint8 houseID;
 	uint16 index;
@@ -411,8 +414,10 @@ uint16 Script_General_Unknown0594(ScriptEngine *script)
 
 	houseID = g_scriptCurrentObject->houseID;
 
-	if ((index & 0xC000) != 0) {
-		if (Tools_Index_GetType(index) != IT_STRUCTURE) return 0;
+	if (Tools_Index_GetType(index) == IT_UNIT) return 0;
+	if (Tools_Index_GetType(index) == IT_TILE) return 0;
+
+	if (Tools_Index_GetType(index) == IT_STRUCTURE) {
 		s = Tools_Index_GetStructure(index);
 		if (s->o.houseID != houseID) return 0;
 		if (s->state != STRUCTURE_STATE_IDLE) return 0;
