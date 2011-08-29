@@ -50,7 +50,7 @@ bool CrashLog_WriteCrashLog(char *buffer)
 	FILE *file = fopen("crash.log", "w");
 	if (file == NULL) return false;
 
-	fwrite(buffer, 1, strlen(buffer), file);
+	if (fwrite(buffer, 1, strlen(buffer), file) == 0) {}
 
 	fclose(file);
 	return true;
