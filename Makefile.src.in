@@ -1,0 +1,217 @@
+# $Id: Makefile.src.in 22195 2011-03-05 10:13:14Z rubidium $
+
+CC_HOST        = !!CC_HOST!!
+CC_BUILD       = !!CC_BUILD!!
+STRIP          = !!STRIP!!
+CFLAGS         = !!CFLAGS!!
+CFLAGS_BUILD   = !!CFLAGS_BUILD!!
+LIBS           = !!LIBS!!
+LDFLAGS        = !!LDFLAGS!!
+LDFLAGS_BUILD  = !!LDFLAGS_BUILD!!
+ROOT_DIR       = !!ROOT_DIR!!
+BIN_DIR        = !!BIN_DIR!!
+SRC_OBJS_DIR   = !!SRC_OBJS_DIR!!
+SRC_DIR        = !!SRC_DIR!!
+TOOLS_DIR      = !!TOOLS_DIR!!
+OPENDUNE       = !!OPENDUNE!!
+DEPEND         = !!DEPEND!!
+OS             = !!OS!!
+STAGE          = !!STAGE!!
+MAKEDEPEND     = !!MAKEDEPEND!!
+CFLAGS_MAKEDEP = !!CFLAGS_MAKEDEP!!
+SORT           = !!SORT!!
+REVISION       = !!REVISION!!
+AWK            = !!AWK!!
+CONFIG_CACHE_COMPILER = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_COMPILER!!
+CONFIG_CACHE_LINKER   = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_LINKER!!
+CONFIG_CACHE_SOURCE   = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_SOURCE!!
+CONFIG_CACHE_VERSION  = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_VERSION!!
+
+OBJS_C   := !!OBJS_C!!
+OBJS     := $(OBJS_C)
+SRCS     := !!SRCS!!
+
+# All C-files depend on those 3 files
+FILE_DEP := $(CONFIG_CACHE_COMPILER)
+# Create all dirs and subdirs
+RES      := $(shell mkdir -p $(BIN_DIR) $(sort $(dir $(OBJS))))
+
+CFLAGS += -I $(SRC_OBJS_DIR)
+CFLAGS_MAKEDEP += -I $(SRC_OBJS_DIR)
+
+# Check if we want to show what we are doing
+ifdef VERBOSE
+	Q =
+	E = @true
+else
+	Q = @
+	E = @echo
+endif
+
+# Our default target
+all: $(BIN_DIR)/$(OPENDUNE)
+
+# Always run version detection, so we always have an accurate modified
+# flag
+VERSIONS := $(shell AWK="$(AWK)" "$(ROOT_DIR)/findversion.sh")
+MODIFIED := $(shell echo "$(VERSIONS)" | cut -f 3 -d'	')
+
+ifdef REVISION
+# Use specified revision (which should be of the form "r000").
+REV := $(REVISION)
+REV_NR := $(shell echo $(REVISION) | sed "s@[^0-9]@@g")
+else
+# Use autodetected revisions
+REV      := $(shell echo "$(VERSIONS)" | cut -f 1 -d'	')
+REV_NR   := $(shell echo "$(VERSIONS)" | cut -f 2 -d'	')
+endif
+
+# Make sure we have something in REV and REV_NR
+ifeq ($(REV),)
+REV := norev000
+endif
+ifeq ($(REV_NR),)
+REV_NR := 0
+endif
+
+# This helps to recompile if flags change
+RES := $(shell if [ "`cat $(CONFIG_CACHE_COMPILER) 2>/dev/null`" != "$(CFLAGS)" ]; then echo "$(CFLAGS)" > $(CONFIG_CACHE_COMPILER); fi )
+RES := $(shell if [ "`cat $(CONFIG_CACHE_LINKER) 2>/dev/null`" != "$(LDFLAGS) $(LIBS)" ]; then echo "$(LDFLAGS) $(LIBS)" > $(CONFIG_CACHE_LINKER); fi )
+
+# If there is a change in the source-file-list, make sure we recheck the deps
+RES := $(shell if [ "`cat $(CONFIG_CACHE_SOURCE) 2>/dev/null`" != "$(SRCS)" ]; then echo "$(SRCS)" > $(CONFIG_CACHE_SOURCE); fi )
+# If there is a change in the revision, make sure we recompile rev.cpp
+RES := $(shell if [ "`cat $(CONFIG_CACHE_VERSION) 2>/dev/null`" != "$(REV) $(MODIFIED)" ]; then echo "$(REV) $(MODIFIED)" > $(CONFIG_CACHE_VERSION); fi )
+
+ifndef MAKEDEPEND
+# The slow, but always correct, dep-check
+DEP_MASK := %.d
+DEPS     := $(OBJS:%.o=%.d)
+
+# Only include the deps if we are compiling everything
+ifeq ($(filter %.o clean mrproper, $(MAKECMDGOALS)),)
+-include $(DEPS)
+else
+# In case we want to compile a single target, include the .d file for it
+ifneq ($(filter %.o, $(MAKECMDGOALS)),)
+SINGLE_DEP := $(filter %.o, $(MAKECMDGOALS))
+-include $(SINGLE_DEP:%.o=%.d)
+endif
+endif
+
+# Find the deps via GCC. Rarely wrong, but a bit slow
+
+$(OBJS_C:%.o=%.d): %.d: $(SRC_DIR)/%.c $(FILE_DEP)
+	$(E) '$(STAGE) DEP $(<:$(SRC_DIR)/%.c=%.c)'
+	$(Q)$(CC_HOST) $(CFLAGS) -MM $< | sed 's@^$(@F:%.d=%.o):@$@ $(@:%.d=%.o):@' > $@
+
+else
+# The much faster, but can be wrong, dep-check
+DEP_MASK :=
+DEPS     := Makefile.dep
+
+# Only include the deps if we are not cleaning
+ifeq ($(filter depend clean mrproper, $(MAKECMDGOALS)),)
+-include Makefile.dep
+endif
+
+ifeq ("$(SRC_OBJS_DIR)/$(DEPEND)","$(MAKEDEPEND)")
+DEP := $(MAKEDEPEND)
+$(SRC_OBJS_DIR)/$(DEPEND): $(TOOLS_DIR)/depend/depend.cpp
+	$(E) '$(STAGE) Compiling and linking $(DEPEND)'
+	$(Q)$(CXX) $(LDFLAGS_BUILD) -o $@ $<
+endif
+
+# Make sure that only 'make depend' ALWAYS triggers a recheck
+ifeq ($(filter depend, $(MAKECMDGOALS)),)
+Makefile.dep: $(FILE_DEP) $(SRCS:%=$(SRC_DIR)/%) $(CONFIG_CACHE_SOURCE) $(DEP)
+else
+Makefile.dep: $(FILE_DEP) $(SRCS:%=$(SRC_DIR)/%) $(DEP) FORCE
+endif
+	$(E) '$(STAGE) DEP CHECK (all files)'
+	$(Q)rm -f Makefile.dep.tmp
+	$(Q)touch Makefile.dep.tmp
+
+# Calculate the deps via makedepend
+	$(Q)$(MAKEDEPEND) -f$(SRC_OBJS_DIR)/Makefile.dep.tmp -o.o -Y -v -- $(CFLAGS_MAKEDEP) -- $(SRCS:%=$(SRC_DIR)/%) 2>/dev/null
+
+# Convert x:/... paths to /x/... for mingw
+ifeq ($(OS), MINGW)
+	@cat Makefile.dep.tmp | sed 's@/\([a-zA-Z]\):\/@\/\1\/@g' > Makefile.dep.tmp.mingw
+	@cp Makefile.dep.tmp.mingw Makefile.dep.tmp
+	@rm -f Makefile.dep.tmp.mingw
+endif
+
+# Remove all comments and includes that don't start with $(SRC_DIR)
+# Remove $(SRC_DIR) from object-file-name
+	@$(AWK) '                           \
+	/^# DO NOT/ { print $$0 ; next}     \
+	/^#/ {next}                         \
+	/: / {                               \
+		left = NF - 1;                    \
+		for (n = 2; n <= NF; n++) {       \
+			if (match($$n, "^$(ROOT_DIR)") == 0) { \
+				$$n = "";                     \
+				left--;                       \
+			}                               \
+		}                                 \
+		gsub("$(SRC_DIR)/", "", $$1);     \
+		if (left > 0) {                   \
+			print $$0;                      \
+			$$1 = "Makefile.dep:";          \
+			print $$0;                      \
+		}                                 \
+		next                              \
+	}                                   \
+	{                                   \
+		print $$0                         \
+	}                                   \
+	' < Makefile.dep.tmp | sed 's@  *@ @g;s@ $$@@' | $(SORT) > Makefile.dep
+
+	$(Q)rm -f Makefile.dep.tmp Makefile.dep.tmp.bak
+
+endif
+
+# Avoid problems with deps if a .h/.hpp/.hpp.sq file is deleted without the deps
+#  being updated. Now the Makefile continues, the deps are recreated
+#  and all will be fine.
+%.h %.hpp %.hpp.sq:
+	@true
+
+
+# Compile all the files according to the targets
+
+$(OBJS_C): %.o: $(SRC_DIR)/%.c $(DEP_MASK) $(FILE_DEP)
+	$(E) '$(STAGE) Compiling $(<:$(SRC_DIR)/%.c=%.c)'
+	$(Q)$(CC_HOST) $(CFLAGS) -c -o $@ $<
+
+$(BIN_DIR)/$(OPENDUNE): $(OPENDUNE)
+	$(Q)cp $< $@
+
+$(OPENDUNE): $(OBJS) $(CONFIG_CACHE_LINKER)
+	$(E) '$(STAGE) Linking $@'
+	$(Q)+$(CC_HOST) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
+
+ifdef STRIP
+	$(Q)$(STRIP) $@
+endif
+
+# Revision files
+
+$(SRC_DIR)/rev.cpp: $(CONFIG_CACHE_VERSION) $(SRC_DIR)/rev.cpp.in
+	$(Q)cat $(SRC_DIR)/rev.cpp.in      | sed "s@\!\!REVISION\!\!@$(REV_NR)@g;s@!!VERSION!!@$(REV)@g;s@!!MODIFIED!!@$(MODIFIED)@g;s@!!DATE!!@`date +%d.%m.%y`@g" > $(SRC_DIR)/rev.cpp
+
+FORCE:
+
+depend: $(DEPS)
+
+clean:
+	$(E) '$(STAGE) Cleaning up object files'
+	$(Q)rm -f $(DEPS) $(OBJS) $(OPENDUNE) $(DEPEND) $(OPENDUNE:%=$(BIN_DIR)/%) $(CONFIG_CACHE_COMPILER) $(CONFIG_CACHE_LINKER) $(CONFIG_CACHE_SOURCE)
+
+mrproper: clean
+
+%.o:
+	@echo '$(STAGE) No such source-file: $(@:%.o=%).c'
+
+.PHONY: all mrproper depend clean FORCE

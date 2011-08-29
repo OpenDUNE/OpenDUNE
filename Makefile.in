@@ -1,0 +1,143 @@
+# $Id: Makefile.in 20752 2010-09-05 21:50:59Z rubidium $
+
+# Check if we want to show what we are doing
+ifdef VERBOSE
+	Q =
+else
+	Q = @
+endif
+
+include Makefile.am
+
+CONFIG_CACHE_PWD         = !!CONFIG_CACHE_PWD!!
+CONFIG_CACHE_SOURCE_LIST = !!CONFIG_CACHE_SOURCE_LIST!!
+BIN_DIR        = !!BIN_DIR!!
+SRC_DIR        = !!SRC_DIR!!
+ROOT_DIR       = !!ROOT_DIR!!
+INSTALL_DIR    = !!INSTALL_DIR!!
+INSTALL_BINARY_DIR     = "$(INSTALL_DIR)/"!!BINARY_DIR!!
+SOURCE_LIST     = !!SOURCE_LIST!!
+CONFIGURE_FILES = !!CONFIGURE_FILES!!
+BINARY_NAME = !!BINARY_NAME!!
+STRIP       = !!STRIP!!
+OPENDUNE    = !!OPENDUNE!!
+OPENDUNES   = $(SRC_DIRS:%=%/$(OPENDUNE))
+OS          = !!OS!!
+OSXAPP      = !!OSXAPP!!
+LIPO        = !!LIPO!!
+REVISION    = !!REVISION!!
+AWK         = !!AWK!!
+SORT        = !!SORT!!
+DISTCC      = !!DISTCC!!
+
+RES := $(shell if [ ! -f $(CONFIG_CACHE_PWD) ] || [ "`pwd`" != "`cat $(CONFIG_CACHE_PWD)`" ]; then echo "`pwd`" > $(CONFIG_CACHE_PWD); fi )
+RES := $(shell if [ ! -f $(CONFIG_CACHE_SOURCE_LIST) ] || [ -n "`cmp $(CONFIG_CACHE_SOURCE_LIST) $(SOURCE_LIST) 2>/dev/null`" ]; then cp $(SOURCE_LIST) $(CONFIG_CACHE_SOURCE_LIST); fi )
+
+all: config.pwd config.cache
+ifdef DISTCC
+	@if [ -z "`echo '$(MFLAGS)' | grep '\-j'`" ]; then echo; echo "WARNING: you enabled distcc support, but you don't seem to be using the -jN paramter"; echo; fi
+endif
+	@for dir in $(DIRS); do \
+		$(MAKE) -C $$dir all || exit 1; \
+	done
+ifdef LIPO
+# Lipo is an OSX thing. If it is defined, it means we are building for universal,
+# and so we have have to combine the binaries into one big binary
+
+# Remove the last binary made by the last compiled target
+	$(Q)rm -f $(BIN_DIR)/$(OPENDUNE)
+# Make all the binaries into one
+	$(Q)$(LIPO) -create -output $(BIN_DIR)/$(OPENDUNE) $(OPENDUNES)
+endif
+
+help:
+	@echo "Available make commands:"
+	@echo ""
+	@echo "Compilation:"
+	@echo "  all           compile the executable and the lang files"
+	@echo "  lang          compile the lang files only"
+	@echo "Clean up:"
+	@echo "  clean         remove the files generated during compilation"
+	@echo "  mrproper      remove the files generated during configuration and compilation"
+	@echo "Run after compilation:"
+	@echo "  run           execute OpenDUNE after the compilation"
+	@echo "  run-gdb       execute OpenDUNE in debug mode after the compilation"
+	@echo "  run-prof      execute OpenDUNE in profiling mode after the compilation"
+	@echo "  run-valgrind  execute OpenDUNE with valgrind after the compilation"
+
+config.pwd: $(CONFIG_CACHE_PWD)
+	$(MAKE) reconfigure
+
+config.cache: $(CONFIG_CACHE_SOURCE_LIST) $(CONFIGURE_FILES)
+	$(MAKE) reconfigure
+
+reconfigure:
+ifeq ($(shell if test -f config.cache; then echo 1; fi), 1)
+	@echo "----------------"
+	@echo "The system detected that source.list or any configure file is altered."
+	@echo " Going to reconfigure with last known settings..."
+	@echo "----------------"
+# Make sure we don't lock config.cache
+	@$(shell cat config.cache | sed 's@\\ @\\\\ @g') || exit 1
+	@echo "----------------"
+	@echo "Reconfig done. Please re-execute make."
+	@echo "----------------"
+else
+	@echo "----------------"
+	@echo "Have not found a configuration, please run configure first."
+	@echo "----------------"
+	@exit 1
+endif
+
+clean:
+	@for dir in $(DIRS); do \
+		$(MAKE) -C $$dir clean; \
+	done
+
+lang:
+	@for dir in $(LANG_DIRS); do \
+		$(MAKE) -C $$dir all; \
+	done
+
+mrproper:
+	@for dir in $(DIRS); do \
+		$(MAKE) -C $$dir mrproper; \
+		rm -f $$dir/Makefile; \
+	done
+	$(Q)rm -rf objs
+	$(Q)rm -f $(CONFIG_CACHE_SOURCE_LIST) config.cache config.pwd config.log $(CONFIG_CACHE_PWD)
+# output of profiling
+	$(Q)rm -f $(BIN_DIR)/gmon.out
+distclean: mrproper
+
+maintainer-clean: distclean
+
+depend:
+	@for dir in $(SRC_DIRS); do \
+		$(MAKE) -C $$dir depend; \
+	done
+
+run: all
+	$(Q)cd !!BIN_DIR!! && ./!!OPENDUNE!! $(OPENDUNE_ARGS)
+
+run-gdb: all
+	$(Q)cd !!BIN_DIR!! && gdb --ex run --args ./!!OPENDUNE!! $(OPENDUNE_ARGS)
+
+run-prof: all
+	$(Q)cd !!BIN_DIR!! && ./!!OPENDUNE!! $(OPENDUNE_ARGS) && gprof !!OPENDUNE!! | less
+
+run-valgrind: all
+	$(Q)cd !!BIN_DIR!! && valgrind --track-origins=yes --leak-check=full --show-reachable=yes --suppressions=$(ROOT_DIR)/valgrind.suppression --num-callers=50 ./!!OPENDUNE!! $(OPENDUNE_ARGS)
+
+
+%.o:
+	@for dir in $(SRC_DIRS); do \
+		$(MAKE) -C $$dir $(@:src/%=%); \
+	done
+
+%.lng:
+	@for dir in $(LANG_DIRS); do \
+		$(MAKE) -C $$dir $@; \
+	done
+
+.PHONY: test distclean mrproper clean
