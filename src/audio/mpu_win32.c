@@ -3,6 +3,7 @@
 /* Windows implementation of the MPU. Uses midiOut functions from the Windows
  *  API, which contain a softsynth and handles all MIDI output for us. */
 
+#include <stdio.h>
 #include <windows.h>
 #include "types.h"
 #include "mpu.h"
