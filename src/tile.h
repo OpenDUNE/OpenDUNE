@@ -29,5 +29,10 @@ extern uint8 Tile_GetDirectionPacked(uint16 packed_from, uint16 packed_to);
 extern tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distance);
 extern tile32 Tile_MoveByRandom(tile32 tile, uint16 distance, bool arg0C);
 extern int8 Tile_GetDirection(tile32 from, tile32 to);
+extern tile32 Tile_MoveByOrientation(tile32 position, uint8 orientation);
+
+extern uint8 Orientation_Orientation256ToOrientation8(uint8 orientation);
+extern uint8 Orientation_Orientation256ToOrientation16(uint8 orientation);
+extern void Orientation_InitTable();
 
 #endif /* TILE_H */

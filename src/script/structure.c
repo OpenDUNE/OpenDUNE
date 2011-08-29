@@ -194,19 +194,20 @@ uint16 Script_Structure_Unknown0A81(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0AFC.
+ * Find a UnitType and make it go to the current structure. In general, type
+ *  should be a Carry-All for this to make any sense.
  *
- * Stack: 1 - Unknown.
+ * Stack: 1 - An unit type.
  *
  * @param script The script engine to operate on.
  * @return unknown.
  */
-uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
+uint16 Script_Structure_FindUnitByType(ScriptEngine *script)
 {
 	Structure *s;
 	Unit *u;
 	Unit *carryall;
-	uint16 loc06;
+	uint16 type;
 	uint16 position;
 	uint16 carryallIndex;
 
@@ -215,7 +216,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	if (s->state != STRUCTURE_STATE_READY) return IT_NONE;
 	if (s->o.linkedID == 0xFF) return IT_NONE;
 
-	loc06 = STACK_PEEK(1);
+	type = STACK_PEEK(1);
 
 	position = Structure_FindFreePosition(s, false);
 
@@ -225,7 +226,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 		return IT_NONE;
 	}
 
-	carryall = Unit_Unknown2BB5(loc06, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), position == 0);
+	carryall = Unit_FindUnitByType(type, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), position == 0);
 
 	if (carryall == NULL) return IT_NONE;
 

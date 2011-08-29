@@ -24,6 +24,7 @@
 #include "pool/house.h"
 #include "script/script.h"
 #include "string.h"
+#include "tile.h"
 #include "tools.h"
 
 
@@ -52,7 +53,7 @@ void *g_mouseSpriteBuffer = NULL;
 uint16 s_mouseSpriteSize = 0;
 uint16 s_mouseSpriteBufferSize = 0;
 
-uint8 s_orientationTable[256];
+static bool s_iconLoaded = false;
 
 /**
  * ??.
@@ -292,31 +293,13 @@ static void Sprites_LoadICNFile(const char *filename)
 }
 
 /**
- * Initialize the orientation table.
- */
-static void Orientation_InitTable()
-{
-	uint8 *block = s_orientationTable;
-	int16 i;
-
-	for (i = 0; i < 256; i++) {
-		uint8 low  = ((i + 16) / 32) & 0x7;
-		uint8 hi   = ((i + 8)  / 16) & 0xF;
-
-		*block++ = (hi << 4) | low;
-	}
-}
-
-static bool _iconLoaded = false;
-
-/**
  * Loads the sprites for tiles.
  */
 void Sprites_LoadTiles()
 {
-	if (_iconLoaded) return;
+	if (s_iconLoaded) return;
 
-	_iconLoaded = true;
+	s_iconLoaded = true;
 
 	Sprites_LoadICNFile("ICON.ICN");
 
@@ -339,7 +322,7 @@ void Sprites_LoadTiles()
  */
 void Sprites_UnloadTiles()
 {
-	_iconLoaded = false;
+	s_iconLoaded = false;
 }
 
 /**
@@ -543,26 +526,6 @@ bool Sprite_IsUnveiled(uint16 spriteID)
 	if (spriteID < g_veiledSpriteID - 15) return true;
 
 	return false;
-}
-
-/**
- * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 7.
- * @param orientation The 256-based orientation.
- * @return A 8-based orientation.
- */
-uint8 Orientation_Orientation256ToOrientation8(uint8 orientation)
-{
-	return s_orientationTable[orientation] & 0x7;
-}
-
-/**
- * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 15.
- * @param orientation The 256-based orientation.
- * @return A 16-based orientation.
- */
-uint8 Orientation_Orientation256ToOrientation16(uint8 orientation)
-{
-	return s_orientationTable[orientation] >> 4;
 }
 
 void Sprites_Uninit()

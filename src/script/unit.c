@@ -321,7 +321,7 @@ uint16 Script_Unit_Pickup(ScriptEngine *script)
 
 			Unit_UpdateMap(0, u2);
 
-			Unit_Unknown2AAA(u2);
+			Unit_Hide(u2);
 
 			/* Set where we are going to */
 			Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), Tools_Index_Encode(s->o.index, IT_STRUCTURE));
@@ -1480,14 +1480,15 @@ uint16 Script_Unit_StartAnimation(ScriptEngine *script)
 }
 
 /**
- * Unknown function 246C.
+ * Find a UnitType and make it go to the current unit. In general, type should
+ *  be a Carry-All for this to make any sense.
  *
  * Stack: 1 - An unit type.
  *
  * @param script The script engine to operate on.
  * @return An encoded unit index.
  */
-uint16 Script_Unit_Unknown246C(ScriptEngine *script)
+uint16 Script_Unit_FindUnitByType(ScriptEngine *script)
 {
 	Unit *u;
 	Unit *u2;
@@ -1501,7 +1502,7 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 
 	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
-	u2 = Unit_Unknown2BB5(STACK_PEEK(1), Unit_GetHouseID(u), encoded, false);
+	u2 = Unit_FindUnitByType(STACK_PEEK(1), Unit_GetHouseID(u), encoded, false);
 	if (u2 == NULL) return 0;
 
 	encoded2 = Tools_Index_Encode(u2->o.index, IT_UNIT);
@@ -1871,7 +1872,7 @@ uint16 Script_Unit_GetBestTarget(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	u2 = Unit_GetBestTarget(u);
+	u2 = Unit_FindBestTarget(u);
 	if (u2 == NULL) return 0;
 
 	return Tools_Index_Encode(u2->o.index, IT_UNIT);

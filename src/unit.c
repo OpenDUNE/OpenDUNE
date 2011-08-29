@@ -1000,12 +1000,12 @@ uint16 Unit_GetTargetScore(Unit *unit, Unit *target)
 }
 
 /**
- * Get the best target, based on the score.
+ * Find the best target, based on the score.
  *
  * @param unit The unit to search a target for.
  * @return A target Unit, or NULL if none is found.
  */
-Unit *Unit_GetBestTarget(Unit *unit)
+Unit *Unit_FindBestTarget(Unit *unit)
 {
 	Unit *target = NULL;
 	PoolFindStruct find;
@@ -1036,36 +1036,6 @@ Unit *Unit_GetBestTarget(Unit *unit)
 	if (scoreMax == 0) return NULL;
 
 	return target;
-}
-
-/**
- * Move to the given orientation looking from the current position.
- * @note returns input position when going out-of-bounds.
- * @param position The position to move from.
- * @param orientation The orientation to move in.
- * @return The new position, or the old in case of out-of-bounds.
- */
-static tile32 Tile_MoveByOrientation(tile32 position, uint8 orientation)
-{
-	uint16 xOffsets[8] = {0, 256, 256, 256, 0, -256, -256, -256};
-	uint16 yOffsets[8] = {-256, -256, 0, 256, 256, 256, 0, -256};
-	uint16 x;
-	uint16 y;
-
-	x = Tile_GetX(position);
-	y = Tile_GetY(position);
-
-	orientation = Orientation_Orientation256ToOrientation8(orientation);
-
-	x += xOffsets[orientation];
-	y += yOffsets[orientation];
-
-	if (x > 16384 || y > 16384) return position;
-
-	position.s.x = x;
-	position.s.y = y;
-
-	return position;
 }
 
 /**
@@ -2083,11 +2053,12 @@ void Unit_DisplayStatusText(Unit *unit)
 }
 
 /**
- * Unknwown function 2AAA.
+ * Hide a unit from the viewport. Happens when a unit enters a structure or
+ *  gets picked up by a carry-all.
  *
- * @param unit The Unit to operate on.
+ * @param unit The Unit to hide.
  */
-void Unit_Unknown2AAA(Unit *unit)
+void Unit_Hide(Unit *unit)
 {
 	if (unit == NULL) return;
 
@@ -2105,15 +2076,17 @@ void Unit_Unknown2AAA(Unit *unit)
 }
 
 /**
- * Unknwown function 2BB5.
+ * Find a specified type of unit owned by the house.
+ *
+ * @note This also gives the found unit a move command, so it starts moving towards the target.
  *
  * @param type The type of the Unit to find.
  * @param houseID The houseID of the Unit to find.
  * @param target To where the found Unit should move.
- * @param arg0C Create a carryall if none found.
+ * @param createCarryall Create a carryall if none found.
  * @return The found Unit, or NULL if none found.
  */
-Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
+Unit *Unit_FindUnitByType(UnitType type, uint8 houseID, uint16 target, bool createCarryall)
 {
 	PoolFindStruct find;
 	Unit *unit = NULL;
@@ -2132,7 +2105,7 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
 		unit = u;
 	}
 
-	if (arg0C && unit == NULL && type == UNIT_CARRYALL) {
+	if (createCarryall && unit == NULL && type == UNIT_CARRYALL) {
 		tile32 position;
 
 		g_var_38BC++;
@@ -2176,7 +2149,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 	}
 
 	unit->o.variable_09 |= s->o.variable_09;
-	Unit_Unknown2AAA(unit);
+	Unit_Hide(unit);
 
 	if (House_AreAllied(s->o.houseID, Unit_GetHouseID(unit))) {
 		Structure_SetState(s, si->o.flags.variable_0010 ? STRUCTURE_STATE_READY : STRUCTURE_STATE_BUSY);

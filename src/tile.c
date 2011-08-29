@@ -15,6 +15,26 @@
 #include "map.h"
 #include "tools.h"
 
+
+uint8 s_orientationTable[256];
+
+
+/**
+ * Initialize the orientation table.
+ */
+void Orientation_InitTable()
+{
+	uint8 *block = s_orientationTable;
+	int16 i;
+
+	for (i = 0; i < 256; i++) {
+		uint8 low  = ((i + 16) / 32) & 0x7;
+		uint8 hi   = ((i + 8)  / 16) & 0xF;
+
+		*block++ = (hi << 4) | low;
+	}
+}
+
 /**
  * Check whether a tile is valid.
  *
@@ -520,4 +540,54 @@ int8 Tile_GetDirection(tile32 from, tile32 to)
 	if (loc0C == 0 || loc0C == 3) return (loc08 + 64 - loc02) & 0xFF;
 
 	return (loc08 + loc02) & 0xFF;
+}
+
+/**
+ * Move to the given orientation looking from the current position.
+ * @note returns input position when going out-of-bounds.
+ * @param position The position to move from.
+ * @param orientation The orientation to move in.
+ * @return The new position, or the old in case of out-of-bounds.
+ */
+tile32 Tile_MoveByOrientation(tile32 position, uint8 orientation)
+{
+	uint16 xOffsets[8] = {0, 256, 256, 256, 0, -256, -256, -256};
+	uint16 yOffsets[8] = {-256, -256, 0, 256, 256, 256, 0, -256};
+	uint16 x;
+	uint16 y;
+
+	x = Tile_GetX(position);
+	y = Tile_GetY(position);
+
+	orientation = Orientation_Orientation256ToOrientation8(orientation);
+
+	x += xOffsets[orientation];
+	y += yOffsets[orientation];
+
+	if (x > 16384 || y > 16384) return position;
+
+	position.s.x = x;
+	position.s.y = y;
+
+	return position;
+}
+
+/**
+ * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 7.
+ * @param orientation The 256-based orientation.
+ * @return A 8-based orientation.
+ */
+uint8 Orientation_Orientation256ToOrientation8(uint8 orientation)
+{
+	return s_orientationTable[orientation] & 0x7;
+}
+
+/**
+ * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 15.
+ * @param orientation The 256-based orientation.
+ * @return A 16-based orientation.
+ */
+uint8 Orientation_Orientation256ToOrientation16(uint8 orientation)
+{
+	return s_orientationTable[orientation] >> 4;
 }
