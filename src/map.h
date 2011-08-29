@@ -110,7 +110,7 @@ extern uint8 g_changedTilesMap[512];
 extern const MapInfo g_mapInfos[3];
 extern const tile32 g_table_tilediff[][8];
 
-extern uint16 g_var_39E2;
+extern uint16 g_dirtyViewportCount;
 extern uint16 g_var_3A08;
 
 extern LandscapeInfo g_table_landscapeInfo[LST_MAX];
@@ -136,7 +136,7 @@ extern void Map_ChangeSpiceAmount(uint16 packed, int16 dir);
 extern void Map_SetViewportPosition(uint16 packed);
 extern void Map_B4CD_160C(uint16 packed, uint8 houseID);
 extern uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID);
-extern void Map_B4CD_057B(uint16 arg06, tile32 position, struct Unit *unit, uint8 function);
+extern void Map_UpdateAround(uint16 arg06, tile32 position, struct Unit *unit, uint8 function);
 extern uint16 Map_SearchSpice(uint16 packed, uint16 radius);
 extern void Map_SelectNext(bool arg06);
 extern bool Map_UnveilTile(uint16 packed, uint8 houseID);

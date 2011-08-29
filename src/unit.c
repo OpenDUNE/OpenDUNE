@@ -93,7 +93,7 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 
 	if (Orientation_Orientation256ToOrientation16(newCurrent) == Orientation_Orientation256ToOrientation16(current) && Orientation_Orientation256ToOrientation8(newCurrent) == Orientation_Orientation256ToOrientation8(current)) return;
 
-	Unit_B4CD_01BF(2, unit);
+	Unit_UpdateMap(2, unit);
 }
 
 void Unit_MovementTick(Unit *unit)
@@ -228,12 +228,12 @@ void GameLoop_Unit()
 				u->o.flags.s.isHighlighted = false;
 			}
 
-			Unit_B4CD_01BF(2, u);
+			Unit_UpdateMap(2, u);
 		}
 
 		if (tickDeviation) Unit_Deviation_Decrease(u, 1);
 
-		if (ui->movementType != MOVEMENT_WINGER && Object_GetByPackedTile(Tile_PackTile(u->o.position)) == NULL) Unit_B4CD_01BF(1, u);
+		if (ui->movementType != MOVEMENT_WINGER && Object_GetByPackedTile(Tile_PackTile(u->o.position)) == NULL) Unit_UpdateMap(1, u);
 
 		if (tickUnknown5) {
 			if (u->timer == 0) {
@@ -242,7 +242,7 @@ void GameLoop_Unit()
 						u->spriteOffset &= 0x3F;
 						u->spriteOffset++;
 
-						Unit_B4CD_01BF(2, u);
+						Unit_UpdateMap(2, u);
 
 						u->timer = ui->animationSpeed / 5;
 						if (u->o.flags.s.isSmoking) {
@@ -259,7 +259,7 @@ void GameLoop_Unit()
 					u->spriteOffset &= 0x3F;
 					u->spriteOffset++;
 
-					Unit_B4CD_01BF(2, u);
+					Unit_UpdateMap(2, u);
 
 					u->timer = 1;
 				}
@@ -269,12 +269,12 @@ void GameLoop_Unit()
 						u->spriteOffset &= 0x3F;
 						u->spriteOffset++;
 
-						Unit_B4CD_01BF(2, u);
+						Unit_UpdateMap(2, u);
 
 						u->timer = 4;
 					} else {
 						if (u->spriteOffset != 0) {
-							Unit_B4CD_01BF(2, u);
+							Unit_UpdateMap(2, u);
 
 							u->spriteOffset = 0;
 						}
@@ -451,7 +451,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 		return u;
 	}
 
-	Unit_B4CD_01BF(1, u);
+	Unit_UpdateMap(1, u);
 
 	Unit_SetAction(u, (houseID == g_playerHouseID) ? ui->o.actionsPlayer[3] : ui->actionAI);
 
@@ -869,7 +869,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	u->spriteOffset = 0;
 
-	Unit_B4CD_01BF(1, u);
+	Unit_UpdateMap(1, u);
 
 	return true;
 }
@@ -891,7 +891,7 @@ void Unit_Remove(Unit *u)
 
 	u->o.flags.s.variable_4_0040 = true;
 
-	Unit_B4CD_01BF(0, u);
+	Unit_UpdateMap(0, u);
 
 	Unit_HouseUnitCount_Remove(u);
 
@@ -1123,7 +1123,7 @@ bool Unit_StartMovement(Unit *unit)
 		positionOld = unit->o.position;
 		unit->o.position = position;
 
-		Unit_B4CD_01BF(1, unit);
+		Unit_UpdateMap(1, unit);
 
 		unit->o.position = positionOld;
 	}
@@ -1206,7 +1206,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	unit->deviated = 0;
 	unit->o.flags.s.variable_4_0040 = true;
 
-	Unit_B4CD_01BF(2, unit);
+	Unit_UpdateMap(2, unit);
 
 	unit->o.flags.s.variable_4_0040 = false;
 	if (unit->o.houseID == g_playerHouseID) {
@@ -1272,7 +1272,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	unit->deviated = 0x78;
 
-	Unit_B4CD_01BF(2, unit);
+	Unit_UpdateMap(2, unit);
 
 	if (g_playerHouseID == HOUSE_ORDOS) {
 		Unit_SetAction(unit, ui->o.actionsPlayer[3]);
@@ -1359,7 +1359,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 	}
 
-	Unit_B4CD_01BF(0, unit);
+	Unit_UpdateMap(0, unit);
 
 	if (ui->movementType == MOVEMENT_WINGER) {
 		unit->o.flags.s.variable_4_0020 = !unit->o.flags.s.variable_4_0020;
@@ -1506,7 +1506,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	unit->distanceToDestination = distance;
 	unit->o.position = newPosition;
 
-	Unit_B4CD_01BF(1, unit);
+	Unit_UpdateMap(1, unit);
 
 	if (sprite2 != 0) Map_B4CD_160C(packed, Unit_GetHouseID(unit));
 
@@ -1583,7 +1583,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 		ui = &g_table_unitInfo[unit->o.type];
 		unit->o.hitpoints = ui->o.hitpoints;
 
-		Unit_B4CD_01BF(2, unit);
+		Unit_UpdateMap(2, unit);
 
 		if (Tools_Random_256() < g_table_houseInfo[unit->o.houseID].toughness) {
 			Unit_SetAction(unit, ACTION_RETREAT);
@@ -1708,7 +1708,7 @@ void Unit_Select(Unit *unit)
 		unit = NULL;
 	}
 
-	if (g_unitSelected != NULL) Unit_B4CD_01BF(2, g_unitSelected);
+	if (g_unitSelected != NULL) Unit_UpdateMap(2, g_unitSelected);
 
 	if (unit == NULL) {
 		g_unitSelected = NULL;
@@ -1741,7 +1741,7 @@ void Unit_Select(Unit *unit)
 		GUI_ChangeSelectionType(3);
 	}
 
-	Unit_B4CD_01BF(2, g_unitSelected);
+	Unit_UpdateMap(2, g_unitSelected);
 
 	Map_SetSelectionObjectPosition(0xFFFF);
 }
@@ -2093,7 +2093,7 @@ void Unit_Unknown2AAA(Unit *unit)
 
 	unit->o.flags.s.variable_4_0040 = true;
 
-	Unit_B4CD_01BF(0, unit);
+	Unit_UpdateMap(0, unit);
 
 	unit->o.flags.s.variable_4_0040 = false;
 
@@ -2424,25 +2424,30 @@ bool Unit_Unknown379B(Unit *unit)
 	return true;
 }
 
-void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
+/**
+ * Update the map around the Unit depending on the type (entering tile, leaving, staying).
+ * @param type The type of action on the map.
+ * @param unit The Unit doing the action.
+ */
+void Unit_UpdateMap(uint16 type, Unit *unit)
 {
 	const UnitInfo *ui;
 	tile32 position;
 	uint16 packed;
 	Tile *t;
-	uint16 loc06;
+	uint16 radius;
 
 	if (unit == NULL || unit->o.flags.s.isNotOnMap || !unit->o.flags.s.used) return;
 
 	ui = &g_table_unitInfo[unit->o.type];
 
 	if (ui->movementType == MOVEMENT_WINGER) {
-		if (arg06 != 0) {
+		if (type != 0) {
 			unit->o.flags.s.variable_4_1000 = true;
 			g_var_39E8++;
 		}
 
-		Map_B4CD_057B(g_table_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_functions[0][arg06]);
+		Map_UpdateAround(g_table_unitInfo[unit->o.type].dimension, unit->o.position, unit, g_functions[0][type]);
 		return;
 	}
 
@@ -2456,7 +2461,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 		Unit_HouseUnitCount_Remove(unit);
 	}
 
-	if (arg06 == 1) {
+	if (type == 1) {
 		if (House_AreAllied(Unit_GetHouseID(unit), g_playerHouseID) && !Map_IsPositionUnveiled(packed) && unit->o.type != UNIT_SANDWORM) {
 			Tile_RemoveFogInRadius(position, 1);
 		}
@@ -2467,21 +2472,22 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 		}
 	}
 
-	if (arg06 != 0) {
+	if (type != 0) {
 		unit->o.flags.s.variable_4_1000 = true;
 		g_var_39E6++;
 	}
 
-	loc06 = ui->variable_38 + 3;
+	radius = ui->dimension + 3;
 
-	if (unit->o.flags.s.variable_4_0040 || unit->o.flags.s.isSmoking || (unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST)) loc06 = 33;
+	if (unit->o.flags.s.variable_4_0040 || unit->o.flags.s.isSmoking || (unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST)) radius = 33;
 
-	Map_B4CD_057B(loc06, position, unit, g_functions[1][arg06]);
+	Map_UpdateAround(radius, position, unit, g_functions[1][type]);
 
 	if (unit->o.type != UNIT_HARVESTER) return;
 
-	Map_B4CD_057B(loc06, unit->targetPreLast, unit, g_functions[1][arg06]);
-	Map_B4CD_057B(loc06, unit->targetLast, unit, g_functions[1][arg06]);
+	/* The harvester is the only 2x1 unit, so also update tiles in behind us. */
+	Map_UpdateAround(radius, unit->targetPreLast, unit, g_functions[1][type]);
+	Map_UpdateAround(radius, unit->targetLast, unit, g_functions[1][type]);
 }
 
 /**

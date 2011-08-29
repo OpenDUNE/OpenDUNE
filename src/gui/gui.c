@@ -2043,7 +2043,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
-		Unit_B4CD_01BF(1, u);
+		Unit_UpdateMap(1, u);
 	}
 
 	if (screenID == 0) {
@@ -2214,7 +2214,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 			case 3:
 				if (g_unitSelected != NULL && selectionType != 1 && selectionType != 3) {
-					Unit_B4CD_01BF(2, g_unitSelected);
+					Unit_UpdateMap(2, g_unitSelected);
 					g_unitSelected = NULL;
 				}
 				break;
@@ -4576,7 +4576,7 @@ void GUI_DrawScreen(uint16 screenID)
 			BitArray_Set(g_dirtyViewport, v);
 			BitArray_Set(g_dirtyMinimap, v);
 
-			g_var_39E2++;
+			g_dirtyViewportCount++;
 		}
 	}
 

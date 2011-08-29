@@ -147,7 +147,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 				u->o.flags.s.inTransport = false;
 				u->amount = 0;
 
-				Unit_B4CD_01BF(2, u);
+				Unit_UpdateMap(2, u);
 
 				Voice_PlayAtTile(24, u->o.position);
 
@@ -174,7 +174,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 			u->o.flags.s.inTransport = false;
 			u->amount = 0;
 
-			Unit_B4CD_01BF(2, u);
+			Unit_UpdateMap(2, u);
 
 			return 1;
 		}
@@ -266,7 +266,7 @@ uint16 Script_Unit_Pickup(ScriptEngine *script)
 				u->targetMove = Tools_Index_Encode(Map_SearchSpice(Tile_PackTile(u->o.position), 20), IT_TILE);
 			}
 
-			Unit_B4CD_01BF(2, u);
+			Unit_UpdateMap(2, u);
 
 			return 1;
 		}
@@ -319,7 +319,7 @@ uint16 Script_Unit_Pickup(ScriptEngine *script)
 			u->o.linkedID = u2->o.index & 0xFF;
 			u->o.flags.s.inTransport = true;
 
-			Unit_B4CD_01BF(0, u2);
+			Unit_UpdateMap(0, u2);
 
 			Unit_Unknown2AAA(u2);
 
@@ -327,7 +327,7 @@ uint16 Script_Unit_Pickup(ScriptEngine *script)
 			Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 			u->targetMove = u->o.script.variables[4];
 
-			Unit_B4CD_01BF(2, u);
+			Unit_UpdateMap(2, u);
 
 			if (u2->o.type != UNIT_HARVESTER) return 0;
 
@@ -362,7 +362,7 @@ uint16 Script_Unit_Stop(ScriptEngine *script)
 
 	Unit_SetSpeed(u, 0);
 
-	Unit_B4CD_01BF(2, u);
+	Unit_UpdateMap(2, u);
 
 	return 0;
 }
@@ -408,7 +408,7 @@ uint16 Script_Unit_Unknown105E(ScriptEngine *script)
 
 	u->spriteOffset = -(STACK_PEEK(1) & 0xFF);
 
-	Unit_B4CD_01BF(2, u);
+	Unit_UpdateMap(2, u);
 
 	return 0;
 }
@@ -444,7 +444,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 		u->o.position.s.x += clamp((int16)(tile.s.x - u->o.position.s.x), -16, 16);
 		u->o.position.s.y += clamp((int16)(tile.s.y - u->o.position.s.y), -16, 16);
 
-		Unit_B4CD_01BF(2, u);
+		Unit_UpdateMap(2, u);
 
 		if ((int16)distance < 32) return 1;
 
@@ -464,7 +464,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 	delay = max((int16)distance / 1024, 1);
 
-	Unit_B4CD_01BF(2, u);
+	Unit_UpdateMap(2, u);
 
 	if (delay != 0) {
 		script->delay = delay;
@@ -627,7 +627,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		case UNIT_SANDWORM: {
 			Unit *u2;
 
-			Unit_B4CD_01BF(0, u);
+			Unit_UpdateMap(0, u);
 
 			u2 = Tools_Index_GetUnit(target);
 
@@ -642,7 +642,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 			Voice_PlayAtTile(63, u->o.position);
 
-			Unit_B4CD_01BF(1, u);
+			Unit_UpdateMap(1, u);
 
 			u->amount--;
 
@@ -687,7 +687,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	u->fireDelay += Tools_Random_256() & 1;
 
-	Unit_B4CD_01BF(2, u);
+	Unit_UpdateMap(2, u);
 
 	return 1;
 }
@@ -1649,7 +1649,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 	u->amount += Tools_Random_256() & 1;
 	u->o.flags.s.inTransport = true;
 
-	Unit_B4CD_01BF(2, u);
+	Unit_UpdateMap(2, u);
 
 	if (u->amount > 100) u->amount = 100;
 
@@ -1753,7 +1753,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 
 	if (movementType == MOVEMENT_FOOT && random > 8) {
 		u->spriteOffset = Tools_Random_256() & 0x3F;
-		Unit_B4CD_01BF(2, u);
+		Unit_UpdateMap(2, u);
 	}
 
 	if (random > 2) return 0;
@@ -1831,7 +1831,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Unit_B4CD_01BF(0, u);
+	Unit_UpdateMap(0, u);
 
 	for (i = 0; i < 4; i++) {
 		static int8 offsets[4] = { 0, -1, -64, -65 };
@@ -1849,7 +1849,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 		GUI_DisplayText(String_Get_ByIndex(0x14), 0);
 	}
 
-	Unit_B4CD_01BF(1, u);
+	Unit_UpdateMap(1, u);
 
 	return 0;
 }

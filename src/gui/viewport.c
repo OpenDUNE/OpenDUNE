@@ -359,7 +359,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
 
-	if (g_var_39E2 != 0 || arg06) {
+	if (g_dirtyViewportCount != 0 || arg06) {
 		for (y = 0; y < 10; y++) {
 			uint16 top = (y << 4) + 0x28;
 			for (x = 0; x < (drawToMainScreen ? 15 : 16); x++) {
@@ -399,7 +399,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 				GFX_DrawSprite(t->overlaySpriteID, left, top, t->houseID);
 			}
 		}
-		g_var_39E2 = 0;
+		g_dirtyViewportCount = 0;
 	}
 
 	find.type    = UNIT_SANDWORM;

@@ -70,7 +70,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 32,
+		/* dimension            */ 32,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 200,
@@ -148,7 +148,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 24,
+		/* dimension            */ 24,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 150,
@@ -226,7 +226,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 0,
 		/* animationSpeed       */ 15,
 		/* movingSpeed          */ 5,
@@ -304,7 +304,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 0,
 		/* animationSpeed       */ 15,
 		/* movingSpeed          */ 10,
@@ -382,7 +382,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 0,
 		/* animationSpeed       */ 12,
 		/* movingSpeed          */ 8,
@@ -460,7 +460,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 0,
 		/* animationSpeed       */ 12,
 		/* movingSpeed          */ 15,
@@ -538,7 +538,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 8,
+		/* dimension            */ 8,
 		/* movementType         */ 0,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 40,
@@ -616,7 +616,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 1,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 30,
@@ -694,7 +694,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 1,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 30,
@@ -772,7 +772,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 1,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 25,
@@ -850,7 +850,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 24,
+		/* dimension            */ 24,
 		/* movementType         */ 1,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 20,
@@ -928,7 +928,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 24,
+		/* dimension            */ 24,
 		/* movementType         */ 1,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 10,
@@ -1006,7 +1006,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 1,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 30,
@@ -1084,7 +1084,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 3,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 45,
@@ -1162,7 +1162,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 3,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 60,
@@ -1240,7 +1240,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 3,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 40,
@@ -1318,7 +1318,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 24,
+		/* dimension            */ 24,
 		/* movementType         */ 2,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 20,
@@ -1396,7 +1396,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
 		},
-		/* variable_38          */ 24,
+		/* dimension            */ 24,
 		/* movementType         */ 1,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 20,
@@ -1474,7 +1474,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 32,
+		/* dimension            */ 32,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 250,
@@ -1552,7 +1552,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ true,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 200,
@@ -1630,7 +1630,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 160,
@@ -1708,7 +1708,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ true,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 16,
+		/* dimension            */ 16,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 200,
@@ -1786,7 +1786,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 8,
+		/* dimension            */ 8,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 180,
@@ -1864,7 +1864,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 8,
+		/* dimension            */ 8,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 250,
@@ -1942,7 +1942,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 32,
+		/* dimension            */ 32,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 200,
@@ -2020,7 +2020,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 24,
+		/* dimension            */ 24,
 		/* movementType         */ 5,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 35,
@@ -2098,7 +2098,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
 		},
-		/* variable_38          */ 32,
+		/* dimension            */ 32,
 		/* movementType         */ 4,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 130,

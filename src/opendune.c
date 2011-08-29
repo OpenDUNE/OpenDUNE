@@ -2458,7 +2458,7 @@ void Game_Prepare()
 		if (u->o.flags.s.isNotOnMap) continue;
 
 		Unit_RemoveFog(u);
-		Unit_B4CD_01BF(1, u);
+		Unit_UpdateMap(1, u);
 	}
 
 	find.houseID = HOUSE_INVALID;

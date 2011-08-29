@@ -148,7 +148,7 @@ typedef struct UnitInfo {
 		BIT_U8 variable_4000:1;                             /*!< ?? */
 		BIT_U8 variable_8000:1;                             /*!< ?? */
 	} flags;                                                /*!< General flags of the UnitInfo. */
-	uint16 variable_38;                                     /*!< ?? */
+	uint16 dimension;                                       /*!< The dimension of the Unit Sprite. */
 	uint16 movementType;                                    /*!< MovementType of Unit. */
 	uint16 animationSpeed;                                  /*!< Speed of sprite animation of Unit. */
 	uint16 movingSpeed;                                     /*!< Speed of movement of Unit. */
@@ -240,7 +240,7 @@ extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
 extern int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 arg0C);
 extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
 extern bool Unit_Unknown379B(Unit *unit);
-extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);
+extern void Unit_UpdateMap(uint16 arg06, Unit *unit);
 extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);
 extern void Unit_AddToTile(Unit *unit, uint16 packed);
 extern uint16 Unit_GetTargetStructurePriority(Unit *unit, struct Structure *s);

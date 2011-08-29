@@ -49,7 +49,7 @@ uint8 g_changedTilesMap[512];                               /*!< Bit array of ch
 
 static bool s_debugNoExplosionDamage = false;               /*!< When non-zero, explosions do no damage to their surrounding. */
 
-uint16 g_var_39E2 = 0;
+uint16 g_dirtyViewportCount = 0;
 uint16 g_var_3A08 = 0;
 
 static const Activity _activities00[] = {
@@ -818,7 +818,7 @@ static void Map_B4CD_04D9(uint16 arg06, MapActivity *s)
 
 	s->variable_07 = (arg06 != 0) ? 1 : 0;
 
-	Map_B4CD_057B(24, s->position, NULL, g_functions[2][arg06]);
+	Map_UpdateAround(24, s->position, NULL, g_functions[2][arg06]);
 }
 
 static bool Map_06F7_072B(MapActivity *s)
@@ -1328,7 +1328,7 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 
 			if (BitArray_Test(g_dirtyMinimap, packed)) return;
 
-			g_var_39E2++;
+			g_dirtyViewportCount++;
 
 			for (i = 0; i < 9; i++) {
 				curPacked = (packed + offsets[i]) & 0xFFF;
@@ -1783,7 +1783,17 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 	return ret;
 }
 
-void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
+/**
+ * Around a position, run a certain function for all tiles within a certain radius.
+ *
+ * @note Radius is in a 1/4th of a tile unit.
+ *
+ * @param radius The radius of the to-update tiles.
+ * @param position The position to go from.
+ * @param unit The unit to update for (can be NULL if function < 2).
+ * @param function The function to call.
+ */
+void Map_UpdateAround(uint16 radius, tile32 position, Unit *unit, uint8 function)
 {
 	static const uint32 tileOffsets[] = {
 		0x00800080, 0x00880088, 0x00900090, 0x00980098,
@@ -1793,15 +1803,16 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 		0x01000100, 0x01800180
 	};
 
-	uint16 loc0A;
-	tile32 loc12;
-	uint16 loc04;
+	uint16 i;
+	tile32 diff;
+	uint16 lastPacked;
 
-	if (arg06 == 0 || position.tile == 0) return;
+	if (radius == 0 || position.tile == 0) return;
 
-	arg06--;
+	radius--;
 
-	if (arg06 > 31) {
+	/* If radius is bigger or equal than 32, update all tiles in a 5x5 grid around the unit. */
+	if (radius >= 32) {
 		uint16 x = Tile_GetPosX(position);
 		uint16 y = Tile_GetPosY(position);
 		int16 j;
@@ -1815,7 +1826,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 
 				curPacked = Tile_PackXY(x + i, y + j);
 				BitArray_Set(g_dirtyViewport, curPacked);
-				g_var_39E2++;
+				g_dirtyViewportCount++;
 
 				switch (function) {
 					case 0: Map_Update(curPacked, 0, false); break;
@@ -1829,19 +1840,22 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 		return;
 	}
 
-	arg06 = max(min(arg06, 32), 15);
-	position.tile -= tileOffsets[arg06 - 15];
-	loc12.tile = 0;
-	loc04 = 0;
-	for (loc0A = 0; loc0A < 9; loc0A++) {
-		tile32 loc08 = Tile_AddTileDiff(position, loc12);
+	radius = max(radius, 15);
+	position.tile -= tileOffsets[radius - 15];
 
-		if (Tile_IsValid(loc08)) {
-			uint16 curPacked = Tile_PackTile(loc08);
+	diff.tile = 0;
+	lastPacked = 0;
 
-			if (curPacked != loc04) {
+	i = 0;
+	do {
+		tile32 curTile = Tile_AddTileDiff(position, diff);
+
+		if (Tile_IsValid(curTile)) {
+			uint16 curPacked = Tile_PackTile(curTile);
+
+			if (curPacked != lastPacked) {
 				BitArray_Set(g_dirtyViewport, curPacked);
-				g_var_39E2++;
+				g_dirtyViewportCount++;
 
 				switch (function) {
 					case 0: Map_Update(curPacked, 0, false); break;
@@ -1851,14 +1865,13 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 					default: break;
 				}
 
-				loc04 = curPacked;
+				lastPacked = curPacked;
 			}
 		}
 
-		if (loc0A == 8) break; /* Avoiding an illegal access of [8] for statement below; value is never really used anyway, as for will terminate */
-		loc12 = g_table_tilediff[arg06 + 1][loc0A];
-		if (loc12.tile == 0) break;
-	}
+		if (i == 8) break;
+		diff = g_table_tilediff[radius + 1][i++];
+	} while (diff.tile != 0);
 }
 
 /**
