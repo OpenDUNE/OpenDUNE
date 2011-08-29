@@ -40,6 +40,9 @@ Structure
     start to attack you (payback and stuff). To do this, Dune2 searches all
     Units with type 0 (Carry-alls), instead of type 0xFFFF (all units).
     WARNING: this glitch makes the game much easier in its original form.
+- A structure in production also counts towards your storable spice,
+    producing power, and/or requiring power. It does not check if the structure
+    is in fact placed on the map.
 
 
 Scenario

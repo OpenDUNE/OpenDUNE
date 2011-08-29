@@ -497,6 +497,8 @@ void House_CalculatePowerAndCredit(House *h)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
+		/* ENHANCEMENT -- Only count structures that are placed on the map, not ones we are building. */
+		if (g_dune2_enhanced && s->o.flags.s.isNotOnMap) continue;
 
 		si = &g_table_structureInfo[s->o.type];
 
