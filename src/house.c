@@ -41,7 +41,6 @@ uint32 g_tickHousePowerMaintenance = 0;
 static uint32 s_tickHouseHouse = 0;
 static uint32 s_tickHouseStarport = 0;
 static uint32 s_tickHouseReinforcement = 0;
-static uint32 s_tickHouseUnused = 0;
 static uint32 s_tickHouseMissileCountdown = 0;
 static uint32 s_tickHouseStarportAvailability = 0;
 
@@ -56,7 +55,6 @@ void GameLoop_House()
 	bool tickPowerMaintenance     = false;
 	bool tickStarport             = false;
 	bool tickReinforcement        = false;
-	bool tickUnused               = false;
 	bool tickMissileCountdown     = false;
 	bool tickStarportAvailability = false;
 
@@ -80,11 +78,6 @@ void GameLoop_House()
 	if (s_tickHouseReinforcement <= g_timerGame) {
 		tickReinforcement = true;
 		s_tickHouseReinforcement = g_timerGame + (g_debugGame ? 60 : 600);
-	}
-
-	if (s_tickHouseUnused <= g_timerGame) {
-		tickUnused = true;
-		s_tickHouseUnused = g_timerGame + 5;
 	}
 
 	if (s_tickHouseMissileCountdown <= g_timerGame) {

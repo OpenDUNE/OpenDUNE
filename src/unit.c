@@ -167,17 +167,13 @@ void GameLoop_Unit()
 	find.type    = 0xFFFF;
 
 	while (true) {
-		const HouseInfo *hi;
 		const UnitInfo *ui;
-		House *h;
 		Unit *u;
 
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
 		ui = &g_table_unitInfo[u->o.type];
-		h  = House_Get_ByIndex(u->o.houseID);
-		hi = &g_table_houseInfo[h->index];
 
 		g_scriptCurrentObject    = &u->o;
 		g_scriptCurrentStructure = NULL;

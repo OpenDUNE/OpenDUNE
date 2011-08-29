@@ -326,11 +326,9 @@ uint16 Script_General_VoicePlay(ScriptEngine *script)
  */
 uint16 Script_General_SearchSpice(ScriptEngine *script)
 {
-	uint8 houseID;
 	tile32 position;
 	uint16 packedSpicePos;
 
-	houseID = g_scriptCurrentObject->houseID;
 	position = g_scriptCurrentObject->position;
 
 	packedSpicePos = Map_SearchSpice(Tile_PackTile(position), STACK_PEEK(1));

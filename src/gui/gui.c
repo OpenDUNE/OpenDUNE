@@ -926,7 +926,6 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 	int16  loc12;
 	int16  loc14;
 	int16  loc16;
-	uint8  loc18;
 	int16  loc1A;
 	int16  loc1C;
 	int16  loc1E;
@@ -941,7 +940,6 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 	uint8 *loc38 = NULL;
 	int16  loc3A;
 	uint8 *loc3E = NULL;
-	uint16 loc42;
 	uint16 loc44;
 	uint16 locbx;
 
@@ -971,10 +969,6 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 	}
 
 	if ((flags & 0x1000) != 0) s_variable_72 = (uint16)va_arg(ap, int);
-
-	if ((flags & 0x800) != 0) {
-		loc18 = (uint8)va_arg(ap, int);
-	}
 
 	if ((flags & 0x4) != 0) {
 		loc30 = (uint16)va_arg(ap, int);
@@ -1057,7 +1051,6 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 		loc2A = -loc2A;
 
 		while (loc2A > 0) {
-			loc42 = 0;
 			loc38 = sprite;
 			count = loc1A;
 			loc1C = loc1A;
@@ -1146,7 +1139,6 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 		loc20 = 0;
 		loc44 = loc1E;
 		loc1E = (loc44 << 8) / loc30;
-		loc42 = -((loc44 << 8) % loc30);
 	}
 
 	if ((loc34 & 0xFF00) == 0) {
