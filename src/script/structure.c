@@ -25,7 +25,6 @@
 #include "../tile.h"
 #include "../tools.h"
 #include "../unit.h"
-#include "../unknown/unknown.h"
 
 
 /**

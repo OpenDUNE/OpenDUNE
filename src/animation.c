@@ -15,7 +15,6 @@
 #include "timer.h"
 #include "sprites.h"
 #include "structure.h"
-#include "unknown/unknown.h"
 
 Animation g_animations[ANIMATION_MAX];
 static uint32 s_animationTimer; /*!< Timer for animations. */

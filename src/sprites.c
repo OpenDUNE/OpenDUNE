@@ -25,7 +25,7 @@
 #include "script/script.h"
 #include "string.h"
 #include "tools.h"
-#include "unknown/unknown.h"
+
 
 uint8 *g_sprites[355];
 uint8 *g_spriteBuffer;

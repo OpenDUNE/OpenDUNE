@@ -34,7 +34,7 @@
 #include "tile.h"
 #include "timer.h"
 #include "tools.h"
-#include "unknown/unknown.h"
+
 
 static uint32 s_tickUnitUnknown1  = 0; /*!< Indicates next time the Unknown1 function is executed. */
 static uint32 s_tickUnitUnknown2  = 0; /*!< Indicates next time the Unknown2 function is executed. */

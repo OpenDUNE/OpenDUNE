@@ -33,7 +33,6 @@
 #include "timer.h"
 #include "tools.h"
 #include "unit.h"
-#include "unknown/unknown.h"
 
 
 Structure *g_structureActive = NULL;

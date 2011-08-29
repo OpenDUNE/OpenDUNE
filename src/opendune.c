@@ -56,9 +56,9 @@
 #include "timer.h"
 #include "tools.h"
 #include "unit.h"
-#include "unknown/unknown.h"
 #include "video/video.h"
 #include "wsa.h"
+
 
 char *window_caption = "OpenDUNE - Pre v0.7";
 
@@ -319,7 +319,7 @@ static void GameLoop_FinishAnimation()
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
 
-	Unknown_259E_0006(g_palette2, 60);
+	GUI_SetPaletteAnimated(g_palette2, 60);
 
 	GUI_ClearScreen(0);
 
@@ -585,7 +585,7 @@ static void GameLoop_PlayAnimation()
 
 			memcpy(&g_palette1[215 * 3], s_palettePartCurrent, 18);
 
-			Unknown_259E_0006(g_palette1, 45);
+			GUI_SetPaletteAnimated(g_palette1, 45);
 
 			locdi++;
 		} else {
@@ -671,7 +671,7 @@ static void GameLoop_PlayAnimation()
 
 			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
-			Unknown_259E_0006(g_palette_998A, 15);
+			GUI_SetPaletteAnimated(g_palette_998A, 15);
 
 			memcpy(g_palette_998A, g_palette1, 256 * 3);
 		}
@@ -681,7 +681,7 @@ static void GameLoop_PlayAnimation()
 
 			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
-			Unknown_259E_0006(g_palette_998A, 45);
+			GUI_SetPaletteAnimated(g_palette_998A, 45);
 		}
 
 		WSA_Unload(wsa);
@@ -1002,7 +1002,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 		if (Input_Keyboard_NextKey() != 0) break;
 	}
 
-	Unknown_259E_0006(g_palette2, 120);
+	GUI_SetPaletteAnimated(g_palette2, 120);
 
 	GUI_ClearScreen(0);
 	GUI_ClearScreen(memory);
@@ -1068,7 +1068,7 @@ static void GameLoop_GameCredits()
 
 	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
 
-	Unknown_259E_0006(g_palette_998A, 60);
+	GUI_SetPaletteAnimated(g_palette_998A, 60);
 
 	Music_Play(0);
 
@@ -1119,7 +1119,7 @@ static void GameLoop_GameCredits()
 		sleepIdle();
 	}
 
-	Unknown_259E_0006(g_palette2, 60);
+	GUI_SetPaletteAnimated(g_palette2, 60);
 
 	Driver_Music_FadeOut();
 
@@ -1214,7 +1214,7 @@ static void GameLoop_LevelEnd()
 			if (g_campaignID == 9) {
 				GUI_Mouse_Hide_Safe();
 
-				Unknown_259E_0006(g_palette2, 15);
+				GUI_SetPaletteAnimated(g_palette2, 15);
 				GUI_ClearScreen(0);
 				GameLoop_GameEndAnimation();
 				PrepareEnd();
@@ -1229,7 +1229,7 @@ static void GameLoop_LevelEnd()
 
 			g_scenarioID = GUI_StrategicMap_Show(g_campaignID, true);
 
-			Unknown_259E_0006(g_palette2, 15);
+			GUI_SetPaletteAnimated(g_palette2, 15);
 
 			if (g_campaignID == 1 || g_campaignID == 7) {
 				Sprites_Load(1, g_sprites);
@@ -1286,7 +1286,7 @@ static void Gameloop_Logos()
 	wsa = WSA_LoadFile("WESTWOOD.WSA", GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3) + GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6), true);
 	WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
 
-	Unknown_259E_0006(g_palette_998A, 60);
+	GUI_SetPaletteAnimated(g_palette_998A, 60);
 
 	Music_Play(0x24);
 
@@ -1319,7 +1319,7 @@ static void Gameloop_Logos()
 			continue;
 		}
 
-		Unknown_259E_0006(g_palette2, 30);
+		GUI_SetPaletteAnimated(g_palette2, 30);
 
 		GUI_ClearScreen(0);
 
@@ -1327,7 +1327,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(g_palette2, 60);
+	GUI_SetPaletteAnimated(g_palette2, 60);
 
 	while (Driver_Music_IsPlaying()) sleepIdle();
 
@@ -1337,7 +1337,7 @@ static void Gameloop_Logos()
 			continue;
 		}
 
-		Unknown_259E_0006(g_palette2, 30);
+		GUI_SetPaletteAnimated(g_palette2, 30);
 
 		GUI_ClearScreen(0);
 
@@ -1345,7 +1345,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(g_palette2, 60);
+	GUI_SetPaletteAnimated(g_palette2, 60);
 
 	GFX_ClearScreen();
 
@@ -1353,7 +1353,7 @@ static void Gameloop_Logos()
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-	Unknown_259E_0006(g_palette_998A, 30);
+	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	g_timerTimeout = 60;
 	while (g_timerTimeout != 0) {
@@ -1362,7 +1362,7 @@ static void Gameloop_Logos()
 			continue;
 		}
 
-		Unknown_259E_0006(g_palette2, 30);
+		GUI_SetPaletteAnimated(g_palette2, 30);
 
 		GUI_ClearScreen(0);
 
@@ -1370,7 +1370,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(g_palette2, 30);
+	GUI_SetPaletteAnimated(g_palette2, 30);
 
 	GUI_ClearScreen(0);
 
@@ -1378,7 +1378,7 @@ static void Gameloop_Logos()
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-	Unknown_259E_0006(g_palette_998A, 30);
+	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	g_timerTimeout = 180;
 	while (g_timerTimeout != 0) {
@@ -1390,7 +1390,7 @@ static void Gameloop_Logos()
 		break;
 	}
 
-	Unknown_259E_0006(g_palette2, 30);
+	GUI_SetPaletteAnimated(g_palette2, 30);
 
 	GUI_ClearScreen(0);
 
@@ -1950,7 +1950,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 				case 0x005C: /* Load Game */
 					GUI_Mouse_Hide_Safe();
-					Unknown_259E_0006(g_palette2, 30);
+					GUI_SetPaletteAnimated(g_palette2, 30);
 					GUI_ClearScreen(0);
 					GUI_Mouse_Show_Safe();
 
@@ -2015,7 +2015,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 				GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-				Unknown_259E_0006(g_palette1, 30);
+				GUI_SetPaletteAnimated(g_palette1, 30);
 
 				GUI_DrawText_Wrapper("V1.07", 319, 192, 133, 0, 0x231, 0x39);
 				GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
@@ -2065,7 +2065,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	if (!loc02) {
 		Voice_LoadVoices(5);
 
-		Unknown_259E_0006(g_palette2, 15);
+		GUI_SetPaletteAnimated(g_palette2, 15);
 
 		GUI_ClearScreen(0);
 	}

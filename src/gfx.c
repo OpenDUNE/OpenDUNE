@@ -15,7 +15,6 @@
 #include "opendune.h"
 #include "sprites.h"
 #include "tools.h"
-#include "unknown/unknown.h"
 #include "video/video.h"
 
 static uint16 s_spriteSpacing  = 0;

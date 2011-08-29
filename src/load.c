@@ -30,7 +30,7 @@
 #include "structure.h"
 #include "team.h"
 #include "unit.h"
-#include "unknown/unknown.h"
+
 
 static uint32 Load_FindChunk(FILE *fp, uint32 chunk)
 {

@@ -31,7 +31,6 @@
 #include "../timer.h"
 #include "../tools.h"
 #include "../wsa.h"
-#include "../unknown/unknown.h"
 
 /**
  * Information about the mentat.
@@ -437,7 +436,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(g_palette1, 15);
+	GUI_SetPaletteAnimated(g_palette1, 15);
 
 	ret = GUI_Mentat_Loop(wsaFilename, NULL, stringBuffer, true, NULL);
 

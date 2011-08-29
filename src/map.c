@@ -30,7 +30,6 @@
 #include "tools.h"
 #include "tile.h"
 #include "unit.h"
-#include "unknown/unknown.h"
 
 
 uint16 g_mapSpriteID[64 * 64];

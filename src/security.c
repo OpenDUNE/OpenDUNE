@@ -23,8 +23,8 @@
 #include "string.h"
 #include "timer.h"
 #include "tools.h"
-#include "unknown/unknown.h"
 #include "wsa.h"
+
 
 static void GUI_Security_DrawText(char *text)
 {
@@ -106,7 +106,7 @@ bool GUI_Security_Show()
 		File_Close(file);
 	}
 
-	Unknown_259E_0006(g_palette2, 15);
+	GUI_SetPaletteAnimated(g_palette2, 15);
 
 	GUI_Mentat_Display(wsaHouseFilename, g_playerHouseID);
 
@@ -114,7 +114,7 @@ bool GUI_Security_Show()
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(g_palette1, 15);
+	GUI_SetPaletteAnimated(g_palette1, 15);
 
 	{
 		char string[1024];

@@ -43,7 +43,6 @@
 #include "../timer.h"
 #include "../tools.h"
 #include "../unit.h"
-#include "../unknown/unknown.h"
 #include "../video/video.h"
 #include "../wsa.h"
 
@@ -1726,7 +1725,7 @@ uint8 GUI_PickHouse()
 
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
-		Unknown_259E_0006(g_palette1, 15);
+		GUI_SetPaletteAnimated(g_palette1, 15);
 		GUI_Mouse_Show_Safe();
 
 		houseID = HOUSE_INVALID;
@@ -1764,7 +1763,7 @@ uint8 GUI_PickHouse()
 			w = next;
 		}
 
-		Unknown_259E_0006(palette, 15);
+		GUI_SetPaletteAnimated(palette, 15);
 
 		if (g_debugSkipDialogs || g_debugScenario) break;
 
@@ -1805,7 +1804,7 @@ uint8 GUI_PickHouse()
 		if (yes_no == 0x8001) {
 			Driver_Music_FadeOut();
 		} else {
-			Unknown_259E_0006(palette, 15);
+			GUI_SetPaletteAnimated(palette, 15);
 		}
 
 		while (w != NULL) {
@@ -1838,7 +1837,7 @@ uint8 GUI_PickHouse()
 
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(palette, 15);
+	GUI_SetPaletteAnimated(palette, 15);
 
 	return houseID;
 }
@@ -2054,7 +2053,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2 ,0);
 		GUI_DrawCredits(g_playerHouseID, (g_playerCredits == 0xFFFF) ? 2 : 1);
-		Unknown_259E_0006(g_palette1, 15);
+		GUI_SetPaletteAnimated(g_palette1, 15);
 
 		GUI_Mouse_Show_Safe();
 	}
@@ -3261,7 +3260,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	previousCampaignID = campaignID - (win ? 1 : 0);
 	oldScreenID = GFX_Screen_SetActive(4);
 
-	Unknown_259E_0006(palette, 15);
+	GUI_SetPaletteAnimated(palette, 15);
 
 	Mouse_SetRegion(8, 24, 311, 143);
 
@@ -3314,7 +3313,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 4, 0);
-	Unknown_259E_0006(g_palette1, 15);
+	GUI_SetPaletteAnimated(g_palette1, 15);
 	GUI_Mouse_Show_Safe();
 
 	s_strategicMapFastForward = false;
@@ -3395,7 +3394,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	memcpy(g_palette1 + 251 * 3, loc316, 12);
 
-	Unknown_259E_0006(palette, 15);
+	GUI_SetPaletteAnimated(palette, 15);
 
 	GUI_Mouse_Hide_Safe();
 	GUI_ClearScreen(0);
@@ -4603,4 +4602,79 @@ void GUI_DrawScreen(uint16 screenID)
 	Map_UpdateMinimapPosition(g_minimapPosition, false);
 
 	GUI_Mouse_Show_InWidget();
+}
+
+/**
+ * Set a new palette, but animate it in slowly.
+ * @param palette The new palette.
+ * @param ticksOfAnimation The amount of ticks it should take.
+ */
+void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation)
+{
+	bool progress;
+	int16 diffPerTick;
+	int16 tickSlice;
+	uint32 timerCurrent;
+	int16 highestDiff;
+	int16 ticks;
+	uint16 tickCurrent;
+	uint8 data[256 * 3];
+	int i;
+
+	if (g_paletteActive == NULL || palette == NULL) return;
+
+	memcpy(data, g_paletteActive, 256 * 3);
+
+	highestDiff = 0;
+	for (i = 0; i < 256 * 3; i++) {
+		int16 diff = (int16)palette[i] - (int16)data[i];
+		highestDiff = max(highestDiff, abs(diff));
+	}
+
+	ticks = ticksOfAnimation << 8;
+	if (highestDiff != 0) ticks /= highestDiff;
+
+	/* Find a nice value to change every timeslice */
+	tickSlice = ticks;
+	diffPerTick = 1;
+	while (diffPerTick <= highestDiff && ticks < (2 << 8)) {
+		ticks += tickSlice;
+		diffPerTick++;
+	}
+
+	tickCurrent = 0;
+	timerCurrent = g_timerSleep;
+
+	do {
+		progress = false;
+
+		tickCurrent  += (uint16)ticks;
+		timerCurrent += (uint32)(tickCurrent >> 8);
+		tickCurrent  &= 0xFF;
+
+		for (i = 0; i < 256 * 3; i++) {
+			int16 current = palette[i];
+			int16 goal = data[i];
+
+			if (goal == current) continue;
+
+			if (goal < current) {
+				goal = min(goal + diffPerTick, current);
+				progress = true;
+			}
+
+			if (goal > current) {
+				goal = max(goal - diffPerTick, current);
+				progress = true;
+			}
+
+			data[i] = goal & 0xFF;
+		}
+
+		if (progress) {
+			GFX_SetPalette(data);
+
+			while (g_timerSleep < timerCurrent) sleepIdle();
+		}
+	} while (progress);
 }

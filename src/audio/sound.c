@@ -22,7 +22,6 @@
 #include "../string.h"
 #include "../tile.h"
 #include "../tools.h"
-#include "../unknown/unknown.h"
 
 
 static void *g_variable_3E54[NUM_VOICES];
