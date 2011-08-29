@@ -68,6 +68,7 @@
 		return (int)size;
 	}
 #elif !defined(__TINYC__)
+	#include <stdio.h>
 	#include <strings.h>
 	#include <stdarg.h>
 
