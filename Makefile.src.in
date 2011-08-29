@@ -1,4 +1,4 @@
-# $Id: Makefile.src.in 22195 2011-03-05 10:13:14Z rubidium $
+# $Id$
 
 CC_HOST        = !!CC_HOST!!
 CC_BUILD       = !!CC_BUILD!!

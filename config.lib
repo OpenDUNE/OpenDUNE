@@ -1,4 +1,4 @@
-# $Id: config.lib 22832 2011-08-24 18:21:54Z smatz $
+# $Id$
 
 log() {
 	if [ $1 = "1" ]; then

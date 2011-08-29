@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: configure 22174 2011-03-03 21:08:20Z alberth $
+# $Id$
 
 check_path_characters() {
 	if [ -n "`echo $ROOT_DIR | grep '[^-_A-Za-z0-9\/\\\.:]'`" ]; then

@@ -1,4 +1,4 @@
-# $Id: Makefile.in 20752 2010-09-05 21:50:59Z rubidium $
+# $Id$
 
 # Check if we want to show what we are doing
 ifdef VERBOSE
