@@ -105,7 +105,7 @@ extern uint16 Script_Structure_GetDirection(ScriptEngine *script);
 extern uint16 Script_Structure_Unknown11B9(ScriptEngine *script);
 extern uint16 Script_Structure_VoicePlay(ScriptEngine *script);
 extern uint16 Script_Structure_Fire(ScriptEngine *script);
-extern uint16 Script_Structure_Unknown1524(ScriptEngine *script);
+extern uint16 Script_Structure_Explode(ScriptEngine *script);
 extern uint16 Script_Structure_Destroy(ScriptEngine *script);
 
 /* Team Script Functions */

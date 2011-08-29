@@ -542,14 +542,14 @@ uint16 Script_Structure_Fire(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1524.
+ * Make the structure explode.
  *
  * Stack: *none*
  *
  * @param script The script engine to operate on.
  * @return unknown.
  */
-uint16 Script_Structure_Unknown1524(ScriptEngine *script)
+uint16 Script_Structure_Explode(ScriptEngine *script)
 {
 	Structure *s;
 	uint16 position;

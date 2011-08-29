@@ -52,7 +52,7 @@ const ScriptFunction g_scriptFunctionsStructure[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 13 */ &Script_General_NoOperation,
 	/* 14 */ &Script_General_NoOperation,
 	/* 15 */ &Script_Structure_RefineSpice,
-	/* 16 */ &Script_Structure_Unknown1524,
+	/* 16 */ &Script_Structure_Explode,
 	/* 17 */ &Script_Structure_Destroy,
 	/* 18 */ &Script_General_NoOperation,
 };
