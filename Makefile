@@ -66,7 +66,7 @@ LIBS := $(LIBS) -lasound
 CFLAGS := $(CFLAGS) -DMPU_ALSA
 endif
 
-CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label -Wno-multichar
+CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-multichar
 CFLAGS := $(CFLAGS) -ansi -pedantic
 LDFLAGS := $(LDFLAGS) -g
 
