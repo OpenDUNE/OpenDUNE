@@ -11,7 +11,7 @@
 #include "../file.h"
 #include "../gfx.h"
 #include "../input/input.h"
-#include "../mouse.h"
+#include "../input/mouse.h"
 #include "../opendune.h"
 
 /** When enabled, it uses a non-linear approach to scaling as described at http://scale2x.sourceforge.net/algorithm.html */

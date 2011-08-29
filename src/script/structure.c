@@ -8,6 +8,7 @@
 
 #include "script.h"
 
+#include "../audio/sound.h"
 #include "../config.h"
 #include "../gui/gui.h"
 #include "../house.h"
@@ -18,7 +19,6 @@
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../scenario.h"
-#include "../sound.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"

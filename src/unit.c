@@ -14,6 +14,7 @@
 #include "unit.h"
 
 #include "animation.h"
+#include "audio/sound.h"
 #include "config.h"
 #include "gui/gui.h"
 #include "gui/widget.h"
@@ -26,7 +27,6 @@
 #include "pool/unit.h"
 #include "pool/team.h"
 #include "script/script.h"
-#include "sound.h"
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"

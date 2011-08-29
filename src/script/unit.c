@@ -12,6 +12,7 @@
 #include "script.h"
 
 #include "../animation.h"
+#include "../audio/sound.h"
 #include "../config.h"
 #include "../gui/gui.h"
 #include "../house.h"
@@ -21,7 +22,6 @@
 #include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../scenario.h"
-#include "../sound.h"
 #include "../structure.h"
 #include "../tools.h"
 #include "../tile.h"

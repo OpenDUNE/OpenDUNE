@@ -10,12 +10,12 @@
 
 #include "script.h"
 
+#include "../audio/sound.h"
 #include "../gui/gui.h"
 #include "../map.h"
 #include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
-#include "../sound.h"
 #include "../structure.h"
 #include "../tile.h"
 #include "../tools.h"

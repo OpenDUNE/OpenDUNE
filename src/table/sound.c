@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "types.h"
 
-#include "../sound.h"
+#include "../audio/sound.h"
 
 /** Available voices. */
 const SoundData g_table_voices[NUM_VOICES] = {

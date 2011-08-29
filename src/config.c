@@ -9,8 +9,8 @@
 
 #include "config.h"
 
+#include "audio/sound.h"
 #include "file.h"
-#include "sound.h"
 
 GameCfg g_gameConfig = { 1, 1, 2, 1, 0 };
 DuneCfg g_config;

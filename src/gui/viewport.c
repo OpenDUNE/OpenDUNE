@@ -10,8 +10,9 @@
 
 #include "gui.h"
 #include "widget.h"
+#include "../audio/driver.h"
+#include "../audio/sound.h"
 #include "../config.h"
-#include "../driver.h"
 #include "../house.h"
 #include "../input/mouse.h"
 #include "../map.h"
@@ -20,7 +21,6 @@
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../scenario.h"
-#include "../sound.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"

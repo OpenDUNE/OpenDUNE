@@ -7,22 +7,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "os/common.h"
-#include "os/strings.h"
+#include "../os/common.h"
+#include "../os/strings.h"
 
 #include "sound.h"
 
-#include "config.h"
 #include "driver.h"
-#include "file.h"
-#include "gui/gui.h"
-#include "house.h"
 #include "mt32mpu.h"
-#include "opendune.h"
-#include "string.h"
-#include "tile.h"
-#include "tools.h"
-#include "unknown/unknown.h"
+#include "../config.h"
+#include "../file.h"
+#include "../gui/gui.h"
+#include "../house.h"
+#include "../opendune.h"
+#include "../string.h"
+#include "../tile.h"
+#include "../tools.h"
+#include "../unknown/unknown.h"
 
 
 static void *g_variable_3E54[NUM_VOICES];

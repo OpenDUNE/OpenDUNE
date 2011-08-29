@@ -8,6 +8,7 @@
 
 #include "animation.h"
 
+#include "audio/sound.h"
 #include "map.h"
 #include "tile.h"
 #include "tools.h"
@@ -15,7 +16,6 @@
 #include "sprites.h"
 #include "structure.h"
 #include "unknown/unknown.h"
-#include "sound.h"
 
 Animation g_animations[ANIMATION_MAX];
 static uint32 s_animationTimer; /*!< Timer for animations. */

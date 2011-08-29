@@ -10,7 +10,8 @@
 
 #include "house.h"
 
-#include "driver.h"
+#include "audio/driver.h"
+#include "audio/sound.h"
 #include "gfx.h"
 #include "gui/gui.h"
 #include "map.h"
@@ -20,7 +21,6 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "scenario.h"
-#include "sound.h"
 #include "string.h"
 #include "structure.h"
 #include "tile.h"

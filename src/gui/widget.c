@@ -13,7 +13,7 @@
 #include "mentat.h"
 #include "gui.h"
 #include "../input/input.h"
-#include "../mouse.h"
+#include "../input/mouse.h"
 #include "../gfx.h"
 #include "../house.h"
 #include "../string.h"

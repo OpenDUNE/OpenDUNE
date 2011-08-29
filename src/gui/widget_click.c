@@ -13,8 +13,9 @@
 
 #include "gui.h"
 #include "widget.h"
+#include "../audio/driver.h"
+#include "../audio/sound.h"
 #include "../config.h"
-#include "../driver.h"
 #include "../file.h"
 #include "../gfx.h"
 #include "../house.h"
@@ -26,7 +27,6 @@
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../save.h"
-#include "../sound.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"

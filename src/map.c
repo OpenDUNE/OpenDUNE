@@ -12,6 +12,7 @@
 #include "map.h"
 
 #include "animation.h"
+#include "audio/sound.h"
 #include "gfx.h"
 #include "gui/gui.h"
 #include "house.h"
@@ -21,7 +22,6 @@
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "scenario.h"
-#include "sound.h"
 #include "sprites.h"
 #include "structure.h"
 #include "team.h"
