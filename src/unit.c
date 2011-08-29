@@ -440,7 +440,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	if (ui->movementType == MOVEMENT_WINGER) {
 		Unit_SetSpeed(u, 255);
 	} else {
-		if (position.tile != 0xFFFFFFFF && Unit_Unknown0E2E(u)) {
+		if (position.tile != 0xFFFFFFFF && Unit_IsTileOccupied(u)) {
 			Unit_Free(u);
 			return NULL;
 		}
@@ -846,7 +846,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	u->o.script.variables[4] = 0;
 
-	if (Unit_Unknown0E2E(u)) {
+	if (Unit_IsTileOccupied(u)) {
 		u->o.flags.s.isNotOnMap = true;
 		return false;
 	}
@@ -875,11 +875,12 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 }
 
 /**
- * Unknown funtion 10EC.
+ * Remove the Unit from the game, doing all required administration for it, like
+ *  deselecting it, remove it from the radar count, stopping scripts, ..
  *
- * @param u The Unit to operate on.
+ * @param u The Unit to remove.
  */
-void Unit_Unknown10EC(Unit *u)
+void Unit_Remove(Unit *u)
 {
 	if (u == NULL) return;
 
@@ -963,13 +964,15 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 }
 
 /**
- * Unknwown function 14E6.
+ * Get the score for a target. Various of things have influence on this score,
+ *  most noticeable the movementType of the target, his distance to you, and
+ *  if he is moving/firing.
  *
- * @param unit ??.
- * @param target ??.
- * @return ??.
+ * @param unit The Unit that is requesting the score.
+ * @param target The Unit that is being targeted.
+ * @return The score of the target..
  */
-uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
+uint16 Unit_GetTargetScore(Unit *unit, Unit *target)
 {
 	uint16 res;
 	uint16 distance;
@@ -986,7 +989,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 		default:                 res = 0;      break;
 	}
 
-	if (target->speed != 0 || target->fireDelay != 0) res <<= 2;
+	if (target->speed != 0 || target->fireDelay != 0) res *= 4;
 
 	distance = Tile_GetDistanceRoundedUp(unit->o.position, target->o.position);
 
@@ -997,16 +1000,16 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 }
 
 /**
- * Unknwown function 15F4.
+ * Get the best target, based on the score.
  *
- * @param unit ??.
- * @return ??.
+ * @param unit The unit to search a target for.
+ * @return A target Unit, or NULL if none is found.
  */
-Unit *Unit_Unknown15F4(Unit *unit)
+Unit *Unit_GetBestTarget(Unit *unit)
 {
-	Unit *res = NULL;
+	Unit *target = NULL;
 	PoolFindStruct find;
-	uint16 unknownMax = 0;
+	uint16 scoreMax = 0;
 
 	if (unit == NULL) return NULL;
 
@@ -1016,23 +1019,23 @@ Unit *Unit_Unknown15F4(Unit *unit)
 
 	while (true) {
 		Unit *u;
-		uint16 unknown;
+		uint16 score;
 
 		u = Unit_Find(&find);
 
 		if (u == NULL) break;
 
-		unknown = Unit_Unknown14E6(unit, u);
+		score = Unit_GetTargetScore(unit, u);
 
-		if (unknown >= unknownMax) {
-			res = u;
-			unknownMax = unknown;
+		if (score >= scoreMax) {
+			target = u;
+			scoreMax = score;
 		}
 	}
 
-	if (unknownMax == 0) return NULL;
+	if (scoreMax == 0) return NULL;
 
-	return res;
+	return target;
 }
 
 /**
@@ -1314,13 +1317,13 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 			Unit_SetOrientation(unit, unit->orientation[0].current + (Tools_Random_256() & 0xF), false, 0);
 		} else {
-			Unit_Unknown10EC(unit);
+			Unit_Remove(unit);
 			return true;
 		}
 
 		if (unit->o.flags.s.byScenario && unit->o.linkedID == 0xFF) {
 			if (unit->o.script.variables[4] == 0) {
-				Unit_Unknown10EC(unit);
+				Unit_Remove(unit);
 				return true;
 			}
 		}
@@ -1395,7 +1398,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 
 		if (--unit->o.hitpoints == 0 || unit->fireDelay == 0) {
-			Unit_Unknown10EC(unit);
+			Unit_Remove(unit);
 		}
 	} else {
 		if (unit->o.type == UNIT_BULLET) {
@@ -1413,7 +1416,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 				Map_MakeExplosion((ui->explosionType + unit->o.hitpoints / 10) & 3, unit->o.position, unit->o.hitpoints, unit->originEncoded);
 
-				Unit_Unknown10EC(unit);
+				Unit_Remove(unit);
 				return true;
 			}
 		}
@@ -1445,7 +1448,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						}
 					}
 
-					Unit_Unknown10EC(unit);
+					Unit_Remove(unit);
 					return true;
 				}
 			} else {
@@ -1806,7 +1809,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	g_var_38BC--;
 
 	if (unit == NULL) {
-		Unit_Unknown10EC(carryall);
+		Unit_Remove(carryall);
 		if (typeID == UNIT_HARVESTER && h->harvestersIncoming == 0) h->harvestersIncoming++;
 		return NULL;
 	}
@@ -1853,16 +1856,16 @@ uint16 Unit_FindTargetAround(uint16 packed)
 }
 
 /**
- * Unknwown function 0E2E.
+ * Check if the position the unit is on is already occupied.
  *
  * @param unit The Unit to operate on.
- * @return ??.
+ * @return True if and only if the position of the unit is already occupied.
  */
-bool Unit_Unknown0E2E(Unit *unit)
+bool Unit_IsTileOccupied(Unit *unit)
 {
 	const UnitInfo *ui;
 	uint16 packed;
-	Unit *u;
+	Unit *unit2;
 	uint16 speed;
 
 	if (unit == NULL) return true;
@@ -1875,11 +1878,11 @@ bool Unit_Unknown0E2E(Unit *unit)
 
 	if (unit->o.type == UNIT_SANDWORM || ui->movementType == MOVEMENT_WINGER) return false;
 
-	u = Unit_Get_ByPackedTile(packed);
-	if (u != NULL && u != unit) {
-		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return true;
+	unit2 = Unit_Get_ByPackedTile(packed);
+	if (unit2 != NULL && unit2 != unit) {
+		if (House_AreAllied(Unit_GetHouseID(unit2), Unit_GetHouseID(unit))) return true;
 		if (ui->movementType != MOVEMENT_TRACKED) return true;
-		if (g_table_unitInfo[u->o.type].movementType != MOVEMENT_FOOT) return true;
+		if (g_table_unitInfo[unit2->o.type].movementType != MOVEMENT_FOOT) return true;
 	}
 
 	return (Structure_Get_ByPackedTile(packed) != NULL);
@@ -2168,7 +2171,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 	si = &g_table_structureInfo[s->o.type];
 
 	if (!unit->o.flags.s.allocated || s->o.hitpoints == 0) {
-		Unit_Unknown10EC(unit);
+		Unit_Remove(unit);
 		return;
 	}
 

@@ -587,7 +587,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			u = Unit_Get_ByPackedTile(curPos);
 
-			Unit_Unknown10EC(u);
+			Unit_Remove(u);
 
 			/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 			if (g_dune2_enhanced && s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 2);
@@ -995,7 +995,7 @@ static void Structure_Destroy(Structure *s)
 
 				linkedID = u->o.linkedID;
 
-				Unit_Unknown10EC(u);
+				Unit_Remove(u);
 			}
 		}
 	}

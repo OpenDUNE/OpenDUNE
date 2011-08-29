@@ -1436,7 +1436,7 @@ uint32 Map_Activity_Tick()
 void Map_ExplodeBloom(uint16 packed, uint8 houseID)
 {
 	if (g_var_38BC == 0) {
-		Unit_Unknown10EC(Unit_Get_ByPackedTile(packed));
+		Unit_Remove(Unit_Get_ByPackedTile(packed));
 		g_map[packed].groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
 		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
 	}

@@ -115,7 +115,7 @@ const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 33 */ &Script_Unit_GoToClosestStructure,
 	/* 34 */ &Script_General_NoOperation,
 	/* 35 */ &Script_General_NoOperation,
-	/* 36 */ &Script_Unit_Unknown2B97,
+	/* 36 */ &Script_Unit_GetBestTarget,
 	/* 37 */ &Script_Unit_Unknown2BD5,
 	/* 38 */ &Script_General_GetOrientation,
 	/* 39 */ &Script_General_NoOperation,

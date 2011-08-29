@@ -493,7 +493,7 @@ uint16 Script_Unit_Die(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 	ui = &g_table_unitInfo[u->o.type];
 
-	Unit_Unknown10EC(u);
+	Unit_Remove(u);
 
 	if (ui->movementType != MOVEMENT_WINGER) {
 		uint16 credits;
@@ -635,7 +635,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 				u2->o.script.variables[1] = 0xFFFF;
 				Unit_Unknown379B(u2);
 				Unit_HouseUnitCount_Remove(u2);
-				Unit_Unknown10EC(u2);
+				Unit_Remove(u2);
 			}
 
 			Map_MakeExplosion(ui->explosionType, u->o.position, 0, 0);
@@ -1684,10 +1684,10 @@ uint16 Script_Unit_IsValidDestination(ScriptEngine *script)
 	switch (Tools_Index_GetType(encoded)) {
 		case IT_TILE:
 			if (!Map_IsValidPosition(index)) return 1;
-			if (u->o.linkedID == 0XFF) return 1;
+			if (u->o.linkedID == 0xFF) return 1;
 			u2 = Unit_Get_ByIndex(u->o.linkedID);
 			u2->o.position = Tools_Index_GetTile(encoded);
-			if (!Unit_Unknown0E2E(u2)) return 0;
+			if (!Unit_IsTileOccupied(u2)) return 0;
 			u2->o.position.tile = 0xFFFFFFFF;
 			return 1;
 
@@ -1839,7 +1839,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + offsets[i]);
 
 		if (s != NULL) {
-			Unit_Unknown10EC(u);
+			Unit_Remove(u);
 			return 1;
 		}
 	}
@@ -1855,14 +1855,14 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 }
 
 /**
- * Unknown function 2B97.
+ * Get the best target around you.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return An encoded unit index, or 0.
  */
-uint16 Script_Unit_Unknown2B97(ScriptEngine *script)
+uint16 Script_Unit_GetBestTarget(ScriptEngine *script)
 {
 	Unit *u;
 	Unit *u2;
@@ -1871,7 +1871,7 @@ uint16 Script_Unit_Unknown2B97(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	u2 = Unit_Unknown15F4(u);
+	u2 = Unit_GetBestTarget(u);
 	if (u2 == NULL) return 0;
 
 	return Tools_Index_Encode(u2->o.index, IT_UNIT);
