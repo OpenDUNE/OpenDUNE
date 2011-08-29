@@ -8,6 +8,7 @@
 #include <stdarg.h>
 #include "types.h"
 #include "../os/endian.h"
+#include "../os/strings.h"
 
 #include "script.h"
 
