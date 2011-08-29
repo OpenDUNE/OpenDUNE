@@ -1,11 +1,7 @@
 /* $Id$ */
 
-#include <stdio.h>
-
 /* Windows implementation of the MPU. Uses midiOut functions from the Windows
  *  API, which contain a softsynth and handles all MIDI output for us. */
-
-#if defined(_WIN32)
 
 #include <windows.h>
 #include "types.h"
@@ -47,5 +43,3 @@ void mpu_reset()
 
 	midiOutReset(_midi);
 }
-
-#endif /* _WIN32 */

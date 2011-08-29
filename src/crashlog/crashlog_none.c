@@ -1,8 +1,5 @@
 /* $Id$ */
 
-
-#if !defined(_WIN32)
-
 #include "types.h"
 
 #include "crashlog.h"
@@ -30,5 +27,3 @@ void CrashLog_LogOSVersion(char *buffer)
 {
 	VARIABLE_NOT_USED(buffer);
 }
-
-#endif /* !_WIN32 */

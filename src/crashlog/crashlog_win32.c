@@ -1,11 +1,8 @@
 /* $Id$ */
 
-#include <stdio.h>
-
 /* Windows implementation of the crashlog. */
 
-#if defined(_WIN32)
-
+#include <stdio.h>
 #include <windows.h>
 #include <tchar.h>
 #include <signal.h>
@@ -424,5 +421,3 @@ void CrashLog_LogOSVersion(char *buffer)
 			os.szCSDVersion
 	);
 }
-
-#endif /* _WIN32 */

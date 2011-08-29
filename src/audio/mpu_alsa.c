@@ -1,15 +1,13 @@
 /* $Id$ */
 
-#include <stdio.h>
-
 /* ALSA implementation of the MPU. It tries to find an output port which
  *  understands MIDI. If that fails, it suggests using Timidity++ for that
  *  job. */
-#if defined(MPU_ALSA)
 
 #include <alloca.h>
 #include <alsa/asoundlib.h>
 #include "types.h"
+
 #include "mpu.h"
 
 static snd_seq_t *_midi = NULL;
@@ -141,5 +139,3 @@ void mpu_reset()
 
 	snd_midi_event_reset_encode(_midiCoder);
 }
-
-#endif /* MPU_ALSA */
