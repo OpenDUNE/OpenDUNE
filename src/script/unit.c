@@ -368,14 +368,14 @@ uint16 Script_Unit_Stop(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0FD2.
+ * Set the speed of a Unit.
  *
- * Stack: 1 - ??.
+ * Stack: 1 - The new speed of the Unit.
  *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return The new speed; it might differ from the value given.
  */
-uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
+uint16 Script_Unit_SetSpeed(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 speed;
@@ -393,14 +393,14 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 }
 
 /**
- * Unknown function 105E.
+ * Change the sprite (offset) of the unit.
  *
- * Stack: 1 - ??.
+ * Stack: 1 - The new sprite offset.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown105E(ScriptEngine *script)
+uint16 Script_Unit_SetSprite(ScriptEngine *script)
 {
 	Unit *u;
 
@@ -414,14 +414,16 @@ uint16 Script_Unit_Unknown105E(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1098.
+ * Move the Unit to the target, and keep repeating this function till we
+ *  arrived there. When closing in on the target it will slow down the Unit.
+ * It is wise to only use this function on Carry-Alls.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return 1 if arrived, 0 if still busy.
  */
-uint16 Script_Unit_Unknown1098(ScriptEngine *script)
+uint16 Script_Unit_MoveToTarget(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 delay;
@@ -903,14 +905,15 @@ uint16 Script_Unit_SetActionDefault(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1C6F.
+ * Set the current destination of a Unit, bypassing any pathfinding.
+ * It is wise to only use this function on Carry-Alls.
  *
- * Stack: 1 - An encoded tile.
+ * Stack: 1 - An encoded tile, the destination.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
+uint16 Script_Unit_SetDestinationDirect(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 encoded;
@@ -1707,21 +1710,21 @@ uint16 Script_Unit_IsValidDestination(ScriptEngine *script)
 }
 
 /**
- * Unknown function 28B1.
+ * Get a random tile around the Unit.
  *
- * Stack: 1 - An encoded index.
+ * Stack: 1 - An encoded index of a tile, completely ignored, as long as it is a tile.
  *
  * @param script The script engine to operate on.
  * @return An encoded tile, or 0.
  */
-uint16 Script_Unit_Unknown28B1(ScriptEngine *script)
+uint16 Script_Unit_GetRandomTile(ScriptEngine *script)
 {
 	Unit *u;
 	tile32 tile;
 
 	u = g_scriptCurrentUnit;
 
-	if (Tools_Index_GetType(STACK_PEEK(1)) != 1) return 0;
+	if (Tools_Index_GetType(STACK_PEEK(1)) != IT_TILE) return 0;
 
 	tile = Tile_MoveByRandom(u->o.position, 80, true);
 
@@ -1729,14 +1732,14 @@ uint16 Script_Unit_Unknown28B1(ScriptEngine *script)
 }
 
 /**
- * Unknown function 291A.
+ * Perform a random action when we are sitting idle, like rotating around.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown291A(ScriptEngine *script)
+uint16 Script_Unit_IdleAction(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 random;
