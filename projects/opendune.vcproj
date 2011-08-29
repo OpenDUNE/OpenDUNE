@@ -1975,10 +1975,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="unknown"
-				>
-			</Filter>
-			<Filter
 				Name="video"
 				>
 				<File
