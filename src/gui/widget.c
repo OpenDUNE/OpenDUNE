@@ -593,7 +593,6 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 
 			if (String_Get_ByIndex(stringID) != NULL) w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(stringID));
 			if (stringID == 0x1E) w->shortcut2 = 0x6E ; /* "Cancel" */
-		l__1009:
 			break;
 
 		case 2:
