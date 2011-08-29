@@ -5,18 +5,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
-#include "os/math.h"
-#include "os/sleep.h"
+#include "../os/math.h"
+#include "../os/sleep.h"
 
 #include "mouse.h"
 
-#include "file.h"
-#include "gfx.h"
-#include "gui/gui.h"
-#include "input/input.h"
-#include "timer.h"
-#include "tools.h"
-#include "video/video.h"
+#include "../file.h"
+#include "../gfx.h"
+#include "../gui/gui.h"
+#include "../input/input.h"
+#include "../timer.h"
+#include "../tools.h"
+#include "../video/video.h"
 
 uint16 g_mouseLock;          /*!< Lock for when handling mouse movement. */
 

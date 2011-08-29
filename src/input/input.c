@@ -13,7 +13,7 @@
 #include "../file.h"
 #include "../gfx.h"
 #include "../gui/gui.h"
-#include "../mouse.h"
+#include "../input/mouse.h"
 #include "../opendune.h"
 #include "../timer.h"
 #include "../video/video.h"
