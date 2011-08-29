@@ -32,7 +32,6 @@
 #include "../structure.h"
 #include "../tile.h"
 #include "../timer.h"
-#include "../tools.h"
 #include "../unit.h"
 
 

@@ -2,8 +2,6 @@
 
 /** @file src/sound.c Sound routines. */
 
-#include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
@@ -21,7 +19,6 @@
 #include "../opendune.h"
 #include "../string.h"
 #include "../tile.h"
-#include "../tools.h"
 
 
 static void *g_variable_3E54[NUM_VOICES];

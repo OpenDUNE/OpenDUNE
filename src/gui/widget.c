@@ -3,14 +3,12 @@
 /** @file src/gui/widget.c %Widget routines. */
 
 #include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
 #include "../os/math.h"
 
 #include "widget.h"
 
-#include "mentat.h"
 #include "gui.h"
 #include "../input/input.h"
 #include "../input/mouse.h"
@@ -18,7 +16,6 @@
 #include "../house.h"
 #include "../string.h"
 #include "../sprites.h"
-#include "../tools.h"
 
 
 uint8 g_paletteActive[256 * 3];

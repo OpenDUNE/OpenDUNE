@@ -3,7 +3,6 @@
 /** @file src/gfx.c Graphics routines. */
 
 #include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
@@ -14,7 +13,6 @@
 #include "house.h"
 #include "opendune.h"
 #include "sprites.h"
-#include "tools.h"
 #include "video/video.h"
 
 static uint16 s_spriteSpacing  = 0;

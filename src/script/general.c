@@ -3,10 +3,8 @@
 /** @file src/script/general.c Generic script routines. */
 
 #include <stdio.h>
-#include <string.h>
 #include "types.h"
 #include "../os/endian.h"
-#include "../os/strings.h"
 
 #include "script.h"
 

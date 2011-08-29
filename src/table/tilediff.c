@@ -2,7 +2,6 @@
 
 /** @file src/table/tilediff.c TileDiff file table. */
 
-#include <stdio.h>
 #include "types.h"
 
 const tile32 g_table_tilediff[][8] = {

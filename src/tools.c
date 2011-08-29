@@ -2,13 +2,9 @@
 
 /** @file src/tools.c Various routines. */
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "types.h"
-#include "os/sleep.h"
-#include "os/strings.h"
 
 #include "tools.h"
 
@@ -17,7 +13,6 @@
 #include "pool/unit.h"
 #include "structure.h"
 #include "tile.h"
-#include "timer.h"
 #include "unit.h"
 
 

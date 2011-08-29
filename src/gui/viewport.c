@@ -2,13 +2,11 @@
 
 /** @file src/gui/viewport.c Viewport routines. */
 
-#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
 #include "../os/common.h"
 #include "../os/math.h"
-#include "../os/strings.h"
 
 #include "gui.h"
 #include "widget.h"
@@ -22,7 +20,6 @@
 #include "../opendune.h"
 #include "../pool/house.h"
 #include "../pool/pool.h"
-#include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../scenario.h"
 #include "../sprites.h"

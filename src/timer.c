@@ -2,12 +2,7 @@
 
 /** @file src/timer.c Timer routines. */
 
-#include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <time.h>
 #if !defined(_MSC_VER)
 	#include <sys/time.h>
 #endif /* _MSC_VER */
@@ -19,14 +14,12 @@
 		#define __USE_POSIX
 	#endif /* !__USE_POSIX */
 	#include <signal.h>
-	#include <string.h>
 #endif /* _WIN32 */
 #include "types.h"
 #include "os/sleep.h"
 
 #include "timer.h"
 
-#include "video/video.h"
 
 
 uint32 g_timerGUI = 0;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */

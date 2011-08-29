@@ -2,7 +2,6 @@
 
 /** @file src/video/sdl.c SDL video driver. */
 
-#include <stdio.h>
 #include <SDL.h>
 #include "types.h"
 

@@ -1,10 +1,10 @@
 /* $Id$ */
 
-#include <stdio.h>
 
 #if !defined(_WIN32)
 
 #include "types.h"
+
 #include "crashlog.h"
 
 void CrashLog_Init()

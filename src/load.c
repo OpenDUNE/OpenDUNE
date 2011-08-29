@@ -4,10 +4,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "types.h"
 #include "os/endian.h"
-#include "os/math.h"
 #include "os/strings.h"
 
 #include "load.h"
@@ -19,12 +17,7 @@
 #include "house.h"
 #include "map.h"
 #include "opendune.h"
-#include "pool/pool.h"
-#include "pool/structure.h"
-#include "pool/unit.h"
-#include "save.h"
 #include "saveload/saveload.h"
-#include "scenario.h"
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"

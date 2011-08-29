@@ -7,7 +7,6 @@
 
 #include "saveload.h"
 
-#include "../unit.h"
 
 /**
  * Get the length of the struct how it would be on disk.

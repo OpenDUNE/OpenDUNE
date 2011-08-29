@@ -15,6 +15,7 @@
  */
 
 #if defined(_MSC_VER)
+	#include <stdio.h>
 	#include <assert.h>
 	#include <errno.h>
 	#include <string.h>

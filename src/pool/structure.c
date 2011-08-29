@@ -13,7 +13,6 @@
 #include "pool.h"
 #include "../house.h"
 #include "../opendune.h"
-#include "../script/script.h"
 #include "../structure.h"
 
 static struct Structure g_structureArray[STRUCTURE_INDEX_MAX_HARD];

@@ -11,7 +11,6 @@
 	#include <io.h>
 	#include <windows.h>
 #endif /* _WIN32 */
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

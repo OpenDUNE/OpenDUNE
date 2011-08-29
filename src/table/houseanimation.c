@@ -2,7 +2,6 @@
 
 /** @file src/table/houseanimation.c House animation tables. */
 
-#include <stdio.h>
 #include "types.h"
 
 #include "../house.h"

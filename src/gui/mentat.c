@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 #include "types.h"
 #include "../os/endian.h"
 #include "../os/sleep.h"

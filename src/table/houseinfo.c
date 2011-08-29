@@ -2,7 +2,6 @@
 
 /** @file src/table/houseinfo.c HouseInfo file table. */
 
-#include <stdio.h>
 #include "types.h"
 
 #include "../house.h"

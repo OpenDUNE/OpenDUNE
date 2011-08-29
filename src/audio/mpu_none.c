@@ -1,6 +1,5 @@
 /* $Id$ */
 
-#include <stdio.h>
 
 /* In case no MPU is selected, create an empty one, which ignores all input */
 

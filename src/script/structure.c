@@ -2,7 +2,6 @@
 
 /** @file src/script/structure.c %Structure script routines. */
 
-#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 
@@ -16,7 +15,6 @@
 #include "../opendune.h"
 #include "../pool/house.h"
 #include "../pool/pool.h"
-#include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../scenario.h"
 #include "../sprites.h"

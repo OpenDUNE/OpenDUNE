@@ -8,7 +8,6 @@
 
 #include "dsp.h"
 
-#include "driver.h"
 
 static uint8 *s_buffer;
 static uint32 s_bufferLen;

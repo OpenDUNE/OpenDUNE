@@ -2,7 +2,6 @@
 
 /** @file src/sprites.c Sprite routines. */
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,11 +20,9 @@
 #include "ini.h"
 #include "input/mouse.h"
 #include "gui/gui.h"
-#include "pool/house.h"
 #include "script/script.h"
 #include "string.h"
 #include "tile.h"
-#include "tools.h"
 
 
 uint8 *g_sprites[355];

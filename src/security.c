@@ -2,11 +2,11 @@
 
 /** @file src/security.c Security routines. */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "types.h"
+#include "os/strings.h"
 
 #include "file.h"
 #include "gfx.h"
@@ -17,8 +17,6 @@
 #include "input/input.h"
 #include "load.h"
 #include "opendune.h"
-#include "os/strings.h"
-#include "scenario.h"
 #include "sprites.h"
 #include "string.h"
 #include "timer.h"

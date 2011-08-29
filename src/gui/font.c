@@ -2,7 +2,6 @@
 
 /** @file src/gui/font.c Font routines. */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
 

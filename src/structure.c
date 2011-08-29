@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "os/strings.h"
 #include "os/math.h"
+#include "os/strings.h"
 
 #include "structure.h"
 
@@ -25,7 +25,6 @@
 #include "pool/team.h"
 #include "pool/unit.h"
 #include "scenario.h"
-#include "script/script.h"
 #include "sprites.h"
 #include "string.h"
 #include "team.h"

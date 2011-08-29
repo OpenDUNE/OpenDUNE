@@ -26,7 +26,6 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "pool/team.h"
-#include "script/script.h"
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"

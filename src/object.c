@@ -3,16 +3,13 @@
 /** @file src/object.c %Object routines. */
 
 #include <stdio.h>
-#include <string.h>
 #include "types.h"
 
 #include "object.h"
 
 #include "map.h"
-#include "pool/pool.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
-#include "sprites.h"
 #include "structure.h"
 #include "tile.h"
 #include "tools.h"

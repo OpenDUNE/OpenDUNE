@@ -2,14 +2,12 @@
 
 /** @file src/gui/editbox.c Editbox routines. */
 
-#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 #include "../os/sleep.h"
 
 #include "font.h"
 #include "gui.h"
-#include "mentat.h"
 #include "widget.h"
 #include "../gfx.h"
 #include "../input/input.h"

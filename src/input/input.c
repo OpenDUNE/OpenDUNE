@@ -2,7 +2,6 @@
 
 /** @file src/input/input.c Input routines. */
 
-#include <stdio.h>
 #include <string.h>
 #include "types.h"
 #include "../os/common.h"
@@ -16,7 +15,6 @@
 #include "../input/mouse.h"
 #include "../opendune.h"
 #include "../timer.h"
-#include "../video/video.h"
 
 static uint16 s_history[128];                /*!< History of input commands. */
 static uint16 s_historyHead = 0;             /*!< The current head inside the #s_history array. */

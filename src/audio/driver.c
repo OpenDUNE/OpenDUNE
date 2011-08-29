@@ -3,11 +3,9 @@
 /** @file src/driver.c %Driver functions. */
 
 #include <assert.h>
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "types.h"
-#include "../os/endian.h"
 #include "../os/math.h"
 #include "../os/strings.h"
 
@@ -18,7 +16,6 @@
 #include "../config.h"
 #include "../file.h"
 #include "../timer.h"
-#include "../tools.h"
 
 static bool s_driverInstalled[16];
 static bool s_driverLoaded[16];

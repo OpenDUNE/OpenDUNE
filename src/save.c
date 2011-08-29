@@ -18,7 +18,6 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "saveload/saveload.h"
-#include "scenario.h"
 #include "sprites.h"
 #include "structure.h"
 #include "team.h"

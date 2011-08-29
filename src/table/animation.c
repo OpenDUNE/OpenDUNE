@@ -2,7 +2,6 @@
 
 /** @file src/table/animation.c Animation file table. */
 
-#include <stdio.h>
 #include "types.h"
 
 #include "../animation.h"

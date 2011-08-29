@@ -2,7 +2,6 @@
 
 /** @file src/string.c String routines. */
 
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -14,7 +13,6 @@
 
 #include "config.h"
 #include "file.h"
-#include "tools.h"
 
 void *g_strings = NULL;
 void *g_stringsHint = NULL;

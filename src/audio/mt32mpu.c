@@ -3,7 +3,6 @@
 /** @file src/mt32mpu.c MPU routines. */
 
 #include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
@@ -13,7 +12,6 @@
 #include "mt32mpu.h"
 
 #include "mpu.h"
-#include "driver.h"
 
 typedef struct Controls {
 	uint8 volume;

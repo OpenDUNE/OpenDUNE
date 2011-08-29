@@ -2,7 +2,6 @@
 
 /** @file src/table/selectiontype.c Selectiontype table. */
 
-#include <stdio.h>
 #include "types.h"
 
 #include "../gui/gui.h"

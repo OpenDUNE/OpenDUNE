@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "types.h"
 #include "os/endian.h"
 #include "os/file.h"
@@ -13,8 +12,6 @@
 
 #include "file.h"
 
-#include "tools.h"
-#include "input/input.h"
 
 
 /**

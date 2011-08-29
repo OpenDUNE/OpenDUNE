@@ -2,7 +2,6 @@
 
 /** @file src/table/windowdesc.c WindowDesc file table. */
 
-#include <stdio.h>
 #include "types.h"
 
 #include "../gui/widget.h"

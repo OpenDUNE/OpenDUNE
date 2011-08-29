@@ -2,13 +2,11 @@
 
 /** @file src/gui/widget_draw.c %Widget drawing routines. */
 
-#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 
 #include "font.h"
 #include "gui.h"
-#include "mentat.h"
 #include "widget.h"
 #include "../config.h"
 #include "../opendune.h"

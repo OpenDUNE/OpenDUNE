@@ -2,12 +2,9 @@
 
 /** @file src/script/team.c %Team script routines. */
 
-#include <assert.h>
 #include <stdio.h>
-#include <string.h>
 #include "types.h"
 #include "../os/endian.h"
-#include "../os/strings.h"
 
 #include "script.h"
 
