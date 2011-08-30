@@ -16,12 +16,37 @@ fi
 
 generate_data()
 {
-ls -Rp "$ROOT_DIR/$1" | awk '
+ls -Rp "$ROOT_DIR/$1" | awk -v source="$2" '
 BEGIN {
 	path = "";
-	previous = ":"
-	deep = 0
-	tab = ""
+	previous = ":";
+	deep = 0;
+	skip = 0;
+	tab = "";
+	if (source != null) {
+		while ((getline line < source) > 0) {
+			if (line ~ /^(	*)#end/)  { if (deep == skip) { skip -= 1; } deep -= 1; continue; }
+			if (line ~ /^(	*)#else/) { if (deep == skip) { skip -= 1; } else if (deep - 1 == skip) { skip += 1; } continue; }
+			if (line ~ /^(	*)#if/) {
+				gsub("	", "", line);
+				gsub("^#if", "", line);
+				gsub("^ ", "", line);
+				if (deep != skip) { deep += 1; continue; }
+				deep += 1;
+				if (line != "WIN32") { skip += 1; }
+				continue;
+			}
+			if (line ~ /^(	*)#/) { continue; }
+			if (line ~ /^$/) { continue; }
+			if (deep == skip) {
+				gsub("	", "", line);
+				gsub("\r", "", line);
+				gsub("/", "\\", line);
+				files["'$1'\\" line];
+			}
+		}
+		close(source);
+	}
 }
 /:/ {
 	gsub("'$ROOT_DIR/'", "");
@@ -48,8 +73,16 @@ BEGIN {
 	next;
 }
 /(c|h)$/ {
+	file = path "\\" $0;
+	if (source != null) {
+		if (file in files) {
+			delete files[file];
+		} else {
+			next;
+		}
+	}
 	print tab "			<File";
-	print tab "				RelativePath=\"..\\" path "\\" $0 "\"";
+	print tab "				RelativePath=\"..\\" file "\"";
 	print tab "				>";
 	split($0, a, ".");
 	if (a[2] == "c") {
@@ -92,7 +125,7 @@ cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
 
 # Get all source files
 generate_data include >> "$ROOT_DIR/projects/opendune.vcproj"
-generate_data src >> "$ROOT_DIR/projects/opendune.vcproj"
+generate_data src "$ROOT_DIR/source.list" >> "$ROOT_DIR/projects/opendune.vcproj"
 
 # Everything below the !!FILES!! marker
 cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
