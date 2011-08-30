@@ -192,7 +192,7 @@ void GameLoop_House()
 					h->credits = maxCredits;
 
 					/* "Insufficient spice storage available.  Spice is lost." */
-					GUI_DisplayText(String_Get_ByIndex(0x91), 1);
+					GUI_DisplayText(String_Get_ByIndex(145), 1);
 				}
 			}
 
@@ -204,13 +204,13 @@ void GameLoop_House()
 				if (g_playerCreditsNoSilo == 0 && g_campaignID > 1 && h->credits != 0) {
 					if (h->creditsStorage != 0 && ((h->credits * 256 / h->creditsStorage) > 200)) {
 						/* "Spice storage capacity low, build silos." */
-						GUI_DisplayText(String_Get_ByIndex(0x142), 0);
+						GUI_DisplayText(String_Get_ByIndex(322), 0);
 					}
 				}
 
 				if (h->credits < 100 && g_playerCreditsNoSilo != 0) {
 					/* "Credits are low. Harvest spice for more credits." */
-					GUI_DisplayText(String_Get_ByIndex(0x14B), 0);
+					GUI_DisplayText(String_Get_ByIndex(331), 0);
 				}
 			}
 		}
@@ -349,7 +349,7 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 	if (houseID != g_playerHouseID) return;
 
 	/* "Harvester is heading to refinery." */
-	GUI_DisplayText(String_Get_ByIndex(0x32), 0);
+	GUI_DisplayText(String_Get_ByIndex(50), 0);
 }
 
 /**
@@ -528,7 +528,7 @@ void House_CalculatePowerAndCredit(House *h)
 	/* Check if we are low on power */
 	if (h->index == g_playerHouseID && h->powerUsage > h->powerProduction) {
 		/* "Insufficient power.  Windtrap is needed." */
-		GUI_DisplayText(String_Get_ByIndex(0x10E), 1);
+		GUI_DisplayText(String_Get_ByIndex(270), 1);
 	}
 
 	/* If there are no buildings left, you lose your right on 'credits without storage' */

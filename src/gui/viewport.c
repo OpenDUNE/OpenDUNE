@@ -233,7 +233,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			if (h->powerProduction < h->powerUsage) {
 				if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) != 0) {
 					/* Not enough power for radar.  Build windtraps. */
-					GUI_DisplayText(String_Get_ByIndex(0x14C), 3);
+					GUI_DisplayText(String_Get_ByIndex(332), 3);
 				}
 			}
 			return true;
@@ -243,12 +243,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 		if (g_structureActiveType == STRUCTURE_SLAB_1x1 || g_structureActiveType == STRUCTURE_SLAB_2x2) {
 			/* Can not place foundation here. */
-			GUI_DisplayText(String_Get_ByIndex(0x87), 2);
+			GUI_DisplayText(String_Get_ByIndex(135), 2);
 		} else {
 			GUI_DisplayHint(26, 0xFFFF);
 
 			/* "Can not place %s here." */
-			GUI_DisplayText(String_Get_ByIndex(0x86), 2, String_Get_ByIndex(si->o.stringID_abbrev));
+			GUI_DisplayText(String_Get_ByIndex(134), 2, String_Get_ByIndex(si->o.stringID_abbrev));
 		}
 		return true;
 	}

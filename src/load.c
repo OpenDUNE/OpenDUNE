@@ -89,7 +89,7 @@ static bool Load_Main(FILE *fp)
 		/* Find the human player */
 		if (!House_LoadOld(fp, length)) return false;
 
-		GUI_DisplayModalMessage(String_Get_ByIndex(0x152), 0xFFFF); /* "Warning: Original saved games are incompatable with the new version.  The battle will be restarted." */
+		GUI_DisplayModalMessage(String_Get_ByIndex(338), 0xFFFF); /* "Warning: Original saved games are incompatable with the new version.  The battle will be restarted." */
 
 		return true;
 	}

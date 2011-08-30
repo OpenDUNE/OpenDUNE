@@ -1201,7 +1201,7 @@ static void GameLoop_LevelEnd()
 		if (GameLoop_IsLevelWon()) {
 			Sound_Output_Feedback(40);
 
-			GUI_DisplayModalMessage(String_Get_ByIndex(0x52), 0xFFFF); /* "You have successfully completed your mission." */
+			GUI_DisplayModalMessage(String_Get_ByIndex(82), 0xFFFF); /* "You have successfully completed your mission." */
 
 			GUI_Mentat_ShowWin();
 
@@ -1244,7 +1244,7 @@ static void GameLoop_LevelEnd()
 		} else {
 			Sound_Output_Feedback(41);
 
-			GUI_DisplayModalMessage(String_Get_ByIndex(0x53), 0xFFFF); /* "You have failed your mission " */
+			GUI_DisplayModalMessage(String_Get_ByIndex(83), 0xFFFF); /* "You have failed your mission " */
 
 			GUI_Mentat_ShowLose();
 
@@ -2406,7 +2406,7 @@ int main(int argc, char **argv)
 
 	GameLoop_Main();
 
-	printf("%s\n", String_Get_ByIndex(0x141)); /* "Thank you for playing Dune II." */
+	printf("%s\n", String_Get_ByIndex(321)); /* "Thank you for playing Dune II." */
 
 	PrepareEnd();
 	exit(0);

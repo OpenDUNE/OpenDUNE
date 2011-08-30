@@ -81,12 +81,12 @@ char *String_GetFromBuffer_ByIndex(char *buffer, uint16 index)
 /**
  * Returns a pointer to the string at given index in current string file.
  *
- * @param index The index of the string.
+ * @param stringID The index of the string.
  * @return The pointer to the string.
  */
-char *String_Get_ByIndex(uint16 index)
+char *String_Get_ByIndex(uint16 stringID)
 {
-	return String_GetFromBuffer_ByIndex(g_strings, index);
+	return String_GetFromBuffer_ByIndex(g_strings, stringID);
 }
 
 /**

@@ -274,7 +274,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	}
 
 	if (g_productionStringID == 0x2E || g_productionStringID == 0x90) { /* "%d%% done" / "Upgrading|%d%% done" */
-		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(0x28)); /* "On hold" */
+		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(40)); /* "On hold" */
 	} else {
 		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(g_productionStringID));
 	}

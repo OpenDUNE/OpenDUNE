@@ -454,7 +454,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	if (GUI_String_Get_ByIndex(desc->widgets[0].stringID) == NULL) {
 		/* "There are no saved games to load." */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(0x151), (g_curWidgetXBase + 2) << 3, g_curWidgetYBase + 42, 232, 0, 0x22);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(337), (g_curWidgetXBase + 2) << 3, g_curWidgetYBase + 42, 232, 0, 0x22);
 	}
 
 	for (i = 0; i < desc->widgetCount; i++) {
@@ -833,7 +833,7 @@ static void FillSavegameDesc(bool save)
 			if (!save) continue;
 
 			/* "[ EMPTY SLOT ]" */
-			strcpy(desc, String_Get_ByIndex(0x63));
+			strcpy(desc, String_Get_ByIndex(99));
 			continue;
 		}
 
@@ -1297,7 +1297,7 @@ static void GUI_Purchase_ShowInvoice()
 	GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
 
 	/* "Item Name                 Qty Total" */
-	GUI_DrawText_Wrapper(String_Get_ByIndex(0xB6), 128, y, 12, 0, 0x11);
+	GUI_DrawText_Wrapper(String_Get_ByIndex(182), 128, y, 12, 0, 0x11);
 
 	y += 7;
 
@@ -1328,7 +1328,7 @@ static void GUI_Purchase_ShowInvoice()
 		}
 	} else {
 		/* "NO UNITS ON ORDER" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(0xB5), 220, 99, 6, 0, 0x112);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(181), 220, 99, 6, 0, 0x112);
 	}
 
 	GUI_DrawLine(129, 148, 310, 148, 12);
@@ -1349,7 +1349,7 @@ static void GUI_Purchase_ShowInvoice()
 	GFX_Screen_SetActive(0);
 
 	/* "Invoice of Units on Order" */
-	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(0xB7));
+	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(183));
 
 	Input_History_Clear();
 

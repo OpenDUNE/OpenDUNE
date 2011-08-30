@@ -268,7 +268,7 @@ static void GUI_Mentat_Draw(bool force)
 	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 	/* "Select Subject:" */
-	GUI_DrawText_Wrapper(String_Get_ByIndex(0x30), (g_curWidgetXBase << 3) + 16, g_curWidgetYBase + 2, 12, 0, 0x12);
+	GUI_DrawText_Wrapper(String_Get_ByIndex(48), (g_curWidgetXBase << 3) + 16, g_curWidgetYBase + 2, 12, 0, 0x12);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x11);
 
 	line = GUI_Widget_Get_ByIndex(w, 3);
@@ -325,7 +325,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_Display(NULL, g_playerHouseID);
 
-	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0xC1)), 200, 168, proceed ? 6 : 4, 5, 1);
+	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(193)), 200, 168, proceed ? 6 : 4, 5, 1);
 	g_widgetMentatFirst->shortcut2 = 'n';
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
