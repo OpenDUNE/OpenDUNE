@@ -21,7 +21,7 @@ typedef struct Object {
 			BIT_U8 isNotOnMap:1;                            /*!< The Object is not on the map (under construction, in refinery, etc). */
 			BIT_U8 isSmoking:1;                             /*!< The Object has a smoke cloud coming out of it. */
 			BIT_U8 variable_4_0010:1;                       /*!< Unit ?? */
-			BIT_U8 variable_4_0020:1;                       /*!< Unit ?? */
+			BIT_U8 animationFlip:1;                         /*!< Used for Unit (bullet / missile) animation, to differ between two sprite groups. */
 			BIT_U8 variable_4_0040:1;                       /*!< Unit ?? */
 			BIT_U8 isWobbling:1;                            /*!< If true, the Unit will be wobbling during movement. */
 			BIT_U8 inTransport:1;                           /*!< The Unit is in transport (spaceport, reinforcement, harvester). */

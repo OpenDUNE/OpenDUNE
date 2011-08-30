@@ -141,7 +141,7 @@ typedef struct UnitInfo {
 		BIT_U8 variable_0400:1;                             /*!< ?? */
 		BIT_U8 variable_0800:1;                             /*!< ?? */
 		BIT_U8 isNotDeviatable:1;                           /*!< If true, Unit can't be deviated. */
-		BIT_U8 variable_2000:1;                             /*!< ?? */
+		BIT_U8 hasAnimationSet:1;                           /*!< If true, the Unit has two set of sprites for animation. */
 		BIT_U8 notAccurate:1;                               /*!< If true, Unit is a bullet and is not very accurate at hitting the target (rockets). */
 		BIT_U8 isNormalUnit:1;                              /*!< If true, Unit is a normal unit (not a bullet / missile, nor a sandworm / frigate). */
 	} flags;                                                /*!< General flags of the UnitInfo. */

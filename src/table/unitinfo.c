@@ -62,7 +62,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -135,7 +135,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -208,7 +208,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -281,7 +281,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -354,7 +354,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -427,7 +427,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -500,7 +500,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -573,7 +573,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -646,7 +646,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -719,7 +719,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -792,7 +792,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -865,7 +865,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -938,7 +938,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -1011,7 +1011,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -1084,7 +1084,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -1157,7 +1157,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ true,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -1230,7 +1230,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -1303,7 +1303,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ false,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ true
 		},
@@ -1376,7 +1376,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ false
 		},
@@ -1449,7 +1449,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ true,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ true,
+		/* hasAnimationSet      */ true,
 		/* notAccurate          */ true,
 		/* isNormalUnit         */ false
 		},
@@ -1522,7 +1522,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ true,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ true,
+		/* hasAnimationSet      */ true,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ false
 		},
@@ -1595,7 +1595,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ true,
+		/* hasAnimationSet      */ true,
 		/* notAccurate          */ true,
 		/* isNormalUnit         */ false
 		},
@@ -1668,7 +1668,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ true,
+		/* hasAnimationSet      */ true,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ false
 		},
@@ -1741,7 +1741,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ false
 		},
@@ -1814,7 +1814,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ false
 		},
@@ -1887,7 +1887,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ false
 		},
@@ -1960,7 +1960,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_0400        */ false,
 		/* variable_0800        */ false,
 		/* isNotDeviatable      */ true,
-		/* variable_2000        */ false,
+		/* hasAnimationSet      */ false,
 		/* notAccurate          */ false,
 		/* isNormalUnit         */ false
 		},

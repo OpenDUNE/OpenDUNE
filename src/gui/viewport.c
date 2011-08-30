@@ -705,7 +705,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 					break;
 			}
 
-			if (ui->flags.variable_2000 && u->o.flags.s.variable_4_0020) index += 5;
+			if (ui->flags.hasAnimationSet && u->o.flags.s.animationFlip) index += 5;
 			if (u->o.type == UNIT_CARRYALL && u->o.flags.s.inTransport) index += 3;
 
 			sprite = GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u));

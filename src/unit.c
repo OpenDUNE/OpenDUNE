@@ -1331,7 +1331,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	Unit_UpdateMap(0, unit);
 
 	if (ui->movementType == MOVEMENT_WINGER) {
-		unit->o.flags.s.variable_4_0020 = !unit->o.flags.s.variable_4_0020;
+		unit->o.flags.s.animationFlip = !unit->o.flags.s.animationFlip;
 	}
 
 	currentDestination = unit->currentDestination;
