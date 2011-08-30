@@ -67,7 +67,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 32,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 200,
 		/* turningSpeed         */ 3,
@@ -140,7 +140,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 24,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 150,
 		/* turningSpeed         */ 2,
@@ -213,7 +213,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 0,
+		/* movementType         */ MOVEMENT_FOOT,
 		/* animationSpeed       */ 15,
 		/* movingSpeed          */ 5,
 		/* turningSpeed         */ 3,
@@ -286,7 +286,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 0,
+		/* movementType         */ MOVEMENT_FOOT,
 		/* animationSpeed       */ 15,
 		/* movingSpeed          */ 10,
 		/* turningSpeed         */ 3,
@@ -359,7 +359,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 0,
+		/* movementType         */ MOVEMENT_FOOT,
 		/* animationSpeed       */ 12,
 		/* movingSpeed          */ 8,
 		/* turningSpeed         */ 3,
@@ -432,7 +432,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 0,
+		/* movementType         */ MOVEMENT_FOOT,
 		/* animationSpeed       */ 12,
 		/* movingSpeed          */ 15,
 		/* turningSpeed         */ 3,
@@ -505,7 +505,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 8,
-		/* movementType         */ 0,
+		/* movementType         */ MOVEMENT_FOOT,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 40,
 		/* turningSpeed         */ 3,
@@ -578,7 +578,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 1,
+		/* movementType         */ MOVEMENT_TRACKED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 30,
 		/* turningSpeed         */ 1,
@@ -651,7 +651,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 1,
+		/* movementType         */ MOVEMENT_TRACKED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 30,
 		/* turningSpeed         */ 1,
@@ -724,7 +724,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 1,
+		/* movementType         */ MOVEMENT_TRACKED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 25,
 		/* turningSpeed         */ 1,
@@ -797,7 +797,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 24,
-		/* movementType         */ 1,
+		/* movementType         */ MOVEMENT_TRACKED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 20,
 		/* turningSpeed         */ 1,
@@ -870,7 +870,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 24,
-		/* movementType         */ 1,
+		/* movementType         */ MOVEMENT_TRACKED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 10,
 		/* turningSpeed         */ 1,
@@ -943,7 +943,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 1,
+		/* movementType         */ MOVEMENT_TRACKED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 30,
 		/* turningSpeed         */ 1,
@@ -1016,7 +1016,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 3,
+		/* movementType         */ MOVEMENT_WHEELED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 45,
 		/* turningSpeed         */ 2,
@@ -1089,7 +1089,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 3,
+		/* movementType         */ MOVEMENT_WHEELED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 60,
 		/* turningSpeed         */ 2,
@@ -1162,7 +1162,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 3,
+		/* movementType         */ MOVEMENT_WHEELED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 40,
 		/* turningSpeed         */ 2,
@@ -1235,7 +1235,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 24,
-		/* movementType         */ 2,
+		/* movementType         */ MOVEMENT_HARVESTER,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 20,
 		/* turningSpeed         */ 1,
@@ -1308,7 +1308,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ true
 		},
 		/* dimension            */ 24,
-		/* movementType         */ 1,
+		/* movementType         */ MOVEMENT_TRACKED,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 20,
 		/* turningSpeed         */ 1,
@@ -1381,7 +1381,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 32,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 250,
 		/* turningSpeed         */ 2,
@@ -1454,7 +1454,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 200,
 		/* turningSpeed         */ 2,
@@ -1527,7 +1527,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 160,
 		/* turningSpeed         */ 8,
@@ -1600,7 +1600,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 16,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 200,
 		/* turningSpeed         */ 2,
@@ -1673,7 +1673,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 8,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 180,
 		/* turningSpeed         */ 5,
@@ -1746,7 +1746,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 8,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 250,
 		/* turningSpeed         */ 0,
@@ -1819,7 +1819,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 32,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 7,
 		/* movingSpeed          */ 200,
 		/* turningSpeed         */ 0,
@@ -1892,7 +1892,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 24,
-		/* movementType         */ 5,
+		/* movementType         */ MOVEMENT_SLITHER,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 35,
 		/* turningSpeed         */ 3,
@@ -1965,7 +1965,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* isNormalUnit         */ false
 		},
 		/* dimension            */ 32,
-		/* movementType         */ 4,
+		/* movementType         */ MOVEMENT_WINGER,
 		/* animationSpeed       */ 0,
 		/* movingSpeed          */ 130,
 		/* turningSpeed         */ 2,
