@@ -14,7 +14,7 @@ const SaveLoadDesc g_saveObject[] = {
 	SLD_ENTRY (Object, SLDT_UINT8,  linkedID),
 	SLD_ENTRY (Object, SLDT_UINT32, flags),
 	SLD_ENTRY (Object, SLDT_UINT8,  houseID),
-	SLD_ENTRY (Object, SLDT_UINT8,  variable_09),
+	SLD_ENTRY (Object, SLDT_UINT8,  seenByHouses),
 	SLD_ENTRY (Object, SLDT_UINT32, position),
 	SLD_ENTRY (Object, SLDT_UINT16, hitpoints),
 	SLD_SLD   (Object,              script, g_saveScriptEngine),
