@@ -2840,31 +2840,31 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 		}
 
 		case -10:
-			stringID = (g_gameConfig.music != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.music != 0) ? 105 : 106; /* "ON" : "OFF" */
 			break;
 
 		case -11:
-			stringID = (g_gameConfig.sounds != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.sounds != 0) ? 105 : 106; /* "ON" : "OFF" */
 			break;
 
 		case -12: {
 			static uint16 gameSpeedStrings[] = {
-				0x71, /* "Slowest" */
-				0x72, /* "Slow" */
-				0x73, /* "Normal" */
-				0x74, /* "Fast" */
-				0x75  /* "Fastest" */
+				113, /* "Slowest" */
+				114, /* "Slow" */
+				115, /* "Normal" */
+				116, /* "Fast" */
+				117  /* "Fastest" */
 			};
 
 			stringID = gameSpeedStrings[g_gameConfig.gameSpeed];
 		} break;
 
 		case -13:
-			stringID = (g_gameConfig.hints != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.hints != 0) ? 105 : 106; /* "ON" : "OFF" */
 			break;
 
 		case -14:
-			stringID = (g_gameConfig.autoScroll != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.autoScroll != 0) ? 105 : 106; /* "ON" : "OFF" */
 			break;
 
 		default: break;
