@@ -1584,7 +1584,6 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 				uint8 i;
 
 				for (i = 0; i < 25; i++) {
-					const UnitInfo *ui;
 					Unit *u;
 
 					if (g_factoryWindowItems[i].amount == 0) continue;
@@ -1605,8 +1604,6 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						return false;
 					}
-
-					ui = &g_table_unitInfo[objectType];
 
 					g_var_38BC++;
 					{
