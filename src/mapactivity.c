@@ -25,355 +25,355 @@ static uint32 s_mapActivityTimeout = 0;                     /*!< Timeout value f
 
 
 static const Activity _activities00[] = {
-	{  1,  153 },
-	{  2,    3 },
-	{ 13,    0 },
-	{  4,  153 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  153 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_SET_SPRITE        ,  153 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities01[] = {
-	{  1,  154 },
-	{ 13,    0 },
-	{  2,    3 },
-	{  4,  153 },
-	{  2,    3 },
-	{  1,  154 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  154 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  153 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  154 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities02[] = {
-	{  1,  183 },
-	{  9,   50 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,   15 },
-	{  1,  184 },
-	{  2,   15 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  183 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   50 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  184 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities03[] = {
-	{  1,  183 },
-	{  9,   49 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,    3 },
-	{  1,  184 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  183 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   49 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  184 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities04[] = {
-	{  1,  203 },
-	{  9,   51 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,    7 },
-	{  1,  204 },
-	{  2,    3 },
-	{  1,  205 },
-	{  2,    3 },
-	{  1,  206 },
-	{  2,    3 },
-	{  1,  207 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  203 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   51 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_SET_SPRITE        ,  204 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  205 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  206 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  207 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities05[] = {
-	{  3,   60 },
-	{  1,  203 },
-	{  9,   41 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,    7 },
-	{  1,  204 },
-	{  2,    3 },
-	{  1,  205 },
-	{  2,    3 },
-	{  1,  206 },
-	{  2,    3 },
-	{  1,  207 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_RANDOM_TIMEOUT,   60 },
+	{ MAPACTIVITY_SET_SPRITE        ,  203 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   41 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_SET_SPRITE        ,  204 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  205 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  206 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  207 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities06[] = {
-	{  1,  198 },
-	{  9,   51 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,    7 },
-	{  1,  199 },
-	{  2,    3 },
-	{  1,  200 },
-	{  2,    3 },
-	{  1,  201 },
-	{  2,    3 },
-	{  1,  202 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  198 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   51 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_SET_SPRITE        ,  199 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  200 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  201 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  202 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities07[] = {
-	{  1,  208 },
-	{  9,   39 },
-	{  2,   15 },
-	{  1,  209 },
-	{  2,   15 },
-	{  1,  210 },
-	{  2,   15 },
-	{  1,  211 },
-	{  2,   15 },
-	{  1,  212 },
-	{  2,   15 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  208 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   39 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  209 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  210 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  211 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  212 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities08[] = {
-	{  1,  156 },
-	{  9,   40 },
-	{ 13,    0 },
-	{  2,    7 },
-	{  1,  157 },
-	{  2,    3 },
-	{  1,  158 },
-	{  2,    3 },
-	{  1,  157 },
-	{  2,    3 },
-	{  8,    0 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  156 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   40 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_SET_SPRITE        ,  157 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  158 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  157 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities09[] = {
-	{  1,  183 },
-	{  9,   41 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,    3 },
-	{  1,  203 },
-	{  2,    3 },
-	{  7, 4016 },
-	{  1,  168 },
-	{  2,   15 },
-	{  1,  169 },
-	{  2,   15 },
-	{  1,  170 },
-	{  2,   15 },
-	{  1,  168 },
-	{  2,   15 },
-	{  1,  169 },
-	{  2,   15 },
-	{  1,  170 },
-	{  2,   15 },
-	{  1,  168 },
-	{  2,   15 },
-	{  1,  169 },
-	{  2,   15 },
-	{  1,  170 },
-	{  2,   15 },
-	{  1,  168 },
-	{  2,   15 },
-	{  1,  169 },
-	{  2,   15 },
-	{  1,  170 },
-	{  2,   15 },
-	{  1,  168 },
-	{  2,   15 },
-	{  1,  169 },
-	{  2,   15 },
-	{  1,  170 },
-	{  2,   15 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  183 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   41 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  203 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_ROW           , 4016 },
+	{ MAPACTIVITY_SET_SPRITE        ,  168 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  169 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  170 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  168 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  169 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  170 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  168 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  169 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  170 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  168 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  169 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  170 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  168 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  169 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  170 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities10[] = {
-	{  1,  151 },
-	{  9,   49 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,    7 },
-	{  1,  152 },
-	{  2,    7 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  151 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   49 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_SET_SPRITE        ,  152 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities11[] = {
-	{  3,   60 },
-	{  1,  188 },
-	{  9,   51 },
-	{ 13,    0 },
-	{  8,    0 },
-	{  2,    7 },
-	{  1,  189 },
-	{  2,    3 },
-	{  1,  190 },
-	{  2,    3 },
-	{  1,  191 },
-	{  2,    3 },
-	{  1,  192 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_RANDOM_TIMEOUT,   60 },
+	{ MAPACTIVITY_SET_SPRITE        ,  188 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   51 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_SET_SPRITE        ,  189 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  190 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  191 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  192 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities12[] = {
-	{  1,  213 },
-	{  2,   15 },
-	{  1,  214 },
-	{  2,   15 },
-	{  1,  215 },
-	{  2,   15 },
-	{  1,  216 },
-	{  2,   15 },
-	{  1,  217 },
-	{  2,   30 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  213 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  214 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  215 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  216 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  217 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   30 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities13[] = {
-	{  1,  218 },
-	{  2,   15 },
-	{  1,  219 },
-	{  2,   15 },
-	{  1,  220 },
-	{  2,   15 },
-	{  1,  221 },
-	{  2,   15 },
-	{  1,  222 },
-	{  2,   30 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  218 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  219 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  220 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  221 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  222 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   30 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities14[] = {
-	{  3,   60 },
-	{  1,  188 },
-	{  9,   51 },
-	{  2,    7 },
-	{  1,  189 },
-	{ 13,    0 },
-	{ 10,    0 },
-	{  2,    3 },
-	{  1,  190 },
-	{  2,    3 },
-	{  1,  191 },
-	{  2,    3 },
-	{  1,  192 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_RANDOM_TIMEOUT,   60 },
+	{ MAPACTIVITY_SET_SPRITE        ,  188 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   51 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_SET_SPRITE        ,  189 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_NOOP              ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  190 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  191 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  192 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities15[] = {
-	{  1,  183 },
-	{  9,   49 },
-	{  7, 4016 },
-	{  2,    3 },
-	{  1,  184 },
-	{  2,    3 },
-	{  1,  180 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  182 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  180 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  182 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  180 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  182 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  180 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  182 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  180 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  182 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  180 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  1,  182 },
-	{  2,   15 },
-	{  1,  181 },
-	{  2,   15 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  183 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   49 },
+	{ MAPACTIVITY_SET_ROW           , 4016 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  184 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  180 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  182 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  180 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  182 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  180 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  182 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  180 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  182 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  180 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  182 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  180 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  182 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_SET_SPRITE        ,  181 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,   15 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities16[] = {
-	{  1,  203 },
-	{  9,   49 },
-	{ 13,    0 },
-	{ 11,    0 },
-	{  2,    3 },
-	{  1,  204 },
-	{  1,  207 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  203 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   49 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_SET_ANIMATION     ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  204 },
+	{ MAPACTIVITY_SET_SPRITE        ,  207 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities17[] = {
-	{  1,  203 },
-	{  9,   49 },
-	{ 13,    0 },
-	{ 11,    4 },
-	{  2,    3 },
-	{  1,  204 },
-	{  1,  207 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  203 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   49 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_SET_ANIMATION     ,    4 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  204 },
+	{ MAPACTIVITY_SET_SPRITE        ,  207 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities18[] = {
-	{  1,  183 },
-	{  9,   54 },
-	{ 13,    0 },
-	{  2,    3 },
-	{  1,  184 },
-	{  2,    3 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  183 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   54 },
+	{ MAPACTIVITY_BLOOM_EXPLOSION   ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_SET_SPRITE        ,  184 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity _activities19[] = {
-	{  1,  156 },
-	{  9,   40 },
-	{ 10,    0 },
-	{  2,    7 },
-	{ 10,    0 },
-	{  1,  157 },
-	{  2,    3 },
-	{ 10,    0 },
-	{  1,  158 },
-	{  2,    3 },
-	{ 10,    0 },
-	{  1,  157 },
-	{  2,    3 },
-	{ 10,    0 },
-	{  8,    0 },
-	{  0,    0 }
+	{ MAPACTIVITY_SET_SPRITE        ,  156 },
+	{ MAPACTIVITY_PLAY_VOICE        ,   40 },
+	{ MAPACTIVITY_NOOP              ,    0 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    7 },
+	{ MAPACTIVITY_NOOP              ,    0 },
+	{ MAPACTIVITY_SET_SPRITE        ,  157 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_NOOP              ,    0 },
+	{ MAPACTIVITY_SET_SPRITE        ,  158 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_NOOP              ,    0 },
+	{ MAPACTIVITY_SET_SPRITE        ,  157 },
+	{ MAPACTIVITY_SET_TIMEOUT       ,    3 },
+	{ MAPACTIVITY_NOOP              ,    0 },
+	{ MAPACTIVITY_DAMAGE            ,    0 },
+	{ MAPACTIVITY_STOP              ,    0 }
 };
 
 static const Activity *_activities[] = {
@@ -421,7 +421,7 @@ static void MapActivity_Update(uint16 type, MapActivity *ma)
  * @param ma The MapActivity to handle damage on.
  * @param parameter Unused parameter.
  */
-static void MapActivity_Damage(MapActivity *ma, uint16 parameter)
+static void MapActivity_Func_Damage(MapActivity *ma, uint16 parameter)
 {
 	static const int16 bloomLocations[] = { -1, 2, 1 };
 
@@ -481,7 +481,7 @@ static void MapActivity_Damage(MapActivity *ma, uint16 parameter)
  * @param ma The MapActivity to play the voice on.
  * @param voiceID The voice to play.
  */
-static void MapActivity_PlayVoice(MapActivity *ma, uint16 voiceID)
+static void MapActivity_Func_PlayVoice(MapActivity *ma, uint16 voiceID)
 {
 	Voice_PlayAtTile(voiceID, ma->position);
 }
@@ -491,7 +491,7 @@ static void MapActivity_PlayVoice(MapActivity *ma, uint16 voiceID)
  * @param ma The MapActivity.
  * @param parameter Unused parameter.
  */
-static void MapActivity_NoOperation(MapActivity *ma, uint16 parameter)
+static void MapActivity_Func_NoOperation(MapActivity *ma, uint16 parameter)
 {
 	VARIABLE_NOT_USED(ma);
 	VARIABLE_NOT_USED(parameter);
@@ -502,7 +502,7 @@ static void MapActivity_NoOperation(MapActivity *ma, uint16 parameter)
  * @param ma The MapActivity to perform to explosion on.
  * @param parameter Unused parameter.
  */
-static void MapActivity_PerformBloomExplosion(MapActivity *ma, uint16 parameter)
+static void MapActivity_Func_BloomExplosion(MapActivity *ma, uint16 parameter)
 {
 	uint16 packed;
 
@@ -520,7 +520,7 @@ static void MapActivity_PerformBloomExplosion(MapActivity *ma, uint16 parameter)
  * @param ma The MapActivity to change.
  * @param animationMapID The animation map to use.
  */
-static void MapActivity_SetAnimation(MapActivity *ma, uint16 animationMapID)
+static void MapActivity_Func_SetAnimation(MapActivity *ma, uint16 animationMapID)
 {
 	uint16 packed;
 
@@ -536,23 +536,11 @@ static void MapActivity_SetAnimation(MapActivity *ma, uint16 animationMapID)
 }
 
 /**
- * Set position at the top of a column.
- * @param ma The MapActivity to change.
- * @param column Column number.
- */
-static void MapActivity_SetColumn(MapActivity *ma, uint16 column)
-{
-	if ((column & 0x800) != 0) column |= 0xF000;
-	ma->position.s.x = column;
-	ma->position.s.y = 0;
-}
-
-/**
  * Set position at the left of a row.
  * @param ma The MapActivity to change.
  * @param row Row number.
  */
-static void MapActivity_SetRow(MapActivity *ma, uint16 row)
+static void MapActivity_Func_SetRow(MapActivity *ma, uint16 row)
 {
 	if ((row & 0x800) != 0) row |= 0xF000;
 	ma->position.s.x = 0;
@@ -560,23 +548,11 @@ static void MapActivity_SetRow(MapActivity *ma, uint16 row)
 }
 
 /**
- * Reset the activity counter of activity \a ma.
- * @param ma The MapActivity being reset.
- * @param parameter Unused parameter.
- */
-static void MapActivity_ResetActCounter(MapActivity *ma, uint16 parameter)
-{
-	VARIABLE_NOT_USED(parameter);
-
-	ma->current = 0;
-}
-
-/**
  * Stop performing an activity.
  * @param ma The MapActivity to end.
  * @param parameter Unused parameter.
  */
-static void MapActivity_StopActivity(MapActivity *ma, uint16 parameter)
+static void MapActivity_Func_Stop(MapActivity *ma, uint16 parameter)
 {
 	VARIABLE_NOT_USED(parameter);
 
@@ -592,7 +568,7 @@ static void MapActivity_StopActivity(MapActivity *ma, uint16 parameter)
  * @param ma The MapActivity to change.
  * @param value The new timeout value.
  */
-static void MapActivity_SetTimeout(MapActivity *ma, uint16 value)
+static void MapActivity_Func_SetTimeout(MapActivity *ma, uint16 value)
 {
 	ma->timeOut = g_timerGUI + value;
 }
@@ -602,7 +578,7 @@ static void MapActivity_SetTimeout(MapActivity *ma, uint16 value)
  * @param ma The MapActivity to change.
  * @param value The maximum amount of timeout.
  */
-static void MapActivity_SetRandomTimeout(MapActivity *ma, uint16 value)
+static void MapActivity_Func_SetRandomTimeout(MapActivity *ma, uint16 value)
 {
 	ma->timeOut = g_timerGUI + Tools_RandomRange(0, value);
 }
@@ -612,7 +588,7 @@ static void MapActivity_SetRandomTimeout(MapActivity *ma, uint16 value)
  * @param ma The MapActivity to change.
  * @param spriteID The new SpriteID for the MapActivity.
  */
-static void MapActivity_SetSpriteID(MapActivity *ma, uint16 spriteID)
+static void MapActivity_Func_SetSpriteID(MapActivity *ma, uint16 spriteID)
 {
 	ma->spriteID = spriteID;
 
@@ -639,7 +615,7 @@ static void MapActivity_StopAtPosition(uint16 packed)
 
 		if (ma->activities == NULL || Tile_PackTile(ma->position) != packed) continue;
 
-		MapActivity_StopActivity(ma, 0);
+		MapActivity_Func_Stop(ma, 0);
 	}
 }
 
@@ -708,20 +684,17 @@ uint32 MapActivity_Tick()
 
 			switch (command) {
 				default:
-				case MAPACTIVITY_STOP:               MapActivity_StopActivity(ma, parameter); break;
+				case MAPACTIVITY_STOP:               MapActivity_Func_Stop(ma, parameter); break;
 
-				case MAPACTIVITY_SET_SPRITE:         MapActivity_SetSpriteID(ma, parameter); break;
-				case MAPACTIVITY_SET_TIMEOUT:        MapActivity_SetTimeout(ma, parameter); break;
-				case MAPACTIVITY_SET_RANDOM_TIMEOUT: MapActivity_SetRandomTimeout(ma, parameter); break;
-				case MAPACTIVITY_SET_SPRITE2:        MapActivity_SetSpriteID(ma, parameter); break;
-				case MAPACTIVITY_RESET:              MapActivity_ResetActCounter(ma, parameter); break;
-				case MAPACTIVITY_SET_COLUMN:         MapActivity_SetColumn(ma, parameter); break;
-				case MAPACTIVITY_SET_ROW:            MapActivity_SetRow(ma, parameter); break;
-				case MAPACTIVITY_DAMAGE:             MapActivity_Damage(ma, parameter); break;
-				case MAPACTIVITY_PLAY_VOICE:         MapActivity_PlayVoice(ma, parameter); break;
-				case MAPACTIVITY_NOOP:               MapActivity_NoOperation(ma, parameter); break;
-				case MAPACTIVITY_SET_ANIMATION:      MapActivity_SetAnimation(ma, parameter); break;
-				case MAPACTIVITY_BLOOM_EXPLOSION:    MapActivity_PerformBloomExplosion(ma, parameter); break;
+				case MAPACTIVITY_SET_SPRITE:         MapActivity_Func_SetSpriteID(ma, parameter); break;
+				case MAPACTIVITY_SET_TIMEOUT:        MapActivity_Func_SetTimeout(ma, parameter); break;
+				case MAPACTIVITY_SET_RANDOM_TIMEOUT: MapActivity_Func_SetRandomTimeout(ma, parameter); break;
+				case MAPACTIVITY_SET_ROW:            MapActivity_Func_SetRow(ma, parameter); break;
+				case MAPACTIVITY_DAMAGE:             MapActivity_Func_Damage(ma, parameter); break;
+				case MAPACTIVITY_PLAY_VOICE:         MapActivity_Func_PlayVoice(ma, parameter); break;
+				case MAPACTIVITY_NOOP:               MapActivity_Func_NoOperation(ma, parameter); break;
+				case MAPACTIVITY_SET_ANIMATION:      MapActivity_Func_SetAnimation(ma, parameter); break;
+				case MAPACTIVITY_BLOOM_EXPLOSION:    MapActivity_Func_BloomExplosion(ma, parameter); break;
 			}
 		}
 
