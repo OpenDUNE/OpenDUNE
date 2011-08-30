@@ -128,7 +128,7 @@ extern bool Structure_ConnectWall(uint16 position, bool recurse);
 extern struct Unit *Structure_GetLinkedUnit(Structure *s);
 extern void Structure_UntargetMe(Structure *s);
 extern uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice);
-extern void Structure_0C3A_1002(Structure *s);
+extern void Structure_Remove(Structure *s);
 extern bool Structure_BuildObject(Structure *s, uint16 objectType);
 extern bool Structure_SetUpgradingState(Structure *s, int8 value, struct Widget *w);
 extern bool Structure_SetRepairingState(Structure *s, int8 value, struct Widget *w);

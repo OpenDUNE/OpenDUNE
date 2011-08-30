@@ -592,7 +592,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	layout = g_table_structureInfo[s->o.type].layout;
 	position = Tile_PackTile(s->o.position);
 
-	Structure_0C3A_1002(s);
+	Structure_Remove(s);
 
 	for (i = 0; i < g_table_structure_layoutTileCount[layout]; i++) {
 		tile32 tile;

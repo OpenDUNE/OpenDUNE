@@ -968,7 +968,7 @@ static void Structure_Destroy(Structure *s)
 	if (s == NULL) return;
 
 	if (g_debugScenario) {
-		Structure_0C3A_1002(s);
+		Structure_Remove(s);
 		return;
 	}
 
@@ -1291,7 +1291,11 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 	return bestPacked;
 }
 
-void Structure_0C3A_1002(Structure *s)
+/**
+ * Remove the structure from the map, free it, and clean up after it.
+ * @param s The structure to remove.
+ */
+void Structure_Remove(Structure *s)
 {
 	const StructureInfo *si;
 	uint16 packed;
@@ -1353,17 +1357,25 @@ void Structure_0C3A_1002(Structure *s)
 	}
 }
 
-static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
+/**
+ * Check if requested structureType can be build on the map with concrete below.
+ *
+ * @param structureType The type of structure to check for.
+ * @param houseID The house to check for.
+ * @return True if and only if there are enough slabs available on the map to
+ *  build requested structure.
+ */
+static bool Structure_CheckAvailableConcrete(uint16 structureType, uint8 houseID)
 {
 	const StructureInfo *si;
 	uint16 tileCount;
 	uint16 i;
 
-	si = &g_table_structureInfo[objectType];
+	si = &g_table_structureInfo[structureType];
 
 	tileCount = g_table_structure_layoutTileCount[si->layout];
 
-	if (objectType == STRUCTURE_SLAB_1x1 || objectType == STRUCTURE_SLAB_2x2) return true;
+	if (structureType == STRUCTURE_SLAB_1x1 || structureType == STRUCTURE_SLAB_2x2) return true;
 
 	for (i = 0; i < 4096; i++) {
 		bool stop = true;
@@ -1371,6 +1383,7 @@ static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
 
 		for (j = 0; j < tileCount; j++) {
 			uint16 packed = i + g_table_structure_layoutTiles[si->layout][j];
+			/* XXX -- This can overflow, and we should check for that */
 
 			if (Map_GetLandscapeType(packed) == LST_CONCRETE_SLAB && g_map[packed].houseID == houseID) continue;
 
@@ -1585,7 +1598,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						if (!g_factoryWindowConstructionYard) continue;
 
-						if (Structure_0C3A_0B93(objectType, s->o.houseID)) continue;
+						if (Structure_CheckAvailableConcrete(objectType, s->o.houseID)) continue;
 
 						if (GUI_DisplayHint(20, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
 
