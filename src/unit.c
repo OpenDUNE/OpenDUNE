@@ -418,7 +418,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->distanceToDestination = 0x7FFF;
 	u->targetMove    = 0x0000;
 	u->amount        = 0;
-	u->variable_6C   = 0;
+	u->wobbleIndex   = 0;
 	u->spriteOffset  = 0;
 	u->blinkCounter  = 0;
 	u->timer   = 0;
@@ -1077,7 +1077,12 @@ bool Unit_StartMovement(Unit *unit)
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) speed = 255;
 	unit->o.flags.s.isSmoking = false;
 
-	if (g_table_landscapeInfo[type].variable_05) unit->o.flags.s.variable_4_0080 = true;
+	/* ENHANCEMENT: the flag is never set to false in original Dune2; in result, once the wobbling starts, it never stops. */
+	if (g_dune2_enhanced) {
+		unit->o.flags.s.isWobbling = g_table_landscapeInfo[type].letUnitWobble;
+	} else {
+		if (g_table_landscapeInfo[type].letUnitWobble) unit->o.flags.s.isWobbling = true;
+	}
 
 	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) speed -= speed / 4;
 
@@ -1292,10 +1297,9 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		Unit_SetOrientation(unit, unit->orientation[0].current + (Tools_Random_256() & 0xF), false, 0);
 	}
 
-	unit->variable_6C = 0;
-
-	if (ui->flags.variable_0010 && unit->o.flags.s.variable_4_0080) {
-		unit->variable_6C = Tools_Random_256() & 7;
+	unit->wobbleIndex = 0;
+	if (ui->flags.canWobble && unit->o.flags.s.isWobbling) {
+		unit->wobbleIndex = Tools_Random_256() & 7;
 	}
 
 	d = Tile_GetDistance(newPosition, unit->currentDestination);

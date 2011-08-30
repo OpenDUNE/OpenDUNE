@@ -23,7 +23,7 @@ typedef struct Object {
 			BIT_U8 variable_4_0010:1;                       /*!< Unit ?? */
 			BIT_U8 variable_4_0020:1;                       /*!< Unit ?? */
 			BIT_U8 variable_4_0040:1;                       /*!< Unit ?? */
-			BIT_U8 variable_4_0080:1;                       /*!< Unit ?? */
+			BIT_U8 isWobbling:1;                            /*!< If true, the Unit will be wobbling during movement. */
 			BIT_U8 inTransport:1;                           /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
 			BIT_U8 byScenario:1;                            /*!< The Unit is created by the scenario. */
 			BIT_U8 degrades:1;                              /*!< Structure degrades. Unit ?? */

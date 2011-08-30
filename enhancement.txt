@@ -45,6 +45,12 @@ Structure
     is in fact placed on the map.
 
 
+Unit
+----
+- Once a Unit enters a tile on which it starts to wobble, it will never stop
+    wobbling, even if it enters a tile where it shouldn't wobble.
+
+
 Scenario
 --------
 - A mistake in reading the '+' causes repeat for reinforcements to be always

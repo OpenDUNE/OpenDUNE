@@ -115,7 +115,7 @@ typedef struct Unit {
 	uint8  speedRemainder;                                  /*!< Remainder of speedPerTick. */
 	uint8  speed;                                           /*!< The amount to move when speedPerTick goes over 255. */
 	uint8  movingSpeed;                                     /*!< The speed of moving as last set. */
-	uint8  variable_6C;                                     /*!< ?? */
+	uint8  wobbleIndex;                                     /*!< At which wobble index the Unit currently is. */
 	 int8  spriteOffset;                                    /*!< Offset of the current sprite for Unit. */
 	uint8  blinkCounter;                                    /*!< If non-zero, it indicates how many more ticks this unit is blinking. */
 	uint8  team;                                            /*!< If non-zero, unit is part of team. Value 1 means team 0, etc. */
@@ -134,7 +134,7 @@ typedef struct UnitInfo {
 		BIT_U8 isBullet:1;                                  /*!< If true, Unit is a bullet / missile. */
 		BIT_U8 variable_0004:1;                             /*!< ?? */
 		BIT_U8 sonicProtection:1;                           /*!< If true, Unit receives no damage of a sonic blast. */
-		BIT_U8 variable_0010:1;                             /*!< ?? */
+		BIT_U8 canWobble:1;                                 /*!< If true, Unit will wobble around while moving on certain tiles. */
 		BIT_U8 isTracked:1;                                 /*!< If true, Unit is tracked-based (and leaves marks in sand). */
 		BIT_U8 isGroundUnit:1;                              /*!< If true, Unit is ground-based. */
 		BIT_U8 mustStayInMap:1;                             /*!< Unit cannot leave the map and bounces off the border (air-based units). */

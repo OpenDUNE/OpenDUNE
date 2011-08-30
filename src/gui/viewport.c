@@ -481,8 +481,8 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-			x += g_table_tilediff[0][u->variable_6C].s.x;
-			y += g_table_tilediff[0][u->variable_6C].s.y;
+			x += g_table_tilediff[0][u->wobbleIndex].s.x;
+			y += g_table_tilediff[0][u->wobbleIndex].s.y;
 
 			orientation = Orientation_Orientation256ToOrientation8(u->orientation[0].current);
 
