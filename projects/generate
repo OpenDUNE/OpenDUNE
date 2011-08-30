@@ -16,7 +16,7 @@ fi
 
 generate_data()
 {
-ls -Rp "$ROOT_DIR/$1" | awk -v source="$2" '
+LC_COLLATE=C ls -Rp "$ROOT_DIR/$1" | awk -v source="$2" '
 BEGIN {
 	path = "";
 	previous = ":";
@@ -25,22 +25,21 @@ BEGIN {
 	tab = "";
 	if (source != null) {
 		while ((getline line < source) > 0) {
-			if (line ~ /^(	*)#end/)  { if (deep == skip) { skip -= 1; } deep -= 1; continue; }
-			if (line ~ /^(	*)#else/) { if (deep == skip) { skip -= 1; } else if (deep - 1 == skip) { skip += 1; } continue; }
-			if (line ~ /^(	*)#if/) {
-				gsub("	", "", line);
+			gsub("	", "", line);
+			gsub("\r", "", line);
+			if (line ~ /^#end/)  { if (deep == skip) { skip -= 1; } deep -= 1; continue; }
+			if (line ~ /^#else/) { if (deep == skip) { skip -= 1; } else if (deep - 1 == skip) { skip += 1; } continue; }
+			if (line ~ /^#if/) {
 				gsub("^#if", "", line);
 				gsub("^ ", "", line);
 				if (deep != skip) { deep += 1; continue; }
 				deep += 1;
-				if (line != "WIN32") { skip += 1; }
+				if (line == "WIN32") { skip += 1; }
 				continue;
 			}
-			if (line ~ /^(	*)#/) { continue; }
+			if (line ~ /^#/) { continue; }
 			if (line ~ /^$/) { continue; }
 			if (deep == skip) {
-				gsub("	", "", line);
-				gsub("\r", "", line);
 				gsub("/", "\\", line);
 				files["'$1'\\" line];
 			}
