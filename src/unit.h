@@ -139,7 +139,7 @@ typedef struct UnitInfo {
 		BIT_U8 isGroundUnit:1;                              /*!< If true, Unit is ground-based. */
 		BIT_U8 mustStayInMap:1;                             /*!< Unit cannot leave the map and bounces off the border (air-based units). */
 		BIT_U8 firesTwice:1;                                /*!< If true, Unit fires twice. */
-		BIT_U8 variable_0800:1;                             /*!< ?? */
+		BIT_U8 impactOnSand:1;                              /*!< If true, hitting sand (as bullet / missile) makes an impact (crater-like). */
 		BIT_U8 isNotDeviatable:1;                           /*!< If true, Unit can't be deviated. */
 		BIT_U8 hasAnimationSet:1;                           /*!< If true, the Unit has two set of sprites for animation. */
 		BIT_U8 notAccurate:1;                               /*!< If true, Unit is a bullet and is not very accurate at hitting the target (rockets). */

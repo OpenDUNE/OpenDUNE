@@ -1408,7 +1408,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							Map_MakeExplosion(ui->explosionType, p, 200, 0);
 						}
 					} else if (ui->explosionType != 0xFFFF) {
-						if (ui->flags.variable_0800 && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
+						if (ui->flags.impactOnSand && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
 							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
 							Map_DeviateArea(ui->explosionType, newPosition, 32);
