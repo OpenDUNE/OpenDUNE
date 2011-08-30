@@ -27,6 +27,7 @@
 #include "scenario.h"
 #include "sprites.h"
 #include "string.h"
+#include "table/strings.h"
 #include "team.h"
 #include "tile.h"
 #include "timer.h"
@@ -263,9 +264,7 @@ void GameLoop_Structure()
 						/* Out of money means the building gets put on hold */
 						if (s->o.houseID == g_playerHouseID) {
 							s->o.type |= 0x4000;
-
-							/* "Insufficient funds.  Construction is halted." */
-							GUI_DisplayText(String_Get_ByIndex(132), 0);
+							GUI_DisplayText(String_Get_ByIndex(STR_INSUFFICIENT_FUNDS_CONSTRUCTION_IS_HALTED), 0);
 						}
 					}
 				}
@@ -1620,8 +1619,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 					if (u == NULL) {
 						h->credits += g_table_unitInfo[UNIT_CARRYALL].o.buildCredits;
 						if (s->o.houseID != g_playerHouseID) continue;
-						/* "Unable to create more." */
-						GUI_DisplayText(String_Get_ByIndex(136), 2);
+						GUI_DisplayText(String_Get_ByIndex(STR_UNABLE_TO_CREATE_MORE), 2);
 						continue;
 					}
 
@@ -1674,16 +1672,14 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 		if (s->o.houseID != g_playerHouseID) return true;
 
-		/* "Production of %s has started." */
-		GUI_DisplayText(String_Get_ByIndex(137), 2, str);
+		GUI_DisplayText(String_Get_ByIndex(STR_PRODUCTION_OF_S_HAS_STARTED), 2, str);
 
 		return true;
 	}
 
 	if (s->o.houseID != g_playerHouseID) return false;
 
-	/* "Unable to create more." */
-	GUI_DisplayText(String_Get_ByIndex(136), 2);
+	GUI_DisplayText(String_Get_ByIndex(STR_UNABLE_TO_CREATE_MORE), 2);
 
 	return false;
 }
@@ -1706,8 +1702,7 @@ bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w)
 
 	if (state == 0 && s->o.flags.s.upgrading) {
 		if (s->o.houseID == g_playerHouseID) {
-			/* "Upgrading stops." */
-			GUI_DisplayText(String_Get_ByIndex(140), 2);
+			GUI_DisplayText(String_Get_ByIndex(STR_UPGRADING_STOPS), 2);
 		}
 
 		s->o.flags.s.upgrading = false;
@@ -1721,8 +1716,7 @@ bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w)
 	if (state == 0 || s->o.flags.s.upgrading || s->upgradeTimeLeft == 0) return ret;
 
 	if (s->o.houseID == g_playerHouseID) {
-		/* "Upgrading starts." */
-		GUI_DisplayText(String_Get_ByIndex(141), 2);
+		GUI_DisplayText(String_Get_ByIndex(STR_UPGRADING_STARTS), 2);
 	}
 
 	s->o.flags.s.onHold = true;
@@ -1754,8 +1748,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 
 	if (state == 0 && s->o.flags.s.repairing) {
 		if (s->o.houseID == g_playerHouseID) {
-			/* "Repairing stops." */
-			GUI_DisplayText(String_Get_ByIndex(138), 2);
+			GUI_DisplayText(String_Get_ByIndex(STR_REPAIRING_STOPS), 2);
 		}
 
 		s->o.flags.s.repairing = false;
@@ -1769,8 +1762,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 	if (state == 0 || s->o.flags.s.repairing || s->o.hitpoints == g_table_structureInfo[s->o.type].o.hitpoints) return ret;
 
 	if (s->o.houseID == g_playerHouseID) {
-		/* "Repairing starts." */
-		GUI_DisplayText(String_Get_ByIndex(139), 2);
+		GUI_DisplayText(String_Get_ByIndex(STR_REPAIRING_STARTS), 2);
 	}
 
 	s->o.flags.s.onHold = true;

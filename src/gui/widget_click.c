@@ -30,6 +30,7 @@
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
+#include "../table/strings.h"
 #include "../tile.h"
 #include "../timer.h"
 #include "../unit.h"
@@ -84,7 +85,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 	switch (g_productionStringID) {
 		default: break;
 
-		case 0x26: /* "Place it" */
+		case STR_PLACE_IT:
 			if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 				Structure *ns;
 
@@ -99,23 +100,23 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 			}
 			break;
 
-		case 0x28: /* "On hold" */
+		case STR_ON_HOLD:
 			s->o.flags.s.repairing = false;
 			s->o.flags.s.onHold    = false;
 			s->o.flags.s.upgrading = false;
 			break;
 
-		case 0x29: /* "Build it" */
+		case STR_BUILD_IT:
 			Structure_BuildObject(s, s->objectType);
 			break;
 
-		case 0x2A: /* "Launch" */
-		case 0x2B: /* "Fremen" */
-		case 0x2C: /* "Saboteur" */
+		case STR_LAUNCH:
+		case STR_FREMEN:
+		case STR_SABOTEUR:
 			Structure_ActivateSpecial(s);
 			break;
 
-		case 0x2E: /* "%d%% done" */
+		case STR_D_DONE:
 			s->o.flags.s.onHold = true;
 			break;
 	}
@@ -453,8 +454,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 	}
 
 	if (GUI_String_Get_ByIndex(desc->widgets[0].stringID) == NULL) {
-		/* "There are no saved games to load." */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(337), (g_curWidgetXBase + 2) << 3, g_curWidgetYBase + 42, 232, 0, 0x22);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_THERE_ARE_NO_SAVED_GAMES_TO_LOAD), (g_curWidgetXBase + 2) << 3, g_curWidgetYBase + 42, 232, 0, 0x22);
 	}
 
 	for (i = 0; i < desc->widgetCount; i++) {
@@ -832,8 +832,7 @@ static void FillSavegameDesc(bool save)
 		if (s_savegameIndexBase - i == s_savegameCountOnDisk) {
 			if (!save) continue;
 
-			/* "[ EMPTY SLOT ]" */
-			strcpy(desc, String_Get_ByIndex(99));
+			strcpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_));
 			continue;
 		}
 
@@ -965,7 +964,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	FillSavegameDesc(save);
 
-	desc->stringID = save ? 0x62 : 0x61; /* "Select a position to save to:" : "Select a saved game to load:" */
+	desc->stringID = save ? STR_SELECT_A_POSITION_TO_SAVE_TO : STR_SELECT_A_SAVED_GAME_TO_LOAD;
 
 	GUI_Window_BackupScreen(desc);
 
@@ -1296,8 +1295,7 @@ static void GUI_Purchase_ShowInvoice()
 
 	GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
 
-	/* "Item Name                 Qty Total" */
-	GUI_DrawText_Wrapper(String_Get_ByIndex(182), 128, y, 12, 0, 0x11);
+	GUI_DrawText_Wrapper(String_Get_ByIndex(STR_ITEM_NAME_QTY_TOTAL), 128, y, 12, 0, 0x11);
 
 	y += 7;
 
@@ -1327,8 +1325,7 @@ static void GUI_Purchase_ShowInvoice()
 			y += 8;
 		}
 	} else {
-		/* "NO UNITS ON ORDER" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(181), 220, 99, 6, 0, 0x112);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_NO_UNITS_ON_ORDER), 220, 99, 6, 0, 0x112);
 	}
 
 	GUI_DrawLine(129, 148, 310, 148, 12);
@@ -1348,8 +1345,7 @@ static void GUI_Purchase_ShowInvoice()
 
 	GFX_Screen_SetActive(0);
 
-	/* "Invoice of Units on Order" */
-	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(183));
+	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(STR_INVOICE_OF_UNITS_ON_ORDER));
 
 	Input_History_Clear();
 

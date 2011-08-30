@@ -23,6 +23,7 @@
 #include "../pool/structure.h"
 #include "../scenario.h"
 #include "../structure.h"
+#include "../table/strings.h"
 #include "../tools.h"
 #include "../tile.h"
 #include "../string.h"
@@ -1595,11 +1596,10 @@ uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 	ui = &g_table_unitInfo[u->o.type];
 
-	/* "%s %s destroyed." */
 	if (g_config.language == LANGUAGE_FRENCH) {
-		GUI_DisplayText(String_Get_ByIndex(19), 0, String_Get_ByIndex(ui->o.stringID_abbrev), g_table_houseInfo[Unit_GetHouseID(u)].name);
+		GUI_DisplayText(String_Get_ByIndex(STR_S_S_DESTROYED), 0, String_Get_ByIndex(ui->o.stringID_abbrev), g_table_houseInfo[Unit_GetHouseID(u)].name);
 	} else {
-		GUI_DisplayText(String_Get_ByIndex(19), 0, g_table_houseInfo[Unit_GetHouseID(u)].name, String_Get_ByIndex(ui->o.stringID_abbrev));
+		GUI_DisplayText(String_Get_ByIndex(STR_S_S_DESTROYED), 0, g_table_houseInfo[Unit_GetHouseID(u)].name, String_Get_ByIndex(ui->o.stringID_abbrev));
 	}
 
 	return 0;
@@ -1849,8 +1849,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 	}
 
 	if (Unit_GetHouseID(u) == g_playerHouseID) {
-		/* "Unit is unable to deploy here." */
-		GUI_DisplayText(String_Get_ByIndex(20), 0);
+		GUI_DisplayText(String_Get_ByIndex(STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
 	}
 
 	Unit_UpdateMap(1, u);

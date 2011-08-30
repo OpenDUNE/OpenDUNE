@@ -27,6 +27,7 @@
 #include "../scenario.h"
 #include "../sprites.h"
 #include "../string.h"
+#include "../table/strings.h"
 #include "../timer.h"
 #include "../tools.h"
 #include "../wsa.h"
@@ -88,8 +89,8 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	Sprites_Load(1, g_sprites);
 
-	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(175)[0]), 168, 168, 6, 0, 0);
-	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0);
+	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_PROCEED)[0]), 168, 168, 6, 0, 0);
+	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_REPEAT)[0]), 240, 168, 8, 0, 0);
 
 	w1 = GUI_Widget_Link(w1, w2);
 
@@ -267,8 +268,7 @@ static void GUI_Mentat_Draw(bool force)
 
 	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 
-	/* "Select Subject:" */
-	GUI_DrawText_Wrapper(String_Get_ByIndex(48), (g_curWidgetXBase << 3) + 16, g_curWidgetYBase + 2, 12, 0, 0x12);
+	GUI_DrawText_Wrapper(String_Get_ByIndex(STR_SELECT_SUBJECT), (g_curWidgetXBase << 3) + 16, g_curWidgetYBase + 2, 12, 0, 0x12);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x11);
 
 	line = GUI_Widget_Get_ByIndex(w, 3);
@@ -325,7 +325,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_Display(NULL, g_playerHouseID);
 
-	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(193)), 200, 168, proceed ? 6 : 4, 5, 1);
+	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(STR_EXIT)), 200, 168, proceed ? 6 : 4, 5, 1);
 	g_widgetMentatFirst->shortcut2 = 'n';
 
 	GUI_Mentat_Create_HelpScreen_Widgets();

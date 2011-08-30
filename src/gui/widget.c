@@ -16,6 +16,7 @@
 #include "../house.h"
 #include "../string.h"
 #include "../sprites.h"
+#include "../table/strings.h"
 
 
 uint8 g_paletteActive[256 * 3];
@@ -589,10 +590,10 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 			drawParam1.proc = &GUI_Widget_SpriteTextButton_Draw;
 			drawParam2.proc = &GUI_Widget_SpriteTextButton_Draw;
 
-			if (stringID == 0) break;
+			if (stringID == STR_NULL) break;
 
 			if (String_Get_ByIndex(stringID) != NULL) w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(stringID));
-			if (stringID == 0x1E) w->shortcut2 = 0x6E ; /* "Cancel" */
+			if (stringID == STR_CANCEL) w->shortcut2 = 'n';
 			break;
 
 		case 2:

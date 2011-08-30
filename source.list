@@ -135,6 +135,7 @@ security.h
 sprites.h
 string.h
 structure.h
+table/strings.h
 team.h
 tile.h
 timer.h

@@ -29,6 +29,7 @@
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"
+#include "table/strings.h"
 #include "team.h"
 #include "tile.h"
 #include "timer.h"
@@ -2017,19 +2018,19 @@ void Unit_DisplayStatusText(Unit *unit)
 	if (unit->o.type == UNIT_HARVESTER) {
 		uint16 stringID;
 
-		stringID = 0x79; /* " is %d percent full" */
+		stringID = STR_IS_D_PERCENT_FULL;
 
 		if (unit->actionID == ACTION_HARVEST && unit->amount < 100) {
 			uint16 type = Map_GetLandscapeType(Tile_PackTile(unit->o.position));
 
-			if (type == LST_SPICE || type == LST_THICK_SPICE) stringID = 0x7A; /* " is %d percent full and harvesting" */
+			if (type == LST_SPICE || type == LST_THICK_SPICE) stringID = STR_IS_D_PERCENT_FULL_AND_HARVESTING;
 		}
 
 		if (unit->actionID == ACTION_MOVE && Tools_Index_GetStructure(unit->targetMove) != NULL) {
-			stringID = 0x7B; /* " is %d percent full and heading back" */
+			stringID = STR_IS_D_PERCENT_FULL_AND_HEADING_BACK;
 		} else {
 			if (unit->o.script.variables[4] != 0) {
-				stringID = 0x7C; /* " is %d percent full and awaiting pickup" */
+				stringID = STR_IS_D_PERCENT_FULL_AND_AWAITING_PICKUP;
 			}
 		}
 
@@ -2654,7 +2655,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 					if (g_scenarioID < 3) {
 						PoolFindStruct find;
 						Structure *s;
-						uint16 stringID;
+						uint16 feedbackID;
 
 						find.houseID = g_playerHouseID;
 						find.index   = 0xFFFF;
@@ -2662,12 +2663,12 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 						s = Structure_Find(&find);
 						if (s != NULL) {
-							stringID = ((Orientation_Orientation256ToOrientation16(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 7) / 2 + 1;
+							feedbackID = ((Orientation_Orientation256ToOrientation16(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 7) / 2 + 1;
 						} else {
-							stringID = 1;
+							feedbackID = 1;
 						}
 
-						Sound_Output_Feedback(stringID);
+						Sound_Output_Feedback(feedbackID);
 					} else {
 						Sound_Output_Feedback(unit->o.houseID + 6);
 					}

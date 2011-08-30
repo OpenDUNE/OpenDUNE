@@ -1884,6 +1884,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\table\strings.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\table\structureinfo.c"
 					>
 					<FileConfiguration

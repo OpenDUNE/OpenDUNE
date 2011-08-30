@@ -51,6 +51,7 @@
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"
+#include "table/strings.h"
 #include "team.h"
 #include "tile.h"
 #include "timer.h"
@@ -1201,7 +1202,7 @@ static void GameLoop_LevelEnd()
 		if (GameLoop_IsLevelWon()) {
 			Sound_Output_Feedback(40);
 
-			GUI_DisplayModalMessage(String_Get_ByIndex(82), 0xFFFF); /* "You have successfully completed your mission." */
+			GUI_DisplayModalMessage(String_Get_ByIndex(STR_YOU_HAVE_SUCCESSFULLY_COMPLETED_YOUR_MISSION), 0xFFFF);
 
 			GUI_Mentat_ShowWin();
 
@@ -1244,7 +1245,7 @@ static void GameLoop_LevelEnd()
 		} else {
 			Sound_Output_Feedback(41);
 
-			GUI_DisplayModalMessage(String_Get_ByIndex(83), 0xFFFF); /* "You have failed your mission " */
+			GUI_DisplayModalMessage(String_Get_ByIndex(STR_YOU_HAVE_FAILED_YOUR_MISSION), 0xFFFF);
 
 			GUI_Mentat_ShowLose();
 
@@ -2405,7 +2406,7 @@ int main(int argc, char **argv)
 
 	GameLoop_Main();
 
-	printf("%s\n", String_Get_ByIndex(321)); /* "Thank you for playing Dune II." */
+	printf("%s\n", String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
 	PrepareEnd();
 	exit(0);

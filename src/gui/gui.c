@@ -40,6 +40,7 @@
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
+#include "../table/strings.h"
 #include "../tile.h"
 #include "../timer.h"
 #include "../tools.h"
@@ -723,7 +724,7 @@ void GUI_UpdateProductionStringID()
 
 	s = Structure_Get_ByPackedTile(g_selectionPosition);
 
-	g_productionStringID = 0;
+	g_productionStringID = STR_NULL;
 
 	if (s == NULL) return;
 
@@ -733,31 +734,31 @@ void GUI_UpdateProductionStringID()
 	}
 
 	if (s->o.flags.s.upgrading) {
-		g_productionStringID = 0x90; /* "Upgrading|%d%% done" */
+		g_productionStringID = STR_UPGRADINGD_DONE;
 		return;
 	}
 
 	if (s->o.linkedID == 0xFF) {
-		g_productionStringID = 0x29; /* "Build it" */
+		g_productionStringID = STR_BUILD_IT;
 		return;
 	}
 
 	if (s->o.flags.s.onHold) {
-		g_productionStringID = 0x28; /* "On hold" */
+		g_productionStringID = STR_ON_HOLD;
 		return;
 	}
 
 	if (s->countDown != 0) {
-		g_productionStringID = 0x2E; /* "%d%% done" */
+		g_productionStringID = STR_D_DONE;
 		return;
 	}
 
 	if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
-		g_productionStringID = 0x26; /* "Place it" */
+		g_productionStringID = STR_PLACE_IT;
 		return;
 	}
 
-	g_productionStringID = 0x27; /* "Completed" */
+	g_productionStringID = STR_COMPLETED;
 }
 
 static void GUI_2599_000B(uint16 index, uint16 xpos, uint16 ypos, uint16 width, uint16 height)
@@ -1441,8 +1442,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 	if (score != 0xFFFF) {
 		char buffer[64];
-		/* "Time: %dh %dm" */
-		snprintf(buffer, sizeof(buffer), String_Get_ByIndex(22), s_ticksPlayed / 60, s_ticksPlayed % 60);
+		snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
 
 		if (s_ticksPlayed < 60) {
 			char *hours = strchr(buffer, '0');
@@ -1450,13 +1450,13 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 		}
 
 		/* "Score: %d" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(21), 72, 15, 15, 0, 0x22, score);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_SCORE_D), 72, 15, 15, 0, 0x22, score);
 		GUI_DrawText_Wrapper(buffer, 248, 15, 15, 0, 0x222);
 		/* "You have attained the rank of" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(23), SCREEN_WIDTH / 2, 38, 15, 0, 0x122);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_YOU_HAVE_ATTAINED_THE_RANK_OF), SCREEN_WIDTH / 2, 38, 15, 0, 0x122);
 	} else {
 		/* "Hall of Fame" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(336), SCREEN_WIDTH / 2, 15, 15, 0, 0x122);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_HALL_OF_FAME2), SCREEN_WIDTH / 2, 15, 15, 0, 0x122);
 	}
 
 	switch (g_playerHouseID) {
@@ -1529,29 +1529,18 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_HallOfFame_DrawBackground(score, false);
 
-	/* "Spice Harvested By" */
-	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(26), 83);
+	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(STR_SPICE_HARVESTED_BY), 83);
+	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(STR_UNITS_DESTROYED_BY), 119);
+	if (g_scenarioID != 1) GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(STR_BUILDINGS_DESTROYED_BY), 155);
 
-	/* "Units Destroyed By" */
-	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(24), 119);
-
-	if (g_scenarioID != 1) {
-		/* "Buildings Destroyed By" */
-		GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(25), 155);
-	}
-
-	/* "You:", "Enemy:" */
-	loc06 = max(Font_GetStringWidth(String_Get_ByIndex(329)), Font_GetStringWidth(String_Get_ByIndex(330)));
+	loc06 = max(Font_GetStringWidth(String_Get_ByIndex(STR_YOU)), Font_GetStringWidth(String_Get_ByIndex(STR_ENEMY)));
 
 	loc18 = loc06 + 19;
 	loc1A = 261 - loc18;
 
 	for (i = 0; i < loc16; i++) {
-		/* "You:" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(329), loc18 - 4,  92 + (i * 36), 0xF, 0, 0x221);
-
-		/* "Enemy:" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(330), loc18 - 4, 101 + (i * 36), 0xF, 0, 0x221);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_YOU), loc18 - 4,  92 + (i * 36), 0xF, 0, 0x221);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_ENEMY), loc18 - 4, 101 + (i * 36), 0xF, 0, 0x221);
 	}
 
 	Music_Play(17 + Tools_RandomRange(0, 5));
@@ -1760,8 +1749,8 @@ uint8 GUI_PickHouse()
 
 		if (g_debugSkipDialogs || g_debugScenario) break;
 
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(107)[0]), 168, 168, 0, 0, 0)); /* "Yes" */
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0)); /* "No" */
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_YES)[0]), 168, 168, 0, 0, 0));
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_NO)[0]), 240, 168, 2, 0, 0));
 
 		snprintf(buffer, sizeof(buffer), "TEXT%c", g_table_houseInfo[houseID].name[0]);
 		String_LoadFile(String_GenerateFilename(buffer), 0, g_readBuffer, g_readBufferSize);
@@ -2840,31 +2829,31 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 		}
 
 		case -10:
-			stringID = (g_gameConfig.music != 0) ? 105 : 106; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.music != 0) ? STR_ON : STR_OFF;
 			break;
 
 		case -11:
-			stringID = (g_gameConfig.sounds != 0) ? 105 : 106; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.sounds != 0) ? STR_ON : STR_OFF;
 			break;
 
 		case -12: {
 			static uint16 gameSpeedStrings[] = {
-				113, /* "Slowest" */
-				114, /* "Slow" */
-				115, /* "Normal" */
-				116, /* "Fast" */
-				117  /* "Fastest" */
+				STR_SLOWEST,
+				STR_SLOW,
+				STR_NORMAL,
+				STR_FAST,
+				STR_FASTEST
 			};
 
 			stringID = gameSpeedStrings[g_gameConfig.gameSpeed];
 		} break;
 
 		case -13:
-			stringID = (g_gameConfig.hints != 0) ? 105 : 106; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.hints != 0) ? STR_ON : STR_OFF;
 			break;
 
 		case -14:
-			stringID = (g_gameConfig.autoScroll != 0) ? 105 : 106; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.autoScroll != 0) ? STR_ON : STR_OFF;
 			break;
 
 		default: break;
@@ -3314,8 +3303,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	if (win && campaignID == 1) {
 		Sprites_LoadImage("PLANET.CPS", 3, g_palette_998A, 1);
 
-		/* "Three Houses have come to Dune." */
-		GUI_StrategicMap_DrawText(String_Get_ByIndex(283));
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_THREE_HOUSES_HAVE_COME_TO_DUNE));
 
 		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, 0, false);
 
@@ -3332,8 +3320,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		Sprites_LoadImage("DUNEMAP.CPS", 3 , g_palette_998A, 1);
 
-		/* "To take control of the land." */
-		GUI_StrategicMap_DrawText(String_Get_ByIndex(284));
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_TO_TAKE_CONTROL_OF_THE_LAND));
 
 		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
 
@@ -3344,8 +3331,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			sleepIdle();
 		}
 
-		/* "That has become divided." */
-		GUI_StrategicMap_DrawText(String_Get_ByIndex(285));
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_THAT_HAS_BECOME_DIVIDED));
 	} else {
 		Sprites_CPS_LoadRegionClick();
 	}
@@ -3369,8 +3355,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	GUI_Mouse_Show_Safe();
 
 	if (*g_regions >= campaignID) {
-		/* "Select your next region" */
-		GUI_StrategicMap_DrawText(String_Get_ByIndex(286));
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_SELECT_YOUR_NEXT_REGION));
 
 		scenarioID = GUI_StrategicMap_ScenarioSelection(campaignID);
 	} else {
@@ -3489,26 +3474,21 @@ void GUI_FactoryWindow_DrawDetails()
 		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, s_factoryWindowGraymapTbl);
 
 		if (g_factoryWindowStarport) {
-			/* "OUT OF STOCK" */
-			GUI_DrawText_Wrapper(String_Get_ByIndex(185), 220, 99, 6, 0, 0x132);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_OUT_OF_STOCK), 220, 99, 6, 0, 0x132);
 		} else {
-			/* "NEED STRUCTURE UPGRADE" */
-			GUI_DrawText_Wrapper(String_Get_ByIndex(186), 220, 94, 6, 0, 0x132);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_NEED_STRUCTURE_UPGRADE), 220, 94, 6, 0, 0x132);
 
 			if (g_factoryWindowUpgradeCost != 0) {
-				/* "Upgrade Cost : %d" */
-				GUI_DrawText_Wrapper(String_Get_ByIndex(187), 220, 104, 6, 0, 0x132, g_factoryWindowUpgradeCost);
+				GUI_DrawText_Wrapper(String_Get_ByIndex(STR_UPGRADE_COST_D), 220, 104, 6, 0, 0x132, g_factoryWindowUpgradeCost);
 			} else {
-				/* "Repair structure first" */
-				GUI_DrawText_Wrapper(String_Get_ByIndex(333), 220, 104, 6, 0, 0x132);
+				GUI_DrawText_Wrapper(String_Get_ByIndex(STR_REPAIR_STRUCTURE_FIRST), 220, 104, 6, 0, 0x132);
 			}
 		}
 	} else {
 		if (g_factoryWindowStarport) {
 			GUI_Screen_Copy(16, 99, 16, 160, 23, 9, 2, 2);
 			GUI_Screen_Copy(16, 99, 16, 169, 23, 9, 2, 2);
-			/* "OUT OF STOCK" */
-			GUI_DrawText_Wrapper(String_Get_ByIndex(185), 220, 169, 6, 0, 0x132);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_OUT_OF_STOCK), 220, 169, 6, 0, 0x132);
 
 			GUI_FactoryWindow_UpdateDetails();
 		}
@@ -3540,18 +3520,12 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 
 		GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, 23, 12, 0, 0x12);
 
-		/* "Cost: 999" */
-		width = Font_GetStringWidth(String_Get_ByIndex(178));
-
-		/* "Cost: %3d" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(0xB1), 310 - width, 23, 12, 0, 0x12, item->credits);
+		width = Font_GetStringWidth(String_Get_ByIndex(STR_COST_999));
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_COST_3D), 310 - width, 23, 12, 0, 0x12, item->credits);
 
 		if (g_factoryWindowStarport) {
-			/* "Qty: 99" */
-			width += Font_GetStringWidth(String_Get_ByIndex(180)) + 2;
-
-			/* "Qty: %2d" */
-			GUI_DrawText_Wrapper(String_Get_ByIndex(179), 310 - width, 23, 12, 0, 0x12, item->amount);
+			width += Font_GetStringWidth(String_Get_ByIndex(STR_QTY_99)) + 2;
+			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_QTY_2D), 310 - width, 23, 12, 0, 0x12, item->amount);
 		}
 	}
 
@@ -4171,8 +4145,8 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 	memcpy(s_temporaryColourBorderSchema, s_colourBorderSchema, sizeof(s_colourBorderSchema));
 	memcpy(s_colourBorderSchema, s_HOF_ColourBorderSchema, sizeof(s_colourBorderSchema));
 
-	resumeString = String_Get_ByIndex(326); /* "Resume Game" */
-	clearString  = String_Get_ByIndex(327); /* "Clear List" */
+	resumeString = String_Get_ByIndex(STR_RESUME_GAME2);
+	clearString  = String_Get_ByIndex(STR_CLEAR_LIST);
 
 	width = max(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
 
@@ -4377,20 +4351,15 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 	GUI_DrawFilledRectangle(8, 80, 311, 178, 116);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	battleString = String_Get_ByIndex(324); /* "Battle" */
-	scoreString = String_Get_ByIndex(325); /* "Score" */
+	battleString = String_Get_ByIndex(STR_BATTLE);
+	scoreString = String_Get_ByIndex(STR_SCORE);
 
 	scoreX = 320 - Font_GetStringWidth(scoreString) / 2 - 12;
 	battleX = scoreX - Font_GetStringWidth(scoreString) / 2 - 8 - Font_GetStringWidth(battleString) / 2;
 	offsetY = 80;
 
-	/* "Name and Rank" */
-	GUI_DrawText_Wrapper(String_Get_ByIndex(323), 32, offsetY, 8, 0, 0x22);
-
-	/* "Battle" */
+	GUI_DrawText_Wrapper(String_Get_ByIndex(STR_NAME_AND_RANK), 32, offsetY, 8, 0, 0x22);
 	GUI_DrawText_Wrapper(battleString, battleX, offsetY, 8, 0, 0x122);
-
-	/* "Score" */
 	GUI_DrawText_Wrapper(scoreString, scoreX, offsetY, 8, 0, 0x122);
 
 	offsetY = 90;

@@ -20,6 +20,7 @@
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
+#include "../table/strings.h"
 #include "../tile.h"
 #include "../tools.h"
 #include "../unit.h"
