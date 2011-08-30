@@ -5,15 +5,16 @@
 #include "types.h"
 
 #include "../gui/widget.h"
+#include "strings.h"
 
 WindowDesc g_optionsWindowDesc = {
 	/* index       */ 16,
-	/* stringID    */ 91, /* "Dune II: The Battle for Arrakis" */
+	/* stringID    */ STR_DUNE_II_THE_BATTLE_FOR_ARRAKIS,
 	/* addArrows   */ false,
 	/* widgetCount */ 7,
 	{ /* widgets */
 		{ /* 0 */
-		/* stringID      */ 92, /* "Load a game" */
+		/* stringID      */ STR_LOAD_A_GAME,
 		/* offsetX       */ 16,
 		/* offsetY       */ 23,
 		/* width         */ 208,
@@ -22,7 +23,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 1 */
-		/* stringID      */ 93, /* "Save this game" */
+		/* stringID      */ STR_SAVE_THIS_GAME,
 		/* offsetX       */ 16,
 		/* offsetY       */ 40,
 		/* width         */ 208,
@@ -31,7 +32,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 2 */
-		/* stringID      */ 94, /* "Game controls" */
+		/* stringID      */ STR_GAME_CONTROLS,
 		/* offsetX       */ 16,
 		/* offsetY       */ 57,
 		/* width         */ 208,
@@ -40,7 +41,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
-		/* stringID      */ 103, /* "Restart scenario" */
+		/* stringID      */ STR_RESTART_SCENARIO,
 		/* offsetX       */ 16,
 		/* offsetY       */ 74,
 		/* width         */ 208,
@@ -49,7 +50,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
-		/* stringID      */ 104, /* "Pick another house" */
+		/* stringID      */ STR_PICK_ANOTHER_HOUSE,
 		/* offsetX       */ 16,
 		/* offsetY       */ 91,
 		/* width         */ 208,
@@ -58,7 +59,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
-		/* stringID      */ 96, /* "Continue game" */
+		/* stringID      */ STR_CONTINUE_GAME,
 		/* offsetX       */ 120,
 		/* offsetY       */ 110,
 		/* width         */ 104,
@@ -67,7 +68,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* shortcut2     */ 110,
 		},
 		{ /* 6 */
-		/* stringID      */ 95, /* "Quit playing" */
+		/* stringID      */ STR_QUIT_PLAYING,
 		/* offsetX       */ 16,
 		/* offsetY       */ 110,
 		/* width         */ 104,
@@ -80,7 +81,7 @@ WindowDesc g_optionsWindowDesc = {
 
 WindowDesc g_gameControlWindowDesc = {
 	/* index       */ 16,
-	/* stringID    */ 94, /* "Game controls" */
+	/* stringID    */ STR_GAME_CONTROLS,
 	/* addArrows   */ false,
 	/* widgetCount */ 6,
 	{ /* widgets */
@@ -130,7 +131,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
-		/* stringID      */ 102, /* "Previous" */
+		/* stringID      */ STR_PREVIOUS,
 		/* offsetX       */ 96,
 		/* offsetY       */ 110,
 		/* width         */ 136,
@@ -139,7 +140,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* shortcut2     */ 110,
 		},
 		{ /* 6 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -152,12 +153,12 @@ WindowDesc g_gameControlWindowDesc = {
 
 WindowDesc g_yesNoWindowDesc = {
 	/* index       */ 18,
-	/* stringID    */ 101, /* "Are you sure you want to quit playing?" */
+	/* stringID    */ STR_ARE_YOU_SURE_YOU_WANT_TO_QUIT_PLAYING,
 	/* addArrows   */ false,
 	/* widgetCount */ 2,
 	{ /* widgets */
 		{ /* 0 */
-		/* stringID      */ 107, /* "Yes" */
+		/* stringID      */ STR_YES,
 		/* offsetX       */ 8,
 		/* offsetY       */ 30,
 		/* width         */ 72,
@@ -166,7 +167,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 1 */
-		/* stringID      */ 108, /* "No" */
+		/* stringID      */ STR_NO,
 		/* offsetX       */ 224,
 		/* offsetY       */ 30,
 		/* width         */ 72,
@@ -175,7 +176,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 2 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -184,7 +185,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -193,7 +194,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -202,7 +203,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -211,7 +212,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 6 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -224,7 +225,7 @@ WindowDesc g_yesNoWindowDesc = {
 
 WindowDesc g_saveLoadWindowDesc = {
 	/* index       */ 17,
-	/* stringID    */ 97,
+	/* stringID    */ STR_SELECT_A_SAVED_GAME_TO_LOAD,
 	/* addArrows   */ true,
 	/* widgetCount */ 6,
 	{ /* widgets */
@@ -274,7 +275,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
-		/* stringID      */ 30, /* "Cancel" */
+		/* stringID      */ STR_CANCEL,
 		/* offsetX       */ 176,
 		/* offsetY       */ 126,
 		/* width         */ 96,
@@ -283,7 +284,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* shortcut2     */ 110,
 		},
 		{ /* 6 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -296,12 +297,12 @@ WindowDesc g_saveLoadWindowDesc = {
 
 WindowDesc g_savegameNameWindowDesc = {
 	/* index       */ 14,
-	/* stringID    */ 100, /* "Enter a description of your saved game:" */
+	/* stringID    */ STR_ENTER_A_DESCRIPTION_OF_YOUR_SAVED_GAME,
 	/* addArrows   */ false,
 	/* widgetCount */ 2,
 	{ /* widgets */
 		{ /* 0 */
-		/* stringID      */ 36, /* "Save" */
+		/* stringID      */ STR_SAVE,
 		/* offsetX       */ 8,
 		/* offsetY       */ 38,
 		/* width         */ 72,
@@ -310,7 +311,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* shortcut2     */ 43,
 		},
 		{ /* 1 */
-		/* stringID      */ 30, /* "Cancel" */
+		/* stringID      */ STR_CANCEL,
 		/* offsetX       */ 208,
 		/* offsetY       */ 38,
 		/* width         */ 72,
@@ -319,7 +320,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* shortcut2     */ 110,
 		},
 		{ /* 2 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -328,7 +329,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -337,7 +338,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -346,7 +347,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,
@@ -355,7 +356,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* shortcut2     */ 0,
 		},
 		{ /* 6 */
-		/* stringID      */ 0,
+		/* stringID      */ STR_NULL,
 		/* offsetX       */ 0,
 		/* offsetY       */ 0,
 		/* width         */ 0,

@@ -6,10 +6,11 @@
 #include "types.h"
 
 #include "../unit.h"
+#include "strings.h"
 
 const ActionInfo g_table_actionInfo[] = {
 	{ /* 0 */
-		/* stringID    */ 1, /* "Attack" */
+		/* stringID    */ STR_ATTACK,
 		/* name        */ "Attack",
 		/* variable_06 */ 0,
 		/* variable_08 */ 1,
@@ -17,7 +18,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 1 */
-		/* stringID    */ 2, /* "Move" */
+		/* stringID    */ STR_MOVE,
 		/* name        */ "Move",
 		/* variable_06 */ 0,
 		/* variable_08 */ 1,
@@ -25,7 +26,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 2 */
-		/* stringID    */ 3, /* "Retreat" */
+		/* stringID    */ STR_RETREAT,
 		/* name        */ "Retreat",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -33,7 +34,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 3 */
-		/* stringID    */ 4, /* "Guard" */
+		/* stringID    */ STR_GUARD,
 		/* name        */ "Guard",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -41,7 +42,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 4 */
-		/* stringID    */ 5, /* "Area Guard" */
+		/* stringID    */ STR_AREA_GUARD,
 		/* name        */ "Area Guard",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -49,7 +50,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 5 */
-		/* stringID    */ 6, /* "Harvest" */
+		/* stringID    */ STR_HARVEST,
 		/* name        */ "Harvest",
 		/* variable_06 */ 0,
 		/* variable_08 */ 1,
@@ -57,7 +58,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 6 */
-		/* stringID    */ 7, /* "Return" */
+		/* stringID    */ STR_RETURN,
 		/* name        */ "Return",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -65,7 +66,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 7 */
-		/* stringID    */ 37, /* "Stop" */
+		/* stringID    */ STR_STOP2,
 		/* name        */ "Stop",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -73,7 +74,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 8 */
-		/* stringID    */ 9, /* "Ambush" */
+		/* stringID    */ STR_AMBUSH,
 		/* name        */ "Ambush",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -81,7 +82,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 9 */
-		/* stringID    */ 10, /* "Sabotage" */
+		/* stringID    */ STR_SABOTAGE,
 		/* name        */ "Sabotage",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -89,7 +90,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 10 */
-		/* stringID    */ 11, /* "Die" */
+		/* stringID    */ STR_DIE,
 		/* name        */ "Die",
 		/* variable_06 */ 1,
 		/* variable_08 */ 3,
@@ -97,7 +98,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 11 */
-		/* stringID    */ 12, /* "Hunt" */
+		/* stringID    */ STR_HUNT,
 		/* name        */ "Hunt",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -105,7 +106,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 12 */
-		/* stringID    */ 31, /* "Deploy" */
+		/* stringID    */ STR_DEPLOY,
 		/* name        */ "Deploy",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -113,7 +114,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 13 */
-		/* stringID    */ 153, /* "Destruct" */
+		/* stringID    */ STR_DESTRUCT,
 		/* name        */ "Destruct",
 		/* variable_06 */ 1,
 		/* variable_08 */ 3,

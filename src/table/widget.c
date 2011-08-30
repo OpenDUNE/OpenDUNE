@@ -6,6 +6,7 @@
 #include "types.h"
 
 #include "../gui/widget.h"
+#include "strings.h"
 
 Widget g_table_windowWidgets[] = {
 	{ /* 0 */
@@ -58,7 +59,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 1 */
@@ -111,7 +112,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 2 */
@@ -164,7 +165,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 3 */
@@ -217,7 +218,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 4 */
@@ -270,7 +271,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 5 */
@@ -323,7 +324,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 6 */
@@ -376,7 +377,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 7 */
@@ -429,7 +430,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	},
 	{ /* 8 */
@@ -482,7 +483,7 @@ Widget g_table_windowWidgets[] = {
 		} },
 		/* clickProc             */ NULL,
 		/* data                  */ NULL,
-		/* stringID              */ 0,
+		/* stringID              */ STR_NULL,
 		/* variable_3A           */ 0,
 	}
 };

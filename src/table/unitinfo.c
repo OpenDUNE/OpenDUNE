@@ -6,15 +6,16 @@
 #include "types.h"
 
 #include "../unit.h"
+#include "strings.h"
 
 const uint16 g_table_actionsAI[] = {ACTION_HUNT, ACTION_AREA_GUARD, ACTION_AMBUSH, ACTION_GUARD};
 
 UnitInfo g_table_unitInfo[] = {
 	{ /* 0 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 194, /* "Carryall" */
+		/* stringID_abbrev      */ STR_CARRYALL,
 		/* name                 */ "Carryall",
-		/* stringID_full        */ 195, /* "All-Purpose Carryall" */
+		/* stringID_full        */ STR_ALLPURPOSE_CARRYALL,
 		/* wsa                  */ "carryall.wsa",
 		{ /* flags */
 		/* hasShadow            */ true,
@@ -90,9 +91,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 1 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 196, /* "'Thopter" */
+		/* stringID_abbrev      */ STR_THOPTER,
 		/* name                 */ "'Thopter",
-		/* stringID_full        */ 197, /* "Ornithipter" */
+		/* stringID_full        */ STR_ORNITHIPTER,
 		/* wsa                  */ "orni.wsa",
 		{ /* flags */
 		/* hasShadow            */ true,
@@ -168,9 +169,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 2 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 198, /* "Infantry" */
+		/* stringID_abbrev      */ STR_INFANTRY,
 		/* name                 */ "Infantry",
-		/* stringID_full        */ 199, /* "Light Infantry Squad" */
+		/* stringID_full        */ STR_LIGHT_INFANTRY_SQUAD,
 		/* wsa                  */ "infantry.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -246,9 +247,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 3 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 200, /* "Troopers" */
+		/* stringID_abbrev      */ STR_TROOPERS,
 		/* name                 */ "Troopers",
-		/* stringID_full        */ 201, /* "Heavy Trooper Squad" */
+		/* stringID_full        */ STR_HEAVY_TROOPER_SQUAD,
 		/* wsa                  */ "hyinfy.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -324,9 +325,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 4 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 202, /* "Soldier" */
+		/* stringID_abbrev      */ STR_SOLDIER,
 		/* name                 */ "Soldier",
-		/* stringID_full        */ 203, /* "Infantry Soldier" */
+		/* stringID_full        */ STR_INFANTRY_SOLDIER,
 		/* wsa                  */ "infantry.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -402,9 +403,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 5 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 204, /* "Trooper" */
+		/* stringID_abbrev      */ STR_TROOPER,
 		/* name                 */ "Trooper",
-		/* stringID_full        */ 205, /* "Heavy Trooper" */
+		/* stringID_full        */ STR_HEAVY_TROOPER,
 		/* wsa                  */ "hyinfy.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -480,9 +481,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 6 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 44, /* "Saboteur" */
+		/* stringID_abbrev      */ STR_SABOTEUR,
 		/* name                 */ "Saboteur",
-		/* stringID_full        */ 44, /* "Insidious Saboteur" */
+		/* stringID_full        */ STR_SABOTEUR,
 		/* wsa                  */ "saboture.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -558,9 +559,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 7 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 208, /* "Launcher" */
+		/* stringID_abbrev      */ STR_LAUNCHER,
 		/* name                 */ "Launcher",
-		/* stringID_full        */ 209, /* "Rocket Launcher" */
+		/* stringID_full        */ STR_ROCKET_LAUNCHER,
 		/* wsa                  */ "rtank.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -636,9 +637,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 8 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 210, /* "Deviator" */
+		/* stringID_abbrev      */ STR_DEVIATOR,
 		/* name                 */ "Deviator",
-		/* stringID_full        */ 211, /* "Deviator launcher" */
+		/* stringID_full        */ STR_DEVIATOR_LAUNCHER,
 		/* wsa                  */ "ordrtank.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -714,9 +715,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 9 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 212, /* "Tank" */
+		/* stringID_abbrev      */ STR_TANK,
 		/* name                 */ "Tank",
-		/* stringID_full        */ 213, /* "Combat Tank" */
+		/* stringID_full        */ STR_COMBAT_TANK,
 		/* wsa                  */ "ltank.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -792,9 +793,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 10 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 214, /* "Siege Tank" */
+		/* stringID_abbrev      */ STR_SIEGE_TANK,
 		/* name                 */ "Siege Tank",
-		/* stringID_full        */ 215, /* "Heavy Siege Tank" */
+		/* stringID_full        */ STR_HEAVY_SIEGE_TANK,
 		/* wsa                  */ "htank.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -870,9 +871,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 11 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 216, /* "Devastator" */
+		/* stringID_abbrev      */ STR_DEVASTATOR,
 		/* name                 */ "Devastator",
-		/* stringID_full        */ 217, /* "Devastator Tank" */
+		/* stringID_full        */ STR_DEVASTATOR_TANK,
 		/* wsa                  */ "harktank.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -948,9 +949,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 12 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 218, /* "Sonic Tank" */
+		/* stringID_abbrev      */ STR_SONIC_TANK,
 		/* name                 */ "Sonic Tank",
-		/* stringID_full        */ 219, /* "Sonic Wave Tank" */
+		/* stringID_full        */ STR_SONIC_WAVE_TANK,
 		/* wsa                  */ "stank.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1026,9 +1027,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 13 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 220, /* "Trike" */
+		/* stringID_abbrev      */ STR_TRIKE,
 		/* name                 */ "Trike",
-		/* stringID_full        */ 221, /* "Light Attack Trike" */
+		/* stringID_full        */ STR_LIGHT_ATTACK_TRIKE,
 		/* wsa                  */ "trike.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1104,9 +1105,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 14 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 222, /* "Raider Trike" */
+		/* stringID_abbrev      */ STR_RAIDER_TRIKE,
 		/* name                 */ "Raider Trike",
-		/* stringID_full        */ 223, /* "Fast Raider Trike" */
+		/* stringID_full        */ STR_FAST_RAIDER_TRIKE,
 		/* wsa                  */ "otrike.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1182,9 +1183,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 15 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 224, /* "Quad" */
+		/* stringID_abbrev      */ STR_QUAD,
 		/* name                 */ "Quad",
-		/* stringID_full        */ 225, /* "Heavy Attack Quad" */
+		/* stringID_full        */ STR_HEAVY_ATTACK_QUAD,
 		/* wsa                  */ "quad.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1260,9 +1261,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 16 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 226, /* "Harvester" */
+		/* stringID_abbrev      */ STR_HARVESTER,
 		/* name                 */ "Harvester",
-		/* stringID_full        */ 227, /* "Spice Harvester" */
+		/* stringID_full        */ STR_SPICE_HARVESTER,
 		/* wsa                  */ "harvest.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1338,9 +1339,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 17 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 228, /* "MCV" */
+		/* stringID_abbrev      */ STR_MCV,
 		/* name                 */ "MCV",
-		/* stringID_full        */ 229, /* "Mobile Const. Vehicle" */
+		/* stringID_full        */ STR_MOBILE_CONST_VEHICLE,
 		/* wsa                  */ "mcv.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1416,9 +1417,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 18 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "Death Hand",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ "gold-bb.wsa",
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1494,9 +1495,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 19 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "Rocket",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1572,9 +1573,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 20 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "ARocket",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1650,9 +1651,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 21 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "GRocket",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1728,9 +1729,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 22 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "MiniRocket",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1806,9 +1807,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 23 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "Bullet",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1884,9 +1885,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 24 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "Sonic Blast",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -1962,9 +1963,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 25 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 230, /* "Sandworm" */
+		/* stringID_abbrev      */ STR_SANDWORM,
 		/* name                 */ "Sandworm",
-		/* stringID_full        */ 231, /* "Sandworm" */
+		/* stringID_full        */ STR_SANDWORM2,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ false,
@@ -2040,9 +2041,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 26 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 0,
+		/* stringID_abbrev      */ STR_NULL,
 		/* name                 */ "Frigate",
-		/* stringID_full        */ 0,
+		/* stringID_full        */ STR_NULL,
 		/* wsa                  */ NULL,
 		{ /* flags */
 		/* hasShadow            */ true,

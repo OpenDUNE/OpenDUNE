@@ -6,6 +6,7 @@
 #include "types.h"
 
 #include "../gui/widget.h"
+#include "strings.h"
 
 extern bool GUI_Widget_Mentat_Click(Widget *w);
 
@@ -20,7 +21,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 1,
 		/* width       */ 78,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 1
 	},
 	{ /* 1 */
@@ -33,7 +34,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 1,
 		/* width       */ 78,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 1
 	},
 	{ /* 2 */
@@ -46,7 +47,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 42,
 		/* width       */ 64,
 		/* height      */ 6,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 3 */
@@ -59,7 +60,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 51,
 		/* width       */ 32,
 		/* height      */ 24,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 4 */
@@ -72,7 +73,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 76,
 		/* width       */ 60,
 		/* height      */ 10,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 5 */
@@ -85,7 +86,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 87,
 		/* width       */ 60,
 		/* height      */ 35,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 6 */
@@ -98,7 +99,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 110,
 		/* width       */ 58,
 		/* height      */ 11,
-		/* stringID    */ 30, /* "Cancel" */
+		/* stringID    */ STR_CANCEL,
 		/* variable_3A */ 1
 	},
 	{ /* 7 */
@@ -111,7 +112,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 77,
 		/* width       */ 60,
 		/* height      */ 10,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 8 */
@@ -124,7 +125,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 88,
 		/* width       */ 60,
 		/* height      */ 10,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 9 */
@@ -137,7 +138,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 99,
 		/* width       */ 60,
 		/* height      */ 10,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 10 */
@@ -150,7 +151,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 110,
 		/* width       */ 60,
 		/* height      */ 10,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 11 */
@@ -163,7 +164,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 24,
 		/* width       */ 240,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 12 */
@@ -176,7 +177,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 40,
 		/* width       */ 10,
 		/* height      */ 160,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 13 */
@@ -189,7 +190,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 40,
 		/* width       */ 2,
 		/* height      */ 160,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 14 */
@@ -202,7 +203,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 198,
 		/* width       */ 240,
 		/* height      */ 2,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 15 */
@@ -215,7 +216,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 40,
 		/* width       */ 240,
 		/* height      */ 160,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 16 */
@@ -228,7 +229,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 136,
 		/* width       */ 64,
 		/* height      */ 64,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 17 */
@@ -241,7 +242,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 0,
 		/* width       */ 320,
 		/* height      */ 200,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 18 */
@@ -254,7 +255,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 0,
 		/* width       */ 0,
 		/* height      */ 0,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	}
 };
@@ -270,7 +271,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 24,
 		/* width       */ 32,
 		/* height      */ 24,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 1 */
@@ -283,7 +284,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 56,
 		/* width       */ 32,
 		/* height      */ 24,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 2 */
@@ -296,7 +297,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 88,
 		/* width       */ 32,
 		/* height      */ 24,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 3 */
@@ -309,7 +310,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 120,
 		/* width       */ 32,
 		/* height      */ 24,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 4 */
@@ -322,7 +323,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 168,
 		/* width       */ 48,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 5 */
@@ -335,7 +336,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 184,
 		/* width       */ 48,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 6 */
@@ -348,7 +349,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 184,
 		/* width       */ 120,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 7 */
@@ -361,7 +362,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 1,
 		/* width       */ 88,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 8 */
@@ -374,7 +375,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 80,
 		/* width       */ 40,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 9 */
@@ -387,7 +388,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 104,
 		/* width       */ 40,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 10 */
@@ -400,7 +401,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 1,
 		/* width       */ 88,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 11 */
@@ -413,7 +414,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 168,
 		/* width       */ 120,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	},
 	{ /* 12 */
@@ -426,7 +427,7 @@ WidgetInfo g_table_factoryWidgetInfo[] = {
 		/* offsetY     */ 168,
 		/* width       */ 120,
 		/* height      */ 16,
-		/* stringID    */ 0,
+		/* stringID    */ STR_NULL,
 		/* variable_3A */ 0
 	}
 };
