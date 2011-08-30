@@ -925,7 +925,7 @@ uint16 Script_Unit_SetDestinationDirect(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (u->currentDestination.tile == 0 || g_table_unitInfo[u->o.type].flags.variable_8000) {
+	if (u->currentDestination.tile == 0 || g_table_unitInfo[u->o.type].flags.isNormalUnit) {
 		u->currentDestination = Tools_Index_GetTile(encoded);
 	}
 

@@ -195,7 +195,7 @@ void GameLoop_Unit()
 			Unit_MovementTick(u);
 
 			if (u->fireDelay != 0) {
-				if (ui->movementType == MOVEMENT_WINGER && !ui->flags.variable_8000) {
+				if (ui->movementType == MOVEMENT_WINGER && !ui->flags.isNormalUnit) {
 					tile32 tile;
 
 					tile = u->currentDestination;
@@ -1158,7 +1158,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 
 	ui = &g_table_unitInfo[unit->o.type];
 
-	if (!ui->flags.variable_8000) return false;
+	if (!ui->flags.isNormalUnit) return false;
 
 	if (amount == 0) {
 		amount = g_table_houseInfo[unit->o.houseID].toughness;
@@ -1224,9 +1224,9 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	ui = &g_table_unitInfo[unit->o.type];
 
-	if (!ui->flags.variable_8000) return false;
+	if (!ui->flags.isNormalUnit) return false;
 	if (unit->deviated != 0) return false;
-	if (ui->flags.deviateProtection) return false;
+	if (ui->flags.isNotDeviatable) return false;
 
 	if (probability == 0) probability = g_table_houseInfo[unit->o.houseID].toughness;
 
@@ -1278,21 +1278,18 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	if (newPosition.tile == unit->o.position.tile) return false;
 
 	if ((newPosition.tile & 0xC000C000) != 0) {
-		if (ui->flags.variable_0080) {
-			newPosition = unit->o.position;
-
-			Unit_SetOrientation(unit, unit->orientation[0].current + (Tools_Random_256() & 0xF), false, 0);
-		} else {
+		if (!ui->flags.mustStayInMap) {
 			Unit_Remove(unit);
 			return true;
 		}
 
-		if (unit->o.flags.s.byScenario && unit->o.linkedID == 0xFF) {
-			if (unit->o.script.variables[4] == 0) {
-				Unit_Remove(unit);
-				return true;
-			}
+		if (unit->o.flags.s.byScenario && unit->o.linkedID == 0xFF && unit->o.script.variables[4] == 0) {
+			Unit_Remove(unit);
+			return true;
 		}
+
+		newPosition = unit->o.position;
+		Unit_SetOrientation(unit, unit->orientation[0].current + (Tools_Random_256() & 0xF), false, 0);
 	}
 
 	unit->variable_6C = 0;
@@ -1304,10 +1301,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	d = Tile_GetDistance(newPosition, unit->currentDestination);
 	packed = Tile_PackTile(newPosition);
 
-	if (ui->flags.variable_0020 && d < 48) {
+	if (ui->flags.isTracked && d < 48) {
 		Unit *u;
 		u = Unit_Get_ByPackedTile(packed);
 
+		/* Driving over a foot unit */
 		if (u != NULL && g_table_unitInfo[u->o.type].movementType == MOVEMENT_FOOT && u->o.flags.s.allocated) {
 			if (u == g_unitSelected) Unit_Select(NULL);
 
@@ -1316,6 +1314,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
 			uint16 type = Map_GetLandscapeType(packed);
+			/* Produce tracks in the sand */
 			if ((type == LST_NORMAL_SAND || type == LST_ENTIRELY_DUNE) && g_map[packed].overlaySpriteID == 0) {
 				uint8 animationID = Orientation_Orientation256ToOrientation8(unit->orientation[0].current);
 
@@ -1417,52 +1416,50 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					Unit_Remove(unit);
 					return true;
 				}
-			} else {
-				if (ui->flags.variable_0040) {
-					if (currentDestination.tile != 0) newPosition = currentDestination;
-					unit->targetPreLast = unit->targetLast;
-					unit->targetLast    = unit->o.position;
-					unit->currentDestination.tile = 0;
+			} else if (ui->flags.isGroundUnit) {
+				if (currentDestination.tile != 0) newPosition = currentDestination;
+				unit->targetPreLast = unit->targetLast;
+				unit->targetLast    = unit->o.position;
+				unit->currentDestination.tile = 0;
 
-					if (unit->o.flags.s.degrades && (Tools_Random_256() & 3) == 0) {
-						Unit_Damage(unit, 1, 0);
-					}
+				if (unit->o.flags.s.degrades && (Tools_Random_256() & 3) == 0) {
+					Unit_Damage(unit, 1, 0);
+				}
 
-					if (unit->o.type == UNIT_SABOTEUR && (Map_GetLandscapeType(Tile_PackTile(newPosition)) == LST_WALL || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32))) {
-						Map_MakeExplosion(4, newPosition, 500, 0);
+				if (unit->o.type == UNIT_SABOTEUR && (Map_GetLandscapeType(Tile_PackTile(newPosition)) == LST_WALL || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32))) {
+					Map_MakeExplosion(4, newPosition, 500, 0);
 
-						Unit_Free(unit);
+					Unit_Free(unit);
+					return true;
+				}
+
+				Unit_SetSpeed(unit, 0);
+
+				if (unit->targetMove == Tools_Index_Encode(packed, IT_TILE)) {
+					unit->targetMove = 0;
+				}
+
+				{
+					Structure *s;
+
+					s = Structure_Get_ByPackedTile(packed);
+					if (s != NULL) {
+						unit->targetPreLast.tile = 0;
+						unit->targetLast.tile    = 0;
+						Unit_EnterStructure(unit, s);
 						return true;
 					}
+				}
 
-					Unit_SetSpeed(unit, 0);
-
-					if (unit->targetMove == Tools_Index_Encode(packed, IT_TILE)) {
-						unit->targetMove = 0;
+				if (unit->o.type != UNIT_SANDWORM) {
+					if (g_map[packed].groundSpriteID == g_bloomSpriteID) {
+						g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
+						isSpiceBloom = true;
 					}
 
-					{
-						Structure *s;
-
-						s = Structure_Get_ByPackedTile(packed);
-						if (s != NULL) {
-							unit->targetPreLast.tile = 0;
-							unit->targetLast.tile    = 0;
-							Unit_EnterStructure(unit, s);
-							return true;
-						}
-					}
-
-					if (unit->o.type != UNIT_SANDWORM) {
-						if (g_map[packed].groundSpriteID == g_bloomSpriteID) {
-							g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
-							isSpiceBloom = true;
-						}
-
-						if (g_map[packed].groundSpriteID == g_bloomSpriteID + 1) {
-							g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
-							isSpecialBloom = true;
-						}
+					if (g_map[packed].groundSpriteID == g_bloomSpriteID + 1) {
+						g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
+						isSpecialBloom = true;
 					}
 				}
 			}
@@ -1498,7 +1495,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 
 	ui = &g_table_unitInfo[unit->o.type];
 
-	if (!ui->flags.variable_8000 && unit->o.type != UNIT_SANDWORM) return false;
+	if (!ui->flags.isNormalUnit && unit->o.type != UNIT_SANDWORM) return false;
 
 	if (unit->o.hitpoints != 0) alive = true;
 
@@ -1938,7 +1935,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet->o.hitpoints = damage;
 			bullet->currentDestination = tile;
 
-			if (ui->flags.variable_4000) {
+			if (ui->flags.notAccurate) {
 				bullet->currentDestination = Tile_MoveByRandom(tile, (Tools_Random_256() & 0xF) != 0 ? Tile_GetDistance(position, tile) / 256 + 8 : Tools_Random_256() + 8, false);
 			}
 
@@ -2609,7 +2606,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 		return;
 	}
 
-	if (!ui->flags.variable_8000 && unit->o.type != UNIT_SANDWORM) {
+	if (!ui->flags.isNormalUnit && unit->o.type != UNIT_SANDWORM) {
 		return;
 	}
 

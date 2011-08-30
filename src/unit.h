@@ -136,17 +136,17 @@ typedef struct UnitInfo {
 		BIT_U8 variable_0004:1;                             /*!< ?? */
 		BIT_U8 sonicProtection:1;                           /*!< If true, Unit receives no damage of a sonic blast. */
 		BIT_U8 variable_0010:1;                             /*!< ?? */
-		BIT_U8 variable_0020:1;                             /*!< ?? */
-		BIT_U8 variable_0040:1;                             /*!< ?? */
-		BIT_U8 variable_0080:1;                             /*!< ?? */
+		BIT_U8 isTracked:1;                                 /*!< If true, Unit is tracked-based (and leaves marks in sand). */
+		BIT_U8 isGroundUnit:1;                              /*!< If true, Unit is ground-based. */
+		BIT_U8 mustStayInMap:1;                             /*!< Unit cannot leave the map and bounces off the border (air-based units). */
 		BIT_U8 notused_1000:1;                              /*!< Not used. */
 		BIT_U8 notused_0200:1;                              /*!< Not used. */
 		BIT_U8 variable_0400:1;                             /*!< ?? */
 		BIT_U8 variable_0800:1;                             /*!< ?? */
-		BIT_U8 deviateProtection:1;                         /*!< If true, Unit can't be deviated. */
+		BIT_U8 isNotDeviatable:1;                           /*!< If true, Unit can't be deviated. */
 		BIT_U8 variable_2000:1;                             /*!< ?? */
-		BIT_U8 variable_4000:1;                             /*!< ?? */
-		BIT_U8 variable_8000:1;                             /*!< ?? */
+		BIT_U8 notAccurate:1;                               /*!< If true, Unit is a bullet and is not very accurate at hitting the target (rockets). */
+		BIT_U8 isNormalUnit:1;                              /*!< If true, Unit is a normal unit (not a bullet / missile, nor a sandworm / frigate). */
 	} flags;                                                /*!< General flags of the UnitInfo. */
 	uint16 dimension;                                       /*!< The dimension of the Unit Sprite. */
 	uint16 movementType;                                    /*!< MovementType of Unit. */
