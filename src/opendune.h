@@ -49,7 +49,7 @@ extern uint16 g_var_38BC;
 extern bool g_var_38F8;
 extern uint16 g_selectionType;
 extern uint16 g_selectionTypeNew;
-extern bool g_var_3A12;
+extern bool g_viewport_forceRedraw;
 extern bool g_var_3A14;
 
 extern int16 g_musicInBattle;

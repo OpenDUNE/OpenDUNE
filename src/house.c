@@ -424,7 +424,7 @@ bool House_UpdateRadarState(House *h)
 
 	WSA_Unload(wsa);
 
-	g_var_3A12 = true;
+	g_viewport_forceRedraw = true;
 
 	GUI_Mouse_Show_Safe();
 

@@ -861,7 +861,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	if (screenBackup != NULL) {
 		free(screenBackup);
 	} else {
-		g_var_3A12 = true;
+		g_viewport_forceRedraw = true;
 	}
 
 	GFX_Screen_SetActive(oldScreenID);
@@ -1980,7 +1980,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	oldScreenID = GFX_Screen_SetActive((screenID == 0) ? 2 : screenID);
 
-	g_var_3A12 = true;
+	g_viewport_forceRedraw = true;
 
 	Sprites_LoadImage("SCREEN.CPS", 3, NULL);
 
@@ -2206,7 +2206,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		}
 
 		if (g_table_selectionType[oldSelectionType].variable_04 != 0 && g_table_selectionType[selectionType].variable_06 != 0) {
-			g_var_3A12 = true;
+			g_viewport_forceRedraw = true;
 			g_var_3A14 = true;
 
 			GUI_DrawInterfaceAndRadar(0);
@@ -4484,13 +4484,13 @@ void GUI_DrawScreen(uint16 screenID)
 
 	oldScreenID = GFX_Screen_SetActive(screenID);
 
-	if (screenID != 0) g_var_3A12 = true;
+	if (screenID != 0) g_viewport_forceRedraw = true;
 
 	Explosion_Tick();
 	Animation_Tick();
 	Unit_Sort();
 
-	if (!g_var_3A12 && g_viewportPosition != g_minimapPosition) {
+	if (!g_viewport_forceRedraw && g_viewportPosition != g_minimapPosition) {
 		uint16 viewportX = Tile_GetPackedX(g_viewportPosition);
 		uint16 viewportY = Tile_GetPackedY(g_viewportPosition);
 		int16 xOffset = Tile_GetPackedX(g_minimapPosition) - viewportX; /* Horizontal offset between viewport and minimap. */
@@ -4502,9 +4502,9 @@ void GUI_DrawScreen(uint16 screenID)
 
 		int16 x, y;
 
-		if (xOverlap < 1 || yOverlap < 1) g_var_3A12 = true;
+		if (xOverlap < 1 || yOverlap < 1) g_viewport_forceRedraw = true;
 
-		if (!g_var_3A12 && (xOverlap != 15 || yOverlap != 10)) {
+		if (!g_viewport_forceRedraw && (xOverlap != 15 || yOverlap != 10)) {
 			Map_SetSelectionObjectPosition(0xFFFF);
 			loc10 = true;
 
@@ -4512,7 +4512,7 @@ void GUI_DrawScreen(uint16 screenID)
 
 			GUI_Screen_Copy(max(-xOffset << 1, 0), 40 + max(-yOffset << 4, 0), max(0, xOffset << 1), 40 + max(0, yOffset << 4), xOverlap << 1, yOverlap << 4, 0, 2);
 		} else {
-			g_var_3A12 = true;
+			g_viewport_forceRedraw = true;
 		}
 
 		xOffset = max(0, xOffset);
@@ -4522,7 +4522,7 @@ void GUI_DrawScreen(uint16 screenID)
 			uint16 mapYBase = (y + viewportY) << 6;
 
 			for (x = 0; x < 15; x++) {
-				if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && !g_var_3A12) continue;
+				if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && !g_viewport_forceRedraw) continue;
 
 				Map_Update(x + viewportX + mapYBase, 0, true);
 			}
@@ -4554,9 +4554,9 @@ void GUI_DrawScreen(uint16 screenID)
 		}
 	}
 
-	GUI_Widget_Viewport_Draw(g_var_3A12, loc10, screenID != 0);
+	GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, loc10, screenID != 0);
 
-	g_var_3A12 = false;
+	g_viewport_forceRedraw = false;
 
 	GFX_Screen_SetActive(oldScreenID);
 

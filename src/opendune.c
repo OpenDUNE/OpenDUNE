@@ -120,7 +120,7 @@ uint16 g_var_38BC = 0;
 bool g_var_38F8 = true;
 uint16 g_selectionType = 0;
 uint16 g_selectionTypeNew = 0;
-bool g_var_3A12 = false;
+bool g_viewport_forceRedraw = false;
 bool g_var_3A14 = false;
 
 int16 g_musicInBattle = 0; /*!< 0 = no battle, 1 = fight is going on, -1 = music of fight is going on is active. */
@@ -2534,7 +2534,7 @@ void Game_Prepare()
 	Voice_LoadVoices(g_playerHouseID);
 
 	g_tickHousePowerMaintenance = max(g_timerGame + 70, g_tickHousePowerMaintenance);
-	g_var_3A12 = true;
+	g_viewport_forceRedraw = true;
 	g_playerCredits = 0xFFFF;
 
 	g_selectionType = oldSelectionType;
