@@ -227,6 +227,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\explosion.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\explosion.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\file.c"
 				>
 				<FileConfiguration
@@ -368,30 +392,6 @@
 			</File>
 			<File
 				RelativePath="..\src\map.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\mapactivity.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\mapactivity.h"
 				>
 			</File>
 			<File
@@ -1705,6 +1705,26 @@
 				</File>
 				<File
 					RelativePath="..\src\table\animation.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\table\explosion.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
