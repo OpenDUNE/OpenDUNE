@@ -829,9 +829,8 @@ static void MapActivity_Update(uint16 type, MapActivity *ma)
 /**
  * Handle damage to a tile, removing spice, removing concrete, stuff like that.
  * @param s The MapActivity to handle damage on.
- * @return Mixture of true and false depending on factors (inconsistent).
  */
-static bool MapActivity_Damage(MapActivity *ma)
+static void MapActivity_Damage(MapActivity *ma)
 {
 	static const int16 bloomLocations[] = { -1, 2, 1 };
 
@@ -844,11 +843,11 @@ static bool MapActivity_Damage(MapActivity *ma)
 
 	packed = Tile_PackTile(ma->position);
 
-	if (!Map_IsPositionUnveiled(packed)) return false;
+	if (!Map_IsPositionUnveiled(packed)) return;
 
 	type = Map_GetLandscapeType(packed);
 
-	if (type == LST_STRUCTURE || type == LST_DESTROYED_WALL) return false;
+	if (type == LST_STRUCTURE || type == LST_DESTROYED_WALL) return;
 
 	t = &g_map[packed];
 
@@ -858,11 +857,11 @@ static bool MapActivity_Damage(MapActivity *ma)
 	}
 
 	iconMapIndex = bloomLocations[g_table_landscapeInfo[type].variable_10];
-	if (iconMapIndex == -1) return false;
+	if (iconMapIndex == -1) return;
 
 	overlaySpriteID = t->overlaySpriteID;
 
-	if (!Sprite_IsUnveiled(overlaySpriteID)) return false;
+	if (!Sprite_IsUnveiled(overlaySpriteID)) return;
 
 	iconMap = &g_iconMap[g_iconMap[iconMapIndex]];
 	if (iconMap[0] <= overlaySpriteID && overlaySpriteID <= iconMap[10]) {
@@ -876,38 +875,31 @@ static bool MapActivity_Damage(MapActivity *ma)
 
 	if (t->groundSpriteID == g_bloomSpriteID) {
 		Map_ExplodeBloom(packed, g_playerHouseID);
-		return false;
+		return;
 	}
 
 	t->overlaySpriteID = overlaySpriteID + iconMap[0];
 
 	Map_Update(packed, 0, false);
-
-	return true;
 }
 
 /**
  * Play a voice for a MapActivity.
  * @param s The MapActivity to play the voice on.
  * @param voiceID The voice to play.
- * @return True, always.
  */
-static bool MapActivity_PlayVoice(MapActivity *ma, uint16 voiceID)
+static void MapActivity_PlayVoice(MapActivity *ma, uint16 voiceID)
 {
 	Voice_PlayAtTile(voiceID, ma->position);
-
-	return true;
 }
 
 /**
  * A No-Op for MapActivity.
  * @param s The MapActivity.
- * @return True, always.
  */
-static bool MapActivity_NoOperation(MapActivity *ma)
+static void MapActivity_NoOperation(MapActivity *ma)
 {
 	VARIABLE_NOT_USED(ma);
-	return true;
 }
 
 /**
@@ -915,148 +907,127 @@ static bool MapActivity_NoOperation(MapActivity *ma)
  * @param s The MapActivity to perform to explosion on.
  * @return False if the explosion happened, true otherwise (if it wasn't a bloom tile).
  */
-static bool MapActivity_PerformBloomExplosion(MapActivity *ma)
+static void MapActivity_PerformBloomExplosion(MapActivity *ma)
 {
 	uint16 packed;
 
 	packed = Tile_PackTile(ma->position);
 
-	if (g_map[packed].groundSpriteID != g_bloomSpriteID) return true;
+	if (g_map[packed].groundSpriteID != g_bloomSpriteID) return;
 
 	Map_ExplodeBloom(packed, g_playerHouseID);
-
-	return false;
 }
 
 /**
  * Set the animation of a MapActivity.
  * @param s The MapActivity to change.
  * @param animationMapID The animation map to use.
- * @return True, always.
  */
-static bool MapActivity_SetAnimation(MapActivity *ma, uint16 animationMapID)
+static void MapActivity_SetAnimation(MapActivity *ma, uint16 animationMapID)
 {
 	uint16 packed;
 
 	packed = Tile_PackTile(ma->position);
 
-	if (Structure_Get_ByPackedTile(packed) != NULL) return true;
+	if (Structure_Get_ByPackedTile(packed) != NULL) return;
 
 	animationMapID += Tools_Random_256() & 0x1;
 	animationMapID += g_table_landscapeInfo[Map_GetLandscapeType(packed)].variable_07 ? 0 : 2;
 
 	assert(animationMapID < 16);
 	Animation_Start(g_table_animation_map[animationMapID], ma->position, 0, ma->houseID, 3);
-
-	return true;
 }
 
 /**
  * Set position at the top of a column.
  * @param s The MapActivity to change.
  * @param column Column number.
- * @return True, always.
  */
-static bool MapActivity_SetColumn(MapActivity *ma, uint16 column)
+static void MapActivity_SetColumn(MapActivity *ma, uint16 column)
 {
 	if ((column & 0x800) != 0) column |= 0xF000;
 	ma->position.s.x = column;
 	ma->position.s.y = 0;
-	return true;
 }
 
 /**
  * Set position at the left of a row.
  * @param s The MapActivity to change.
  * @param row Row number.
- * @return True, always.
  */
-static bool MapActivity_SetRow(MapActivity *ma, uint16 row)
+static void MapActivity_SetRow(MapActivity *ma, uint16 row)
 {
 	if ((row & 0x800) != 0) row |= 0xF000;
 	ma->position.s.x = 0;
 	ma->position.s.y = row;
-	return true;
 }
 
 /**
  * Reset the activity counter of activity \a s.
  * @param s The MapActivity being reset.
- * @return True, always.
  */
-static bool MapActivity_ResetActCounter(MapActivity *ma)
+static void MapActivity_ResetActCounter(MapActivity *ma)
 {
 	ma->actCounter = 0;
-	return true;
 }
 
 /**
  * Stop performing an activity.
  * @param s The MapActivity to end.
- * @return False, always.
  */
-static bool MapActivity_StopActivity(MapActivity *ma)
+static void MapActivity_StopActivity(MapActivity *ma)
 {
 	g_map[Tile_PackTile(ma->position)].hasMapActivity = false;
 
 	MapActivity_Update(0, ma);
 
 	ma->activities = NULL;
-	return false;
 }
 
 /**
  * Set timeout for next the map activity of \a s.
  * @param s The MapActivity to change.
  * @param value The new timeout value.
- * @return True, always.
  */
-static bool MapActivity_SetTimeout(MapActivity *ma, uint16 value)
+static void MapActivity_SetTimeout(MapActivity *ma, uint16 value)
 {
 	ma->timeOut = g_timerGUI + value;
-	return true;
 }
 
 /**
  * Set timeout for next the map activity of \a s to a random value up to \a value.
  * @param s The MapActivity to change.
  * @param value The maximum amount of timeout.
- * @return True, always.
  */
-static bool MapActivity_SetRandomTimeout(MapActivity *ma, uint16 value)
+static void MapActivity_SetRandomTimeout(MapActivity *ma, uint16 value)
 {
 	ma->timeOut = g_timerGUI + Tools_RandomRange(0, value);
-	return true;
 }
 
 /**
  * Set the SpriteID of the MapActivity.
  * @param s The MapActivity to change.
  * @param spriteID The new SpriteID for the MapActivity.
- * @return True, always.
  */
-static bool MapActivity_SetSpriteID(MapActivity *ma, uint16 spriteID)
+static void MapActivity_SetSpriteID(MapActivity *ma, uint16 spriteID)
 {
 	ma->spriteID = spriteID;
 
 	MapActivity_Update(2, ma);
-
-	return true;
 }
 
 /**
  * Stop any MapActivity at position \a packed.
  * @param packed A packed position where no activities should take place (any more).
- * @return True if and only if at least one map activity was stopped.
  */
-static bool MapActivity_StopAtPosition(uint16 packed)
+static void MapActivity_StopAtPosition(uint16 packed)
 {
 	Tile *t;
 	uint8 i;
 
 	t = &g_map[packed];
 
-	if (!t->hasMapActivity) return false;
+	if (!t->hasMapActivity) return;
 
 	for (i = 0; i < 32; i++) {
 		MapActivity *s;
@@ -1067,22 +1038,19 @@ static bool MapActivity_StopAtPosition(uint16 packed)
 
 		MapActivity_StopActivity(s);
 	}
-
-	return true;
 }
 
 /**
  * Initialize map activity.
  * @param activities Activities of this map activity.
  * @param position The position to use for init.
- * @return True if and only if an init happened.
  */
-static bool MapActivity_Initialize(const Activity *activities, tile32 position)
+static void MapActivity_Initialize(const Activity *activities, tile32 position)
 {
 	uint16 packed;
 	uint8 i;
 
-	if (activities == NULL) return false;
+	if (activities == NULL) return;
 
 	packed = Tile_PackTile(position);
 
@@ -1104,10 +1072,9 @@ static bool MapActivity_Initialize(const Activity *activities, tile32 position)
 		s->timeOut     = g_timerGUI;
 		s_mapActivityTimeout = 0;
 		g_map[packed].hasMapActivity = true;
-		return true;
-	}
 
-	return false;
+		break;
+	}
 }
 
 static bool Map_UpdateWall(uint16 packed)
