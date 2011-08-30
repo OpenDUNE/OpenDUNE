@@ -622,7 +622,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	damage = ui->damage;
 	typeID = ui->bulletType;
 
-	loc1A = ui->flags.variable_0400 && u->o.hitpoints > ui->o.hitpoints / 2;
+	loc1A = ui->flags.firesTwice && u->o.hitpoints > ui->o.hitpoints / 2;
 
 	if ((u->o.type == UNIT_TROOPERS || u->o.type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
 
@@ -966,7 +966,7 @@ uint16 Script_Unit_GetInfo(ScriptEngine *script)
 		case 0x0A: return abs(u->orientation[0].target - u->orientation[0].current);
 		case 0x0B: return u->currentDestination.tile == 0 ? 0 : 1;
 		case 0x0C: return u->fireDelay == 0 ? 1 : 0;
-		case 0x0D: return ui->flags.variable_0004;
+		case 0x0D: return ui->flags.explodeOnDeath;
 		case 0x0E: return Unit_GetHouseID(u);
 		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
 		case 0x10: return u->orientation[ui->o.flags.hasTurret ? 1 : 0].current;
