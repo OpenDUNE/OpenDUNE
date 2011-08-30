@@ -215,13 +215,13 @@ void Animation_Start(void *commands, tile32 tile, uint16 tileLayout, uint8 house
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
 		if (animation->commands != NULL) continue;
 
-		animation->tickNext    = g_timerGUI;
-		animation->tileLayout  = tileLayout;
-		animation->houseID     = houseID;
-		animation->current     = 0;
-		animation->iconGroup   = iconGroup;
-		animation->commands    = commands;
-		animation->tile        = tile;
+		animation->tickNext   = g_timerGUI;
+		animation->tileLayout = tileLayout;
+		animation->houseID    = houseID;
+		animation->current    = 0;
+		animation->iconGroup  = iconGroup;
+		animation->commands   = commands;
+		animation->tile       = tile;
 
 		s_animationTimer = 0;
 

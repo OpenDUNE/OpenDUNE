@@ -615,7 +615,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 		if (BitArray_Test(g_dirtyViewport, curPos)) e->isDirty = true;
 
-		if (e->activities == NULL) continue;
+		if (e->commands == NULL) continue;
 		if (!e->isDirty && !arg06) continue;
 		if (e->spriteID == 0) continue;
 

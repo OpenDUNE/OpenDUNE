@@ -13,27 +13,24 @@ enum {
  * The valid types for command in AnimationCommandStruct.
  */
 typedef enum AnimationCommand {
-	ANIMATION_STOP               = 0,                       /*!< Gracefully stop with animation. Clean up the tiles etc. */
-	ANIMATION_ABORT              = 1,                       /*!< Abort animation. Leave it as it is. */
-	ANIMATION_SET_OVERLAY_SPRITE = 2,                       /*!< Set a new overlay sprite. Param: the new overlay sprite. */
-	ANIMATION_PAUSE              = 3,                       /*!< Pause the animation. Param: amount of ticks to pause. */
-	ANIMATION_REWIND             = 4,                       /*!< Rewind the animation.*/
-	ANIMATION_PLAY_VOICE         = 5,                       /*!< Play a voice. Param: the voice to play. */
-	ANIMATION_SET_GROUND_SPRITE  = 6,                       /*!< Set a new ground sprite. Param: the new ground sprite. */
-	ANIMATION_FORWARD            = 7,                       /*!< Forward the animation. Param: how many commands to forward. */
-	ANIMATION_SET_ICONGROUP      = 8                        /*!< Set a newicongroup. Param: the new icongroup. */
+	ANIMATION_STOP,                                         /*!< Gracefully stop with animation. Clean up the tiles etc. */
+	ANIMATION_ABORT,                                        /*!< Abort animation. Leave it as it is. */
+	ANIMATION_SET_OVERLAY_SPRITE,                           /*!< Set a new overlay sprite. Param: the new overlay sprite. */
+	ANIMATION_PAUSE,                                        /*!< Pause the animation. Param: amount of ticks to pause. */
+	ANIMATION_REWIND,                                       /*!< Rewind the animation.*/
+	ANIMATION_PLAY_VOICE,                                   /*!< Play a voice. Param: the voice to play. */
+	ANIMATION_SET_GROUND_SPRITE,                            /*!< Set a new ground sprite. Param: the new ground sprite. */
+	ANIMATION_FORWARD,                                      /*!< Forward the animation. Param: how many commands to forward. */
+	ANIMATION_SET_ICONGROUP                                 /*!< Set a newicongroup. Param: the new icongroup. */
 } AnimationCommand;
 
-MSVC_PACKED_BEGIN
 /**
  * How a single command looks like.
  */
 typedef struct AnimationCommandStruct {
-	PACK BIT_U16 command:4;                                 /*!< The command of this command (see AnimationCommand). */
-	PACK BIT_S16 parameter:12;                              /*!< The parameter for this command. */
-} GCC_PACKED AnimationCommandStruct;
-MSVC_PACKED_END
-assert_compile(sizeof(AnimationCommandStruct) == 0x2);
+	uint8 command;                                          /*!< The command of this command (see AnimationCommand). */
+	uint16 parameter;                                       /*!< The parameter for this command. */
+} AnimationCommandStruct;
 
 /**
  * Information about an active animation.

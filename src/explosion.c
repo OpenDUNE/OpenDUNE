@@ -20,8 +20,8 @@
 #include "tools.h"
 
 
-Explosion g_explosions[EXPLOSION_MAX];                               /*!< Explosions. */
-static uint32 s_explosionTimeout = 0;                       /*!< Timeout value for next explosion activity. */
+Explosion g_explosions[EXPLOSION_MAX];                      /*!< Explosions. */
+static uint32 s_explosionTimer = 0;                         /*!< Timeout value for next explosion activity. */
 
 
 /**
@@ -172,7 +172,7 @@ static void Explosion_Func_SetRow(Explosion *e, uint16 row)
 }
 
 /**
- * Stop performing an activity.
+ * Stop performing an explosion.
  * @param e The Explosion to end.
  * @param parameter Unused parameter.
  */
@@ -184,11 +184,11 @@ static void Explosion_Func_Stop(Explosion *e, uint16 parameter)
 
 	Explosion_Update(0, e);
 
-	e->activities = NULL;
+	e->commands = NULL;
 }
 
 /**
- * Set timeout for next the map activity of \a e.
+ * Set timeout for next the activity of \a e.
  * @param e The Explosion to change.
  * @param value The new timeout value.
  */
@@ -198,7 +198,7 @@ static void Explosion_Func_SetTimeout(Explosion *e, uint16 value)
 }
 
 /**
- * Set timeout for next the map activity of \a e to a random value up to \a value.
+ * Set timeout for next the activity of \a e to a random value up to \a value.
  * @param e The Explosion to change.
  * @param value The maximum amount of timeout.
  */
@@ -237,7 +237,7 @@ static void Explosion_StopAtPosition(uint16 packed)
 
 		e = &g_explosions[i];
 
-		if (e->activities == NULL || Tile_PackTile(e->position) != packed) continue;
+		if (e->commands == NULL || Tile_PackTile(e->position) != packed) continue;
 
 		Explosion_Func_Stop(e, 0);
 	}
@@ -245,17 +245,17 @@ static void Explosion_StopAtPosition(uint16 packed)
 
 /**
  * Start a Explosion on a tile.
- * @param type Type of activity.
+ * @param explosionType Type of Explosion.
  * @param position The position to use for init.
  */
-void Explosion_Start(uint16 type, tile32 position)
+void Explosion_Start(uint16 explosionType, tile32 position)
 {
-	const ExplosionCommandStruct *activities;
+	const ExplosionCommandStruct *commands;
 	uint16 packed;
 	uint8 i;
 
-	if (type > 19) return;
-	activities = g_table_explosion[type];
+	if (explosionType > 19) return;
+	commands = g_table_explosion[explosionType];
 
 	packed = Tile_PackTile(position);
 
@@ -266,16 +266,15 @@ void Explosion_Start(uint16 type, tile32 position)
 
 		e = &g_explosions[i];
 
-		if (e->activities != NULL) continue;
+		if (e->commands != NULL) continue;
 
-		e->index       = i;
-		e->activities  = activities;
-		e->current     = 0;
-		e->spriteID    = 0;
-		e->position    = position;
-		e->isDirty     = false;
-		e->timeOut     = g_timerGUI;
-		s_explosionTimeout = 0;
+		e->commands = commands;
+		e->current  = 0;
+		e->spriteID = 0;
+		e->position = position;
+		e->isDirty  = false;
+		e->timeOut  = g_timerGUI;
+		s_explosionTimer = 0;
 		g_map[packed].hasExplosion = true;
 
 		break;
@@ -283,27 +282,25 @@ void Explosion_Start(uint16 type, tile32 position)
 }
 
 /**
- * Timer tick for map activities.
- * @return Timer value for next activity.
+ * Timer tick for explosions.
  */
-uint32 Explosion_Tick()
+void Explosion_Tick()
 {
 	uint8 i;
 
-	if (s_explosionTimeout > g_timerGUI) return s_explosionTimeout;
-
-	s_explosionTimeout += 10000;
+	if (s_explosionTimer > g_timerGUI) return;
+	s_explosionTimer += 10000;
 
 	for (i = 0; i < EXPLOSION_MAX; i++) {
 		Explosion *e;
 
 		e = &g_explosions[i];
 
-		if (e->activities == NULL) continue;
+		if (e->commands == NULL) continue;
 
 		if (e->timeOut <= g_timerGUI) {
-			uint16 parameter = e->activities[e->current].parameter;
-			uint16 command   = e->activities[e->current].command;
+			uint16 parameter = e->commands[e->current].parameter;
+			uint16 command   = e->commands[e->current].command;
 
 			e->current++;
 
@@ -323,10 +320,8 @@ uint32 Explosion_Tick()
 			}
 		}
 
-		if (e->activities == NULL || e->timeOut > s_explosionTimeout) continue;
+		if (e->commands == NULL || e->timeOut > s_explosionTimer) continue;
 
-		s_explosionTimeout = e->timeOut;
+		s_explosionTimer = e->timeOut;
 	}
-
-	return s_explosionTimeout;
 }
