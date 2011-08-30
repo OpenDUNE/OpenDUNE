@@ -1295,7 +1295,7 @@ void Map_SelectNext(bool getNext)
 
 		if (!Map_IsTileVisible(Tile_PackTile(u->o.position))) continue;
 
-		if ((u->o.variable_09 & (1 << g_playerHouseID)) == 0) continue;
+		if ((u->o.seenByHouses & (1 << g_playerHouseID)) == 0) continue;
 
 		if (first == NULL) first = &u->o;
 		last = &u->o;
@@ -1329,7 +1329,7 @@ void Map_SelectNext(bool getNext)
 
 		if (!Map_IsTileVisible(Tile_PackTile(s->o.position))) continue;
 
-		if ((s->o.variable_09 & (1 << g_playerHouseID)) == 0) continue;
+		if ((s->o.seenByHouses & (1 << g_playerHouseID)) == 0) continue;
 
 		if (first == NULL) first = &s->o;
 		last = &s->o;
@@ -1438,8 +1438,8 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 
 	s = Structure_Get_ByPackedTile(packed);
 	if (s != NULL) {
-		s->o.variable_09 |= 1 << houseID;
-		if (s->o.houseID == HOUSE_ATREIDES) s->o.variable_09 |= 1 << HOUSE_FREMEN;
+		s->o.seenByHouses |= 1 << houseID;
+		if (s->o.houseID == HOUSE_ATREIDES) s->o.seenByHouses |= 1 << HOUSE_FREMEN;
 	}
 
 	Map_UnveilTile_Neighbour(packed);

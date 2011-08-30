@@ -591,7 +591,7 @@ void Unit_Sort()
 		u1 = g_unitFindArray[i];
 		u2 = g_unitFindArray[i + 1];
 
-		if ((u1->o.variable_09 & (1 << g_playerHouseID)) != 0 && !u1->o.flags.s.isNotOnMap) {
+		if ((u1->o.seenByHouses & (1 << g_playerHouseID)) != 0 && !u1->o.flags.s.isNotOnMap) {
 			if (House_AreAllied(u1->o.houseID, g_playerHouseID)) {
 				h->unitCountAllied++;
 			} else {
@@ -735,7 +735,7 @@ uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target)
 	if (unit == target) return 0;
 
 	if (!target->o.flags.s.allocated) return 0;
-	if ((target->o.variable_09 & (1 << Unit_GetHouseID(unit))) == 0) return 0;
+	if ((target->o.seenByHouses & (1 << Unit_GetHouseID(unit))) == 0) return 0;
 
 	if (House_AreAllied(Unit_GetHouseID(unit), Unit_GetHouseID(target))) return 0;
 
@@ -852,7 +852,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	u->targetAttack = 0;
 
 	if (g_map[Tile_PackTile(u->o.position)].hasExplosion) {
-		u->o.variable_09 &= ~(1 << u->o.houseID);
+		u->o.seenByHouses &= ~(1 << u->o.houseID);
 
 		Unit_HouseUnitCount_Add(u, g_playerHouseID);
 	}
@@ -934,7 +934,7 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 
 		if (target == NULL) break;
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(target))) continue;
-		if ((target->o.variable_09 & (1 << u->o.houseID)) == 0) continue;
+		if ((target->o.seenByHouses & (1 << u->o.houseID)) == 0) continue;
 
 		if (mode != 0 && mode != 4) {
 			if (mode == 1) {
@@ -1669,7 +1669,7 @@ void Unit_Select(Unit *unit)
 		unit = NULL;
 	}
 
-	if (unit != NULL && (unit->o.variable_09 & (1 << g_playerHouseID)) == 0 && !g_debugGame) {
+	if (unit != NULL && (unit->o.seenByHouses & (1 << g_playerHouseID)) == 0 && !g_debugGame) {
 		unit = NULL;
 	}
 
@@ -1949,7 +1949,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 				bullet->fireDelay <<= 1;
 			}
 
-			if (type == UNIT_MISSILE_HOUSE || (bullet->o.variable_09 & (1 << g_playerHouseID)) != 0) return bullet;
+			if (type == UNIT_MISSILE_HOUSE || (bullet->o.seenByHouses & (1 << g_playerHouseID)) != 0) return bullet;
 
 			Tile_RemoveFogInRadius(bullet->o.position, 2);
 
@@ -1978,7 +1978,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 
 			if (damage > 15) bullet->o.flags.s.bulletIsBig = true;
 
-			if ((bullet->o.variable_09 & (1 << g_playerHouseID)) != 0) return bullet;
+			if ((bullet->o.seenByHouses & (1 << g_playerHouseID)) != 0) return bullet;
 
 			Tile_RemoveFogInRadius(bullet->o.position, 2);
 
@@ -2139,7 +2139,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		return;
 	}
 
-	unit->o.variable_09 |= s->o.variable_09;
+	unit->o.seenByHouses |= s->o.seenByHouses;
 	Unit_Hide(unit);
 
 	if (House_AreAllied(s->o.houseID, Unit_GetHouseID(unit))) {
@@ -2499,7 +2499,7 @@ uint16 Unit_GetTargetStructurePriority(Unit *unit, Structure *target)
 
 	if (House_AreAllied(Unit_GetHouseID(unit), target->o.houseID)) return 0;
 
-	if ((target->o.variable_09 & (1 << unit->o.houseID)) == 0) return 0;
+	if ((target->o.seenByHouses & (1 << unit->o.houseID)) == 0) return 0;
 
 	si = &g_table_structureInfo[target->o.type];
 	priority = si->o.priorityBuild + si->o.priorityTarget;
@@ -2552,7 +2552,7 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 	PoolFindStruct find;
 
 	if (unit == NULL) return;
-	if (unit->o.variable_09 == 0) return;
+	if (unit->o.seenByHouses == 0) return;
 
 	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
@@ -2564,7 +2564,7 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 		h = House_Find(&find);
 		if (h == NULL) break;
 
-		if ((unit->o.variable_09 & (1 << h->index)) == 0) continue;
+		if ((unit->o.seenByHouses & (1 << h->index)) == 0) continue;
 
 		if (!House_AreAllied((uint8)h->index, Unit_GetHouseID(unit))) {
 			h->unitCountEnemy--;
@@ -2572,7 +2572,7 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 			h->unitCountAllied--;
 		}
 
-		unit->o.variable_09 &= ~(1 << h->index);
+		unit->o.seenByHouses &= ~(1 << h->index);
 	}
 }
 
@@ -2585,7 +2585,7 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 {
 	const UnitInfo *ui;
-	uint16 loc0A;
+	uint16 houseIDBit;
 	House *hp;
 	House *h;
 
@@ -2594,14 +2594,14 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 	hp = House_Get_ByIndex(g_playerHouseID);
 	ui = &g_table_unitInfo[unit->o.type];
 	h = House_Get_ByIndex(houseID);
-	loc0A = (1 << houseID);
+	houseIDBit = (1 << houseID);
 
 	if (houseID == HOUSE_ATREIDES && unit->o.type != UNIT_SANDWORM) {
-		loc0A |= (1 << HOUSE_FREMEN);
+		houseIDBit |= (1 << HOUSE_FREMEN);
 	}
 
-	if ((unit->o.variable_09 & loc0A) != 0 && h->flags.isAIActive) {
-		unit->o.variable_09 |= loc0A;
+	if ((unit->o.seenByHouses & houseIDBit) != 0 && h->flags.isAIActive) {
+		unit->o.seenByHouses |= houseIDBit;
 		return;
 	}
 
@@ -2609,7 +2609,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 		return;
 	}
 
-	if ((unit->o.variable_09 & loc0A) == 0) {
+	if ((unit->o.seenByHouses & houseIDBit) == 0) {
 		if (House_AreAllied(houseID, Unit_GetHouseID(unit))) {
 			h->unitCountAllied++;
 		} else {
@@ -2680,8 +2680,8 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 	if (!House_AreAllied(houseID, unit->o.houseID) && unit->actionID == ACTION_AMBUSH) Unit_SetAction(unit, ACTION_HUNT);
 
 	if (unit->o.houseID == g_playerHouseID || (unit->o.houseID == HOUSE_FREMEN && g_playerHouseID == HOUSE_ATREIDES)) {
-		unit->o.variable_09 = 0xFF;
+		unit->o.seenByHouses = 0xFF;
 	} else {
-		unit->o.variable_09 |= loc0A;
+		unit->o.seenByHouses |= houseIDBit;
 	}
 }

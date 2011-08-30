@@ -536,8 +536,8 @@ bool Structure_Place(Structure *s, uint16 position)
 	/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 	if (!g_dune2_enhanced && s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
 
-	s->o.variable_09 |= 1 << s->o.houseID;
-	if (s->o.houseID == g_playerHouseID) s->o.variable_09 |= 0xFF;
+	s->o.seenByHouses |= 1 << s->o.houseID;
+	if (s->o.houseID == g_playerHouseID) s->o.seenByHouses |= 0xFF;
 
 	s->o.flags.s.isNotOnMap = false;
 

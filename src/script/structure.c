@@ -273,7 +273,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	position = Structure_FindFreePosition(s, u->o.type == UNIT_HARVESTER);
 	if (position == 0) return 0;
 
-	u->o.variable_09 |= s->o.variable_09;
+	u->o.seenByHouses |= s->o.seenByHouses;
 
 	tile = Tile_Center(Tile_UnpackTile(position));
 
@@ -336,7 +336,7 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 		if (House_AreAllied(s->o.houseID, uf->o.houseID)) continue;
 
 		if (uf->o.type != UNIT_ORNITHOPTER) {
-			if ((uf->o.variable_09 & (1 << s->o.houseID)) == 0) continue;
+			if ((uf->o.seenByHouses & (1 << s->o.houseID)) == 0) continue;
 		}
 
 		distance = Tile_GetDistance(uf->o.position, s->o.position);

@@ -69,7 +69,7 @@ bool Unit_Load(FILE *fp, uint32 length)
 		ul.o.script.script = g_scriptUnit->start + (size_t)ul.o.script.script;
 		ul.o.script.delay = 0;
 		ul.timer = 0;
-		ul.o.variable_09 |= 1 << ul.o.houseID;
+		ul.o.seenByHouses |= 1 << ul.o.houseID;
 
 		/* ENHANCEMENT -- Due to wrong parameter orders of Unit_Create in original Dune2,
 		 *  it happened that units exists with houseID 13. This in fact are Trikes with

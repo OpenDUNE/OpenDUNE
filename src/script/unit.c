@@ -972,7 +972,7 @@ uint16 Script_Unit_GetInfo(ScriptEngine *script)
 		case 0x10: return u->orientation[ui->o.flags.hasTurret ? 1 : 0].current;
 		case 0x11: return abs(u->orientation[ui->o.flags.hasTurret ? 1 : 0].target - u->orientation[ui->o.flags.hasTurret ? 1 : 0].current);
 		case 0x12: return (ui->movementType & 0x40) == 0 ? 0 : 1;
-		case 0x13: return (u->o.variable_09 & (1 << g_playerHouseID)) == 0 ? 0 : 1;
+		case 0x13: return (u->o.seenByHouses & (1 << g_playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;
 	}
 }
