@@ -29,6 +29,7 @@
 #include "audio/sound.h"
 #include "config.h"
 #include "crashlog/crashlog.h"
+#include "explosion.h"
 #include "file.h"
 #include "gfx.h"
 #include "gui/font.h"
@@ -40,7 +41,6 @@
 #include "input/input.h"
 #include "input/mouse.h"
 #include "map.h"
-#include "mapactivity.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/unit.h"
@@ -2547,7 +2547,7 @@ void Game_Init()
 	House_Init();
 
 	memset(g_animations, 0, ANIMATION_MAX * sizeof(Animation));
-	memset(g_mapActivity, 0, 32 * sizeof(MapActivity));
+	memset(g_explosions, 0, EXPLOSION_MAX * sizeof(Explosion));
 	memset(g_map, 0, 64 * 64 * sizeof(Tile));
 
 	memset(g_displayedViewport, 0, sizeof(g_displayedViewport));

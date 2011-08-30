@@ -37,8 +37,8 @@ typedef struct Tile {
 	/* 0008 0000 */ PACK uint32 isUnveiled:1;               /*!< There is no fog on the Tile. */
 	/* 0010 0000 */ PACK uint32 hasUnit:1;                  /*!< There is a Unit on the Tile. */
 	/* 0020 0000 */ PACK uint32 hasStructure:1;             /*!< There is a Structure on the Tile. */
-	/* 0040 0000 */ PACK uint32 hasAnimation:1;             /*!< There is animation going on on the Tile. */
-	/* 0080 0000 */ PACK uint32 hasMapActivity:1;           /*!< There is map activity at this location. */
+	/* 0040 0000 */ PACK uint32 hasAnimation:1;             /*!< There is animation going on the Tile. */
+	/* 0080 0000 */ PACK uint32 hasExplosion:1;             /*!< There is an explosion on the Tile. */
 	/* FF00 0000 */ PACK uint32 index:8;                    /*!< Index of the Structure / Unit (index 1 is Structure/Unit 0, etc). */
 } GCC_PACKED Tile;
 MSVC_PACKED_END

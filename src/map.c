@@ -13,11 +13,11 @@
 
 #include "animation.h"
 #include "audio/sound.h"
+#include "explosion.h"
 #include "gfx.h"
 #include "gui/gui.h"
 #include "gui/widget.h"
 #include "house.h"
-#include "mapactivity.h"
 #include "opendune.h"
 #include "pool/pool.h"
 #include "pool/unit.h"
@@ -346,7 +346,7 @@ bool Map_Save(FILE *fp)
 		Tile *tile = &g_map[i];
 
 		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->hasMapActivity && (g_mapSpriteID[i] & 0x8000) == 0 && g_mapSpriteID[i] == tile->groundSpriteID) continue;
+		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->hasExplosion && (g_mapSpriteID[i] & 0x8000) == 0 && g_mapSpriteID[i] == tile->groundSpriteID) continue;
 
 		/* Store the index, then the tile itself */
 		if (fwrite(&i, sizeof(uint16), 1, fp) != 1) return false;
@@ -577,7 +577,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		if (loc22) Map_UpdateWall(positionPacked);
 	}
 
-	MapActivity_Start(type, position);
+	Explosion_Start(type, position);
 }
 
 /**
@@ -710,7 +710,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 {
 	PoolFindStruct find;
 
-	MapActivity_Start(type, position);
+	Explosion_Start(type, position);
 
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
@@ -1726,7 +1726,7 @@ void Map_CreateLandscape(uint32 seed)
 		t->hasUnit         = false;
 		t->hasStructure    = false;
 		t->hasAnimation    = false;
-		t->hasMapActivity  = false;
+		t->hasExplosion  = false;
 		t->index           = 0;
 	}
 

@@ -22,6 +22,7 @@ crashlog/crashlog_win32.c
 #else
 crashlog/crashlog_none.c
 #endif
+explosion.c
 file.c
 gfx.c
 gui/editbox.c
@@ -38,7 +39,6 @@ input/input.c
 input/mouse.c
 load.c
 map.c
-mapactivity.c
 object.c
 opendune.c
 pool/house.c
@@ -67,11 +67,11 @@ string.c
 structure.c
 table/actioninfo.c
 table/animation.c
+table/explosion.c
 table/fileinfo.c
 table/houseanimation.c
 table/houseinfo.c
 table/landscapeinfo.c
-table/mapactivity.c
 table/movementtype.c
 table/selectiontype.c
 table/sound.c
@@ -101,6 +101,7 @@ codec/format40.h
 codec/format80.h
 config.h
 crashlog/crashlog.h
+explosion.h
 file.h
 gfx.h
 gui/font.h
@@ -113,7 +114,6 @@ input/input.h
 input/mouse.h
 load.h
 map.h
-mapactivity.h
 object.h
 opendune.h
 os/common.h

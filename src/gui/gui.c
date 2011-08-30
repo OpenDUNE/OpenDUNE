@@ -23,6 +23,7 @@
 #include "../audio/sound.h"
 #include "../codec/format80.h"
 #include "../config.h"
+#include "../explosion.h"
 #include "../file.h"
 #include "../gfx.h"
 #include "../house.h"
@@ -31,7 +32,6 @@
 #include "../input/mouse.h"
 #include "../load.h"
 #include "../map.h"
-#include "../mapactivity.h"
 #include "../opendune.h"
 #include "../pool/pool.h"
 #include "../pool/house.h"
@@ -4517,7 +4517,7 @@ void GUI_DrawScreen(uint16 screenID)
 
 	if (screenID != 0) g_var_3A12 = true;
 
-	MapActivity_Tick();
+	Explosion_Tick();
 	Animation_Tick();
 	Unit_Sort();
 

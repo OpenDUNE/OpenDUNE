@@ -307,7 +307,7 @@ static void Scenario_Load_Map(const char *key, char *settings)
 	t->hasUnit        = (value & 0x10) != 0 ? true : false;
 	t->hasStructure   = (value & 0x20) != 0 ? true : false;
 	t->hasAnimation   = (value & 0x40) != 0 ? true : false;
-	t->hasMapActivity = (value & 0x80) != 0 ? true : false;
+	t->hasExplosion = (value & 0x80) != 0 ? true : false;
 
 	s = strtok(NULL, ",\r\n");
 	t->groundSpriteID = atoi(s) & 0x01FF;
