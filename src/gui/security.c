@@ -81,7 +81,7 @@ bool GUI_Security_Show()
 {
 	const char *wsaHouseFilename;
 	uint16 questionsCount;
-	uint16 oldValue_07AE_0000;
+	uint16 oldCurrentWidget;
 	uint16 oldScreenID;
 	uint16 i;
 	bool valid;
@@ -138,7 +138,7 @@ bool GUI_Security_Show()
 		questionsCount = atoi(string);
 	}
 
-	oldValue_07AE_0000 = Widget_SetCurrentWidget(8);
+	oldCurrentWidget = Widget_SetCurrentWidget(8);
 
 	oldScreenID = GFX_Screen_SetActive(4);
 
@@ -243,7 +243,7 @@ bool GUI_Security_Show()
 		GUI_Security_UndrawText();
 	}
 
-	Widget_SetCurrentWidget(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldCurrentWidget);
 
 	GFX_Screen_SetActive(oldScreenID);
 
