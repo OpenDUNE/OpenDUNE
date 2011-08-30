@@ -17,6 +17,7 @@
 #include "../house.h"
 #include "../input/mouse.h"
 #include "../map.h"
+#include "../mapactivity.h"
 #include "../opendune.h"
 #include "../pool/house.h"
 #include "../pool/pool.h"
@@ -606,26 +607,26 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 	}
 
 	for (i = 0; i < 32; i++) {
-		MapActivity *s;
+		MapActivity *ma;
 
-		s = &g_mapActivity[i];
+		ma = &g_mapActivity[i];
 
-		curPos = Tile_PackTile(s->position);
+		curPos = Tile_PackTile(ma->position);
 
-		if (BitArray_Test(g_dirtyViewport, curPos)) s->isDirty = true;
+		if (BitArray_Test(g_dirtyViewport, curPos)) ma->isDirty = true;
 
-		if (s->activities == NULL) continue;
-		if (!s->isDirty && !arg06) continue;
-		if (s->spriteID == 0) continue;
+		if (ma->activities == NULL) continue;
+		if (!ma->isDirty && !arg06) continue;
+		if (ma->spriteID == 0) continue;
 
-		s->isDirty = false;
+		ma->isDirty = false;
 
 		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
-		if (!Map_IsPositionInViewport(s->position, &x, &y)) continue;
+		if (!Map_IsPositionInViewport(ma->position, &x, &y)) continue;
 
 		s_spriteFlags = 0xC000;
 
-		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(s->spriteID, s->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
+		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(ma->spriteID, ma->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
 	}
 
 	if (g_var_39E8 != 0 || arg06 || updateDisplay) {

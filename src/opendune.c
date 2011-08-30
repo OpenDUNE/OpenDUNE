@@ -40,6 +40,7 @@
 #include "input/input.h"
 #include "input/mouse.h"
 #include "map.h"
+#include "mapactivity.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/unit.h"

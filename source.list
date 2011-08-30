@@ -38,6 +38,7 @@ input/input.c
 input/mouse.c
 load.c
 map.c
+mapactivity.c
 object.c
 opendune.c
 pool/house.c
@@ -111,6 +112,7 @@ input/input.h
 input/mouse.h
 load.h
 map.h
+mapactivity.h
 object.h
 opendune.h
 os/common.h

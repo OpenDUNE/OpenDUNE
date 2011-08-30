@@ -44,27 +44,6 @@ typedef struct Tile {
 MSVC_PACKED_END
 assert_compile(sizeof(Tile) == 0x04);
 
-typedef struct Activity {
-	uint8  command;                                         /*!< The command of the Activity. */
-	uint16 parameter;                                       /*!< The parameter of the Activity. */
-} Activity;
-
-/**
- * A struct.
- */
-typedef struct MapActivity {
-	uint32 timeOut;                                         /*!< Time out for the next activity. */
-	uint16 index;                                           /*!< Index in #g_mapActivity. */
-	uint8  houseID;                                         /*!< A houseID. */
-	bool   isDirty;                                         /*!< Does the MapAcitivty require a redraw next round. */
-	uint8  actCounter;                                      /*!< Index in #activities pointing to the next activity. */
-	uint16 spriteID;                                        /*!< SpriteID. */
-	const Activity *activities;                             /*!< Activities being executed, \c 0x0 means 'unused'. */
-	tile32 position;                                        /*!< Position where this activity acts. */
-} MapActivity;
-
-typedef void (*MapActivityProc)(MapActivity *ma, uint16 parameter);
-
 /** Definition of the map size of a map scale. */
 typedef struct MapInfo {
 	uint16 minX;  /*!< Minimal X position of the map. */
@@ -96,7 +75,6 @@ struct Unit;
 extern uint16 g_mapSpriteID[];
 extern Tile g_map[];
 extern uint8 g_functions[3][3];
-extern MapActivity g_mapActivity[];
 
 extern uint8 g_changedTilesMap[512];
 extern uint8 g_dirtyMinimap[512];
@@ -130,7 +108,6 @@ extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, ui
 extern uint16 Map_GetLandscapeType(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
-extern uint32 MapActivity_Tick();
 extern void Map_ExplodeBloom(uint16 packed, uint8 houseID);
 extern void Map_FillCircleWithSpice(uint16 packed, uint16 radius);
 extern void Map_ChangeSpiceAmount(uint16 packed, int16 dir);

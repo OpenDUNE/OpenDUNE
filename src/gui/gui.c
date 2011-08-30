@@ -31,6 +31,7 @@
 #include "../input/mouse.h"
 #include "../load.h"
 #include "../map.h"
+#include "../mapactivity.h"
 #include "../opendune.h"
 #include "../pool/pool.h"
 #include "../pool/house.h"
