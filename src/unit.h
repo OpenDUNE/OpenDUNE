@@ -131,7 +131,6 @@ typedef struct UnitInfo {
 	uint16 indexStart;                                      /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	uint16 indexEnd;                                        /*!< At Unit create, between indexStart and this (including) a free index is picked. */
 	struct {
-		BIT_U8 notused_0001:1;                              /*!< Not used. */
 		BIT_U8 isBullet:1;                                  /*!< If true, Unit is a bullet / missile. */
 		BIT_U8 variable_0004:1;                             /*!< ?? */
 		BIT_U8 sonicProtection:1;                           /*!< If true, Unit receives no damage of a sonic blast. */
@@ -139,8 +138,6 @@ typedef struct UnitInfo {
 		BIT_U8 isTracked:1;                                 /*!< If true, Unit is tracked-based (and leaves marks in sand). */
 		BIT_U8 isGroundUnit:1;                              /*!< If true, Unit is ground-based. */
 		BIT_U8 mustStayInMap:1;                             /*!< Unit cannot leave the map and bounces off the border (air-based units). */
-		BIT_U8 notused_1000:1;                              /*!< Not used. */
-		BIT_U8 notused_0200:1;                              /*!< Not used. */
 		BIT_U8 variable_0400:1;                             /*!< ?? */
 		BIT_U8 variable_0800:1;                             /*!< ?? */
 		BIT_U8 isNotDeviatable:1;                           /*!< If true, Unit can't be deviated. */
