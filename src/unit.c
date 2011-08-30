@@ -2412,7 +2412,7 @@ void Unit_UpdateMap(uint16 type, Unit *unit)
 
 	if (ui->movementType == MOVEMENT_WINGER) {
 		if (type != 0) {
-			unit->o.flags.s.variable_4_1000 = true;
+			unit->o.flags.s.isDirty = true;
 			g_var_39E8++;
 		}
 
@@ -2442,7 +2442,7 @@ void Unit_UpdateMap(uint16 type, Unit *unit)
 	}
 
 	if (type != 0) {
-		unit->o.flags.s.variable_4_1000 = true;
+		unit->o.flags.s.isDirty = true;
 		g_var_39E6++;
 	}
 

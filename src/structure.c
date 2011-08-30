@@ -1811,7 +1811,7 @@ void Structure_UpdateMap(Structure *s)
 		Map_Update(position, 0, false);
 	}
 
-	s->o.flags.s.variable_4_1000 = true;
+	s->o.flags.s.isDirty = true;
 
 	if (s->state >= STRUCTURE_STATE_IDLE) {
 		uint16 animationIndex = (s->state > STRUCTURE_STATE_READY) ? STRUCTURE_STATE_READY : s->state;

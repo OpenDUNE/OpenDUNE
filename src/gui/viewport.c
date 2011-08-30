@@ -322,11 +322,11 @@ static uint8 *GUI_Widget_Viewport_Draw_GetSprite(uint16 spriteID, uint8 houseID)
 /**
  * Redraw parts of the viewport that require redrawing.
  *
- * @param arg06 ??
+ * @param forceRedraw If true, dirty flags are ignored, and everything is drawn.
  * @param arg08 ??
  * @param drawToMainScreen True if and only if we are drawing to the main screen and not some buffer screen.
  */
-void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
+void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScreen)
 {
 	static const uint16 values_32A4[8][2] = {
 		{0, 0}, {1, 0}, {2, 0}, {3, 0},
@@ -345,7 +345,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 	PoolFindStruct find;
 
-	updateDisplay = arg06;
+	updateDisplay = forceRedraw;
 
 	memset(minX, 0xF, sizeof(minX));
 	memset(maxX, 0,   sizeof(minX));
@@ -354,7 +354,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
 
-	if (g_dirtyViewportCount != 0 || arg06) {
+	if (g_dirtyViewportCount != 0 || forceRedraw) {
 		for (y = 0; y < 10; y++) {
 			uint16 top = (y << 4) + 0x28;
 			for (x = 0; x < (drawToMainScreen ? 15 : 16); x++) {
@@ -363,13 +363,13 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 				curPos = g_viewportPosition + Tile_PackXY(x, y);
 
-				if (x < 15 && !arg06 && BitArray_Test(g_dirtyViewport, curPos)) {
+				if (x < 15 && !forceRedraw && BitArray_Test(g_dirtyViewport, curPos)) {
 					if (maxX[y] < x) maxX[y] = x;
 					if (minX[y] > x) minX[y] = x;
 					updateDisplay = true;
 				}
 
-				if (!BitArray_Test(g_dirtyMinimap, curPos) && !arg06) continue;
+				if (!BitArray_Test(g_dirtyMinimap, curPos) && !forceRedraw) continue;
 
 				BitArray_Set(g_dirtyViewport, curPos);
 
@@ -409,9 +409,8 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 		if (u == NULL) break;
 
-		if (!u->o.flags.s.variable_4_1000 && !arg06) continue;
-
-		u->o.flags.s.variable_4_1000 = false;
+		if (!u->o.flags.s.isDirty && !forceRedraw) continue;
+		u->o.flags.s.isDirty = false;
 
 		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && !g_debugScenario) continue;
 
@@ -451,7 +450,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 		g_var_3A08 = 0;
 	}
 
-	if (g_var_39E6 != 0 || arg06 || updateDisplay) {
+	if (g_var_39E6 != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -471,9 +470,8 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 			packed = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_dirtyViewport, packed)) continue;
-
-			u->o.flags.s.variable_4_1000 = false;
+			if ((!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, packed)) continue;
+			u->o.flags.s.isDirty = false;
 
 			if (!g_map[packed].isUnveiled && !g_debugScenario) continue;
 
@@ -613,7 +611,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 		if (BitArray_Test(g_dirtyViewport, curPos)) e->isDirty = true;
 
 		if (e->commands == NULL) continue;
-		if (!e->isDirty && !arg06) continue;
+		if (!e->isDirty && !forceRedraw) continue;
 		if (e->spriteID == 0) continue;
 
 		e->isDirty = false;
@@ -626,7 +624,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
 	}
 
-	if (g_var_39E8 != 0 || arg06 || updateDisplay) {
+	if (g_var_39E8 != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -651,9 +649,8 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 			curPos = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_dirtyViewport, curPos)) continue;
-
-			u->o.flags.s.variable_4_1000 = false;
+			if ((!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, curPos)) continue;
+			u->o.flags.s.isDirty = false;
 
 			if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 
@@ -770,7 +767,7 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 		}
 	}
 
-	if ((g_viewportMessageCounter & 1) != 0 && g_viewportMessageText != NULL && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || arg06)) {
+	if ((g_viewportMessageCounter & 1) != 0 && g_viewportMessageText != NULL && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || forceRedraw)) {
 		GUI_DrawText_Wrapper(g_viewportMessageText, 112, 139, 15, 0, 0x132);
 		minX[6] = -1;
 		maxX[6] = 14;

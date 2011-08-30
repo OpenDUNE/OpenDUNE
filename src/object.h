@@ -28,7 +28,7 @@ typedef struct Object {
 			BIT_U8 byScenario:1;                            /*!< The Unit is created by the scenario. */
 			BIT_U8 degrades:1;                              /*!< Structure degrades. Unit ?? */
 			BIT_U8 isHighlighted:1;                         /*!< The Object is currently highlighted. */
-			BIT_U8 variable_4_1000:1;                       /*!< Unit ?? */
+			BIT_U8 isDirty:1;                               /*!< If true, the Unit will be redrawn next update. */
 			BIT_U8 repairing:1;                             /*!< Structure is being repaired. */
 			BIT_U8 onHold:1;                                /*!< Structure is on hold. */
 			BIT_U8 notused_4_8000:1;
