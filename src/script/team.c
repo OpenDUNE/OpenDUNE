@@ -280,7 +280,7 @@ uint16 Script_Team_FindBestTarget(ScriptEngine *script)
 		if (t->target == target) return target;
 
 		t->target = target;
-		t->targetTile = Tile_B4CD_1C1A(Tile_PackTile(u->o.position), Tools_Index_GetPackedTile(target));
+		t->targetTile = Tile_GetTileInDirectionOf(Tile_PackTile(u->o.position), Tools_Index_GetPackedTile(target));
 		return target;
 	}
 

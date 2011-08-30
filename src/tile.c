@@ -301,13 +301,13 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 }
 
 /**
- * ??.
+ * Get a tile in the direction of a destination, randomized a bit.
  *
  * @param packed_from The origin.
  * @param packed_to The destination.
  * @return A packed tile.
  */
-uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
+uint16 Tile_GetTileInDirectionOf(uint16 packed_from, uint16 packed_to)
 {
 	int16 distance;
 	uint8 direction;
