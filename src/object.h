@@ -22,7 +22,7 @@ typedef struct Object {
 			BIT_U8 isSmoking:1;                             /*!< The Object has a smoke cloud coming out of it. */
 			BIT_U8 fireTwiceFlip:1;                         /*!< Used for Unit fire twice, to keep track if it is the second shot. */
 			BIT_U8 animationFlip:1;                         /*!< Used for Unit (bullet / missile) animation, to differ between two sprite groups. */
-			BIT_U8 variable_4_0040:1;                       /*!< Unit ?? */
+			BIT_U8 bulletIsBig:1;                           /*!< If true, the Unit (bullet / sonic wave) is twice as big (visual only). */
 			BIT_U8 isWobbling:1;                            /*!< If true, the Unit will be wobbling during movement. */
 			BIT_U8 inTransport:1;                           /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
 			BIT_U8 byScenario:1;                            /*!< The Unit is created by the scenario. */

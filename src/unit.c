@@ -885,8 +885,7 @@ void Unit_Remove(Unit *u)
 
 	if (u == g_unitSelected) Unit_Select(NULL);
 
-	u->o.flags.s.variable_4_0040 = true;
-
+	u->o.flags.s.bulletIsBig = true;
 	Unit_UpdateMap(0, u);
 
 	Unit_HouseUnitCount_Remove(u);
@@ -1175,11 +1174,11 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	}
 
 	unit->deviated = 0;
-	unit->o.flags.s.variable_4_0040 = true;
 
+	unit->o.flags.s.bulletIsBig = true;
 	Unit_UpdateMap(2, unit);
+	unit->o.flags.s.bulletIsBig = false;
 
-	unit->o.flags.s.variable_4_0040 = false;
 	if (unit->o.houseID == g_playerHouseID) {
 		Unit_SetAction(unit, ui->o.actionsPlayer[3]);
 	} else {
@@ -1363,7 +1362,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 
 		if (unit->o.hitpoints < (ui->damage / 2)) {
-			unit->o.flags.s.variable_4_0040 = true;
+			unit->o.flags.s.bulletIsBig = true;
 		}
 
 		if (--unit->o.hitpoints == 0 || unit->fireDelay == 0) {
@@ -1977,7 +1976,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet->currentDestination = tile;
 			bullet->o.hitpoints = damage;
 
-			if (damage > 15) bullet->o.flags.s.variable_4_0040 = true;
+			if (damage > 15) bullet->o.flags.s.bulletIsBig = true;
 
 			if ((bullet->o.variable_09 & (1 << g_playerHouseID)) != 0) return bullet;
 
@@ -2058,11 +2057,9 @@ void Unit_Hide(Unit *unit)
 {
 	if (unit == NULL) return;
 
-	unit->o.flags.s.variable_4_0040 = true;
-
+	unit->o.flags.s.bulletIsBig = true;
 	Unit_UpdateMap(0, unit);
-
-	unit->o.flags.s.variable_4_0040 = false;
+	unit->o.flags.s.bulletIsBig = false;
 
 	Script_Reset(&unit->o.script, g_scriptUnit);
 	Unit_UntargetMe(unit);
@@ -2446,7 +2443,7 @@ void Unit_UpdateMap(uint16 type, Unit *unit)
 
 	radius = ui->dimension + 3;
 
-	if (unit->o.flags.s.variable_4_0040 || unit->o.flags.s.isSmoking || (unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST)) radius = 33;
+	if (unit->o.flags.s.bulletIsBig || unit->o.flags.s.isSmoking || (unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST)) radius = 33;
 
 	Map_UpdateAround(radius, position, unit, g_functions[1][type]);
 
@@ -2467,7 +2464,7 @@ void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 {
 	Tile *t = &g_map[packed];
 
-	if (t->hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != Tile_PackTile(unit->currentDestination) || unit->o.flags.s.variable_4_0040)) {
+	if (t->hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != Tile_PackTile(unit->currentDestination) || unit->o.flags.s.bulletIsBig)) {
 		t->index = 0;
 		t->hasUnit = false;
 	}

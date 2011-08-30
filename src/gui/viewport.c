@@ -664,7 +664,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 
 			switch (ui->displayMode) {
 				case 0:
-					if (u->o.flags.s.variable_4_0040) index++;
+					if (u->o.flags.s.bulletIsBig) index++;
 					break;
 
 				case 1:
