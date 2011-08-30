@@ -2212,7 +2212,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			GUI_DrawInterfaceAndRadar(0);
 		}
 
-		Widget_SetCurrentWidget(g_table_selectionType[selectionType].variable_08);
+		Widget_SetCurrentWidget(g_table_selectionType[selectionType].defaultWidget);
 
 		if (g_curWidgetIndex != 0) {
 			GUI_Widget_DrawBorder(g_curWidgetIndex, 0, false);
@@ -2222,7 +2222,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			Widget *w = g_widgetLinkedListHead;
 
 			while (w != NULL) {
-				const int8 *s = g_table_selectionType[selectionType].variable_00;
+				const int8 *s = g_table_selectionType[selectionType].visibleWidgets;
 
 				w->state.s.selected = false;
 				w->flags.s.invisible = true;
@@ -2250,7 +2250,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 				}
 
-				Widget_SetCurrentWidget(g_table_selectionType[selectionType].variable_08);
+				Widget_SetCurrentWidget(g_table_selectionType[selectionType].defaultWidget);
 				break;
 
 			case 1:
