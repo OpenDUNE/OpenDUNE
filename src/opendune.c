@@ -422,11 +422,11 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 		Sound_Output_Feedback(loc06);
 
 		if (g_feedback[loc06].messageId != 0) {
-			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
+			GameLoop_DrawText(String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID), subtitle->top);
 		}
 	} else {
 		if (subtitle->stringID != 0) {
-			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
+			GameLoop_DrawText(String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID), subtitle->top);
 		}
 	}
 
@@ -1136,7 +1136,7 @@ static void GameLoop_GameEndAnimation()
 	const HouseAnimation_SoundEffect *soundEffect;
 	uint16 sound;
 
-	String_Load("INTRO");
+	g_stringsIntro = File_ReadWholeFile(String_GenerateFilename("INTRO"));
 
 	Voice_LoadVoices(0xFFFE);
 
@@ -1404,7 +1404,7 @@ static void GameLoop_GameIntroAnimation()
 {
 	GUI_ChangeSelectionType(7);
 
-	String_Load("INTRO");
+	g_stringsIntro = File_ReadWholeFile(String_GenerateFilename("INTRO"));
 
 	Gameloop_Logos();
 
@@ -1425,7 +1425,6 @@ static void GameLoop_GameIntroAnimation()
 	}
 
 	GUI_ChangeSelectionType(0);
-	String_Load(NULL);
 }
 
 static uint16 GameLoop_B4E6_0000(uint16 arg06, uint32 arg08, uint16 arg0C)

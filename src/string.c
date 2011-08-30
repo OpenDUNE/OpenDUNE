@@ -16,6 +16,7 @@
 
 void *g_strings = NULL;
 void *g_stringsHint = NULL;
+void *g_stringsIntro = NULL;
 
 const char * const g_languageSuffixes[] = { "ENG", "FRE", "GER", "ITA", "SPA" };
 static char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";

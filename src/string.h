@@ -9,6 +9,7 @@ extern const char * const g_languageSuffixes[];
 
 extern void *g_strings;
 extern void *g_stringsHint;
+extern void *g_stringsIntro;
 
 extern uint16 String_Decompress(char *source, char *dest);
 extern char *String_GenerateFilename(char *name);
