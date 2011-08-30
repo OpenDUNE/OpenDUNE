@@ -568,7 +568,7 @@ static void MapActivity_ResetActCounter(MapActivity *ma, uint16 parameter)
 {
 	VARIABLE_NOT_USED(parameter);
 
-	ma->actCounter = 0;
+	ma->current = 0;
 }
 
 /**
@@ -669,7 +669,7 @@ void MapActivity_Initialize(uint16 type, tile32 position)
 
 		s->index       = i;
 		s->activities  = activities;
-		s->actCounter  = 0;
+		s->current     = 0;
 		s->spriteID    = 0;
 		s->position    = position;
 		s->isDirty     = false;
@@ -701,10 +701,10 @@ uint32 MapActivity_Tick()
 		if (ma->activities == NULL) continue;
 
 		if (ma->timeOut <= g_timerGUI) {
-			uint16 parameter = ma->activities[ma->actCounter].parameter;
-			uint16 command   = ma->activities[ma->actCounter].command;
+			uint16 parameter = ma->activities[ma->current].parameter;
+			uint16 command   = ma->activities[ma->current].command;
 
-			ma->actCounter++;
+			ma->current++;
 
 			switch (command) {
 				default:

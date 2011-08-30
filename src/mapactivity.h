@@ -41,7 +41,7 @@ typedef struct MapActivity {
 	uint16 index;                                           /*!< Index in #g_mapActivity. */
 	uint8  houseID;                                         /*!< A houseID. */
 	bool   isDirty;                                         /*!< Does the MapAcitivty require a redraw next round. */
-	uint8  actCounter;                                      /*!< Index in #activities pointing to the next activity. */
+	uint8  current;                                         /*!< Index in #activities pointing to the next activity. */
 	uint16 spriteID;                                        /*!< SpriteID. */
 	const Activity *activities;                             /*!< Activities being executed, \c 0x0 means 'unused'. */
 	tile32 position;                                        /*!< Position where this activity acts. */
