@@ -1415,7 +1415,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 	oldScreenID = GFX_Screen_SetActive(2);;
 
-	Sprites_LoadImage("FAME.CPS", 3, g_palette_998A, 1);
+	Sprites_LoadImage("FAME.CPS", 3, g_palette_998A);
 
 	xSrc = 1;
 	if (g_playerHouseID <= HOUSE_ORDOS) {
@@ -1703,7 +1703,7 @@ uint8 GUI_PickHouse()
 			w = GUI_Widget_Link(w, w2);
 		}
 
-		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, NULL, 1);
+		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, NULL);
 
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
@@ -1764,7 +1764,7 @@ uint8 GUI_PickHouse()
 
 		GUI_Mentat_Show(g_readBuffer, House_GetWSAHouseFilename(houseID), NULL, false);
 
-		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, g_palette1, 1);
+		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, g_palette1);
 
 		GUI_Mouse_Hide_Safe();
 
@@ -1982,7 +1982,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	g_var_3A12 = true;
 
-	Sprites_LoadImage("SCREEN.CPS", 3, NULL, 1);
+	Sprites_LoadImage("SCREEN.CPS", 3, NULL);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
@@ -2708,7 +2708,7 @@ static void GUI_FactoryWindow_Init()
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
-	Sprites_LoadImage("CHOAM.CPS", 3, NULL, 1);
+	Sprites_LoadImage("CHOAM.CPS", 3, NULL);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
@@ -3248,7 +3248,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_SetPosition(160, 84);
 
-	Sprites_LoadImage("MAPMACH.CPS", 5, g_palette_998A, 1);
+	Sprites_LoadImage("MAPMACH.CPS", 5, g_palette_998A);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 5, g_remap);
 
@@ -3301,7 +3301,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	s_strategicMapFastForward = false;
 
 	if (win && campaignID == 1) {
-		Sprites_LoadImage("PLANET.CPS", 3, g_palette_998A, 1);
+		Sprites_LoadImage("PLANET.CPS", 3, g_palette_998A);
 
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_THREE_HOUSES_HAVE_COME_TO_DUNE));
 
@@ -3318,7 +3318,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			sleepIdle();
 		}
 
-		Sprites_LoadImage("DUNEMAP.CPS", 3 , g_palette_998A, 1);
+		Sprites_LoadImage("DUNEMAP.CPS", 3 , g_palette_998A);
 
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_TO_TAKE_CONTROL_OF_THE_LAND));
 
@@ -3336,7 +3336,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		Sprites_CPS_LoadRegionClick();
 	}
 
-	Sprites_LoadImage("DUNERGN.CPS", 3, g_palette_998A, 1);
+	Sprites_LoadImage("DUNERGN.CPS", 3, g_palette_998A);
 
 	GFX_Screen_SetActive(2);
 

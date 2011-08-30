@@ -377,15 +377,12 @@ static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *
  * @param memory1 The index of a memory block where to store loaded data.
  * @param memory2 The index of a memory block where to store loaded data.
  * @param palette Where to store the palette, if any.
- * @param arg12 ??.
  * @return The size of the loaded image.
  */
-uint16 Sprites_LoadImage(const char *filename, uint16 screenID, uint8 *palette, uint16 arg12)
+uint16 Sprites_LoadImage(const char *filename, uint16 screenID, uint8 *palette)
 {
 	uint8 index;
 	uint32 header;
-
-	VARIABLE_NOT_USED(arg12); /* used in unresolved code */
 
 	index = File_Open(filename, 1);
 	if (index == 0xFF) return 0;

@@ -497,7 +497,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	int i;
 
 	snprintf(textBuffer, sizeof(textBuffer), "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
-	Sprites_LoadImage(textBuffer, 3, g_palette_998A, 1);
+	Sprites_LoadImage(textBuffer, 3, g_palette_998A);
 
 	oldScreenID = GFX_Screen_SetActive(2);
 

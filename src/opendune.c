@@ -1063,7 +1063,7 @@ static void GameLoop_GameCredits()
 
 	Widget_SetCurrentWidget(20);
 
-	Sprites_LoadImage("BIGPLAN.CPS", 3, g_palette_998A, 1);
+	Sprites_LoadImage("BIGPLAN.CPS", 3, g_palette_998A);
 
 	GUI_ClearScreen(0);
 
@@ -1093,7 +1093,7 @@ static void GameLoop_GameCredits()
 		}
 	}
 
-	Sprites_LoadImage("MAPPLAN.CPS", 3, g_palette_998A, 1);
+	Sprites_LoadImage("MAPPLAN.CPS", 3, g_palette_998A);
 
 	GUI_Palette_RemapScreen(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, 2, memory);
 
@@ -1353,7 +1353,7 @@ static void Gameloop_Logos()
 
 	GFX_ClearScreen();
 
-	Sprites_LoadImage(String_GenerateFilename("AND"), 2, g_palette_998A, GFX_Screen_GetSize_ByIndex(2));
+	Sprites_LoadImage(String_GenerateFilename("AND"), 2, g_palette_998A);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -1378,7 +1378,7 @@ static void Gameloop_Logos()
 
 	GUI_ClearScreen(0);
 
-	Sprites_LoadImage("VIRGIN.CPS", 2, g_palette_998A, GFX_Screen_GetSize_ByIndex(2));
+	Sprites_LoadImage("VIRGIN.CPS", 2, g_palette_998A);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -2013,7 +2013,7 @@ static void GameLoop_GameIntroAnimationMenu()
 				g_widgetProperties[13].yBase  = 160 - ((g_widgetProperties[21].height * g_var_6C71) >> 1);
 				g_widgetProperties[13].height = (g_widgetProperties[21].height * g_var_6C71) + 11;
 
-				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, NULL, 0);
+				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, NULL);
 
 				GUI_Mouse_Hide_Safe();
 
