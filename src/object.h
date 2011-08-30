@@ -59,7 +59,6 @@ typedef struct ObjectInfo {
 	struct {
 		BIT_U8 hasShadow:1;                                 /*!< If true, the Unit has a shadow below it. */
 		BIT_U8 factory:1;                                   /*!< Structure can build other Structures or Units. */
-		BIT_U8 notused_0004:1;                              /*!< Never used. */
 		BIT_U8 notOnConcrete:1;                             /*!< Structure cannot be build on concrete. */
 		BIT_U8 variable_0010:1;                             /*!< ?? */
 		BIT_U8 variable_0020:1;                             /*!< ?? */
@@ -71,7 +70,6 @@ typedef struct ObjectInfo {
 		BIT_U8 scriptNoSlowdown:1;                          /*!< If Structure / Unit is outside viewport, do not slow down scripting. */
 		BIT_U8 targetAir:1;                                 /*!< Can target (and shoot) air units. */
 		BIT_U8 priority:1;                                  /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
-		BIT_U8 notused_4000:2;                              /*!< Never used - remaining bits. */
 	} flags;                                                /*!< General flags of the ObjectInfo. */
 	uint16 spawnChance;                                     /*!< Chance of spawning a Unit (if Structure: on destroying of Structure). */
 	uint16 hitpoints;                                       /*!< Default hitpoints for this Structure / Unit. */

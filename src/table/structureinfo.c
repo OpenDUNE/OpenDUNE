@@ -18,7 +18,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ true,
 		/* notOnConcrete        */ true,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -29,8 +28,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 20,
@@ -85,7 +83,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ true,
 		/* notOnConcrete        */ true,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -96,8 +93,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 20,
@@ -152,7 +148,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -163,8 +158,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 1000,
@@ -219,7 +213,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -230,8 +223,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 350,
@@ -286,7 +278,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -297,8 +288,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
@@ -353,7 +343,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -364,8 +353,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 400,
@@ -420,7 +408,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -431,8 +418,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 192,
 		/* hitpoints            */ 400,
@@ -487,7 +473,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -498,8 +483,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 400,
@@ -554,7 +538,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ true,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -565,8 +548,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 400,
@@ -621,7 +603,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -632,8 +613,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
@@ -688,7 +668,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -699,8 +678,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 300,
@@ -755,7 +733,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ true,
 		/* variable_0020        */ false,
@@ -766,8 +743,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 500,
@@ -822,7 +798,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ true,
 		/* variable_0020        */ false,
@@ -833,8 +808,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 450,
@@ -889,7 +863,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -900,8 +873,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 200,
@@ -956,7 +928,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ true,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -967,8 +938,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 50,
@@ -1023,7 +993,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -1034,8 +1003,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
@@ -1090,7 +1058,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -1101,8 +1068,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
@@ -1157,7 +1123,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -1168,8 +1133,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 150,
@@ -1224,7 +1188,6 @@ StructureInfo g_table_structureInfo[] = {
 		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
-		/* notused_0004         */ false,
 		/* notOnConcrete        */ false,
 		/* variable_0010        */ false,
 		/* variable_0020        */ false,
@@ -1235,8 +1198,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* tabSelectable        */ false,
 		/* scriptNoSlowdown     */ false,
 		/* targetAir            */ false,
-		/* priority             */ false,
-		/* notused_4000         */ false
+		/* priority             */ false
 		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 500,
