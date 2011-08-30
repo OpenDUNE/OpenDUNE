@@ -612,20 +612,20 @@ void GUI_Widget_Viewport_Draw(bool arg06, bool arg08, bool drawToMainScreen)
 
 		curPos = Tile_PackTile(s->position);
 
-		if (BitArray_Test(g_dirtyViewport, curPos)) s->variable_07 = 1;
+		if (BitArray_Test(g_dirtyViewport, curPos)) s->isDirty = true;
 
 		if (s->activities == NULL) continue;
-		if (s->variable_07 == 0 && !arg06) continue;
-		if (s->variable_0A == 0) continue;
+		if (!s->isDirty && !arg06) continue;
+		if (s->spriteID == 0) continue;
 
-		s->variable_07 = 0;
+		s->isDirty = false;
 
 		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 		if (!Map_IsPositionInViewport(s->position, &x, &y)) continue;
 
 		s_spriteFlags = 0xC000;
 
-		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(s->variable_0A, s->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
+		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(s->spriteID, s->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
 	}
 
 	if (g_var_39E8 != 0 || arg06 || updateDisplay) {

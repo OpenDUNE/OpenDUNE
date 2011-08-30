@@ -4516,7 +4516,7 @@ void GUI_DrawScreen(uint16 screenID)
 
 	if (screenID != 0) g_var_3A12 = true;
 
-	Map_Activity_Tick();
+	MapActivity_Tick();
 	Animation_Tick();
 	Unit_Sort();
 

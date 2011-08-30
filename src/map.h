@@ -56,10 +56,9 @@ typedef struct MapActivity {
 	uint32 timeOut;                                         /*!< Time out for the next activity. */
 	uint16 index;                                           /*!< Index in #g_mapActivity. */
 	uint8  houseID;                                         /*!< A houseID. */
-	uint8  variable_07;                                     /*!< ?? a bool. */
-	uint8  variable_08;                                     /*!< ?? */
+	bool   isDirty;                                         /*!< Does the MapAcitivty require a redraw next round. */
 	uint8  actCounter;                                      /*!< Index in #activities pointing to the next activity. */
-	uint16 variable_0A;                                     /*!< ?? an index. */
+	uint16 spriteID;                                        /*!< SpriteID. */
 	const Activity *activities;                             /*!< Activities being executed, \c 0x0 means 'unused'. */
 	tile32 position;                                        /*!< Position where this activity acts. */
 } MapActivity;
@@ -129,7 +128,7 @@ extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, ui
 extern uint16 Map_GetLandscapeType(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
-extern uint32 Map_Activity_Tick();
+extern uint32 MapActivity_Tick();
 extern void Map_ExplodeBloom(uint16 packed, uint8 houseID);
 extern void Map_FillCircleWithSpice(uint16 packed, uint16 radius);
 extern void Map_ChangeSpiceAmount(uint16 packed, int16 dir);
