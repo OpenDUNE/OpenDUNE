@@ -6,22 +6,22 @@
 #include <string.h>
 #include <ctype.h>
 #include "types.h"
-#include "os/strings.h"
+#include "../os/strings.h"
 
-#include "file.h"
-#include "gfx.h"
-#include "gui/gui.h"
-#include "gui/mentat.h"
-#include "gui/widget.h"
-#include "house.h"
-#include "input/input.h"
-#include "load.h"
-#include "opendune.h"
-#include "sprites.h"
-#include "string.h"
-#include "timer.h"
-#include "tools.h"
-#include "wsa.h"
+#include "../file.h"
+#include "../gfx.h"
+#include "../gui/gui.h"
+#include "../gui/mentat.h"
+#include "../gui/widget.h"
+#include "../house.h"
+#include "../input/input.h"
+#include "../load.h"
+#include "../opendune.h"
+#include "../sprites.h"
+#include "../string.h"
+#include "../timer.h"
+#include "../tools.h"
+#include "../wsa.h"
 
 
 static void GUI_Security_DrawText(char *text)

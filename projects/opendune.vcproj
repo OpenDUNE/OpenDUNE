@@ -491,30 +491,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\security.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\security.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\sprites.c"
 				>
 				<FileConfiguration
@@ -1113,6 +1089,30 @@
 				</File>
 				<File
 					RelativePath="..\src\gui\mentat.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\gui\security.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\gui\security.h"
 					>
 				</File>
 				<File

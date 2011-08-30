@@ -29,6 +29,7 @@ gui/editbox.c
 gui/font.c
 gui/gui.c
 gui/mentat.c
+gui/security.c
 gui/viewport.c
 gui/widget.c
 gui/widget_click.c
@@ -61,7 +62,6 @@ script/script.c
 script/structure.c
 script/team.c
 script/unit.c
-security.c
 sprites.c
 string.c
 structure.c
@@ -107,6 +107,7 @@ gfx.h
 gui/font.h
 gui/gui.h
 gui/mentat.h
+gui/security.h
 gui/widget.h
 house.h
 ini.h
@@ -131,7 +132,6 @@ save.h
 saveload/saveload.h
 scenario.h
 script/script.h
-security.h
 sprites.h
 string.h
 structure.h
