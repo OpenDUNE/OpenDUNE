@@ -39,7 +39,6 @@ typedef struct SelectionType {
 	uint16 variable_04;                                     /*!< ?? */
 	uint16 variable_06;                                     /*!< ?? */
 	uint16 defaultWidget;                                   /*!< Index of the default Widget. */
-	uint16 variable_0A;                                     /*!< ?? */
 } SelectionType;
 
 struct Widget;

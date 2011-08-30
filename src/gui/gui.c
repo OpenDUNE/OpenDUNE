@@ -2175,7 +2175,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
-	if (g_selectionType != selectionType || g_table_selectionType[selectionType].variable_0A != 0) {
+	if (g_selectionType != selectionType) {
 		uint16 oldSelectionType = g_selectionType;
 
 		Timer_SetTimer(TIMER_GAME, false);
