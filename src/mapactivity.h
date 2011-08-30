@@ -6,6 +6,26 @@
 #define MAPACTIVITY_H
 
 /**
+ * The valid types for command in Activity.
+ */
+typedef enum ActivityCommand {
+	MAPACTIVITY_STOP               = 0,                     /*!< Stop the MapActivity. */
+	MAPACTIVITY_SET_SPRITE         = 1,                     /*!< Set the sprite for the MapActivity. */
+	MAPACTIVITY_SET_TIMEOUT        = 2,                     /*!< Set the timeout for the MapActivity. */
+	MAPACTIVITY_SET_RANDOM_TIMEOUT = 3,                     /*!< Set a random timeout for the MapActivity. */
+	MAPACTIVITY_SET_SPRITE2        = 4,                     /*!< Set the sprite for the MapActivity. */
+	MAPACTIVITY_RESET              = 5,                     /*!< Reset the MapActivity. */
+	MAPACTIVITY_SET_COLUMN         = 6,                     /*!< Set the column of the position for the MapActivity. */
+	MAPACTIVITY_SET_ROW            = 7,                     /*!< Set the row of the position for the MapActivity. */
+	MAPACTIVITY_DAMAGE             = 8,                     /*!< Handle damage to a tile in a MapActivity. */
+	MAPACTIVITY_PLAY_VOICE         = 9,                     /*!< Play a voice. */
+	MAPACTIVITY_NOOP               = 10,                    /*!< Do nothing. */
+	MAPACTIVITY_SET_ANIMATION      = 11,                    /*!< Set the animation for the MapActivity. */
+
+	MAPACTIVITY_BLOOM_EXPLOSION    = 13                     /*!< Make a bloom explode. */
+} ActivityCommand;
+
+/**
  * The layout of a single activity.
  */
 typedef struct Activity {
@@ -26,8 +46,6 @@ typedef struct MapActivity {
 	const Activity *activities;                             /*!< Activities being executed, \c 0x0 means 'unused'. */
 	tile32 position;                                        /*!< Position where this activity acts. */
 } MapActivity;
-
-typedef void (*MapActivityProc)(MapActivity *ma, uint16 parameter);
 
 extern MapActivity g_mapActivity[];
 

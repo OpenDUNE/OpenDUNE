@@ -687,23 +687,6 @@ void MapActivity_Initialize(uint16 type, tile32 position)
  */
 uint32 MapActivity_Tick()
 {
-	static MapActivityProc mapActivityFunctions[14] = {
-		/* 00 */ MapActivity_StopActivity,
-		/* 01 */ MapActivity_SetSpriteID,
-		/* 02 */ MapActivity_SetTimeout,
-		/* 03 */ MapActivity_SetRandomTimeout,
-		/* 04 */ MapActivity_SetSpriteID,
-		/* 05 */ MapActivity_ResetActCounter,
-		/* 06 */ MapActivity_SetColumn,
-		/* 07 */ MapActivity_SetRow,
-		/* 08 */ MapActivity_Damage,
-		/* 09 */ MapActivity_PlayVoice,
-		/* 10 */ MapActivity_NoOperation,
-		/* 11 */ MapActivity_SetAnimation,
-		/* 12 */ NULL,
-		/* 13 */ MapActivity_PerformBloomExplosion
-	};
-
 	uint8 i;
 
 	if (s_mapActivityTimeout > g_timerGUI) return s_mapActivityTimeout;
@@ -723,11 +706,23 @@ uint32 MapActivity_Tick()
 
 			ma->actCounter++;
 
-			/* Any invalid action results in stopping of the activity */
-			if (command == 12 || command > 13) command = 0;
+			switch (command) {
+				default:
+				case MAPACTIVITY_STOP:               MapActivity_StopActivity(ma, parameter); break;
 
-			/* Execute the activity */
-			mapActivityFunctions[command](ma, parameter);
+				case MAPACTIVITY_SET_SPRITE:         MapActivity_SetSpriteID(ma, parameter); break;
+				case MAPACTIVITY_SET_TIMEOUT:        MapActivity_SetTimeout(ma, parameter); break;
+				case MAPACTIVITY_SET_RANDOM_TIMEOUT: MapActivity_SetRandomTimeout(ma, parameter); break;
+				case MAPACTIVITY_SET_SPRITE2:        MapActivity_SetSpriteID(ma, parameter); break;
+				case MAPACTIVITY_RESET:              MapActivity_ResetActCounter(ma, parameter); break;
+				case MAPACTIVITY_SET_COLUMN:         MapActivity_SetColumn(ma, parameter); break;
+				case MAPACTIVITY_SET_ROW:            MapActivity_SetRow(ma, parameter); break;
+				case MAPACTIVITY_DAMAGE:             MapActivity_Damage(ma, parameter); break;
+				case MAPACTIVITY_PLAY_VOICE:         MapActivity_PlayVoice(ma, parameter); break;
+				case MAPACTIVITY_NOOP:               MapActivity_NoOperation(ma, parameter); break;
+				case MAPACTIVITY_SET_ANIMATION:      MapActivity_SetAnimation(ma, parameter); break;
+				case MAPACTIVITY_BLOOM_EXPLOSION:    MapActivity_PerformBloomExplosion(ma, parameter); break;
+			}
 		}
 
 		if (ma->activities == NULL || ma->timeOut > s_mapActivityTimeout) continue;
