@@ -45,8 +45,8 @@ MSVC_PACKED_END
 assert_compile(sizeof(Tile) == 0x04);
 
 typedef struct Activity {
-	uint8 action;
-	uint16 data;
+	uint8  command;                                         /*!< The command of the Activity. */
+	uint16 parameter;                                       /*!< The parameter of the Activity. */
 } Activity;
 
 /**
@@ -62,6 +62,8 @@ typedef struct MapActivity {
 	const Activity *activities;                             /*!< Activities being executed, \c 0x0 means 'unused'. */
 	tile32 position;                                        /*!< Position where this activity acts. */
 } MapActivity;
+
+typedef void (*MapActivityProc)(MapActivity *ma, uint16 parameter);
 
 /** Definition of the map size of a map scale. */
 typedef struct MapInfo {

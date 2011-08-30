@@ -813,7 +813,7 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 /**
  * Update the tile a MapActivity is on.
  * @param type Are we introducing (0) or updating (2) the tile.
- * @param s The MapActivity in question.
+ * @param ma The MapActivity in question.
  */
 static void MapActivity_Update(uint16 type, MapActivity *ma)
 {
@@ -828,9 +828,10 @@ static void MapActivity_Update(uint16 type, MapActivity *ma)
 
 /**
  * Handle damage to a tile, removing spice, removing concrete, stuff like that.
- * @param s The MapActivity to handle damage on.
+ * @param ma The MapActivity to handle damage on.
+ * @param parameter Unused parameter.
  */
-static void MapActivity_Damage(MapActivity *ma)
+static void MapActivity_Damage(MapActivity *ma, uint16 parameter)
 {
 	static const int16 bloomLocations[] = { -1, 2, 1 };
 
@@ -840,6 +841,8 @@ static void MapActivity_Damage(MapActivity *ma)
 	int16 iconMapIndex;
 	uint16 overlaySpriteID;
 	uint16 *iconMap;
+
+	VARIABLE_NOT_USED(parameter);
 
 	packed = Tile_PackTile(ma->position);
 
@@ -885,7 +888,7 @@ static void MapActivity_Damage(MapActivity *ma)
 
 /**
  * Play a voice for a MapActivity.
- * @param s The MapActivity to play the voice on.
+ * @param ma The MapActivity to play the voice on.
  * @param voiceID The voice to play.
  */
 static void MapActivity_PlayVoice(MapActivity *ma, uint16 voiceID)
@@ -895,21 +898,25 @@ static void MapActivity_PlayVoice(MapActivity *ma, uint16 voiceID)
 
 /**
  * A No-Op for MapActivity.
- * @param s The MapActivity.
+ * @param ma The MapActivity.
+ * @param parameter Unused parameter.
  */
-static void MapActivity_NoOperation(MapActivity *ma)
+static void MapActivity_NoOperation(MapActivity *ma, uint16 parameter)
 {
 	VARIABLE_NOT_USED(ma);
+	VARIABLE_NOT_USED(parameter);
 }
 
 /**
  * Let a bloom explode.
- * @param s The MapActivity to perform to explosion on.
- * @return False if the explosion happened, true otherwise (if it wasn't a bloom tile).
+ * @param ma The MapActivity to perform to explosion on.
+ * @param parameter Unused parameter.
  */
-static void MapActivity_PerformBloomExplosion(MapActivity *ma)
+static void MapActivity_PerformBloomExplosion(MapActivity *ma, uint16 parameter)
 {
 	uint16 packed;
+
+	VARIABLE_NOT_USED(parameter);
 
 	packed = Tile_PackTile(ma->position);
 
@@ -920,7 +927,7 @@ static void MapActivity_PerformBloomExplosion(MapActivity *ma)
 
 /**
  * Set the animation of a MapActivity.
- * @param s The MapActivity to change.
+ * @param ma The MapActivity to change.
  * @param animationMapID The animation map to use.
  */
 static void MapActivity_SetAnimation(MapActivity *ma, uint16 animationMapID)
@@ -940,7 +947,7 @@ static void MapActivity_SetAnimation(MapActivity *ma, uint16 animationMapID)
 
 /**
  * Set position at the top of a column.
- * @param s The MapActivity to change.
+ * @param ma The MapActivity to change.
  * @param column Column number.
  */
 static void MapActivity_SetColumn(MapActivity *ma, uint16 column)
@@ -952,7 +959,7 @@ static void MapActivity_SetColumn(MapActivity *ma, uint16 column)
 
 /**
  * Set position at the left of a row.
- * @param s The MapActivity to change.
+ * @param ma The MapActivity to change.
  * @param row Row number.
  */
 static void MapActivity_SetRow(MapActivity *ma, uint16 row)
@@ -963,20 +970,26 @@ static void MapActivity_SetRow(MapActivity *ma, uint16 row)
 }
 
 /**
- * Reset the activity counter of activity \a s.
- * @param s The MapActivity being reset.
+ * Reset the activity counter of activity \a ma.
+ * @param ma The MapActivity being reset.
+ * @param parameter Unused parameter.
  */
-static void MapActivity_ResetActCounter(MapActivity *ma)
+static void MapActivity_ResetActCounter(MapActivity *ma, uint16 parameter)
 {
+	VARIABLE_NOT_USED(parameter);
+
 	ma->actCounter = 0;
 }
 
 /**
  * Stop performing an activity.
- * @param s The MapActivity to end.
+ * @param ma The MapActivity to end.
+ * @param parameter Unused parameter.
  */
-static void MapActivity_StopActivity(MapActivity *ma)
+static void MapActivity_StopActivity(MapActivity *ma, uint16 parameter)
 {
+	VARIABLE_NOT_USED(parameter);
+
 	g_map[Tile_PackTile(ma->position)].hasMapActivity = false;
 
 	MapActivity_Update(0, ma);
@@ -985,8 +998,8 @@ static void MapActivity_StopActivity(MapActivity *ma)
 }
 
 /**
- * Set timeout for next the map activity of \a s.
- * @param s The MapActivity to change.
+ * Set timeout for next the map activity of \a ma.
+ * @param ma The MapActivity to change.
  * @param value The new timeout value.
  */
 static void MapActivity_SetTimeout(MapActivity *ma, uint16 value)
@@ -995,8 +1008,8 @@ static void MapActivity_SetTimeout(MapActivity *ma, uint16 value)
 }
 
 /**
- * Set timeout for next the map activity of \a s to a random value up to \a value.
- * @param s The MapActivity to change.
+ * Set timeout for next the map activity of \a ma to a random value up to \a value.
+ * @param ma The MapActivity to change.
  * @param value The maximum amount of timeout.
  */
 static void MapActivity_SetRandomTimeout(MapActivity *ma, uint16 value)
@@ -1006,7 +1019,7 @@ static void MapActivity_SetRandomTimeout(MapActivity *ma, uint16 value)
 
 /**
  * Set the SpriteID of the MapActivity.
- * @param s The MapActivity to change.
+ * @param ma The MapActivity to change.
  * @param spriteID The new SpriteID for the MapActivity.
  */
 static void MapActivity_SetSpriteID(MapActivity *ma, uint16 spriteID)
@@ -1030,13 +1043,13 @@ static void MapActivity_StopAtPosition(uint16 packed)
 	if (!t->hasMapActivity) return;
 
 	for (i = 0; i < 32; i++) {
-		MapActivity *s;
+		MapActivity *ma;
 
-		s = &g_mapActivity[i];
+		ma = &g_mapActivity[i];
 
-		if (s->activities == NULL || Tile_PackTile(s->position) != packed) continue;
+		if (ma->activities == NULL || Tile_PackTile(ma->position) != packed) continue;
 
-		MapActivity_StopActivity(s);
+		MapActivity_StopActivity(ma, 0);
 	}
 }
 
@@ -1378,6 +1391,23 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
  */
 uint32 MapActivity_Tick()
 {
+	static MapActivityProc mapActivityFunctions[14] = {
+		/* 00 */ MapActivity_StopActivity,
+		/* 01 */ MapActivity_SetSpriteID,
+		/* 02 */ MapActivity_SetTimeout,
+		/* 03 */ MapActivity_SetRandomTimeout,
+		/* 04 */ MapActivity_SetSpriteID,
+		/* 05 */ MapActivity_ResetActCounter,
+		/* 06 */ MapActivity_SetColumn,
+		/* 07 */ MapActivity_SetRow,
+		/* 08 */ MapActivity_Damage,
+		/* 09 */ MapActivity_PlayVoice,
+		/* 10 */ MapActivity_NoOperation,
+		/* 11 */ MapActivity_SetAnimation,
+		/* 12 */ NULL,
+		/* 13 */ MapActivity_PerformBloomExplosion
+	};
+
 	uint8 i;
 
 	if (s_mapActivityTimeout > g_timerGUI) return s_mapActivityTimeout;
@@ -1385,38 +1415,28 @@ uint32 MapActivity_Tick()
 	s_mapActivityTimeout += 10000;
 
 	for (i = 0; i < 32; i++) {
-		MapActivity *s;
+		MapActivity *ma;
 
-		s = &g_mapActivity[i];
+		ma = &g_mapActivity[i];
 
-		if (s->activities == NULL) continue;
+		if (ma->activities == NULL) continue;
 
-		if (s->timeOut <= g_timerGUI) {
-			uint16 data   = s->activities[s->actCounter].data;
-			uint16 action = s->activities[s->actCounter].action;
+		if (ma->timeOut <= g_timerGUI) {
+			uint16 parameter = ma->activities[ma->actCounter].parameter;
+			uint16 command   = ma->activities[ma->actCounter].command;
 
-			s->actCounter++;
+			ma->actCounter++;
 
-			switch (action) {
-				case  1: MapActivity_SetSpriteID(s, data); break;
-				case  2: MapActivity_SetTimeout(s, data); break;
-				case  3: MapActivity_SetRandomTimeout(s, data); break;
-				case  4: MapActivity_SetSpriteID(s, data); break;
-				case  5: MapActivity_ResetActCounter(s); break;
-				case  6: MapActivity_SetColumn(s, data); break;
-				case  7: MapActivity_SetRow(s, data); break;
-				case  8: MapActivity_Damage(s); break;
-				case  9: MapActivity_PlayVoice(s, data); break;
-				case 10: MapActivity_NoOperation(s); break;
-				case 11: MapActivity_SetAnimation(s, data); break;
-				case 13: MapActivity_PerformBloomExplosion(s); break;
-				default: MapActivity_StopActivity(s); break;
-			}
+			/* Any invalid action results in stopping of the activity */
+			if (command == 12 || command > 13) command = 0;
+
+			/* Execute the activity */
+			mapActivityFunctions[command](ma, parameter);
 		}
 
-		if (s->activities == NULL || s->timeOut > s_mapActivityTimeout) continue;
+		if (ma->activities == NULL || ma->timeOut > s_mapActivityTimeout) continue;
 
-		s_mapActivityTimeout = s->timeOut;
+		s_mapActivityTimeout = ma->timeOut;
 	}
 
 	return s_mapActivityTimeout;
