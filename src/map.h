@@ -59,15 +59,14 @@ typedef struct LandscapeInfo {
 	uint16 notused_00;
 	uint16 notused_01;
 	uint8  movementSpeed[6];                                /*!< Per MovementType the speed a Unit has on this LandscapeType. */
-	uint16 letUnitWobble;                                   /*!< True if a Unit on this LandscapeType should wobble around while moving on it. */
-	uint16 isValidForStructure;                             /*!< True if a Structure with notOnConcrete false can be build on this LandscapeType. */
-	uint16 variable_07;                                     /*!< ?? */
-	uint16 isValidForStructure2;                            /*!< True if a Structure with notOnConcrete true can be build on this LandscapeType. */
-	uint16 variable_09;                                     /*!< ?? */
-	uint16 variable_10;                                     /*!< ?? */
+	bool   letUnitWobble;                                   /*!< True if a Unit on this LandscapeType should wobble around while moving on it. */
+	bool   isValidForStructure;                             /*!< True if a Structure with notOnConcrete false can be build on this LandscapeType. */
+	bool   variable_07;                                     /*!< ?? */
+	bool   isValidForStructure2;                            /*!< True if a Structure with notOnConcrete true can be build on this LandscapeType. */
+	bool   variable_09;                                     /*!< ?? */
+	bool   variable_10;                                     /*!< ?? */
 	uint16 radarColour;                                     /*!< Colour used on radar for this LandscapeType. */
 	uint16 spriteID;                                        /*!< Sprite used on map for this LandscapeType. */
-	uint16 notused_13;
 } LandscapeInfo;
 
 struct Unit;

@@ -20,7 +20,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 1,
 		/* radarColour          */ 88,
 		/* spriteID             */ 37,
-		/* notused_13           */ 0x15
 	},
 
 	{ /* 1 / LST_PARTIAL_ROCK */
@@ -35,7 +34,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 1,
 		/* radarColour          */ 28,
 		/* spriteID             */ 39,
-		/* notused_13           */ 0x17
 	},
 
 	{ /* 2 / LST_ENTIRELY_DUNE */
@@ -50,7 +48,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 1,
 		/* radarColour          */ 92,
 		/* spriteID             */ 41,
-		/* notused_13           */ 0x16
 	},
 
 	{ /* 3 / LST_PARTIAL_DUNE */
@@ -65,7 +62,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 1,
 		/* radarColour          */ 89,
 		/* spriteID             */ 43,
-		/* notused_13           */ 0x16
 	},
 
 	{ /* 4 / LST_ENTIRELY_ROCK */
@@ -80,7 +76,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 2,
 		/* radarColour          */ 30,
 		/* spriteID             */ 45,
-		/* notused_13           */ 0x17
 	},
 
 	{ /* 5 / LST_MOSTLY_ROCK */
@@ -95,7 +90,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 2,
 		/* radarColour          */ 29,
 		/* spriteID             */ 47,
-		/* notused_13           */ 0x17
 	},
 
 	{ /* 6 / LST_ENTIRELY_MOUNTAIN */
@@ -110,7 +104,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 0,
 		/* radarColour          */ 12,
 		/* spriteID             */ 49,
-		/* notused_13           */ 0x18
 	},
 
 	{ /* 7 / LST_PARTIAL_MOUNTAIN */
@@ -125,7 +118,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 0,
 		/* radarColour          */ 133,
 		/* spriteID             */ 51,
-		/* notused_13           */ 0x18
 	},
 
 	{ /* 8 / LST_SPICE */
@@ -140,7 +132,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 1,
 		/* radarColour          */ 88,
 		/* spriteID             */ 37,
-		/* notused_13           */ 0x19
 	},
 
 	{ /* 9 / LST_THICK_SPICE */
@@ -155,7 +146,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 1,
 		/* radarColour          */ 88,
 		/* spriteID             */ 37,
-		/* notused_13           */ 0x19
 	},
 
 	{ /* 10 / LST_CONCRETE_SLAB */
@@ -170,7 +160,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 2,
 		/* radarColour          */ 133,
 		/* spriteID             */ 51,
-		/* notused_13           */ 0x2
 	},
 
 	{ /* 11 / LST_WALL */
@@ -185,7 +174,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 0,
 		/* radarColour          */ 65535,
 		/* spriteID             */ 31,
-		/* notused_13           */ 0xF
 	},
 
 	{ /* 12 / LST_STRUCTURE */
@@ -200,7 +188,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 0,
 		/* radarColour          */ 65535,
 		/* spriteID             */ 31,
-		/* notused_13           */ 0x0
 	},
 
 	{ /* 13 / LST_DESTROYED_WALL */
@@ -215,7 +202,6 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 2,
 		/* radarColour          */ 29,
 		/* spriteID             */ 47,
-		/* notused_13           */ 0x17
 	},
 
 	{ /* 14 / LST_BLOOM_FIELD */
@@ -230,6 +216,5 @@ LandscapeInfo g_table_landscapeInfo[LST_MAX] = {
 		/* variable_10          */ 1,
 		/* radarColour          */ 50,
 		/* spriteID             */ 57,
-		/* notused_13           */ 0x15
 	}
 };
