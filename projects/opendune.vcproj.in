@@ -168,6 +168,10 @@
 	</References>
 	<Files>
 !!FILES!!
+		<File
+			RelativePath="..\source.list"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

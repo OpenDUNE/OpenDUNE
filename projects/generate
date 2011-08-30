@@ -74,11 +74,12 @@ BEGIN {
 }
 /(c|h)$/ {
 	file = path "\\" $0;
+	excluded = 0;
 	if (source != null) {
 		if (file in files) {
 			delete files[file];
 		} else {
-			next;
+			excluded = 1;
 		}
 	}
 	print tab "			<File";
@@ -88,6 +89,7 @@ BEGIN {
 	if (a[2] == "c") {
 		print tab "				<FileConfiguration";
 		print tab "					Name=\"Debug|Win32\"";
+		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
 		print tab "					>";
 		print tab "					<Tool";
 		print tab "						Name=\"VCCLCompilerTool\"";
@@ -96,6 +98,7 @@ BEGIN {
 		print tab "				</FileConfiguration>";
 		print tab "				<FileConfiguration";
 		print tab "					Name=\"Release|Win32\"";
+		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
 		print tab "					>";
 		print tab "					<Tool";
 		print tab "						Name=\"VCCLCompilerTool\"";
