@@ -493,7 +493,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 
 	ai = &g_table_actionInfo[action];
 
-	switch (ai->variable_06) {
+	switch (ai->switchType) {
 		case 0:
 			if (u->currentDestination.tile != 0) {
 				u->nextActionID = action;

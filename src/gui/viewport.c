@@ -176,7 +176,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		if (g_enableVoices == 0) {
 			Driver_Sound_Play(36, 0xFF);
 		} else if (g_table_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
-			Sound_StartSound(g_table_actionInfo[action].variable_0A);
+			Sound_StartSound(g_table_actionInfo[action].soundID);
 		} else {
 			Sound_StartSound(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
 		}

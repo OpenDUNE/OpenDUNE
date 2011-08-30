@@ -273,10 +273,10 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	ai = &g_table_actionInfo[action];
 
-	if (ai->variable_08 != g_selectionType) {
+	if (ai->selectionType != g_selectionType) {
 		g_unitActive = g_unitSelected;
 		g_activeAction = action;
-		GUI_ChangeSelectionType(ai->variable_08);
+		GUI_ChangeSelectionType(ai->selectionType);
 
 		return true;
 	}
@@ -288,7 +288,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	Unit_SetAction(u, action);
 
-	if (ui->movementType == MOVEMENT_FOOT) Sound_StartSound(ai->variable_08);
+	if (ui->movementType == MOVEMENT_FOOT) Sound_StartSound(ai->selectionType);
 
 	if (unitAction == action) return true;
 
