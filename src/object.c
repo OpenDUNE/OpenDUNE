@@ -62,7 +62,7 @@ void Object_Script_Variable4_Set(Object *o, uint16 encoded)
 
 	o->script.variables[4] = encoded;
 
-	if (o->flags.s.variable_6_0001) return;
+	if (o->flags.s.isUnit) return;
 
 	si = &g_table_structureInfo[o->type];
 	if (!si->o.flags.variable_0010) return;

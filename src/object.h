@@ -32,7 +32,7 @@ typedef struct Object {
 			BIT_U8 repairing:1;                             /*!< Structure is being repaired. */
 			BIT_U8 onHold:1;                                /*!< Structure is on hold. */
 			BIT_U8 notused_4_8000:1;
-			BIT_U8 variable_6_0001:1;                       /*!< Unit ?? If true, this is an unit, otherwise structure? */
+			BIT_U8 isUnit:1;                                /*!< If true, this is an Unit, otherwise a Structure. */
 			BIT_U8 upgrading:1;                             /*!< Structure is being upgraded. */
 			BIT_U8 notused_6_0004:6;
 			BIT_U8 notused_6_0100:8;
