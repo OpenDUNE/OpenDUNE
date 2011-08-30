@@ -38,7 +38,7 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT8,  speedRemainder),
 	SLD_ENTRY (Unit, SLDT_UINT8,  speed),
 	SLD_ENTRY (Unit, SLDT_UINT8,  movingSpeed),
-	SLD_ENTRY (Unit, SLDT_UINT8,  variable_6C),
+	SLD_ENTRY (Unit, SLDT_UINT8,  wobbleIndex),
 	SLD_ENTRY (Unit,  SLDT_INT8,  spriteOffset),
 	SLD_ENTRY (Unit, SLDT_UINT8,  blinkCounter),
 	SLD_ENTRY (Unit, SLDT_UINT8,  team),
