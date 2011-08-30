@@ -1176,6 +1176,9 @@ static void GameLoop_GameEndAnimation()
 	GameLoop_FinishAnimation();
 
 	GameLoop_GameCredits();
+
+	free(g_stringsIntro);
+	g_stringsIntro = NULL;
 }
 
 /**
@@ -1426,6 +1429,9 @@ static void GameLoop_GameIntroAnimation()
 	}
 
 	GUI_ChangeSelectionType(0);
+
+	free(g_stringsIntro);
+	g_stringsIntro = NULL;
 }
 
 static uint16 GameLoop_B4E6_0000(uint16 arg06, uint32 arg08, uint16 arg0C)
