@@ -14,7 +14,7 @@ typedef enum ActivityCommand {
 	MAPACTIVITY_SET_TIMEOUT,                                /*!< Set the timeout for the MapActivity. */
 	MAPACTIVITY_SET_RANDOM_TIMEOUT,                         /*!< Set a random timeout for the MapActivity. */
 	MAPACTIVITY_SET_ROW,                                    /*!< Set the row of the position for the MapActivity. */
-	MAPACTIVITY_DAMAGE,                                     /*!< Handle damage to a tile in a MapActivity. */
+	MAPACTIVITY_TILE_DAMAGE,                                /*!< Handle damage to a tile in a MapActivity. */
 	MAPACTIVITY_PLAY_VOICE,                                 /*!< Play a voice. */
 	MAPACTIVITY_NOOP,                                       /*!< Do nothing. */
 	MAPACTIVITY_SET_ANIMATION,                              /*!< Set the animation for the MapActivity. */
@@ -44,8 +44,9 @@ typedef struct MapActivity {
 } MapActivity;
 
 extern MapActivity g_mapActivity[];
+extern const Activity *g_table_mapActivity[];
 
-extern void MapActivity_Initialize(uint16 type, tile32 position);
+extern void MapActivity_Start(uint16 type, tile32 position);
 extern uint32 MapActivity_Tick();
 
 #endif /* MAPACTIVITY_H */

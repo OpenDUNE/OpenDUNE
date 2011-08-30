@@ -71,6 +71,7 @@ table/fileinfo.c
 table/houseanimation.c
 table/houseinfo.c
 table/landscapeinfo.c
+table/mapactivity.c
 table/movementtype.c
 table/selectiontype.c
 table/sound.c

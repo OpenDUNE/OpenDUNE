@@ -577,7 +577,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		if (loc22) Map_UpdateWall(positionPacked);
 	}
 
-	MapActivity_Initialize(type, position);
+	MapActivity_Start(type, position);
 }
 
 /**
@@ -710,8 +710,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 {
 	PoolFindStruct find;
 
-	MapActivity_Initialize(type, position);
-
+	MapActivity_Start(type, position);
 
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
@@ -739,7 +738,7 @@ void Map_ExplodeBloom(uint16 packed, uint8 houseID)
 	if (g_var_38BC == 0) {
 		Unit_Remove(Unit_Get_ByPackedTile(packed));
 		g_map[packed].groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
-		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
+		Map_MakeExplosion(19, Tile_UnpackTile(packed), 0, 0);
 	}
 
 	if (houseID == g_playerHouseID) Sound_Output_Feedback(36);
