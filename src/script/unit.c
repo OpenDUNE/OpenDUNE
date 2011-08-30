@@ -163,7 +163,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 			return ret;
 		}
 
-		if ((s->state == STRUCTURE_STATE_IDLE || (si->o.flags.variable_0010 && s->state == STRUCTURE_STATE_BUSY)) && s->o.linkedID == 0xFF) {
+		if ((s->state == STRUCTURE_STATE_IDLE || (si->o.flags.busyStateIsIncoming && s->state == STRUCTURE_STATE_BUSY)) && s->o.linkedID == 0xFF) {
 			Voice_PlayAtTile(24, u->o.position);
 
 			Unit_EnterStructure(Unit_Get_ByIndex(u->o.linkedID), s);
