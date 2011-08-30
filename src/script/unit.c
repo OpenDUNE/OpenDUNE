@@ -580,7 +580,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	uint16 target;
 	UnitType typeID;
 	uint16 distance;
-	bool loc1A;
+	bool fireTwice;
 	uint16 damage;
 
 	u = g_scriptCurrentUnit;
@@ -622,7 +622,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	damage = ui->damage;
 	typeID = ui->bulletType;
 
-	loc1A = ui->flags.firesTwice && u->o.hitpoints > ui->o.hitpoints / 2;
+	fireTwice = ui->flags.firesTwice && u->o.hitpoints > ui->o.hitpoints / 2;
 
 	if ((u->o.type == UNIT_TROOPERS || u->o.type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
 
@@ -681,11 +681,11 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	u->fireDelay = Tools_AdjustToGameSpeed(ui->fireDelay * 2, 1, 255, true) & 0xFF;
 
-	if (loc1A) {
-		u->o.flags.s.variable_4_0010 = !u->o.flags.s.variable_4_0010;
-		if (u->o.flags.s.variable_4_0010) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
+	if (fireTwice) {
+		u->o.flags.s.fireTwiceFlip = !u->o.flags.s.fireTwiceFlip;
+		if (u->o.flags.s.fireTwiceFlip) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
 	} else {
-		u->o.flags.s.variable_4_0010 = false;
+		u->o.flags.s.fireTwiceFlip = false;
 	}
 
 	u->fireDelay += Tools_Random_256() & 1;

@@ -20,7 +20,7 @@ typedef struct Object {
 			BIT_U8 allocated:1;                             /*!< The Object is allocated (created, and ready to be put on the map). */
 			BIT_U8 isNotOnMap:1;                            /*!< The Object is not on the map (under construction, in refinery, etc). */
 			BIT_U8 isSmoking:1;                             /*!< The Object has a smoke cloud coming out of it. */
-			BIT_U8 variable_4_0010:1;                       /*!< Unit ?? */
+			BIT_U8 fireTwiceFlip:1;                         /*!< Used for Unit fire twice, to keep track if it is the second shot. */
 			BIT_U8 animationFlip:1;                         /*!< Used for Unit (bullet / missile) animation, to differ between two sprite groups. */
 			BIT_U8 variable_4_0040:1;                       /*!< Unit ?? */
 			BIT_U8 isWobbling:1;                            /*!< If true, the Unit will be wobbling during movement. */
