@@ -64,7 +64,7 @@ typedef struct ObjectInfo {
 		BIT_U8 blurTile:1;                                  /*!< If true, this blurs the tile the Unit is on. */
 		BIT_U8 hasTurret:1;                                 /*!< If true, the Unit has a turret seperate from his base unit. */
 		BIT_U8 conquerable:1;                               /*!< Structure can be invaded and subsequently conquered when hitpoints are low. */
-		BIT_U8 variable_0100:1;                             /*!< ?? Used in Script Commands. */
+		BIT_U8 canBePickedUp:1;                             /*!< If true, it can be picked up (by a CarryAll). */
 		BIT_U8 noMessageOnDeath:1;                          /*!< Do not show a message (or sound) when this Structure / Unit is destroyed. */
 		BIT_U8 tabSelectable:1;                             /*!< Is Structure / Unit selectable by pressing tab (which cycles through all Units and Structures). */
 		BIT_U8 scriptNoSlowdown:1;                          /*!< If Structure / Unit is outside viewport, do not slow down scripting. */

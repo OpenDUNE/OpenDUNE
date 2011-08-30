@@ -2072,9 +2072,7 @@ void Unit_Hide(Unit *unit)
 }
 
 /**
- * Find a specified type of unit owned by the house.
- *
- * @note This also gives the found unit a move command, so it starts moving towards the target.
+ * Call a specified type of unit owned by the house to you.
  *
  * @param type The type of the Unit to find.
  * @param houseID The houseID of the Unit to find.
@@ -2082,7 +2080,7 @@ void Unit_Hide(Unit *unit)
  * @param createCarryall Create a carryall if none found.
  * @return The found Unit, or NULL if none found.
  */
-Unit *Unit_FindUnitByType(UnitType type, uint8 houseID, uint16 target, bool createCarryall)
+Unit *Unit_CallUnitByType(UnitType type, uint8 houseID, uint16 target, bool createCarryall)
 {
 	PoolFindStruct find;
 	Unit *unit = NULL;

@@ -225,7 +225,7 @@ uint16 Script_Structure_FindUnitByType(ScriptEngine *script)
 		return IT_NONE;
 	}
 
-	carryall = Unit_FindUnitByType(type, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), position == 0);
+	carryall = Unit_CallUnitByType(type, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), position == 0);
 
 	if (carryall == NULL) return IT_NONE;
 

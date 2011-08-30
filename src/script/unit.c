@@ -1484,7 +1484,7 @@ uint16 Script_Unit_StartAnimation(ScriptEngine *script)
 }
 
 /**
- * Find a UnitType and make it go to the current unit. In general, type should
+ * Call a UnitType and make it go to the current unit. In general, type should
  *  be a Carry-All for this to make any sense.
  *
  * Stack: 1 - An unit type.
@@ -1492,7 +1492,7 @@ uint16 Script_Unit_StartAnimation(ScriptEngine *script)
  * @param script The script engine to operate on.
  * @return An encoded unit index.
  */
-uint16 Script_Unit_FindUnitByType(ScriptEngine *script)
+uint16 Script_Unit_CallUnitByType(ScriptEngine *script)
 {
 	Unit *u;
 	Unit *u2;
@@ -1502,11 +1502,11 @@ uint16 Script_Unit_FindUnitByType(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 
 	if (u->o.script.variables[4] != 0) return u->o.script.variables[4];
-	if (!g_table_unitInfo[u->o.type].o.flags.variable_0100 || u->deviated != 0) return 0;
+	if (!g_table_unitInfo[u->o.type].o.flags.canBePickedUp || u->deviated != 0) return 0;
 
 	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
-	u2 = Unit_FindUnitByType(STACK_PEEK(1), Unit_GetHouseID(u), encoded, false);
+	u2 = Unit_CallUnitByType(STACK_PEEK(1), Unit_GetHouseID(u), encoded, false);
 	if (u2 == NULL) return 0;
 
 	encoded2 = Tools_Index_Encode(u2->o.index, IT_UNIT);

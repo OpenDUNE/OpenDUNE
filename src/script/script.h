@@ -149,7 +149,7 @@ extern uint16 Script_Unit_MoveToStructure(ScriptEngine *script);
 extern uint16 Script_Unit_GetAmount(ScriptEngine *script);
 extern uint16 Script_Unit_IsInTransport(ScriptEngine *script);
 extern uint16 Script_Unit_StartAnimation(ScriptEngine *script);
-extern uint16 Script_Unit_FindUnitByType(ScriptEngine *script);
+extern uint16 Script_Unit_CallUnitByType(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown2552(ScriptEngine *script);
 extern uint16 Script_Unit_FindStructure(ScriptEngine *script);
 extern uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script);

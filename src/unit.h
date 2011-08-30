@@ -232,7 +232,7 @@ extern void Unit_SetSpeed(Unit *unit, uint16 speed);
 extern Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 damage, uint16 target);
 extern void Unit_DisplayStatusText(Unit *unit);
 extern void Unit_Hide(Unit *unit);
-extern Unit *Unit_FindUnitByType(UnitType type, uint8 houseID, uint16 target, bool createCarryall);
+extern Unit *Unit_CallUnitByType(UnitType type, uint8 houseID, uint16 target, bool createCarryall);
 extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
 extern int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction);
 extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
