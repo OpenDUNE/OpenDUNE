@@ -881,7 +881,7 @@ void Structure_ActivateSpecial(Structure *s)
 			uint16 i;
 
 			/* Find a random location to appear */
-			location = Map_B4CD_1816(4, HOUSE_INVALID);
+			location = Map_FindLocationTile(4, HOUSE_INVALID);
 
 			for (i = 0; i < 5; i++) {
 				Unit *u;

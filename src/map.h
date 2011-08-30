@@ -108,12 +108,12 @@ extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, ui
 extern uint16 Map_GetLandscapeType(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
-extern void Map_ExplodeBloom(uint16 packed, uint8 houseID);
+extern void Map_Bloom_ExplodeSpice(uint16 packed, uint8 houseID);
 extern void Map_FillCircleWithSpice(uint16 packed, uint16 radius);
 extern void Map_ChangeSpiceAmount(uint16 packed, int16 dir);
 extern void Map_SetViewportPosition(uint16 packed);
-extern void Map_B4CD_160C(uint16 packed, uint8 houseID);
-extern uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID);
+extern void Map_Bloom_ExplodeSpecial(uint16 packed, uint8 houseID);
+extern uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID);
 extern void Map_UpdateAround(uint16 arg06, tile32 position, struct Unit *unit, uint8 function);
 extern uint16 Map_SearchSpice(uint16 packed, uint16 radius);
 extern void Map_SelectNext(bool arg06);

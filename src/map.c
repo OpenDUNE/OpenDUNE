@@ -733,7 +733,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
  * @param packed Center position.
  * @param houseID %House causing the explosion.
  */
-void Map_ExplodeBloom(uint16 packed, uint8 houseID)
+void Map_Bloom_ExplodeSpice(uint16 packed, uint8 houseID)
 {
 	if (g_var_38BC == 0) {
 		Unit_Remove(Unit_Get_ByPackedTile(packed));
@@ -894,11 +894,17 @@ void Map_SetViewportPosition(uint16 packed)
 	g_viewportPosition = Tile_PackXY(x, y);
 }
 
-void Map_B4CD_160C(uint16 packed, uint8 houseID)
+/**
+ * A unit drove over a special bloom, which can either give credits, a friendly
+ *  Trike, an enemy Trike, or an enemy Infantry.
+ * @param packed The tile where the bloom is on.
+ * @param houseID The HouseID that is driving over the bloom.
+ */
+void Map_Bloom_ExplodeSpecial(uint16 packed, uint8 houseID)
 {
 	House *h;
 	PoolFindStruct find;
-	uint8 curHouseID;
+	uint8 enemyHouseID;
 
 	h = House_Get_ByIndex(houseID);
 
@@ -907,12 +913,13 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 
 	Map_Update(packed, 0, false);
 
-	curHouseID = houseID;
+	enemyHouseID = houseID;
 
 	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
+	/* Find a house that belongs to the enemy */
 	while (true) {
 		Unit *u;
 
@@ -921,7 +928,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 
 		if (u->o.houseID == houseID) continue;
 
-		curHouseID = u->o.houseID;
+		enemyHouseID = u->o.houseID;
 		break;
 	}
 
@@ -947,7 +954,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, curHouseID, position, Tools_Random_256());
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, enemyHouseID, position, Tools_Random_256());
 
 			if (u != NULL) Unit_SetAction(u, ACTION_HUNT);
 			break;
@@ -960,7 +967,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_INFANTRY, curHouseID, position, Tools_Random_256());
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_INFANTRY, enemyHouseID, position, Tools_Random_256());
 
 			if (u != NULL) Unit_SetAction(u, ACTION_HUNT);
 			break;
@@ -970,22 +977,30 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 	}
 }
 
-uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
+/**
+ * Find a tile close the a LocationID described position (North, Enemy Base, ..).
+ *
+ * @param locationID Value between 0 and 7 to indicate where the tile should be.
+ * @param houseID The HouseID looking for a tile (to get an idea of Enemy Base).
+ * @return The tile requested.
+ */
+uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 {
 	static int16 mapBase[3] = {1, -2, -2};
 
 	uint16 ret = 0;
-	uint16 loc02;
+	uint16 mapOffset;
 
-	loc02 = mapBase[g_scenario.mapScale];
+	mapOffset = mapBase[g_scenario.mapScale];
 
-	if (locationID == 6) {
+	if (locationID == 6) { /* Enemy Base */
 		PoolFindStruct find;
 
 		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
 		find.type    = 0xFFFF;
 
+		/* Find the house of an enemy */
 		while (true) {
 			Structure *s;
 
@@ -1001,44 +1016,44 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 
 	while (ret == 0) {
 		switch (locationID) {
-			case 0: {
+			case 0: { /* North */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + loc02);
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + mapOffset);
 				break;
 			}
 
-			case 1:{
+			case 1: { /* East */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - loc02, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
+				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - mapOffset, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
 				break;
 			}
 
-			case 2: {
+			case 2: { /* South */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - loc02);
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - mapOffset);
 				break;
 			}
 
-			case 3: {
+			case 3: { /* West */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + loc02, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
+				ret = Tile_PackXY(mapInfo->minX + mapOffset, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
 				break;
 			}
 
-			case 4: {
+			case 4: { /* Air */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 			}
 
-			case 5:
+			case 5: /* Visible */
 				ret = Tile_PackXY(Tile_GetPackedX(g_minimapPosition) + Tools_RandomRange(0, 14), Tile_GetPackedY(g_minimapPosition) + Tools_RandomRange(0, 9));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 
-			case 6:
-			case 7: {
+			case 6: /* Enemy Base */
+			case 7: { /* Home Base */
 				PoolFindStruct find;
 				Structure *s;
 
@@ -1075,9 +1090,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 		}
 
 		ret &= 0xFFF;
-		if (ret == 0) continue;
-
-		if (Object_GetByPackedTile(ret) != NULL) ret = 0;
+		if (ret != 0 && Object_GetByPackedTile(ret) != NULL) ret = 0;
 	}
 
 	return ret;

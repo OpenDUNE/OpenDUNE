@@ -1266,8 +1266,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	tile32 newPosition;
 	bool ret;
 	tile32 currentDestination;
-	bool sprite1 = false;
-	bool sprite2 = false;
+	bool isSpiceBloom = false;
+	bool isSpecialBloom = false;
 
 	if (unit == NULL || !unit->o.flags.s.used) return false;
 
@@ -1456,12 +1456,12 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					if (unit->o.type != UNIT_SANDWORM) {
 						if (g_map[packed].groundSpriteID == g_bloomSpriteID) {
 							g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
-							sprite1 = true;
+							isSpiceBloom = true;
 						}
 
 						if (g_map[packed].groundSpriteID == g_bloomSpriteID + 1) {
 							g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
-							sprite2 = true;
+							isSpecialBloom = true;
 						}
 					}
 				}
@@ -1474,9 +1474,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	Unit_UpdateMap(1, unit);
 
-	if (sprite2 != 0) Map_B4CD_160C(packed, Unit_GetHouseID(unit));
-
-	if (sprite1 != 0) Map_ExplodeBloom(packed, Unit_GetHouseID(unit));
+	if (isSpecialBloom) Map_Bloom_ExplodeSpecial(packed, Unit_GetHouseID(unit));
+	if (isSpiceBloom) Map_Bloom_ExplodeSpice(packed, Unit_GetHouseID(unit));
 
 	return ret;
 }
@@ -1728,7 +1727,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	Unit *unit;
 	Unit *carryall;
 
-	tile = Tile_UnpackTile(Map_B4CD_1816(Tools_Random_256() & 3, houseID));
+	tile = Tile_UnpackTile(Map_FindLocationTile(Tools_Random_256() & 3, houseID));
 
 	h = House_Get_ByIndex(houseID);
 

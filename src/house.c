@@ -95,7 +95,7 @@ void GameLoop_House()
 		g_houseMissileCountdown--;
 		Sound_Output_Feedback(g_houseMissileCountdown + 41);
 
-		if (g_houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, g_playerHouseID));
+		if (g_houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_FindLocationTile(4, g_playerHouseID));
 	}
 
 	if (tickStarportAvailability) {
@@ -134,11 +134,11 @@ void GameLoop_House()
 
 			if (locationID >= 4) {
 				if (nu == NULL) {
-					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->o.houseID, Tile_UnpackTile(Map_B4CD_1816(Tools_Random_256() & 3, u->o.houseID)), 100);
+					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->o.houseID, Tile_UnpackTile(Map_FindLocationTile(Tools_Random_256() & 3, u->o.houseID)), 100);
 
 					if (nu != NULL) {
 						nu->o.flags.s.byScenario = true;
-						Unit_SetDestination(nu, Tools_Index_Encode(Map_B4CD_1816(locationID, u->o.houseID), IT_TILE));
+						Unit_SetDestination(nu, Tools_Index_Encode(Map_FindLocationTile(locationID, u->o.houseID), IT_TILE));
 					}
 				}
 
@@ -153,7 +153,7 @@ void GameLoop_House()
 					g_scenario.reinforcement[i].timeLeft = 1;
 				}
 			} else {
-				deployed = Unit_SetPosition(u, Tile_UnpackTile(Map_B4CD_1816(locationID, u->o.houseID)));
+				deployed = Unit_SetPosition(u, Tile_UnpackTile(Map_FindLocationTile(locationID, u->o.houseID)));
 			}
 
 			if (deployed && g_scenario.reinforcement[i].repeat != 0) {

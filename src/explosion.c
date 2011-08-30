@@ -91,7 +91,7 @@ static void Explosion_Func_TileDamage(Explosion *e, uint16 parameter)
 	Map_ChangeSpiceAmount(packed, -1);
 
 	if (t->groundSpriteID == g_bloomSpriteID) {
-		Map_ExplodeBloom(packed, g_playerHouseID);
+		Map_Bloom_ExplodeSpice(packed, g_playerHouseID);
 		return;
 	}
 
@@ -136,7 +136,7 @@ static void Explosion_Func_BloomExplosion(Explosion *e, uint16 parameter)
 
 	if (g_map[packed].groundSpriteID != g_bloomSpriteID) return;
 
-	Map_ExplodeBloom(packed, g_playerHouseID);
+	Map_Bloom_ExplodeSpice(packed, g_playerHouseID);
 }
 
 /**
