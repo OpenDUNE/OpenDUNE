@@ -761,7 +761,7 @@ void GUI_UpdateProductionStringID()
 	g_productionStringID = STR_COMPLETED;
 }
 
-static void GUI_2599_000B(uint16 index, uint16 xpos, uint16 ypos, uint16 width, uint16 height)
+static void GUI_Widget_SetProperties(uint16 index, uint16 xpos, uint16 ypos, uint16 width, uint16 height)
 {
 	g_widgetProperties[index].xBase  = xpos;
 	g_widgetProperties[index].yBase  = ypos;
@@ -814,9 +814,9 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	if (spriteID != 0xFFFF) {
 		GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], 7, 8, 1, 0x4000);
-		GUI_2599_000B(1, g_curWidgetXBase + 5, g_curWidgetYBase + 8, g_curWidgetWidth - 7, g_curWidgetHeight - 16);
+		GUI_Widget_SetProperties(1, g_curWidgetXBase + 5, g_curWidgetYBase + 8, g_curWidgetWidth - 7, g_curWidgetHeight - 16);
 	} else {
-		GUI_2599_000B(1, g_curWidgetXBase + 1, g_curWidgetYBase + 8, g_curWidgetWidth - 2, g_curWidgetHeight - 16);
+		GUI_Widget_SetProperties(1, g_curWidgetXBase + 1, g_curWidgetYBase + 8, g_curWidgetWidth - 2, g_curWidgetHeight - 16);
 	}
 
 	g_curWidgetFGColourNormal = 0;
@@ -847,9 +847,9 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	GUI_Mouse_Hide_Safe();
 
 	if (spriteID != 0xFFFF) {
-		GUI_2599_000B(1, g_curWidgetXBase - 5, g_curWidgetYBase - 8, g_curWidgetWidth + 7, g_curWidgetHeight + 16);
+		GUI_Widget_SetProperties(1, g_curWidgetXBase - 5, g_curWidgetYBase - 8, g_curWidgetWidth + 7, g_curWidgetHeight + 16);
 	} else {
-		GUI_2599_000B(1, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16);
+		GUI_Widget_SetProperties(1, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16);
 	}
 
 	if (screenBackup != NULL) {

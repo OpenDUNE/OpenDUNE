@@ -788,22 +788,22 @@ static void GameLoop_Uninit()
 	free(g_stringsHint); g_stringsHint = NULL;
 }
 
-static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 screenID, void *arg0C)
+static void GameCredits_SwapScreen(uint16 top, uint16 height, uint16 screenID, void *buffer)
 {
-	uint16 *esdi = (uint16 *)arg0C;
-	uint16 *dssi = (uint16 *)GFX_Screen_Get_ByIndex(screenID) + arg06 * SCREEN_WIDTH / 2;
-	uint16 *essi = (uint16 *)GFX_Screen_Get_ByIndex(0) + arg06 * SCREEN_WIDTH / 2;
-	uint16 count = arg08 * SCREEN_WIDTH / 2;
+	uint16 *b = (uint16 *)buffer;
+	uint16 *screen1 = (uint16 *)GFX_Screen_Get_ByIndex(screenID) + top * SCREEN_WIDTH / 2;
+	uint16 *screen2 = (uint16 *)GFX_Screen_Get_ByIndex(0) + top * SCREEN_WIDTH / 2;
+	uint16 count = height * SCREEN_WIDTH / 2;
 
 	while (count-- != 0) {
-		if (*esdi++ != *dssi++) {
+		if (*b++ != *screen1++) {
 			if (count == 0) return;
-			esdi--;
-			dssi--;
-			*esdi++ = *dssi;
-			*essi = *dssi++;
+			b--;
+			screen1--;
+			*b++ = *screen1;
+			*screen2 = *screen1++;
 		}
-		essi++;
+		screen2++;
 	}
 }
 
@@ -855,7 +855,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 0, memory);
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, memory, screenID);
 
-	GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, memory, s_buffer_182E);
+	GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, memory, s_buffer_182E);
 
 	GFX_Screen_SetActive(0);
 	loc0C = g_timerSleep;
@@ -985,7 +985,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			strings[loc02].y--;
 		}
 
-		GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, screenID, s_buffer_182E);
+		GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, screenID, s_buffer_182E);
 
 		if ((int16)strings[0].y < -10) {
 			strings[0].text += strlen(strings[0].text);
@@ -1487,7 +1487,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 	Input_History_Clear();
 }
 
-static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgColourNormal, uint8 fgColourSelected, uint8 bgColour)
+static void GameLoop_DrawText2(char *string, uint16 left, uint16 top, uint8 fgColourNormal, uint8 fgColourSelected, uint8 bgColour)
 {
 	uint8 i;
 
@@ -1503,12 +1503,12 @@ static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgCo
 	}
 }
 
-static bool GameLoop_B4E6_00E0(uint16 x, uint16 y, uint16 minX, uint16 minY, uint16 maxX, uint16 maxY)
+static bool GameLoop_IsInRange(uint16 x, uint16 y, uint16 minX, uint16 minY, uint16 maxX, uint16 maxY)
 {
 	return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }
 
-static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uint16 arg14)
+static uint16 GameLoop_HandleEvents(uint16 arg06, char **strings, uint32 arg10, uint16 arg14)
 {
 	uint8 last;
 	uint16 result;
@@ -1555,7 +1555,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	if (g_var_7097 == 0) {
 		uint16 y = g_mouseY;
 
-		if (GameLoop_B4E6_00E0(g_mouseX, y, minX, minY, maxX, maxY)) {
+		if (GameLoop_IsInRange(g_mouseX, y, minX, minY, maxX, maxY)) {
 			current = (y - minY) / lineHeight;
 		}
 	}
@@ -1581,7 +1581,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 
 		case 0x41: /* MOUSE LEFT BUTTON */
 		case 0x42: /* MOUSE RIGHT BUTTON */
-			if (GameLoop_B4E6_00E0(g_mouseClickX, g_mouseClickY, minX, minY, maxX, maxY)) {
+			if (GameLoop_IsInRange(g_mouseClickX, g_mouseClickY, minX, minY, maxX, maxY)) {
 				current = (g_mouseClickY - minY) / lineHeight;
 				result = current;
 			}
@@ -1635,7 +1635,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	result = GameLoop_B4E6_0000(result, arg10, arg14);
 
 	GUI_Mouse_Hide_Safe();
-	GameLoop_B4E6_0074(strings[result], left, top + (current * lineHeight), fgColourNormal, fgColourSelected, 0);
+	GameLoop_DrawText2(strings[result], left, top + (current * lineHeight), fgColourNormal, fgColourSelected, 0);
 	GUI_Mouse_Show_Safe();
 
 	return result;
@@ -2039,7 +2039,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 			if (!loc10) break;
 
-			stringID = GameLoop_B4E6_0200(0, strings, 0xFF, 0);
+			stringID = GameLoop_HandleEvents(0, strings, 0xFF, 0);
 
 			if (stringID != 0xFFFF) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
