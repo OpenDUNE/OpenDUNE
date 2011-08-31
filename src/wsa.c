@@ -26,10 +26,8 @@ typedef struct WSAFlags {
 	BIT_U8 dataInMemory:1;                                  /*!< The whole WSA is in memory. */
 	BIT_U8 displayInBuffer:1;                               /*!< The output display is in the buffer. */
 	BIT_U8 noAnimation:1;                                   /*!< If the WSA has animation or not. */
-	BIT_U8 variable_0040:1;                                 /*!< ?? */
-	BIT_U8 variable_0080:1;                                 /*!< ?? */
+	BIT_U8 hasNoAnimation:1;                                /*!< The WSA has no animation. */
 	BIT_U8 isSpecial:1;                                     /*!< Indicates if the WSA has a special buffer. */
-	BIT_U8 notused:7;                                       /*!< The remaining bits are never used. */
 }  WSAFlags;
 
 /**
@@ -224,7 +222,7 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	if (fileheader.animationOffsetStart != 0) {
 		lengthAnimation = fileheader.animationOffsetEnd - fileheader.animationOffsetStart;
 	} else {
-		flags.variable_0040 = true;
+		flags.hasNoAnimation = true;
 	}
 
 	lengthFileContent -= lengthSpecial + lengthAnimation + 10;
@@ -275,7 +273,6 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	buffer += displaySize;
 
 	if ((fileheader.frames & 0x8000) != 0) {
-		header->flags.variable_0080 = true;
 		fileheader.frames &= 0x7FFF;
 	}
 
@@ -420,7 +417,7 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, uin
 	}
 
 	if (header->frameCurrent == header->frames) {
-		if (!header->flags.variable_0040) {
+		if (!header->flags.hasNoAnimation) {
 			if (!header->flags.displayInBuffer) {
 				Format40_Decode_ToScreen(dst, header->buffer, header->width);
 			} else {
