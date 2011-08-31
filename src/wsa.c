@@ -40,7 +40,7 @@ typedef struct WSAHeader {
 	uint16 height;                                          /*!< Height of WSA. */
 	uint16 bufferLength;                                    /*!< Length of the buffer. */
 	uint8 *buffer;                                          /*!< The buffer. */
-	uint8 *fileContent;                                     /*!< ?? */
+	uint8 *fileContent;                                     /*!< The content of the file. */
 	char   filename[13];                                    /*!< Filename of WSA. */
 	WSAFlags flags;                                         /*!< Flags of WSA. */
 } WSAHeader;
