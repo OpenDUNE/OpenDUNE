@@ -103,9 +103,9 @@ typedef struct HouseInfo {
  */
 typedef struct HouseAnimation_Animation {
 	const char *string;                                     /*!< Name of the WSA for this animation. */
-	uint8  variable_0004;                                   /*!< ?? */
-	uint8  variable_0005;                                   /*!< ?? */
-	uint16 flags;                                           /*!< ?? */
+	uint8  duration;                                        /*!< Duration of this animation. */
+	uint8  frameCount;                                      /*!< Amount of frames in this animation. */
+	uint16 flags;                                           /*!< Flags of the animation. */
 } HouseAnimation_Animation;
 
 /**
@@ -113,14 +113,14 @@ typedef struct HouseAnimation_Animation {
  *  stops when stringID is 0xFFFF.
  */
 typedef struct HouseAnimation_Subtitle {
-	uint16 stringID;                                        /*!< ?? */
-	uint16 variable_0002;                                   /*!< ?? */
-	uint8  variable_0004;                                   /*!< ?? */
-	uint8  top;                                             /*!< ?? */
-	uint8  variable_0006;                                   /*!< ?? */
-	uint8  variable_0007;                                   /*!< ?? */
-	uint8  variable_0008;                                   /*!< ?? */
-	uint8  variable_0009;                                   /*!< ?? */
+	uint16 stringID;                                        /*!< StringID for the subtitle. */
+	uint16 colour;                                          /*!< Colour of the subtitle. */
+	uint8  animationID;                                     /*!< To which AnimationID this Subtitle belongs. */
+	uint8  top;                                             /*!< The top of the subtitle, in pixels. */
+	uint8  waitFadein;                                      /*!< How long to wait before we fadein this Subtitle. */
+	uint8  paletteFadein;                                   /*!< How many ticks the palette update should take when appearing. */
+	uint8  waitFadeout;                                     /*!< How long to wait before we fadeout this Subtitle. */
+	uint8  paletteFadeout;                                  /*!< How many ticks the palette update should take when disappearing. */
 } HouseAnimation_Subtitle;
 
 /**
@@ -128,9 +128,9 @@ typedef struct HouseAnimation_Subtitle {
  *  stops when voiceID is 0xFF.
  */
 typedef struct HouseAnimation_SoundEffect {
-	uint8  variable_0000;                                   /*!< ?? */
-	uint8  voiceID;                                         /*!< ?? */
-	uint8  variable_0002;                                   /*!< ?? */
+	uint8  animationID;                                     /*!< The which AnimationID this SoundEffect belongs. */
+	uint8  voiceID;                                         /*!< The SoundEffect to play. */
+	uint8  wait;                                            /*!< How long to wait before we play this SoundEffect. */
 } HouseAnimation_SoundEffect;
 
 extern const HouseInfo g_table_houseInfo[];

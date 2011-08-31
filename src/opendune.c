@@ -86,10 +86,10 @@ static const HouseAnimation_Subtitle    *s_houseAnimation_subtitle = NULL;    /*
 static const HouseAnimation_SoundEffect *s_houseAnimation_soundEffect = NULL; /*!< Soundeffect part of animation data. */
 static uint16 s_var_8062 = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_var_8068 = 0xFFFF; /*!< Unknown animation data. */
-static uint16 s_var_806A = 0xFFFF; /*!< Unknown animation data. */
+static uint16 s_subtitleWait = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_houseAnimation_currentSubtitle = 0; /*!< Current subtitle (index) part of animation. */
 static uint16 s_houseAnimation_currentSoundEffect = 0; /* Current voice (index) part of animation. */
-static bool s_var_8074 = false; /* Unknown animation data. */
+static bool s_subtitleActive = false; /* Unknown animation data. */
 
 /** Direction of change in the #GameLoop_PalettePart_Update function. */
 typedef enum PalettePartDirection {
@@ -271,8 +271,8 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 
 	s_var_8062 = arg_8062;
 	s_var_8068 = 0;
-	s_var_806A = 0xFFFF;
-	s_var_8074 = false;
+	s_subtitleWait = 0xFFFF;
+	s_subtitleActive = false;
 
 	s_palettePartDirection    = PPD_STOPPED;
 	s_palettePartCount        = 0;
@@ -289,7 +289,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 
 	GFX_Screen_SetActive(0);
 
-	memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->variable_0002 * 16) * 3], 6 * 3);
+	memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->colour * 16) * 3], 6 * 3);
 
 	memset(&g_palette1[215 * 3], 0, 6 * 3);
 
@@ -333,7 +333,7 @@ static void GameLoop_PlaySoundEffect(uint8 animation)
 {
 	const HouseAnimation_SoundEffect *soundEffect = &s_houseAnimation_soundEffect[s_houseAnimation_currentSoundEffect];
 
-	if (soundEffect->variable_0000 > animation || soundEffect->variable_0002 > s_var_8068) return;
+	if (soundEffect->animationID > animation || soundEffect->wait > s_var_8068) return;
 
 	Voice_Play(soundEffect->voiceID);
 
@@ -380,20 +380,20 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 
 	subtitle = &s_houseAnimation_subtitle[s_houseAnimation_currentSubtitle];
 
-	if (subtitle->stringID == 0xFFFF || subtitle->variable_0004 > animation) return;
+	if (subtitle->stringID == 0xFFFF || subtitle->animationID > animation) return;
 
-	if (s_var_8074) {
-		if (s_var_806A == 0xFFFF) s_var_806A = subtitle->variable_0008;
-		if (s_var_806A-- != 0) return;
+	if (s_subtitleActive) {
+		if (s_subtitleWait == 0xFFFF) s_subtitleWait = subtitle->waitFadeout;
+		if (s_subtitleWait-- != 0) return;
 
-		s_var_8074 = false;
+		s_subtitleActive = false;
 		s_houseAnimation_currentSubtitle++;
 		s_palettePartDirection = PPD_TO_BLACK;
 
-		if (subtitle->variable_0009 != 0) {
+		if (subtitle->paletteFadeout != 0) {
 			uint8 i;
 
-			s_palettePartCount = subtitle->variable_0009;
+			s_palettePartCount = subtitle->paletteFadeout;
 
 			for (i = 0; i < 18; i++) {
 				s_palettePartChange[i] = s_palettePartTarget[i] / s_palettePartCount;
@@ -408,12 +408,12 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 		return;
 	}
 
-	if (s_var_806A == 0xFFFF) s_var_806A = subtitle->variable_0006;
-	if (s_var_806A-- != 0) return;
+	if (s_subtitleWait == 0xFFFF) s_subtitleWait = subtitle->waitFadein;
+	if (s_subtitleWait-- != 0) return;
 
-	memcpy(s_palettePartTarget, &g_palette1[(144 + (subtitle->variable_0002 * 16)) * 3], 18);
+	memcpy(s_palettePartTarget, &g_palette1[(144 + (subtitle->colour * 16)) * 3], 18);
 
-	s_var_8074 = true;
+	s_subtitleActive = true;
 
 	GUI_DrawFilledRectangle(0, subtitle->top == 85 ? 0 : subtitle->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
@@ -433,10 +433,10 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 
 	s_palettePartDirection = PPD_TO_NEW_PALETTE;
 
-	if (subtitle->variable_0007 != 0) {
+	if (subtitle->paletteFadein != 0) {
 		uint8 i;
 
-		s_palettePartCount = subtitle->variable_0007;
+		s_palettePartCount = subtitle->paletteFadein;
 
 		for (i = 0; i < 18; i++) {
 			s_palettePartChange[i] = s_palettePartTarget[i] / s_palettePartCount;
@@ -515,11 +515,11 @@ static void GameLoop_PlayAnimation()
 
 	animation = s_houseAnimation_animation;
 
-	while (animation->variable_0004 != 0) {
+	while (animation->duration != 0) {
 		uint16 loc04;
 		uint16 posX = 0;
 		uint16 posY = 0;
-		uint32 loc10 = g_timerGUI + animation->variable_0004 * 6;
+		uint32 loc10 = g_timerGUI + animation->duration * 6;
 		uint32 loc14 = loc10 + 30;
 		uint32 loc18;
 		uint32 loc1C;
@@ -544,7 +544,7 @@ static void GameLoop_PlayAnimation()
 			char filenameBuffer[16];
 
 			if (mode == 3) {
-				frame = animation->variable_0005;
+				frame = animation->frameCount;
 				loc20 = true;
 			} else {
 				frame = 0;
@@ -609,13 +609,13 @@ static void GameLoop_PlayAnimation()
 
 		switch (mode) {
 			case 0:
-				loc04 = animation->variable_0005 - locdi;
+				loc04 = animation->frameCount - locdi;
 				loc18 = loc1C / loc04;
 				break;
 
 			case 1:
 				loc04 = WSA_GetFrameCount(wsa);
-				loc18 = loc1C / animation->variable_0005;
+				loc18 = loc1C / animation->frameCount;
 				break;
 
 			case 2:
@@ -625,7 +625,7 @@ static void GameLoop_PlayAnimation()
 				break;
 
 			case 3:
-				frame = animation->variable_0005;
+				frame = animation->frameCount;
 				loc04 = 1;
 				loc18 = loc1C / 20;
 				break;
