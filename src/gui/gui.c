@@ -4134,7 +4134,7 @@ uint16 GUI_HallOfFame_Tick()
 	return 0;
 }
 
-static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
+static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 {
 	char *resumeString;
 	char *clearString;
@@ -4182,7 +4182,7 @@ static void GUI_HallOfFame_DeleteButtons(Widget *w)
 	memcpy(s_colourBorderSchema, s_temporaryColourBorderSchema, sizeof(s_temporaryColourBorderSchema));
 }
 
-static void GUI_HallOfFame_Encode(HallOfFameData *data)
+static void GUI_HallOfFame_Encode(HallOfFameStruct *data)
 {
 	uint8 i;
 	uint8 *d;
@@ -4190,7 +4190,7 @@ static void GUI_HallOfFame_Encode(HallOfFameData *data)
 	for (d = (uint8 *)data, i = 0; i < 128; i++, d++) *d = (*d + i) ^ 0xA7;
 }
 
-static void GUI_HallOfFame_Decode(HallOfFameData *data)
+static void GUI_HallOfFame_Decode(HallOfFameStruct *data)
 {
 	uint8 i;
 	uint8 *d;
@@ -4198,7 +4198,7 @@ static void GUI_HallOfFame_Decode(HallOfFameData *data)
 	for (d = (uint8 *)data, i = 0; i < 128; i++, d++) *d = (*d ^ 0xA7) - i;
 }
 
-static uint16 GUI_HallOfFame_InsertScore(HallOfFameData *data, uint16 score)
+static uint16 GUI_HallOfFame_InsertScore(HallOfFameStruct *data, uint16 score)
 {
 	uint16 i;
 	for (i = 0; i < 8; i++, data++) {
@@ -4223,7 +4223,7 @@ void GUI_HallOfFame_Show(uint16 score)
 	uint16 editLine;
 	Widget *w;
 	uint8 fileID;
-	HallOfFameData *data;
+	HallOfFameStruct *data;
 
 	GUI_Mouse_Hide_Safe();
 
@@ -4235,7 +4235,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		s_ticksPlayed = 0;
 	}
 
-	data = (HallOfFameData *)GFX_Screen_Get_ByIndex(5);
+	data = (HallOfFameStruct *)GFX_Screen_Get_ByIndex(5);
 
 	if (!File_Exists("SAVEFAME.DAT")) {
 		uint16 written;
@@ -4336,7 +4336,7 @@ void GUI_HallOfFame_Show(uint16 score)
 	memset(g_palette1 + 255 * 3, 0, 3);
 }
 
-uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
+uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show)
 {
 	uint16 oldScreenID;
 	char *scoreString;

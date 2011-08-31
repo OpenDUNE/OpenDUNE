@@ -1051,7 +1051,7 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 {
 	/* "Are you sure you want to clear the high scores?" */
 	if (GUI_YesNo(0x148)) {
-		HallOfFameData *data = w->data;
+		HallOfFameStruct *data = w->data;
 
 		memset(data, 0, 128);
 

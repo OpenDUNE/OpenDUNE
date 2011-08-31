@@ -29,20 +29,26 @@ typedef enum SelectionType {
 	SELECTIONTYPE_INTRO     = 7                             /*!< Used in intro of the game. */
 } SelectionType;
 
-typedef struct HallOfFameData {
-	char name[6];      /*!< ?? */
-	uint16 score;      /*!< ?? */
-	uint16 rank;       /*!< ?? */
-	uint16 campaignID; /*!< ?? */
-	uint8  houseID;    /*!< ?? */
-} HallOfFameData;
+/**
+ * Hall Of Fame data struct.
+ */
+typedef struct HallOfFameStruct {
+	char name[6];                                           /*!< Name of the entry. */
+	uint16 score;                                           /*!< Score of the entry. */
+	uint16 rank;                                            /*!< Rank of the entry. */
+	uint16 campaignID;                                      /*!< Which campaign was reached. */
+	uint8  houseID;                                         /*!< Which house was playing. */
+} HallOfFameStruct;
 
+/**
+ * Factory Window Item struct.
+ */
 typedef struct FactoryWindowItem {
-	/* 0000(2)   */ uint16 objectType;                 /*!< ?? */
-	/* 0002(1)   */ int8   amount;                     /*!< ?? */
-	/* 0003(2)   */ uint16 credits;                    /*!< ?? */
-	/* 0005(2)   */ uint16 sortPriority;               /*!< ?? */
-	/* 0007(4)   */ struct ObjectInfo *objectInfo;     /*!< ?? */
+	uint16 objectType;                                      /*!< Which object is this item. */
+	int8   amount;                                          /*!< How many are available. */
+	uint16 credits;                                         /*!< What is the current price. */
+	uint16 sortPriority;                                    /*!< The sorting priority. */
+	struct ObjectInfo *objectInfo;                          /*!< The ObjectInfo of the item. */
 } FactoryWindowItem;
 
 /**
@@ -147,7 +153,7 @@ extern void GUI_Mouse_SetPosition(uint16 x, uint16 y);
 extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, uint8 *remap);
 extern uint16 GUI_HallOfFame_Tick();
 extern void GUI_HallOfFame_Show(uint16 score);
-extern uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show);
+extern uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show);
 extern void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
 extern void GUI_Palette_CreateRemap(uint8 houseID);
 extern void GUI_DrawScreen(uint16 screenID);
