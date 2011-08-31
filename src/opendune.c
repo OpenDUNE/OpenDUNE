@@ -1747,23 +1747,23 @@ static void ReadProfileIni(char *filename)
 
 	for (key = keys; *key != '\0'; key += strlen(key) + 1) {
 		uint16 damage;
-		uint16 variable_40;
+		uint16 movingSpeed;
 		uint16 fireDelay;
-		uint16 variable_50;
+		uint16 fireDistance;
 
 		Ini_GetString("combat", key, buffer, buffer, 120, source);
 		String_Trim(buffer);
-		if (sscanf(buffer, "%hu,%hu,%hu,%hu", &variable_50, &damage, &fireDelay, &variable_40) < 4) continue;
+		if (sscanf(buffer, "%hu,%hu,%hu,%hu", &fireDistance, &damage, &fireDelay, &movingSpeed) < 4) continue;
 
 		for (locsi = 0; locsi < UNIT_MAX; locsi++) {
 			UnitInfo *ui = &g_table_unitInfo[locsi];
 
 			if (strcasecmp(ui->o.name, key) != 0) continue;
 
-			ui->damage      = damage;
-			ui->movingSpeed = variable_40;
-			ui->fireDelay   = fireDelay;
-			ui->fireDistance = variable_50;
+			ui->damage       = damage;
+			ui->movingSpeed  = movingSpeed;
+			ui->fireDelay    = fireDelay;
+			ui->fireDistance = fireDistance;
 			break;
 		}
 	}
