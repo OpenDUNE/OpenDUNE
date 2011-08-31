@@ -768,7 +768,7 @@ uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target)
  * Finds the closest refinery a harvester can go to.
  *
  * @param unit The unit to find the closest refinery for.
- * @return 1 if unit->variable_4D was not 0, else 0.
+ * @return 1 if unit->originEncoded was not 0, else 0.
  */
 uint16 Unit_FindClosestRefinery(Unit *unit)
 {
