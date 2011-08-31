@@ -10,12 +10,12 @@ MSVC_PACKED_BEGIN
  * The header of a Font file.
  */
 typedef struct FontHeader {
-	/* 0000(2)   */ PACK uint16 variable_00;                /*!< ?? */
-	/* 0002(2)   */ PACK uint16 variable_02;                /*!< ?? */
+	/* 0000(2)   */ PACK uint16 notused1;
+	/* 0002(2)   */ PACK uint16 notused2;
 	/* 0004(2)   */ PACK uint16 heightOffset;               /*!< Offset of the height table (one uint8 entry per char). */
 	/* 0006(2)   */ PACK uint16 dataOffset;                 /*!< Offset of the data table (one uint16 entry per char). */
 	/* 0008(2)   */ PACK uint16 widthOffset;                /*!< Offset of the width table (one uint8 entry per char). */
-	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
+	/* 000A(2)   */ PACK uint16 notused3;
 	/* 000C(2)   */ PACK uint16 lineUsage;                  /*!< Offset of the lineUsage table (two uint8 entry per char; first is unused lines, second is used lines). */
 } GCC_PACKED FontHeader;
 MSVC_PACKED_END

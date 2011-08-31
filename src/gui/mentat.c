@@ -914,9 +914,8 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 static void GUI_Mentat_ShowHelp()
 {
 	struct {
-		uint8  unknown_00[4];
-		uint32 variable_04;
-		uint32 variable_08;
+		uint8  notused[8];
+		uint32 length;
 	} info;
 	uint8 *subject;
 	uint16 i;
@@ -940,15 +939,14 @@ static void GUI_Mentat_ShowHelp()
 	ChunkFile_Read(fileID, HTOBE32('INFO'), &info, 12);
 	ChunkFile_Close(fileID);
 
-	info.variable_04 = HTOBE32(info.variable_04);
-	info.variable_08 = HTOBE32(info.variable_08);
+	info.length = HTOBE32(info.length);
 
 	text = g_readBuffer;
 	compressedText = GFX_Screen_Get_ByIndex(3);
 
 	fileID = File_Open(s_mentatFilename, 1);
 	File_Seek(fileID, offset, 0);
-	File_Read(fileID, compressedText, info.variable_08);
+	File_Read(fileID, compressedText, info.length);
 	String_Decompress(compressedText, text);
 	String_TranslateSpecial(text, text);
 	File_Close(fileID);
