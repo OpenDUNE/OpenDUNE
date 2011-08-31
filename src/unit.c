@@ -1514,7 +1514,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	houseID = Unit_GetHouseID(unit);
 
 	if (unit->o.hitpoints == 0) {
-		Unit_Unknown379B(unit);
+		Unit_RemovePlayer(unit);
 
 		if (unit->o.type == UNIT_HARVESTER) Map_FillCircleWithSpice(Tile_PackTile(unit->o.position), unit->amount / 32);
 
@@ -2360,21 +2360,20 @@ uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
 }
 
 /**
- * Unknwown function 379B.
+ * Check if the Unit belonged the the current human, and do some extra tasks.
  *
  * @param unit The Unit to operate on.
- * @return ??.
  */
-bool Unit_Unknown379B(Unit *unit)
+void Unit_RemovePlayer(Unit *unit)
 {
-	if (unit == NULL) return false;
-	if (Unit_GetHouseID(unit) != g_playerHouseID) return false;
-	if (!unit->o.flags.s.allocated) return false;
+	if (unit == NULL) return;
+	if (Unit_GetHouseID(unit) != g_playerHouseID) return;
+	if (!unit->o.flags.s.allocated) return;
 
 	unit->o.flags.s.allocated = false;
 	Unit_RemoveFromTeam(unit);
 
-	if (unit != g_unitSelected) return true;
+	if (unit != g_unitSelected) return;
 
 	if (g_selectionType == SELECTIONTYPE_TARGET) {
 		g_veiledSpriteID = 0;
@@ -2385,8 +2384,6 @@ bool Unit_Unknown379B(Unit *unit)
 	}
 
 	Unit_Select(NULL);
-
-	return true;
 }
 
 /**

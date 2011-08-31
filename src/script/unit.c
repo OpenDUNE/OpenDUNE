@@ -636,7 +636,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 			if (u2 != NULL) {
 				u2->o.script.variables[1] = 0xFFFF;
-				Unit_Unknown379B(u2);
+				Unit_RemovePlayer(u2);
 				Unit_HouseUnitCount_Remove(u2);
 				Unit_Remove(u2);
 			}
