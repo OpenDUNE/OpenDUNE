@@ -153,7 +153,7 @@ static void Explosion_Func_SetAnimation(Explosion *e, uint16 animationMapID)
 	if (Structure_Get_ByPackedTile(packed) != NULL) return;
 
 	animationMapID += Tools_Random_256() & 0x1;
-	animationMapID += g_table_landscapeInfo[Map_GetLandscapeType(packed)].variable_07 ? 0 : 2;
+	animationMapID += g_table_landscapeInfo[Map_GetLandscapeType(packed)].isSand ? 0 : 2;
 
 	assert(animationMapID < 16);
 	Animation_Start(g_table_animation_map[animationMapID], e->position, 0, e->houseID, 3);

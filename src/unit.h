@@ -214,7 +214,7 @@ extern uint16 Unit_FindClosestRefinery(Unit *unit);
 extern bool Unit_SetPosition(Unit *u, tile32 position);
 extern void Unit_Remove(Unit *u);
 extern Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode);
-extern Unit *Unit_FindBestTarget(Unit *unit);
+extern Unit *Unit_Sandworm_FindBestTarget(Unit *unit);
 extern bool Unit_StartMovement(Unit *unit);
 extern void Unit_SetTarget(Unit* unit, uint16 encoded);
 extern bool Unit_Deviation_Decrease(Unit* unit, uint16 amount);

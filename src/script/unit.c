@@ -1468,7 +1468,7 @@ uint16 Script_Unit_StartAnimation(ScriptEngine *script)
 	position = Tile_PackTile(Tile_Center(u->o.position));
 	Animation_Stop_ByTile(position);
 
-	animationUnitID = g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(u->o.position))].variable_07 ? 0 : 1;
+	animationUnitID = g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(u->o.position))].isSand ? 0 : 1;
 	if (u->o.script.variables[1] == 1) animationUnitID += 2;
 
 	g_map[position].houseID = Unit_GetHouseID(u);
@@ -1858,14 +1858,14 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 }
 
 /**
- * Get the best target around you.
+ * Get the best target around you. Only considers units on sand.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return An encoded unit index, or 0.
  */
-uint16 Script_Unit_GetBestTarget(ScriptEngine *script)
+uint16 Script_Unit_Sandworm_GetBestTarget(ScriptEngine *script)
 {
 	Unit *u;
 	Unit *u2;
@@ -1874,7 +1874,7 @@ uint16 Script_Unit_GetBestTarget(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	u2 = Unit_FindBestTarget(u);
+	u2 = Unit_Sandworm_FindBestTarget(u);
 	if (u2 == NULL) return 0;
 
 	return Tools_Index_Encode(u2->o.index, IT_UNIT);

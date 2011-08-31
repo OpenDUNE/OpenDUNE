@@ -962,19 +962,20 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
  * Get the score for a target. Various of things have influence on this score,
  *  most noticeable the movementType of the target, his distance to you, and
  *  if he is moving/firing.
+ * @note It only considers units on sand.
  *
  * @param unit The Unit that is requesting the score.
  * @param target The Unit that is being targeted.
- * @return The score of the target..
+ * @return The score of the target.
  */
-uint16 Unit_GetTargetScore(Unit *unit, Unit *target)
+uint16 Unit_Sandworm_GetTargetScore(Unit *unit, Unit *target)
 {
 	uint16 res;
 	uint16 distance;
 
 	if (unit == NULL || target == NULL) return 0;
 	if (!Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
-	if (!g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(target->o.position))].variable_07) return 0;
+	if (!g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(target->o.position))].isSand) return 0;
 
 	switch(g_table_unitInfo[target->o.type].movementType) {
 		case MOVEMENT_FOOT:      res = 0x64;   break;
@@ -995,12 +996,12 @@ uint16 Unit_GetTargetScore(Unit *unit, Unit *target)
 }
 
 /**
- * Find the best target, based on the score.
+ * Find the best target, based on the score. Only considers units on sand.
  *
  * @param unit The unit to search a target for.
  * @return A target Unit, or NULL if none is found.
  */
-Unit *Unit_FindBestTarget(Unit *unit)
+Unit *Unit_Sandworm_FindBestTarget(Unit *unit)
 {
 	Unit *target = NULL;
 	PoolFindStruct find;
@@ -1020,7 +1021,7 @@ Unit *Unit_FindBestTarget(Unit *unit)
 
 		if (u == NULL) break;
 
-		score = Unit_GetTargetScore(unit, u);
+		score = Unit_Sandworm_GetTargetScore(unit, u);
 
 		if (score >= scoreMax) {
 			target = u;

@@ -160,7 +160,7 @@ extern uint16 Script_Unit_GetRandomTile(ScriptEngine *script);
 extern uint16 Script_Unit_IdleAction(ScriptEngine *script);
 extern uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script);
 extern uint16 Script_Unit_MCVDeploy(ScriptEngine *script);
-extern uint16 Script_Unit_GetBestTarget(ScriptEngine *script);
+extern uint16 Script_Unit_Sandworm_GetBestTarget(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown2BD5(ScriptEngine *script);
 extern uint16 Script_Unit_Blink(ScriptEngine *script);
 

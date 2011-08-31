@@ -1480,7 +1480,7 @@ static void Map_AddSpiceOnTile(uint16 packed)
 
 					t2 = &g_map[packed2];
 
-					if (!g_table_landscapeInfo[t2->groundSpriteID].variable_09) {
+					if (!g_table_landscapeInfo[t2->groundSpriteID].canBecomeSpice) {
 						t->groundSpriteID = LST_SPICE;
 						continue;
 					}
@@ -1492,7 +1492,7 @@ static void Map_AddSpiceOnTile(uint16 packed)
 		}
 
 		default:
-			if (g_table_landscapeInfo[t->groundSpriteID].variable_09) t->groundSpriteID = LST_SPICE;
+			if (g_table_landscapeInfo[t->groundSpriteID].canBecomeSpice) t->groundSpriteID = LST_SPICE;
 			return;
 	}
 }
@@ -1654,7 +1654,7 @@ void Map_CreateLandscape(uint32 seed)
 			packed = Tools_Random_256() & 0x3F;
 			packed = Tile_PackXY(Tools_Random_256() & 0x3F, packed);
 
-			if (g_table_landscapeInfo[g_map[packed].groundSpriteID].variable_09) break;
+			if (g_table_landscapeInfo[g_map[packed].groundSpriteID].canBecomeSpice) break;
 		}
 
 		tile = Tile_UnpackTile(packed);

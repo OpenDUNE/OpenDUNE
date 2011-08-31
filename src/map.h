@@ -7,21 +7,21 @@
 
 /** Types of available landscapes. */
 typedef enum LandscapeType {
-	LST_NORMAL_SAND       =  0, /*<! Flat sand. */
-	LST_PARTIAL_ROCK      =  1, /*!< Edge of a rocky area (mostly sand). */
-	LST_ENTIRELY_DUNE     =  2, /*!< Entirely sand dunes. */
-	LST_PARTIAL_DUNE      =  3, /*!< Partial sand dunes. */
-	LST_ENTIRELY_ROCK     =  4, /*!< Center part of rocky area. */
-	LST_MOSTLY_ROCK       =  5, /*!< Edge of a rocky area (mostly rocky). */
-	LST_ENTIRELY_MOUNTAIN =  6, /*!< Center part of the mountain. */
-	LST_PARTIAL_MOUNTAIN  =  7, /*!< Edge of a mountain. */
-	LST_SPICE             =  8, /*!< Sand with spice. */
-	LST_THICK_SPICE       =  9, /*!< Sand with thick spice. */
-	LST_CONCRETE_SLAB     = 10, /*!< Concrete slab. */
-	LST_WALL              = 11, /*!< Wall. */
-	LST_STRUCTURE         = 12, /*!< Structure. */
-	LST_DESTROYED_WALL    = 13, /*!< Destroyed wall. */
-	LST_BLOOM_FIELD       = 14, /*!< Bloom field. */
+	LST_NORMAL_SAND       =  0,                             /*<! Flat sand. */
+	LST_PARTIAL_ROCK      =  1,                             /*!< Edge of a rocky area (mostly sand). */
+	LST_ENTIRELY_DUNE     =  2,                             /*!< Entirely sand dunes. */
+	LST_PARTIAL_DUNE      =  3,                             /*!< Partial sand dunes. */
+	LST_ENTIRELY_ROCK     =  4,                             /*!< Center part of rocky area. */
+	LST_MOSTLY_ROCK       =  5,                             /*!< Edge of a rocky area (mostly rocky). */
+	LST_ENTIRELY_MOUNTAIN =  6,                             /*!< Center part of the mountain. */
+	LST_PARTIAL_MOUNTAIN  =  7,                             /*!< Edge of a mountain. */
+	LST_SPICE             =  8,                             /*!< Sand with spice. */
+	LST_THICK_SPICE       =  9,                             /*!< Sand with thick spice. */
+	LST_CONCRETE_SLAB     = 10,                             /*!< Concrete slab. */
+	LST_WALL              = 11,                             /*!< Wall. */
+	LST_STRUCTURE         = 12,                             /*!< Structure. */
+	LST_DESTROYED_WALL    = 13,                             /*!< Destroyed wall. */
+	LST_BLOOM_FIELD       = 14,                             /*!< Bloom field. */
 
 	LST_MAX               = 15
 } LandscapeType;
@@ -46,24 +46,22 @@ assert_compile(sizeof(Tile) == 0x04);
 
 /** Definition of the map size of a map scale. */
 typedef struct MapInfo {
-	uint16 minX;  /*!< Minimal X position of the map. */
-	uint16 minY;  /*!< Minimal Y position of the map. */
-	uint16 sizeX; /*!< Width of the map. */
-	uint16 sizeY; /*!< Height of the map. */
+	uint16 minX;                                            /*!< Minimal X position of the map. */
+	uint16 minY;                                            /*!< Minimal Y position of the map. */
+	uint16 sizeX;                                           /*!< Width of the map. */
+	uint16 sizeY;                                           /*!< Height of the map. */
 } MapInfo;
 
 /**
  * Information about LandscapeType.
  */
 typedef struct LandscapeInfo {
-	uint16 notused_00;
-	uint16 notused_01;
 	uint8  movementSpeed[6];                                /*!< Per MovementType the speed a Unit has on this LandscapeType. */
 	bool   letUnitWobble;                                   /*!< True if a Unit on this LandscapeType should wobble around while moving on it. */
 	bool   isValidForStructure;                             /*!< True if a Structure with notOnConcrete false can be build on this LandscapeType. */
-	bool   variable_07;                                     /*!< ?? */
+	bool   isSand;                                          /*!< True if the LandscapeType is a sand tile (sand, dune, spice, thickspice, bloom). */
 	bool   isValidForStructure2;                            /*!< True if a Structure with notOnConcrete true can be build on this LandscapeType. */
-	bool   variable_09;                                     /*!< ?? */
+	bool   canBecomeSpice;                                  /*!< True if the LandscapeType can become a spice tile. */
 	bool   variable_10;                                     /*!< ?? */
 	uint16 radarColour;                                     /*!< Colour used on radar for this LandscapeType. */
 	uint16 spriteID;                                        /*!< Sprite used on map for this LandscapeType. */
