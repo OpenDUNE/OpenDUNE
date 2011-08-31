@@ -36,8 +36,8 @@ typedef struct FactoryWindowItem {
  */
 typedef struct SelectionType {
 	 int8  visibleWidgets[20];                              /*!< List of index of visible widgets, -1 terminated. */
-	uint16 variable_04;                                     /*!< ?? */
-	uint16 variable_06;                                     /*!< ?? */
+	bool   variable_04;                                     /*!< ?? */
+	bool   variable_06;                                     /*!< ?? */
 	uint16 defaultWidget;                                   /*!< Index of the default Widget. */
 } SelectionType;
 

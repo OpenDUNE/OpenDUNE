@@ -2205,7 +2205,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				break;
 		}
 
-		if (g_table_selectionType[oldSelectionType].variable_04 != 0 && g_table_selectionType[selectionType].variable_06 != 0) {
+		if (g_table_selectionType[oldSelectionType].variable_04 && g_table_selectionType[selectionType].variable_06) {
 			g_viewport_forceRedraw = true;
 			g_var_3A14 = true;
 
