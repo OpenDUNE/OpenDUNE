@@ -349,8 +349,8 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
 	g_widgetMentatScrollbar = NULL;
 
-	free(g_widgetMentatUnknown1); g_widgetMentatUnknown1 = NULL;
-	free(g_widgetMentatUnknown2); g_widgetMentatUnknown2 = NULL;
+	free(g_widgetMentatScrollUp); g_widgetMentatScrollUp = NULL;
+	free(g_widgetMentatScrollDown); g_widgetMentatScrollDown = NULL;
 
 	Input_Flags_ClearBits(INPUT_FLAG_KEY_REPEAT);
 
@@ -844,8 +844,8 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 		g_widgetMentatScrollbar = NULL;
 	}
 
-	free(g_widgetMentatUnknown1); g_widgetMentatUnknown1 = NULL;
-	free(g_widgetMentatUnknown2); g_widgetMentatUnknown2 = NULL;
+	free(g_widgetMentatScrollUp); g_widgetMentatScrollUp = NULL;
+	free(g_widgetMentatScrollDown); g_widgetMentatScrollDown = NULL;
 
 	g_widgetMentatTail = NULL;
 	ypos = 8;
@@ -895,17 +895,17 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollbar);
 
-	g_widgetMentatUnknown2 = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
-	g_widgetMentatUnknown2->shortcut  = 0;
-	g_widgetMentatUnknown2->shortcut2 = 0;
-	g_widgetMentatUnknown2->parentID  = 8;
-	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatUnknown2);
+	g_widgetMentatScrollDown = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
+	g_widgetMentatScrollDown->shortcut  = 0;
+	g_widgetMentatScrollDown->shortcut2 = 0;
+	g_widgetMentatScrollDown->parentID  = 8;
+	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollDown);
 
-	g_widgetMentatUnknown1 = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
-	g_widgetMentatUnknown1->shortcut  = 0;
-	g_widgetMentatUnknown1->shortcut2 = 0;
-	g_widgetMentatUnknown1->parentID  = 8;
-	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatUnknown1);
+	g_widgetMentatScrollUp = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
+	g_widgetMentatScrollUp->shortcut  = 0;
+	g_widgetMentatScrollUp->shortcut2 = 0;
+	g_widgetMentatScrollUp->parentID  = 8;
+	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollUp);
 
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatFirst);
 

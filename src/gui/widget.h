@@ -209,8 +209,8 @@ extern Widget *g_widgetLinkedListTail;
 extern Widget *g_widgetInvoiceTail;
 extern Widget *g_widgetMentatFirst;
 extern Widget *g_widgetMentatTail;
-extern Widget *g_widgetMentatUnknown1;
-extern Widget *g_widgetMentatUnknown2;
+extern Widget *g_widgetMentatScrollUp;
+extern Widget *g_widgetMentatScrollDown;
 extern Widget *g_widgetMentatScrollbar;
 
 extern WidgetProperties g_widgetProperties[22];

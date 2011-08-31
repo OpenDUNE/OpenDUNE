@@ -30,8 +30,8 @@ Widget *g_widgetLinkedListTail = NULL;
 Widget *g_widgetInvoiceTail = NULL;
 Widget *g_widgetMentatFirst = NULL;
 Widget *g_widgetMentatTail = NULL;
-Widget *g_widgetMentatUnknown1 = NULL;
-Widget *g_widgetMentatUnknown2 = NULL;
+Widget *g_widgetMentatScrollUp = NULL;
+Widget *g_widgetMentatScrollDown = NULL;
 Widget *g_widgetMentatScrollbar = NULL;
 
 /** Layout and other properties of the widgets. */
