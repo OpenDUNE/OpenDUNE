@@ -471,7 +471,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		w->shortcut2 = 0;
 
 		if (desc != &g_savegameNameWindowDesc) {
-			if (desc->widgets[i].labelStringId != 0) {
+			if (desc->widgets[i].labelStringId != STR_NULL) {
 				w->shortcut = GUI_Widget_GetShortcut(*GUI_String_Get_ByIndex(desc->widgets[i].labelStringId));
 			} else {
 				w->shortcut = GUI_Widget_GetShortcut(*GUI_String_Get_ByIndex(desc->widgets[i].stringID));
@@ -499,7 +499,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		GUI_Widget_MakeNormal(w, false);
 		GUI_Widget_Draw(w);
 
-		if (desc->widgets[i].labelStringId == 0) continue;
+		if (desc->widgets[i].labelStringId == STR_NULL) continue;
 
 		if (g_config.language == LANGUAGE_FRENCH) {
 			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), (g_widgetProperties[w->parentID].xBase << 3) + 40, w->offsetY + g_widgetProperties[w->parentID].yBase + 3, 232, 0, 0x22);
