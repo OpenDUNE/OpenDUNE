@@ -22,16 +22,10 @@ typedef struct FileInfo {
 	void *buffer;                                           /*!< In case the file is read in the memory, this is the location of the data. */
 	uint32 filePosition;                                    /*!< Where in the file we currently are (doesn't have to start at zero when in PAK file). */
 	uint8  parentIndex;                                     /*!< In which FileInfo this file can be found. */
-	uint8  variable_11;                                     /*!< ?? */
 	struct {
 		BIT_U8 isLoaded:1;                                  /*!< File is mapped in the memory. */
 		BIT_U8 inMemory:1;                                  /*!< File is loaded in alloc'd memory. */
-		BIT_U8 variable_0004:1;                             /*!< ?? */
-		BIT_U8 variable_0008:1;                             /*!< ?? */
-		BIT_U8 inPAKFile:1;                                 /*!< File can be in other PAK file. */
-		BIT_U8 variable_0020:1;                             /*!< ?? */
-		BIT_U8 variable_0040:1;                             /*!< ?? */
-		BIT_U8 variable_0080:1;                             /*!< ?? */
+    	BIT_U8 inPAKFile:1;                                 /*!< File can be in other PAK file. */
 	} flags;                                                /*!< General flags of the FileInfo. */
 } FileInfo;
 
