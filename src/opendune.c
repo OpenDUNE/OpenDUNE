@@ -1891,13 +1891,13 @@ static void GameLoop_GameIntroAnimationMenu()
 
 		if (hasSave || File_Exists("ONETIME.DAT")) s_var_37B4 = true;
 
-		stringID = 0x1C; /* Replay Introduction */
+		stringID = STR_REPLAY_INTRODUCTION;
 
 		while (true) {
 			char *strings[6];
 
 			switch (stringID) {
-				case 0x001C: /* Replay Introduction */
+				case STR_REPLAY_INTRODUCTION:
 					Music_Play(0);
 
 					free(g_readBuffer);
@@ -1940,12 +1940,12 @@ static void GameLoop_GameIntroAnimationMenu()
 					loc06 = true;
 					break;
 
-				case 0x001D: /* Exit Game */
+				case STR_EXIT_GAME:
 					PrepareEnd();
 					exit(0);
 					break;
 
-				case 0x014E: /* Hall of Fame */
+				case STR_HALL_OF_FAME:
 					GUI_HallOfFame_Show(0xFFFF);
 
 					GFX_SetPalette(g_palette2);
@@ -1954,7 +1954,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					loc06 = true;
 					break;
 
-				case 0x005C: /* Load Game */
+				case STR_LOAD_A_GAME:
 					GUI_Mouse_Hide_Safe();
 					GUI_SetPaletteAnimated(g_palette2, 30);
 					GUI_ClearScreen(0);
@@ -2048,7 +2048,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 			GUI_PaletteAnimate();
 
-			if (stringID == 0x1B) break;
+			if (stringID == STR_PLAY_A_GAME) break;
 
 			sleepIdle();
 		}
