@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include "types.h"
 
+#include "../sprites.h"
 #include "../structure.h"
+#include "../unit.h"
 #include "strings.h"
 
 StructureInfo g_table_structureInfo[] = {
@@ -51,7 +53,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
-		/* iconGroup            */ 8,
+		/* iconGroup            */ ICM_ICONGROUP_CONCRETE_SLAB,
 		{ /* animationIndex */
 		/* [0]                  */ 2,
 		/* [1]                  */ 2,
@@ -116,7 +118,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 8,
+		/* iconGroup            */ ICM_ICONGROUP_CONCRETE_SLAB,
 		{ /* animationIndex */
 		/* [0]                  */ 2,
 		/* [1]                  */ 2,
@@ -181,7 +183,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 80,
 		/* layout               */ STRUCTURE_LAYOUT_3x3,
-		/* iconGroup            */ 11,
+		/* iconGroup            */ ICM_ICONGROUP_HOUSE_PALACE,
 		{ /* animationIndex */
 		/* [0]                  */ 4,
 		/* [1]                  */ 4,
@@ -246,7 +248,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 20,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 12,
+		/* iconGroup            */ ICM_ICONGROUP_LIGHT_VEHICLE_FACTORY,
 		{ /* animationIndex */
 		/* [0]                  */ 14,
 		/* [1]                  */ 15,
@@ -311,7 +313,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 35,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
-		/* iconGroup            */ 13,
+		/* iconGroup            */ ICM_ICONGROUP_HEAVY_VEHICLE_FACTORY,
 		{ /* animationIndex */
 		/* [0]                  */ 11,
 		/* [1]                  */ 12,
@@ -376,7 +378,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 35,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
-		/* iconGroup            */ 14,
+		/* iconGroup            */ ICM_ICONGROUP_HI_TECH_FACTORY,
 		{ /* animationIndex */
 		/* [0]                  */ 8,
 		/* [1]                  */ 9,
@@ -441,7 +443,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 40,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 15,
+		/* iconGroup            */ ICM_ICONGROUP_IX_RESEARCH,
 		{ /* animationIndex */
 		/* [0]                  */ 20,
 		/* [1]                  */ 20,
@@ -506,7 +508,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 20,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 16,
+		/* iconGroup            */ ICM_ICONGROUP_WOR_TROOPER_FACILITY,
 		{ /* animationIndex */
 		/* [0]                  */ 21,
 		/* [1]                  */ 21,
@@ -571,7 +573,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 17,
+		/* iconGroup            */ ICM_ICONGROUP_CONSTRUCTION_YARD,
 		{ /* animationIndex */
 		/* [0]                  */ 22,
 		/* [1]                  */ 22,
@@ -636,7 +638,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ -100,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 19,
+		/* iconGroup            */ ICM_ICONGROUP_WINDTRAP_POWER,
 		{ /* animationIndex */
 		/* [0]                  */ 26,
 		/* [1]                  */ 26,
@@ -701,7 +703,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 10,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 18,
+		/* iconGroup            */ ICM_ICONGROUP_INFANTRY_BARRACKS,
 		{ /* animationIndex */
 		/* [0]                  */ 28,
 		/* [1]                  */ 28,
@@ -766,7 +768,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 50,
 		/* layout               */ STRUCTURE_LAYOUT_3x3,
-		/* iconGroup            */ 20,
+		/* iconGroup            */ ICM_ICONGROUP_STARPORT_FACILITY,
 		{ /* animationIndex */
 		/* [0]                  */ 5,
 		/* [1]                  */ 6,
@@ -831,7 +833,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 1005,
 		/* powerUsage           */ 30,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
-		/* iconGroup            */ 21,
+		/* iconGroup            */ ICM_ICONGROUP_SPICE_REFINERY,
 		{ /* animationIndex */
 		/* [0]                  */ 17,
 		/* [1]                  */ 18,
@@ -896,7 +898,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 20,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
-		/* iconGroup            */ 22,
+		/* iconGroup            */ ICM_ICONGROUP_VEHICLE_REPAIR_CENTRE,
 		{ /* animationIndex */
 		/* [0]                  */ 23,
 		/* [1]                  */ 24,
@@ -961,7 +963,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
-		/* iconGroup            */ 6,
+		/* iconGroup            */ ICM_ICONGROUP_WALLS,
 		{ /* animationIndex */
 		/* [0]                  */ 0xFF,
 		/* [1]                  */ 0xFF,
@@ -1026,7 +1028,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 10,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
-		/* iconGroup            */ 23,
+		/* iconGroup            */ ICM_ICONGROUP_BASE_DEFENSE_TURRET,
 		{ /* animationIndex */
 		/* [0]                  */ 0xFF,
 		/* [1]                  */ 0xFF,
@@ -1091,7 +1093,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 25,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
-		/* iconGroup            */ 24,
+		/* iconGroup            */ ICM_ICONGROUP_BASE_ROCKET_TURRET,
 		{ /* animationIndex */
 		/* [0]                  */ 0xFF,
 		/* [1]                  */ 0xFF,
@@ -1156,7 +1158,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 1000,
 		/* powerUsage           */ 5,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 25,
+		/* iconGroup            */ ICM_ICONGROUP_SPICE_STORAGE_SILO,
 		{ /* animationIndex */
 		/* [0]                  */ 27,
 		/* [1]                  */ 27,
@@ -1221,7 +1223,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 30,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
-		/* iconGroup            */ 26,
+		/* iconGroup            */ ICM_ICONGROUP_RADAR_OUTPOST,
 		{ /* animationIndex */
 		/* [0]                  */ 3,
 		/* [1]                  */ 3,
