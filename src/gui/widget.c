@@ -158,7 +158,7 @@ void GUI_Widget_Draw(Widget *w)
 	if (w == NULL) return;
 
 	if (w->flags.s.invisible) {
-		if (!w->flags.s.variable_0010) return;
+		if (!w->flags.s.greyWhenInvisible) return;
 
 		GUI_Widget_DrawBlocked(w, 12);
 		return;
@@ -544,10 +544,9 @@ uint8 GUI_Widget_GetShortcut(uint8 c)
  * @param offsetY The y position for the allocated widget.
  * @param spriteID The sprite to draw on the allocated widget (0xFFFF for none).
  * @param stringID The string to print on the allocated widget.
- * @param variable_3A ??.
  * @return The allocated widget.
  */
-Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A)
+Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID)
 {
 	Widget *w;
 	uint8  drawMode;
@@ -565,7 +564,6 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	w->fgColourNormal   = 0xF;
 	w->bgColourNormal   = 0xC;
 	w->stringID         = stringID;
-	w->variable_3A      = variable_3A;
 	w->state.all        = 0x0;
 	w->offsetX          = offsetX;
 	w->offsetY          = offsetY;
@@ -574,7 +572,6 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	w->flags.s.requiresClick = true;
 	w->flags.s.clickAsHover = true;
 	w->flags.s.loseSelect = true;
-	w->flags.s.variable_0080 = true;
 	w->flags.s.buttonFilterLeft = 4;
 	w->flags.s.buttonFilterRight = 4;
 
@@ -740,7 +737,6 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 	w->flags.s.requiresClick     = true;
 	w->flags.s.clickAsHover      = true;
 	w->flags.s.loseSelect        = true;
-	w->flags.s.variable_0080     = true;
 	w->flags.s.buttonFilterLeft  = 1;
 	w->flags.s.buttonFilterRight = 1;
 

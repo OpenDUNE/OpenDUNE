@@ -89,8 +89,8 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	Sprites_Load(1, g_sprites);
 
-	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_PROCEED)[0]), 168, 168, 6, 0, 0);
-	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_REPEAT)[0]), 240, 168, 8, 0, 0);
+	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_PROCEED)[0]), 168, 168, 6, 0);
+	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_REPEAT)[0]), 240, 168, 8, 0);
 
 	w1 = GUI_Widget_Link(w1, w2);
 
@@ -325,7 +325,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_Display(NULL, g_playerHouseID);
 
-	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(STR_EXIT)), 200, 168, proceed ? 6 : 4, 5, 1);
+	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(STR_EXIT)), 200, 168, proceed ? 6 : 4, 5);
 	g_widgetMentatFirst->shortcut2 = 'n';
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
@@ -868,7 +868,6 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 		w->drawParameterNormal.text   = empty;
 
 		w->drawModeNormal = DRAW_MODE_TEXT;
-		w->variable_0D    = 1;
 
 		w->state.all      = 0;
 
@@ -1011,7 +1010,6 @@ bool GUI_Mentat_List_Click(Widget *w)
 		GUI_Widget_MakeNormal(w2, false);
 
 		if (w2->stringID == 0x31) {
-			w2->variable_2C    = 15;
 			w2->fgColourDown   = 15;
 			w2->fgColourNormal = 15;
 
@@ -1019,7 +1017,6 @@ bool GUI_Mentat_List_Click(Widget *w)
 		}
 
 		if (w->stringID == 0x31) {
-			w->variable_2C    = 8;
 			w->fgColourDown   = 8;
 			w->fgColourNormal = 8;
 

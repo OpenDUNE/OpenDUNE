@@ -1690,11 +1690,10 @@ uint8 GUI_PickHouse()
 			};
 			Widget *w2;
 
-			w2 = GUI_Widget_Allocate(i + 1, l_var_2BAC[i][2], l_var_2BAC[i][0], l_var_2BAC[i][1], 0xFFFF, 0, 0);
+			w2 = GUI_Widget_Allocate(i + 1, l_var_2BAC[i][2], l_var_2BAC[i][0], l_var_2BAC[i][1], 0xFFFF, 0);
 
 			w2->flags.all = 0x0;
 			w2->flags.s.loseSelect = true;
-			w2->flags.s.variable_0080 = true;
 			w2->flags.s.buttonFilterLeft = 1;
 			w2->flags.s.buttonFilterRight = 1;
 			w2->width  = 96;
@@ -1749,8 +1748,8 @@ uint8 GUI_PickHouse()
 
 		if (g_debugSkipDialogs || g_debugScenario) break;
 
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_YES)[0]), 168, 168, 0, 0, 0));
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_NO)[0]), 240, 168, 2, 0, 0));
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_YES)[0]), 168, 168, 0, 0));
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_NO)[0]), 240, 168, 2, 0));
 
 		snprintf(buffer, sizeof(buffer), "TEXT%c", g_table_houseInfo[houseID].name[0]);
 		String_LoadFile(String_GenerateFilename(buffer), 0, g_readBuffer, g_readBufferSize);
@@ -4151,7 +4150,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	width = max(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
 
 	/* "Clear List" */
-	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147, 0);
+	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147);
 	wClear->width     = width;
 	wClear->height    = 10;
 	wClear->clickProc = &GUI_Widget_HOF_ClearList_Click;
@@ -4159,7 +4158,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	wClear->data      = data;
 
 	/* "Resume Game" */
-	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0);
+	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146);
 	wResume->width     = width;
 	wResume->height    = 10;
 	wResume->clickProc = &GUI_Widget_HOF_Resume_Click;

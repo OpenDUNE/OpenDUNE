@@ -1648,7 +1648,7 @@ static void Window_WidgetClick_Create()
 	for (wi = g_table_gameWidgetInfo; wi->index >= 0; wi++) {
 		Widget *w;
 
-		w = GUI_Widget_Allocate(wi->index, wi->shortcut, wi->offsetX, wi->offsetY, wi->spriteID, wi->stringID, wi->variable_3A);
+		w = GUI_Widget_Allocate(wi->index, wi->shortcut, wi->offsetX, wi->offsetY, wi->spriteID, wi->stringID);
 
 		if (wi->spriteID < 0) {
 			w->width  = wi->width;

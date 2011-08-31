@@ -73,17 +73,16 @@ typedef struct Widget {
 	uint8  drawModeNormal;                                  /*!< Draw mode when normal. */
 	uint8  drawModeSelected;                                /*!< Draw mode when selected. */
 	uint8  drawModeDown;                                    /*!< Draw mode when down. */
-	uint8  variable_0D;                                     /*!< ?? */
 	union {
 		struct {
 			BIT_U8 requiresClick:1;                         /*!< Requires click. */
-			BIT_U8 variable_0002:1;                         /*!< ?? */
+			BIT_U8 notused1:1;
 			BIT_U8 clickAsHover:1;                          /*!< Click as hover. */
 			BIT_U8 invisible:1;                             /*!< Widget is invisible. */
-			BIT_U8 variable_0010:1;                         /*!< ?? */
+			BIT_U8 greyWhenInvisible:1;                     /*!< Make the widget grey out when made invisible, instead of making it invisible. */
 			BIT_U8 noClickCascade:1;                        /*!< Don't cascade the click event to any other widgets. */
 			BIT_U8 loseSelect:1;                            /*!< Lose select when leave. */
-			BIT_U8 variable_0080:1;                         /*!< ?? */
+			BIT_U8 notused2:1;
 			BIT_U8 buttonFilterLeft:4;                      /*!< Left button filter. */
 			BIT_U8 buttonFilterRight:4;                     /*!< Right button filter. */
 		} s;
@@ -102,8 +101,6 @@ typedef struct Widget {
 	uint8  bgColourSelected;                                /*!< Background colour for draw proc when selected. */
 	uint8  fgColourDown;                                    /*!< Foregroud colour for draw proc when down. */
 	uint8  bgColourDown;                                    /*!< Background colour for draw proc when down. */
-	uint8  variable_2C;                                     /*!< ?? */
-	uint8   unknown_002D[0x0001];
 	union {
 		struct {
 			BIT_U8 selected:1;                              /*!< Selected. */
@@ -112,7 +109,7 @@ typedef struct Widget {
 			BIT_U8 selectedLast:1;                          /*!< Last Selected. */
 			BIT_U8 hover1Last:1;                            /*!< Last Hover. */
 			BIT_U8 hover2Last:1;                            /*!< Last Hover. */
-			BIT_U8 variable_0040:1;                         /*!< ?? */
+			BIT_U8 notused:1;
 			BIT_U8 keySelected:1;                           /*!< Key Selected. */
 			BIT_U8 buttonState:8;                           /*!< Button state. */
 		} s;
@@ -120,7 +117,6 @@ typedef struct Widget {
 	ClickProc *clickProc;                                   /*!< Function to execute when widget is pressed. */
 	void *data;                                             /*!< If non-NULL, it points to WidgetScrollbar or HallOfFameData belonging to this widget. */
 	uint16 stringID;                                        /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
-	uint16 variable_3A;                                     /*!< ?? */
 } Widget;
 
 typedef void (ScrollbarDrawProc)(Widget *);
@@ -156,7 +152,6 @@ typedef struct WidgetInfo {
 	uint16 width;                      /*!< ?? */
 	uint16 height;                     /*!< ?? */
 	uint16 stringID;                   /*!< ?? */
-	uint16 variable_3A;                /*!< ?? */
 } WidgetInfo;
 
 /**
@@ -232,7 +227,7 @@ extern void    GUI_Widget_MakeInvisible(Widget *w);
 extern void    GUI_Widget_MakeVisible(Widget *w);
 extern void    GUI_Widget_Draw(Widget *w);
 extern uint8   GUI_Widget_GetShortcut(uint8 c);
-extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A);
+extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID);
 extern Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, ScrollbarDrawProc *drawProc);
 extern Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, void *sprite1, void *sprite2, Widget *widget2, uint16 unknown1A);
 extern void    GUI_Widget_MakeNormal(Widget *w, bool clickProc);
