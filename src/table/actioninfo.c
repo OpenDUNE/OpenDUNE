@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "types.h"
 
+#include "../gui/gui.h"
 #include "../unit.h"
 #include "strings.h"
 
@@ -13,7 +14,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_ATTACK,
 		/* name          */ "Attack",
 		/* switchType    */ 0,
-		/* selectionType */ 1,
+		/* selectionType */ SELECTIONTYPE_TARGET,
 		/* soundID       */ 21
 	},
 
@@ -21,7 +22,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_MOVE,
 		/* name          */ "Move",
 		/* switchType    */ 0,
-		/* selectionType */ 1,
+		/* selectionType */ SELECTIONTYPE_TARGET,
 		/* soundID       */ 22
 	},
 
@@ -29,7 +30,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_RETREAT,
 		/* name          */ "Retreat",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 21
 	},
 
@@ -37,7 +38,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_GUARD,
 		/* name          */ "Guard",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 21
 	},
 
@@ -45,7 +46,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_AREA_GUARD,
 		/* name          */ "Area Guard",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 20
 	},
 
@@ -53,7 +54,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_HARVEST,
 		/* name          */ "Harvest",
 		/* switchType    */ 0,
-		/* selectionType */ 1,
+		/* selectionType */ SELECTIONTYPE_TARGET,
 		/* soundID       */ 20
 	},
 
@@ -61,7 +62,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_RETURN,
 		/* name          */ "Return",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 21
 	},
 
@@ -69,7 +70,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_STOP2,
 		/* name          */ "Stop",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 21
 	},
 
@@ -77,7 +78,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_AMBUSH,
 		/* name          */ "Ambush",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 20
 	},
 
@@ -85,7 +86,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_SABOTAGE,
 		/* name          */ "Sabotage",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 20
 	},
 
@@ -93,7 +94,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_DIE,
 		/* name          */ "Die",
 		/* switchType    */ 1,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 0xFFFF
 	},
 
@@ -101,7 +102,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_HUNT,
 		/* name          */ "Hunt",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 20
 	},
 
@@ -109,7 +110,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_DEPLOY,
 		/* name          */ "Deploy",
 		/* switchType    */ 0,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 20
 	},
 
@@ -117,7 +118,7 @@ const ActionInfo g_table_actionInfo[] = {
 		/* stringID      */ STR_DESTRUCT,
 		/* name          */ "Destruct",
 		/* switchType    */ 1,
-		/* selectionType */ 3,
+		/* selectionType */ SELECTIONTYPE_UNIT,
 		/* soundID       */ 20
 	}
 };
