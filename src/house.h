@@ -99,7 +99,7 @@ typedef struct HouseInfo {
 
 /**
  * The information for a single animation frame in House Animation. It is part
- *  of an array that stops when variable_0004 is 0.
+ *  of an array that stops when duration is 0.
  */
 typedef struct HouseAnimation_Animation {
 	const char *string;                                     /*!< Name of the WSA for this animation. */
