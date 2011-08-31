@@ -99,7 +99,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		if (!click && !drag) {
 			if (s_tickMapScroll + 10 >= g_timerGame || s_tickCursor + 20 >= g_timerGame) return true;
 			if (g_gameConfig.autoScroll == 0) return true;
-			if (g_selectionType == 4 || g_selectionType == 3) return true;
+			if (g_selectionType == SELECTIONTYPE_STRUCTURE || g_selectionType == SELECTIONTYPE_UNIT) return true;
 		}
 
 		s_tickMapScroll = g_timerGame;
@@ -132,7 +132,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 	packed = Tile_PackXY(x, y);
 
-	if (click && g_selectionType == 1) {
+	if (click && g_selectionType == SELECTIONTYPE_TARGET) {
 		Unit *u;
 		ActionType action;
 		uint16 encoded;
@@ -184,11 +184,11 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		g_unitActive   = NULL;
 		g_activeAction = 0xFFFF;
 
-		GUI_ChangeSelectionType(3);
+		GUI_ChangeSelectionType(SELECTIONTYPE_UNIT);
 		return true;
 	}
 
-	if (click && g_selectionType == 2) {
+	if (click && g_selectionType == SELECTIONTYPE_PLACE) {
 		const StructureInfo *si;
 		Structure *s;
 		House *h;
@@ -216,7 +216,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				}
 			}
 
-			GUI_ChangeSelectionType(4);
+			GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 
 			s = Structure_Get_ByPackedTile(g_structureActivePosition);
 			if (s != NULL) {
@@ -276,9 +276,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		return true;
 	}
 
-	if (g_selectionType == 1) {
+	if (g_selectionType == SELECTIONTYPE_TARGET) {
 		Map_SetSelection(Unit_FindTargetAround(packed));
-	} else if (g_selectionType == 2) {
+	} else if (g_selectionType == SELECTIONTYPE_PLACE) {
 		Map_SetSelection(packed);
 	}
 
@@ -431,7 +431,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 	}
 
-	if (g_unitSelected == NULL && (g_var_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == 2 || g_debugScenario)) {
+	if (g_unitSelected == NULL && (g_var_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
 		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
@@ -440,7 +440,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
-		if (g_selectionState == 0 && g_selectionType == 2) {
+		if (g_selectionState == 0 && g_selectionType == SELECTIONTYPE_PLACE) {
 			GUI_DrawLine(x1, y1, x2, y2, 0xFF);
 			GUI_DrawLine(x2, y1, x1, y2, 0xFF);
 		}

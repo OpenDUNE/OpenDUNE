@@ -873,7 +873,7 @@ void Structure_ActivateSpecial(Structure *s)
 			/* Give the user 7 seconds to select their target */
 			g_houseMissileCountdown = 7;
 
-			GUI_ChangeSelectionType(1);
+			GUI_ChangeSelectionType(SELECTIONTYPE_TARGET);
 		} break;
 
 		case HOUSE_WEAPON_FREMEN: {
@@ -1557,7 +1557,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			memmove(g_palette1, g_paletteActive, 256 * 3);
 
-			GUI_ChangeSelectionType(0);
+			GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
 			Timer_SetTimer(TIMER_GAME, false);
 
@@ -1571,7 +1571,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Sprites_Load(0, g_sprites);
 
-			GUI_ChangeSelectionType(4);
+			GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 
 			if (res == FACTORY_RESUME) return false;
 

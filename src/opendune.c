@@ -1200,7 +1200,7 @@ static void GameLoop_LevelEnd()
 
 		Sound_Output_Feedback(0xFFFE);
 
-		GUI_ChangeSelectionType(0);
+		GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
 		if (GameLoop_IsLevelWon()) {
 			Sound_Output_Feedback(40);
@@ -1406,7 +1406,7 @@ static void Gameloop_Logos()
  */
 static void GameLoop_GameIntroAnimation()
 {
-	GUI_ChangeSelectionType(7);
+	GUI_ChangeSelectionType(SELECTIONTYPE_INTRO);
 
 	g_stringsIntro = File_ReadWholeFile(String_GenerateFilename("INTRO"));
 
@@ -1428,7 +1428,7 @@ static void GameLoop_GameIntroAnimation()
 		GameLoop_FinishAnimation();
 	}
 
-	GUI_ChangeSelectionType(0);
+	GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
 	free(g_stringsIntro);
 	g_stringsIntro = NULL;
@@ -1807,8 +1807,8 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_table_landscapeInfo[LST_SPICE].spriteID = 0x35;
 	g_table_landscapeInfo[LST_THICK_SPICE].radarColour = 0xD8;
 	g_table_landscapeInfo[LST_THICK_SPICE].spriteID = 0x35;
-	g_selectionType = 0;
-	g_selectionTypeNew = 0;
+	g_selectionType = SELECTIONTYPE_MENTAT;
+	g_selectionTypeNew = SELECTIONTYPE_MENTAT;
 
 	g_palette1 = calloc(1, 256 * 3);
 	g_palette2 = calloc(1, 256 * 3);
@@ -2105,7 +2105,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 		GUI_Mouse_Hide_Safe();
 
-		GUI_ChangeSelectionType(g_debugScenario ? 5 : 4);
+		GUI_ChangeSelectionType(g_debugScenario ? SELECTIONTYPE_DEBUG : SELECTIONTYPE_STRUCTURE);
 	}
 
 	GFX_SetPalette(g_palette1);
@@ -2231,14 +2231,14 @@ static void GameLoop_Main()
 		GUI_PaletteAnimate();
 
 		if (g_gameMode == GM_RESTART) {
-			GUI_ChangeSelectionType(0);
+			GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
 			Game_LoadScenario(g_playerHouseID, g_scenarioID);
 			if (!g_debugScenario && !g_debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 			g_gameMode = GM_NORMAL;
 
-			GUI_ChangeSelectionType(4);
+			GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 
 			Music_Play(Tools_RandomRange(0, 8) + 8);
 			l_timerNext = g_timerGUI + 300;
@@ -2274,14 +2274,14 @@ static void GameLoop_Main()
 
 		key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
-		if (g_selectionType >= 1 && g_selectionType <= 4) {
+		if (g_selectionType == SELECTIONTYPE_TARGET || g_selectionType == SELECTIONTYPE_PLACE || g_selectionType == SELECTIONTYPE_UNIT || g_selectionType == SELECTIONTYPE_STRUCTURE) {
 			if (g_unitSelected != NULL) {
 				if (l_timerUnitStatus < g_timerGame) {
 					Unit_DisplayStatusText(g_unitSelected);
 					l_timerUnitStatus = g_timerGame + 300;
 				}
 
-				if (g_selectionType != 1) {
+				if (g_selectionType != SELECTIONTYPE_TARGET) {
 					g_selectionPosition = Tile_PackTile(Tile_Center(g_unitSelected->o.position));
 				}
 			}
@@ -2432,7 +2432,7 @@ void Game_Prepare()
 	g_var_38BC++;
 
 	oldSelectionType = g_selectionType;
-	g_selectionType = 0;
+	g_selectionType = SELECTIONTYPE_MENTAT;
 
 	Structure_Recount();
 	Unit_Recount();

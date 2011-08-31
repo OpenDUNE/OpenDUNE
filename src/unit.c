@@ -1678,7 +1678,7 @@ void Unit_Select(Unit *unit)
 	if (unit == NULL) {
 		g_unitSelected = NULL;
 
-		GUI_ChangeSelectionType(4);
+		GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 		return;
 	}
 
@@ -1703,7 +1703,7 @@ void Unit_Select(Unit *unit)
 		Unit_DisplayStatusText(unit);
 		g_unitSelected = unit;
 
-		GUI_ChangeSelectionType(3);
+		GUI_ChangeSelectionType(SELECTIONTYPE_UNIT);
 	}
 
 	Unit_UpdateMap(2, g_unitSelected);
@@ -1802,7 +1802,7 @@ uint16 Unit_FindTargetAround(uint16 packed)
 
 	uint8 i;
 
-	if (g_selectionType == 2) return packed;
+	if (g_selectionType == SELECTIONTYPE_PLACE) return packed;
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return packed;
 
@@ -2375,12 +2375,12 @@ bool Unit_Unknown379B(Unit *unit)
 
 	if (unit != g_unitSelected) return true;
 
-	if (g_selectionType == 1) {
+	if (g_selectionType == SELECTIONTYPE_TARGET) {
 		g_veiledSpriteID = 0;
 		g_bloomSpriteID = 0;
 		g_landscapeSpriteID = 0xFFFF;
 
-		GUI_ChangeSelectionType(4);
+		GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 	}
 
 	Unit_Select(NULL);
@@ -2539,7 +2539,7 @@ void Unit_LaunchHouseMissile(uint16 packed)
 
 	if (isAI) return;
 
-	GUI_ChangeSelectionType(4);
+	GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 }
 
 /**
@@ -2625,7 +2625,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 		}
 	}
 
-	if (houseID == g_playerHouseID && g_selectionType != 0) {
+	if (houseID == g_playerHouseID && g_selectionType != SELECTIONTYPE_MENTAT) {
 		if (unit->o.type == UNIT_SANDWORM) {
 			if (hp->timerSandwormAttack == 0) {
 				if (g_musicInBattle == 0) g_musicInBattle = 1;

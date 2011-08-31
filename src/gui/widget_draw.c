@@ -441,12 +441,12 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 	Structure *s = NULL;
 	Unit *u = NULL;
 
-	if (g_selectionType == 2) {
+	if (g_selectionType == SELECTIONTYPE_PLACE) {
 		if (displayedActionType != 7 || forceDraw) actionType = 7; /* Placement */
 	} else if (g_unitHouseMissile != NULL) {
 		if (displayedMissileCountdown != g_houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
 	} else if (g_unitSelected != NULL) {
-		if (g_selectionType == 1) {
+		if (g_selectionType == SELECTIONTYPE_TARGET) {
 			uint16 activeAction = g_activeAction;
 
 			if (activeAction != displayedActiveAction || forceDraw) {

@@ -15,6 +15,20 @@ typedef enum FactoryResult {
 	FACTORY_CONTINUE     = 0xFFFF
 } FactoryResult;
 
+/**
+ * The possible selection types.
+ */
+typedef enum SelectionType {
+	SELECTIONTYPE_MENTAT    = 0,                            /*!< Used in most mentat screens. */
+	SELECTIONTYPE_TARGET    = 1,                            /*!< Used when attacking or moving a unit, the target screen. */
+	SELECTIONTYPE_PLACE     = 2,                            /*!< Used when placing a structure. */
+	SELECTIONTYPE_UNIT      = 3,                            /*!< Used when selecting a Unit. */
+	SELECTIONTYPE_STRUCTURE = 4,                            /*!< Used when selecting a Structure or nothing. */
+	SELECTIONTYPE_DEBUG     = 5,                            /*!< Used when debugging scenario. */
+	SELECTIONTYPE_UNKNOWN6  = 6,                            /*!< ?? */
+	SELECTIONTYPE_INTRO     = 7                             /*!< Used in intro of the game. */
+} SelectionType;
+
 typedef struct HallOfFameData {
 	char name[6];      /*!< ?? */
 	uint16 score;      /*!< ?? */
@@ -34,16 +48,16 @@ typedef struct FactoryWindowItem {
 /**
  * Information for the selection type.
  */
-typedef struct SelectionType {
+typedef struct SelectionTypeStruct {
 	 int8  visibleWidgets[20];                              /*!< List of index of visible widgets, -1 terminated. */
 	bool   variable_04;                                     /*!< ?? */
 	bool   variable_06;                                     /*!< ?? */
 	uint16 defaultWidget;                                   /*!< Index of the default Widget. */
-} SelectionType;
+} SelectionTypeStruct;
 
 struct Widget;
 
-extern const SelectionType g_table_selectionType[];
+extern const SelectionTypeStruct g_table_selectionType[];
 
 extern uint8 *g_palette_998A;
 extern uint8 g_remap[];

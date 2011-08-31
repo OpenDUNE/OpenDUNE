@@ -6,7 +6,7 @@
 
 #include "../gui/gui.h"
 
-const SelectionType g_table_selectionType[8] = {
+const SelectionTypeStruct g_table_selectionType[8] = {
 	{ /* 0 */
 		/* visibleWidgets */ { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 		/* variable_04    */ true,

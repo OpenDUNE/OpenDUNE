@@ -669,7 +669,7 @@ void GUI_PaletteAnimate()
 		timerAnimation = g_timerGUI + 60;
 	}
 
-	if (timerSelection < g_timerGUI && g_selectionType != 0) {
+	if (timerSelection < g_timerGUI && g_selectionType != SELECTIONTYPE_MENTAT) {
 		static uint16 selectionStateColour = 15;
 
 		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
@@ -680,7 +680,7 @@ void GUI_PaletteAnimate()
 			if (selectionStateColour == 13) {
 				selectionStateColour = 15;
 
-				if (g_selectionType == 2) {
+				if (g_selectionType == SELECTIONTYPE_PLACE) {
 					if (g_selectionState != 0) {
 						selectionStateColour = (g_selectionState < 0) ? 5 : 15;
 					} else {
@@ -1523,7 +1523,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_Mouse_Hide_Safe();
 
-	GUI_ChangeSelectionType(0);
+	GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
@@ -1910,7 +1910,7 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 
 	assert(stringID < 64);
 
-	if (g_debugGame || stringID == 0 || !g_gameConfig.hints || g_selectionType == 0) return 0;
+	if (g_debugGame || stringID == 0 || !g_gameConfig.hints || g_selectionType == SELECTIONTYPE_MENTAT) return 0;
 
 	if (stringID < 32) {
 		mask = (1 << stringID);
@@ -2165,11 +2165,11 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 {
 	uint16 oldScreenID;
 
-	if (selectionType == 3 && g_unitSelected == NULL) {
-		selectionType = 4;
+	if (selectionType == SELECTIONTYPE_UNIT && g_unitSelected == NULL) {
+		selectionType = SELECTIONTYPE_STRUCTURE;
 	}
 
-	if (selectionType == 4 && g_unitSelected != NULL) {
+	if (selectionType == SELECTIONTYPE_STRUCTURE && g_unitSelected != NULL) {
 		g_unitSelected = NULL;
 	}
 
@@ -2185,17 +2185,17 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_var_37B8 = true;
 
 		switch (oldSelectionType) {
-			case 1:
-			case 2:
+			case SELECTIONTYPE_TARGET:
+			case SELECTIONTYPE_PLACE:
 				Map_SetSelection(g_structureActivePosition);
 				/* Fall-through */
-			case 4:
+			case SELECTIONTYPE_STRUCTURE:
 				g_cursorDefaultSpriteID = 0;
 				GUI_DisplayText(NULL, -1);
 				break;
 
-			case 3:
-				if (g_unitSelected != NULL && selectionType != 1 && selectionType != 3) {
+			case SELECTIONTYPE_UNIT:
+				if (g_unitSelected != NULL && selectionType != SELECTIONTYPE_TARGET && selectionType != SELECTIONTYPE_UNIT) {
 					Unit_UpdateMap(2, g_unitSelected);
 					g_unitSelected = NULL;
 				}
@@ -2218,7 +2218,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			GUI_Widget_DrawBorder(g_curWidgetIndex, 0, false);
 		}
 
-		if (selectionType != 0) {
+		if (selectionType != SELECTIONTYPE_MENTAT) {
 			Widget *w = g_widgetLinkedListHead;
 
 			while (w != NULL) {
@@ -2243,8 +2243,8 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		}
 
 		switch (g_selectionType) {
-			case 0:
-				if (oldSelectionType != 7) {
+			case SELECTIONTYPE_MENTAT:
+				if (oldSelectionType != SELECTIONTYPE_INTRO) {
 					g_cursorSpriteID = 0;
 
 					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
@@ -2253,7 +2253,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				Widget_SetCurrentWidget(g_table_selectionType[selectionType].defaultWidget);
 				break;
 
-			case 1:
+			case SELECTIONTYPE_TARGET:
 				g_structureActivePosition = g_selectionPosition;
 				GUI_Widget_ActionPanel_Draw(true);
 
@@ -2262,7 +2262,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				Timer_SetTimer(TIMER_GAME, true);
 				break;
 
-			case 2:
+			case SELECTIONTYPE_PLACE:
 				Unit_Select(NULL);
 				GUI_Widget_ActionPanel_Draw(true);
 
@@ -2271,13 +2271,13 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				Timer_SetTimer(TIMER_GAME, true);
 				break;
 
-			case 3:
+			case SELECTIONTYPE_UNIT:
 				GUI_Widget_ActionPanel_Draw(true);
 
 				Timer_SetTimer(TIMER_GAME, true);
 				break;
 
-			case 4:
+			case SELECTIONTYPE_STRUCTURE:
 				GUI_Widget_ActionPanel_Draw(true);
 
 				Timer_SetTimer(TIMER_GAME, true);
@@ -4478,7 +4478,10 @@ void GUI_DrawScreen(uint16 screenID)
 	uint16 oldScreenID;
 	uint16 xpos;
 
-	if (g_selectionType < 1 || g_selectionType > 4) return;
+	if (g_selectionType == SELECTIONTYPE_MENTAT) return;
+	if (g_selectionType == SELECTIONTYPE_DEBUG) return;
+	if (g_selectionType == SELECTIONTYPE_UNKNOWN6) return;
+	if (g_selectionType == SELECTIONTYPE_INTRO) return;
 
 	loc10 = false;
 

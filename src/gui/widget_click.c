@@ -96,7 +96,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 				g_structureActivePosition = g_selectionPosition;
 				s->o.linkedID = STRUCTURE_INVALID;
 
-				GUI_ChangeSelectionType(2);
+				GUI_ChangeSelectionType(SELECTIONTYPE_PLACE);
 			}
 			break;
 
@@ -348,7 +348,7 @@ bool GUI_Widget_Cancel_Click(Widget *w)
 		g_structureActive = NULL;
 		g_structureActivePosition = 0xFFFF;
 
-		GUI_ChangeSelectionType(4);
+		GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 
 		g_selectionState = 0; /* Invalid. */
 	}
@@ -361,7 +361,7 @@ bool GUI_Widget_Cancel_Click(Widget *w)
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-	GUI_ChangeSelectionType(3);
+	GUI_ChangeSelectionType(SELECTIONTYPE_UNIT);
 
 	return true;
 }
