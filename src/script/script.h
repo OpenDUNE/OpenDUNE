@@ -125,7 +125,7 @@ extern uint16 Script_Team_DisplayText(ScriptEngine *script);
 extern uint16 Script_Unit_RandomSoldier(ScriptEngine *script);
 extern uint16 Script_Unit_FindBestTarget(ScriptEngine *script);
 extern uint16 Script_Unit_GetTargetPriority(ScriptEngine *script);
-extern uint16 Script_Unit_Unknown0882(ScriptEngine *script);
+extern uint16 Script_Unit_TransportDeliver(ScriptEngine *script);
 extern uint16 Script_Unit_Pickup(ScriptEngine *script);
 extern uint16 Script_Unit_Stop(ScriptEngine *script);
 extern uint16 Script_Unit_SetSpeed(ScriptEngine *script);

@@ -82,7 +82,7 @@ const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 11 */ &Script_General_IsFriendly,
 	/* 12 */ &Script_Unit_ExplosionMultiple,
 	/* 13 */ &Script_Unit_SetSprite,
-	/* 14 */ &Script_Unit_Unknown0882,
+	/* 14 */ &Script_Unit_TransportDeliver,
 	/* 15 */ &Script_General_NoOperation,
 	/* 16 */ &Script_Unit_MoveToTarget,
 	/* 17 */ &Script_General_RandomRange,

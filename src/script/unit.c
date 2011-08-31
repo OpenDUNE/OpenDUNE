@@ -114,13 +114,14 @@ uint16 Script_Unit_GetTargetPriority(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0882.
+ * Delivery of transport, either to structure or to a tile.
  *
  * Stack: *none*.
+ *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return One if delivered, zero otherwise..
  */
-uint16 Script_Unit_Unknown0882(ScriptEngine *script)
+uint16 Script_Unit_TransportDeliver(ScriptEngine *script)
 {
 	Unit *u;
 	Unit *u2;
