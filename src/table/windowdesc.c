@@ -19,7 +19,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* offsetY       */ 23,
 		/* width         */ 208,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 1 */
@@ -28,7 +28,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* offsetY       */ 40,
 		/* width         */ 208,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 2 */
@@ -37,7 +37,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* offsetY       */ 57,
 		/* width         */ 208,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
@@ -46,7 +46,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* offsetY       */ 74,
 		/* width         */ 208,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
@@ -55,7 +55,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* offsetY       */ 91,
 		/* width         */ 208,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
@@ -64,7 +64,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* offsetY       */ 110,
 		/* width         */ 104,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 110,
 		},
 		{ /* 6 */
@@ -73,7 +73,7 @@ WindowDesc g_optionsWindowDesc = {
 		/* offsetY       */ 110,
 		/* width         */ 104,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		}
 	}
@@ -91,7 +91,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* offsetY       */ 22,
 		/* width         */ 80,
 		/* height        */ 15,
-		/* labelStringID */ 111, /* "Music is" */
+		/* labelStringID */ STR_MUSIC_IS,
 		/* shortcut2     */ 0,
 		},
 		{ /* 1 */
@@ -100,7 +100,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* offsetY       */ 39,
 		/* width         */ 80,
 		/* height        */ 15,
-		/* labelStringID */ 112, /* "Sounds are" */
+		/* labelStringID */ STR_SOUNDS_ARE,
 		/* shortcut2     */ 0,
 		},
 		{ /* 2 */
@@ -109,7 +109,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* offsetY       */ 56,
 		/* width         */ 80,
 		/* height        */ 15,
-		/* labelStringID */ 110, /* "Game speed" */
+		/* labelStringID */ STR_GAME_SPEED,
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
@@ -118,7 +118,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* offsetY       */ 73,
 		/* width         */ 80,
 		/* height        */ 15,
-		/* labelStringID */ 109, /* "Hints are" */
+		/* labelStringID */ STR_HINTS_ARE,
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
@@ -127,7 +127,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* offsetY       */ 90,
 		/* width         */ 80,
 		/* height        */ 15,
-		/* labelStringID */ 120, /* "Auto scroll is" */
+		/* labelStringID */ STR_AUTO_SCROLL_IS,
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
@@ -136,7 +136,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* offsetY       */ 110,
 		/* width         */ 136,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 110,
 		},
 		{ /* 6 */
@@ -145,7 +145,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		}
 	}
@@ -163,7 +163,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* offsetY       */ 30,
 		/* width         */ 72,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 1 */
@@ -172,7 +172,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* offsetY       */ 30,
 		/* width         */ 72,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 2 */
@@ -181,7 +181,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
@@ -190,7 +190,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
@@ -199,7 +199,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
@@ -208,7 +208,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 6 */
@@ -217,7 +217,7 @@ WindowDesc g_yesNoWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		}
 	}
@@ -235,7 +235,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* offsetY       */ 39,
 		/* width         */ 256,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 1 */
@@ -244,7 +244,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* offsetY       */ 56,
 		/* width         */ 256,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 2 */
@@ -253,7 +253,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* offsetY       */ 73,
 		/* width         */ 256,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
@@ -262,7 +262,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* offsetY       */ 90,
 		/* width         */ 256,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
@@ -271,7 +271,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* offsetY       */ 107,
 		/* width         */ 256,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
@@ -280,7 +280,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* offsetY       */ 126,
 		/* width         */ 96,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 110,
 		},
 		{ /* 6 */
@@ -289,7 +289,7 @@ WindowDesc g_saveLoadWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		}
 	}
@@ -307,7 +307,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* offsetY       */ 38,
 		/* width         */ 72,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 43,
 		},
 		{ /* 1 */
@@ -316,7 +316,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* offsetY       */ 38,
 		/* width         */ 72,
 		/* height        */ 15,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 110,
 		},
 		{ /* 2 */
@@ -325,7 +325,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 3 */
@@ -334,7 +334,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 4 */
@@ -343,7 +343,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 5 */
@@ -352,7 +352,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		},
 		{ /* 6 */
@@ -361,7 +361,7 @@ WindowDesc g_savegameNameWindowDesc = {
 		/* offsetY       */ 0,
 		/* width         */ 0,
 		/* height        */ 0,
-		/* labelStringID */ 0,
+		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		}
 	}
