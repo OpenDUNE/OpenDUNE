@@ -1,4 +1,4 @@
-/* $Id: dsp_sdl.c 2515 2011-09-01 08:50:42Z truebrain $ */
+/* $Id$ */
 
 /** @file src/dsp_none.c In case no DSP is selected, create an empty one,
  *  which ignores all input */
