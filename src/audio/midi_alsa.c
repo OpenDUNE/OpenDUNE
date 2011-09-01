@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/* ALSA implementation of the MPU. It tries to find an output port which
+/* ALSA implementation of the MIDI. It tries to find an output port which
  *  understands MIDI. If that fails, it suggests using Timidity++ for that
  *  job. */
 
@@ -8,7 +8,7 @@
 #include <alsa/asoundlib.h>
 #include "types.h"
 
-#include "mpu.h"
+#include "midi.h"
 
 static snd_seq_t *s_midi = NULL;
 static snd_midi_event_t *s_midiCoder = NULL;
@@ -17,14 +17,14 @@ static int s_midiPort = -1;
 
 static char *s_midiCaption = "OpenDUNE MIDI Port";
 
-bool mpu_init() {
+bool midi_init() {
 	snd_seq_addr_t sender, receiver;
 	snd_seq_port_info_t *pinfo;
 	snd_seq_client_info_t *cinfo;
 	bool found = false;
 
 	if (snd_seq_open(&s_midi, "default", SND_SEQ_OPEN_OUTPUT, 0) < 0) {
-		fprintf(stderr, "Failed to initialize MPU\n");
+		fprintf(stderr, "Failed to initialize MIDI\n");
 		s_midi = NULL;
 		return false;
 	}
@@ -33,7 +33,7 @@ bool mpu_init() {
 	/* Create a port to work on */
 	s_midiPort = snd_seq_create_simple_port(s_midi, s_midiCaption, SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
 	if (s_midiPort < 0) {
-		fprintf(stderr, "Failed to initialize MPU\n");
+		fprintf(stderr, "Failed to initialize MIDI\n");
 		snd_seq_close(s_midi);
 		s_midi = NULL;
 		return false;
@@ -105,7 +105,7 @@ bool mpu_init() {
 	return true;
 }
 
-void mpu_uninit() {
+void midi_uninit() {
 	if (s_midi == NULL) return;
 
 	snd_midi_event_free(s_midiCoder);
@@ -116,7 +116,7 @@ void mpu_uninit() {
 	s_midi = NULL;
 }
 
-void mpu_send(uint32 data)
+void midi_send(uint32 data)
 {
 	snd_seq_event_t ev;
 
@@ -133,7 +133,7 @@ void mpu_send(uint32 data)
 	snd_seq_drain_output(s_midi);
 }
 
-void mpu_reset()
+void midi_reset()
 {
 	if (s_midi == NULL) return;
 

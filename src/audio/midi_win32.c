@@ -1,19 +1,19 @@
 /* $Id$ */
 
-/* Windows implementation of the MPU. Uses midiOut functions from the Windows
+/* Windows implementation of the MIDI. Uses midiOut functions from the Windows
  *  API, which contain a softsynth and handles all MIDI output for us. */
 
 #include <stdio.h>
 #include <windows.h>
 #include "types.h"
-#include "mpu.h"
+#include "midi.h"
 
 static HMIDIOUT s_midi = NULL;
 
-bool mpu_init()
+bool midi_init()
 {
 	if (midiOutOpen(&s_midi, 0, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR) {
-		fprintf(stderr, "Failed to initialize MPU\n");
+		fprintf(stderr, "Failed to initialize MIDI\n");
 		s_midi = NULL;
 		return false;
 	}
@@ -21,7 +21,7 @@ bool mpu_init()
 	return true;
 }
 
-void mpu_uninit()
+void midi_uninit()
 {
 	if (s_midi == NULL) return;
 
@@ -31,14 +31,14 @@ void mpu_uninit()
 	s_midi = NULL;
 }
 
-void mpu_send(uint32 data)
+void midi_send(uint32 data)
 {
 	if (s_midi == NULL) return;
 
 	midiOutShortMsg(s_midi, data);
 }
 
-void mpu_reset()
+void midi_reset()
 {
 	if (s_midi == NULL) return;
 

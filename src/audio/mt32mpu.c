@@ -11,7 +11,7 @@
 
 #include "mt32mpu.h"
 
-#include "mpu.h"
+#include "midi.h"
 
 typedef struct Controls {
 	uint8 volume;
@@ -73,7 +73,7 @@ static bool s_mpuIgnore = false;
 static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 {
 	s_mpuIgnore = true;
-	mpu_send(status | (data1 << 8) | (data2 << 16));
+	midi_send(status | (data1 << 8) | (data2 << 16));
 	s_mpuIgnore = false;
 }
 
@@ -787,7 +787,7 @@ bool MPU_Init()
 {
 	uint8 i;
 
-	if (!mpu_init()) return false;
+	if (!midi_init()) return false;
 
 	s_mpu_msdataSize = 0;
 	s_mpu_msdataCurrent = 0;
@@ -801,7 +801,7 @@ bool MPU_Init()
 	memset(s_mpu_lockStatus, 0, sizeof(s_mpu_lockStatus));
 
 	s_mpuIgnore = true;
-	mpu_reset();
+	midi_reset();
 	s_mpuIgnore = false;
 
 	for (i = 0; i < 9; i++) {
@@ -853,11 +853,11 @@ void MPU_Uninit()
 	}
 
 	s_mpuIgnore = true;
-	mpu_reset();
+	midi_reset();
 
 	s_mpu_initialized = false;
 
-	mpu_uninit();
+	midi_uninit();
 	s_mpuIgnore = false;
 }
 

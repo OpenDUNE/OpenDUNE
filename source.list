@@ -3,13 +3,13 @@ animation.c
 audio/driver.c
 #if WIN32
 audio/dsp_win32.c
-audio/mpu_win32.c
+audio/midi_win32.c
 #else
 	audio/dsp_sdl.c
 	#if ALSA
-		audio/mpu_alsa.c
+		audio/midi_alsa.c
 	#else
-		audio/mpu_none.c
+		audio/midi_none.c
 	#endif
 #endif
 audio/mt32mpu.c
@@ -95,7 +95,7 @@ wsa.c
 animation.h
 audio/driver.h
 audio/dsp.h
-audio/mpu.h
+audio/midi.h
 audio/mt32mpu.h
 audio/sound.h
 codec/format40.h
