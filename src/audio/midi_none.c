@@ -1,6 +1,7 @@
 /* $Id$ */
 
-/* In case no MIDI is selected, create an empty one, which ignores all input */
+/** @file src/midi_none.c In case no MIDI is selected, create an empty one,
+ *  which ignores all input */
 
 #include "types.h"
 #include "midi.h"

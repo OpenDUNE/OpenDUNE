@@ -1,8 +1,8 @@
 /* $Id$ */
 
-/* ALSA implementation of the MIDI. It tries to find an output port which
- *  understands MIDI. If that fails, it suggests using Timidity++ for that
- *  job. */
+/** @file src/midi_alsa.c ALSA implementation of the MIDI. It tries to find an
+ *  output port which understands MIDI. If that fails, it suggests using
+ *  Timidity++ for that job. */
 
 #include <alloca.h>
 #include <alsa/asoundlib.h>

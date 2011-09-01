@@ -5,10 +5,15 @@ audio/driver.c
 audio/dsp_win32.c
 audio/midi_win32.c
 #else
-	audio/dsp_sdl.c
 	#if ALSA
+		audio/dsp_none.c
 		audio/midi_alsa.c
 	#else
+		#if SDL
+			audio/dsp_sdl.c
+		#else
+			audio/dsp_none.c
+		#endif
 		audio/midi_none.c
 	#endif
 #endif

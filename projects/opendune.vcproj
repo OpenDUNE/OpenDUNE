@@ -760,6 +760,28 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\audio\dsp_none.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\audio\dsp_sdl.c"
 					>
 					<FileConfiguration

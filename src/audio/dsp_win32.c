@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/dsp.c DSP routines. */
+/** @file src/dsp_win32.c Windows implementation of the DSP. */
 
 #include <stdio.h>
 #include <windows.h>
