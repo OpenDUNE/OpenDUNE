@@ -10,12 +10,12 @@
 
 #include "mpu.h"
 
-static snd_seq_t *_midi = NULL;
-static snd_midi_event_t *_midiCoder = NULL;
-static int _midiPort = -1;
-static snd_seq_port_subscribe_t *_midiSubscription = NULL;
+static snd_seq_t *s_midi = NULL;
+static snd_midi_event_t *s_midiCoder = NULL;
+static snd_seq_port_subscribe_t *s_midiSubscription = NULL;
+static int s_midiPort = -1;
 
-char *s_mpu_caption = "OpenDUNE MIDI Port";
+static char *s_midiCaption = "OpenDUNE MIDI Port";
 
 bool mpu_init() {
 	snd_seq_addr_t sender, receiver;
@@ -23,19 +23,19 @@ bool mpu_init() {
 	snd_seq_client_info_t *cinfo;
 	bool found = false;
 
-	if (snd_seq_open(&_midi, "default", SND_SEQ_OPEN_OUTPUT, 0) < 0) {
+	if (snd_seq_open(&s_midi, "default", SND_SEQ_OPEN_OUTPUT, 0) < 0) {
 		fprintf(stderr, "Failed to initialize MPU\n");
-		_midi = NULL;
+		s_midi = NULL;
 		return false;
 	}
-	snd_seq_set_client_name(_midi, s_mpu_caption);
+	snd_seq_set_client_name(s_midi, s_midiCaption);
 
 	/* Create a port to work on */
-	_midiPort = snd_seq_create_simple_port(_midi, s_mpu_caption, SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
-	if (_midiPort < 0) {
+	s_midiPort = snd_seq_create_simple_port(s_midi, s_midiCaption, SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
+	if (s_midiPort < 0) {
 		fprintf(stderr, "Failed to initialize MPU\n");
-		snd_seq_close(_midi);
-		_midi = NULL;
+		snd_seq_close(s_midi);
+		s_midi = NULL;
 		return false;
 	}
 
@@ -45,7 +45,7 @@ bool mpu_init() {
 	snd_seq_client_info_set_client(cinfo, -1);
 
 	/* Walk all clients and ports, and see if one matches our demands */
-	while (snd_seq_query_next_client(_midi, cinfo) >= 0 && !found) {
+	while (snd_seq_query_next_client(s_midi, cinfo) >= 0 && !found) {
 		int client;
 
 		client = snd_seq_client_info_get_client(cinfo);
@@ -53,7 +53,7 @@ bool mpu_init() {
 
 		snd_seq_port_info_set_client(pinfo, client);
 		snd_seq_port_info_set_port(pinfo, -1);
-		while (snd_seq_query_next_port(_midi, pinfo) >= 0) {
+		while (snd_seq_query_next_port(s_midi, pinfo) >= 0) {
 			if ((snd_seq_port_info_get_capability(pinfo) & (SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE)) != (SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE)) continue;
 			/* Most linux installations come with a Midi Through Port.
 			 *  This is 'hardware' support that mostly ends up on your serial, which
@@ -67,75 +67,75 @@ bool mpu_init() {
 
 	if (!found) {
 		fprintf(stderr, "No valid MIDI output ports.\n  Please install and start Timidity++ like: timidity -iA\n");
-		snd_seq_delete_port(_midi, _midiPort);
-		snd_seq_close(_midi);
-		_midi = NULL;
+		snd_seq_delete_port(s_midi, s_midiPort);
+		snd_seq_close(s_midi);
+		s_midi = NULL;
 		return false;
 	}
 
 	/* Subscribe ourself to the port */
 	receiver.client = snd_seq_port_info_get_client(pinfo);
 	receiver.port = snd_seq_port_info_get_port(pinfo);
-	sender.client = snd_seq_client_id(_midi);
-	sender.port = _midiPort;
+	sender.client = snd_seq_client_id(s_midi);
+	sender.port = s_midiPort;
 
-	snd_seq_port_subscribe_malloc(&_midiSubscription);
-	snd_seq_port_subscribe_set_sender(_midiSubscription, &sender);
-	snd_seq_port_subscribe_set_dest(_midiSubscription, &receiver);
-	snd_seq_port_subscribe_set_time_update(_midiSubscription, 1);
-	snd_seq_port_subscribe_set_time_real(_midiSubscription, 1);
-	if (snd_seq_subscribe_port(_midi, _midiSubscription) < 0) {
+	snd_seq_port_subscribe_malloc(&s_midiSubscription);
+	snd_seq_port_subscribe_set_sender(s_midiSubscription, &sender);
+	snd_seq_port_subscribe_set_dest(s_midiSubscription, &receiver);
+	snd_seq_port_subscribe_set_time_update(s_midiSubscription, 1);
+	snd_seq_port_subscribe_set_time_real(s_midiSubscription, 1);
+	if (snd_seq_subscribe_port(s_midi, s_midiSubscription) < 0) {
 		fprintf(stderr, "Failed to subscript to MIDI output\n");
-		snd_seq_delete_port(_midi, _midiPort);
-		snd_seq_close(_midi);
-		_midi = NULL;
+		snd_seq_delete_port(s_midi, s_midiPort);
+		snd_seq_close(s_midi);
+		s_midi = NULL;
 		return false;
 	}
 
 	/* Start the MIDI decoder */
-	if (snd_midi_event_new(4, &_midiCoder) < 0) {
+	if (snd_midi_event_new(4, &s_midiCoder) < 0) {
 		fprintf(stderr, "Failed to initialize MIDI decoder\n");
-		snd_seq_delete_port(_midi, _midiPort);
-		snd_seq_close(_midi);
-		_midi = NULL;
+		snd_seq_delete_port(s_midi, s_midiPort);
+		snd_seq_close(s_midi);
+		s_midi = NULL;
 		return false;
 	}
-	snd_midi_event_init(_midiCoder);
+	snd_midi_event_init(s_midiCoder);
 
 	return true;
 }
 
 void mpu_uninit() {
-	if (_midi == NULL) return;
+	if (s_midi == NULL) return;
 
-	snd_midi_event_free(_midiCoder);
-	snd_seq_port_subscribe_free(_midiSubscription);
-	snd_seq_delete_port(_midi, _midiPort);
-	snd_seq_close(_midi);
+	snd_midi_event_free(s_midiCoder);
+	snd_seq_port_subscribe_free(s_midiSubscription);
+	snd_seq_delete_port(s_midi, s_midiPort);
+	snd_seq_close(s_midi);
 
-	_midi = NULL;
+	s_midi = NULL;
 }
 
 void mpu_send(uint32 data)
 {
 	snd_seq_event_t ev;
 
-	if (_midi == NULL) return;
+	if (s_midi == NULL) return;
 
 	snd_seq_ev_clear(&ev);
-	snd_seq_ev_set_source(&ev, _midiPort);
+	snd_seq_ev_set_source(&ev, s_midiPort);
 	snd_seq_ev_set_subs(&ev);
 	snd_seq_ev_set_direct(&ev);
 
-	snd_midi_event_encode(_midiCoder, (uint8 *)&data, sizeof(uint32), &ev);
+	snd_midi_event_encode(s_midiCoder, (uint8 *)&data, sizeof(uint32), &ev);
 
-	snd_seq_event_output(_midi, &ev);
-	snd_seq_drain_output(_midi);
+	snd_seq_event_output(s_midi, &ev);
+	snd_seq_drain_output(s_midi);
 }
 
 void mpu_reset()
 {
-	if (_midi == NULL) return;
+	if (s_midi == NULL) return;
 
-	snd_midi_event_reset_encode(_midiCoder);
+	snd_midi_event_reset_encode(s_midiCoder);
 }

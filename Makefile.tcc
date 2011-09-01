@@ -63,7 +63,7 @@ endif
 
 ifdef ALSA
 LIBS := $(LIBS) -lasound
-CFLAGS := $(CFLAGS) -DMPU_ALSA
+CFLAGS := $(CFLAGS) -DALSA
 endif
 
 CFLAGS := $(CFLAGS) -g -Wall

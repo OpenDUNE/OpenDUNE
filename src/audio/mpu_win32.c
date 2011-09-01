@@ -8,13 +8,13 @@
 #include "types.h"
 #include "mpu.h"
 
-static HMIDIOUT _midi = NULL;
+static HMIDIOUT s_midi = NULL;
 
 bool mpu_init()
 {
-	if (midiOutOpen(&_midi, 0, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR) {
+	if (midiOutOpen(&s_midi, 0, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR) {
 		fprintf(stderr, "Failed to initialize MPU\n");
-		_midi = NULL;
+		s_midi = NULL;
 		return false;
 	}
 
@@ -23,24 +23,24 @@ bool mpu_init()
 
 void mpu_uninit()
 {
-	if (_midi == NULL) return;
+	if (s_midi == NULL) return;
 
-	midiOutReset(_midi);
-	midiOutClose(_midi);
+	midiOutReset(s_midi);
+	midiOutClose(s_midi);
 
-	_midi = NULL;
+	s_midi = NULL;
 }
 
 void mpu_send(uint32 data)
 {
-	if (_midi == NULL) return;
+	if (s_midi == NULL) return;
 
-	midiOutShortMsg(_midi, data);
+	midiOutShortMsg(s_midi, data);
 }
 
 void mpu_reset()
 {
-	if (_midi == NULL) return;
+	if (s_midi == NULL) return;
 
-	midiOutReset(_midi);
+	midiOutReset(s_midi);
 }

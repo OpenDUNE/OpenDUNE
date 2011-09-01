@@ -806,7 +806,7 @@ make_cflags_and_ldflags() {
 		else
 			LIBS="$LIBS -lasound"
 		fi
-		CFLAGS="$CFLAGS -DMPU_ALSA"
+		CFLAGS="$CFLAGS -DALSA"
 	fi
 
 	if [ "$enable_assert" = "0" ]; then
