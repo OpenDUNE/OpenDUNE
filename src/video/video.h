@@ -9,7 +9,6 @@ extern bool Video_Init();
 extern void Video_Uninit();
 extern void Video_Tick();
 extern void Video_SetPalette(void *palette, int from, int length);
-extern uint8 Video_Key_ReadFromBuffer();
 extern void Video_Mouse_SetPosition(uint16 x, uint16 y);
 extern void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY);
 
