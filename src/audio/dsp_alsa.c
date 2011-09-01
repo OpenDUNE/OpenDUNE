@@ -15,7 +15,7 @@ static snd_async_handler_t *s_dspAsync = NULL;
 static bool s_init = false;
 static bool s_playing = false;
 
-static char *s_data = NULL;
+static uint8 *s_data = NULL;
 static uint32 s_dataLen = 0;
 
 static uint8 *s_buffer = NULL;
