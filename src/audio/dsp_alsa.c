@@ -69,8 +69,6 @@ void DSP_Uninit()
 	free(s_data); s_data = NULL;
 	s_dataLen = 0;
 
-	snd_config_update_free_global();
-
 	s_init = false;
 }
 
