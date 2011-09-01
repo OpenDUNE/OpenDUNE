@@ -738,6 +738,28 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\audio\dsp_alsa.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\audio\dsp_sdl.c"
 					>
 					<FileConfiguration
@@ -780,33 +802,11 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\src\audio\mpu.h"
+					RelativePath="..\src\audio\midi.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\audio\mpu_alsa.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\audio\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\audio\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\src\audio\mpu_none.c"
+					RelativePath="..\src\audio\midi_alsa.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -828,7 +828,29 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\src\audio\mpu_win32.c"
+					RelativePath="..\src\audio\midi_none.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\audio\midi_win32.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
