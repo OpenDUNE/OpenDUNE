@@ -668,7 +668,7 @@ static void GameLoop_PlayAnimation()
 		}
 
 		if ((animation->flags & 0x10) != 0) {
-			memset(&g_palette_998A[3 * 1], 63, 256 * 3);
+			memset(&g_palette_998A[3 * 1], 63, 255 * 3);
 
 			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
