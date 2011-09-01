@@ -59,7 +59,6 @@ bool midi_init() {
 			 *  This is 'hardware' support that mostly ends up on your serial, which
 			 *  you most likely do not have connected. So we skip it by default. */
 			if (strncmp("Midi Through Port", snd_seq_port_info_get_name(pinfo), 17) == 0) continue;
-			printf("Found MIDI output: %s\n", snd_seq_port_info_get_name(pinfo));
 			found = true;
 			break;
 		}
