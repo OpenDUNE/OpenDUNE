@@ -18,10 +18,13 @@ static bool s_playing = false;
 void DSP_Stop()
 {
 	if (s_waveOut == NULL) return;
+
 	waveOutReset(s_waveOut);
 	waveOutUnprepareHeader(s_waveOut, &s_waveHdr, sizeof(s_waveHdr));
 	waveOutClose(s_waveOut);
+
 	s_waveOut = NULL;
+	s_playing = false;
 }
 
 void DSP_Uninit()
@@ -31,6 +34,7 @@ void DSP_Uninit()
 	DSP_Stop();
 
 	free(s_data); s_data = NULL;
+	s_dataLen = 0;
 
 	s_init = false;
 }

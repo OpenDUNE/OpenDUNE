@@ -6,7 +6,7 @@ audio/dsp_win32.c
 audio/midi_win32.c
 #else
 	#if ALSA
-		audio/dsp_none.c
+		audio/dsp_alsa.c
 		audio/midi_alsa.c
 	#else
 		#if SDL

@@ -162,6 +162,9 @@ detect_params() {
 			--with-asound)                with_asound="2";;
 			--without-asound)             with_asound="0";;
 			--with-asound=*)              with_asound="$optarg";;
+			--with-alsa)                  with_asound="2";;
+			--without-alsa)               with_asound="0";;
+			--with-alsa=*)                with_asound="$optarg";;
 
 			--disable-builtin-depend)     enable_builtin_depend="0";;
 			--enable-builtin-depend)      enable_builtin_depend="2";;
