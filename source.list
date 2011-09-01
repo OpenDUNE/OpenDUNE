@@ -1,10 +1,11 @@
 # Source Files
 animation.c
 audio/driver.c
-audio/dsp.c
 #if WIN32
+audio/dsp_win32.c
 audio/mpu_win32.c
 #else
+	audio/dsp_sdl.c
 	#if ALSA
 		audio/mpu_alsa.c
 	#else

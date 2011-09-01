@@ -734,7 +734,33 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\audio\dsp.c"
+					RelativePath="..\src\audio\dsp.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\audio\dsp_sdl.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\audio\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\audio\dsp_win32.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -752,10 +778,6 @@
 							ObjectFile="$(IntDir)\src\audio\"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\src\audio\dsp.h"
-					>
 				</File>
 				<File
 					RelativePath="..\src\audio\mpu.h"
