@@ -2,6 +2,7 @@
 
 /** @file src/dsp_alsa.c ALSA implementation of the DSP. */
 
+#include <assert.h>
 #include <alloca.h>
 #include <alsa/asoundlib.h>
 #include "types.h"
@@ -20,6 +21,7 @@ static uint32 s_dataLen = 0;
 
 static uint8 *s_buffer = NULL;
 static uint32 s_bufferLen = 0;
+static uint32 s_bufferDone = 0;
 
 static void DSP_Callback(snd_async_handler_t *ahandler)
 {
@@ -28,12 +30,6 @@ static void DSP_Callback(snd_async_handler_t *ahandler)
 	VARIABLE_NOT_USED(ahandler);
 
 	if (!s_playing) return;
-
-	/* In case a buffer underrun happens, we are done playing. */
-	if (snd_pcm_avail(s_dsp) == -EPIPE) {
-		s_playing = false;
-		return;
-	}
 
 	/* Check how much we can buffer */
 	len = snd_pcm_avail_update(s_dsp);
@@ -121,11 +117,19 @@ void DSP_Play(const uint8 *data)
 		return;
 	}
 
-	/* Create a callback and start playback */
+	/* Prepare buffer */
 	s_bufferLen = len;
 	s_buffer = s_data;
 
-	snd_async_add_pcm_handler(&s_dspAsync, s_dsp, DSP_Callback, NULL);
+	/* Create callback */
+	if (snd_async_add_pcm_handler(&s_dspAsync, s_dsp, DSP_Callback, NULL) >= 0) {
+		s_bufferDone = 0;
+	} else {
+		/* Async callbacks not supported. Fallback on a more ugly way to detect end-of-stream */
+		s_bufferDone = snd_pcm_avail(s_dsp);
+	}
+
+	/* Write as much as we can to start playback */
 	len = snd_pcm_writei(s_dsp, s_buffer, s_bufferLen);
 	s_buffer += len;
 	s_bufferLen -= len;
@@ -135,5 +139,27 @@ void DSP_Play(const uint8 *data)
 
 uint8 DSP_GetStatus()
 {
-	return s_playing ? 2 : 0;
+	if (!s_playing) return 0;
+
+	/* Check if have a buffer underrun. In that case we are done. */
+	/* XXX -- In some weird cases the state switches to SETUP. So just
+	 *  check if we are still running, and assume we are done playing in
+	 *  all other cases */
+	if (snd_pcm_state(s_dsp) != SND_PCM_STATE_RUNNING) {
+		assert(s_bufferLen == 0);
+		s_playing = false;
+		return 0;
+	}
+	/* Some ALSA implementations seem to not support async, and also never
+	 *  underrun, even if it runs out of samples. So we hack our way into
+	 *  detecting when our sample is done playing */
+	/* XXX -- For some reason it seems to never dequeue the last byte in
+	 *  the buffer */
+	if (s_bufferDone != 0 && snd_pcm_avail(s_dsp) == s_bufferDone - 1) {
+		assert(s_bufferLen == 0);
+		s_playing = false;
+		return 0;
+	}
+
+	return 2;
 }
