@@ -18,11 +18,37 @@
    ...
 }
 {
-   MPU Audio globals
+   MIDI Audio globals
    Memcheck:Leak
    ...
    fun:snd_seq_open
-   fun:mpu_init
+   fun:midi_init
+   ...
+}
+{
+   DSP Audio
+   Memcheck:Overlap
+   fun:memcpy
+   fun:snd_pcm_area_copy
+   fun:snd_pcm_areas_copy
+   ...
+   fun:snd_pcm_mmap_writei
+   ...
+}
+{
+   DSP Audio globals
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:DSP_Play
+   ...
+}
+{
+   DSP Audio gobals
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:DSP_Play
    ...
 }
 {
@@ -37,6 +63,27 @@
    Memcheck:Cond
    ...
    fun:dl_main
+   ...
+}
+{
+   libdl
+   Memcheck:Leak
+   ...
+   fun:_dl_open
+   ...
+}
+{
+   libdl
+   Memcheck:Leak
+   ...
+   fun:__nss_database_lookup
+   ...
+}
+{
+   libdl
+   Memcheck:Leak
+   ...
+   fun:__nss_lookup_function
    ...
 }
 
