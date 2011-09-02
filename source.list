@@ -93,7 +93,11 @@ tile.c
 timer.c
 tools.c
 unit.c
-video/sdl.c
+#if WIN32
+	video/video_win32.c
+#else
+	video/video_sdl.c
+#endif
 wsa.c
 
 # Header files

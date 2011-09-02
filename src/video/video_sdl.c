@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/video/sdl.c SDL video driver. */
+/** @file src/video/video_sdl.c SDL video driver. */
 
 #include <SDL.h>
 #include "types.h"
@@ -466,19 +466,12 @@ void Video_Tick()
 {
 	SDL_Event event;
 
-#if !defined(_WIN32)
 	if (!s_video_initialized) return;
-#endif /* _WIN32 */
 
 	if (g_fileOperation != 0) return;
 
 	if (s_video_lock) return;
 	s_video_lock = true;
-
-#if defined(_WIN32)
-	/* libSDL 1.2 needs to be initialized in the same thread as the events are polled in */
-	if (!s_video_initialized) Video_Init();
-#endif /* _WIN32 */
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;

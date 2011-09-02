@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib"
 				AdditionalLibraryDirectories=".."
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -134,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib"
 				AdditionalLibraryDirectories=".."
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
@@ -2098,7 +2098,33 @@
 				Name="video"
 				>
 				<File
-					RelativePath="..\src\video\sdl.c"
+					RelativePath="..\src\video\video.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\video\video_sdl.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\video\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\video\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\video\video_win32.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -2116,10 +2142,6 @@
 							ObjectFile="$(IntDir)\src\video\"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\src\video\video.h"
-					>
 				</File>
 			</Filter>
 		</Filter>

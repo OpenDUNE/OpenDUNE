@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <tchar.h>
 #include <signal.h>
+#include <malloc.h>
 #include "types.h"
 #include "crashlog.h"
 #include "../opendune.h"

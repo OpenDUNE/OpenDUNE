@@ -2329,10 +2329,9 @@ static void GameLoop_Main()
 static bool Unknown_25C4_000E()
 {
 	Timer_Init();
-#if !defined(_WIN32)
-	/* libSDL 1.2 needs to be initialized in the same thread as the events are polled in */
+
 	if (!Video_Init()) return false;
-#endif /* _WIN32 */
+
 	Mouse_Init();
 
 	/* Add the general tickers */

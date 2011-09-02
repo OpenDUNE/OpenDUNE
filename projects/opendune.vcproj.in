@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib"
 				AdditionalLibraryDirectories=".."
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -134,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib"
 				AdditionalLibraryDirectories=".."
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
