@@ -784,8 +784,7 @@ static void GameLoop_Uninit()
 	free(g_paletteMapping1); g_paletteMapping1 = NULL;
 	free(g_paletteMapping2); g_paletteMapping2 = NULL;
 
-	free(g_strings); g_strings = NULL;
-	free(g_stringsHint); g_stringsHint = NULL;
+	String_Uninit();
 }
 
 static void GameCredits_SwapScreen(uint16 top, uint16 height, uint16 screenID, void *buffer)
@@ -1137,8 +1136,6 @@ static void GameLoop_GameEndAnimation()
 	const HouseAnimation_SoundEffect *soundEffect;
 	uint16 sound;
 
-	g_stringsIntro = File_ReadWholeFile(String_GenerateFilename("INTRO"));
-
 	Voice_LoadVoices(0xFFFE);
 
 	switch (g_playerHouseID) {
@@ -1176,9 +1173,6 @@ static void GameLoop_GameEndAnimation()
 	GameLoop_FinishAnimation();
 
 	GameLoop_GameCredits();
-
-	free(g_stringsIntro);
-	g_stringsIntro = NULL;
 }
 
 /**
@@ -1408,8 +1402,6 @@ static void GameLoop_GameIntroAnimation()
 {
 	GUI_ChangeSelectionType(SELECTIONTYPE_INTRO);
 
-	g_stringsIntro = File_ReadWholeFile(String_GenerateFilename("INTRO"));
-
 	Gameloop_Logos();
 
 	if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
@@ -1429,9 +1421,6 @@ static void GameLoop_GameIntroAnimation()
 	}
 
 	GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
-
-	free(g_stringsIntro);
-	g_stringsIntro = NULL;
 }
 
 static uint16 GameLoop_B4E6_0000(uint16 arg06, uint32 arg08, uint16 arg0C)
@@ -1847,8 +1836,6 @@ static void GameLoop_GameIntroAnimationMenu()
 	s_spriteBuffer = calloc(1, 1500);
 	Sprite_SetSpriteBuffer(s_spriteBuffer);
 
-	g_stringsHint = File_ReadWholeFile(String_GenerateFilename("MESSAGE"));
-
 	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
 
 	Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, NULL);
@@ -1928,8 +1915,6 @@ static void GameLoop_GameIntroAnimationMenu()
 					free(g_readBuffer);
 					g_readBufferSize = (g_enableVoices == 0) ? 0x2EE0 : 0x4E20;
 					g_readBuffer = calloc(1, g_readBufferSize);
-
-					String_Load("DUNE");
 
 					GUI_Mouse_Show_Safe();
 
@@ -2058,8 +2043,6 @@ static void GameLoop_GameIntroAnimationMenu()
 		free(g_readBuffer);
 		g_readBufferSize = (g_enableVoices == 0) ? 0x2EE0 : 0x4E20;
 		g_readBuffer = calloc(1, g_readBufferSize);
-
-		String_Load("DUNE");
 	}
 
 	GUI_Mouse_Hide_Safe();
@@ -2189,7 +2172,7 @@ static void GameLoop_Main()
 
 	uint16 key;
 
-	String_Load("DUNE");
+	String_Init();
 
 	GameLoop_GameIntroAnimationMenu();
 

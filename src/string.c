@@ -111,19 +111,23 @@ void String_TranslateSpecial(char *source, char *dest)
 }
 
 /**
- * Loads the given language file in the memory, which is used after that with String_GetXXX_ByIndex().
- *
- * @param name The name of the language file to load (without extension).
+ * Loads the language files in the memory, which is used after that with String_GetXXX_ByIndex().
  */
-void String_Load(char *name)
+void String_Init()
 {
-	if (g_strings != NULL) {
-		free(g_strings); g_strings = NULL;
-	}
+	g_strings      = File_ReadWholeFile(String_GenerateFilename("DUNE"));
+	g_stringsHint  = File_ReadWholeFile(String_GenerateFilename("MESSAGE"));
+	g_stringsIntro = File_ReadWholeFile(String_GenerateFilename("INTRO"));
+}
 
-	if (name == NULL) return;
-
-	g_strings = File_ReadWholeFile(String_GenerateFilename(name));
+/**
+ * Unloads the language files in the memory.
+ */
+void String_Uninit()
+{
+	free(g_strings); g_strings = NULL;
+	free(g_stringsHint); g_stringsHint = NULL;
+	free(g_stringsIntro); g_stringsIntro = NULL;
 }
 
 /**
