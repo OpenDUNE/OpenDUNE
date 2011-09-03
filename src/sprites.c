@@ -504,11 +504,6 @@ void Sprites_CPS_LoadRegionClick()
 	InitRegions();
 }
 
-void Sprite_SetSpriteBuffer(uint8 *buffer)
-{
-	g_spriteBuffer = buffer;
-}
-
 /**
  * Check if a spriteID is part of the veiling sprites.
  * @param spriteID The sprite to check for.
@@ -522,8 +517,15 @@ bool Sprite_IsUnveiled(uint16 spriteID)
 	return false;
 }
 
+void Sprites_Init()
+{
+	g_spriteBuffer = calloc(1, 20000);
+}
+
 void Sprites_Uninit()
 {
+	free(g_spriteBuffer); g_spriteBuffer = NULL;
+
 	free(g_mouseSpriteBuffer); g_mouseSpriteBuffer = NULL;
 	free(g_mouseSprite); g_mouseSprite = NULL;
 

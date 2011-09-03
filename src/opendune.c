@@ -107,7 +107,6 @@ static uint8                s_palettePartChange[18];   /*!< Amount of change of 
 
 static bool  s_debugForceWin = false; /*!< When true, you immediately win the level. */
 
-static void *s_spriteBuffer  = NULL;
 static void *s_buffer_182E = NULL;
 static void *s_buffer_1832 = NULL;
 
@@ -773,7 +772,6 @@ static void GameLoop_Uninit()
 	Script_ClearInfo(g_scriptStructure);
 	Script_ClearInfo(g_scriptTeam);
 
-	free(s_spriteBuffer); s_spriteBuffer = NULL;
 	free(g_readBuffer); g_readBuffer = NULL;
 
 	free(g_palette1); g_palette1 = NULL;
@@ -1013,9 +1011,6 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	s_buffer_182E = GFX_Screen_Get_ByIndex(7);
 	s_buffer_1832 = (uint8 *)s_buffer_182E + SCREEN_WIDTH * g_curWidgetHeight;
-
-	s_spriteBuffer = calloc(1, 20000);
-	Sprite_SetSpriteBuffer(s_spriteBuffer);
 
 	g_palette1 = malloc(256 * 3 * 10);
 	g_palette2 = calloc(1, 256 * 3);
@@ -1842,9 +1837,6 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_paletteMapping2[0xDF] = 0xDF;
 	g_paletteMapping2[0xEF] = 0xEF;
 
-	s_spriteBuffer = calloc(1, 1500);
-	Sprite_SetSpriteBuffer(s_spriteBuffer);
-
 	Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, NULL);
 	Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, NULL);
 
@@ -2180,6 +2172,7 @@ static void GameLoop_Main()
 	uint16 key;
 
 	String_Init();
+	Sprites_Init();
 
 	GameLoop_GameIntroAnimationMenu();
 
