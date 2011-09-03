@@ -284,7 +284,6 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 
 	memcpy(g_palette_998A, g_palette1, 256 * 3);
 
-	g_fontIntro = Font_LoadFile("INTRO.FNT");
 	Font_Select(g_fontIntro);
 
 	GFX_Screen_SetActive(0);
@@ -315,8 +314,6 @@ static void Memory_ClearBlock(uint16 index)
 
 static void GameLoop_FinishAnimation()
 {
-	free(g_fontIntro); g_fontIntro = NULL;
-
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
 
@@ -1836,8 +1833,6 @@ static void GameLoop_GameIntroAnimationMenu()
 	s_spriteBuffer = calloc(1, 1500);
 	Sprite_SetSpriteBuffer(s_spriteBuffer);
 
-	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
-
 	Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, NULL);
 	Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, NULL);
 
@@ -2326,9 +2321,7 @@ static bool Unknown_25C4_000E()
 	GFX_Init();
 	GFX_ClearScreen();
 
-	g_fontNew8p = Font_LoadFile("new8p.fnt");
-
-	if (g_fontNew8p == NULL) {
+	if (!Font_Init()) {
 		printf("--------------------------\n");
 		printf("ERROR LOADING DATA FILE\n");
 		printf("\n");

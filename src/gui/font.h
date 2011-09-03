@@ -32,6 +32,7 @@ extern int8 g_fontCharOffset;
 
 extern FontHeader *g_fontCurrent;
 
+extern bool Font_Init();
 extern void Font_Uninit();
 extern uint16 Font_GetCharWidth(char c);
 extern uint16 Font_GetStringWidth(char *string);

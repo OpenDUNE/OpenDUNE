@@ -7,7 +7,9 @@
 
 #include "font.h"
 
+#include "../config.h"
 #include "../file.h"
+#include "../opendune.h"
 
 void *g_fontIntro = NULL;
 void *g_fontNew6p = NULL;
@@ -103,6 +105,15 @@ void Font_Select(void *font)
 
 	g_var_6C71 = ((uint8 *)f + f->heightOffset)[4];
 	g_var_6C70 = ((uint8 *)f + f->heightOffset)[5];
+}
+
+bool Font_Init()
+{
+	g_fontIntro = Font_LoadFile("INTRO.FNT");
+	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
+	g_fontNew8p = Font_LoadFile("new8p.fnt");
+
+	return g_fontNew8p != NULL;
 }
 
 void Font_Uninit()
