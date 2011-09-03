@@ -1045,6 +1045,16 @@ static void GameCredits_LoadPaletteAndSprites()
 	g_sprites[i] = NULL;
 }
 
+static void GameCredits_UnloadSprites()
+{
+	uint8 **sprite;
+
+	for (sprite = g_sprites; *sprite != NULL; sprite++) {
+		free(*sprite);
+		*sprite = NULL;
+	}
+}
+
 /**
  * Shows the game credits.
  */
@@ -1121,6 +1131,8 @@ static void GameLoop_GameCredits()
 	Driver_Music_FadeOut();
 
 	GFX_ClearScreen();
+
+	GameCredits_UnloadSprites();
 }
 
 /**
