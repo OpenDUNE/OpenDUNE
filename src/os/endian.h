@@ -8,13 +8,8 @@
 #if defined(_WIN32)
 	#define __BYTE_ORDER __LITTLE_ENDIAN
 	#if defined(_MSC_VER)
-		static uint32 __builtin_bswap32(uint32 x)
-		{
-			__asm {
-				mov eax, x;
-				bswap eax;
-			}
-		}
+		#include <stdlib.h>
+		#define __builtin_bswap32 _byteswap_ulong
 	#endif /* _MSC_VER */
 #elif defined(__APPLE__)
 	#include <machine/endian.h>

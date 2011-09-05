@@ -39,7 +39,7 @@ static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
 typedef struct VkMapping {
-	uint8  vk;
+	WPARAM  vk;
 	uint16 scan;
 } VkMapping;
 
@@ -121,7 +121,7 @@ static VkMapping s_keyMap[] = {
 };
 #undef M
 
-static uint16 MapKey(uint8 vk)
+static uint16 MapKey(WPARAM vk)
 {
 	uint16 i;
 

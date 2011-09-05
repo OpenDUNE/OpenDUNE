@@ -19,5 +19,19 @@
 				WorkingDirectory="..\bin"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			>
+			<DebugSettings
+				WorkingDirectory="..\bin"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			>
+			<DebugSettings
+				WorkingDirectory="..\bin"
+			/>
+		</Configuration>
 	</Configurations>
 </VisualStudioUserFile>

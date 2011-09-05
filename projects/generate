@@ -104,6 +104,24 @@ BEGIN {
 		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
 		print tab "					/>";
 		print tab "				</FileConfiguration>";
+		print tab "				<FileConfiguration";
+		print tab "					Name=\"Debug|x64\"";
+		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
+		print tab "					>";
+		print tab "					<Tool";
+		print tab "						Name=\"VCCLCompilerTool\"";
+		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
+		print tab "					/>";
+		print tab "				</FileConfiguration>";
+		print tab "				<FileConfiguration";
+		print tab "					Name=\"Release|x64\"";
+		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
+		print tab "					>";
+		print tab "					<Tool";
+		print tab "						Name=\"VCCLCompilerTool\"";
+		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
+		print tab "					/>";
+		print tab "				</FileConfiguration>";
 	}
 	print tab "			</File>";
 }
