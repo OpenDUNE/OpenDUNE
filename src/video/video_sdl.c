@@ -506,7 +506,6 @@ void Video_Tick()
 					fprintf(stderr, "ERROR: unhandled key %X\n", event.key.keysym.sym);
 					continue;
 				}
-				if (event.key.keysym.sym > 0xFF) Video_Key_Callback(0xE0);
 				Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
 			} break;
 		}
