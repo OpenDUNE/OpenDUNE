@@ -116,8 +116,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
+				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="2"
+				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\include"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -264,8 +267,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
+				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="2"
+				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\include"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
