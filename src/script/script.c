@@ -314,17 +314,17 @@ bool Script_Run(ScriptEngine *script)
 	}
 
 	switch (opcode) {
-		case 0: { /* JUMP TO INSTRUCTION $parameter */
+		case SCRIPT_JUMPTO: {
 			script->script = scriptInfo->start + parameter;
 			return true;
 		}
 
-		case 1: { /* SET RETURN VALUE TO $parameter */
+		case SCRIPT_SETRETURNVALUE: {
 			script->returnValue = parameter;
 			return true;
 		}
 
-		case 2: {
+		case SCRIPT_PUSH_RETURN_OR_LOCATION: {
 			if (parameter == 0) { /* PUSH RETURNVALUE */
 				STACK_PUSH(script->returnValue);
 				return true;
@@ -346,17 +346,17 @@ bool Script_Run(ScriptEngine *script)
 			return false;
 		}
 
-		case 3: case 4: { /* PUSH $parameter */
+		case SCRIPT_PUSH: case SCRIPT_PUSH2: {
 			STACK_PUSH(parameter);
 			return true;
 		}
 
-		case 5: { /* PUSH VARIABLE[$parameter] */
+		case SCRIPT_PUSH_VARIABLE: {
 			STACK_PUSH(script->variables[parameter]);
 			return true;
 		}
 
-		case 6: { /* PUSH LOCAL_VARIABLE[$parameter] (framepointer - parameter) */
+		case SCRIPT_PUSH_LOCAL_VARIABLE: {
 			if (script->framePointer - parameter - 2 >= 15) {
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
 				script->script = NULL;
@@ -367,7 +367,7 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 
-		case 7: { /* PUSH PARAMETER[$parameter] (framepointer + parameter)  */
+		case SCRIPT_PUSH_PARAMETER: {
 			if (script->framePointer + parameter - 1 >= 15) {
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
 				script->script = NULL;
@@ -378,7 +378,7 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 
-		case 8: {
+		case SCRIPT_POP_RETURN_OR_LOCATION: {
 			if (parameter == 0) { /* POP RETURNVALUE */
 				script->returnValue = STACK_POP();
 				return true;
@@ -396,12 +396,12 @@ bool Script_Run(ScriptEngine *script)
 			return false;
 		}
 
-		case 9: { /* POP VARIABLE[$parameter] */
+		case SCRIPT_POP_VARIABLE: {
 			script->variables[parameter] = STACK_POP();
 			return true;
 		}
 
-		case 10: { /* POP LOCAL_VARIABLE[$parameter] (framepointer - parameter) */
+		case SCRIPT_POP_LOCAL_VARIABLE: {
 			if (script->framePointer - parameter - 2 >= 15) {
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
 				script->script = NULL;
@@ -412,7 +412,7 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 
-		case 11: { /* POP PARAMETER[$parameter] (framepointer + parameter) */
+		case SCRIPT_POP_PARAMETER: {
 			if (script->framePointer + parameter - 1 >= 15) {
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
 				script->script = NULL;
@@ -423,17 +423,17 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 
-		case 12: { /* STACKPOINTER += $parameter */
+		case SCRIPT_STACK_REWIND: {
 			script->stackPointer += parameter;
 			return true;
 		}
 
-		case 13: { /* STACKPOINTER -= $parameter */
+		case SCRIPT_STACK_FORWARD: {
 			script->stackPointer -= parameter;
 			return true;
 		}
 
-		case 14: { /* EXECUTE SUBROUTINE $parameter */
+		case SCRIPT_FUNCTION: {
 			parameter &= 0xFF;
 
 			if (parameter >= SCRIPT_FUNCTIONS_COUNT || scriptInfo->functions[parameter] == NULL) {
@@ -445,7 +445,7 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 
-		case 15: { /* IF NOT EQUAL JUMP TO INSTRUCTION $parameter */
+		case SCRIPT_JUMPNE: {
 			STACK_PEEK(1); if (script->script == NULL) return false;
 
 			if (STACK_POP() != 0) return true;
@@ -454,7 +454,7 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 
-		case 16: {
+		case SCRIPT_UNARY: {
 			if (parameter == 0) { /* STACK = !STACK */
 				STACK_PUSH((STACK_POP() == 0) ? 1 : 0);
 				return true;
@@ -473,7 +473,7 @@ bool Script_Run(ScriptEngine *script)
 			return false;
 		}
 
-		case 17: { /* EVALUATE STACK[0] $parameter STACK[1] */
+		case SCRIPT_BINARY: {
 			int16 right = STACK_POP();
 			int16 left  = STACK_POP();
 
@@ -505,7 +505,7 @@ bool Script_Run(ScriptEngine *script)
 
 			return true;
 		}
-		case 18: { /* RETURN FROM SUBROUTINE WITHOUT RESETTING FRAMEPOINTER */
+		case SCRIPT_RETURN: {
 			STACK_PEEK(2); if (script->script == NULL) return false;
 
 			script->returnValue = STACK_POP();
@@ -647,7 +647,6 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 
 	scriptInfo->startCount = (length >> 1) & 0xFFFF;
 	ChunkFile_Read(index, HTOBE32('DATA'), scriptInfo->start, length);
-
 
 	ChunkFile_Close(index);
 
