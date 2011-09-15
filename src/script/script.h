@@ -15,7 +15,7 @@ enum {
  * The valid types for command in ScriptInfo->start array.
  */
 typedef enum ScriptCommand {
-	SCRIPT_JUMPTO                  = 0,                     /*!< Jump to the instruction given by the parameter. */
+	SCRIPT_JUMP                    = 0,                     /*!< Jump to the instruction given by the parameter. */
 	SCRIPT_SETRETURNVALUE          = 1,                     /*!< Set the return value to the value given by the parameter. */
 	SCRIPT_PUSH_RETURN_OR_LOCATION = 2,                     /*!< Push the return value (parameter = 0) or the location + framepointer (parameter = 1) on the stack. */
 	SCRIPT_PUSH                    = 3,                     /*!< Push a value given by the parameter on the stack. */
@@ -30,7 +30,7 @@ typedef enum ScriptCommand {
 	SCRIPT_STACK_REWIND            = 12,                    /*!< Add a value given by the parameter to the stackpointer. */
 	SCRIPT_STACK_FORWARD           = 13,                    /*!< Substract a value given by the parameter to the stackpointer. */
 	SCRIPT_FUNCTION                = 14,                    /*!< Execute a function by its ID given by the parameter. */
-	SCRIPT_JUMPNE                  = 15,                    /*!< Jump to the instruction given by the parameter if the last entry on the stack is non-zero. */
+	SCRIPT_JUMP_NE                 = 15,                    /*!< Jump to the instruction given by the parameter if the last entry on the stack is non-zero. */
 	SCRIPT_UNARY                   = 16,                    /*!< Perform unary operations. */
 	SCRIPT_BINARY                  = 17,                    /*!< Perform binary operations. */
 	SCRIPT_RETURN                  = 18                     /*!< Return from a subroutine. */

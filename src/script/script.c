@@ -314,7 +314,7 @@ bool Script_Run(ScriptEngine *script)
 	}
 
 	switch (opcode) {
-		case SCRIPT_JUMPTO: {
+		case SCRIPT_JUMP: {
 			script->script = scriptInfo->start + parameter;
 			return true;
 		}
@@ -445,7 +445,7 @@ bool Script_Run(ScriptEngine *script)
 			return true;
 		}
 
-		case SCRIPT_JUMPNE: {
+		case SCRIPT_JUMP_NE: {
 			STACK_PEEK(1); if (script->script == NULL) return false;
 
 			if (STACK_POP() != 0) return true;
