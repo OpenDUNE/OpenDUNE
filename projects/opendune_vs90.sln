@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opendune", "opendune.vcproj", "{57B146DD-077C-4261-962C-FF4D5F3A43BC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opendune", "opendune_vs90.vcproj", "{57B146DD-077C-4261-962C-FF4D5F3A43BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

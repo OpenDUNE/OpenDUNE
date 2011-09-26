@@ -135,20 +135,20 @@ END {
 }
 
 # Everything above the !!FILES!! marker
-cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
+cat "$ROOT_DIR/projects/opendune_vs90.vcproj.in" | tr '\r' '\n' | awk '
 	/^$/ { next }
 	/!!FILES!!/ { stop = 1; }
 	{
 		if (stop == 0) { print $0 }
 	}
-' > "$ROOT_DIR/projects/opendune.vcproj"
+' > "$ROOT_DIR/projects/opendune_vs90.vcproj"
 
 # Get all source files
-generate_data include >> "$ROOT_DIR/projects/opendune.vcproj"
-generate_data src "$ROOT_DIR/source.list" >> "$ROOT_DIR/projects/opendune.vcproj"
+generate_data include >> "$ROOT_DIR/projects/opendune_vs90.vcproj"
+generate_data src "$ROOT_DIR/source.list" >> "$ROOT_DIR/projects/opendune_vs90.vcproj"
 
 # Everything below the !!FILES!! marker
-cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
+cat "$ROOT_DIR/projects/opendune_vs90.vcproj.in" | tr '\r' '\n' | awk '
 	BEGIN { stop = 1; }
 	/^$/ { next }
 	/!!FILES!!/ { stop = 2; }
@@ -156,4 +156,4 @@ cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
 		if (stop == 0) { print $0 }
 		if (stop == 2) { stop = 0 }
 	}
-' >> "$ROOT_DIR/projects/opendune.vcproj"
+' >> "$ROOT_DIR/projects/opendune_vs90.vcproj"
