@@ -2,6 +2,8 @@
 
 # $Id$
 
+counter=0
+
 ROOT_DIR="`pwd`/.."
 if ! [ -d "$ROOT_DIR/src" ]
 then
@@ -16,144 +18,205 @@ fi
 
 generate_data()
 {
-LC_COLLATE=C ls -Rp "$ROOT_DIR/$1" | awk -v source="$2" '
-BEGIN {
-	path = "";
-	previous = ":";
-	deep = 0;
-	skip = 0;
-	tab = "";
-	if (source != null) {
-		while ((getline line < source) > 0) {
-			gsub("	", "", line);
-			gsub("\r", "", line);
-			if (line ~ /^#end/)  { if (deep == skip) { skip -= 1; } deep -= 1; continue; }
-			if (line ~ /^#else/) { if (deep == skip) { skip -= 1; } else if (deep - 1 == skip) { skip += 1; } continue; }
-			if (line ~ /^#if/) {
-				gsub("^#if", "", line);
-				gsub("^ ", "", line);
-				if (deep != skip) { deep += 1; continue; }
-				deep += 1;
-				if (line == "WIN32") { skip += 1; }
-				continue;
+	RES="`LC_COLLATE=C ls -Rp "$ROOT_DIR/$1" | awk -v source="$3" -v counter="$counter" '
+	BEGIN {
+		path = "";
+		previous = ":";
+		deep = 0;
+		skip = 0;
+		tab = "";
+		if (source != null) {
+			while ((getline line < source) > 0) {
+				gsub("	", "", line);
+				gsub("\r", "", line);
+				if (line ~ /^#end/)  { if (deep == skip) { skip -= 1; } deep -= 1; continue; }
+				if (line ~ /^#else/) { if (deep == skip) { skip -= 1; } else if (deep - 1 == skip) { skip += 1; } continue; }
+				if (line ~ /^#if/) {
+					gsub("^#if", "", line);
+					gsub("^ ", "", line);
+					if (deep != skip) { deep += 1; continue; }
+					deep += 1;
+					if (line == "WIN32") { skip += 1; }
+					continue;
+				}
+				if (line ~ /^#/) { continue; }
+				if (line ~ /^$/) { continue; }
+				if (deep == skip) {
+					gsub("/", "\\\\", line);
+					files["'$1'\\\\" line];
+				}
 			}
-			if (line ~ /^#/) { continue; }
-			if (line ~ /^$/) { continue; }
-			if (deep == skip) {
-				gsub("/", "\\", line);
-				files["'$1'\\" line];
-			}
-		}
-		close(source);
-	}
-}
-/:/ {
-	gsub("'$ROOT_DIR/'", "");
-	gsub(":", "");
-	if ($0 ~ previous) {
-		tab = tab "	";
-	} else {
-		while (deep > 0) {
-			print tab "		</Filter>";
-			deep--;
-			sub("/[^/]+$", "", previous);
-			if ($0 ~ previous) break;
-			sub("	", "", tab);
+			close(source);
 		}
 	}
-	previous = $0;
-	gsub("/", "\\");
-	path = $0;
-	deep++;
-	len = split($0, a, "\\");
-	print tab "		<Filter";
-	print tab "			Name=\"" a[len] "\"";
-	print tab "			>";
-	next;
-}
-/(c|h)$/ {
-	file = path "\\" $0;
-	excluded = 0;
-	if (source != null) {
-		if (file in files) {
-			delete files[file];
+	/:/ {
+		gsub("'$ROOT_DIR/'", "");
+		gsub(":", "");
+		if ($0 ~ previous) {
+			tab = tab "	";
 		} else {
-			excluded = 1;
+			while (deep > 0) {
+				print "#1" tab "		</Filter>";
+				deep--;
+				sub("/[^/]+$", "", previous);
+				if ($0 ~ previous) break;
+				sub("	", "", tab);
+			}
 		}
+		previous = $0;
+		gsub("/", "\\\\");
+		path = $0;
+		deep++;
+		len = split($0, a, "\\\\");
+		print "#1" tab "		<Filter";
+		print "#1" tab "			Name=\\"" a[len] "\\"";
+		print "#1" tab "			>";
+		print "#3    <Filter Include=\\"" path "\\">";
+		printf "#3      <UniqueIdentifier>{6dc24dda-7351-4e54-%04d-%012d}</UniqueIdentifier>\n", counter, i;
+		print "#3    </Filter>";
+		i += 1;
+		next;
 	}
-	print tab "			<File";
-	print tab "				RelativePath=\"..\\" file "\"";
-	print tab "				>";
-	split($0, a, ".");
-	if (a[2] == "c") {
-		print tab "				<FileConfiguration";
-		print tab "					Name=\"Debug|Win32\"";
-		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
-		print tab "					>";
-		print tab "					<Tool";
-		print tab "						Name=\"VCCLCompilerTool\"";
-		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
-		print tab "					/>";
-		print tab "				</FileConfiguration>";
-		print tab "				<FileConfiguration";
-		print tab "					Name=\"Release|Win32\"";
-		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
-		print tab "					>";
-		print tab "					<Tool";
-		print tab "						Name=\"VCCLCompilerTool\"";
-		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
-		print tab "					/>";
-		print tab "				</FileConfiguration>";
-		print tab "				<FileConfiguration";
-		print tab "					Name=\"Debug|x64\"";
-		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
-		print tab "					>";
-		print tab "					<Tool";
-		print tab "						Name=\"VCCLCompilerTool\"";
-		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
-		print tab "					/>";
-		print tab "				</FileConfiguration>";
-		print tab "				<FileConfiguration";
-		print tab "					Name=\"Release|x64\"";
-		if (excluded) print tab "					ExcludedFromBuild=\"true\"";
-		print tab "					>";
-		print tab "					<Tool";
-		print tab "						Name=\"VCCLCompilerTool\"";
-		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
-		print tab "					/>";
-		print tab "				</FileConfiguration>";
+	/(c|h)$/ {
+		file = path "\\\\" $0;
+		cltype = "ClInclude";
+		excluded = 0;
+		if (source != null) {
+			if (file in files) {
+				delete files[file];
+			} else {
+				excluded = 1;
+			}
+		}
+		print "#1" tab "			<File";
+		print "#1" tab "				RelativePath=\\"..\\\\" file "\\"";
+		print "#1" tab "				>";
+		split($0, a, ".");
+		if (a[2] == "c") {
+			cltype = "ClCompile";
+			print "#1" tab "				<FileConfiguration";
+			print "#1" tab "					Name=\\"Debug|Win32\\"";
+			if (excluded) print "#1" tab "					ExcludedFromBuild=\\"true\\"";
+			print "#1" tab "					>";
+			print "#1" tab "					<Tool";
+			print "#1" tab "						Name=\\"VCCLCompilerTool\\"";
+			print "#1" tab "						ObjectFile=\\"$(IntDir)\\\\" path "\\\\\\"";
+			print "#1" tab "					/>";
+			print "#1" tab "				</FileConfiguration>";
+			print "#1" tab "				<FileConfiguration";
+			print "#1" tab "					Name=\\"Release|Win32\\"";
+			if (excluded) print "#1" tab "					ExcludedFromBuild=\\"true\\"";
+			print "#1" tab "					>";
+			print "#1" tab "					<Tool";
+			print "#1" tab "						Name=\\"VCCLCompilerTool\\"";
+			print "#1" tab "						ObjectFile=\\"$(IntDir)\\\\" path "\\\\\\"";
+			print "#1" tab "					/>";
+			print "#1" tab "				</FileConfiguration>";
+			print "#1" tab "				<FileConfiguration";
+			print "#1" tab "					Name=\\"Debug|x64\\"";
+			if (excluded) print "#1" tab "					ExcludedFromBuild=\\"true\\"";
+			print "#1" tab "					>";
+			print "#1" tab "					<Tool";
+			print "#1" tab "						Name=\\"VCCLCompilerTool\\"";
+			print "#1" tab "						ObjectFile=\\"$(IntDir)\\\\" path "\\\\\\"";
+			print "#1" tab "					/>";
+			print "#1" tab "				</FileConfiguration>";
+			print "#1" tab "				<FileConfiguration";
+			print "#1" tab "					Name=\\"Release|x64\\"";
+			if (excluded) print "#1" tab "					ExcludedFromBuild=\\"true\\"";
+			print "#1" tab "					>";
+			print "#1" tab "					<Tool";
+			print "#1" tab "						Name=\\"VCCLCompilerTool\\"";
+			print "#1" tab "						ObjectFile=\\"$(IntDir)\\\\" path "\\\\\\"";
+			print "#1" tab "					/>";
+			print "#1" tab "				</FileConfiguration>";
+
+			print "#2    <ClCompile Include=\\"..\\\\" file "\\">";
+			if (excluded) print "#2      <ExcludedFromBuild>true</ExcludedFromBuild>";
+			print "#2      <ObjectFileName>$(IntDir)" path "\\\\</ObjectFileName>";
+			print "#2    </ClCompile>";
+		} else {
+			print "#2    <ClInclude Include=\\"..\\\\" file "\\"/>";
+		}
+		print "#1" tab "			</File>";
+
+		print "#4    <" cltype " Include=\\"..\\\\" file "\\">";
+		print "#4      <Filter>" path "</Filter>";
+		print "#4    </" cltype ">";
 	}
-	print tab "			</File>";
-}
-END {
-	while (deep > 0) {
-		print tab "		</Filter>";
-		sub("	", "", tab);
-		deep--;
-	}
-}'
+	END {
+		while (deep > 0) {
+			print "#1" tab "		</Filter>";
+			sub("	", "", tab);
+			deep--;
+		}
+	}'`"
+
+	eval "$2=\"\$RES\""
+	counter=`expr $counter + 1`
 }
 
-# Everything above the !!FILES!! marker
-cat "$ROOT_DIR/projects/opendune_vs90.vcproj.in" | tr '\r' '\n' | awk '
-	/^$/ { next }
-	/!!FILES!!/ { stop = 1; }
-	{
-		if (stop == 0) { print $0 }
-	}
-' > "$ROOT_DIR/projects/opendune_vs90.vcproj"
+generate() {
+	echo "Generating $2..."
+	if [ $# -eq 3 ]; then
+		# Everything above the !!FILTERS!! marker
+		cat "$ROOT_DIR/projects/$2.in" | tr '\r' '\n' | awk '
+			/^$/ { next }
+			/!!FILTERS!!/ { stop = 1; }
+			{
+				if (stop == 0) { print $0 }
+			}
+		' > "$ROOT_DIR/projects/$2"
+
+		echo "$3" >> "$ROOT_DIR/projects/$2"
+
+		# Everything below the !!FILTERS!! marker and above the !!FILES!! marker
+		cat "$ROOT_DIR/projects/$2.in" | tr '\r' '\n' | awk '
+			BEGIN { stop = 1; }
+			/^$/ { next }
+			/!!FILTERS!!/ { stop = 2; }
+			/!!FILES!!/ { stop = 1; }
+			{
+				if (stop == 0) { print $0 }
+				if (stop == 2) { stop = 0 }
+			}
+		' >> "$ROOT_DIR/projects/$2"
+	else
+		# Everything above the !!FILES!! marker
+		cat "$ROOT_DIR/projects/$2.in" | tr '\r' '\n' | awk '
+			/^$/ { next }
+			/!!FILES!!/ { stop = 1; }
+			{
+				if (stop == 0) { print $0 }
+			}
+		' > "$ROOT_DIR/projects/$2"
+	fi
+
+	echo "$1" >> "$ROOT_DIR/projects/$2"
+
+	# Everything below the !!FILES!! marker
+	cat "$ROOT_DIR/projects/$2.in" | tr '\r' '\n' | awk '
+		BEGIN { stop = 1; }
+		/^$/ { next }
+		/!!FILES!!/ { stop = 2; }
+		{
+			if (stop == 0) { print $0 }
+			if (stop == 2) { stop = 0 }
+		}
+	' >> "$ROOT_DIR/projects/$2"
+}
 
 # Get all source files
-generate_data include >> "$ROOT_DIR/projects/opendune_vs90.vcproj"
-generate_data src "$ROOT_DIR/source.list" >> "$ROOT_DIR/projects/opendune_vs90.vcproj"
+generate_data include opendune_include
+generate_data src opendune_src "$ROOT_DIR/source.list"
+opendune="$opendune_include
+$opendune_src"
 
-# Everything below the !!FILES!! marker
-cat "$ROOT_DIR/projects/opendune_vs90.vcproj.in" | tr '\r' '\n' | awk '
-	BEGIN { stop = 1; }
-	/^$/ { next }
-	/!!FILES!!/ { stop = 2; }
-	{
-		if (stop == 0) { print $0 }
-		if (stop == 2) { stop = 0 }
-	}
-' >> "$ROOT_DIR/projects/opendune_vs90.vcproj"
+opendunefiles=`echo "$opendune" | grep "^#4" | sed "s~#4~~g"`
+opendunefilters=`echo "$opendune" | grep "^#3" | sed "s~#3~~g"`
+opendunevcxproj=`echo "$opendune" | grep "^#2" | sed "s~#2~~g"`
+opendune=`echo "$opendune" | grep "^#1" | sed "s~#1~~g"`
+
+generate "$opendune" "opendune_vs90.vcproj"
+generate "$opendunevcxproj" "opendune_vs100.vcxproj"
+generate "$opendunefiles" "opendune_vs100.vcxproj.filters" "$opendunefilters"
