@@ -6,6 +6,7 @@
 #include <alloca.h>
 #include <alsa/asoundlib.h>
 #include "types.h"
+#include "../os/error.h"
 
 #include "dsp.h"
 

@@ -14,8 +14,8 @@ void Error(char *format, ...) {
 
 	va_start(ap, format);
 	vsnprintf(message, sizeof(message), format, ap);
+	vfprintf(stderr, format, ap);
 	va_end(ap);
 
-	fprintf(stderr, message);
 	MessageBox(NULL, message, "Error", MB_OK);
 }
