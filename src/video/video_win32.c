@@ -8,6 +8,7 @@
 #include <malloc.h>
 #include "types.h"
 #include "../os/common.h"
+#include "../os/error.h"
 
 #include "video.h"
 
@@ -238,7 +239,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			scan = MapKey(wParam);
 
 			if (scan == 0) {
-				fprintf(stderr, "ERROR: unhandled key %X\n", wParam);
+				Error("ERROR: unhandled key %X\n", wParam);
 				return 0;
 			}
 			if ((scan >> 8) != 0) Input_EventHandler(scan >> 8);
@@ -274,7 +275,7 @@ bool Video_Init()
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = s_className;
 	if (!RegisterClass(&wc)) {
-		fprintf(stderr, "RegisterClass failed\n");
+		Error("RegisterClass failed\n");
 		return false;
 	}
 
@@ -290,7 +291,7 @@ bool Video_Init()
 	dc = GetDC(NULL);
 	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, &s_screen, NULL, 0);
 	if (s_dib == NULL) {
-		fprintf(stderr, "CreateDIBSection failed\n");
+		Error("CreateDIBSection failed\n");
 		return false;
 	}
 	ReleaseDC(NULL, dc);
@@ -332,7 +333,7 @@ void Video_Tick()
 
 		s_hwnd = CreateWindow(s_className, window_caption, style, CW_USEDEFAULT, CW_USEDEFAULT, r.right - r.left, r.bottom - r.top, NULL, NULL, GetModuleHandle(NULL), NULL);
 		if (s_hwnd == NULL) {
-			fprintf(stderr, "CreateWindow failed\n");
+			Error("CreateWindow failed\n");
 			PrepareEnd();
 			return;
 		}

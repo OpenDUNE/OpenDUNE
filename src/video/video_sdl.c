@@ -157,14 +157,14 @@ bool Video_Init()
 	if (s_video_initialized) return true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
+		Error("Could not initialize SDL: %s\n", SDL_GetError());
 		return false;
 	}
 
 	SDL_WM_SetCaption(window_caption, "");
 	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, 8, SDL_SWSURFACE | SDL_HWPALETTE);
 	if (s_gfx_surface == NULL) {
-		fprintf(stderr, "Could not set resolution: %s\n", SDL_GetError());
+		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -503,7 +503,7 @@ void Video_Tick()
 			{
 				if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
 				if (s_SDL_keymap[event.key.keysym.sym] == 0) {
-					fprintf(stderr, "ERROR: unhandled key %X\n", event.key.keysym.sym);
+					Error("ERROR: unhandled key %X\n", event.key.keysym.sym);
 					continue;
 				}
 				Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));

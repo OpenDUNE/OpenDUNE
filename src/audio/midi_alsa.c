@@ -24,7 +24,7 @@ bool midi_init() {
 	bool found = false;
 
 	if (snd_seq_open(&s_midi, "default", SND_SEQ_OPEN_OUTPUT, 0) < 0) {
-		fprintf(stderr, "Failed to initialize MIDI\n");
+		Error("Failed to initialize MIDI\n");
 		s_midi = NULL;
 		return false;
 	}
@@ -33,7 +33,7 @@ bool midi_init() {
 	/* Create a port to work on */
 	s_midiPort = snd_seq_create_simple_port(s_midi, s_midiCaption, SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
 	if (s_midiPort < 0) {
-		fprintf(stderr, "Failed to initialize MIDI\n");
+		Error("Failed to initialize MIDI\n");
 		snd_seq_close(s_midi);
 		s_midi = NULL;
 		return false;
@@ -65,7 +65,7 @@ bool midi_init() {
 	}
 
 	if (!found) {
-		fprintf(stderr, "No valid MIDI output ports.\n  Please install and start Timidity++ like: timidity -iA\n");
+		Error("No valid MIDI output ports.\n  Please install and start Timidity++ like: timidity -iA\n");
 		snd_seq_delete_port(s_midi, s_midiPort);
 		snd_seq_close(s_midi);
 		s_midi = NULL;
@@ -84,7 +84,7 @@ bool midi_init() {
 	snd_seq_port_subscribe_set_time_update(s_midiSubscription, 1);
 	snd_seq_port_subscribe_set_time_real(s_midiSubscription, 1);
 	if (snd_seq_subscribe_port(s_midi, s_midiSubscription) < 0) {
-		fprintf(stderr, "Failed to subscript to MIDI output\n");
+		Error("Failed to subscript to MIDI output\n");
 		snd_seq_delete_port(s_midi, s_midiPort);
 		snd_seq_close(s_midi);
 		s_midi = NULL;
@@ -93,7 +93,7 @@ bool midi_init() {
 
 	/* Start the MIDI decoder */
 	if (snd_midi_event_new(4, &s_midiCoder) < 0) {
-		fprintf(stderr, "Failed to initialize MIDI decoder\n");
+		Error("Failed to initialize MIDI decoder\n");
 		snd_seq_delete_port(s_midi, s_midiPort);
 		snd_seq_close(s_midi);
 		s_midi = NULL;

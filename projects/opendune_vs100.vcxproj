@@ -264,6 +264,14 @@
     <ClInclude Include="..\src\input\mouse.h"/>
     <ClInclude Include="..\src\os\common.h"/>
     <ClInclude Include="..\src\os\endian.h"/>
+    <ClCompile Include="..\src\os\error.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\os\error.h"/>
+    <ClCompile Include="..\src\os\error_win32.c">
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
     <ClInclude Include="..\src\os\file.h"/>
     <ClInclude Include="..\src\os\math.h"/>
     <ClInclude Include="..\src\os\sleep.h"/>

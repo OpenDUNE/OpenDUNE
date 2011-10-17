@@ -48,6 +48,11 @@ load.c
 map.c
 object.c
 opendune.c
+#if WIN32
+	os/error_win32.c
+#else
+	os/error.c
+#endif
 pool/house.c
 pool/structure.c
 pool/team.c
@@ -129,6 +134,7 @@ object.h
 opendune.h
 os/common.h
 os/endian.h
+os/error.h
 os/file.h
 os/math.h
 os/sleep.h

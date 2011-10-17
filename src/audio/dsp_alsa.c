@@ -98,7 +98,7 @@ void DSP_Play(const uint8 *data)
 
 	/* Open device */
 	if (snd_pcm_open(&s_dsp, "default", SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK) < 0) {
-		fprintf(stderr, "Failed to initialize DSP\n");
+		Error("Failed to initialize DSP\n");
 		s_dsp = NULL;
 		return;
 	}
@@ -111,7 +111,7 @@ void DSP_Play(const uint8 *data)
 	snd_pcm_hw_params_set_channels(s_dsp, s_dspParams, 1);
 	snd_pcm_hw_params_set_rate(s_dsp, s_dspParams, freq, 0);
 	if (snd_pcm_hw_params(s_dsp, s_dspParams) < 0) {
-		fprintf(stderr, "Failed to set parameters for DSP\n");
+		Error("Failed to set parameters for DSP\n");
 		snd_pcm_close(s_dsp);
 		s_dsp = NULL;
 		return;

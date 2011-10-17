@@ -18,6 +18,7 @@
 #include <time.h>
 #include "types.h"
 #include "os/common.h"
+#include "os/error.h"
 #include "os/math.h"
 #include "os/strings.h"
 #include "os/sleep.h"
@@ -628,7 +629,7 @@ static void GameLoop_PlayAnimation()
 
 			default:
 				PrepareEnd();
-				printf("Bad mode in animation #%i.\n", animationMode);
+				Error("Bad mode in animation #%i.\n", animationMode);
 				exit(0);
 		}
 
@@ -2327,11 +2328,13 @@ static bool Unknown_25C4_000E()
 	GFX_ClearScreen();
 
 	if (!Font_Init()) {
-		printf("--------------------------\n");
-		printf("ERROR LOADING DATA FILE\n");
-		printf("\n");
-		printf("Did you copy the Dune2 1.07eu data files into the data directory ?\n");
-		printf("\n");
+		Error(
+			"--------------------------\n"
+			"ERROR LOADING DATA FILE\n"
+			"\n"
+			"Did you copy the Dune2 1.07eu data files into the data directory ?\n"
+			"\n"
+		);
 
 		return false;
 	}
@@ -2378,7 +2381,7 @@ int main(int argc, char **argv)
 	VARIABLE_NOT_USED(argv);
 
 	if (!Config_Read("dune.cfg", &g_config)) {
-		printf("Missing dune.cfg file.\n");
+		Error("Missing dune.cfg file.\n");
 		exit(1);
 	}
 

@@ -12,6 +12,7 @@
 #include "map.h"
 #include "opendune.h"
 #include "os/endian.h"
+#include "os/error.h"
 #include "os/math.h"
 #include "os/strings.h"
 #include "pool/pool.h"
@@ -172,7 +173,7 @@ bool SaveFile(char *filename, char *description)
 	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
 	fp = fopen(filenameComplete, "wb");
 	if (fp == NULL) {
-		fprintf(stderr, "Failed to open file '%s' for writing.\n", filenameComplete);
+		Error("Failed to open file '%s' for writing.\n", filenameComplete);
 		return false;
 	}
 
@@ -185,7 +186,7 @@ bool SaveFile(char *filename, char *description)
 	if (!res) {
 		/* TODO -- Also remove the savegame now */
 
-		fprintf(stderr, "Error while writing savegame.\n");
+		Error("Error while writing savegame.\n");
 		return false;
 	}
 

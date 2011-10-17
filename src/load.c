@@ -17,6 +17,7 @@
 #include "house.h"
 #include "map.h"
 #include "opendune.h"
+#include "os/error.h"
 #include "saveload/saveload.h"
 #include "sprites.h"
 #include "string.h"
@@ -53,7 +54,7 @@ static bool Load_Main(FILE *fp)
 	/* All OpenDUNE / Dune2 savegames should start with 'FORM' */
 	if (fread(&header, sizeof(uint32), 1, fp) != 1) return false;
 	if (BETOH32(header) != 'FORM') {
-		fprintf(stderr, "Invalid magic header in savegame. Not an OpenDUNE / Dune2 savegame.");
+		Error("Invalid magic header in savegame. Not an OpenDUNE / Dune2 savegame.");
 		return false;
 	}
 
@@ -114,7 +115,7 @@ static bool Load_Main(FILE *fp)
 			case 'TEAM': if (!Team_Load     (fp, length)) return false; break;
 
 			default:
-				fprintf(stderr, "Unknown chunk in savegame: %c%c%c%c (length: %d). Skipped.\n", header, header >> 8, header >> 16, header >> 24, length);
+				Error("Unknown chunk in savegame: %c%c%c%c (length: %d). Skipped.\n", header, header >> 8, header >> 16, header >> 24, length);
 				break;
 		}
 
@@ -139,7 +140,7 @@ bool LoadFile(char *filename)
 	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
 	fp = fopen(filenameComplete, "rb");
 	if (fp == NULL) {
-		fprintf(stderr, "Failed to open file '%s' for reading.\n", filenameComplete);
+		Error("Failed to open file '%s' for reading.\n", filenameComplete);
 
 		/* TODO -- Load failures should not result in termination */
 		exit(0);
@@ -156,7 +157,7 @@ bool LoadFile(char *filename)
 	fclose(fp);
 
 	if (!res) {
-		fprintf(stderr, "Error while loading savegame.\n");
+		Error("Error while loading savegame.\n");
 
 		/* TODO -- Load failures should not result in termination */
 		exit(0);

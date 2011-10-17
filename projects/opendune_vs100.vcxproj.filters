@@ -306,6 +306,15 @@
     <ClInclude Include="..\src\os\endian.h">
       <Filter>src\os</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\os\error.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\os\error.h">
+      <Filter>src\os</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\os\error_win32.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
     <ClInclude Include="..\src\os\file.h">
       <Filter>src\os</Filter>
     </ClInclude>

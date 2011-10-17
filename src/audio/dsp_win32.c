@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include "types.h"
+#include "../os/error.h"
 
 #include "dsp.h"
 
@@ -88,7 +89,7 @@ void DSP_Play(const uint8 *data)
 	waveFormat.cbSize = sizeof(WAVEFORMATEX);
 
 	if (waveOutOpen(&s_waveOut, WAVE_MAPPER, &waveFormat, (DWORD_PTR)&DSP_Callback, 0, CALLBACK_FUNCTION) != MMSYSERR_NOERROR) {
-		fprintf(stderr, "waveOutOpen failed\n");
+		Error("waveOutOpen failed\n");
 		s_waveOut = NULL;
 		return;
 	}
@@ -98,12 +99,12 @@ void DSP_Play(const uint8 *data)
 	s_waveHdr.dwFlags        = 0;
 	s_waveHdr.dwLoops        = 0;
 	if (waveOutPrepareHeader(s_waveOut, &s_waveHdr, sizeof(s_waveHdr)) != MMSYSERR_NOERROR) {
-		fprintf(stderr, "waveOutPrepareHeader failed\n");
+		Error("waveOutPrepareHeader failed\n");
 		return;
 	}
 
 	if (waveOutWrite(s_waveOut, &s_waveHdr, sizeof(s_waveHdr)) != MMSYSERR_NOERROR) {
-		fprintf(stderr, "waveOutWrite failed\n");
+		Error("waveOutWrite failed\n");
 		return;
 	}
 	s_playing = true;
