@@ -62,7 +62,7 @@
 #include "wsa.h"
 
 
-char *window_caption = "OpenDUNE - Pre v0.7";
+char *window_caption = "OpenDUNE - v0.7";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 
