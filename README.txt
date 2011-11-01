@@ -37,10 +37,14 @@ Currently we official support the following platforms:
 
 Requirements
 ------------
-OpenDUNE requires LibSDL to run. For most platforms we supply SDL in our
- binary package (either in a static way, or by supplying SDL.dll). The only
- exception is Linux, where you have to install LibSDL via your pacakge manager
- yourself (in most cases, it will already be installed).
+OpenDUNE doesn't require any library to run on Windows. For Mac OS X we make
+ so called static-compiled binaries, which means all libraries it depends on
+ (mostly LibSDL) are already included in the library, and requires no action
+ on your part.
+For Linux, you need to install LibSDL yourself. It is available in every
+ package manager, and the chances are high it is already installed on your
+ system.
+In order to use sounds and music on Linux, you need a working ALSA driver.
 
 
 Installation & Running
