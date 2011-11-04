@@ -420,11 +420,15 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 		Sound_Output_Feedback(loc06);
 
 		if (g_feedback[loc06].messageId != 0) {
-			GameLoop_DrawText(String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID), subtitle->top);
+			char *string = String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID);
+			if (string == NULL) string = String_GetFromBuffer_ByIndex(g_strings, subtitle->stringID);
+			GameLoop_DrawText(string, subtitle->top);
 		}
 	} else {
 		if (subtitle->stringID != 0) {
-			GameLoop_DrawText(String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID), subtitle->top);
+			char *string = String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID);
+			if (string == NULL) string = String_GetFromBuffer_ByIndex(g_strings, subtitle->stringID);
+			GameLoop_DrawText(string, subtitle->top);
 		}
 	}
 
