@@ -5,38 +5,32 @@
 #ifndef GUI_FONT_H
 #define GUI_FONT_H
 
-MSVC_PACKED_BEGIN
-/**
- * The header of a Font file.
- */
-typedef struct FontHeader {
-	/* 0000(2)   */ PACK uint16 notused1;
-	/* 0002(2)   */ PACK uint16 notused2;
-	/* 0004(2)   */ PACK uint16 heightOffset;               /*!< Offset of the height table (one uint8 entry per char). */
-	/* 0006(2)   */ PACK uint16 dataOffset;                 /*!< Offset of the data table (one uint16 entry per char). */
-	/* 0008(2)   */ PACK uint16 widthOffset;                /*!< Offset of the width table (one uint8 entry per char). */
-	/* 000A(2)   */ PACK uint16 notused3;
-	/* 000C(2)   */ PACK uint16 lineUsage;                  /*!< Offset of the lineUsage table (two uint8 entry per char; first is unused lines, second is used lines). */
-} GCC_PACKED FontHeader;
-MSVC_PACKED_END
-assert_compile(sizeof(FontHeader) == 0xE);
+typedef struct FontChar {
+	uint8 width;
+	uint8 unusedLines;
+	uint8 usedLines;
+	uint8 *data;
+} FontChar;
 
-extern void *g_fontIntro;
-extern void *g_fontNew6p;
-extern void *g_fontNew8p;
+typedef struct Font {
+	uint8 height;
+	uint8 maxWidth;
+	uint8 count;
+	FontChar *chars;
+} Font;
 
-extern uint16 g_var_6C70;
-extern uint8 g_var_6C71;
+extern Font *g_fontIntro;
+extern Font *g_fontNew6p;
+extern Font *g_fontNew8p;
 
 extern int8 g_fontCharOffset;
 
-extern FontHeader *g_fontCurrent;
+extern Font *g_fontCurrent;
 
 extern bool Font_Init();
 extern void Font_Uninit();
-extern uint16 Font_GetCharWidth(char c);
+extern uint16 Font_GetCharWidth(unsigned char c);
 extern uint16 Font_GetStringWidth(char *string);
-extern void *Font_LoadFile(const char *filename);
-extern void Font_Select(void *font);
+extern void Font_Select(Font *f);
 
 #endif /* GUI_FONT_H */

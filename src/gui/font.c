@@ -3,6 +3,7 @@
 /** @file src/gui/font.c Font routines. */
 
 #include <stdlib.h>
+#include <string.h>
 #include "types.h"
 
 #include "font.h"
@@ -11,15 +12,13 @@
 #include "../file.h"
 #include "../opendune.h"
 
-void *g_fontIntro = NULL;
-void *g_fontNew6p = NULL;
-void *g_fontNew8p = NULL;
+Font *g_fontIntro = NULL;
+Font *g_fontNew6p = NULL;
+Font *g_fontNew8p = NULL;
 
-uint16 g_var_6C70;
-uint8 g_var_6C71;
 int8 g_fontCharOffset = -1;
 
-FontHeader *g_fontCurrent = NULL;
+Font *g_fontCurrent = NULL;
 
 /**
  * Get the width of a char in pixels.
@@ -27,12 +26,9 @@ FontHeader *g_fontCurrent = NULL;
  * @param c The char to get the width of.
  * @return The width of the char in pixels.
  */
-uint16 Font_GetCharWidth(char c)
+uint16 Font_GetCharWidth(unsigned char c)
 {
-	uint16 width;
-
-	width = *((uint8 *)g_fontCurrent + g_fontCurrent->widthOffset + c);
-	return width + g_fontCharOffset;
+	return g_fontCurrent->chars[c].width + g_fontCharOffset;
 }
 
 /**
@@ -60,34 +56,57 @@ uint16 Font_GetStringWidth(char *string)
  * @param filename The name of the font file.
  * @return The pointer of the allocated memory where the file has been read.
  */
-void *Font_LoadFile(const char *filename)
+static Font *Font_LoadFile(const char *filename)
 {
 	uint8 index;
-	uint16 length;
-	uint8 *buf;
+	uint16 *buf;
+	Font *f;
+	uint8 i;
 
 	if (!File_Exists(filename)) return NULL;
 
 	index = File_Open(filename, 1);
 
-	if (File_Read(index, &length, 2) != 2) {
-		File_Close(index);
-		return NULL;
-	}
+	buf = (uint16 *)File_ReadWholeFile(filename);
 
-	buf = malloc(length);
-
-	*(uint16 *)buf = length;
-
-	File_Read(index, buf + 2, length - 2);
-	File_Close(index);
-
-	if (buf[2] != 0 || buf[3] != 5) {
+	if (buf[1] != 0x0500) {
 		free(buf);
 		return NULL;
 	}
 
-	return buf;
+	f = (Font *)calloc(1, sizeof(Font));
+	f->height = ((uint8 *)buf)[buf[2] + 4];
+	f->maxWidth = ((uint8 *)buf)[buf[2] + 5];
+	f->count = buf[5] - buf[4];
+	f->chars = (FontChar *)calloc(f->count, sizeof(FontChar));
+
+	for (i = 0; i < f->count; i++) {
+		FontChar *fc = &f->chars[i];
+		uint16 dataOffset;
+		uint8 x;
+		uint8 y;
+
+		fc->width = ((uint8 *)buf)[buf[4] + i];
+		fc->unusedLines = ((uint8 *)buf)[buf[6] + i * 2];
+		fc->usedLines = ((uint8 *)buf)[buf[6] + i * 2 + 1];
+
+		dataOffset = buf[buf[3] / 2 + i];
+		if (dataOffset == 0) continue;
+
+		fc->data = (uint8 *)malloc(fc->usedLines * fc->width);
+
+		for (y = 0; y < fc->usedLines; y++) {
+			for (x = 0; x < fc->width; x++) {
+				uint8 data = ((uint8 *)buf + dataOffset)[y * ((fc->width + 1) / 2) + x / 2];
+				if (x % 2 != 0) data >>= 4;
+				fc->data[y * fc->width + x] = data & 0xF;
+			}
+		}
+	}
+
+	free(buf);
+
+	return f;
 }
 
 /**
@@ -95,16 +114,11 @@ void *Font_LoadFile(const char *filename)
  *
  * @param font The pointer of the font to use.
  */
-void Font_Select(void *font)
+void Font_Select(Font *f)
 {
-	FontHeader *f = (FontHeader *)font;
-
 	if (f == NULL) return;
 
 	g_fontCurrent = f;
-
-	g_var_6C71 = ((uint8 *)f + f->heightOffset)[4];
-	g_var_6C70 = ((uint8 *)f + f->heightOffset)[5];
 }
 
 bool Font_Init()
@@ -116,9 +130,17 @@ bool Font_Init()
 	return g_fontNew8p != NULL;
 }
 
+static void Font_Unload(Font *f) {
+	uint8 i;
+
+	for (i = 0; i < f->count; i++) free(f->chars[i].data);
+	free(f->chars);
+	free(f);
+}
+
 void Font_Uninit()
 {
-	free(g_fontIntro); g_fontIntro = NULL;
-	free(g_fontNew6p); g_fontNew6p = NULL;
-	free(g_fontNew8p); g_fontNew8p = NULL;
+	Font_Unload(g_fontIntro); g_fontIntro = NULL;
+	Font_Unload(g_fontNew6p); g_fontNew6p = NULL;
+	Font_Unload(g_fontNew8p); g_fontNew8p = NULL;
 }

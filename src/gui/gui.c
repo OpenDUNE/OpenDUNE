@@ -390,72 +390,52 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
  * @param x The most left position where to draw the string.
  * @param y The most top position where to draw the string.
  */
-static void GUI_DrawChar(char c, uint16 x, uint16 y)
+static void GUI_DrawChar(unsigned char c, uint16 x, uint16 y)
 {
-	uint8 *font   = (uint8 *)g_fontCurrent;
 	uint8 *screen = GFX_Screen_GetActive();
 
-	uint16 offset;
+	FontChar *fc;
+
 	uint16 remainingWidth;
-	uint8  charWidth;
-	uint8  charHeight;
-	uint8  emptyLines;
-	uint8  usedLines;
 	uint8 i;
+	uint8 j;
 
-	if (font == NULL) return;
+	if (g_fontCurrent == NULL) return;
 
-	offset     = ((uint16 *)font)[g_fontCurrent->dataOffset / 2 + c];
-	charWidth  = font[g_fontCurrent->widthOffset + c];
-	charHeight = font[g_fontCurrent->heightOffset + 4];
+	fc = &g_fontCurrent->chars[c];
+	if (fc->data == NULL) return;
 
-	if (offset == 0) return;
-	if (x >= SCREEN_WIDTH || (x + charWidth) > SCREEN_WIDTH) return;
-	if (y >= SCREEN_HEIGHT || (y + charHeight) > SCREEN_HEIGHT) return;
-
-	emptyLines  = font[g_fontCurrent->lineUsage + c * 2];
-	usedLines   = font[g_fontCurrent->lineUsage + c * 2 + 1];
-	charHeight -= emptyLines + usedLines;
-
-	font += offset;
+	if (x >= SCREEN_WIDTH || (x + fc->width) > SCREEN_WIDTH) return;
+	if (y >= SCREEN_HEIGHT || (y + g_fontCurrent->height) > SCREEN_HEIGHT) return;
 
 	x += y * SCREEN_WIDTH;
-	remainingWidth = SCREEN_WIDTH - charWidth;
+	remainingWidth = SCREEN_WIDTH - fc->width;
 
-	if (emptyLines != 0) {
-		if (g_colours[0] != 0) {
-			while (emptyLines-- != 0) {
-				for (i = 0; i < charWidth; i++) screen[x++] = g_colours[0];
-				x += remainingWidth;
-			}
-		} else {
-			x += emptyLines * SCREEN_WIDTH;
+	if (g_colours[0] != 0) {
+		for (j = 0; j < fc->unusedLines; j++) {
+			for (i = 0; i < fc->width; i++) screen[x++] = g_colours[0];
+			x += remainingWidth;
 		}
+	} else {
+		x += fc->unusedLines * SCREEN_WIDTH;
 	}
 
-	if (usedLines == 0) return;
+	if (fc->usedLines == 0) return;
 
-	while (usedLines-- != 0) {
-		for (i = 0; i < charWidth; i++) {
-			uint8 data = *font++;
+	for (j = 0; j < fc->usedLines; j++) {
+		for (i = 0; i < fc->width; i++) {
+			uint8 data = fc->data[j * fc->width + i];
 
 			if (g_colours[data & 0xF] != 0) screen[x] = g_colours[data & 0xF];
-			x++;
-
-			if (++i == charWidth) break;
-
-			if (g_colours[(data >> 4) & 0xF] != 0) screen[x] = g_colours[(data >> 4) & 0xF];
 			x++;
 		}
 		x += remainingWidth;
 	}
 
-	if (charHeight <= 0) return;
-
 	if (g_colours[0] == 0) return;
 
-	while (charHeight-- != 0) {
-		for (i = 0; i < charWidth; i++) screen[x++] = g_colours[0];
+	for (j = fc->unusedLines + fc->usedLines; j < g_fontCurrent->height; j++) {
+		for (i = 0; i < fc->width; i++) screen[x++] = g_colours[0];
 		x += remainingWidth;
 	}
 }
@@ -472,20 +452,11 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour)
 {
 	uint8 colours[2];
-	uint8 *data;
-	uint16 height;
-	uint16 heightOffset;
-	uint16 widthOffset;
 	uint16 x;
 	uint16 y;
 	char *s;
 
-	data = (uint8 *)g_fontCurrent;
-	if (data == NULL) return;
-
-	heightOffset = ((uint16 *)data)[2];
-	widthOffset  = ((uint16 *)data)[4];
-	height = data[heightOffset + 4];
+	if (g_fontCurrent == NULL) return;
 
 	if (left < 0) left = 0;
 	if (top  < 0) top  = 0;
@@ -505,16 +476,16 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 
 		if (*s == '\n' || *s == '\r') {
 			x = left;
-			y += height;
+			y += g_fontCurrent->height;
 
 			while (*s == '\n' || *s == '\r') s++;
 		}
 
-		width = data[widthOffset + *s] + g_fontCharOffset;
+		width = Font_GetCharWidth(*s);
 
 		if (x + width > SCREEN_WIDTH) {
 			x = left;
-			y += height;
+			y += g_fontCurrent->height;
 		}
 		if (y > SCREEN_HEIGHT) break;
 
@@ -800,7 +771,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(1);
 
-	g_widgetProperties[1].height = g_var_6C71 * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
+	g_widgetProperties[1].height = g_fontCurrent->height * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
 	Widget_SetCurrentWidget(1);
 
