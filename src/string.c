@@ -76,7 +76,7 @@ char *String_GenerateFilename(char *name)
  */
 char *String_GetFromBuffer_ByIndex(char *buffer, uint16 index)
 {
-	if (index >= *(uint16 *)buffer) return NULL;
+	if (index >= *(uint16 *)buffer / 2) return NULL;
 	return buffer + ((uint16 *)buffer)[index];
 }
 
