@@ -286,7 +286,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	Unit_SetOrientation(u, u->orientation[0].current, true, 1);
 
 	if (u->o.houseID == g_playerHouseID) {
-		GUI_DisplayHint(27, 0x6A);
+		GUI_DisplayHint(STR_SEARCH_FOR_SPICE_FIELDS_TO_HARVEST, 0x6A);
 	}
 
 	if (s->o.linkedID == 0xFF) Structure_SetState(s, STRUCTURE_STATE_IDLE);

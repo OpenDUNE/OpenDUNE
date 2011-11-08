@@ -13,10 +13,10 @@
 
 #include "config.h"
 #include "file.h"
+#include "table/strings.h"
 
-void *g_strings = NULL;
-void *g_stringsHint = NULL;
-void *g_stringsIntro = NULL;
+static char **s_strings = NULL;
+static uint16 s_stringsCount = 0;
 
 const char * const g_languageSuffixes[] = { "ENG", "FRE", "GER", "ITA", "SPA" };
 static char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";
@@ -68,19 +68,6 @@ char *String_GenerateFilename(char *name)
 }
 
 /**
- * Returns a pointer to the string at given index in given buffer.
- *
- * @param buffer The content of a string file.
- * @param index The index of the string.
- * @return The pointer to the string.
- */
-char *String_GetFromBuffer_ByIndex(char *buffer, uint16 index)
-{
-	if (index >= *(uint16 *)buffer / 2) return NULL;
-	return buffer + ((uint16 *)buffer)[index];
-}
-
-/**
  * Returns a pointer to the string at given index in current string file.
  *
  * @param stringID The index of the string.
@@ -88,7 +75,7 @@ char *String_GetFromBuffer_ByIndex(char *buffer, uint16 index)
  */
 char *String_Get_ByIndex(uint16 stringID)
 {
-	return String_GetFromBuffer_ByIndex(g_strings, stringID);
+	return s_strings[stringID];
 }
 
 /**
@@ -111,14 +98,57 @@ void String_TranslateSpecial(char *source, char *dest)
 	*dest = '\0';
 }
 
+static void String_Load(char *filename, bool compressed)
+{
+	void *buf;
+	uint16 count;
+	uint16 i;
+
+	buf = File_ReadWholeFile(String_GenerateFilename(filename));
+	count = *(uint16 *)buf / 2;
+
+	s_stringsCount += count;
+	s_strings = (char **)realloc(s_strings, s_stringsCount * sizeof(char *));
+	s_strings[s_stringsCount - count] = NULL;
+
+	for (i = 0; i < count; i++) {
+		char *src = (char *)buf + ((uint16 *)buf)[i];
+		char *dst;
+
+		if (strlen(src) == 0 && s_strings[0] != NULL) {
+			s_stringsCount--;
+			continue;
+		}
+
+		if (compressed) {
+			dst = (char *)calloc(strlen(src) * 2 + 1, sizeof(char));
+			String_Decompress(src, dst);
+			String_TranslateSpecial(dst, dst);
+		} else {
+			dst = strdup(src);
+		}
+
+		s_strings[s_stringsCount - count + i] = dst;
+	}
+
+	/* EU version has one more string in DUNE langfile. */
+	if (s_stringsCount == STR_LOAD_GAME) s_strings[s_stringsCount++] = strdup(s_strings[STR_LOAD_A_GAME]);
+
+	free(buf);
+}
+
 /**
  * Loads the language files in the memory, which is used after that with String_GetXXX_ByIndex().
  */
 void String_Init()
 {
-	g_strings      = File_ReadWholeFile(String_GenerateFilename("DUNE"));
-	g_stringsHint  = File_ReadWholeFile(String_GenerateFilename("MESSAGE"));
-	g_stringsIntro = File_ReadWholeFile(String_GenerateFilename("INTRO"));
+	String_Load("DUNE", false);
+	String_Load("MESSAGE", false);
+	String_Load("INTRO", false);
+	String_Load("TEXTH",true);
+	String_Load("TEXTA", true);
+	String_Load("TEXTO",true);
+	String_Load("PROTECT", true);
 }
 
 /**
@@ -126,41 +156,11 @@ void String_Init()
  */
 void String_Uninit()
 {
-	free(g_strings); g_strings = NULL;
-	free(g_stringsHint); g_stringsHint = NULL;
-	free(g_stringsIntro); g_stringsIntro = NULL;
-}
+	uint16 i;
 
-/**
- * Loads the string at given index from file with given file to given buffer, and decompress it.
- *
- * @param filename The file to load the string from.
- * @param index The index of the string to load.
- * @param buffer Where to load the string.
- * @param buflen The length of the buffer.
- * @return The length of decompressed string
- */
-uint16 String_LoadFile(char *filename, uint16 index, char *buffer, uint16 buflen)
-{
-	uint8 file;
-	uint16 offset;
-	uint16 len;
-	char *s;
-
-	if (filename == NULL || buffer == NULL || buflen == 0) return 0;
-
-	file = File_Open(filename, 1);
-	File_Seek(file, index * 2, 0);
-	File_Read(file, &offset, 2);
-	File_Seek(file, offset, 0);
-	File_Read(file, buffer, buflen);
-	File_Close(file);
-
-	len = strlen(buffer) + 1;
-
-	s = buffer + buflen - len;
-	memmove(s, buffer, len);
-	return String_Decompress(s, buffer);
+	for (i = 0; i < s_stringsCount; i++) free(s_strings[i]);
+	free(s_strings);
+	s_strings = NULL;
 }
 
 /**

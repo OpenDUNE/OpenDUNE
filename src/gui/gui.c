@@ -1650,7 +1650,6 @@ uint8 GUI_PickHouse()
 
 	while (true) {
 		uint16 yes_no;
-		char buffer[16];
 
 		for (i = 0; i < 3; i++) {
 			static uint8 l_var_2BAC[3][3] = {
@@ -1722,16 +1721,13 @@ uint8 GUI_PickHouse()
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_YES)[0]), 168, 168, 0, 0));
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_NO)[0]), 240, 168, 2, 0));
 
-		snprintf(buffer, sizeof(buffer), "TEXT%c", g_table_houseInfo[houseID].name[0]);
-		String_LoadFile(String_GenerateFilename(buffer), 0, g_readBuffer, g_readBufferSize);
-		String_TranslateSpecial(g_readBuffer, g_readBuffer);
-
 		g_playerHouseID = HOUSE_MERCENARY;
 
 		oldScreenID = GFX_Screen_SetActive(0);
 
 		GUI_Mouse_Show_Safe();
 
+		strncpy(g_readBuffer, String_Get_ByIndex(STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40), g_readBufferSize);
 		GUI_Mentat_Show(g_readBuffer, House_GetWSAHouseFilename(houseID), NULL, false);
 
 		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, g_palette1);
@@ -1877,23 +1873,26 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 {
 	uint32 *hintsShown;
 	uint32 mask;
+	uint16 hint;
 
-	assert(stringID < 64);
+	if (g_debugGame || stringID == STR_NULL || !g_gameConfig.hints || g_selectionType == SELECTIONTYPE_MENTAT) return 0;
 
-	if (g_debugGame || stringID == 0 || !g_gameConfig.hints || g_selectionType == SELECTIONTYPE_MENTAT) return 0;
+	hint = stringID - STR_YOU_MUST_BUILD_A_WINDTRAP_TO_PROVIDE_POWER_TO_YOUR_BASE_WITHOUT_POWER_YOUR_STRUCTURES_WILL_DECAY;
 
-	if (stringID < 32) {
-		mask = (1 << stringID);
+	assert(hint < 64);
+
+	if (hint < 32) {
+		mask = (1 << hint);
 		hintsShown = &g_hintsShown1;
 	} else {
-		mask = (1 << (stringID - 32));
+		mask = (1 << (hint - 32));
 		hintsShown = &g_hintsShown2;
 	}
 
 	if ((*hintsShown & mask) != 0) return 0;
 	*hintsShown |= mask;
 
-	return GUI_DisplayModalMessage(String_GetFromBuffer_ByIndex(g_stringsHint, stringID), spriteID);
+	return GUI_DisplayModalMessage(String_Get_ByIndex(stringID), spriteID);
 }
 
 void GUI_DrawProgressbar(uint16 current, uint16 max)

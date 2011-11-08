@@ -1598,7 +1598,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						if (Structure_CheckAvailableConcrete(objectType, s->o.houseID)) continue;
 
-						if (GUI_DisplayHint(20, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
+						if (GUI_DisplayHint(STR_THERE_ISNT_ENOUGH_OPEN_CONCRETE_TO_PLACE_THIS_STRUCTURE_YOU_MAY_PROCEED_BUT_WITHOUT_ENOUGH_CONCRETE_THE_BUILDING_WILL_NEED_REPAIRS, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
 
 						s->objectType = objectType;
 

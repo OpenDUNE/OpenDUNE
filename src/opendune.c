@@ -420,15 +420,11 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 		Sound_Output_Feedback(loc06);
 
 		if (g_feedback[loc06].messageId != 0) {
-			char *string = String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID);
-			if (string == NULL) string = String_GetFromBuffer_ByIndex(g_strings, subtitle->stringID);
-			GameLoop_DrawText(string, subtitle->top);
+			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
 		}
 	} else {
-		if (subtitle->stringID != 0) {
-			char *string = String_GetFromBuffer_ByIndex(g_stringsIntro, subtitle->stringID);
-			if (string == NULL) string = String_GetFromBuffer_ByIndex(g_strings, subtitle->stringID);
-			GameLoop_DrawText(string, subtitle->top);
+		if (subtitle->stringID != STR_NULL) {
+			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
 		}
 	}
 
@@ -1782,10 +1778,10 @@ static void ReadProfileIni(char *filename)
 static void GameLoop_GameIntroAnimationMenu()
 {
 	static const uint16 mainMenuStrings[][6] = {
-		{0x001B, 0x001C, 0x001D, 0x0000, 0x0000, 0x0000}, /* Neither HOF nor save. */
-		{0x001B, 0x001C, 0x005C, 0x001D, 0x0000, 0x0000}, /* Has a save game. */
-		{0x001B, 0x001C, 0x001D, 0x014E, 0x0000, 0x0000}, /* Has a HOF. */
-		{0x001B, 0x001C, 0x005C, 0x001D, 0x014E, 0x0000}  /* Has a HOF and a save game. */
+		{STR_PLAY_A_GAME, STR_REPLAY_INTRODUCTION, STR_EXIT_GAME, STR_NULL,         STR_NULL,         STR_NULL}, /* Neither HOF nor save. */
+		{STR_PLAY_A_GAME, STR_REPLAY_INTRODUCTION, STR_LOAD_GAME, STR_EXIT_GAME,    STR_NULL,         STR_NULL}, /* Has a save game. */
+		{STR_PLAY_A_GAME, STR_REPLAY_INTRODUCTION, STR_EXIT_GAME, STR_HALL_OF_FAME, STR_NULL,         STR_NULL}, /* Has a HOF. */
+		{STR_PLAY_A_GAME, STR_REPLAY_INTRODUCTION, STR_LOAD_GAME, STR_EXIT_GAME,    STR_HALL_OF_FAME, STR_NULL}  /* Has a HOF and a save game. */
 	};
 
 	bool loc02 = false;
@@ -1943,7 +1939,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					loc06 = true;
 					break;
 
-				case STR_LOAD_A_GAME:
+				case STR_LOAD_GAME:
 					GUI_Mouse_Hide_Safe();
 					GUI_SetPaletteAnimated(g_palette2, 30);
 					GUI_ClearScreen(0);

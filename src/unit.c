@@ -2631,7 +2631,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 				Sound_Output_Feedback(37);
 
 				if (g_config.language == LANGUAGE_ENGLISH) {
-					GUI_DisplayHint(28, 105);
+					GUI_DisplayHint(STR_WARNING_SANDWORMS_SHAIHULUD_ROAM_DUNE_DEVOURING_ANYTHING_ON_THE_SAND, 105);
 				}
 
 				hp->timerSandwormAttack = 8;

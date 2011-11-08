@@ -19,6 +19,7 @@
 #include "../opendune.h"
 #include "../sprites.h"
 #include "../string.h"
+#include "../table/strings.h"
 #include "../timer.h"
 #include "../tools.h"
 #include "../wsa.h"
@@ -92,18 +93,6 @@ bool GUI_Security_Show()
 	wsaHouseFilename = House_GetWSAHouseFilename(g_playerHouseID);
 	if (wsaHouseFilename == NULL) return true;
 
-	{
-		char *filename;
-		uint8 file;
-
-		filename = String_GenerateFilename("PROTECT");
-
-		/* Read the whole file in the buffer */
-		file = File_Open(filename, 1);
-		File_Read(file, g_readBuffer, g_readBufferSize);
-		File_Close(file);
-	}
-
 	GUI_SetPaletteAnimated(g_palette2, 15);
 
 	GUI_Mentat_Display(wsaHouseFilename, g_playerHouseID);
@@ -114,29 +103,10 @@ bool GUI_Security_Show()
 
 	GUI_SetPaletteAnimated(g_palette1, 15);
 
-	{
-		char string[1024];
-		char *compressedString;
+	strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_TEXT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
+	GUI_Mentat_Loop(wsaHouseFilename, NULL, g_readBuffer, true, NULL);
 
-		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, g_playerHouseID * 3 + 1);
-		String_Decompress(compressedString, string);
-		String_TranslateSpecial(string, string);
-
-		GUI_Mentat_Loop(wsaHouseFilename, NULL, string, true, NULL);
-	}
-
-
-	/* In the first string is the amount of questions available */
-	{
-		char string[1024];
-		char *compressedString;
-
-		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, 0);
-		String_Decompress(compressedString, string);
-		String_TranslateSpecial(string, string);
-
-		questionsCount = atoi(string);
-	}
+	questionsCount = atoi(String_Get_ByIndex(STR_SECURITY_COUNT));
 
 	oldCurrentWidget = Widget_SetCurrentWidget(8);
 
@@ -146,19 +116,13 @@ bool GUI_Security_Show()
 		void *wsa;
 		uint16 questionIndex;
 		uint32 tickWaitTill;
-		char string[1024];
-		char *compressedString;
 		char buffer[81];
 
-		questionIndex = Tools_RandomRange(0, questionsCount - 1) * 3 + 10;
+		questionIndex = Tools_RandomRange(0, questionsCount - 1) * 3 + STR_SECURITY_QUESTIONS;
 
 		Widget_SetCurrentWidget(8);
 
-		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, questionIndex + 1);
-		String_Decompress(compressedString, string);
-		String_TranslateSpecial(string, string);
-
-		wsa = WSA_LoadFile(string, GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3), false);
+		wsa = WSA_LoadFile(String_Get_ByIndex(questionIndex + 1), GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3), false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase << 3, g_curWidgetYBase, 4);
 		WSA_Unload(wsa);
 
@@ -168,13 +132,10 @@ bool GUI_Security_Show()
 		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 		GUI_Mouse_Show_InWidget();
 
-		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, questionIndex);
-		String_Decompress(compressedString, string);
-		String_TranslateSpecial(string, string);
+		strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
+		GUI_Security_DrawText(g_readBuffer);
 
-		GUI_Security_DrawText(string);
-
-		g_interrogationTimer = g_timerGUI + strlen(string) * 4;
+		g_interrogationTimer = g_timerGUI + strlen(g_readBuffer) * 4;
 
 		Widget_SetCurrentWidget(9);
 
@@ -205,27 +166,20 @@ bool GUI_Security_Show()
 
 		GUI_Security_NormaliseText(buffer);
 
-		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, questionIndex + 2);
-		String_Decompress(compressedString, string);
-		String_TranslateSpecial(string, string);
+		strncpy(g_readBuffer, String_Get_ByIndex(questionIndex + 2), g_readBufferSize);
+		GUI_Security_NormaliseText(g_readBuffer);
 
-		GUI_Security_NormaliseText(string);
-
-		if (strcasecmp(string, buffer) != 0) {
-			compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, g_playerHouseID * 3 + 3);
-			String_Decompress(compressedString, string);
-			String_TranslateSpecial(string, string);
+		if (strcasecmp(g_readBuffer, buffer) != 0) {
+			strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_WRONG_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 		} else {
-			compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, g_playerHouseID * 3 + 2);
-			String_Decompress(compressedString, string);
-			String_TranslateSpecial(string, string);
+			strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_CORRECT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 
 			valid = true;
 		}
 
-		GUI_Security_DrawText(string);
+		GUI_Security_DrawText(g_readBuffer);
 
-		tickWaitTill = g_timerGUI + strlen(string) * 4;
+		tickWaitTill = g_timerGUI + strlen(g_readBuffer) * 4;
 
 		Input_History_Clear();
 

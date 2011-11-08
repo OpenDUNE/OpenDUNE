@@ -100,12 +100,10 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	Music_Play(musicID);
 
-	do {
-		char filename[10];
-		snprintf(filename, sizeof(filename), "TEXT%c", g_table_houseInfo[houseID].name[0]);
-		String_LoadFile(String_GenerateFilename(filename), stringID, g_readBuffer, g_readBufferSize);
-		String_TranslateSpecial(g_readBuffer, g_readBuffer);
+	stringID += STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40;
 
+	do {
+		strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
 		sleepIdle();
 	} while (GUI_Mentat_Show(g_readBuffer, wsaFilename, w1, true) == 0x8002);
 
@@ -959,17 +957,14 @@ static void GUI_Mentat_ShowHelp()
 
 	if (noDesc) {
 		uint16 index;
-		char filenamePrefix[8];
 
 		picture = g_scenario.pictureBriefing;
 		desc    = NULL;
 		text    = (char *)g_readBuffer;
 
-		index = *text - 44 + g_campaignID * 4;
+		index = *text - 44 + g_campaignID * 4 + STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + g_playerHouseID * 40;
 
-		snprintf(filenamePrefix, sizeof(filenamePrefix), "TEXT%c", g_table_houseInfo[g_playerHouseID].name[0]);
-		String_LoadFile(String_GenerateFilename(filenamePrefix), index, text, g_readBufferSize);
-		String_TranslateSpecial(text, text);
+		strncpy(g_readBuffer, String_Get_ByIndex(index), g_readBufferSize);
 	} else {
 		picture = (char *)g_readBuffer;
 		desc    = text;

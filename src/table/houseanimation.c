@@ -627,7 +627,7 @@ const HouseAnimation_Animation g_table_houseAnimation_animation[][32] = {
 const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 	{ /* 0 - intro */
 		{ /* 0 */
-			/* stringID       */ STR_ATTACK,
+			/* stringID       */ STR_PRESENT,
 			/* colour         */ 0,
 			/* animationID    */ 0,
 			/* top            */ 94,
@@ -649,7 +649,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 2 */
-			/* stringID       */ STR_MOVE,
+			/* stringID       */ STR_THE_BATTLE_FOR_ARRAKIS,
 			/* colour         */ 0,
 			/* animationID    */ 2,
 			/* top            */ 104,
@@ -660,7 +660,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 3 */
-			/* stringID       */ STR_RETREAT,
+			/* stringID       */ STR_THE_PLANET_ARRAKIS_KNOWN_AS_DUNE,
 			/* colour         */ 0,
 			/* animationID    */ 3,
 			/* top            */ 154,
@@ -671,7 +671,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 4 */
-			/* stringID       */ STR_GUARD,
+			/* stringID       */ STR_LAND_OF_SAND,
 			/* colour         */ 0,
 			/* animationID    */ 5,
 			/* top            */ 154,
@@ -682,7 +682,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 5 */
-			/* stringID       */ STR_AREA_GUARD,
+			/* stringID       */ STR_HOME_OF_THE_SPICE_MELANGE,
 			/* colour         */ 0,
 			/* animationID    */ 5,
 			/* top            */ 154,
@@ -693,7 +693,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 6 */
-			/* stringID       */ STR_HARVEST,
+			/* stringID       */ STR_THE_SPICE_CONTROLS_THE_EMPIRE,
 			/* colour         */ 0,
 			/* animationID    */ 7,
 			/* top            */ 154,
@@ -704,7 +704,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 7 */
-			/* stringID       */ STR_RETURN,
+			/* stringID       */ STR_WHOEVER_CONTROLS_DUNECONTROLS_THE_SPICE,
 			/* colour         */ 0,
 			/* animationID    */ 7,
 			/* top            */ 154,
@@ -715,7 +715,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 8 */
-			/* stringID       */ STR_STOP,
+			/* stringID       */ STR_THE_EMPEROR_HAS_PROPOSED_ACHALLENGE_TO_EACH_OF_THE_HOUSES,
 			/* colour         */ 0,
 			/* animationID    */ 8,
 			/* top            */ 154,
@@ -726,7 +726,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 9 */
-			/* stringID       */ STR_AMBUSH,
+			/* stringID       */ STR_THE_HOUSE_THAT_PRODUCES_THEMOST_SPICE_WILL_CONTROL_DUNE,
 			/* colour         */ 4,
 			/* animationID    */ 9,
 			/* top            */ 154,
@@ -737,7 +737,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 10 */
-			/* stringID       */ STR_SABOTAGE,
+			/* stringID       */ STR_THERE_ARE_NO_SET_TERRITORIES,
 			/* colour         */ 4,
 			/* animationID    */ 11,
 			/* top            */ 154,
@@ -748,7 +748,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 11 */
-			/* stringID       */ STR_DIE,
+			/* stringID       */ STR_AND_NO_RULES_OF_ENGAGEMENT,
 			/* colour         */ 4,
 			/* animationID    */ 11,
 			/* top            */ 154,
@@ -759,7 +759,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 12 */
-			/* stringID       */ STR_HUNT,
+			/* stringID       */ STR_VAST_ARMIES_HAVE_ARRIVED,
 			/* colour         */ 0,
 			/* animationID    */ 12,
 			/* top            */ 154,
@@ -770,7 +770,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 13 */
-			/* stringID       */ STR_TARGET,
+			/* stringID       */ STR_NOW_THREE_HOUSES_FIGHTFOR_CONTROL_OF_DUNE,
 			/* colour         */ 0,
 			/* animationID    */ 13,
 			/* top            */ 85,
@@ -781,7 +781,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 14 */
-			/* stringID       */ STR_MOVEMENT,
+			/* stringID       */ STR_THE_NOBLE_ATREIDES,
 			/* colour         */ 0,
 			/* animationID    */ 14,
 			/* top            */ 154,
@@ -792,7 +792,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 15 */
-			/* stringID       */ STR_INITIALIZING_THE_MT32,
+			/* stringID       */ STR_THE_INSIDIOUS_ORDOS,
 			/* colour         */ 0,
 			/* animationID    */ 15,
 			/* top            */ 154,
@@ -803,7 +803,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 16 */
-			/* stringID       */ STR_OLD_SAVE_GAME_FILE_IS_INCOMPATABLE_WITH_LATEST_VERSION,
+			/* stringID       */ STR_AND_THE_EVIL_HARKONNEN,
 			/* colour         */ 0,
 			/* animationID    */ 17,
 			/* top            */ 154,
@@ -814,7 +814,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 17 */
-			/* stringID       */ STR_INSUFFICIENT_MEMORY_BY_LD_BYTES,
+			/* stringID       */ STR_ONLY_ONE_HOUSE_WILL_PREVAIL,
 			/* colour         */ 0,
 			/* animationID    */ 20,
 			/* top            */ 154,
@@ -825,7 +825,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 18 */
-			/* stringID       */ STR_THE_SETUP_PROGRAM_MUST_BE_RUN_FIRST,
+			/* stringID       */ STR_YOUR_BATTLE_FOR_DUNE_BEGINS,
 			/* colour         */ 0,
 			/* animationID    */ 21,
 			/* top            */ 85,
@@ -836,7 +836,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 19 */
-			/* stringID       */ STR_S_S_DESTROYED,
+			/* stringID       */ STR_NOW,
 			/* colour         */ 0,
 			/* animationID    */ 21,
 			/* top            */ 85,
@@ -1312,7 +1312,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 
 	{ /* 7 - Level 9: Harkonnen */
 		{ /* 0 */
-			/* stringID       */ STR_BUILDINGS_DESTROYED_BY,
+			/* stringID       */ STR_YOU_ARE_INDEED_NOT_ENTIRELYTRUE_TO_YOUR_WORD_EMPEROR,
 			/* colour         */ 0,
 			/* animationID    */ 0,
 			/* top            */ 154,
@@ -1323,7 +1323,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 1 */
-			/* stringID       */ STR_SPICE_HARVESTED_BY,
+			/* stringID       */ STR_YOU_HAVE_LIED_TO_US,
 			/* colour         */ 0,
 			/* animationID    */ 1,
 			/* top            */ 154,
@@ -1334,7 +1334,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 2 */
-			/* stringID       */ STR_PLAY_A_GAME,
+			/* stringID       */ STR_WHAT_LIES_WHAT_AREYOU_TALKING_ABOUT,
 			/* colour         */ 4,
 			/* animationID    */ 3,
 			/* top            */ 154,
@@ -1345,7 +1345,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 3 */
-			/* stringID       */ STR_REPLAY_INTRODUCTION,
+			/* stringID       */ STR_YOUR_LIES_OF_LOYALTYYOUR_DECEIT,
 			/* colour         */ 0,
 			/* animationID    */ 4,
 			/* top            */ 154,
@@ -1356,7 +1356,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 4 */
-			/* stringID       */ STR_EXIT_GAME,
+			/* stringID       */ STR_A_CRIME_FOR_WHICH_YOU_WILLINDEED_PAY_DEARLY,
 			/* colour         */ 0,
 			/* animationID    */ 5,
 			/* top            */ 154,
@@ -1367,7 +1367,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 5 */
-			/* stringID       */ STR_CANCEL,
+			/* stringID       */ STR_WITH_YOUR_LIFE,
 			/* colour         */ 0,
 			/* animationID    */ 5,
 			/* top            */ 154,
@@ -1378,7 +1378,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 6 */
-			/* stringID       */ STR_DEPLOY,
+			/* stringID       */ STR_NO_NO_NOOO,
 			/* colour         */ 4,
 			/* animationID    */ 8,
 			/* top            */ 154,
@@ -1402,7 +1402,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 
 	{ /* 8 - Level 9: Atreides */
 		{ /* 0 */
-			/* stringID       */ STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE,
+			/* stringID       */ STR_GREETINGS_EMPEROR,
 			/* colour         */ 1,
 			/* animationID    */ 0,
 			/* top            */ 154,
@@ -1413,7 +1413,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 1 */
-			/* stringID       */ STR_SCORE_D,
+			/* stringID       */ STR_WHAT_IS_THE_MEANINGOF_THIS_INTRUSION,
 			/* colour         */ 4,
 			/* animationID    */ 1,
 			/* top            */ 154,
@@ -1424,7 +1424,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 2 */
-			/* stringID       */ STR_TIME_DH_DM,
+			/* stringID       */ STR_YOU_ARE_FORMALLY_CHARGED_WITH_CRIMESOF_TREASON_AGAINST_HOUSE_ATREIDES,
 			/* colour         */ 1,
 			/* animationID    */ 2,
 			/* top            */ 154,
@@ -1435,7 +1435,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 3 */
-			/* stringID       */ STR_YOU_HAVE_ATTAINED_THE_RANK_OF,
+			/* stringID       */ STR_THE_HOUSE_SHALL_DETERMINEYOUR_GUILT_OR_INNOCENCE,
 			/* colour         */ 1,
 			/* animationID    */ 4,
 			/* top            */ 154,
@@ -1446,7 +1446,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 4 */
-			/* stringID       */ STR_UNITS_DESTROYED_BY,
+			/* stringID       */ STR_UNTIL_THEN_YOU_SHALL_NOLONGER_REIGN_AS_EMPEROR,
 			/* colour         */ 1,
 			/* animationID    */ 4,
 			/* top            */ 154,
@@ -1470,7 +1470,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 
 	{ /* 9 - Level 9: Ordos */
 		{ /* 0 */
-			/* stringID       */ STR_LOAD,
+			/* stringID       */ STR_YOU_ARE_AWARE_EMPEROR_THAT_WEHAVE_GROWN_WEARY_OF_YOUR_GAMES,
 			/* colour         */ 2,
 			/* animationID    */ 0,
 			/* top            */ 154,
@@ -1481,7 +1481,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 1 */
-			/* stringID       */ STR_NEXT,
+			/* stringID       */ STR_WHAT_GAMES_WHAT_AREYOU_TALKING_ABOUT,
 			/* colour         */ 4,
 			/* animationID    */ 1,
 			/* top            */ 154,
@@ -1492,7 +1492,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 2 */
-			/* stringID       */ STR_REPAIR,
+			/* stringID       */ STR_I_AM_REFERRING_TOYOUR_GAME_OF_CHESS,
 			/* colour         */ 2,
 			/* animationID    */ 2,
 			/* top            */ 154,
@@ -1503,7 +1503,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 3 */
-			/* stringID       */ STR_REPAIRING,
+			/* stringID       */ STR_WE_WERE_YOUR_PAWNS_ANDDUNE_WAS_YOUR_BOARD,
 			/* colour         */ 2,
 			/* animationID    */ 4,
 			/* top            */ 154,
@@ -1514,7 +1514,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 4 */
-			/* stringID       */ STR_SAVE,
+			/* stringID       */ STR_WE_HAVE_DECIDED_TO_TAKE_MATTERSINTO_OUR_OWN_HANDS,
 			/* colour         */ 2,
 			/* animationID    */ 6,
 			/* top            */ 154,
@@ -1525,7 +1525,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 		},
 
 		{ /* 5 */
-			/* stringID       */ STR_STOP2,
+			/* stringID       */ STR_YOU_ARE_TO_BE_OUR_PAWNIN_OUR_GAME,
 			/* colour         */ 2,
 			/* animationID    */ 8,
 			/* top            */ 154,
