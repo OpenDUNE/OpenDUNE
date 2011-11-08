@@ -58,14 +58,11 @@ uint16 Font_GetStringWidth(char *string)
  */
 static Font *Font_LoadFile(const char *filename)
 {
-	uint8 index;
 	uint16 *buf;
 	Font *f;
 	uint8 i;
 
 	if (!File_Exists(filename)) return NULL;
-
-	index = File_Open(filename, 1);
 
 	buf = (uint16 *)File_ReadWholeFile(filename);
 
