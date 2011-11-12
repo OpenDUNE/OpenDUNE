@@ -823,8 +823,8 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 		uint16 x;
 		uint16 y;
 	} positions[6];
-	uint16 stage = 0;
-	uint16 counter = 0;
+	uint16 stage = 4;
+	uint16 counter = 60;
 
 	Widget_SetCurrentWidget(windowID);
 
