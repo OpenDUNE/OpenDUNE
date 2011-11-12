@@ -779,8 +779,6 @@ static void GameLoop_Uninit()
 	free(g_palette2); g_palette2 = NULL;
 	free(g_paletteMapping1); g_paletteMapping1 = NULL;
 	free(g_paletteMapping2); g_paletteMapping2 = NULL;
-
-	String_Uninit();
 }
 
 static void GameCredits_SwapScreen(uint16 top, uint16 height, uint16 screenID, void *buffer)
@@ -2605,6 +2603,7 @@ void PrepareEnd()
 
 	GameLoop_Uninit();
 
+	String_Uninit();
 	Sprites_Uninit();
 	Font_Uninit();
 	Voice_UnloadVoices();
