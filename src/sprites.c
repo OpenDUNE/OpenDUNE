@@ -25,7 +25,8 @@
 #include "tile.h"
 
 
-uint8 *g_sprites[355];
+uint8 **g_sprites = NULL;
+static uint16 s_spritesCount = 0;
 uint8 *g_spriteBuffer;
 uint8 *g_iconRTBL = NULL;
 uint8 *g_iconRPAL = NULL;
@@ -33,8 +34,6 @@ uint8 *g_spriteInfo = NULL;
 uint16 *g_iconMap = NULL;
 
 uint8 *g_fileRgnclkCPS = NULL;
-void *g_filePiecesSHP = NULL;
-void *g_fileArrowsSHP = NULL;
 void *g_fileRegionINI = NULL;
 uint16 *g_regions = NULL;
 
@@ -53,109 +52,13 @@ uint16 s_mouseSpriteBufferSize = 0;
 static bool s_iconLoaded = false;
 
 /**
- * ??.
- *
- * @param sprite_csip The CSIP of the sprite to work on.
- * @param arg0A_csip ??.
- */
-static void Sprites_Remap(uint8 *sprite, uint8 *remap)
-{
-	uint8 i;
-
-	if (sprite == NULL || remap == NULL) return;
-
-	if ((*sprite & 0x1) == 0) return;
-
-	sprite += 10;
-
-	for (i = 0; i < 16; i++) {
-		uint8 offset = *sprite;
-		*sprite++ = remap[offset];
-	}
-}
-
-/**
- * Loads the sprites.
- *
- * @param index The index of the list of sprite files to load.
- * @param sprites The array where to store CSIP for each loaded sprite.
- */
-void Sprites_Load(uint16 index, uint8 **sprites)
-{
-#define M(x) x "\0"
-	static const char *spriteFiles[3] = {
-		M("MOUSE.SHP")    /*   0 -   6 */
-		M("BTTN")         /*   7 -  11 */
-		M("SHAPES.SHP")   /*  12 - 110 */
-		M("UNITS2.SHP")   /* 111 - 150 */
-		M("UNITS1.SHP")   /* 151 - 237 */
-		M("UNITS.SHP")    /* 238 - 354 */
-		M(""),
-		M("MENTAT")       /*   0 -  13 */
-		M("MENSHP%c.SHP") /*  14 -  28 */
-		M(""),
-		M("MOUSE.SHP")    /*   0 -   6 */
-		M("BTTN")         /*   7 -  11 */
-		M("SHAPES.SHP")   /*  12 - 110 */
-		M("CHOAM")        /* 111 - 128 */
-		M("")
-	};
-#undef M
-
-	const char *files;
-	uint8 *buffer;
-	uint16 i;
-
-	buffer = GFX_Screen_Get_ByIndex(7);
-
-	files = spriteFiles[index];
-
-	while (*files != '\0') {
-		const HouseInfo *hi;
-		uint32 length;
-		char bufferText[12];
-		char *filename;
-
-		hi = &g_table_houseInfo[(g_playerHouseID == HOUSE_INVALID) ? HOUSE_ATREIDES : g_playerHouseID];
-
-		snprintf(bufferText, sizeof(bufferText), files, hi->name[0]);
-		filename = bufferText;
-
-		if (strchr(filename, '.') == NULL) {
-			filename = String_GenerateFilename(filename);
-		}
-
-		length = File_ReadBlockFile(filename, buffer, 0xFDE8);
-
-		for (i = 0; i < *(uint16 *)buffer; i++) {
-			*sprites++ = Sprites_GetSprite(buffer, i);
-		}
-
-		files += strlen(files) + 1;
-		buffer += length;
-	}
-
-	switch (index) {
-		case 0:
-			for (i = 7; i < 12; i++) Sprites_Remap(g_sprites[i], g_remap);
-			break;
-
-		case 2:
-			for (i = 111; i < 129; i++) Sprites_Remap(g_sprites[i], g_remap);
-			break;
-
-		default: break;
-	}
-}
-
-/**
  * Gets the given sprite inside the given buffer.
  *
  * @param buffer The buffer containing sprites.
  * @param index The index of the sprite to get.
  * @return The sprite.
  */
-uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index)
+static uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index)
 {
 	uint32 offset;
 
@@ -169,6 +72,41 @@ uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index)
 	if (offset == 0) return NULL;
 
 	return buffer + offset;
+}
+
+/**
+ * Loads the sprites.
+ *
+ * @param index The index of the list of sprite files to load.
+ * @param sprites The array where to store CSIP for each loaded sprite.
+ */
+static void Sprites_Load(char *filename)
+{
+	uint8 *buffer;
+	uint16 count;
+	uint16 i;
+
+	buffer = File_ReadWholeFile(filename);
+
+	count = *(uint16 *)buffer;
+
+	s_spritesCount += count;
+	g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
+
+	for (i = 0; i < count; i++) {
+		uint8 *src = Sprites_GetSprite(buffer, i);
+		uint8 *dst = NULL;
+
+		if (src != NULL) {
+			uint16 size = ((uint16 *)src)[3];
+			dst = (uint8 *)malloc(size);
+			memcpy(dst, src, size);
+		}
+
+		g_sprites[s_spritesCount - count + i] = dst;
+	}
+
+	free(buffer);
 }
 
 /**
@@ -489,12 +427,6 @@ void Sprites_CPS_LoadRegionClick()
 	for (i = 0; i < 120; i++) memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
 	buf += 120 * 304;
 
-	g_filePiecesSHP = buf;
-	buf += File_ReadFile("PIECES.SHP", buf);
-
-	g_fileArrowsSHP = buf;
-	buf += File_ReadFile("ARROWS.SHP", buf);
-
 	g_fileRegionINI = buf;
 	snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
 	buf += File_ReadFile(filename, buf);
@@ -520,10 +452,42 @@ bool Sprite_IsUnveiled(uint16 spriteID)
 void Sprites_Init()
 {
 	g_spriteBuffer = calloc(1, 20000);
+	Sprites_Load("MOUSE.SHP");                       /*   0 -   6 */
+	Sprites_Load(String_GenerateFilename("BTTN"));   /*   7 -  11 */
+	Sprites_Load("SHAPES.SHP");                      /*  12 - 110 */
+	Sprites_Load("UNITS2.SHP");                      /* 111 - 150 */
+	Sprites_Load("UNITS1.SHP");                      /* 151 - 237 */
+	Sprites_Load("UNITS.SHP");                       /* 238 - 354 */
+	Sprites_Load(String_GenerateFilename("CHOAM"));  /* 355 - 372 */
+	Sprites_Load(String_GenerateFilename("MENTAT")); /* 373 - 386 */
+	Sprites_Load("MENSHPH.SHP");                     /* 387 - 401 */
+	Sprites_Load("MENSHPA.SHP");                     /* 402 - 416 */
+	Sprites_Load("MENSHPO.SHP");                     /* 417 - 431 */
+	Sprites_Load("MENSHPM.SHP");                     /* 432 - 446 (Placeholder - Fremen) */
+	Sprites_Load("MENSHPM.SHP");                     /* 447 - 461 (Placeholder - Sardaukar) */
+	Sprites_Load("MENSHPM.SHP");                     /* 462 - 476 */
+	Sprites_Load("PIECES.SHP");                      /* 477 - 504 */
+	Sprites_Load("ARROWS.SHP");                      /* 505 - 513 */
+	Sprites_Load("CREDIT1.SHP");                     /* 514 */
+	Sprites_Load("CREDIT2.SHP");                     /* 515 */
+	Sprites_Load("CREDIT3.SHP");                     /* 516 */
+	Sprites_Load("CREDIT4.SHP");                     /* 517 */
+	Sprites_Load("CREDIT5.SHP");                     /* 518 */
+	Sprites_Load("CREDIT6.SHP");                     /* 519 */
+	Sprites_Load("CREDIT7.SHP");                     /* 520 */
+	Sprites_Load("CREDIT8.SHP");                     /* 521 */
+	Sprites_Load("CREDIT9.SHP");                     /* 522 */
+	Sprites_Load("CREDIT10.SHP");                    /* 523 */
+	Sprites_Load("CREDIT11.SHP");                    /* 524 */
 }
 
 void Sprites_Uninit()
 {
+	uint16 i;
+
+	for (i = 0; i < s_spritesCount; i++) free(g_sprites[i]);
+	free(g_sprites); g_sprites = NULL;
+
 	free(g_spriteBuffer); g_spriteBuffer = NULL;
 
 	free(g_mouseSpriteBuffer); g_mouseSpriteBuffer = NULL;

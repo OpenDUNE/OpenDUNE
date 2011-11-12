@@ -50,7 +50,7 @@ typedef enum IconMapEntries {
 	ICM_ICONGROUP_EOF                    = 27  /*!< End of file spriteIDs. */
 } IconMapEntries;
 
-extern uint8 *g_sprites[];
+extern uint8 **g_sprites;
 extern uint8 *g_spriteBuffer;
 extern uint8 *g_iconRTBL;
 extern uint8 *g_iconRPAL;
@@ -58,8 +58,6 @@ extern uint8 *g_spriteInfo;
 extern uint16 *g_iconMap;
 
 extern uint8 *g_fileRgnclkCPS;
-extern void *g_filePiecesSHP;
-extern void *g_fileArrowsSHP;
 extern void *g_fileRegionINI;
 extern uint16 *g_regions;
 
@@ -74,8 +72,6 @@ extern uint16 g_wallSpriteID;                               /*!< First wall spri
 
 extern void Sprites_Init();
 extern void Sprites_Uninit();
-extern void Sprites_Load(uint16 index, uint8 **sprites);
-extern uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index);
 extern uint8 Sprite_GetWidth(uint8 *sprite);
 extern uint8 Sprite_GetHeight(uint8 *sprite);
 extern uint16 Sprites_GetType(uint8 *sprite);

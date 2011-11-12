@@ -805,9 +805,8 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	uint16 loc02;
 	uint16 stringCount = 0;
 	uint32 loc0C;
-	uint16 spriteID = 0;
+	uint16 spriteID = 514;
 	bool loc10 = false;
-	uint8 *sprite;
 	uint16 spriteX;
 	uint16 spriteY;
 	uint16 spritePos = 0;
@@ -828,9 +827,8 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 	Widget_SetCurrentWidget(windowID);
 
-	sprite = Sprites_GetSprite(g_sprites[spriteID], 0);
-	spriteX = (g_curWidgetWidth << 3) - Sprite_GetWidth(sprite);
-	spriteY = g_curWidgetHeight - Sprite_GetHeight(sprite);
+	spriteX = (g_curWidgetWidth << 3) - Sprite_GetWidth(g_sprites[spriteID]);
+	spriteY = g_curWidgetHeight - Sprite_GetHeight(g_sprites[spriteID]);
 
 	positions[0].x = spriteX;
 	positions[0].y = 0;
@@ -917,7 +915,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			case 0:
 				GUI_ClearScreen(memory);
 
-				if (spriteID == 0) GUI_ClearScreen(screenID);
+				if (spriteID == 514) GUI_ClearScreen(screenID);
 
 				stage++;
 				counter = 2;
@@ -931,10 +929,9 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 2:
-				if (g_sprites[spriteID] == NULL) spriteID = 0;
-				sprite = Sprites_GetSprite(g_sprites[spriteID], 0);
+				if (spriteID == 525) spriteID = 514;
 
-				GUI_DrawSprite(memory, sprite, positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
+				GUI_DrawSprite(memory, g_sprites[spriteID], positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
 
 				counter = 8;
 				stage++;
@@ -1003,7 +1000,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GUI_ClearScreen(screenID);
 }
 
-static void GameCredits_LoadPaletteAndSprites()
+static void GameCredits_LoadPalette()
 {
 	uint16 i;
 	uint8 *p;
@@ -1027,25 +1024,6 @@ static void GameCredits_LoadPaletteAndSprites()
 		*p++ = 0x3F;
 		*p++ = 0x3F;
 		*p++ = 0x3F;
-	}
-
-	for (i = 0; i < 11; i++) {
-		char filenameBuffer[16];
-
-		snprintf(filenameBuffer, sizeof(filenameBuffer), "CREDIT%d.SHP", i + 1);
-		g_sprites[i] = File_ReadWholeFile(filenameBuffer);
-	}
-
-	g_sprites[i] = NULL;
-}
-
-static void GameCredits_UnloadSprites()
-{
-	uint8 **sprite;
-
-	for (sprite = g_sprites; *sprite != NULL; sprite++) {
-		free(*sprite);
-		*sprite = NULL;
 	}
 }
 
@@ -1099,7 +1077,7 @@ static void GameLoop_GameCredits()
 
 	GUI_Screen_FadeIn2(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, 2, 0, 1, false);
 
-	GameCredits_LoadPaletteAndSprites();
+	GameCredits_LoadPalette();
 
 	GUI_Mouse_Hide_Safe();
 
@@ -1125,8 +1103,6 @@ static void GameLoop_GameCredits()
 	Driver_Music_FadeOut();
 
 	GFX_ClearScreen();
-
-	GameCredits_UnloadSprites();
 }
 
 /**
@@ -1233,14 +1209,10 @@ static void GameLoop_LevelEnd()
 			GUI_SetPaletteAnimated(g_palette2, 15);
 
 			if (g_campaignID == 1 || g_campaignID == 7) {
-				Sprites_Load(1, g_sprites);
-
 				if (!GUI_Security_Show()) {
 					PrepareEnd();
 					exit(0);
 				}
-
-				Sprites_Load(0, g_sprites);
 			}
 		} else {
 			Sound_Output_Feedback(41);
@@ -1255,8 +1227,6 @@ static void GameLoop_LevelEnd()
 		}
 
 		g_playerHouse->flags.doneFullScaleAttack = false;
-
-		Sprites_Load(0, g_sprites);
 
 		Sprites_LoadTiles();
 
@@ -1839,9 +1809,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, NULL);
 	Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, NULL);
 
-	if (g_playerHouseID != HOUSE_INVALID) GUI_Palette_CreateRemap(g_playerHouseID);
-
-	Sprites_Load(0, g_sprites);
+	GUI_Palette_CreateRemap(HOUSE_MERCENARY);
 
 	g_cursorSpriteID = 0;
 
@@ -1916,8 +1884,6 @@ static void GameLoop_GameIntroAnimationMenu()
 
 					GUI_Mouse_Show_Safe();
 
-					Sprites_Load(0, g_sprites);
-
 					Music_Play(28);
 
 					loc06 = true;
@@ -1950,8 +1916,6 @@ static void GameLoop_GameIntroAnimationMenu()
 						loc10 = false;
 						if (g_gameMode == GM_RESTART) break;
 						g_gameMode = GM_NORMAL;
-
-						Sprites_Load(0, g_sprites);
 					} else {
 						GFX_SetPalette(g_palette2);
 
@@ -2499,8 +2463,6 @@ void Game_Prepare()
 	}
 
 	GUI_Palette_CreateRemap(g_playerHouseID);
-
-	Sprites_Load(0, g_sprites);
 
 	Map_SetSelection(g_selectionPosition);
 

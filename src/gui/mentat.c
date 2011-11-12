@@ -87,10 +87,8 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	if (g_debugSkipDialogs) return;
 
-	Sprites_Load(1, g_sprites);
-
-	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_PROCEED)[0]), 168, 168, 6, 0);
-	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_REPEAT)[0]), 240, 168, 8, 0);
+	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_PROCEED)[0]), 168, 168, 379, 0);
+	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_REPEAT)[0]), 240, 168, 381, 0);
 
 	w1 = GUI_Widget_Link(w1, w2);
 
@@ -111,8 +109,6 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 	free(w1);
 
 	if (musicID != 0xFFFF) Driver_Music_FadeOut();
-
-	Sprites_Load(0, g_sprites);
 }
 
 static void GUI_Mentat_HelpListLoop()
@@ -264,7 +260,7 @@ static void GUI_Mentat_Draw(bool force)
 
 	Widget_SetAndPaintCurrentWidget(8);
 
-	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GUI_DrawSprite(2, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 	GUI_DrawText_Wrapper(String_Get_ByIndex(STR_SELECT_SUBJECT), (g_curWidgetXBase << 3) + 16, g_curWidgetYBase + 2, 12, 0, 0x12);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x11);
@@ -323,7 +319,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_Display(NULL, g_playerHouseID);
 
-	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(STR_EXIT)), 200, 168, proceed ? 6 : 4, 5);
+	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(STR_EXIT)), 200, 168, proceed ? 379 : 377, 5);
 	g_widgetMentatFirst->shortcut2 = 'n';
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
@@ -375,8 +371,6 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sprites_UnloadTiles();
 
-	Sprites_Load(1, g_sprites);
-
 	Timer_SetTimer(TIMER_GAME, false);
 
 	GUI_Mentat_ShowHelpList(false);
@@ -384,8 +378,6 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 	Timer_SetTimer(TIMER_GAME, true);
 
 	Driver_Sound_Play(1, 0xFF);
-
-	Sprites_Load(0, g_sprites);
 
 	Sprites_LoadTiles();
 
@@ -426,7 +418,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GUI_DrawSprite(2, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GFX_Screen_SetActive(0);
 
 	GUI_Mouse_Hide_Safe();
@@ -509,7 +501,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	s_eyesTop  = s_eyesBottom = s_unknownHouseData[houseID][1];
 
 	for (i = 0; i < 5; i++) {
-		s_mentatSprites[0][i] = g_sprites[14 + i];
+		s_mentatSprites[0][i] = g_sprites[387 + houseID * 15 + i];
 	}
 
 	s_eyesRight  += Sprite_GetWidth(s_mentatSprites[0][0]);
@@ -519,7 +511,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	s_mouthTop  = s_mouthBottom = s_unknownHouseData[houseID][3];
 
 	for (i = 0; i < 5; i++) {
-		s_mentatSprites[1][i] = g_sprites[19 + i];
+		s_mentatSprites[1][i] = g_sprites[392 + houseID * 15 + i];
 	}
 
 	s_mouthRight  += Sprite_GetWidth(s_mentatSprites[1][0]);
@@ -529,7 +521,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	s_otherTop  = s_unknownHouseData[houseID][5];
 
 	for (i = 0; i < 4; i++) {
-		s_mentatSprites[2][i] = g_sprites[25 + i];
+		s_mentatSprites[2][i] = g_sprites[398 + houseID * 15 + i];
 	}
 
 	g_shoulderLeft = s_unknownHouseData[houseID][6];
@@ -545,7 +537,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GUI_DrawSprite(2, g_sprites[397 + houseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GFX_Screen_SetActive(oldScreenID);
 }
 
@@ -892,13 +884,13 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollbar);
 
-	g_widgetMentatScrollDown = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
+	g_widgetMentatScrollDown = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[385], g_sprites[386], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
 	g_widgetMentatScrollDown->shortcut  = 0;
 	g_widgetMentatScrollDown->shortcut2 = 0;
 	g_widgetMentatScrollDown->parentID  = 8;
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollDown);
 
-	g_widgetMentatScrollUp = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
+	g_widgetMentatScrollUp = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[383], g_sprites[384], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
 	g_widgetMentatScrollUp->shortcut  = 0;
 	g_widgetMentatScrollUp->shortcut2 = 0;
 	g_widgetMentatScrollUp->parentID  = 8;
@@ -1262,7 +1254,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 		GUI_Mentat_DrawInfo(pictureDetails, (g_curWidgetXBase << 3) + 5, g_curWidgetYBase + 3, 8, 0, lines, 0x31);
 
-		GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
+		GUI_DrawSprite(4, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 		GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 		GUI_Mouse_Show_InWidget();
@@ -1274,7 +1266,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	if (wsa != NULL) WSA_Unload(wsa);
 
 	GFX_Screen_SetActive(4);
-	GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GUI_DrawSprite(4, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 	GUI_Mouse_Show_InWidget();

@@ -904,8 +904,8 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 	int16  loc1E;
 	int16  loc20;
 	uint16 loc22;
-	uint8 *loc26 = NULL;
-	int16  loc28 = 0;
+	uint8 *remap = NULL;
+	int16  remapCount = 0;
 	int16  loc2A;
 	uint16 loc30 = 0;
 	uint16 loc32;
@@ -928,10 +928,11 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 	if ((flags & 0x2000) != 0) loc3E = va_arg(ap, uint8*);
 
+	/* Remap */
 	if ((flags & 0x100) != 0) {
-		loc26 = va_arg(ap, uint8*);
-		loc28 = (int16)va_arg(ap, int);
-		if (loc28 == 0) flags &= 0xFEFF;
+		remap = va_arg(ap, uint8*);
+		remapCount = (int16)va_arg(ap, int);
+		if (remapCount == 0) flags &= 0xFEFF;
 	}
 
 	if ((flags & 0x200) != 0) {
@@ -1180,7 +1181,7 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 						case 1: {
 							int16 i;
 
-							for(i = 0; i < loc28; i++) v = loc26[v];
+							for(i = 0; i < remapCount; i++) v = remap[v];
 
 							*buf = v;
 
@@ -1203,7 +1204,7 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 							v = *buf;
 
-							for(i = 0; i < loc28; i++) v = loc26[v];
+							for(i = 0; i < remapCount; i++) v = remap[v];
 
 							*buf = v;
 
@@ -1219,7 +1220,7 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 							v = loc3E[v];
 
-							for(i = 0; i < loc28; i++) v = loc26[v];
+							for(i = 0; i < remapCount; i++) v = remap[v];
 
 							*buf = v;
 
@@ -1646,8 +1647,6 @@ uint8 GUI_PickHouse()
 
 	Voice_LoadVoices(5);
 
-	Sprites_Load(1, g_sprites);
-
 	while (true) {
 		uint16 yes_no;
 
@@ -1718,8 +1717,8 @@ uint8 GUI_PickHouse()
 
 		if (g_debugSkipDialogs || g_debugScenario) break;
 
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_YES)[0]), 168, 168, 0, 0));
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_NO)[0]), 240, 168, 2, 0));
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_YES)[0]), 168, 168, 373, 0));
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_NO)[0]), 240, 168, 375, 0));
 
 		g_playerHouseID = HOUSE_MERCENARY;
 
@@ -1778,8 +1777,6 @@ uint8 GUI_PickHouse()
 	Music_Play(0);
 
 	GUI_Palette_CreateRemap(houseID);
-
-	Sprites_Load(0, g_sprites);
 
 	Input_History_Clear();
 
@@ -1952,10 +1949,10 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 	g_viewport_forceRedraw = true;
 
 	Sprites_LoadImage("SCREEN.CPS", 3, NULL);
+	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0); /* "Credits" */
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
-	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
 	g_textDisplayNeedsUpdate = true;
 
@@ -2529,8 +2526,6 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 
 	memset(w, 0, 13 * sizeof(Widget));
 
-	Sprites_Load(2, g_sprites);
-
 	for (i = 0; i < 13; i++, wi++) {
 		if ((i == 8 || i == 9 || i == 10 || i == 12) && !g_factoryWindowStarport) continue;
 		if (i == 11 && g_factoryWindowStarport) continue;
@@ -2678,10 +2673,9 @@ static void GUI_FactoryWindow_Init()
 	oldScreenID = GFX_Screen_SetActive(2);
 
 	Sprites_LoadImage("CHOAM.CPS", 3, NULL);
+	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0); /* "Credits" */
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
-
-	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
 	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 8, 7, 40, 2, 2);
 	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 152, 7, 40, 2, 2);
@@ -2871,7 +2865,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer) - 1, g_fileRegionINI);
 	sscanf(buffer, "%hd,%hd", &x, &y);
 
-	sprite = Sprites_GetSprite(g_filePiecesSHP, selected);
+	sprite = g_sprites[477 + selected];
 	width  = Sprite_GetWidth(sprite);
 	height = Sprite_GetHeight(sprite);
 
@@ -2891,7 +2885,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 		if (data[i].index != selected) continue;
 
-		GUI_DrawSprite(2, Sprites_GetSprite(g_fileArrowsSHP, data[i].arrow), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(2, g_sprites[505 + data[i].arrow], data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
 	}
 
 	for (i = 0; i < 4; i++) {
@@ -3021,7 +3015,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
-		GUI_DrawSprite(2, Sprites_GetSprite(g_fileArrowsSHP, data[i].arrow), i * 16, 152, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(2, g_sprites[505 + data[i].arrow], i * 16, 152, 0, 0x100, g_remap, 1);
 	}
 
 	count = i;
@@ -3122,7 +3116,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer), g_fileRegionINI);
 	sscanf(buffer, "%hd,%hd", &x, &y);
 
-	sprite = Sprites_GetSprite(g_filePiecesSHP, region);
+	sprite = g_sprites[477 + region];
 
 	GUI_DrawSprite(3, sprite, x + 8, y + 24, 0, 0x100, g_remap, 1);
 
