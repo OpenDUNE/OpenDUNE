@@ -1897,7 +1897,7 @@ uint32 Structure_GetBuildable(Structure *s)
 				}
 
 				if ((structuresBuilt & structuresRequired) == structuresRequired || s->o.houseID != g_playerHouseID) {
-					if (s->o.houseID == HOUSE_HARKONNEN && i == STRUCTURE_LIGHT_VEHICLE) {
+					if (s->o.houseID != HOUSE_HARKONNEN && i == STRUCTURE_LIGHT_VEHICLE) {
 						availableCampaign = 2;
 					}
 
