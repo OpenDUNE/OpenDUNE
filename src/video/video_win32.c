@@ -26,6 +26,8 @@ static bool s_lock = false;
 static HWND s_hwnd = NULL;
 static HBITMAP s_dib = NULL;
 static void *s_screen = NULL;
+static uint16 s_x;
+static uint16 s_y;
 
 static bool s_mouseTracking = false;
 
@@ -146,6 +148,18 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	bool keyup = true;
 
 	switch (uMsg) {
+		case WM_CREATE: {
+			CREATESTRUCT *cs = (CREATESTRUCT*)lParam;
+			s_x = cs->x;
+			s_y = cs->y;
+			return 0;
+		}
+
+		case WM_MOVE:
+			s_x = (uint16)(LOWORD(lParam));
+			s_y = (uint16)(HIWORD(lParam));
+			return 0;
+
 		case WM_CLOSE:
 			DestroyWindow(s_hwnd);
 			PrepareEnd();
@@ -200,7 +214,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			/* If we moved, send the signal back to the window to correct for it */
 			if (x != rx || y != ry) {
-				SetCursorPos(rx, ry);
+				SetCursorPos(s_x + rx, s_y + ry);
 				return 0;
 			}
 
@@ -337,6 +351,8 @@ void Video_Tick()
 			PrepareEnd();
 			return;
 		}
+
+		Video_Mouse_SetPosition(g_mouseX, g_mouseY);
 		ShowWindow(s_hwnd, SW_SHOWNORMAL);
 	}
 
@@ -385,7 +401,7 @@ void Video_SetPalette(void *palette, int from, int length)
 
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SetCursorPos(x * SCREEN_MAGNIFICATION, y * SCREEN_MAGNIFICATION);
+	SetCursorPos(s_x + x * SCREEN_MAGNIFICATION, s_y + y * SCREEN_MAGNIFICATION);
 }
 
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
