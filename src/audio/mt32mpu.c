@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
+#include "../os/common.h"
 #include "../os/math.h"
 #include "../os/endian.h"
 
@@ -441,7 +442,9 @@ void MPU_Interrupt()
 		do {
 			s_mpu_msdataCurrent++;
 			index = s_mpu_msdataCurrent;
-		} while (s_mpu_msdata[index] == NULL);
+		} while (index < lengthof(s_mpu_msdata) && s_mpu_msdata[index] == NULL);
+
+		if (index >= lengthof(s_mpu_msdata)) break;
 
 		data = s_mpu_msdata[index];
 
