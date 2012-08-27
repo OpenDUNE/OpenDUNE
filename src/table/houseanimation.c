@@ -2155,6 +2155,14 @@ const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[][90] = {
 
 	{ /* 8 - Level 9: Atreides */
 		{ /* 0 */
+			/* animationID   */ 8,
+			/* voiceID       */ 255,
+			/* wait          */ 0,
+		}
+	},
+
+	{ /* 9 - Level 9: Ordos */
+		{ /* 0 */
 			/* animationID   */ 2,
 			/* voiceID       */ 67,
 			/* wait          */ 2,
@@ -2168,14 +2176,6 @@ const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[][90] = {
 
 		{ /* 2 */
 			/* animationID   */ 13,
-			/* voiceID       */ 255,
-			/* wait          */ 0,
-		}
-	},
-
-	{ /* 9 - Level 9: Ordos */
-		{ /* 0 */
-			/* animationID   */ 8,
 			/* voiceID       */ 255,
 			/* wait          */ 0,
 		}
