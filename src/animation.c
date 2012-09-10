@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 
 #include "animation.h"
@@ -14,7 +15,21 @@
 #include "sprites.h"
 #include "structure.h"
 
-Animation g_animations[ANIMATION_MAX];
+enum {
+    ANIMATION_MAX = 112
+};
+
+typedef struct Animation {
+	uint32 tickNext;                        /*!< Which tick this Animation should be called again. */
+	uint16 tileLayout;                      /*!< Tile layout of the Animation. */
+	uint8 houseID;                          /*!< House of the item being animated. */
+	uint8 current;                          /*!< At which command we currently are in the Animation. */
+	uint8 iconGroup;                        /*!< Which iconGroup the sprites of the Animation belongs. */
+	AnimationCommandStruct *commands;       /*!< List of commands for this Animation. */
+	tile32 tile;                            /*!< Top-left tile of Animation. */
+} Animation;
+
+static Animation g_animations[ANIMATION_MAX];
 static uint32 s_animationTimer; /*!< Timer for animations. */
 
 /**
@@ -190,6 +205,11 @@ static void Animation_Func_SetIconGroup(Animation *animation, int16 parameter)
 static void Animation_Func_PlayVoice(Animation *animation, int16 parameter)
 {
 	Voice_PlayAtTile(parameter, animation->tile);
+}
+
+void Animation_Init(void)
+{
+	memset(g_animations, 0, ANIMATION_MAX * sizeof(Animation));
 }
 
 /**

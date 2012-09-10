@@ -1348,7 +1348,7 @@ void Game_Init(void)
 	Team_Init();
 	House_Init();
 
-	memset(g_animations, 0, ANIMATION_MAX * sizeof(Animation));
+	Animation_Init();
 	memset(g_explosions, 0, EXPLOSION_MAX * sizeof(Explosion));
 	memset(g_map, 0, 64 * 64 * sizeof(Tile));
 
