@@ -608,10 +608,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		g_var_39E6 = 0;
 	}
 
-	for (i = 0; i < 32; i++) {
-		Explosion *e;
-
-		e = &g_explosions[i];
+	for (i = 0; i < EXPLOSION_MAX; i++) {
+		Explosion *e = Explosion_Get_ByIndex(i);
 
 		curPos = Tile_PackTile(e->position);
 

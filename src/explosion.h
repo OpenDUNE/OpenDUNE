@@ -72,10 +72,11 @@ typedef struct Explosion {
 	tile32 position;                                        /*!< Position where this explosion acts. */
 } Explosion;
 
-extern Explosion g_explosions[];
 extern const ExplosionCommandStruct *g_table_explosion[];
 
+extern void Explosion_Init(void);
 extern void Explosion_Start(uint16 explosionType, tile32 position);
 extern void Explosion_Tick(void);
+extern Explosion *Explosion_Get_ByIndex(int i);
 
 #endif /* EXPLOSION_H */

@@ -18,7 +18,7 @@
 #include "tools.h"
 
 
-Explosion g_explosions[EXPLOSION_MAX];                      /*!< Explosions. */
+static Explosion g_explosions[EXPLOSION_MAX];               /*!< Explosions. */
 static uint32 s_explosionTimer = 0;                         /*!< Timeout value for next explosion activity. */
 
 
@@ -246,6 +246,11 @@ static void Explosion_StopAtPosition(uint16 packed)
 	}
 }
 
+void Explosion_Init(void)
+{
+	memset(g_explosions, 0, EXPLOSION_MAX * sizeof(Explosion));
+}
+
 /**
  * Start a Explosion on a tile.
  * @param explosionType Type of Explosion.
@@ -327,4 +332,11 @@ void Explosion_Tick(void)
 
 		s_explosionTimer = e->timeOut;
 	}
+}
+
+Explosion *Explosion_Get_ByIndex(int i)
+{
+	assert(0 <= i && i < EXPLOSION_MAX);
+
+	return &g_explosions[i];
 }

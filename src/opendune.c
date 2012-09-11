@@ -1349,7 +1349,7 @@ void Game_Init(void)
 	House_Init();
 
 	Animation_Init();
-	memset(g_explosions, 0, EXPLOSION_MAX * sizeof(Explosion));
+	Explosion_Init();
 	memset(g_map, 0, 64 * 64 * sizeof(Tile));
 
 	memset(g_displayedViewport, 0, sizeof(g_displayedViewport));
