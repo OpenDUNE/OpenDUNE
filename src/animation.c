@@ -25,7 +25,7 @@ typedef struct Animation {
 	uint8 houseID;                          /*!< House of the item being animated. */
 	uint8 current;                          /*!< At which command we currently are in the Animation. */
 	uint8 iconGroup;                        /*!< Which iconGroup the sprites of the Animation belongs. */
-	AnimationCommandStruct *commands;       /*!< List of commands for this Animation. */
+	const AnimationCommandStruct *commands; /*!< List of commands for this Animation. */
 	tile32 tile;                            /*!< Top-left tile of Animation. */
 } Animation;
 
@@ -216,7 +216,7 @@ void Animation_Init(void)
  * @param houseID The house of the item being Animation.
  * @param iconGroup In which IconGroup the sprites of the Animation belongs.
  */
-void Animation_Start(void *commands, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 iconGroup)
+void Animation_Start(const AnimationCommandStruct *commands, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 iconGroup)
 {
 	Animation *animation = g_animations;
 	uint16 packed = Tile_PackTile(tile);
@@ -281,7 +281,7 @@ void Animation_Tick(void)
 		if (animation->commands == NULL) continue;
 
 		if (animation->tickNext <= g_timerGUI) {
-			AnimationCommandStruct *commands = animation->commands + animation->current;
+			const AnimationCommandStruct *commands = animation->commands + animation->current;
 			int16 parameter = commands->parameter;
 			assert((parameter & 0x0800) == 0 || (parameter & 0xF000) != 0); /* Validate if the compiler sign-extends correctly */
 

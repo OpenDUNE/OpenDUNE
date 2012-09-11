@@ -4,7 +4,7 @@
 
 #include "../animation.h"
 
-AnimationCommandStruct g_table_animation_unitMove[8][8] = {
+const AnimationCommandStruct g_table_animation_unitMove[8][8] = {
 		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
@@ -63,7 +63,7 @@ AnimationCommandStruct g_table_animation_unitMove[8][8] = {
 		}
 };
 
-AnimationCommandStruct g_table_animation_unitScript1[4][8] = {
+const AnimationCommandStruct g_table_animation_unitScript1[4][8] = {
 		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
@@ -90,7 +90,7 @@ AnimationCommandStruct g_table_animation_unitScript1[4][8] = {
 		}
 };
 
-AnimationCommandStruct g_table_animation_unitScript2[4][8] = {
+const AnimationCommandStruct g_table_animation_unitScript2[4][8] = {
 		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 2 },
 			{ ANIMATION_PAUSE             , 600 },
@@ -117,7 +117,7 @@ AnimationCommandStruct g_table_animation_unitScript2[4][8] = {
 		}
 };
 
-AnimationCommandStruct g_table_animation_map[16][8] = {
+const AnimationCommandStruct g_table_animation_map[16][8] = {
 		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 1 },
 			{ ANIMATION_PAUSE             , 600 },
@@ -192,7 +192,7 @@ AnimationCommandStruct g_table_animation_map[16][8] = {
 		}
 };
 
-AnimationCommandStruct g_table_animation_structure[29][16] = {
+const AnimationCommandStruct g_table_animation_structure[29][16] = {
 		{ /* 0 */
 			{ ANIMATION_SET_GROUND_SPRITE , 1 },
 			{ ANIMATION_PAUSE             , 300 },
