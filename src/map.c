@@ -1278,7 +1278,7 @@ void Map_SelectNext(bool getNext)
 
 		s = Structure_Get_ByPackedTile(g_selectionPosition);
 
-		if (Map_IsTileVisible(Tile_PackTile(s->o.position))) selected = &s->o;
+		if (s != NULL && Map_IsTileVisible(Tile_PackTile(s->o.position))) selected = &s->o;
 	}
 
 	find.houseID = HOUSE_INVALID;
