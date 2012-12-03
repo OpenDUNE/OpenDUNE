@@ -38,7 +38,10 @@ typedef struct HallOfFameStruct {
 	uint16 rank;                                            /*!< Rank of the entry. */
 	uint16 campaignID;                                      /*!< Which campaign was reached. */
 	uint8  houseID;                                         /*!< Which house was playing. */
+	uint8  padding1;                                        /*!< Padding bytes. */
+	uint16 padding2;                                        /*!< Padding bytes. */
 } HallOfFameStruct;
+assert_compile(sizeof(HallOfFameStruct) == 16);
 
 /**
  * Factory Window Item struct.
