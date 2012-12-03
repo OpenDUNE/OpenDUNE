@@ -102,7 +102,7 @@ void GameLoop_House()
 		uint16 type;
 
 		/* Pick a random unit to increase starport availability */
-		type = Tools_RandomRange(0, UNIT_MAX - 1);
+		type = Tools_RandomLCG_Range(0, UNIT_MAX - 1);
 
 		/* Increase how many of this unit is available via starport by one */
 		if (g_starportAvailable[type] != 0 && g_starportAvailable[type] < 10) {

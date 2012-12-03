@@ -2143,7 +2143,7 @@ static void GameLoop_Main()
 
 	GUI_Mouse_Show_Safe();
 
-	Music_Play(Tools_RandomRange(0, 5) + 8);
+	Music_Play(Tools_RandomLCG_Range(0, 5) + 8);
 
 	while (true) {
 		if (g_gameMode == GM_PICKHOUSE) {
@@ -2186,7 +2186,7 @@ static void GameLoop_Main()
 
 			GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 
-			Music_Play(Tools_RandomRange(0, 8) + 8);
+			Music_Play(Tools_RandomLCG_Range(0, 8) + 8);
 			l_timerNext = g_timerGUI + 300;
 		}
 
@@ -2202,14 +2202,14 @@ static void GameLoop_Main()
 
 				g_musicInBattle = 0;
 			} else if (g_musicInBattle > 0) {
-				Music_Play(Tools_RandomRange(0, 5) + 17);
+				Music_Play(Tools_RandomLCG_Range(0, 5) + 17);
 				l_timerNext = g_timerGUI + 300;
 				g_musicInBattle = -1;
 			} else {
 				g_musicInBattle = 0;
 				if (g_enableSoundMusic != 0 && g_timerGUI > l_timerNext) {
 					if (!Driver_Music_IsPlaying()) {
-						Music_Play(Tools_RandomRange(0, 8) + 8);
+						Music_Play(Tools_RandomLCG_Range(0, 8) + 8);
 						l_timerNext = g_timerGUI + 300;
 					}
 				}
@@ -2309,7 +2309,7 @@ static bool Unknown_25C4_000E()
 
 	GFX_SetPalette(g_palette_998A);
 
-	srand((unsigned)time(NULL));
+	Tools_RandomLCG_Seed((unsigned)time(NULL));
 
 	Widget_SetCurrentWidget(0);
 

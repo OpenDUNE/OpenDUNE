@@ -934,7 +934,7 @@ void Map_Bloom_ExplodeSpecial(uint16 packed, uint8 houseID)
 
 	switch (Tools_Random_256() & 0x3) {
 		case 0:
-			h->credits += Tools_RandomRange(150, 400);
+			h->credits += Tools_RandomLCG_Range(150, 400);
 			break;
 
 		case 1: {
@@ -1018,37 +1018,37 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 		switch (locationID) {
 			case 0: { /* North */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + mapOffset);
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX - 2), mapInfo->minY + mapOffset);
 				break;
 			}
 
 			case 1: { /* East */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - mapOffset, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
+				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - mapOffset, mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY - 2));
 				break;
 			}
 
 			case 2: { /* South */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - mapOffset);
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - mapOffset);
 				break;
 			}
 
 			case 3: { /* West */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + mapOffset, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
+				ret = Tile_PackXY(mapInfo->minX + mapOffset, mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY - 2));
 				break;
 			}
 
 			case 4: { /* Air */
 				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 			}
 
 			case 5: /* Visible */
-				ret = Tile_PackXY(Tile_GetPackedX(g_minimapPosition) + Tools_RandomRange(0, 14), Tile_GetPackedY(g_minimapPosition) + Tools_RandomRange(0, 9));
+				ret = Tile_PackXY(Tile_GetPackedX(g_minimapPosition) + Tools_RandomLCG_Range(0, 14), Tile_GetPackedY(g_minimapPosition) + Tools_RandomLCG_Range(0, 9));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 
@@ -1078,7 +1078,7 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 						ret = Tile_PackTile(Tile_MoveByRandom(u->o.position, 120, true));
 					} else {
 						const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
-						ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
+						ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY));
 					}
 				}
 

@@ -388,7 +388,7 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 
 		if (u->actionID != ACTION_ATTACK) Unit_SetAction(u, ACTION_ATTACK);
 
-		orientation = (Tile_GetDirection(tile, u->o.position) & 0xC0) + Tools_RandomRange(0, 127);
+		orientation = (Tile_GetDirection(tile, u->o.position) & 0xC0) + Tools_RandomLCG_Range(0, 127);
 		if (orientation < 0) orientation += 256;
 
 		packed = Tile_PackTile(Tile_MoveByDirection(tile, orientation, distance));

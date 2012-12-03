@@ -385,7 +385,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	GUI_DrawInterfaceAndRadar(0);
 
-	Music_Play(Tools_RandomRange(0, 5) + 8);
+	Music_Play(Tools_RandomLCG_Range(0, 5) + 8);
 
 	return true;
 }
@@ -582,13 +582,13 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 				movingOtherTimer = g_timerGUI + 300 * 60;
 				break;
 			case HOUSE_ATREIDES:
-				movingOtherTimer = g_timerGUI + 60 * Tools_RandomRange(1,3);
+				movingOtherTimer = g_timerGUI + 60 * Tools_RandomLCG_Range(1,3);
 				break;
 			case HOUSE_ORDOS:
 				if (otherSprite != 0) {
 					movingOtherTimer = g_timerGUI + 6;
 				} else {
-					movingOtherTimer = g_timerGUI + 60 * Tools_RandomRange(10, 19);
+					movingOtherTimer = g_timerGUI + 60 * Tools_RandomLCG_Range(10, 19);
 				}
 				break;
 			default:
@@ -600,7 +600,7 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 		if (movingMouthTimer < g_timerGUI) {
 			uint8 *sprite;
 
-			movingMouthSprite = Tools_RandomRange(0, 4);
+			movingMouthSprite = Tools_RandomLCG_Range(0, 4);
 			sprite = s_mentatSprites[1][movingMouthSprite];
 
 			GUI_Mouse_Hide_InRegion(s_mouthLeft, s_mouthTop, s_mouthLeft + Sprite_GetWidth(sprite), s_mouthTop + Sprite_GetHeight(sprite));
@@ -609,15 +609,15 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 
 			switch (movingMouthSprite) {
 				case 0:
-					movingMouthTimer = g_timerGUI + Tools_RandomRange(7, 30);
+					movingMouthTimer = g_timerGUI + Tools_RandomLCG_Range(7, 30);
 					break;
 				case 1:
 				case 2:
 				case 3:
-					movingMouthTimer = g_timerGUI + Tools_RandomRange(6, 10);
+					movingMouthTimer = g_timerGUI + Tools_RandomLCG_Range(6, 10);
 					break;
 				case 4:
-					movingMouthTimer = g_timerGUI + Tools_RandomRange(5, 6);
+					movingMouthTimer = g_timerGUI + Tools_RandomLCG_Range(5, 6);
 					break;
 				default:
 					break;
@@ -635,7 +635,7 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 		} else if (Mouse_InsideRegion(s_mouthLeft, s_mouthTop, s_mouthRight, s_mouthBottom) != 0) {
 			if (movingMouthTimer != 0xFFFFFFFF) {
 				movingMouthTimer = 0xFFFFFFFF;
-				movingMouthSprite = Tools_RandomRange(1, 4);
+				movingMouthSprite = Tools_RandomLCG_Range(1, 4);
 				partNeedsRedraw = true;
 			}
 		} else {
@@ -708,15 +708,15 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 			movingEyesNextSprite = 0;
 
 			if (movingEyesSprite != 4) {
-				movingEyesTimer = g_timerGUI + Tools_RandomRange(20, 180);
+				movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(20, 180);
 			} else {
-				movingEyesTimer = g_timerGUI + Tools_RandomRange(12, 30);
+				movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(12, 30);
 			}
 		} else {
 			i = 0;
 			switch (speakingMode) {
 				case 0:
-					i = Tools_RandomRange(0, 7);
+					i = Tools_RandomLCG_Range(0, 7);
 					if (i > 5) {
 						i = 1;
 					} else {
@@ -730,7 +730,7 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 					if (movingEyesSprite != ((!g_interrogation) ? 0 : 3)) {
 						i = 0;
 					} else {
-						i = Tools_RandomRange(0, 17);
+						i = Tools_RandomLCG_Range(0, 17);
 						if (i > 9) {
 							i = 0;
 						} else {
@@ -742,7 +742,7 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 					break;
 
 				default:
-					i = Tools_RandomRange(0, 15);
+					i = Tools_RandomLCG_Range(0, 15);
 					if (i > 10) {
 						i = 2;
 					} else {
@@ -756,7 +756,7 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 			if ((i == 2 && movingEyesSprite == 1) || (i == 1 && movingEyesSprite == 2)) {
 				movingEyesNextSprite = i;
 				movingEyesSprite = 0;
-				movingEyesTimer = g_timerGUI + Tools_RandomRange(1, 5);
+				movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(1, 5);
 			} else {
 				if (i != movingEyesSprite && (i == 4 || movingEyesSprite == 4)) {
 					movingEyesNextSprite = i;
@@ -765,9 +765,9 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 				} else {
 					movingEyesSprite = i;
 					if (i != 4) {
-						movingEyesTimer = g_timerGUI + Tools_RandomRange(15, 180);
+						movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(15, 180);
 					} else {
-						movingEyesTimer = g_timerGUI + Tools_RandomRange(6, 60);
+						movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(6, 60);
 					}
 				}
 			}

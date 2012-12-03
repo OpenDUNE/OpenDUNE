@@ -894,7 +894,7 @@ void Structure_ActivateSpecial(Structure *s)
 				position = Tile_UnpackTile(location);
 				position = Tile_MoveByRandom(position, 32, true);
 
-				orientation = Tools_RandomRange(0, 3);
+				orientation = Tools_RandomLCG_Range(0, 3);
 				unitType = (orientation == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
 
 				g_var_38BC++;

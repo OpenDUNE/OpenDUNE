@@ -557,10 +557,10 @@ uint16 Script_Unit_ExplosionMultiple(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Map_MakeExplosion(11, u->o.position, Tools_RandomRange(25, 50), 0);
+	Map_MakeExplosion(11, u->o.position, Tools_RandomLCG_Range(25, 50), 0);
 
 	for (i = 0; i < 7; i++) {
-		Map_MakeExplosion(11, Tile_MoveByRandom(u->o.position, STACK_PEEK(1), false), Tools_RandomRange(75, 150), 0);
+		Map_MakeExplosion(11, Tile_MoveByRandom(u->o.position, STACK_PEEK(1), false), Tools_RandomLCG_Range(75, 150), 0);
 	}
 
 	return 0;
@@ -1751,7 +1751,7 @@ uint16 Script_Unit_IdleAction(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	random = Tools_RandomRange(0, 10);
+	random = Tools_RandomLCG_Range(0, 10);
 	movementType = g_table_unitInfo[u->o.type].movementType;
 
 	if (movementType != MOVEMENT_FOOT && movementType != MOVEMENT_TRACKED && movementType != MOVEMENT_WHEELED) return 0;

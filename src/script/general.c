@@ -131,7 +131,7 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
  */
 uint16 Script_General_RandomRange(ScriptEngine *script)
 {
-	return Tools_RandomRange(STACK_PEEK(1), STACK_PEEK(2));
+	return Tools_RandomLCG_Range(STACK_PEEK(1), STACK_PEEK(2));
 }
 
 /**

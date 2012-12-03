@@ -169,8 +169,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			File_Delete(filename);
 			File_Create(filename);
 
-			srand(0x1234);
-			Tools_Random_Seed(0x21433412);
+			Tools_RandomLCG_Seed(0x21433412);
 
 			g_mouseFileID = File_Open(filename, 3);
 
@@ -185,8 +184,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			if (g_mouseFileID == 0xFF) {
 				g_mouseFileID = File_Open(filename, 1);
 
-				srand(0x1234);
-				Tools_Random_Seed(0x21433412);
+				Tools_RandomLCG_Seed(0x21433412);
 			}
 
 			g_var_701B = true;

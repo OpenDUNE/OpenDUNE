@@ -1515,7 +1515,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_ENEMY), loc18 - 4, 101 + (i * 36), 0xF, 0, 0x221);
 	}
 
-	Music_Play(17 + Tools_RandomRange(0, 5));
+	Music_Play(17 + Tools_RandomLCG_Range(0, 5));
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -2583,7 +2583,7 @@ static uint32 GUI_FactoryWindow_LoadGraymapTbl()
 
 static uint16 GUI_FactoryWindow_CalculateStarportPrice(uint16 credits)
 {
-	credits = (credits / 10) * 4 + (credits / 10) * (Tools_RandomRange(0, 6) + Tools_RandomRange(0, 6));
+	credits = (credits / 10) * 4 + (credits / 10) * (Tools_RandomLCG_Range(0, 6) + Tools_RandomLCG_Range(0, 6));
 
 	return min(credits, 999);
 }
@@ -2609,7 +2609,7 @@ static void GUI_FactoryWindow_InitItems()
 		uint16 seed = (seconds / 60) + g_scenarioID + g_playerHouseID;
 		seed *= seed;
 
-		srand(seed);
+		Tools_RandomLCG_Seed(seed);
 	}
 
 	if (!g_factoryWindowConstructionYard) {
@@ -3608,7 +3608,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 		uint16 index;
 		uint16 temp;
 
-		index = Tools_RandomRange(0, width - 1);
+		index = Tools_RandomLCG_Range(0, width - 1);
 
 		temp = offsetsX[index];
 		offsetsX[index] = offsetsX[x];
@@ -3619,7 +3619,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 		uint16 index;
 		uint16 temp;
 
-		index = Tools_RandomRange(0, height - 1);
+		index = Tools_RandomLCG_Range(0, height - 1);
 
 		temp = offsetsY[index];
 		offsetsY[index] = offsetsY[y];
@@ -3723,7 +3723,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 	for (i = 0; i < width; i++) {
 		uint16 tmp;
 
-		j = Tools_RandomRange(0, width - 1);
+		j = Tools_RandomLCG_Range(0, width - 1);
 
 		tmp = columns[j];
 		columns[j] = columns[i];
@@ -3733,7 +3733,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 	for (i = 0; i < height; i++) {
 		uint16 tmp;
 
-		j = Tools_RandomRange(0, height - 1);
+		j = Tools_RandomLCG_Range(0, height - 1);
 
 		tmp = rows[j];
 		rows[j] = rows[i];

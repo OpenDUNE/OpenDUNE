@@ -17,6 +17,7 @@
 
 
 uint8 s_randomSeed[4];
+uint32 s_randomLCG;
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
@@ -265,13 +266,31 @@ void Tools_Random_Seed(uint32 seed)
 }
 
 /**
+ * Set the seed for the LCG randomizer.
+ */
+void Tools_RandomLCG_Seed(uint32 seed)
+{
+	s_randomLCG = seed;
+}
+
+/**
+ * Get a random value from the LCG.
+ */
+static uint16 Tools_RandomLCG()
+{
+	/* Borland C/C++ 'a' and 'b' value, bits 30..16, as used by Dune2 */
+	s_randomLCG = 0x015A4E35 * s_randomLCG + 1;
+	return (s_randomLCG >> 16) & 0x7FFF;
+}
+
+/**
  * Get a random value between the given values.
  *
  * @param min The minimum value.
  * @param max The maximum value.
  * @return The random value.
  */
-uint16 Tools_RandomRange(uint16 min, uint16 max)
+uint16 Tools_RandomLCG_Range(uint16 min, uint16 max)
 {
 	int32 value;
 	uint16 ret;
@@ -283,7 +302,7 @@ uint16 Tools_RandomRange(uint16 min, uint16 max)
 	}
 
 	do {
-		value = rand();
+		value = Tools_RandomLCG();
 		value *= max - min + 1;
 		value /= 0x8000;
 		value += min;

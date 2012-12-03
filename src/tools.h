@@ -32,7 +32,8 @@ extern struct Object *Tools_Index_GetObject(uint16 encoded);
 
 extern uint8 Tools_Random_256();
 extern void Tools_Random_Seed(uint32 seed);
-extern uint16 Tools_RandomRange(uint16 min, uint16 max);
+extern void Tools_RandomLCG_Seed(uint32 seed);
+extern uint16 Tools_RandomLCG_Range(uint16 min, uint16 max);
 
 extern bool BitArray_Test(uint8 *array, uint16 index);
 extern void BitArray_Set(uint8 *array, uint16 index);

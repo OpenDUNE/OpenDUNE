@@ -118,7 +118,7 @@ bool GUI_Security_Show()
 		uint32 tickWaitTill;
 		char buffer[81];
 
-		questionIndex = Tools_RandomRange(0, questionsCount - 1) * 3 + STR_SECURITY_QUESTIONS;
+		questionIndex = Tools_RandomLCG_Range(0, questionsCount - 1) * 3 + STR_SECURITY_QUESTIONS;
 
 		Widget_SetCurrentWidget(8);
 
