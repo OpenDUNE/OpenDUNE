@@ -149,7 +149,7 @@ void GameLoop_Structure()
 				if (g_dune2_enhanced) {
 					repairCost = si->o.buildCredits * 2 / si->o.hitpoints;
 				} else {
-					repairCost = (2 * 256 / si->o.hitpoints) * si->o.buildCredits / 256;
+					repairCost = ((2 * 256 / si->o.hitpoints) * si->o.buildCredits + 128) / 256;
 				}
 
 				if (repairCost <= h->credits) {
