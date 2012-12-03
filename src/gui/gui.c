@@ -2902,21 +2902,21 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 }
 
 /**
- * Get region bit of the strategic map.
+ * Return if a region has already been done.
  * @param region Region to obtain.
- * @return Value of the region bit.
+ * @return True if and only if the region has already been done.
  */
-static bool GUI_StrategicMap_GetRegion(uint16 region)
+static bool GUI_StrategicMap_IsRegionDone(uint16 region)
 {
 	return (g_strategicRegionBits & (1 << region)) != 0;
 }
 
 /**
- * Set or reset a region of the strategic map.
+ * Set or reset if a region of the strategic map is already done.
  * @param region Region to change.
- * @param set Region must be set.
+ * @param set Region must be set or reset.
  */
-static void GUI_StrategicMap_SetRegion(uint16 region, bool set)
+static void GUI_StrategicMap_SetRegionDone(uint16 region, bool set)
 {
 	if (set) {
 		g_strategicRegionBits |= (1 << region);
@@ -2989,7 +2989,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	uint16 count;
 	char key[6];
 	bool loop = true;
-	bool loc12 = true;
+	bool hasRegions = false;
 	char category[16];
 	StrategicMapData data[20];
 	uint16 scenarioID;
@@ -3011,7 +3011,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		sscanf(buffer, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
-		if (!GUI_StrategicMap_GetRegion(data[i].index)) loc12 = false;
+		if (!GUI_StrategicMap_IsRegionDone(data[i].index)) hasRegions = true;
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
@@ -3020,13 +3020,15 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 	count = i;
 
-	if (loc12) {
+	if (!hasRegions) {
+		/* This campaign has no available regions left; reset all regions for this campaign */
 		for (i = 0; i < count; i++) {
-			GUI_StrategicMap_SetRegion(data[i].index, false);
+			GUI_StrategicMap_SetRegionDone(data[i].index, false);
 		}
 	} else {
+		/* Mark all regions that are already done as not-selectable */
 		for (i = 0; i < count; i++) {
-			if (GUI_StrategicMap_GetRegion(data[i].index)) data[i].index = 0;
+			if (GUI_StrategicMap_IsRegionDone(data[i].index)) data[i].index = 0;
 		}
 	}
 
@@ -3062,7 +3064,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 		sleepIdle();
 	}
 
-	GUI_StrategicMap_SetRegion(region, true);
+	GUI_StrategicMap_SetRegionDone(region, true);
 
 	GUI_StrategicMap_DrawText("");
 
