@@ -19,9 +19,9 @@ The latest development version is at:
 Our IRC (chat) is at:
   irc.oftc.net / #OpenDUNE
 You can report bugs at:
-  https://github.com/OpenDUNE/OpenDUNE
+  https://github.com/OpenDUNE/OpenDUNE/issues
 Our wiki is at:
-  https://github.com/OpenDUNE/OpenDUNE
+  https://github.com/OpenDUNE/OpenDUNE/wiki
 
 
 Supported Platforms
