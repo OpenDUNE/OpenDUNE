@@ -9,6 +9,11 @@ Makefile.am
 bin
 !bin/data/put_dune2_here.txt
 !bin/data/dune.cfg
-projects/opendune_vs100.opensdf
-projects/opendune_vs100.sdf
-projects/opendune_vs100.vcxproj.user
+projects
+!projects/generate
+!projects/*.in
+!projects/*.filters
+!projects/*.sln
+!projects/*.vcproj
+!projects/*.vcproj.user
+!projects/*.vcxproj
