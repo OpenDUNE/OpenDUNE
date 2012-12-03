@@ -14,14 +14,14 @@ Contact
 -------
 The latest version of OpenDUNE is always availabe at:
   http://www.opendune.org/
-Our forum is at:
-  http://forum.opendune.org/
+The latest development version is at:
+  https://github.com/OpenDUNE/OpenDUNE
 Our IRC (chat) is at:
   irc.oftc.net / #OpenDUNE
 You can report bugs at:
-  http://bugs.opendune.org/
+  https://github.com/OpenDUNE/OpenDUNE
 Our wiki is at:
-  http://wiki.opendune.org/
+  https://github.com/OpenDUNE/OpenDUNE
 
 
 Supported Platforms
@@ -56,12 +56,6 @@ Copy the original Dune2 1.07 data files (including dune2.exe) to data/. All
   work, but only with the eu/hs data files the French language will work, and
   only with the eu data files the German language will work.
 Start 'opendune'.
-
-
-Compiling
----------
-To compile OpenDUNE, please read our wiki:
-  http://wiki.opendune.org/OpenDUNE:Development
 
 
 Enhancement over Dune2
