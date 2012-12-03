@@ -49,6 +49,8 @@ Unit
 ----
 - Once a Unit enters a tile on which it starts to wobble, it will never stop
     wobbling, even if it enters a tile where it shouldn't wobble.
+- The warning of an enemy approach tends to be wrong. This due to a math
+    failure in the code.
 
 
 Scenario

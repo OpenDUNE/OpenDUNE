@@ -2656,7 +2656,12 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 						s = Structure_Find(&find);
 						if (s != NULL) {
-							feedbackID = ((Orientation_Orientation256ToOrientation16(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 7) / 2 + 1;
+							/* ENHANCEMENT -- Dune2's calculation is wrong, giving unhelpful messages about the direction of the incoming enemy. */
+							if (g_dune2_enhanced) {
+								feedbackID = ((Orientation_Orientation256ToOrientation16(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 0xF) / 4 + 2;
+							} else {
+								feedbackID = ((Orientation_Orientation256ToOrientation16(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 7) / 2 + 1;
+							}
 						} else {
 							feedbackID = 1;
 						}
