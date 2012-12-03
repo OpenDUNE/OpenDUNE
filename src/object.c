@@ -37,8 +37,8 @@ void Object_Script_Variable4_Link(uint16 encodedFrom, uint16 encodedTo)
 	if (objectTo == NULL) return;
 
 	if (objectFrom->script.variables[4] != objectTo->script.variables[4]) {
-		Object_Script_Variable4_Set(objectFrom, 0);
-		Object_Script_Variable4_Set(objectTo, 0);
+		Object_Script_Variable4_Clear(objectFrom);
+		Object_Script_Variable4_Clear(objectTo);
 	}
 	if (objectFrom->script.variables[4] != 0) return;
 
@@ -70,7 +70,7 @@ void Object_Script_Variable4_Set(Object *o, uint16 encoded)
 	s = (Structure *)o;
 	if (Structure_GetLinkedUnit(s) != NULL) return;
 
-	Structure_SetState(s, STRUCTURE_STATE_BUSY);
+	Structure_SetState(s, (encoded == 0) ? STRUCTURE_STATE_IDLE : STRUCTURE_STATE_BUSY);
 }
 
 /**
