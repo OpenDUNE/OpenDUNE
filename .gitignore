@@ -6,11 +6,9 @@ config.cache
 config.pwd
 Makefile
 Makefile.am
-bin/data/*.pak
-bin/data/_save*.dat
-bin/data/dune2.exe
-bin/data/options.cfg
-bin/*.log
+bin
+!bin/data/put_dune2_here.txt
+!bin/data/dune.cfg
 projects/opendune_vs100.opensdf
 projects/opendune_vs100.sdf
 projects/opendune_vs100.vcxproj.user
