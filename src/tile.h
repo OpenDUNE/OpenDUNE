@@ -11,7 +11,7 @@ extern uint16 Tile_GetY(tile32 tile);
 extern uint32 Tile_GetXY(tile32 tile);
 extern uint8 Tile_GetPosX(tile32 tile);
 extern uint8 Tile_GetPosY(tile32 tile);
-extern uint32 Tile_GetSpecialXY(tile32 tile);
+extern tile32 Tile_MakeXY(uint16 x, uint16 y);
 extern uint16 Tile_PackTile(tile32 tile);
 extern uint16 Tile_PackXY(uint16 x, uint16 y);
 extern tile32 Tile_UnpackTile(uint16 packed);

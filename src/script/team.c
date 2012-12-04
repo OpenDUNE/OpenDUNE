@@ -123,7 +123,8 @@ uint16 Script_Team_AddClosestUnit(ScriptEngine *script)
 }
 
 /**
- * Gets the average distance between current team members.
+ * Gets the average distance between current team members, and set the
+ *  position of the team to the average position.
  *
  * Stack: *none*.
  *
@@ -132,15 +133,14 @@ uint16 Script_Team_AddClosestUnit(ScriptEngine *script)
  */
 uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 {
+	uint16 averageX = 0;
+	uint16 averageY = 0;
 	uint16 count = 0;
-	tile32 position;
-	uint16 loc08 = 0;
+	uint16 distance = 0;
 	Team *t;
 	PoolFindStruct find;
 
 	VARIABLE_NOT_USED(script);
-
-	position.tile = 0;
 
 	t = g_scriptCurrentTeam;
 
@@ -155,15 +155,15 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 		if (u == NULL) break;
 		if (t->index != u->team - 1) continue;
 		count++;
-		position.s.x += u->o.position.s.x;
-		position.s.y += u->o.position.s.y;
+		averageX += u->o.position.d.px;
+		averageY += u->o.position.d.py;
 	}
 
 	if (count == 0) return 0;
-	position.s.x /= count;
-	position.s.y /= count;
+	averageX /= count;
+	averageY /= count;
 
-	t->position.tile = Tile_GetSpecialXY(position);
+	t->position = Tile_MakeXY(averageX, averageY);
 
 	find.houseID = t->houseID;
 	find.index   = 0xFFFF;
@@ -175,16 +175,16 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 		if (t->index != u->team - 1) continue;
-		loc08 += Tile_GetDistanceRoundedUp(u->o.position, t->position);
+		distance += Tile_GetDistanceRoundedUp(u->o.position, t->position);
 	}
 
-	loc08 /= count;
+	distance /= count;
 
-	if (t->target == 0 || t->targetTile == 0) return loc08;
+	if (t->target == 0 || t->targetTile == 0) return distance;
 
-	if (Tile_GetDistancePacked(Tile_PackTile(position), Tools_Index_GetPackedTile(t->target)) <= 10) t->targetTile = 2;
+	if (Tile_GetDistancePacked(Tile_PackXY(averageX, averageY), Tools_Index_GetPackedTile(t->target)) <= 10) t->targetTile = 2;
 
-	return loc08;
+	return distance;
 }
 
 /**
