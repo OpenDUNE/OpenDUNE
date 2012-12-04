@@ -20,7 +20,7 @@ typedef enum ExplosionCommand {
 	EXPLOSION_SET_ROW,                                      /*!< Set the row of the position for the Explosion. */
 	EXPLOSION_TILE_DAMAGE,                                  /*!< Handle damage to a tile in a Explosion. */
 	EXPLOSION_PLAY_VOICE,                                   /*!< Play a voice. */
-	EXPLOSION_NOOP,                                         /*!< Do nothing. */
+	EXPLOSION_SCREEN_SHAKE,                                 /*!< Shake the screen around. */
 	EXPLOSION_SET_ANIMATION,                                /*!< Set the animation for the Explosion. */
 	EXPLOSION_BLOOM_EXPLOSION                               /*!< Make a bloom explode. */
 } ExplosionCommand;
