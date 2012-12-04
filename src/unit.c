@@ -1314,7 +1314,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			if (u == g_unitSelected) Unit_Select(NULL);
 
 			Unit_UntargetMe(u);
-			u->o.script.returnValue = 1;
+			u->o.script.variables[1] = 1;
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
 			uint16 type = Map_GetLandscapeType(packed);
