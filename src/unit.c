@@ -2193,7 +2193,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		/* ENHANCEMENT: When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
 		if (g_dune2_enhanced) Structure_UntargetMe(s);
 	} else {
-		Structure_Damage(s, max(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
+		Structure_Damage(s, min(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
 	}
 
 	Object_Script_Variable4_Clear(&s->o);
