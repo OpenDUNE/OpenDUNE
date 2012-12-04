@@ -62,7 +62,7 @@ typedef struct LandscapeInfo {
 	bool   isSand;                                          /*!< True if the LandscapeType is a sand tile (sand, dune, spice, thickspice, bloom). */
 	bool   isValidForStructure2;                            /*!< True if a Structure with notOnConcrete true can be build on this LandscapeType. */
 	bool   canBecomeSpice;                                  /*!< True if the LandscapeType can become a spice tile. */
-	bool   variable_10;                                     /*!< ?? */
+	uint8  craterType;                                      /*!< Type of crater on tile; 0 for none, 1 for concrete, 2 for sand. */
 	uint16 radarColour;                                     /*!< Colour used on radar for this LandscapeType. */
 	uint16 spriteID;                                        /*!< Sprite used on map for this LandscapeType. */
 } LandscapeInfo;

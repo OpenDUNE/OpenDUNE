@@ -47,7 +47,7 @@ static void Explosion_Update(uint16 type, Explosion *e)
  */
 static void Explosion_Func_TileDamage(Explosion *e, uint16 parameter)
 {
-	static const int16 bloomLocations[] = { -1, 2, 1 };
+	static const int16 craterIconMapIndex[] = { -1, 2, 1 };
 
 	uint16 packed;
 	uint16 type;
@@ -73,30 +73,35 @@ static void Explosion_Func_TileDamage(Explosion *e, uint16 parameter)
 		Map_Update(packed, 0, false);
 	}
 
-	iconMapIndex = bloomLocations[g_table_landscapeInfo[type].variable_10];
-	if (iconMapIndex == -1) return;
+	if (g_table_landscapeInfo[type].craterType == 0) return;
 
+	/* You cannot damage veiled tiles */
 	overlaySpriteID = t->overlaySpriteID;
-
 	if (!Sprite_IsUnveiled(overlaySpriteID)) return;
 
+	iconMapIndex = craterIconMapIndex[g_table_landscapeInfo[type].craterType];
 	iconMap = &g_iconMap[g_iconMap[iconMapIndex]];
+
 	if (iconMap[0] <= overlaySpriteID && overlaySpriteID <= iconMap[10]) {
+		/* There already is a crater; make it bigger */
 		overlaySpriteID -= iconMap[0];
 		if (overlaySpriteID < 4) overlaySpriteID += 2;
 	} else {
+		/* Randomly pick 1 of the 2 possible craters */
 		overlaySpriteID = Tools_Random_256() & 1;
 	}
 
+	/* Reduce spice if there is any */
 	Map_ChangeSpiceAmount(packed, -1);
 
+	/* Boom a bloom if there is one */
 	if (t->groundSpriteID == g_bloomSpriteID) {
 		Map_Bloom_ExplodeSpice(packed, g_playerHouseID);
 		return;
 	}
 
+	/* Update the tile with the crater */
 	t->overlaySpriteID = overlaySpriteID + iconMap[0];
-
 	Map_Update(packed, 0, false);
 }
 
