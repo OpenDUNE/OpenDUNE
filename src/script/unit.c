@@ -31,7 +31,7 @@
 
 typedef struct Pathfinder_Data {
 	uint16 packed;                                          /*!< From where we are pathfinding. */
-	uint16 score;                                           /*!< The total score for this route. */
+	 int16 score;                                           /*!< The total score for this route. */
 	uint16 routeSize;                                       /*!< The size of this route. */
 	uint8 *buffer;                                          /*!< A buffer to store the route. */
 } Pathfinder_Data;
