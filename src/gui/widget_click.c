@@ -288,7 +288,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	Unit_SetAction(u, action);
 
-	if (ui->movementType == MOVEMENT_FOOT) Sound_StartSound(ai->selectionType);
+	if (ui->movementType == MOVEMENT_FOOT) Sound_StartSound(ai->soundID);
 
 	if (unitAction == action) return true;
 
