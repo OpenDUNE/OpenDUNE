@@ -1841,7 +1841,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 	for (i = 0; i < 4; i++) {
 		static int8 offsets[4] = { 0, -1, -64, -65 };
 
-		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + offsets[i]);
+		s = Structure_Create(STRUCTURE_INDEX_INVALID, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + offsets[i]);
 
 		if (s != NULL) {
 			Unit_Remove(u);
