@@ -138,7 +138,7 @@ static const ExplosionCommandStruct s_explosion09[] = {
 	{ EXPLOSION_SET_TIMEOUT       ,    3 },
 	{ EXPLOSION_SET_SPRITE        ,  203 },
 	{ EXPLOSION_SET_TIMEOUT       ,    3 },
-	{ EXPLOSION_SET_ROW           , 4016 },
+	{ EXPLOSION_MOVE_Y_POSITION   ,  -80 },
 	{ EXPLOSION_SET_SPRITE        ,  168 },
 	{ EXPLOSION_SET_TIMEOUT       ,   15 },
 	{ EXPLOSION_SET_SPRITE        ,  169 },
@@ -250,7 +250,7 @@ static const ExplosionCommandStruct s_explosion14[] = {
 static const ExplosionCommandStruct s_explosion15[] = {
 	{ EXPLOSION_SET_SPRITE        ,  183 },
 	{ EXPLOSION_PLAY_VOICE        ,   49 },
-	{ EXPLOSION_SET_ROW           , 4016 },
+	{ EXPLOSION_MOVE_Y_POSITION   ,  -80 },
 	{ EXPLOSION_SET_TIMEOUT       ,    3 },
 	{ EXPLOSION_SET_SPRITE        ,  184 },
 	{ EXPLOSION_SET_TIMEOUT       ,    3 },

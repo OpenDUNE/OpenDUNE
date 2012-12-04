@@ -171,11 +171,9 @@ static void Explosion_Func_SetAnimation(Explosion *e, uint16 animationMapID)
  * @param e The Explosion to change.
  * @param row Row number.
  */
-static void Explosion_Func_SetRow(Explosion *e, uint16 row)
+static void Explosion_Func_MoveYPosition(Explosion *e, uint16 row)
 {
-	if ((row & 0x800) != 0) row |= 0xF000;
-	e->position.s.x = 0;
-	e->position.s.y = row;
+	e->position.s.y += (int16)row;
 }
 
 /**
@@ -318,7 +316,7 @@ void Explosion_Tick()
 				case EXPLOSION_SET_SPRITE:         Explosion_Func_SetSpriteID(e, parameter); break;
 				case EXPLOSION_SET_TIMEOUT:        Explosion_Func_SetTimeout(e, parameter); break;
 				case EXPLOSION_SET_RANDOM_TIMEOUT: Explosion_Func_SetRandomTimeout(e, parameter); break;
-				case EXPLOSION_SET_ROW:            Explosion_Func_SetRow(e, parameter); break;
+				case EXPLOSION_MOVE_Y_POSITION:    Explosion_Func_MoveYPosition(e, parameter); break;
 				case EXPLOSION_TILE_DAMAGE:        Explosion_Func_TileDamage(e, parameter); break;
 				case EXPLOSION_PLAY_VOICE:         Explosion_Func_PlayVoice(e, parameter); break;
 				case EXPLOSION_SCREEN_SHAKE:       Explosion_Func_ScreenShake(e, parameter); break;
