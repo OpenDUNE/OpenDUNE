@@ -2529,12 +2529,13 @@ void Unit_LaunchHouseMissile(uint16 packed)
 
 	Unit_CreateBullet(h->palacePosition, g_unitHouseMissile->o.type, g_unitHouseMissile->o.houseID, 0x1F4, Tools_Index_Encode(packed, IT_TILE));
 
-	if (!isAI) Sound_Output_Feedback(39);
-
 	g_houseMissileCountdown = 0;
 	g_unitHouseMissile = NULL;
 
-	if (isAI) return;
+	if (isAI) {
+		Sound_Output_Feedback(39);
+		return;
+	}
 
 	GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
 }
