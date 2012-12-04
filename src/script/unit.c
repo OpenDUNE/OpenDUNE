@@ -689,7 +689,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		u->o.flags.s.fireTwiceFlip = false;
 	}
 
-	u->fireDelay += Tools_Random_256() & 1;
+	if (u->fireDelay != 255) u->fireDelay += Tools_Random_256() & 1;
 
 	Unit_UpdateMap(2, u);
 
