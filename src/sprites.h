@@ -11,12 +11,10 @@
  *  - Index 0 contain the number of icon groups (including the EOF entry).
  *  - Each index in 1 .. number_of_icongroups-1 points to the first spriteID of a icon group.
  *  - Index number_of_icongroups is 0, meaning 'the index at EOF'.
- *  .
+ *
  * Icon group at index i contains sprite indices. The first one is pointed to by
  * index i, the last one is one entry before the start of icon group i+1 (where 0
  * means EOF, as explained already).
- *
- * @note This documentation was inspired by information obtained from 'Arrakis Research Company', http://www.junkyard.dk/ .
  */
 typedef enum IconMapEntries {
 	ICM_ICONGROUP_COUNT,                 /*!< Number of icon groups. */
