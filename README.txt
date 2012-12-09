@@ -1,7 +1,8 @@
 About
 -----
-OpenDUNE is an open source re-creation of the popular game "Dune II",
- originally made by Westwood Studios, and released by Virgin Entertainment.
+OpenDUNE is an open source reverse-engineering and enhancement of the popular
+ game "Dune II", originally made by Westwood Studios, and released by Virgin
+ Entertainment.
 It attempts to re-create the original game and apply modern technology to it
  to allow it to be run natively on most operating systems.
 
@@ -38,9 +39,9 @@ Currently we official support the following platforms:
 Requirements
 ------------
 OpenDUNE doesn't require any library to run on Windows. For Mac OS X we make
- so called static-compiled binaries, which means all libraries it depends on
- (mostly LibSDL) are already included in the library, and requires no action
- on your part.
+ so-called static-compiled binaries, which means all libraries it depends on
+ (mostly LibSDL) are already included in the binary, and no action is
+ required on your part.
 For Linux, you need to install LibSDL yourself. It is available in every
  package manager, and the chances are high it is already installed on your
  system.
