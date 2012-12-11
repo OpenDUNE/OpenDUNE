@@ -115,7 +115,7 @@ void Map_SetSelection(uint16 packed)
 			const StructureInfo *si;
 
 			si = &g_table_structureInfo[s->o.type];
-			if (s->o.houseID == g_playerHouseID || g_selectionType != SELECTIONTYPE_MENTAT) {
+			if (s->o.houseID == g_playerHouseID && g_selectionType != SELECTIONTYPE_MENTAT) {
 				GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 			}
 
