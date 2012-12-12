@@ -41,12 +41,35 @@ Structure *Structure_Get_ByIndex(uint16 index)
  */
 Structure *Structure_Find(PoolFindStruct *find)
 {
-	if (find->index >= g_structureFindCount && find->index != 0xFFFF) return NULL;
+	if (find->index >= g_structureFindCount + 3 && find->index != 0xFFFF) return NULL;
 	find->index++; /* First, we always go to the next index */
 
 	assert(g_structureFindCount <= STRUCTURE_INDEX_MAX_SOFT);
-	for (; find->index < g_structureFindCount; find->index++) {
-		Structure *s = g_structureFindArray[find->index];
+	for (; find->index < g_structureFindCount + 3; find->index++) {
+		Structure *s = NULL;
+
+		if (find->index < g_structureFindCount) {
+			s = g_structureFindArray[find->index];
+		} else {
+			/* There are 3 special structures that are never in the Find array */
+			assert(find->index - g_structureFindCount < 3);
+			switch (find->index - g_structureFindCount) {
+				case 0:
+					s = Structure_Get_ByIndex(STRUCTURE_INDEX_WALL);
+					if (s->o.index != STRUCTURE_INDEX_WALL) continue;
+					break;
+
+				case 1:
+					s = Structure_Get_ByIndex(STRUCTURE_INDEX_SLAB_2x2);
+					if (s->o.index != STRUCTURE_INDEX_SLAB_2x2) continue;
+					break;
+
+				case 2:
+					s = Structure_Get_ByIndex(STRUCTURE_INDEX_SLAB_1x1);
+					if (s->o.index != STRUCTURE_INDEX_SLAB_1x1) continue;
+					break;
+			}
+		}
 		if (s == NULL) continue;
 
 		if (s->o.flags.s.isNotOnMap && g_var_38BC == 0) continue;
