@@ -87,6 +87,11 @@
 			extern int snprintf(char * __restrict, size_t, const char * __restrict, ...) __DARWIN_LDBL_COMPAT(snprintf);
 		#endif /* __APPLE__ */
 	#endif /* __GCC__ */
+	
+	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(strdup)
+		/* strdup is not ANSI-C, but our own implemention would only be
+		extern char *strdup (__const char *__s);
+	#endif /* __GCC__ */
 #endif /* _MSC_VER && !__TINYC__ */
 
 #endif /* OS_STRINGS_H */
