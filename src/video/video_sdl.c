@@ -21,10 +21,23 @@
 #define SCREEN_MAGNIFICATION 2
 
 static SDL_Surface *s_gfx_surface = NULL;
+static SDL_mutex *s_video_lock;
+
+#include <stdio.h>
+void vlock(void) {
+	while(1) {
+		if(SDL_mutexP(s_video_lock) == -1) {
+			dprintf(2,SDL_GetError());
+			SDL_Delay(1);
+		} else break;
+	}
+}
+
+#define vunlock() SDL_mutexV(s_video_lock)
+
 static uint8 *s_gfx_screen = NULL;
 
 static bool s_video_initialized = false;
-static bool s_video_lock = false;
 
 static uint8 s_keyBufferLatest = 0;
 
@@ -156,6 +169,7 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 bool Video_Init()
 {
 	if (s_video_initialized) return true;
+	s_video_lock = SDL_CreateMutex();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		Error("Could not initialize SDL: %s\n", SDL_GetError());
@@ -163,7 +177,13 @@ bool Video_Init()
 	}
 
 	SDL_WM_SetCaption(window_caption, "");
+
+	vlock();
+
 	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, 8, SDL_SWSURFACE | SDL_HWPALETTE);
+	
+	vunlock();
+
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;
@@ -171,8 +191,10 @@ bool Video_Init()
 
 	SDL_ShowCursor(SDL_DISABLE);
 
+	vlock();
 	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
 	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * SCREEN_MAGNIFICATION * SCREEN_MAGNIFICATION);
+	vunlock();
 
 	s_video_initialized = true;
 
@@ -185,6 +207,7 @@ bool Video_Init()
 void Video_Uninit()
 {
 	s_video_initialized = false;
+	SDL_DestroyMutex(s_video_lock);
 	SDL_Quit();
 }
 
@@ -196,6 +219,7 @@ void Video_Uninit()
 #	if SCREEN_MAGNIFICATION == 2
 void Video_DrawScreen()
 {
+	vlock();
 	uint8 *data = GFX_Screen_Get_ByIndex(0);
 	uint8 *gfx1 = s_gfx_screen;
 	uint8 *gfx2;
@@ -269,10 +293,12 @@ void Video_DrawScreen()
 		*gfx2++ = value;
 	}
 	gfx1 = gfx2;
+	vunlock();
 }
 #	elif SCREEN_MAGNIFICATION == 3
 void Video_DrawScreen()
 {
+	vlock();
 	uint8 *data = GFX_Screen_Get_ByIndex(0);
 	uint8 *gfx1 = s_gfx_screen;
 	uint8 *gfx2;
@@ -385,6 +411,7 @@ void Video_DrawScreen()
 		*gfx3++ = value;
 	}
 	gfx1 = gfx3;
+	vunlock();
 }
 #	else /* SCREEN_MAGNIFICATION != 2 != 3 */
 #	endif /* SCREEN_MAGNIFICATION */
@@ -392,10 +419,13 @@ void Video_DrawScreen()
 #	if SCREEN_MAGNIFICATION == 2
 void Video_DrawScreen()
 {
-	uint8 *data = GFX_Screen_Get_ByIndex(0);
-	uint8 *gfx1 = s_gfx_screen;
+	uint8 *data;
+	uint8 *gfx1;
 	uint8 *gfx2;
 	int x, y;
+	vlock();
+	data = GFX_Screen_Get_ByIndex(0);
+	gfx1 = s_gfx_screen;
 
 	for (y = 0; y < SCREEN_HEIGHT; y++) {
 		gfx2 = gfx1 + SCREEN_WIDTH * 2;
@@ -408,10 +438,12 @@ void Video_DrawScreen()
 		}
 		gfx1 = gfx2;
 	}
+	vunlock();
 }
 #	elif SCREEN_MAGNIFICATION == 3
 void Video_DrawScreen()
 {
+	vlock();
 	uint8 *data = GFX_Screen_Get_ByIndex(0);
 	uint8 *gfx1 = s_gfx_screen;
 	uint8 *gfx2;
@@ -435,10 +467,12 @@ void Video_DrawScreen()
 		}
 		gfx1 = gfx3;
 	}
+	vunlock();
 }
 #	else /* SCREEN_MAGNIFICATION != 2 != 3 */
 void Video_DrawScreen()
 {
+	vlock();
 	uint8 *data = GFX_Screen_Get_ByIndex(0);
 	uint8 *gfx  = s_gfx_screen;
 	int x, y, i, j;
@@ -456,6 +490,7 @@ void Video_DrawScreen()
 		}
 		gfx += SCREEN_WIDTH * SCREEN_MAGNIFICATION * (SCREEN_MAGNIFICATION - 1);
 	}
+	vunlock();
 }
 #	endif /* SCREEN_MAGNIFICATION */
 #endif /* SCREEN_USE_SCALE2X */
@@ -471,15 +506,12 @@ void Video_Tick()
 
 	if (g_fileOperation != 0) return;
 
-	if (s_video_lock) return;
-	s_video_lock = true;
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;
 
 		switch (event.type) {
 			case SDL_QUIT: {
-				s_video_lock = false;
 				PrepareEnd();
 				exit(0);
 			} break;
@@ -502,28 +534,38 @@ void Video_Tick()
 				/* Fall Through */
 			case SDL_KEYUP:
 			{
-				if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
-				if (s_SDL_keymap[event.key.keysym.sym] == 0) {
-					Error("ERROR: unhandled key %X\n", event.key.keysym.sym);
-					continue;
+				if(keyup && event.key.keysym.sym == SDLK_RETURN && 
+				   ((event.key.keysym.mod & KMOD_LALT) || (event.key.keysym.mod & KMOD_RALT))) {
+					/* ALT-ENTER was pressed */
+					vlock();
+					SDL_WM_ToggleFullScreen(s_gfx_surface);
+					vunlock();
+				} else {
+					if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
+					if (s_SDL_keymap[event.key.keysym.sym] == 0) {
+						Error("ERROR: unhandled key %X\n", event.key.keysym.sym);
+						continue;
+					}
+					Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
 				}
-				Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
 			} break;
 		}
 	}
 
 	/* Do a quick compare to see if the screen changed at all */
+	vlock();
 	if (memcmp(GFX_Screen_Get_ByIndex(0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
-		s_video_lock = false;
+		vunlock();
 		return;
 	}
 	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(0), SCREEN_WIDTH * SCREEN_HEIGHT);
+	vunlock();
 
 	Video_DrawScreen();
 
+	vlock();
 	SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
-
-	s_video_lock = false;
+	vunlock();
 }
 
 /**
@@ -538,15 +580,13 @@ void Video_SetPalette(void *palette, int from, int length)
 	uint8 *p = palette;
 	int i;
 
-	s_video_lock = true;
-
 	for (i = from; i < from + length; i++) {
 		paletteRGB[i].r = ((*p++) & 0x3F) * 4;
 		paletteRGB[i].g = ((*p++) & 0x3F) * 4;
 		paletteRGB[i].b = ((*p++) & 0x3F) * 4;
 	}
 
+	vlock();
 	SDL_SetPalette(s_gfx_surface, SDL_LOGPAL | SDL_PHYSPAL, paletteRGB, from, length);
-
-	s_video_lock = false;
+	vunlock();
 }
