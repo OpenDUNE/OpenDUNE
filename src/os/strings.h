@@ -89,7 +89,7 @@
 	#endif /* __GCC__ */
 	
 	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(strdup)
-		/* strdup is not ANSI-C, but our own implemention would only be
+		/* strdup is not ANSI-C, but our own implemention would only be slower */
 		extern char *strdup (__const char *__s);
 	#endif /* __GCC__ */
 #endif /* _MSC_VER && !__TINYC__ */
