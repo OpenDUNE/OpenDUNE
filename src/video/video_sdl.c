@@ -501,14 +501,21 @@ void Video_Tick(void)
 				keyup = 0;
 				/* Fall Through */
 			case SDL_KEYUP:
-			{
-				if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
-				if (s_SDL_keymap[event.key.keysym.sym] == 0) {
-					Warning("Unhandled key %X\n", event.key.keysym.sym);
-					continue;
+				if (keyup && event.key.keysym.sym == SDLK_RETURN && 
+				    (event.key.keysym.mod & KMOD_ALT)) {
+					/* ALT-ENTER was pressed */
+					if (!SDL_WM_ToggleFullScreen(s_gfx_surface)) {
+						Warning("Failed to toggle full screen\n");
+					}
+				} else {
+					if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
+					if (s_SDL_keymap[event.key.keysym.sym] == 0) {
+						Warning("Unhandled key %X\n", event.key.keysym.sym);
+						continue;
+					}
+					Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
 				}
-				Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
-			} break;
+				break;
 		}
 	}
 
