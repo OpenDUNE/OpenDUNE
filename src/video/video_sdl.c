@@ -502,12 +502,18 @@ void Video_Tick()
 				/* Fall Through */
 			case SDL_KEYUP:
 			{
-				if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
-				if (s_SDL_keymap[event.key.keysym.sym] == 0) {
-					Error("ERROR: unhandled key %X\n", event.key.keysym.sym);
-					continue;
+				if(keyup && event.key.keysym.sym == SDLK_RETURN && 
+				   ((event.key.keysym.mod & KMOD_LALT) || (event.key.keysym.mod & KMOD_RALT))) {
+					/* ALT-ENTER was pressed */
+					SDL_WM_ToggleFullScreen(s_gfx_surface);
+				} else {
+					if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
+					if (s_SDL_keymap[event.key.keysym.sym] == 0) {
+						Error("ERROR: unhandled key %X\n", event.key.keysym.sym);
+						continue;
+					}
+					Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
 				}
-				Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
 			} break;
 		}
 	}
