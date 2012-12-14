@@ -144,6 +144,21 @@ static void Timer_InterruptResume()
 #endif /* _WIN32 */
 }
 
+#ifndef _WIN32
+
+#include <SDL.h>
+static int s_timer_done = 0;
+static SDL_Thread *s_timer_thread;
+
+int Timer_Callback(void* p) {
+	while(!s_timer_done) {
+		SDL_Delay(1);
+		Timer_InterruptRun();
+	}
+	return 0;
+}
+#endif
+
 /**
  * Initialize the timer.
  */
@@ -154,7 +169,7 @@ void Timer_Init()
 #if defined(_WIN32)
 	s_timerTime = s_timerSpeed / 1000;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &s_timerMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
-#else
+#elif 0
 	s_timerTime.it_value.tv_sec = 0;
 	s_timerTime.it_value.tv_usec = s_timerSpeed;
 	s_timerTime.it_interval.tv_sec = 0;
@@ -168,6 +183,9 @@ void Timer_Init()
 		timerSignal.sa_flags   = 0;
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
+#else
+	s_timer_thread = SDL_CreateThread(Timer_Callback, 0);
+
 #endif /* _WIN32 */
 	Timer_InterruptResume();
 }
@@ -180,6 +198,12 @@ void Timer_Uninit()
 	Timer_InterruptSuspend();
 #if defined(_WIN32)
 	CloseHandle(s_timerMainThread);
+#else
+	s_timer_done = 1;
+	int status;
+	SDL_WaitThread(s_timer_thread, &status);
+	SDL_KillThread(s_timer_thread);
+
 #endif /* _WIN32 */
 
 	free(s_timerNodes); s_timerNodes = NULL;
