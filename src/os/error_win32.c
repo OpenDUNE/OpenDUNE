@@ -2,7 +2,7 @@
 
 /** @file src/error_win32.c System dependant error messages for win32. */
 
-#include <Windows.h>
+#include <windows.h>
 #include "types.h"
 #include "strings.h"
 
