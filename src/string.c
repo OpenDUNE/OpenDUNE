@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /** @file src/string.c String routines. */
-
+#define _GNU_SOURCE
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
