@@ -314,7 +314,8 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
-	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT);
+	/* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
+	if (!g_dune2_enhanced) Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT);
 	Input_History_Clear();
 
 	GUI_Mentat_Display(NULL, g_playerHouseID);
@@ -346,7 +347,8 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	free(g_widgetMentatScrollUp); g_widgetMentatScrollUp = NULL;
 	free(g_widgetMentatScrollDown); g_widgetMentatScrollDown = NULL;
 
-	Input_Flags_ClearBits(INPUT_FLAG_KEY_REPEAT);
+	/* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
+	if (!g_dune2_enhanced) Input_Flags_ClearBits(INPUT_FLAG_KEY_REPEAT);
 
 	GFX_Screen_SetActive(oldScreenID);
 }
