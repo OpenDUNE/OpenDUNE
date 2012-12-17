@@ -51,6 +51,11 @@ Unit
     wobbling, even if it enters a tile where it shouldn't wobble.
 - The warning of an enemy approach tends to be wrong. This due to a math
     failure in the code.
+- Units could only have a maximum fire delay of 255 ticks, causing inconsistent
+    firing rates between unit types on slower game speeds. e.g. a launcher will
+    fire as frequently as a tank on the slowest game speed.
+- At normal game speed, the fire delay for deviators would overflow.  This
+    caused deviators to fire almost as often as a trike.
 
 
 Scenario
