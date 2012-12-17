@@ -84,14 +84,14 @@ static uint16 Input_Keyboard_Translate(uint16 keyValue)
 {
 	uint16 i;
 
-	if ((g_inputFlags & 0x2) == 0) {
-		for (i = 0; i < lengthof(s_translateMap); i++) {
-			if (s_translateMap[i] == (uint8)(keyValue & 0xFF)) {
-				keyValue = s_translateTo[i] | (keyValue & 0xFF00);
-				break;
-			}
-		}
+	if ((g_inputFlags & INPUT_FLAG_NO_TRANSLATE) != 0) return keyValue;
+
+	for (i = 0; i < lengthof(s_translateMap); i++) {
+		if (s_translateMap[i] != (uint8)(keyValue & 0xFF)) continue;
+
+		return s_translateTo[i] | (keyValue & 0xFF00);
 	}
+
 	return keyValue;
 }
 
@@ -99,9 +99,7 @@ void Input_EventHandler(uint8 key)
 {
 	uint8 state;
 	uint8 i;
-	uint16 flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
-	flags = g_inputFlags;
 	state = 0;
 
 	if (key == 0xE0) {

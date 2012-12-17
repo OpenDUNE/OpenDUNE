@@ -10,7 +10,7 @@
  */
 typedef enum InputFlagsEnum {
 	INPUT_FLAG_KEY_REPEAT   = 0x0001,                       /*!< Allow repeated input of the same key. */
-	INPUT_FLAG_UNKNOWN_0002 = 0x0002,                       /*!< ?? */
+	INPUT_FLAG_NO_TRANSLATE = 0x0002,                       /*!< Don't translate a key. */
 	INPUT_FLAG_UNKNOWN_0004 = 0x0004,                       /*!< ?? */
 	INPUT_FLAG_UNKNOWN_0008 = 0x0008,                       /*!< ?? */
 	INPUT_FLAG_UNKNOWN_0010 = 0x0010,                       /*!< ?? */

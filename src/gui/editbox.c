@@ -64,7 +64,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 
 	/* Initialize */
 	{
-		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_0002);
+		Input_Flags_SetBits(INPUT_FLAG_NO_TRANSLATE);
 		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_2000);
 
 		oldScreenID = GFX_Screen_SetActive(0);
@@ -191,7 +191,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 
 	/* Deinitialize */
 	{
-		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_0002);
+		Input_Flags_ClearBits(INPUT_FLAG_NO_TRANSLATE);
 		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000);
 
 		Widget_SetCurrentWidget(oldValue_07AE_0000);
