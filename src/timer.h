@@ -16,6 +16,7 @@ extern uint32 g_timerInput;
 extern uint32 g_timerSleep;
 extern uint32 g_timerTimeout;
 
+extern void Timer_ProcessEvents(void);
 extern void Timer_Sleep(uint16 ticks);
 extern bool Timer_SetTimer(TimerType timer, bool set);
 
