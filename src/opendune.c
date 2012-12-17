@@ -854,7 +854,9 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	Input_History_Clear();
 
 	while (true) {
-		while (loc0C > g_timerSleep) sleepIdle();
+		while (loc0C > g_timerSleep) {
+			sleepIdle();
+		}
 
 		loc0C = g_timerSleep + delay;
 

@@ -3644,7 +3644,9 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 		/* XXX -- This delays the system so you can in fact see the animation */
 		if ((y % 4) == 0) {
 			tick = g_timerSleep;
-			while (tick == g_timerSleep) sleepIdle();
+			while (tick == g_timerSleep) {
+				sleepIdle();
+			}
 		}
 	}
 
@@ -3766,7 +3768,9 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 
 		tick = g_timerSleep + delay;
 
-		while (g_timerSleep < tick) sleepIdle();
+		while (g_timerSleep < tick) {
+			sleepIdle();
+		}
 	}
 
 	if (screenDst == 0) {
@@ -3831,7 +3835,7 @@ void GUI_Mouse_Hide()
  */
 void GUI_Mouse_Hide_Safe()
 {
-	while (g_mouseLock != 0) msleep(0);
+	while (g_mouseLock != 0) sleepIdle();
 	g_mouseLock++;
 
 	if (g_var_7097 == 1) {
@@ -3850,7 +3854,7 @@ void GUI_Mouse_Hide_Safe()
  */
 void GUI_Mouse_Show_Safe()
 {
-	while (g_mouseLock != 0) msleep(0);
+	while (g_mouseLock != 0) sleepIdle();
 	g_mouseLock++;
 
 	if (g_var_7097 == 1) {
@@ -3871,7 +3875,7 @@ void GUI_Mouse_Show_InRegion()
 {
 	uint8 counter;
 
-	while (g_mouseLock != 0) msleep(0);
+	while (g_mouseLock != 0) sleepIdle();
 	g_mouseLock++;
 
 	counter = g_regionFlags & 0xFF;
@@ -3911,7 +3915,7 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	maxy = bottom + g_mouseSpriteHotspotY;
 	if (maxy > SCREEN_HEIGHT - 1) maxy = SCREEN_HEIGHT - 1;
 
-	while (g_mouseLock != 0) msleep(0);
+	while (g_mouseLock != 0) sleepIdle();
 	g_mouseLock++;
 
 	if (g_regionFlags == 0) {
@@ -4033,7 +4037,7 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
  */
 void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	while (g_mouseLock != 0) msleep(0);
+	while (g_mouseLock != 0) sleepIdle();
 	g_mouseLock++;
 
 	if (x < g_mouseRegionLeft)   x = g_mouseRegionLeft;
@@ -4604,7 +4608,9 @@ void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation)
 		if (progress) {
 			GFX_SetPalette(data);
 
-			while (g_timerSleep < timerCurrent) sleepIdle();
+			while (g_timerSleep < timerCurrent) {
+				sleepIdle();
+			}
 		}
 	} while (progress);
 }

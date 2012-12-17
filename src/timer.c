@@ -1,35 +1,21 @@
-/* $Id$ */
-
-/** @file src/timer.c Timer routines. */
-
+#undef _BSD_SOURCE
+#define _BSD_SOURCE
 #include <stdlib.h>
-#if !defined(_MSC_VER)
-	#include <sys/time.h>
-#endif /* _MSC_VER */
-#if defined(_WIN32)
-	#define _WIN32_WINNT 0x0500
-	#include <windows.h>
-#else
-	#if !defined(__USE_POSIX)
-		#define __USE_POSIX
-	#endif /* !__USE_POSIX */
-	#include <signal.h>
-#endif /* _WIN32 */
+#include <sys/time.h>
+#include <SDL.h>
+
 #include "types.h"
 #include "os/sleep.h"
 
 #include "timer.h"
 
-
-
-uint32 g_timerGUI = 0;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
-uint32 g_timerGame = 0;                                     /*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, ..). */
-uint32 g_timerInput = 0;                                    /*!< Tick counter. Increases with 1 every tick. Used for input timing. */
-uint32 g_timerSleep = 0;                                    /*!< Tick counter. Increases with 1 every tick. Used for sleeping. */
-uint32 g_timerTimeout = 0;                                  /*!< Tick counter. Decreases with 1 every tick when non-zero. Used to timeout. */
+uint32 g_timerGUI = 0;		/*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
+uint32 g_timerGame = 0;		/*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, ..). */
+uint32 g_timerInput = 0;	/*!< Tick counter. Increases with 1 every tick. Used for input timing. */
+uint32 g_timerSleep = 0;	/*!< Tick counter. Increases with 1 every tick. Used for sleeping. */
+uint32 g_timerTimeout = 0;	/*!< Tick counter. Decreases with 1 every tick when non-zero. Used to timeout. */
 
 uint16 s_timersActive = 0;
-
 
 typedef struct TimerNode {
 	uint32 usec_left;
@@ -37,13 +23,6 @@ typedef struct TimerNode {
 	void (*callback)();
 } TimerNode;
 
-#if defined(_WIN32)
-static HANDLE s_timerMainThread = NULL;
-static HANDLE s_timerThread = NULL;
-static int s_timerTime;
-#else
-static struct itimerval s_timerTime;
-#endif /* _WIN32 */
 
 static TimerNode *s_timerNodes = NULL;
 static int s_timerNodeCount = 0;
@@ -53,24 +32,27 @@ static uint32 s_timerLastTime;
 
 const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
 
+static int t_suspended = 0;
 
-static uint32 Timer_GetTime()
-{
-#if defined(_MSC_VER)
-	DWORD t;
-	t = timeGetTime();
-	return t;
-#else
+static void Timer_InterruptRun(void);
+
+/* this is the function that the game routines need to call when they need to "sleep".
+   if the timer thread has set the update flag, the interrupt  gets simulated. */
+void Timer_ProcessEvents(void) {
+	if(!t_suspended) Timer_InterruptRun();
+	SDL_Delay(1);
+}
+
+static uint32 Timer_GetTime() {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	return tv.tv_sec * 1000 + tv.tv_usec / 1000;
-#endif /* _MSC_VER */
 }
 
 /**
  * Run the timer interrupt handler.
  */
-static void Timer_InterruptRun()
+static void Timer_InterruptRun(void)
 {
 	TimerNode *node;
 	uint32 new_time, usec_delta, delta;
@@ -108,79 +90,25 @@ static void Timer_InterruptRun()
 	timerLock = false;
 }
 
-#if defined(_WIN32)
-void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
-	VARIABLE_NOT_USED(arg);
-	VARIABLE_NOT_USED(TimerOrWaitFired);
-
-	SuspendThread(s_timerMainThread);
-	Timer_InterruptRun();
-	ResumeThread(s_timerMainThread);
-}
-#endif /* _WIN32 */
-
-/**
- * Suspend the timer interrupt handling.
- */
-static void Timer_InterruptSuspend()
-{
-#if defined(_WIN32)
-	if (s_timerThread != NULL) DeleteTimerQueueTimer(NULL, s_timerThread, NULL);
-	s_timerThread = NULL;
-#else
-	setitimer(ITIMER_REAL, NULL, NULL);
-#endif /* _WIN32 */
+/* Suspend the timer interrupt handling. */
+static void Timer_InterruptSuspend(void) {
+	t_suspended = 1;
 }
 
-/**
- * Resume the timer interrupt handling.
- */
-static void Timer_InterruptResume()
-{
-#if defined(_WIN32)
-	CreateTimerQueueTimer(&s_timerThread, NULL, Timer_InterruptWindows, NULL, s_timerTime, s_timerTime, WT_EXECUTEINTIMERTHREAD);
-#else
-	setitimer(ITIMER_REAL, &s_timerTime, NULL);
-#endif /* _WIN32 */
+/* Resume the timer interrupt handling. */
+static void Timer_InterruptResume(void) {
+	t_suspended = 0;
 }
 
-/**
- * Initialize the timer.
- */
-void Timer_Init()
-{
+/*Initialize the timer. */
+void Timer_Init(void) {
 	s_timerLastTime = Timer_GetTime();
-
-#if defined(_WIN32)
-	s_timerTime = s_timerSpeed / 1000;
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &s_timerMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
-#else
-	s_timerTime.it_value.tv_sec = 0;
-	s_timerTime.it_value.tv_usec = s_timerSpeed;
-	s_timerTime.it_interval.tv_sec = 0;
-	s_timerTime.it_interval.tv_usec = s_timerSpeed;
-
-	{
-		struct sigaction timerSignal;
-
-		sigemptyset(&timerSignal.sa_mask);
-		timerSignal.sa_handler = Timer_InterruptRun;
-		timerSignal.sa_flags   = 0;
-		sigaction(SIGALRM, &timerSignal, NULL);
-	}
-#endif /* _WIN32 */
 	Timer_InterruptResume();
 }
 
-/**
- * Uninitialize the timer.
- */
-void Timer_Uninit()
-{
+/* Uninitialize the timer. */
+void Timer_Uninit(void) {
 	Timer_InterruptSuspend();
-#if defined(_WIN32)
-	CloseHandle(s_timerMainThread);
-#endif /* _WIN32 */
 
 	free(s_timerNodes); s_timerNodes = NULL;
 	s_timerNodeCount = 0;
@@ -227,8 +155,7 @@ void Timer_Change(void (*callback)(), uint32 usec_delay)
  * Remove a timer from the queue.
  * @param callback Which callback to remove.
  */
-void Timer_Remove(void (*callback)())
-{
+void Timer_Remove(void (*callback)()) {
 	int i;
 	TimerNode *node = s_timerNodes;
 	for (i = 0; i < s_timerNodeCount; i++, node++) {
@@ -242,8 +169,7 @@ void Timer_Remove(void (*callback)())
 /**
  * Handle game timers.
  */
-void Timer_Tick()
-{
+void Timer_Tick() {
 	if ((s_timersActive & TIMER_GUI)  != 0) g_timerGUI++;
 	if ((s_timersActive & TIMER_GAME) != 0) g_timerGame++;
 	g_timerInput++;
@@ -259,8 +185,7 @@ void Timer_Tick()
  * @param set True sets the timer on, false sets it off.
  * @return True if timer was set, false if it was not set.
  */
-bool Timer_SetTimer(TimerType timer, bool set)
-{
+bool Timer_SetTimer(TimerType timer, bool set) {
 	uint8 t;
 	bool ret;
 
@@ -280,8 +205,7 @@ bool Timer_SetTimer(TimerType timer, bool set)
  * Sleep for an amount of ticks.
  * @param ticks The amount of ticks to sleep.
  */
-void Timer_Sleep(uint16 ticks)
-{
+void Timer_Sleep(uint16 ticks) {
 	uint32 tick = g_timerSleep + ticks;
-	while (tick >= g_timerSleep) sleepIdle();
+	while (tick >= g_timerSleep) Timer_ProcessEvents();
 }
