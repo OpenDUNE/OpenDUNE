@@ -58,26 +58,6 @@ static const uint8 s_translateTo[] = {'<', ':', 'c', 'h', '\\', '[', ']', '`', '
 assert_compile(lengthof(s_translateExtendedMap) == lengthof(s_translateMap));
 assert_compile(lengthof(s_translateMap) == lengthof(s_translateTo));
 
-/** Other recognized key codes */
-static const uint16 s_otherKeys[] = {
-	0x0220, 0x0320, 0x060C, 0x070D,
-	0x066A, 0x0669, 0x0230, 0x0330,
-	0x007D, 0x017D, 0x025A, 0x035A,
-	0x0200, 0x0410, 0x046E, 0x026E,
-	0x007C
-};
-
-/** Input flags required for other key codes. */
-static const InputFlagsEnum s_otherFlags[] = {
-	INPUT_FLAG_UNKNOWN_0008, INPUT_FLAG_UNKNOWN_0008, INPUT_FLAG_UNKNOWN_0010, INPUT_FLAG_UNKNOWN_0010,
-	INPUT_FLAG_UNKNOWN_0010, INPUT_FLAG_UNKNOWN_0010, INPUT_FLAG_UNKNOWN_0020, INPUT_FLAG_UNKNOWN_0020,
-	INPUT_FLAG_UNKNOWN_0040, INPUT_FLAG_UNKNOWN_0040, INPUT_FLAG_UNKNOWN_0080, INPUT_FLAG_UNKNOWN_0080,
-	INPUT_FLAG_UNKNOWN_0100, INPUT_FLAG_UNKNOWN_0400, INPUT_FLAG_UNKNOWN_0400, INPUT_FLAG_UNKNOWN_0400,
-	INPUT_FLAG_UNKNOWN_0100
-};
-
-assert_compile(lengthof(s_otherKeys) == lengthof(s_otherFlags));
-
 /** Key translation table. */
 static const uint8 s_keyTranslate[] = {
 	127,  'n',   2,   3,   4,   5,    6,   7,   8,  9,  10,    11,  12,  13,  15,  16,
@@ -162,16 +142,6 @@ void Input_EventHandler(uint8 key)
 	if (state == 0x06 && key == 0x4C) return;
 
 	Input_HandleInput((state << 8) | key);
-
-	for (i = 0; i < lengthof(s_keymapIgnore); i++) {
-		if (s_keymapIgnore[i] == key) return;
-	}
-	for (i = 0; i < lengthof(s_otherKeys); i++) {
-		if (s_otherKeys[i] == key) {
-			if ((s_otherFlags[i] & flags) != 0) return;
-			break;
-		}
-	}
 }
 
 /**
