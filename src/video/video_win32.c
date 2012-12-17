@@ -3,6 +3,7 @@
 /** @file src/video/video_win32.c WIN32 video driver. */
 
 #include <stdio.h>
+#define _WIN32_WINNT 0x0500
 #include <windows.h>
 #include <commctrl.h>
 #include <malloc.h>
