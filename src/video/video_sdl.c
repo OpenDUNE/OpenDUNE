@@ -171,6 +171,7 @@ bool Video_Init()
 	}
 
 	SDL_ShowCursor(SDL_DISABLE);
+	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
 	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * SCREEN_MAGNIFICATION * SCREEN_MAGNIFICATION);
