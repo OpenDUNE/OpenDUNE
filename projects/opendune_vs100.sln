@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opendune", "opendune_vs100.vcxproj", "{57B146DD-077C-4261-962C-FF4D5F3A43BC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC} = {1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "version", "version_vs100.vcxproj", "{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +24,14 @@ Global
 		{57B146DD-077C-4261-962C-FF4D5F3A43BC}.Release|Win32.Build.0 = Release|Win32
 		{57B146DD-077C-4261-962C-FF4D5F3A43BC}.Release|x64.ActiveCfg = Release|x64
 		{57B146DD-077C-4261-962C-FF4D5F3A43BC}.Release|x64.Build.0 = Release|x64
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Debug|Win32.Build.0 = Debug|Win32
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Debug|x64.ActiveCfg = Debug|Win32
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Debug|x64.Build.0 = Debug|Win32
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Release|Win32.ActiveCfg = Debug|Win32
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Release|Win32.Build.0 = Debug|Win32
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Release|x64.ActiveCfg = Debug|Win32
+		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}.Release|x64.Build.0 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

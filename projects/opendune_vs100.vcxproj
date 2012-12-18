@@ -120,6 +120,10 @@
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
     <ClInclude Include="..\src\opendune.h"/>
+    <ClCompile Include="..\src\rev.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\rev.h"/>
     <ClCompile Include="..\src\save.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>

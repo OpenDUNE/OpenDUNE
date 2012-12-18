@@ -57,6 +57,7 @@ pool/house.c
 pool/structure.c
 pool/team.c
 pool/unit.c
+rev.c
 save.c
 saveload/house.c
 saveload/info.c
@@ -144,6 +145,7 @@ pool/pool.h
 pool/structure.h
 pool/team.h
 pool/unit.h
+rev.h
 save.h
 saveload/saveload.h
 scenario.h

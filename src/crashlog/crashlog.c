@@ -5,6 +5,7 @@
 #include <time.h>
 #include "types.h"
 #include "crashlog.h"
+#include "../rev.h"
 
 static void CrashLog_LogCompiler(char *buffer)
 {
@@ -30,6 +31,24 @@ static void CrashLog_LogCompiler(char *buffer)
 #endif
 }
 
+static void CrashLog_LogVersion(char *buffer)
+{
+	sprintf(buffer + strlen(buffer), "OpenDune version:\n"
+			" Version:    %s (%d)\n"
+			" Bits:       %d\n"
+			" Build date: %s\n\n",
+			g_opendune_revision,
+			g_opendune_revision_modified,
+#if (defined(_WIN64) || defined(_LP64))
+			64,
+#else
+			32,
+#endif
+			g_opendune_build_date
+	);
+}
+
+
 void CrashLog_Fill(char *buffer)
 {
 	time_t cur_time = time(NULL);
@@ -37,6 +56,7 @@ void CrashLog_Fill(char *buffer)
 	sprintf(buffer + strlen(buffer), "Crash at: %s", asctime(gmtime(&cur_time)));
 
 	CrashLog_LogError(buffer);
+	CrashLog_LogVersion(buffer);
 	CrashLog_LogRegisters(buffer);
 	CrashLog_LogStacktrace(buffer);
 	CrashLog_LogOSVersion(buffer);

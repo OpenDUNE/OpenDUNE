@@ -198,8 +198,8 @@ endif
 
 # Revision files
 
-$(SRC_DIR)/rev.cpp: $(CONFIG_CACHE_VERSION) $(SRC_DIR)/rev.cpp.in
-	$(Q)cat $(SRC_DIR)/rev.cpp.in      | sed "s@\!\!REVISION\!\!@$(REV_NR)@g;s@!!VERSION!!@$(REV)@g;s@!!MODIFIED!!@$(MODIFIED)@g;s@!!DATE!!@`date +%d.%m.%y`@g" > $(SRC_DIR)/rev.cpp
+$(SRC_DIR)/rev.c: $(CONFIG_CACHE_VERSION) $(SRC_DIR)/rev.c.in
+	$(Q)cat $(SRC_DIR)/rev.c.in      | sed "s@\!\!REVISION\!\!@$(REV_NR)@g;s@!!VERSION!!@$(REV)@g;s@!!MODIFIED!!@$(MODIFIED)@g;s@!!DATE!!@`date +%d.%m.%y`@g" > $(SRC_DIR)/rev.c
 
 FORCE:
 

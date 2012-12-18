@@ -1,6 +1,7 @@
 config.cache.pwd
 objs
 config.cache.source.list
+config.cache.version
 config.log
 config.cache
 config.pwd
@@ -9,11 +10,13 @@ Makefile.am
 bin
 !bin/data/put_dune2_here.txt
 !bin/data/dune.cfg
-projects
+projects/*
 !projects/generate
+!projects/determineversion.vbs
 !projects/*.in
 !projects/*.filters
 !projects/*.sln
 !projects/*.vcproj
 !projects/*.vcproj.user
 !projects/*.vcxproj
+src/rev.c

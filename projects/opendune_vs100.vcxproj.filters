@@ -111,6 +111,12 @@
     <ClInclude Include="..\src\opendune.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\rev.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\rev.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClCompile Include="..\src\save.c">
       <Filter>src</Filter>
     </ClCompile>
