@@ -218,7 +218,7 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 
 				case SLDT_UINT8: {
-					uint8 v = (uint8)value;
+					uint8 v = (value > 0xFF) ? 0xFF : (uint8)value;
 
 					if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
 				} break;

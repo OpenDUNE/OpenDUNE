@@ -99,7 +99,7 @@ typedef struct Unit {
 	uint16 originEncoded;                                   /*!< Encoded index, indicating the origin. */
 	uint8  actionID;                                        /*!< Current action. */
 	uint8  nextActionID;                                    /*!< Next action. */
-	uint8  fireDelay;                                       /*!< Delay between firing. */
+	uint16 fireDelay;                                       /*!< Delay between firing.  Originally a uint8, which is not sufficient on slower game speeds. */
 	uint16 distanceToDestination;                           /*!< How much distance between where we are now and where currentDestination is. */
 	uint16 targetAttack;                                    /*!< Target to attack (encoded index). */
 	uint16 targetMove;                                      /*!< Target to move to (encoded index). */

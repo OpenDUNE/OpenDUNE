@@ -25,7 +25,7 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT16, originEncoded),
 	SLD_ENTRY (Unit, SLDT_UINT8,  actionID),
 	SLD_ENTRY (Unit, SLDT_UINT8,  nextActionID),
-	SLD_ENTRY (Unit, SLDT_UINT8,  fireDelay),
+	SLD_ENTRY2(Unit, SLDT_UINT8,  fireDelay, SLDT_UINT16), /* fireDelay is uint8 on disk, uint16 in memory. */
 	SLD_ENTRY (Unit, SLDT_UINT16, distanceToDestination),
 	SLD_ENTRY (Unit, SLDT_UINT16, targetAttack),
 	SLD_ENTRY (Unit, SLDT_UINT16, targetMove),
