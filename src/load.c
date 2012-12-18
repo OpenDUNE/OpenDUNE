@@ -113,6 +113,7 @@ static bool Load_Main(FILE *fp)
 			case 'UNIT': if (!Unit_Load     (fp, length)) return false; break;
 			case 'BLDG': if (!Structure_Load(fp, length)) return false; break;
 			case 'TEAM': if (!Team_Load     (fp, length)) return false; break;
+			case 'ODUN': if (!UnitNew_Load  (fp, length)) return false; break;
 
 			default:
 				Error("Unknown chunk in savegame: %c%c%c%c (length: %d). Skipped.\n", header, header >> 8, header >> 16, header >> 24, length);

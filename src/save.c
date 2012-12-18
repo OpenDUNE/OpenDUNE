@@ -104,6 +104,7 @@ static bool Save_Main(FILE *fp, char *description)
 	if (!Save_Chunk(fp, "BLDG", &Structure_Save)) return false;
 	if (!Save_Chunk(fp, "MAP ", &Map_Save)) return false;
 	if (!Save_Chunk(fp, "TEAM", &Team_Save)) return false;
+	if (!Save_Chunk(fp, "ODUN", &UnitNew_Save)) return false;
 
 	/* Write the total length of all data in the FORM chunk */
 	length = ftell(fp) - 8;

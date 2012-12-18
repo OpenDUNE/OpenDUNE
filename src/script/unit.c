@@ -680,16 +680,16 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		default: break;
 	}
 
-	u->fireDelay = Tools_AdjustToGameSpeed(clamp(ui->fireDelay * 2, 1, 255), 1, 255, true) & 0xFF;
+	u->fireDelay = Tools_AdjustToGameSpeed(ui->fireDelay * 2, 1, 0xFFFF, true);
 
 	if (fireTwice) {
 		u->o.flags.s.fireTwiceFlip = !u->o.flags.s.fireTwiceFlip;
-		if (u->o.flags.s.fireTwiceFlip) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
+		if (u->o.flags.s.fireTwiceFlip) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true);
 	} else {
 		u->o.flags.s.fireTwiceFlip = false;
 	}
 
-	if (u->fireDelay != 255) u->fireDelay += Tools_Random_256() & 1;
+	u->fireDelay += Tools_Random_256() & 1;
 
 	Unit_UpdateMap(2, u);
 

@@ -25,7 +25,7 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT16, originEncoded),
 	SLD_ENTRY (Unit, SLDT_UINT8,  actionID),
 	SLD_ENTRY (Unit, SLDT_UINT8,  nextActionID),
-	SLD_ENTRY (Unit, SLDT_UINT8,  fireDelay),
+	SLD_ENTRY2(Unit, SLDT_UINT8,  fireDelay, SLDT_UINT16),
 	SLD_ENTRY (Unit, SLDT_UINT16, distanceToDestination),
 	SLD_ENTRY (Unit, SLDT_UINT16, targetAttack),
 	SLD_ENTRY (Unit, SLDT_UINT16, targetMove),
@@ -44,6 +44,17 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT8,  team),
 	SLD_ENTRY (Unit, SLDT_UINT16, timer),
 	SLD_ARRAY (Unit, SLDT_UINT8,  route, 14),
+	SLD_END
+};
+
+static const SaveLoadDesc s_saveUnitNewIndex[] = {
+	SLD_ENTRY (Object, SLDT_UINT16, index),
+	SLD_END
+};
+
+static const SaveLoadDesc s_saveUnitNew[] = {
+	SLD_ENTRY (Unit, SLDT_UINT16, fireDelay),
+	SLD_EMPTY2(      SLDT_UINT16, 7),
 	SLD_END
 };
 
@@ -112,6 +123,66 @@ bool Unit_Save(FILE *fp)
 		su = *u;
 
 		if (!SaveLoad_Save(s_saveUnit, fp, &su)) return false;
+	}
+
+	return true;
+}
+
+/**
+ * Load all new information of Units from a file.
+ * @param fp The file to load from.
+ * @param length The length of the data chunk.
+ * @return True if and only if all bytes were read successful.
+ */
+bool UnitNew_Load(FILE *fp, uint32 length)
+{
+	while (length > 0) {
+		Unit *u;
+		Object o;
+
+		/* Read the next index from disk */
+		if (!SaveLoad_Load(s_saveUnitNewIndex, fp, &o)) return false;
+
+		length -= SaveLoad_GetLength(s_saveUnitNewIndex);
+
+		/* Get the Unit from the pool */
+		u = Unit_Get_ByIndex(o.index);
+		if (u == NULL) return false;
+
+		/* Read the "new" information for this unit */
+		if (!SaveLoad_Load(s_saveUnitNew, fp, u)) return false;
+
+		length -= SaveLoad_GetLength(s_saveUnitNew);
+	}
+	if (length != 0) return false;
+
+	return true;
+}
+
+/**
+ * Save all new Units information to a file. It converts pointers to indices
+ *   where needed.
+ * @param fp The file to save to.
+ * @return True if and only if all bytes were written successful.
+ */
+bool UnitNew_Save(FILE *fp)
+{
+	PoolFindStruct find;
+
+	find.houseID = HOUSE_INVALID;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+		Unit su;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+		su = *u;
+
+		if (!SaveLoad_Save(s_saveUnitNewIndex, fp, &su.o)) return false;
+		if (!SaveLoad_Save(s_saveUnitNew, fp, &su)) return false;
 	}
 
 	return true;

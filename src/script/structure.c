@@ -521,11 +521,11 @@ uint16 Script_Structure_Fire(ScriptEngine *script)
 	if (s->o.type == STRUCTURE_ROCKET_TURRET && Tile_GetDistance(Tools_Index_GetTile(target), s->o.position) >= 0x300) {
 		type      = UNIT_MISSILE_TURRET;
 		damage    = 30;
-		fireDelay = Tools_AdjustToGameSpeed(g_table_unitInfo[UNIT_LAUNCHER].fireDelay, 1, 255, true);
+		fireDelay = Tools_AdjustToGameSpeed(g_table_unitInfo[UNIT_LAUNCHER].fireDelay, 1, 0xFFFF, true);
 	} else {
 		type      = UNIT_BULLET;
 		damage    = 20;
-		fireDelay = Tools_AdjustToGameSpeed(g_table_unitInfo[UNIT_TANK].fireDelay, 1, 255, true);
+		fireDelay = Tools_AdjustToGameSpeed(g_table_unitInfo[UNIT_TANK].fireDelay, 1, 0xFFFF, true);
 	}
 
 	position.tile = s->o.position.tile;

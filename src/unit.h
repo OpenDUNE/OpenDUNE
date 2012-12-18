@@ -99,7 +99,7 @@ typedef struct Unit {
 	uint16 originEncoded;                                   /*!< Encoded index, indicating the origin. */
 	uint8  actionID;                                        /*!< Current action. */
 	uint8  nextActionID;                                    /*!< Next action. */
-	uint8  fireDelay;                                       /*!< Delay between firing. */
+	uint16 fireDelay;                                       /*!< Delay between firing. In Dune2 this is an uint8. */
 	uint16 distanceToDestination;                           /*!< How much distance between where we are now and where currentDestination is. */
 	uint16 targetAttack;                                    /*!< Target to attack (encoded index). */
 	uint16 targetMove;                                      /*!< Target to move to (encoded index). */
@@ -207,8 +207,6 @@ extern void Unit_Sort();
 extern Unit *Unit_Get_ByPackedTile(uint16 packed);
 extern uint16 Unit_IsValidMovementIntoStructure(Unit *unit, struct Structure *s);
 extern void Unit_SetDestination(Unit *u, uint16 destination);
-extern bool Unit_Save(FILE *fp);
-extern bool Unit_Load(FILE *fp, uint32 length);
 extern uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target);
 extern uint16 Unit_FindClosestRefinery(Unit *unit);
 extern bool Unit_SetPosition(Unit *u, tile32 position);
