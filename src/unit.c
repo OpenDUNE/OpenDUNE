@@ -96,26 +96,25 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 
 void Unit_MovementTick(Unit *unit)
 {
-	uint16 remainder;
 	uint16 speed;
 
 	if (unit->speed == 0 && unit->speedSub == 0) return;
 
-	/* Calculate the current movement required in steps of 16 */
- 	remainder = unit->speedSub;
-	remainder += unit->speedRemainder;
-	speed = unit->speed;
-	speed += remainder / 16;
-	speed *= 16;
+	/* Calculate the speed per tick */
+	speed = unit->speed * 16;
+	speed += unit->speedSub;
 
 	/* Units in the air don't feel the effect of gameSpeed */
 	if (g_table_unitInfo[unit->o.type].movementType != MOVEMENT_WINGER) speed = Tools_AdjustToGameSpeed(speed, 1, 0xFFFF, false);
 
+	/* Add the remainder of last movement, calculate the new remainder and make steps go per 16 */
+	speed += unit->speedRemainder;
+	unit->speedRemainder = speed & 0xF;
+	speed &= 0xFFF0;
+
 	if (speed != 0) {
 		Unit_Move(unit, min(speed, Tile_GetDistance(unit->o.position, unit->currentDestination) + 16));
 	}
-
-	unit->speedRemainder = remainder & 0xF;
 }
 
 /**
