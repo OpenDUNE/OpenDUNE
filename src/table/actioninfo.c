@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/actioninfo.c ActionInfo file table. */
 
 #include <stdio.h>

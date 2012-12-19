@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/unitinfo.c UnitInfo file table. */
 
 #include <stdio.h>

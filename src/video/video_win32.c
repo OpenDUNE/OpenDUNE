@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/video/video_win32.c WIN32 video driver. */
 
 #include <stdio.h>

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/file.h %File access definitions. */
 
 #ifndef FILE_H

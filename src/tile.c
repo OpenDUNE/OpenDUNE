@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/tile.c %Tile routines. */
 
 #include <stdio.h>

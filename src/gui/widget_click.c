@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gui/widget_click.c %Widget clicking handling routines. */
 
 #include <assert.h>

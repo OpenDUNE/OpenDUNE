@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/string.c String routines. */
 
 #include <string.h>

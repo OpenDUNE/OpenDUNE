@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/tools.c Various routines. */
 
 #include <stdio.h>

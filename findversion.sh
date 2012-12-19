@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# $Id: findversion.sh 22435 2011-05-07 15:13:52Z michi_cc $
-
 # Arguments given? Show help text.
 if [ "$#" != "0" ]; then
 	cat <<EOF

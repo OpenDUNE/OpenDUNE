@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #include "types.h"
 
 #include "crashlog.h"

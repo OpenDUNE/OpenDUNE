@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/os/strings.h OS-independent inclusion of string routines. */
 
 #ifndef OS_STRINGS_H

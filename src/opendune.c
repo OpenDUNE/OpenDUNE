@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/opendune.c Gameloop and other main routines. */
 
 #if defined(_WIN32)

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/animation.c Animation file table. */
 
 #include "types.h"

@@ -1,5 +1,3 @@
-# $Id$
-
 CC_HOST        = !!CC_HOST!!
 CC_BUILD       = !!CC_BUILD!!
 STRIP          = !!STRIP!!

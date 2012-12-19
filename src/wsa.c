@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/wsa.c WSA routines. */
 
 #include <stdlib.h>

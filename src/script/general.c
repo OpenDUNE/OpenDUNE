@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/script/general.c Generic script routines. */
 
 #include <stdio.h>

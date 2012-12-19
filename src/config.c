@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/config.c Configuration and options load and save routines. */
 
 #include <assert.h>

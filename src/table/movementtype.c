@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/movementtype.c MovementType file table. */
 
 #include <stdio.h>

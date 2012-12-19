@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/video/video_sdl.c SDL video driver. */
 
 #include <SDL.h>

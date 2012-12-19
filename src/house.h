@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/house.h %House management definitions. */
 
 #ifndef HOUSE_H

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/file.c %File access routines. */
 
 #include <stdio.h>

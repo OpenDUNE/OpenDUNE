@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/pool/unit.h %Unit pool definitions. */
 
 #ifndef POOL_UNIT_H

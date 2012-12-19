@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/sound.c Sound routines. */
 
 #include <stdlib.h>

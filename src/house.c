@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/house.c %House management routines. */
 
 #include <stdio.h>

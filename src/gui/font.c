@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gui/font.c Font routines. */
 
 #include <stdlib.h>

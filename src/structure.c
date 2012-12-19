@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/structure.c %Structure handling routines. */
 
 #include <assert.h>

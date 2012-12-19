@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef CRASHLOG_H
 #define CRASHLOG_H
 

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# $Id$
-
 check_path_characters() {
 	if [ -n "`echo $ROOT_DIR | grep '[^-_A-Za-z0-9\/\\\.:]'`" ]; then
 		echo "WARNING: The path contains a non-alphanumeric character that might cause"

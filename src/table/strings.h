@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/strings.h Strings table. */
 
 #ifndef TABLE_STRINGS_H

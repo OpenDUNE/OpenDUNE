@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/saveload/scenario.c Load/save routines for Scenario. */
 
 #include <stdio.h>

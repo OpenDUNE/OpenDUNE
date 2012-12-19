@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/os/sleep.h OS-independent inclusion of the delay routine. */
 
 #ifndef OS_SLEEP_H

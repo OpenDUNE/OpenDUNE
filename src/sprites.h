@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/sprites.h Sprite definitions. */
 
 #ifndef SPRITES_H

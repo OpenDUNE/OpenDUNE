@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/widgetclickinfo.c WindgetClickInfo file table. */
 
 #include <stdio.h>

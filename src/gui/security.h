@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/security.h Security definitions. */
 
 #ifndef SECURITY_H

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/map.h Map definitions. */
 
 #ifndef MAP_H

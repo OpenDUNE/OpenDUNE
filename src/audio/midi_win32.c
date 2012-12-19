@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/midi_win32.c Windows implementation of the MIDI. Uses midiOut
  *  functions from the Windows API, which contain a softsynth and handles all
  *  MIDI output for us. */

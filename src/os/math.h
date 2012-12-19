@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/os/math.h OS-independent inclusion of min/max/clamp routines. */
 
 #ifndef OS_MATH_H

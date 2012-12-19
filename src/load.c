@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/load.c Load routines. */
 
 #include <stdio.h>

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/os/endian.h Os-independent endian detection routines. */
 
 #ifndef OS_ENDIAN_H

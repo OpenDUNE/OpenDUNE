@@ -1,5 +1,3 @@
-# $Id$
-
 # Check if we want to show what we are doing
 ifdef VERBOSE
 	Q =

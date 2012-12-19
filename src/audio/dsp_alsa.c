@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/dsp_alsa.c ALSA implementation of the DSP. */
 
 #include <assert.h>

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/saveload/house.c Load/save routines for Structure. */
 
 #include <stdio.h>

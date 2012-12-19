@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/pool/structure.h %Structure pool definitions. */
 
 #ifndef POOL_STRUCTURE_H

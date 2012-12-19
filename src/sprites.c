@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/sprites.c Sprite routines. */
 
 #include <stdio.h>

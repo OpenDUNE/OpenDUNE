@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/explosion.h Explosion definitions. */
 
 #ifndef EXPLOSION_H

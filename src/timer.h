@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/timer.h Timer definitions. */
 
 #ifndef TIMER_H

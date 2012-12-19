@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/landscapeinfo.c LandscapeInfo file table. */
 
 #include <stdio.h>

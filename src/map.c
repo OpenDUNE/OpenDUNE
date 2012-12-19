@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/map.c Map routines. */
 
 #include <assert.h>

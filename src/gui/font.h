@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gui/font.h Font definitions. */
 
 #ifndef GUI_FONT_H

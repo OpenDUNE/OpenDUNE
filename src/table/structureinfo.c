@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/structureinfo.c StructureInfo file table. */
 
 #include <stdio.h>

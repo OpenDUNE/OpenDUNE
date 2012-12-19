@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/opendune.h Gameloop and other main definitions. */
 
 #ifndef OPENDUNE_H

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/script/script.h Generic script definitions. */
 
 #ifndef SCRIPT_H

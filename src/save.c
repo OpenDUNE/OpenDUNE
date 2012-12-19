@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/save.c Save routines. */
 
 #include <stdio.h>

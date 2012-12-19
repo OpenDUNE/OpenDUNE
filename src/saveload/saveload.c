@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/saveload/saveload.c General routines for load/save. */
 
 #include <stdio.h>

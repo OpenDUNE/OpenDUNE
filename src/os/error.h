@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/os/error.h Platform dependant error messages. */
 
 #ifndef OS_ERROR_H

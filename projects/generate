@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# $Id$
-
 counter=0
 
 ROOT_DIR="`pwd`/.."

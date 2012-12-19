@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/mt32mpu.h MPU definitions. */
 
 #ifndef MT32MPU_H

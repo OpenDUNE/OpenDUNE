@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/mt32mpu.c MPU routines. */
 
 #include <assert.h>

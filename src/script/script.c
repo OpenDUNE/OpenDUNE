@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/script/script.c Script routines. */
 
 #include <assert.h>

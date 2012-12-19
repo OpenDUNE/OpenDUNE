@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/windowdesc.c WindowDesc file table. */
 
 #include "types.h"

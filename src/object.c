@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/object.c %Object routines. */
 
 #include <stdio.h>

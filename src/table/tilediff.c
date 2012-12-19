@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/tilediff.c TileDiff file table. */
 
 #include "types.h"

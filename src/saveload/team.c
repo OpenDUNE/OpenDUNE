@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/saveload/team.c Load/save routines for Team. */
 
 #include <stdio.h>

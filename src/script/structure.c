@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/script/structure.c %Structure script routines. */
 
 #include <stdio.h>

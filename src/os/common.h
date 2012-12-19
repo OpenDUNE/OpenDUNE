@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/os/common.h Compiler-independent common statements. */
 
 #ifndef OS_COMMON_H

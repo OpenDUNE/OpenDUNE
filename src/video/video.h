@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/video/video.h Definitions of a video driver. */
 
 #ifndef VIDEO_VIDEO_H

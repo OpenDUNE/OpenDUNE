@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/pool/unit.c %Unit pool routines. */
 
 #include <assert.h>

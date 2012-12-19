@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/error.c System dependant error messages. */
 
 #include <stdio.h>

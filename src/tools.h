@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/tools.h Various definitions. */
 
 #ifndef TOOLS_H

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/selectiontype.c Selectiontype table. */
 
 #include "types.h"

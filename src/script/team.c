@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/script/team.c %Team script routines. */
 
 #include <stdio.h>

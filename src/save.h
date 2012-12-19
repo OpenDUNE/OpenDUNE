@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/save.h Save definitions. */
 
 #ifndef SAVE_H

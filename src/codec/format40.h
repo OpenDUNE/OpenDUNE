@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/codec/format40.h Function signature for decoder of 'format40' files. */
 
 #ifndef CODEC_FORMAT40_H

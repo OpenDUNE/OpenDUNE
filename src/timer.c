@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/timer.c Timer routines. */
 
 #include <stdlib.h>

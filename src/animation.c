@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/animation.c %Animation routines. */
 
 #include <assert.h>

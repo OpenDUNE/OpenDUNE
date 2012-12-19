@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gui/editbox.c Editbox routines. */
 
 #include <stdio.h>

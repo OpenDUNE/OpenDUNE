@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/dsp.h DSP definitions. */
 
 #ifndef DSP_H

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/ini.h INI file reading definitions. */
 
 #ifndef INI_H

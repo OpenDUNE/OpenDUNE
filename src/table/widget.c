@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/widget.c Widget file table. */
 
 #include <stdio.h>

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gui/widget_draw.c %Widget drawing routines. */
 
 #include <stdio.h>

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/teamaction.c TeamAction file table. */
 
 #include <stdio.h>

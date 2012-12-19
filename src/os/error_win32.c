@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/error_win32.c System dependant error messages for win32. */
 
 #include <windows.h>

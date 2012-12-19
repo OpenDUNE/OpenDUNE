@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/os/file.h OS-independent inclusion of file routines. */
 
 #ifndef OS_FILE_H

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/fileinfo.c FileInfo file table. */
 
 #include <stdio.h>

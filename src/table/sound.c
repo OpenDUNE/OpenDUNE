@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/sound.c Sound file tables. */
 
 #include <stdio.h>

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /* Windows implementation of the crashlog. */
 
 #include <stdio.h>

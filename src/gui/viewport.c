@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gui/viewport.c Viewport routines. */
 
 #include <stdio.h>

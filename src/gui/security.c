@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/security.c Security routines. */
 
 #include <stdlib.h>

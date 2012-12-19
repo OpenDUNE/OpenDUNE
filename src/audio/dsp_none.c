@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/dsp_none.c In case no DSP is selected, create an empty one,
  *  which ignores all input */
 

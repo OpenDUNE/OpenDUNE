@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/houseinfo.c HouseInfo file table. */
 
 #include "types.h"

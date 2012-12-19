@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/object.h %Object definitions. */
 
 #ifndef OBJECT_H

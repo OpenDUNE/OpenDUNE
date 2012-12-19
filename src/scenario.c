@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/scenario.c %Scenario handling routines. */
 
 #include <stdio.h>

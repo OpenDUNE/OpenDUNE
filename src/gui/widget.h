@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gui/widget.h %Widget definitions. */
 
 #ifndef GUI_WIDGET_H

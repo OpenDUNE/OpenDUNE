@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/explosion.c Explosion routines. */
 
 #include <assert.h>

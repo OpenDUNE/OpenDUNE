@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/house.h Definitions for saveload routines. */
 
 #ifndef SAVELOAD_SAVELOAD_H

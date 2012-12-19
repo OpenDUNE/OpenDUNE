@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/pool/house.c %House pool routines. */
 
 #include <assert.h>

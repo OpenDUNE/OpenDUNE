@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/input/input.c Input routines. */
 
 #include <string.h>

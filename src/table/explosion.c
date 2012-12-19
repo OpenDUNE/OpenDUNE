@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/table/explosion.c Explosion file table. */
 
 #include "types.h"

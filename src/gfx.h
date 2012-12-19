@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/gfx.h Graphics definitions. */
 
 #ifndef GFX_H

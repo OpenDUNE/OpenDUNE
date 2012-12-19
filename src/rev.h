@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file rev.h declaration of OpenDune revision dependant variables */
 
 #ifndef REV_H

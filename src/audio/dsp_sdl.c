@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/dsp_sdl.c SDL implementation of the DSP. */
 
 #include <assert.h>

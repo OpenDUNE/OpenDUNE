@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /** @file src/dsp_win32.c Windows implementation of the DSP. */
 
 #include <stdio.h>
