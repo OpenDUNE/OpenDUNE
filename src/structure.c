@@ -924,11 +924,11 @@ void Structure_ActivateSpecial(Structure *s)
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->o.houseID, Tile_UnpackTile(position), Tools_Random_256());
 			g_var_38BC--;
 
-			s->countDown = g_table_houseInfo[s->o.houseID].specialCountDown;
-
 			if (u == NULL) return;
 
 			Unit_SetAction(u, ACTION_SABOTAGE);
+
+			s->countDown = g_table_houseInfo[s->o.houseID].specialCountDown;
 		} break;
 
 		default: break;
