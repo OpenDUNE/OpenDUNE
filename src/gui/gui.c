@@ -2028,8 +2028,8 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	char charCreditsNew[7];
 	int i;
 	int16 creditsDiff;
-	int16 creditsNew;
-	int16 creditsOld;
+	int32 creditsNew;
+	int32 creditsOld;
 	int16 offset;
 
 	if (s_tickCreditsAnimation > g_timerGUI && mode == 0) return;
