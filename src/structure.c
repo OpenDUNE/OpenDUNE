@@ -1238,8 +1238,7 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 	uint16 spicePacked;  /* Position of the spice, or 0 if not used or if no spice. */
 	uint16 bestPacked;
 	uint16 bestDistance; /* If > 0, distance to the spice from bestPacked. */
-	int16 loc12;
-	uint16 i;
+	uint16 i, j;
 
 	if (s == NULL) return 0;
 
@@ -1249,34 +1248,32 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 	spicePacked = (checkForSpice) ? Map_SearchSpice(packed, 10) : 0;
 	bestPacked = 0;
 	bestDistance = 0;
+
 	i = Tools_Random_256() & 0xF;
-	loc12 = 16;
+	for (j = 0; j < 16; j++, i = (i + 1) & 0xF) {
+		uint16 offset;
+		uint16 curPacked;
+		uint16 type;
+		Tile *t;
 
-	while (loc12 > 0) {
-		uint16 offset = g_table_structure_layoutTilesAround[si->layout][i];
+		offset = g_table_structure_layoutTilesAround[si->layout][i];
+		if (offset == 0) continue;
 
-		if (offset != 0) {
-			uint16 curPacked;
+		curPacked = packed + offset;
+		if (!Map_IsValidPosition(curPacked)) continue;
 
-			curPacked = packed + offset;
+		type = Map_GetLandscapeType(curPacked);
+		if (type == LST_WALL || type == LST_ENTIRELY_MOUNTAIN || type == LST_PARTIAL_MOUNTAIN) continue;
 
-			if (Map_IsValidPosition(curPacked)) {
-				uint16 type = Map_GetLandscapeType(curPacked);
-				Tile *t = &g_map[curPacked];
+		t = &g_map[curPacked];
+		if (t->hasUnit || t->hasStructure) continue;
 
-				if (!t->hasUnit && !t->hasStructure && type != LST_WALL && type != LST_ENTIRELY_MOUNTAIN && type != LST_PARTIAL_MOUNTAIN) {
-					if (!checkForSpice) return curPacked;
+		if (!checkForSpice) return curPacked;
 
-					if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, spicePacked) < bestDistance) {
-						bestPacked = curPacked;
-						bestDistance = Tile_GetDistancePacked(curPacked, spicePacked);
-					}
-				}
-			}
+		if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, spicePacked) < bestDistance) {
+			bestPacked = curPacked;
+			bestDistance = Tile_GetDistancePacked(curPacked, spicePacked);
 		}
-
-		i = (i + 1) & 0xF;
-		loc12--;
 	}
 
 	return bestPacked;
