@@ -1275,14 +1275,8 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 			}
 		}
 
-		i++;
+		i = (i + 1) & 0xF;
 		loc12--;
-		if (i <= 15 && offset != 0) {
-			i++;
-		} else {
-			loc12 -= 16 - i;
-			i = 0;
-		}
 	}
 
 	return bestPacked;
