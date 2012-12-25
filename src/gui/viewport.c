@@ -94,10 +94,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (direction != 0xFFFF) {
+		/* Always scroll if we have a click or a drag */
 		if (!click && !drag) {
+			/* Wait for either one of the timers */
 			if (s_tickMapScroll + 10 >= g_timerGame || s_tickCursor + 20 >= g_timerGame) return true;
-			if (g_gameConfig.autoScroll == 0) return true;
-			if (g_selectionType == SELECTIONTYPE_STRUCTURE || g_selectionType == SELECTIONTYPE_UNIT) return true;
+			/* Don't scroll if we have a structure/unit selected and don't want to autoscroll */
+			if (g_gameConfig.autoScroll == 0 && (g_selectionType == SELECTIONTYPE_STRUCTURE || g_selectionType == SELECTIONTYPE_UNIT)) return true;
 		}
 
 		s_tickMapScroll = g_timerGame;
