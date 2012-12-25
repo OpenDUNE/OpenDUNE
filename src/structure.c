@@ -1721,6 +1721,9 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 
 	if (s == NULL) return false;
 
+	/* ENHANCEMENT -- If a structure gets damaged during upgrading, pressing the "Upgrading" button silently starts the repair of the structure, and doesn't cancel upgrading. */
+	if (g_dune2_enhanced && s->o.flags.s.upgrading) return false;
+
 	if (!s->o.flags.s.allocated) state = 0;
 
 	if (state == -1) state = s->o.flags.s.repairing ? 0 : 1;

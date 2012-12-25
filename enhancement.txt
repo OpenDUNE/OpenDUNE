@@ -43,6 +43,8 @@ Structure
 - A structure in production also counts towards your storable spice,
     producing power, and/or requiring power. It does not check if the structure
     is in fact placed on the map.
+- If a structure gets damaged during upgrading, pressing the "Upgrading" button
+    silently starts the repair of the structure, and doesn't cancel upgrading.
 
 
 Unit
