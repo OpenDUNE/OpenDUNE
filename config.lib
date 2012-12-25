@@ -21,7 +21,6 @@ set_default() {
 	awk="awk"
 	os="DETECT"
 	cpu_type="DETECT"
-	revision=""
 	config_log="config.log"
 	prefix_dir="/usr/local"
 	binary_dir="games"
@@ -30,6 +29,7 @@ set_default() {
 	binary_name="opendune"
 	enable_debug="0"
 	enable_profiling="0"
+	enable_lto="0"
 	enable_static="1"
 	enable_assert="1"
 	enable_strip="0"
@@ -53,14 +53,15 @@ set_default() {
 		awk
 		os
 		cpu_type
-		revision
 		config_log
 		prefix_dir
 		binary_dir
 		data_dir
+		install_dir
 		binary_name
 		enable_debug
 		enable_profiling
+		enable_lto
 		enable_static
 		enable_assert
 		enable_strip
@@ -73,7 +74,7 @@ set_default() {
 		with_sort
 		with_distcc
 		with_ccache
-	CC CFLAGS LDFLAGS"
+	CC CFLAGS LDFLAGS CFLAGS_BUILD LDFLAGS_BUILD"
 }
 
 detect_params() {
@@ -106,40 +107,44 @@ detect_params() {
 			--cpu-type)                   prev_p="cpu_type";;
 			--cpu-type=*)                 cpu_type="$optarg";;
 
-			--revision=*)                 revision="$optarg";;
-
-			--cc-build)                   prevp_p="cc_build";;
+			--cc-build)                   prev_p="cc_build";;
 			--cc-build=*)                 cc_build="$optarg";;
-			--cc-host)                    prevp_p="cc_host";;
+			--cc-host)                    prev_p="cc_host";;
 			--cc-host=*)                  cc_host="$optarg";;
-			--awk)                        prevp_p="awk";;
+			--awk)                        prev_p="awk";;
 			--awk=*)                      awk="$optarg";;
-			--strip)                      prevp_p="strip";;
+			--strip)                      prev_p="strip";;
 			--strip=*)                    strip="$optarg";;
-			--lipo)                       prevp_p="lipo";;
+			--lipo)                       prev_p="lipo";;
 			--lipo=*)                     lipo="$optarg";;
 
 
-			--prefix-dir)                 prevp_p="prefix-dir";;
-			--prefix-dir=*)               prefix_dir="$optarg";;
+			# Alias --prefix with --prefix-dir, for compatibility with GNU autotools
+			--prefix-dir | --prefix)      prev_p="prefix_dir";;
+			--prefix-dir=* | --prefix=*)  prefix_dir="$optarg";;
 
-			--binary-dir)                 prevp_p="binary-dir";;
+			--binary-dir)                 prev_p="binary_dir";;
 			--binary-dir=*)               binary_dir="$optarg";;
 
-			--data-dir)                   prevp_p="data-dir";;
+			--data-dir)                   prev_p="data_dir";;
 			--data-dir=*)                 data_dir="$optarg";;
 
-			--binary-name)                prevp_p="binary_name";;
+			--binary-name)                prev_p="binary_name";;
 			--binary-name=*)              binary_name="$optarg";;
 
-			--install-dir)                prevp_p="install-dir";;
+			--install-dir)                prev_p="install_dir";;
 			--install-dir=*)              install_dir="$optarg";;
+
 
 
 			--enable-debug)               enable_debug="1";;
 			--enable-debug=*)             enable_debug="$optarg";;
 			--enable-profiling)           enable_profiling="1";;
 			--enable-profiling=*)         enable_profiling="$optarg";;
+			--enable-lto)                 enable_lto="1";;
+			--enable-lto=*)               enable_lto="$optarg";;
+			--enable-ipo)                 enable_lto="1";;
+			--enable-ipo=*)               enable_lto="$optarg";;
 			--disable-static)             enable_static="0";;
 			--enable-static)              enable_static="2";;
 			--enable-static=*)            enable_static="$optarg";;
@@ -191,6 +196,8 @@ detect_params() {
 			CC=* | --CC=*)                CC="$optarg";;
 			CFLAGS=* | --CFLAGS=*)        CFLAGS="$optarg";;
 			LDFLAGS=* | --LDFLAGS=*)      LDFLAGS="$optarg";;
+			CFLAGS_BUILD=* | --CFLAGS_BUILD=* | --CFLAGS-BUILD=*)     CFLAGS_BUILD="$optarg";;
+			LDFLAGS_BUILD=* | --LDFLAGS_BUILD=* | --LDFLAGS-BUILD=*)   LDFLAGS_BUILD="$optarg";;
 
 			--ignore-extra-parameters)    ignore_extra_parameters="1";;
 
@@ -244,7 +251,7 @@ check_params() {
 
 	# Check if all params have valid values
 
-	# OS only allows DETECT, UNIX, OSX, FREEBSD, OPENBSD, MORPHOS, BEOS, HAIKU, SUNOS, CYGWIN, MINGW, OS2, DOS and WINCE
+	# OS only allows DETECT, UNIX, OSX, FREEBSD, OPENBSD, MORPHOS, BEOS, HAIKU, SUNOS, CYGWIN, MINGW, OS2, DOS, and WINCE
 	if [ -z "`echo $os | egrep '^(DETECT|UNIX|OSX|FREEBSD|OPENBSD|NETBSD|HPUX|MORPHOS|BEOS|HAIKU|SUNOS|CYGWIN|MINGW|OS2|DOS|WINCE)$'`" ]; then
 		log 1 "configure: error: invalid option --os=$os"
 		log 1 " Available options are: --os=[DETECT|UNIX|OSX|FREEBSD|OPENBSD|NETBSD|HPUX|MORPHOS|BEOS|HAIKU|SUNOS|CYGWIN|MINGW|OS2|DOS|WINCE]"
@@ -332,6 +339,22 @@ check_params() {
 		log 1 "using debug level... level $enable_debug"
 	fi
 
+	if [ "$enable_lto" != "0" ]; then
+		# GCC 4.5 outputs '%{flto}', GCC 4.6 outputs '%{flto*}'
+		has_lto=`($cxx_build -dumpspecs 2>&1 | grep '\%{flto') || ($cxx_build -help ipo 2>&1 | grep '\-ipo')`
+		if [ -n "$has_lto" ]; then
+			log 1 "using link time optimization... yes"
+		else
+			enable_lto="0"
+			log 1 "using link time optimization... no"
+			log 1 "WARNING: you selected link time optimization but it is not found."
+			sleep 5
+		fi
+	else
+		log 1 "using link time optimization... no"
+	fi
+
+
 	if [ "$os" != "OSX" ] && [ "$with_osx_sysroot" != "0" ]; then
 		if [ "$with_osx_sysroot" = "1" ]; then
 			with_osx_sysroot="0"
@@ -363,13 +386,13 @@ check_params() {
 
 		if [ -n "$osx_sdk_path" ]; then
 			if [ "$enable_universal" != "0" ]; then
-				if [ -z "$osx_sdk_105_path" ]; then
-					log 1 "WARNING: Could not find a usable 10.5 SDK, the resulting"
-					log 1 "WARNING: binary will only run on OSX 10.6 or later"
-					osx_sdk_105_path="$osx_sdk_path"
+				if [ -z "$osx_sdk_104_path" ]; then
+					log 1 "WARNING: Could not find a usable 10.4u SDK, the resulting"
+					log 1 "WARNING: binary will only run on OSX 10.5 or later"
+					osx_sdk_104_path="$osx_sdk_path"
 				fi
-				OSX_SYSROOT="-isysroot $osx_sdk_105_path"
-				OSX_LD_SYSROOT="-Wl,-syslibroot,$osx_sdk_105_path"
+				OSX_SYSROOT="-isysroot $osx_sdk_104_path"
+				OSX_LD_SYSROOT="-Wl,-syslibroot,$osx_sdk_104_path"
 			else
 				OSX_SYSROOT="-isysroot $osx_sdk_path"
 				OSX_LD_SYSROOT="-Wl,-syslibroot,$osx_sdk_path"
@@ -383,6 +406,12 @@ check_params() {
 
 	detect_sdl
 	detect_asound
+
+	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
+		log 1 "checking GDI video driver... found"
+	else
+		log 1 "checking GDI video driver... not Windows, skipping"
+	fi
 
 	if [ "$enable_assert" != "0" ]; then
 		log 1 "checking assert... enabled"
@@ -473,37 +502,18 @@ check_params() {
 		log 1 "checking ccache... $ccache"
 	fi
 
-	if [ -n "$revision" ]; then
-		log 1 "checking revision... $revision"
-		log 1 "WARNING: we do not advise you to use this setting"
-		log 1 "WARNING: in most cases it is not safe for network use"
-		log 1 "WARNING: USE WITH CAUTION!"
-
-		sleep 5
-	elif [ -f "$ROOT_DIR/version" ]; then
-		revision="`cat $ROOT_DIR/version`"
-
-		log 1 "checking revision... $revision"
-	elif [ -d "$ROOT_DIR/.svn" ] && [ -n "`svn help 2>/dev/null`" ]; then
-		revision=""
+	if [ -d "$ROOT_DIR/.svn" ] && [ -n "`svn help 2>/dev/null`" ]; then
 		log 1 "checking revision... svn detection"
 	elif [ -d "$ROOT_DIR/.git" ] && [ -n "`git help 2>/dev/null`" ]; then
-		revision=""
 		log 1 "checking revision... git detection"
 	elif [ -d "$ROOT_DIR/.hg" ] && [ -n "`hg help 2>/dev/null`" ]; then
-		revision=""
 		log 1 "checking revision... hg detection"
 	elif [ -f "$ROOT_DIR/.ottdrev" ]; then
-		revision=""
 		log 1 "checking revision... source tarball"
 	else
-		revision=""
 		log 1 "checking revision... no detection"
 		log 1 "WARNING: there is no means to determine the version."
 		log 1 "WARNING: please use a subversion, mercurial, or git checkout of OpenDUNE."
-		log 1 "WARNING: you can only join game servers that have been compiled without"
-		log 1 "WARNING:   version detection."
-		log 1 "WARNING: there is a great chance you desync."
 		log 1 "WARNING: USE WITH CAUTION!"
 
 		sleep 5
@@ -538,11 +548,11 @@ make_compiler_cflags() {
 		if [ -z "$first_time_icc_check" ]; then
 			first_time_icc_check=no
 			if [ $cc_version -lt 90 ]; then
-				log 1 "WARNING: you seem to be using very old version of ICC"
+				log 1 "WARNING: you seem to be using a very old version of ICC"
 				log 1 "WARNING: OpenDUNE hasn't been tested with this version"
 				sleep 5
 			elif [ $cc_version -lt 120 ]; then
-				log 1 "WARNING: you seem to be using unsupported ICC version"
+				log 1 "WARNING: you seem to be using an unsupported ICC version"
 				log 1 "WARNING: ICC older than 12.0 is known to fail to compile OpenDUNE"
 				sleep 5
 			fi
@@ -604,6 +614,67 @@ make_compiler_cflags() {
 			# remark #2259: non-pointer conversion from ... to ... may lose significant bits
 			flags="$flags -wd2259"
 		fi
+
+		if [ "$enable_lto" != "0" ]; then
+			has_ipo=`$1 -help ipo | grep '\-ipo'`
+			if [ -n "$has_ipo" ]; then
+				# Use IPO (only if we see IPO exists and is requested)
+				flags="$flags -ipo"
+				features="$features lto"
+			fi
+		fi
+	elif [ `basename $1 | grep 'clang'` ]; then
+		# Enable some things only for certain clang versions
+		cc_version="`$1 -v 2>&1 | head -n 1 | sed s@[^0-9]@@g | cut -c 1-2`"
+
+		# aliasing rules are not held in OpenDUNE code
+		flags="$flags -fno-strict-aliasing"
+
+		# -W alone doesn't enable all warnings enabled by -Wall; on the other hand,
+		# -Weverything enables too many useless warnings that can't be disabled (as of 3.0)
+		flags="$flags -Wall -W"
+
+		# warning: unused parameter '...'
+		flags="$flags -Wno-unused-parameter"
+
+		# warning: expression result unused
+		flags="$flags -Wno-unused-value"
+
+		# warning: multi-character character constant
+		flags="$flags -Wno-multichar"
+
+		# warning: explicitly assigning a variable of type '...' to itself
+		# it happens when using the FOR_ALL_WINDOWS_FROM_BACK_FROM macro
+		flags="$flags -Wno-self-assign"
+
+		if [ "$cc_version" -lt "30" ]; then
+			# warning: equality comparison with extraneous parentheses
+			flags="$flags -Wno-parentheses"
+			# warning: operands of ? are integers of different signs: 'unsigned int' and 'int'
+			flags="$flags -Wno-sign-compare"
+		fi
+
+		if [ "$cc_version" -ge "30" ]; then
+			# warning: equality comparison with extraneous parentheses
+			# this warning could be useful, but it warns about code in squirrel
+			flags="$flags -Wno-parentheses-equality"
+		fi
+
+		if [ "$with_ccache" != "0" -o "$with_distcc" != "0" ]; then
+			# ccache and distcc run separate preprocess and compile passes,
+			# both are fed with the same CFLAGS. Unfortunately, clang
+			# complains about -I when compiling preprocessed files:
+			# "clang: warning: argument unused during compilation: '-I /usr/include'"
+			flags="$flags -Qunused-arguments"
+		fi
+
+		if [ "$enable_assert" -eq "0" ]; then
+			# do not warn about unused variables when building without asserts
+			flags="$flags -Wno-unused-variable"
+		fi
+
+		# rdynamic is used to get useful stack traces from crash reports.
+		ldflags="$ldflags -rdynamic"
 	else
 		# Enable some things only for certain GCC versions
 		cc_version=`$1 -dumpversion | cut -c 1,3`
@@ -613,7 +684,11 @@ make_compiler_cflags() {
 			exit 1
 		fi
 
-		flags="$flags -Wall -Wno-multichar -Wextra -ansi -pedantic"
+		flags="$flags -ansi -pedantic"
+		flags="$flags -Wall -Wno-multichar -Wsign-compare -Wundef"
+		flags="$flags -Wwrite-strings -Wpointer-arith"
+		flags="$flags -W -Wno-unused-parameter -Wredundant-decls"
+		flags="$flags -Wformat=2 -Wformat-security"
 
 		if [ $enable_assert -eq 0 ]; then
 			# Do not warn about unused variables when building without asserts
@@ -631,12 +706,49 @@ make_compiler_cflags() {
 			flags="$flags -Winit-self"
 		fi
 
+		if [ $cc_version -ge 40 ]; then
+			# GCC 4.0+ complains about that we break strict-aliasing.
+			#  On most places we don't see how to fix it, and it doesn't
+			#  break anything. So disable strict-aliasing to make the
+			#  compiler all happy.
+			flags="$flags -fno-strict-aliasing"
+			# Warn about casting-out 'const' with regular C-style cast.
+			#  The preferred way is const_cast<>() which doesn't warn.
+			flags="$flags -Wcast-qual"
+		fi
+
 		if [ $cc_version -ge 42 ]; then
 			# GCC 4.2+ automatically assumes that signed overflows do
 			# not occur in signed arithmetics, whereas we are not
 			# sure that they will not happen. It furthermore complains
 			# about its own optimized code in some places.
 			flags="$flags -fno-strict-overflow"
+		fi
+
+		if [ $cc_version -eq 45 ]; then
+			# Prevent optimisation supposing enums are in a range specified by the standard
+			# For details, see http://gcc.gnu.org/PR43680
+			flags="$flags -fno-tree-vrp"
+		fi
+
+		if [ $cc_version -ge 47 ]; then
+			# Disable bogus 'attempt to free a non-heap object' warning
+			flags="$flags -Wno-free-nonheap-object"
+		fi
+
+		if [ "$enable_lto" != "0" ]; then
+			# GCC 4.5 outputs '%{flto}', GCC 4.6 outputs '%{flto*}'
+			has_lto=`$1 -dumpspecs | grep '\%{flto'`
+			if [ -n "$has_lto" ]; then
+				# Use LTO only if we see LTO exists and is requested
+				if [ $cc_version -lt 46 ]; then
+					flags="$flags -flto"
+				else
+					flags="$flags -flto=jobserver"
+				fi
+				ldflags="$ldflags -fwhole-program"
+				features="$features lto"
+			fi
 		fi
 
 		has_rdynamic=`$1 -dumpspecs | grep rdynamic`
@@ -654,9 +766,9 @@ make_compiler_cflags() {
 
 make_cflags_and_ldflags() {
 	# General CFlags for BUILD
-	CFLAGS_BUILD=""
+	CFLAGS_BUILD="$CFLAGS_BUILD"
 	# LDFLAGS for BUILD
-	LDFLAGS_BUILD=""
+	LDFLAGS_BUILD="$LDFLAGS_BUILD"
 	# FEATURES for BUILD (lto)
 	FEATURES_BUILD=""
 	# General CFlags for HOST
@@ -688,12 +800,6 @@ make_cflags_and_ldflags() {
 		# Each debug level reduces the optimization by a bit
 		if [ $enable_debug -ge 1 ]; then
 			CFLAGS="$CFLAGS -g -D_DEBUG"
-			if basename "$cc_host" | grep "gcc" &>/dev/null; then
-				# Define only when compiling with GCC, some
-				# GLIBC versions use GNU extensions in a way
-				# that breaks build with at least ICC
-				CFLAGS="$CFLAGS -D_FORTIFY_SOURCE=2"
-			fi
 		fi
 		if [ $enable_debug -ge 2 ]; then
 			CFLAGS="$CFLAGS -fno-inline"
@@ -702,6 +808,18 @@ make_cflags_and_ldflags() {
 			CFLAGS="$CFLAGS -O0"
 		else
 			CFLAGS="$CFLAGS -O2"
+		fi
+	fi
+
+	if [ $enable_debug -le 2 ]; then
+		if basename "$cc_host" | grep "gcc" &>/dev/null; then
+			# Define only when compiling with GCC. Some GLIBC versions use GNU
+			# extensions in a way that breaks build with at least ICC.
+			# This requires -O1 or more, so debug level 3 (-O0) is excluded.
+			CFLAGS="$CFLAGS -D_FORTIFY_SOURCE=2"
+
+			# Just add -O1 to the tools needed for building.
+			CFLAGS_BUILD="$CFLAGS_BUILD -D_FORTIFY_SOURCE=2 -O1"
 		fi
 	fi
 
@@ -729,6 +847,9 @@ make_cflags_and_ldflags() {
 
 			if [ $cc_version -ge 44 ]; then
 				LDFLAGS_BUILD="$LDFLAGS_BUILD -static-libgcc"
+			fi
+			if [ $cc_version -ge 47 ]; then
+				CFLAGS="$CFLAGS -mno-ms-bitfields"
 			fi
 		fi
 	fi
@@ -787,10 +908,12 @@ make_cflags_and_ldflags() {
 		CFLAGS="$CFLAGS -DWITH_SDL"
 		# SDL must not add _GNU_SOURCE as it breaks many platforms
 		CFLAGS="$CFLAGS `$sdl_config --cflags | sed 's@-D_GNU_SOURCE[^ ]*@@'`"
-		if [ "$enable_static" != "0" ]; then
-			LIBS="$LIBS `$sdl_config --static-libs`"
-		else
-			LIBS="$LIBS `$sdl_config --libs`"
+		if [ "$os" != "MINGW" ] && [ "$os" != "CYGWIN" ] && [ "$os" != "WINCE" ]; then
+			if [ "$enable_static" != "0" ]; then
+				LIBS="$LIBS `$sdl_config --static-libs`"
+			else
+				LIBS="$LIBS `$sdl_config --libs`"
+			fi
 		fi
 	fi
 
@@ -812,8 +935,26 @@ make_cflags_and_ldflags() {
 
 	if [ "$enable_assert" = "0" ]; then
 		CFLAGS="$CFLAGS -DNDEBUG"
+		CFLAGS_BUILD="$CFLAGS_BUILD -DNDEBUG"
 	fi
 
+	if [ "$enable_lto" != "0" ]; then
+		lto_build=`echo "$FEATURES_BUILD" | grep "lto"`
+		lto_host=`echo "$FEATURES" | grep "lto"`
+		if [ -z "$lto_build$lto_host" ]; then
+			log 1 "WARNING: you enabled LTO/IPO, but neither build nor host compiler supports it"
+			log 1 "WARNING: LTO/IPO has been disabled"
+		fi
+		if [ -n "$lto_build" ]; then
+			LDFLAGS_BUILD="$LDFLAGS_BUILD $CFLAGS_BUILD"
+		fi
+		if [ -n "$lto_host" ]; then
+			LDFLAGS="$LDFLAGS $CFLAGS"
+		fi
+	fi
+
+	log 1 "using CFLAGS_BUILD... $CFLAGS_BUILD"
+	log 1 "using LDFLAGS_BUILD... $LDFLAGS_BUILD"
 	log 1 "using CFLAGS... $CFLAGS"
 	log 1 "using LDFLAGS... $LIBS $LDFLAGS"
 
@@ -959,6 +1100,7 @@ check_compiler() {
 
 check_build() {
 	if [ "$os" = "FREEBSD" ]; then
+		# FreeBSD's C compiler does not support dump machine.
 		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CXX" "g++" "c++" "0" "-dumpmachine"
 	else
 		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CC" "gcc" "cc" "0" "-dumpmachine"
@@ -970,6 +1112,7 @@ check_host() {
 	if [ -z "$host" ]; then host="$build"; fi
 
 	if [ "$os" = "FREEBSD" ]; then
+		# FreeBSD's C compiler does not support dump machine.
 		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CXX" "g++" "c++" "0" "-dumpmachine"
 	else
 		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CC" "gcc" "cc" "0" "-dumpmachine"
@@ -1014,7 +1157,7 @@ check_osx_sdk() {
 			return 1
 		fi
 
-		# Set minimum version to 10.4
+		# Set minimum version to 10.4 as that's when kCGBitmapByteOrder32Host was introduced
 		sysroot="-isysroot $osx_sdk_path -Wl,-syslibroot,$osx_sdk_path -mmacosx-version-min=10.4"
 	fi
 
@@ -1028,7 +1171,7 @@ EOF
 	ret=$?
 	log 2 "executing $execute"
 	log 2 "  exit code $ret"
-	rm -f tmp.osx.mm tmp.osx
+	rm -f tmp.osx.c tmp.osx
 	return $ret
 }
 
@@ -1083,6 +1226,30 @@ check_makedepend() {
 	rm -f makedepend.tmp makedepend.tmp.bak
 
 	log 1 "checking makedepend... $makedepend"
+}
+
+check_version() {
+	# $1 - requested version (major.minor)
+	# $2 - version we got (major.minor)
+
+	if [ -z "$2" ]; then
+		return 0
+	fi
+
+	req_major=`echo $1 | cut -d. -f1`
+	got_major=`echo $2 | cut -d. -f1`
+	if [ $got_major -lt $req_major ]; then
+		return 0
+	elif [ $got_major -gt $req_major ]; then
+		return 1
+	fi
+
+	req_minor=`echo $1 | cut -d. -f2`
+	got_minor=`echo $2 | cut -d. -f2`
+	if [ $got_minor -lt $req_minor ]; then
+		return 0
+	fi
+	return 1
 }
 
 detect_awk() {
@@ -1221,21 +1388,23 @@ detect_sdl() {
 detect_osx_sdk() {
 	# Try to find the best SDK available. For a normal build this
 	# is currently the 10.5 SDK as this is needed to compile all
-	# optional code.
+	# optional code. Because such an executable won't run on 10.4
+	# or lower, also check for the 10.4u SDK when doing an universal
+	# build.
 
 	# Check for the 10.5 SDK, but try 10.6 if that fails
 	check_osx_sdk "10.5" ||	check_osx_sdk "10.6" || osx_sdk_path=""
 
 	if [ -z "$osx_sdk_path" ] || [ "$enable_universal" != "0" ]; then
-		# No better SDK or universal build enabled? Check 10.5 SDK as well
+		# No better SDK or universal build enabled? Check 10.4u SDK as well
 		local old_sdk="$osx_sdk_path"
-		if check_osx_sdk "10.5"; then
-			osx_sdk_105_path="$osx_sdk_path"
+		if check_osx_sdk "10.4u"; then
+			osx_sdk_104_path="$osx_sdk_path"
 		else
-			osx_sdk_105_path=""
+			osx_sdk_104_path=""
 		fi
 		if [ -z "$old_sdk" ]; then
-			osx_sdk_path="$osx_sdk_105_path"
+			osx_sdk_path="$osx_sdk_104_path"
 		else
 			osx_sdk_path="$old_sdk"
 		fi
@@ -1443,7 +1612,7 @@ detect_cputype() {
 	echo "#include \"types.h\"" >> tmp.64bit.c
 	echo "assert_compile(sizeof(size_t) == 8);" >> tmp.64bit.c
 	echo "int main() { return 0; }" >> tmp.64bit.c
-	execute="$cc_host -Iinclude/ $CFLAGS tmp.64bit.c -o tmp.64bit 2>&1"
+	execute="$cc_host -Iinclude/ $CFLAGS tmp.64bit.c -o tmp.64bit -DTESTING 2>&1"
 	cpu_type="`eval $execute 2>/dev/null`"
 	ret=$?
 	log 2 "executing $execute"
@@ -1479,7 +1648,6 @@ make_sed() {
 		s@!!SOURCE_LIST!!@$SOURCE_LIST@g;
 		s@!!SRC_OBJS_DIR!!@$SRC_OBJS_DIR@g;
 		s@!!SRC_DIR!!@$SRC_DIR@g;
-		s@!!TOOLS_DIR!!@$TOOLS_DIR@g;
 		s@!!OSXAPP!!@$OSXAPP@g;
 		s@!!OPENDUNE!!@$OPENDUNE@g;
 		s@!!BINARY_DIR!!@$prefix_dir/$binary_dir@g;
@@ -1501,7 +1669,6 @@ make_sed() {
 		s@!!SRCS!!@$SRCS@g;
 		s@!!OS!!@$os@g;
 		s@!!CONFIGURE_FILES!!@$CONFIGURE_FILES@g;
-		s@!!REVISION!!@$revision@g;
 		s@!!AWK!!@$awk@g;
 		s@!!DISTCC!!@$distcc@g;
 	"
@@ -1546,6 +1713,7 @@ generate_main() {
 	log 1 "Generating Makefile..."
 	echo "# Auto-generated file from 'Makefile.in' -- DO NOT EDIT" > Makefile
 	< $ROOT_DIR/Makefile.in sed "$SRC_REPLACE" >> Makefile
+	cp $ROOT_DIR/Makefile.bundle.in Makefile.bundle
 	echo "# Auto-generated file -- DO NOT EDIT" > Makefile.am
 	echo >> Makefile.am
 	# Make the copy of the source-list, so we don't trigger an unwanted recompile
@@ -1579,19 +1747,22 @@ generate_src_osx() {
 
 	for type in $enable_universal; do
 
-		if [ -n "$osx_sdk_105_path" ]; then
+		if [ -n "$osx_sdk_104_path" ]; then
 			# Use 10.4 SDK for 32-bit targets
-			CFLAGS="-isysroot $osx_sdk_105_path $CFLAGS_orig"
-			LDFLAGS="-Wl,-syslibroot,$osx_sdk_105_path $LDFLAGS_orig"
+			CFLAGS="-isysroot $osx_sdk_104_path $CFLAGS_orig"
+			LDFLAGS="-Wl,-syslibroot,$osx_sdk_104_path $LDFLAGS_orig"
 		fi
 
 		# We don't want to duplicate the x86_64 stuff for each target, so do it once here
 		if [ "$type" = "ppc64" ] || [ "$type" = "x86_64" ]; then
-			# 64 bits is always 10.5 or higher.
+			# 64 bits is always 10.5 or higher. Furthermore it has a non const ICONV
+			# and they also removed support for QuickTime/QuickDraw
 			if [ -n "$osx_sdk_path" ]; then
 				CFLAGS="-isysroot $osx_sdk_path $CFLAGS_orig"
 				LDFLAGS="-Wl,-syslibroot,$osx_sdk_path $LDFLAGS_orig"
 			fi
+			CFLAGS="$CFLAGS -D_SQ64 -DHAVE_NON_CONST_ICONV -DNO_QUICKTIME -UENABLE_COCOA_QUICKDRAW"
+			LIBS="`echo $LIBS | sed 's/-framework QuickTime//'`"
 		fi
 
 		case $type in
@@ -1652,8 +1823,6 @@ showhelp() {
 	echo "                                 DETECT/UNIX/OSX/FREEBSD/OPENBSD/NETBSD/"
 	echo "                                 MORPHOS/HPUX/BEOS/SUNOS/CYGWIN/MINGW/OS2/"
 	echo "                                 DOS/WINCE/HAIKU"
-	echo "  --revision=rXXXX               overwrite the revision detection."
-	echo "                                 Use with care!"
 	echo ""
 	echo "Paths:"
 	echo "  --prefix-dir=dir               specifies the prefix for all installed"
@@ -1671,19 +1840,21 @@ showhelp() {
 	echo "Features and packages:"
 	echo "  --enable-debug[=LVL]           enable debug-mode (LVL=[0123], 0 is release)"
 	echo "  --enable-profiling             enables profiling"
+	echo "  --enable-lto                   enables GCC's Link Time Optimization (LTO)/ICC's"
+	echo "                                 Interprocedural Optimization if available"
 	echo "  --enable-static                enable static compile (doesn't work for"
 	echo "                                 all HOSTs)"
 	echo "  --enable-universal[=ARCH]      enable universal builds (OSX ONLY). Allowed is any combination"
 	echo "                                 of architectures: i386 ppc ppc970 ppc64 x86_64"
 	echo "                                 Default architectures are: i386 ppc"
-	echo "  --enable-osx-g5                enables optimizations for ppc970 (G5) (OSX ONLY)"
 	echo "  --disable-assert               disable asserts (continue on errors)"
 	echo "  --enable-strip                 enable any possible stripping"
 	echo "  --without-osx-sysroot          disable the automatic adding of sysroot "
 	echo "                                 (OSX ONLY)"
 	echo "  --with-sort=sort               define a non-default location for sort"
 	echo "  --with-sdl[=sdl-config]        enables SDL video driver support"
-	echo "  --with-asound[=libasound.a]    enabled ALSA support"
+	echo "  --with-asound[=libasound.a]    enables ALSA support"
+	echo "  --disable-builtin-depend       disable use of builtin deps finder"
 	echo "  --with-makedepend[=makedepend] enables makedepend support"
 	echo "  --with-ccache                  enables ccache support"
 	echo "  --with-distcc                  enables distcc support"
