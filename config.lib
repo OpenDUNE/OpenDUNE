@@ -843,7 +843,7 @@ make_cflags_and_ldflags() {
 			flags="$flags -mno-cygwin"
 			LDFLAGS="$LDFLAGS -mno-cygwin -Wl,--subsystem,windows"
 
-			LIBS="$LIBS -lwinmm -lcomctl32"
+			LIBS="$LIBS -lwinmm -lcomctl32 -lgdi32"
 
 			if [ $cc_version -ge 44 ]; then
 				LDFLAGS_BUILD="$LDFLAGS_BUILD -static-libgcc"
