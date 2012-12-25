@@ -86,8 +86,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	/* ENHANCEMENT -- Dune2 depends on slow CPUs to limit the rate mouse clicks are handled. */
-	if (g_dune2_enhanced) {
-		if ((click || drag) && s_tickClick + 2 >= g_timerGame) return true;
+	if (g_dune2_enhanced && (click || drag)) {
+		if (s_tickClick + 2 >= g_timerGame) return true;
 		s_tickClick = g_timerGame;
 	}
 
