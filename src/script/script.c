@@ -167,7 +167,7 @@ static void Script_Error(const char *error, ...)
 	vsnprintf(buffer, sizeof(buffer), error, va);
 	va_end(va);
 
-	Error("[SCRIPT] [ERROR] %s; Type: %s; Index: %d; Type: %d;\n", buffer, type, g_scriptCurrentObject->index, g_scriptCurrentObject->type);
+	Error("[SCRIPT] %s; Type: %s; Index: %d; Type: %d;\n", buffer, type, g_scriptCurrentObject->index, g_scriptCurrentObject->type);
 }
 
 /**

@@ -231,7 +231,7 @@ uint8 File_Open(const char *filename, uint8 mode)
 	g_fileOperation--;
 
 	if (res == FILE_INVALID) {
-		Error("ERROR: unable to open file '%s'.\n", filename);
+		Error("Unable to open file '%s'.\n", filename);
 		exit(1);
 	}
 
@@ -275,7 +275,7 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 
 	g_fileOperation++;
 	if (fread(buffer, length, 1, s_file[index].fp) != 1) {
-		Error("ERROR: read error\n");
+		Error("Read error\n");
 		File_Close(index);
 
 		length = 0;
@@ -301,7 +301,7 @@ uint32 File_Write(uint8 index, void *buffer, uint32 length)
 
 	g_fileOperation++;
 	if (fwrite(buffer, length, 1, s_file[index].fp) != 1) {
-		Error("ERROR: write error\n");
+		Error("Write error\n");
 		File_Close(index);
 
 		length = 0;
