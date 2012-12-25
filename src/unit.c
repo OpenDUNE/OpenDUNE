@@ -856,9 +856,10 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	u->targetMove = 0;
 	u->targetAttack = 0;
 
-	if (g_map[Tile_PackTile(u->o.position)].hasExplosion) {
+	if (g_map[Tile_PackTile(u->o.position)].isUnveiled) {
+		/* A new unit being delivered fresh from the factory; force a seenByHouses
+		 *  update and add it to the statistics etc. */
 		u->o.seenByHouses &= ~(1 << u->o.houseID);
-
 		Unit_HouseUnitCount_Add(u, g_playerHouseID);
 	}
 
