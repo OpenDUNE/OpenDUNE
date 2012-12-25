@@ -68,7 +68,13 @@
 	/* Disabled for OS/2 or GCC < 3.4 */
 	#define assert_compile(expr)
 #else
-	#define assert_compile(expr) extern const int __ct_assert__[1 - 2 * !(expr)] GCC_UNUSED
+	/* GCC warns about redundant redeclartion; to avoid it, we add __LINE__ to
+	 *  the variable name. This of course doesn't avoid most warnings, but
+	 *  should at least avoid most.
+	 * We need a second indirection to resolve __LINE__ correctly. */
+	#define __assert_compile(expr, line) extern const int __ct_assert_##line##__[1 - 2 * !(expr)] GCC_UNUSED
+	#define _assert_compile(expr, line) __assert_compile(expr, line)
+	#define assert_compile(expr) _assert_compile(expr, __LINE__)
 #endif
 
 typedef unsigned char  uint8;
