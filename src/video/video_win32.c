@@ -19,7 +19,7 @@
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 #define SCREEN_MAGNIFICATION 2
 
-static char *s_className = "OpenDUNE";
+static const char *s_className = "OpenDUNE";
 static bool s_init = false;
 static bool s_lock = false;
 static HWND s_hwnd = NULL;
