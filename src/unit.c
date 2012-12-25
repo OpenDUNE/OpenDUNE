@@ -2613,8 +2613,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 	if (ui->movementType != MOVEMENT_WINGER) {
 		if (!House_AreAllied(houseID, Unit_GetHouseID(unit))) {
 			h->flags.isAIActive = true;
-			/* XXX -- This seems like a bug; Shouldn't it be Unit_GetHouseID(unit)? */
-			House_Get_ByIndex(unit->o.houseID)->flags.isAIActive = true;
+			House_Get_ByIndex(Unit_GetHouseID(unit))->flags.isAIActive = true;
 		}
 	}
 
