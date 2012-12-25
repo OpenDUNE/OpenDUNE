@@ -476,7 +476,7 @@ bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
 		u = g_unitFindArray[i];
 		if (houseID != HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
 		if (typeID != UNIT_INVALID && u->o.type != typeID) continue;
-		if (g_var_38BC == 0 && u->o.flags.s.isNotOnMap) continue;
+		if (g_validateStrictIfZero == 0 && u->o.flags.s.isNotOnMap) continue;
 
 		return true;
 	}
@@ -1745,9 +1745,9 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	}
 
 	if (g_table_unitInfo[typeID].movementType == MOVEMENT_WINGER) {
-		g_var_38BC++;
+		g_validateStrictIfZero++;
 		unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, orientation);
-		g_var_38BC--;
+		g_validateStrictIfZero--;
 
 		if (unit == NULL) return NULL;
 
@@ -1760,9 +1760,9 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 		return unit;
 	}
 
-	g_var_38BC++;
+	g_validateStrictIfZero++;
 	carryall = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, houseID, tile, orientation);
-	g_var_38BC--;
+	g_validateStrictIfZero--;
 
 	if (carryall == NULL) {
 		if (typeID == UNIT_HARVESTER && h->harvestersIncoming == 0) h->harvestersIncoming++;
@@ -1775,9 +1775,9 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 
 	tile.tile = 0xFFFFFFFF;
 
-	g_var_38BC++;
+	g_validateStrictIfZero++;
 	unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, 0);
-	g_var_38BC--;
+	g_validateStrictIfZero--;
 
 	if (unit == NULL) {
 		Unit_Remove(carryall);
@@ -2095,10 +2095,10 @@ Unit *Unit_CallUnitByType(UnitType type, uint8 houseID, uint16 target, bool crea
 	if (createCarryall && unit == NULL && type == UNIT_CARRYALL) {
 		tile32 position;
 
-		g_var_38BC++;
+		g_validateStrictIfZero++;
 		position.tile = 0;
 		unit = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, 96);
-		g_var_38BC--;
+		g_validateStrictIfZero--;
 
 		if (unit != NULL) unit->o.flags.s.byScenario = true;
 	}

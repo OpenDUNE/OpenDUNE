@@ -47,7 +47,7 @@ Unit *Unit_Find(PoolFindStruct *find)
 		Unit *u = g_unitFindArray[find->index];
 		if (u == NULL) continue;
 
-		if (u->o.flags.s.isNotOnMap && g_var_38BC == 0) continue;
+		if (u->o.flags.s.isNotOnMap && g_validateStrictIfZero == 0) continue;
 		if (find->houseID != HOUSE_INVALID       && find->houseID != Unit_GetHouseID(u)) continue;
 		if (find->type    != UNIT_INDEX_INVALID  && find->type    != u->o.type)  continue;
 
@@ -113,7 +113,7 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 	h = House_Get_ByIndex(houseID);
 	if (h->unitCount >= h->unitCountMax) {
 		if (g_table_unitInfo[type].movementType != MOVEMENT_WINGER && g_table_unitInfo[type].movementType != MOVEMENT_SLITHER) {
-			if (g_var_38BC == 0x00) return NULL;
+			if (g_validateStrictIfZero == 0) return NULL;
 		}
 	}
 

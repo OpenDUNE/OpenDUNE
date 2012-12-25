@@ -70,7 +70,7 @@ Structure *Structure_Find(PoolFindStruct *find)
 		}
 		if (s == NULL) continue;
 
-		if (s->o.flags.s.isNotOnMap && g_var_38BC == 0) continue;
+		if (s->o.flags.s.isNotOnMap && g_validateStrictIfZero == 0) continue;
 		if (find->houseID != HOUSE_INVALID           && find->houseID != s->o.houseID) continue;
 		if (find->type    != STRUCTURE_INDEX_INVALID && find->type    != s->o.type)  continue;
 

@@ -114,12 +114,12 @@ static uint16 s_var_8052 = 0;
 static uint8 s_enableLog = 0; /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
 static bool s_var_37B4;
 
-uint16 g_var_38BC = 0;
-bool g_var_38F8 = true;
+uint16 g_validateStrictIfZero = 0; /*!< 0 = strict validation, basically: no-cheat-mode. */
+bool g_running = true; /*!< true if game needs to keep running; false to stop the game. */
 uint16 g_selectionType = 0;
 uint16 g_selectionTypeNew = 0;
-bool g_viewport_forceRedraw = false;
-bool g_var_3A14 = false;
+bool g_viewport_forceRedraw = false; /*!< Force a full redraw of the screen. */
+bool g_viewport_fadein = false; /*!< Fade in the screen. */
 
 int16 g_musicInBattle = 0; /*!< 0 = no battle, 1 = fight is going on, -1 = music of fight is going on is active. */
 
@@ -2248,11 +2248,11 @@ static void GameLoop_Main()
 
 		GUI_DisplayText(NULL, 0);
 
-		if (g_var_38F8 && !g_debugScenario) {
+		if (g_running && !g_debugScenario) {
 			GameLoop_LevelEnd();
 		}
 
-		if (!g_var_38F8) break;
+		if (!g_running) break;
 
 		sleepIdle();
 	}
@@ -2374,7 +2374,7 @@ void Game_Prepare()
 	Tile *t;
 	int i;
 
-	g_var_38BC++;
+	g_validateStrictIfZero++;
 
 	oldSelectionType = g_selectionType;
 	g_selectionType = SELECTIONTYPE_MENTAT;
@@ -2481,7 +2481,7 @@ void Game_Prepare()
 	g_playerCredits = 0xFFFF;
 
 	g_selectionType = oldSelectionType;
-	g_var_38BC--;
+	g_validateStrictIfZero--;
 }
 
 /**
@@ -2536,7 +2536,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 
 	Game_Init();
 
-	g_var_38BC++;
+	g_validateStrictIfZero++;
 
 	if (!Scenario_Load(scenarioID, houseID)) {
 		GUI_DisplayModalMessage("No more scenarios!", 0xFFFF);
@@ -2552,7 +2552,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 		g_hintsShown2 = 0;
 	}
 
-	g_var_38BC--;
+	g_validateStrictIfZero--;
 }
 
 /**

@@ -526,7 +526,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	loc0A = Structure_IsValidBuildLocation(position, s->o.type);
 
 	if (loc0A == 0) {
-		if ((s->o.houseID != g_playerHouseID || !g_debugScenario) && g_var_38BC == 0) {
+		if ((s->o.houseID != g_playerHouseID || !g_debugScenario) && g_validateStrictIfZero == 0) {
 			return false;
 		}
 	}
@@ -598,7 +598,7 @@ bool Structure_Place(Structure *s, uint16 position)
 		h->windtrapCount += 1;
 	}
 
-	if (g_var_38BC == 0) {
+	if (g_validateStrictIfZero == 0) {
 		House *h;
 
 		h = House_Get_ByIndex(s->o.houseID);
@@ -758,12 +758,12 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			}
 
 			if (si->o.flags.notOnConcrete) {
-				if (!g_table_landscapeInfo[type].isValidForStructure2 && g_var_38BC == 0) {
+				if (!g_table_landscapeInfo[type].isValidForStructure2 && g_validateStrictIfZero == 0) {
 					isValid = false;
 					break;
 				}
 			} else {
-				if (!g_table_landscapeInfo[type].isValidForStructure && g_var_38BC == 0) {
+				if (!g_table_landscapeInfo[type].isValidForStructure && g_validateStrictIfZero == 0) {
 					isValid = false;
 					break;
 				}
@@ -777,7 +777,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 		}
 	}
 
-	if (g_var_38BC == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario) {
+	if (g_validateStrictIfZero == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario) {
 		isValid = false;
 		for (i = 0; i < 16; i++) {
 			uint16 offset, type;
@@ -831,9 +831,9 @@ void Structure_ActivateSpecial(Structure *s)
 			position.s.x = 0xFFFF;
 			position.s.y = 0xFFFF;
 
-			g_var_38BC++;
+			g_validateStrictIfZero++;
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->o.houseID, position, Tools_Random_256());
-			g_var_38BC--;
+			g_validateStrictIfZero--;
 
 			g_unitHouseMissile = u;
 			if (u == NULL) break;
@@ -895,9 +895,9 @@ void Structure_ActivateSpecial(Structure *s)
 				orientation = Tools_RandomLCG_Range(0, 3);
 				unitType = (orientation == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
 
-				g_var_38BC++;
+				g_validateStrictIfZero++;
 				u = Unit_Create(UNIT_INDEX_INVALID, (uint8)unitType, HOUSE_FREMEN, position, (int8)orientation);
-				g_var_38BC--;
+				g_validateStrictIfZero--;
 
 				if (u == NULL) continue;
 
@@ -920,9 +920,9 @@ void Structure_ActivateSpecial(Structure *s)
 				return;
 			}
 
-			g_var_38BC++;
+			g_validateStrictIfZero++;
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->o.houseID, Tile_UnpackTile(position), Tools_Random_256());
-			g_var_38BC--;
+			g_validateStrictIfZero--;
 
 			if (u == NULL) return;
 
@@ -1504,9 +1504,9 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						if (loc60[i] >= unitsAtStarport) continue;
 
-						g_var_38BC++;
+						g_validateStrictIfZero++;
 						u = Unit_Allocate(UNIT_INDEX_INVALID, i, s->o.houseID);
-						g_var_38BC--;
+						g_validateStrictIfZero--;
 
 						if (u != NULL) {
 							loop = true;
@@ -1592,13 +1592,13 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 						return false;
 					}
 
-					g_var_38BC++;
+					g_validateStrictIfZero++;
 					{
 						tile32 tile;
 						tile.tile = 0xFFFFFFFF;
 						u = Unit_Create(UNIT_INDEX_INVALID, (uint8)objectType, s->o.houseID, tile, 0);
 					}
-					g_var_38BC--;
+					g_validateStrictIfZero--;
 
 					if (u == NULL) {
 						h->credits += g_table_unitInfo[UNIT_CARRYALL].o.buildCredits;

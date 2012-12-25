@@ -176,9 +176,9 @@ bool SaveFile(char *filename, char *description)
 		return false;
 	}
 
-	g_var_38BC++;
+	g_validateStrictIfZero++;
 	res = Save_Main(fp, description);
-	g_var_38BC--;
+	g_validateStrictIfZero--;
 
 	fclose(fp);
 

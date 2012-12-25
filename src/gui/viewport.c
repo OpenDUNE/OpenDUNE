@@ -209,12 +209,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 			if (s->o.type == STRUCTURE_PALACE) House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 
-			if (g_structureActiveType == STRUCTURE_REFINERY && g_var_38BC == 0) {
+			if (g_structureActiveType == STRUCTURE_REFINERY && g_validateStrictIfZero == 0) {
 				Unit *u;
 
-				g_var_38BC++;
+				g_validateStrictIfZero++;
 				u = Unit_CreateWrapper(g_playerHouseID, UNIT_HARVESTER, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
-				g_var_38BC--;
+				g_validateStrictIfZero--;
 
 				if (u == NULL) {
 					h->harvestersIncoming++;
@@ -781,7 +781,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 	}
 
 	if (updateDisplay && !drawToMainScreen) {
-		if (g_var_3A14) {
+		if (g_viewport_fadein) {
 			GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 
 			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
@@ -796,7 +796,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, 0);
 			GUI_Mouse_Show_InWidget();
 
-			g_var_3A14 = false;
+			g_viewport_fadein = false;
 		} else {
 			bool init = false;
 

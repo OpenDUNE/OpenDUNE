@@ -733,7 +733,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
  */
 void Map_Bloom_ExplodeSpice(uint16 packed, uint8 houseID)
 {
-	if (g_var_38BC == 0) {
+	if (g_validateStrictIfZero == 0) {
 		Unit_Remove(Unit_Get_ByPackedTile(packed));
 		g_map[packed].groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
 		Map_MakeExplosion(19, Tile_UnpackTile(packed), 0, 0);
@@ -1378,7 +1378,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 	if (t->isUnveiled) {
 		int i;
 
-		if (g_var_38BC == 0 && Sprite_IsUnveiled(t->overlaySpriteID)) return;
+		if (g_validateStrictIfZero == 0 && Sprite_IsUnveiled(t->overlaySpriteID)) return;
 
 		spriteID = 0;
 

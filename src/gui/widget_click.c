@@ -761,7 +761,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 				case 6:
 					/* "Are you sure you want to quit playing?" */
 					loop = !GUI_YesNo(0x65);
-					g_var_38F8 = loop;
+					g_running = loop;
 
 					Sound_Output_Feedback(0xFFFE);
 
@@ -771,7 +771,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 				default: break;
 			}
 
-			if (g_var_38F8 && loop) {
+			if (g_running && loop) {
 				GUI_Window_BackupScreen(desc);
 
 				GUI_Window_Create(desc);
