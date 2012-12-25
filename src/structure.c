@@ -438,7 +438,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 bool Structure_Place(Structure *s, uint16 position)
 {
 	const StructureInfo *si;
-	int16 loc0A;
+	int16 validBuildLocation;
 
 	if (s == NULL) return false;
 	if (position == 0xFFFF) return false;
@@ -523,13 +523,8 @@ bool Structure_Place(Structure *s, uint16 position)
 		} return true;
 	}
 
-	loc0A = Structure_IsValidBuildLocation(position, s->o.type);
-
-	if (loc0A == 0) {
-		if ((s->o.houseID != g_playerHouseID || !g_debugScenario) && g_validateStrictIfZero == 0) {
-			return false;
-		}
-	}
+	validBuildLocation = Structure_IsValidBuildLocation(position, s->o.type);
+	if (validBuildLocation == 0 && s->o.houseID == g_playerHouseID && !g_debugScenario && g_validateStrictIfZero == 0) return false;
 
 	/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 	if (!g_dune2_enhanced && s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
@@ -548,8 +543,8 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->hitpointsMax = si->o.hitpoints;
 
 	/* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
-	if (loc0A < 0) {
-		uint16 tilesWithoutSlab = -(int16)loc0A;
+	if (validBuildLocation < 0) {
+		uint16 tilesWithoutSlab = -(int16)validBuildLocation;
 		uint16 structureTileCount = g_table_structure_layoutTileCount[si->layout];
 
 		s->o.hitpoints -= (si->o.hitpoints / 2) * tilesWithoutSlab / structureTileCount;
