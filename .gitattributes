@@ -20,3 +20,9 @@
 *.PDF    diff=astextplain
 *.rtf    diff=astextplain
 *.RTF    diff=astextplain
+
+# Linux scripts
+configure  eol=lf
+config.lib eol=lf
+Makefile*  eol=lf
+*.sh       eol=lf

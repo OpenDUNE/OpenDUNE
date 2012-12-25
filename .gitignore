@@ -7,6 +7,7 @@ config.cache
 config.pwd
 Makefile
 Makefile.am
+Makefile.bundle
 bin
 !bin/data/put_dune2_here.txt
 !bin/data/dune.cfg
