@@ -1761,8 +1761,6 @@ generate_src_osx() {
 				CFLAGS="-isysroot $osx_sdk_path $CFLAGS_orig"
 				LDFLAGS="-Wl,-syslibroot,$osx_sdk_path $LDFLAGS_orig"
 			fi
-			CFLAGS="$CFLAGS -D_SQ64 -DHAVE_NON_CONST_ICONV -DNO_QUICKTIME -UENABLE_COCOA_QUICKDRAW"
-			LIBS="`echo $LIBS | sed 's/-framework QuickTime//'`"
 		fi
 
 		case $type in
