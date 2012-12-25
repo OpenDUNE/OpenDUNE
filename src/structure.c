@@ -227,14 +227,14 @@ void GameLoop_Structure()
 									Sound_Output_Feedback(0);
 								}
 							} else if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
-								/* An AI immediatly places the structure when it is done building */
+								/* An AI immediately places the structure when it is done building */
 								Structure *ns;
 								uint8 i;
 
 								ns = Structure_Get_ByIndex(s->o.linkedID);
 								s->o.linkedID = 0xFF;
 
-								/* The AI places structures which are operational immediatly */
+								/* The AI places structures which are operational immediately */
 								Structure_SetState(s, STRUCTURE_STATE_IDLE);
 
 								/* Find the position to place the structure */
@@ -411,7 +411,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 
 	s->countDown = 0;
 
-	/* AIs get the full upgrade immediatly */
+	/* AIs get the full upgrade immediately */
 	if (houseID != g_playerHouseID) {
 		while (true) {
 			if (!Structure_IsUpgradable(s)) break;
@@ -567,7 +567,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->o.script.variables[0] = 0;
 	s->o.script.variables[4] = 0;
 
-	/* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediatly .. how can this ever NOT happen? */
+	/* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediately .. how can this ever NOT happen? */
 	if (position != 0xFFFF) {
 		s->o.script.delay = 0;
 		Script_Reset(&s->o.script, s->o.script.scriptInfo);

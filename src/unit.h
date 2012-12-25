@@ -167,7 +167,7 @@ typedef struct UnitInfo {
 typedef struct ActionInfo {
 	uint16 stringID;                                        /*!< StringID of Action name. */
 	const char *name;                                       /*!< Name of Action. */
-	uint16 switchType;                                      /*!< When going to new mode, how do we handle it? 0: queue if needed, 1: change immediatly, 2: run via subroutine. */
+	uint16 switchType;                                      /*!< When going to new mode, how do we handle it? 0: queue if needed, 1: change immediately, 2: run via subroutine. */
 	uint16 selectionType;                                   /*!< Selection type attached to this action. */
 	uint16 soundID;                                         /*!< The sound played when unit is a Foot unit. */
 } ActionInfo;
