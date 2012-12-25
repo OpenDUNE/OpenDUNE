@@ -71,7 +71,6 @@ extern uint16 g_mapSpriteID[];
 extern Tile g_map[];
 extern uint8 g_functions[3][3];
 
-extern uint8 g_changedTilesMap[512];
 extern uint8 g_dirtyMinimap[512];
 extern uint8 g_displayedMinimap[512];
 extern uint8 g_dirtyViewport[512];
