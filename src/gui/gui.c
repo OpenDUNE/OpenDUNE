@@ -504,7 +504,7 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
  * @param bgColour The background colour of the text.
  * @param flags The flags of the string.
  */
-void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...)
+void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...)
 {
 	static char textBuffer[240];
 	static uint16 displayedarg12low = -1;
@@ -747,7 +747,7 @@ static void GUI_Widget_SetProperties(uint16 index, uint16 xpos, uint16 ypos, uin
  * @param ... The args for the text.
  * @return ??
  */
-uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
+uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 {
 	static char textBuffer[768];
 
@@ -2950,7 +2950,7 @@ static bool GUI_StrategicMap_FastForwardToggleWithESC()
 	return s_strategicMapFastForward;
 }
 
-static void GUI_StrategicMap_DrawText(char *string)
+static void GUI_StrategicMap_DrawText(const char *string)
 {
 	static uint32 l_timerNext = 0;
 	uint16 oldScreenID;

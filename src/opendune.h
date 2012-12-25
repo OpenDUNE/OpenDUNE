@@ -29,7 +29,7 @@ typedef struct XYPosition {
 	uint16 y; /*!< Y coordinate. */
 } XYPosition;
 
-extern char *window_caption;
+extern const char *window_caption;
 extern bool g_dune2_enhanced;
 
 extern uint32 g_hintsShown1;

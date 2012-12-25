@@ -14,7 +14,7 @@ static snd_midi_event_t *s_midiCoder = NULL;
 static snd_seq_port_subscribe_t *s_midiSubscription = NULL;
 static int s_midiPort = -1;
 
-static char *s_midiCaption = "OpenDUNE MIDI Port";
+static const char *s_midiCaption = "OpenDUNE MIDI Port";
 
 bool midi_init() {
 	snd_seq_addr_t sender, receiver;

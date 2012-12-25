@@ -78,7 +78,7 @@ static uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index)
  * @param index The index of the list of sprite files to load.
  * @param sprites The array where to store CSIP for each loaded sprite.
  */
-static void Sprites_Load(char *filename)
+static void Sprites_Load(const char *filename)
 {
 	uint8 *buffer;
 	uint16 count;

@@ -6,7 +6,7 @@
 
 #include "error.h"
 
-void Error(char *format, ...) {
+void Error(const char *format, ...) {
 	char message[512];
 	va_list ap;
 

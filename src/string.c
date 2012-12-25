@@ -17,7 +17,7 @@ static char **s_strings = NULL;
 static uint16 s_stringsCount = 0;
 
 const char * const g_languageSuffixes[] = { "ENG", "FRE", "GER", "ITA", "SPA" };
-static char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";
+static const char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";
 
 /**
  * Decompress a string.
@@ -55,7 +55,7 @@ uint16 String_Decompress(char *source, char *dest)
  * @param name The string to append extension to.
  * @return The new string.
  */
-char *String_GenerateFilename(char *name)
+const char *String_GenerateFilename(const char *name)
 {
 	static char filename[14];
 
@@ -96,7 +96,7 @@ void String_TranslateSpecial(char *source, char *dest)
 	*dest = '\0';
 }
 
-static void String_Load(char *filename, bool compressed)
+static void String_Load(const char *filename, bool compressed)
 {
 	void *buf;
 	uint16 count;

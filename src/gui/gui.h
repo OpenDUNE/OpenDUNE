@@ -107,10 +107,10 @@ extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
 extern void GUI_DisplayText(const char *str, int16 importance, ...);
 extern void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour);
-extern void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...);
+extern void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...);
 extern void GUI_PaletteAnimate();
 extern void GUI_UpdateProductionStringID();
-extern uint16 GUI_DisplayModalMessage(char *str, uint16 stringID, ...);
+extern uint16 GUI_DisplayModalMessage(const char *str, uint16 stringID, ...);
 extern uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter);
 extern void GUI_DrawSprite(uint16 memory, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
 extern void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint8 houseID);

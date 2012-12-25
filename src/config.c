@@ -22,7 +22,7 @@ bool g_enableVoices = true;
  * @param config The address where the config will be stored.
  * @return True if loading and decoding is successful.
  */
-bool Config_Read(char *filename, DuneCfg *config)
+bool Config_Read(const char *filename, DuneCfg *config)
 {
 	char name[18]; /* "data/8.3" */
 	FILE *f;
