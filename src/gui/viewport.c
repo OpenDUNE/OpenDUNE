@@ -32,6 +32,7 @@
 
 static uint32 s_tickCursor;                                 /*!< Stores last time Viewport changed the cursor spriteID. */
 static uint32 s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */
+static uint32 s_tickClick;                                  /*!< Stores last time Viewport handled a click. */
 
 static uint8 s_paletteHouse[16];                            /*!< Used for palette manipulation to get housed coloured units etc. */
 static uint16 s_spriteFlags;
@@ -82,6 +83,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		g_var_37B8 = false;
 	} else if ((w->state.s.buttonState & 0x22) != 0 && !g_var_37B8) {
 		drag = true;
+	}
+
+	/* ENHANCEMENT -- Dune2 depends on slow CPUs to limit the rate mouse clicks are handled. */
+	if (g_dune2_enhanced) {
+		if ((click || drag) && s_tickClick + 2 >= g_timerGame) return true;
+		s_tickClick = g_timerGame;
 	}
 
 	direction = 0xFFFF;

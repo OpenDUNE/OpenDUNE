@@ -89,6 +89,7 @@ General
 - When loading a game, the fadein is barely visible because it is against the
     screen how it will turn out, minus the selection of an active building.
 - After visiting Mentat (the help) window, auto-repeat of keys gets disabled.
+- Dune2 depends on slow CPUs to limit the rate mouse clicks are handled.
 
 
 Map
