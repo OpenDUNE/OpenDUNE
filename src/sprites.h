@@ -78,8 +78,5 @@ extern void Sprites_SetMouseSprite(uint16 x, uint16 y, uint8 *sprite);
 extern void Sprites_CPS_LoadRegionClick();
 extern bool Sprite_IsUnveiled(uint16 spriteID);
 
-extern uint8 Orientation_Orientation256ToOrientation8(uint8 orientation);
-extern uint8 Orientation_Orientation256ToOrientation16(uint8 orientation);
-
 
 #endif /* SPRITES_H */
