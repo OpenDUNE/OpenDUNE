@@ -2149,10 +2149,10 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_var_37B8 = true;
 
 		switch (oldSelectionType) {
-			case SELECTIONTYPE_TARGET:
 			case SELECTIONTYPE_PLACE:
 				Map_SetSelection(g_structureActivePosition);
 				/* Fall-through */
+			case SELECTIONTYPE_TARGET:
 			case SELECTIONTYPE_STRUCTURE:
 				g_cursorDefaultSpriteID = 0;
 				GUI_DisplayText(NULL, -1);
