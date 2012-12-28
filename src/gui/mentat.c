@@ -199,7 +199,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	uint16 i;
 
 	if (init) {
-		helpDataList = GFX_Screen_Get_ByIndex(SCREEN_3);
+		helpDataList = GFX_Screen_Get_ByIndex(SCREEN_1);
 
 		s_topHelpList = 0;
 		s_selectedHelpSubject = 0;
@@ -209,7 +209,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	}
 
 	fileID = ChunkFile_Open(s_mentatFilename);
-	length = ChunkFile_Read(fileID, HTOBE32('NAME'), helpDataList, GFX_Screen_GetSize_ByIndex(SCREEN_3));
+	length = ChunkFile_Read(fileID, HTOBE32('NAME'), helpDataList, GFX_Screen_GetSize_ByIndex(SCREEN_1));
 	ChunkFile_Close(fileID);
 
 	s_numberHelpSubjects = 0;
@@ -254,11 +254,11 @@ static void GUI_Mentat_Draw(bool force)
 
 	displayedHelpSubject = s_topHelpList;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	Widget_SetAndPaintCurrentWidget(8);
 
-	GUI_DrawSprite(SCREEN_2, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GUI_DrawSprite(SCREEN_1, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 	GUI_DrawText_Wrapper(String_Get_ByIndex(STR_SELECT_SUBJECT), (g_curWidgetXBase << 3) + 16, g_curWidgetYBase + 2, 12, 0, 0x12);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x11);
@@ -297,7 +297,7 @@ static void GUI_Mentat_Draw(bool force)
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 17));
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 	GFX_Screen_SetActive(oldScreenID);
 }
@@ -310,7 +310,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 {
 	Screen oldScreenID;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	/* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
 	if (!g_dune2_enhanced) Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT);
@@ -324,7 +324,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	GUI_Mentat_Create_HelpScreen_Widgets();
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 
 	GUI_Mentat_LoadHelpSubjects(true);
@@ -406,23 +406,23 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 
 	GUI_Mentat_Display(wsaFilename, g_playerHouseID);
 
-	GFX_Screen_SetActive(SCREEN_2);
+	GFX_Screen_SetActive(SCREEN_1);
 
 	Widget_SetAndPaintCurrentWidget(8);
 
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(SCREEN_5), GFX_Screen_GetSize_ByIndex(SCREEN_5), false);
-		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, SCREEN_2);
+		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(SCREEN_2), GFX_Screen_GetSize_ByIndex(SCREEN_2), false);
+		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, SCREEN_1);
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite(SCREEN_2, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GUI_DrawSprite(SCREEN_1, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GFX_Screen_SetActive(SCREEN_0);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 
 	GUI_SetPaletteAnimated(g_palette1, 15);
@@ -487,9 +487,9 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	int i;
 
 	snprintf(textBuffer, sizeof(textBuffer), "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
-	Sprites_LoadImage(textBuffer, SCREEN_3, g_palette_998A);
+	Sprites_LoadImage(textBuffer, SCREEN_1, g_palette_998A);
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	if (houseID == HOUSE_MERCENARY) {
 		File_ReadBlockFile("BENE.PAL", g_palette1, 256 * 3);
@@ -532,12 +532,12 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(SCREEN_5), GFX_Screen_GetSize_ByIndex(SCREEN_5), false);
-		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, SCREEN_2);
+		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(SCREEN_2), GFX_Screen_GetSize_ByIndex(SCREEN_2), false);
+		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, SCREEN_1);
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite(SCREEN_2, g_sprites[397 + houseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GUI_DrawSprite(SCREEN_1, g_sprites[397 + houseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GFX_Screen_SetActive(oldScreenID);
 }
 
@@ -840,7 +840,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	g_widgetMentatTail = NULL;
 	ypos = 8;
 
-	w = (Widget *)GFX_Screen_Get_ByIndex(SCREEN_5);
+	w = (Widget *)GFX_Screen_Get_ByIndex(SCREEN_2);
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -932,7 +932,7 @@ static void GUI_Mentat_ShowHelp()
 	info.length = HTOBE32(info.length);
 
 	text = g_readBuffer;
-	compressedText = GFX_Screen_Get_ByIndex(SCREEN_3);
+	compressedText = GFX_Screen_Get_ByIndex(SCREEN_1);
 
 	fileID = File_Open(s_mentatFilename, 1);
 	File_Seek(fileID, offset, 0);
@@ -1039,7 +1039,7 @@ static bool GUI_Mentat_DrawInfo(char *text, uint16 left, uint16 top, uint16 heig
 
 	if (lines <= 0) return false;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_4);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
 
 	while (skip-- != 0) text += strlen(text) + 1;
 
@@ -1078,12 +1078,12 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	textDelay = 0;
 
 	old07AE = Widget_SetCurrentWidget(8);
-	oldScreenID = GFX_Screen_SetActive(SCREEN_4);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
 
 	wsa = NULL;
 
 	if (wsaFilename != NULL) {
-		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(SCREEN_3), GFX_Screen_GetSize_ByIndex(SCREEN_3), false);
+		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(SCREEN_1), GFX_Screen_GetSize_ByIndex(SCREEN_1), false);
 	}
 
 	step = 0;
@@ -1162,7 +1162,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 			case 2:
 				GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-				GUI_Screen_Copy(0, 0, 0, 160, SCREEN_WIDTH / 8, 40, SCREEN_0, SCREEN_4);
+				GUI_Screen_Copy(0, 0, 0, 160, SCREEN_WIDTH / 8, 40, SCREEN_0, SCREEN_2);
 				GUI_Mouse_Show_InRegion();
 
 				step = 3;
@@ -1174,7 +1174,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 				if ((key != 0 && textDone) || result != 0) {
 					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-					GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_4, SCREEN_0);
+					GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_2, SCREEN_0);
 					GUI_Mouse_Show_InRegion();
 
 					step = 4;
@@ -1183,10 +1183,10 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 				}
 
 				if (key != 0) {
-					GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_4, SCREEN_4);
+					GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_2, SCREEN_2);
 
 					if (textLines-- != 0) {
-						GFX_Screen_SetActive(SCREEN_4);
+						GFX_Screen_SetActive(SCREEN_2);
 						GUI_DrawText_Wrapper(text, 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
 						mentatSpeakingMode = 1;
 						textDelay = strlen(text) * 4;
@@ -1202,7 +1202,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 					}
 
 					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-					GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_4, SCREEN_0);
+					GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_2, SCREEN_0);
 					GUI_Mouse_Show_InRegion();
 					break;
 				}
@@ -1233,7 +1233,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 			do {
 				if (step == 0 && frame > 4) step = 1;
 
-				if (!WSA_DisplayFrame(wsa, frame++, g_curWidgetXBase << 3, g_curWidgetYBase, SCREEN_4)) {
+				if (!WSA_DisplayFrame(wsa, frame++, g_curWidgetXBase << 3, g_curWidgetYBase, SCREEN_2)) {
 					if (step == 0) step = 1;
 
 					if (arg12 != 0) {
@@ -1254,9 +1254,9 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 		GUI_Mentat_DrawInfo(pictureDetails, (g_curWidgetXBase << 3) + 5, g_curWidgetYBase + 3, 8, 0, lines, 0x31);
 
-		GUI_DrawSprite(SCREEN_4, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+		GUI_DrawSprite(SCREEN_2, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 		GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
-		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_4, SCREEN_0);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
 		GUI_Mouse_Show_InWidget();
 		dirty = false;
 
@@ -1265,10 +1265,10 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 	if (wsa != NULL) WSA_Unload(wsa);
 
-	GFX_Screen_SetActive(SCREEN_4);
-	GUI_DrawSprite(SCREEN_4, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+	GFX_Screen_SetActive(SCREEN_2);
+	GUI_DrawSprite(SCREEN_2, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
-	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_4, SCREEN_0);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
 	GUI_Mouse_Show_InWidget();
 	Widget_SetCurrentWidget(old07AE);
 	GFX_Screen_SetActive(oldScreenID);

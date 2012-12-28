@@ -256,7 +256,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	if (packed != 0xFFFF && packed == minimapPreviousPosition && !forceUpdate) return;
 	if (g_selectionType == SELECTIONTYPE_MENTAT) return;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	cleared = false;
 
@@ -301,7 +301,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 
 	if (cleared && oldScreenID == SCREEN_0) {
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(32, 136, 32, 136, 8, 64, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(32, 136, 32, 136, 8, 64, SCREEN_1, SCREEN_0);
 		GUI_Mouse_Show_Safe();
 	}
 

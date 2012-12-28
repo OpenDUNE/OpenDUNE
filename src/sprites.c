@@ -247,7 +247,7 @@ void Sprites_LoadTiles()
 
 	Orientation_InitTable();
 
-	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, GFX_Screen_Get_ByIndex(SCREEN_5));
+	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, GFX_Screen_Get_ByIndex(SCREEN_2));
 }
 
 /**
@@ -418,10 +418,10 @@ void Sprites_CPS_LoadRegionClick()
 	uint8 i;
 	char filename[16];
 
-	buf = GFX_Screen_Get_ByIndex(SCREEN_5);
+	buf = GFX_Screen_Get_ByIndex(SCREEN_2);
 
 	g_fileRgnclkCPS = buf;
-	Sprites_LoadCPSFile("RGNCLK.CPS", SCREEN_5, NULL);
+	Sprites_LoadCPSFile("RGNCLK.CPS", SCREEN_2, NULL);
 	for (i = 0; i < 120; i++) memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
 	buf += 120 * 304;
 

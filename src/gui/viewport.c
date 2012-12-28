@@ -357,7 +357,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 	memset(minX, 0xF, sizeof(minX));
 	memset(maxX, 0,   sizeof(minX));
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
 
@@ -732,7 +732,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 	if (g_changedTilesCount != 0) {
 		bool init = false;
 		bool update = false;
-		Screen oldScreenID2 = SCREEN_2;
+		Screen oldScreenID2 = SCREEN_1;
 
 		for (i = 0; i < g_changedTilesCount; i++) {
 			curPos = g_changedTiles[i];
@@ -741,7 +741,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			if (!init) {
 				init = true;
 
-				oldScreenID2 = GFX_Screen_SetActive(SCREEN_2);
+				oldScreenID2 = GFX_Screen_SetActive(SCREEN_1);
 
 				GUI_Mouse_Hide_InWidget(3);
 			}
@@ -936,10 +936,10 @@ void GUI_Widget_Viewport_DrawTile(uint16 packed)
  */
 void GUI_Widget_Viewport_RedrawMap(uint16 screenID)
 {
-	Screen oldScreenID = SCREEN_2;
+	Screen oldScreenID = SCREEN_1;
 	uint16 i;
 
-	if (screenID == SCREEN_0) oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	if (screenID == SCREEN_0) oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	for (i = 0; i < 4096; i++) GUI_Widget_Viewport_DrawTile(i);
 
@@ -950,6 +950,6 @@ void GUI_Widget_Viewport_RedrawMap(uint16 screenID)
 	GFX_Screen_SetActive(oldScreenID);
 
 	GUI_Mouse_Hide_InWidget(3);
-	GUI_Screen_Copy(32, 136, 32, 136, 8, 64, SCREEN_2, SCREEN_0);
+	GUI_Screen_Copy(32, 136, 32, 136, 8, 64, SCREEN_1, SCREEN_0);
 	GUI_Mouse_Show_InWidget();
 }

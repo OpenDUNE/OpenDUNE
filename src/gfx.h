@@ -10,13 +10,9 @@ enum {
 
 typedef enum Screen {
 	SCREEN_0 = 0,
-	SCREEN_1 = 1,
-	SCREEN_2 = 2,
-	SCREEN_3 = 3,
-	SCREEN_4 = 4,
-	SCREEN_5 = 5,
-	SCREEN_6 = 6,
-	SCREEN_7 = 7
+	SCREEN_1 = 2,
+	SCREEN_2 = 4,
+	SCREEN_3 = 6
 } Screen;
 
 extern Screen g_screenActiveID;

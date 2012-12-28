@@ -297,7 +297,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
 
 		if (g_textDisplayNeedsUpdate) {
-			Screen oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+			Screen oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, g_curWidgetFGColourNormal);
 
@@ -317,7 +317,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 			height = g_curWidgetHeight;
 		}
 
-		GUI_Screen_Copy(g_curWidgetXBase, textOffset, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, height, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(g_curWidgetXBase, textOffset, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, height, SCREEN_1, SCREEN_0);
 		GUI_Mouse_Show_InWidget();
 
 		Widget_SetCurrentWidget(oldValue_07AE_0000);
@@ -1373,7 +1373,7 @@ static void GUI_HallOfFame_DrawRank(uint16 score, bool fadeIn)
 
 	if (!fadeIn) return;
 
-	GUI_Screen_FadeIn(10, 49, 10, 49, 20, 12, SCREEN_2, SCREEN_0);
+	GUI_Screen_FadeIn(10, 49, 10, 49, 20, 12, SCREEN_1, SCREEN_0);
 }
 
 static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
@@ -1383,22 +1383,22 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 	uint16 colour;
 	uint16 offset;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
-	Sprites_LoadImage("FAME.CPS", SCREEN_3, g_palette_998A);
+	Sprites_LoadImage("FAME.CPS", SCREEN_1, g_palette_998A);
 
 	xSrc = 1;
 	if (g_playerHouseID <= HOUSE_ORDOS) {
 		xSrc = (g_playerHouseID * 56 + 8) / 8;
 	}
 
-	GUI_Screen_Copy(xSrc, 136, 0, 8, 7, 56, SCREEN_2, SCREEN_2);
+	GUI_Screen_Copy(xSrc, 136, 0, 8, 7, 56, SCREEN_1, SCREEN_1);
 
 	if (g_playerHouseID > HOUSE_ORDOS) {
 		xSrc += 7;
 	}
 
-	GUI_Screen_Copy(xSrc, 136, 33, 8, 7, 56, SCREEN_2, SCREEN_2);
+	GUI_Screen_Copy(xSrc, 136, 33, 8, 7, 56, SCREEN_1, SCREEN_1);
 
 	GUI_DrawFilledRectangle(8, 136, 175, 191, 116);
 
@@ -1406,8 +1406,8 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 		GUI_DrawFilledRectangle(8, 80, 311, 191, 116);
 		if (score != 0xFFFF) GUI_HallOfFame_DrawRank(score, false);
 	} else {
-		GFX_Screen_Copy2(8, 80, 8, 116, 304, 36, SCREEN_2, SCREEN_2, false);
-		if (g_scenarioID != 1) GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, SCREEN_2, SCREEN_2, false);
+		GFX_Screen_Copy2(8, 80, 8, 116, 304, 36, SCREEN_1, SCREEN_1, false);
+		if (g_scenarioID != 1) GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, SCREEN_1, SCREEN_1, false);
 	}
 
 	if (score != 0xFFFF) {
@@ -1495,7 +1495,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	GUI_HallOfFame_DrawBackground(score, false);
 
@@ -1515,7 +1515,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	Music_Play(17 + Tools_RandomLCG_Range(0, 5));
 
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 
 	Input_History_Clear();
 
@@ -1584,7 +1584,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 				GUI_DrawLine(loc04, locdi + 1, loc04, locdi + 6, 12);
 
-				GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, SCREEN_2, SCREEN_0, false);
+				GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, SCREEN_1, SCREEN_0, false);
 
 				Driver_Sound_Play(52, 0xFF);
 
@@ -1595,7 +1595,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 			GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0xF, 0, 0x121, loc0E);
 
-			GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, SCREEN_2, SCREEN_0, false);
+			GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, SCREEN_1, SCREEN_0, false);
 
 			Driver_Sound_Play(38, 0xFF);
 
@@ -1669,10 +1669,10 @@ uint8 GUI_PickHouse()
 			w = GUI_Widget_Link(w, w2);
 		}
 
-		Sprites_LoadImage(String_GenerateFilename("HERALD"), SCREEN_3, NULL);
+		Sprites_LoadImage(String_GenerateFilename("HERALD"), SCREEN_1, NULL);
 
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 		GUI_SetPaletteAnimated(g_palette1, 15);
 		GUI_Mouse_Show_Safe();
 
@@ -1727,13 +1727,13 @@ uint8 GUI_PickHouse()
 		strncpy(g_readBuffer, String_Get_ByIndex(STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40), g_readBufferSize);
 		GUI_Mentat_Show(g_readBuffer, House_GetWSAHouseFilename(houseID), NULL, false);
 
-		Sprites_LoadImage(String_GenerateFilename("MISC"), SCREEN_3, g_palette1);
+		Sprites_LoadImage(String_GenerateFilename("MISC"), SCREEN_1, g_palette1);
 
 		GUI_Mouse_Hide_Safe();
 
-		GUI_Screen_Copy(0, 0, 0, 0, 26, 24, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(0, 0, 0, 0, 26, 24, SCREEN_1, SCREEN_0);
 
-		GUI_Screen_Copy(0, 24 * (houseID + 1), 26, 0, 13, 24, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(0, 24 * (houseID + 1), 26, 0, 13, 24, SCREEN_1, SCREEN_0);
 
 		GUI_Widget_DrawAll(w);
 
@@ -1942,14 +1942,14 @@ void GUI_DrawInterfaceAndRadar(Screen screenID)
 	Screen oldScreenID;
 	Widget *w;
 
-	oldScreenID = GFX_Screen_SetActive((screenID == SCREEN_0) ? SCREEN_2 : screenID);
+	oldScreenID = GFX_Screen_SetActive((screenID == SCREEN_0) ? SCREEN_1 : screenID);
 
 	g_viewport_forceRedraw = true;
 
-	Sprites_LoadImage("SCREEN.CPS", SCREEN_3, NULL);
-	GUI_DrawSprite(SCREEN_2, g_sprites[11], 192, 0, 0, 0); /* "Credits" */
+	Sprites_LoadImage("SCREEN.CPS", SCREEN_1, NULL);
+	GUI_DrawSprite(SCREEN_1, g_sprites[11], 192, 0, 0, 0); /* "Credits" */
 
-	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_2, g_remap);
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_1, g_remap);
 
 
 	g_textDisplayNeedsUpdate = true;
@@ -1997,7 +1997,7 @@ void GUI_DrawInterfaceAndRadar(Screen screenID)
 
 		GUI_Mouse_Hide_Safe();
 
-		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 		GUI_DrawCredits(g_playerHouseID, (g_playerCredits == 0xFFFF) ? 2 : 1);
 		GUI_SetPaletteAnimated(g_palette1, 15);
 
@@ -2044,7 +2044,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	if (mode == 0 && h->credits == creditsAnimation && creditsAnimationOffset == 0) return;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(4);
 
@@ -2137,7 +2137,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_unitSelected = NULL;
 	}
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	if (g_selectionType != selectionType) {
 		uint16 oldSelectionType = g_selectionType;
@@ -2668,15 +2668,15 @@ static void GUI_FactoryWindow_Init()
 	int16 i;
 	ObjectInfo *oi;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
-	Sprites_LoadImage("CHOAM.CPS", SCREEN_3, NULL);
-	GUI_DrawSprite(SCREEN_2, g_sprites[11], 192, 0, 0, 0); /* "Credits" */
+	Sprites_LoadImage("CHOAM.CPS", SCREEN_1, NULL);
+	GUI_DrawSprite(SCREEN_1, g_sprites[11], 192, 0, 0, 0); /* "Credits" */
 
-	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_2, g_remap);
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_1, g_remap);
 
-	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 8, 7, 40, SCREEN_2, SCREEN_2);
-	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 152, 7, 40, SCREEN_2, SCREEN_2);
+	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 8, 7, 40, SCREEN_1, SCREEN_1);
+	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 152, 7, 40, SCREEN_1, SCREEN_1);
 
 	GUI_FactoryWindow_CreateWidgets();
 	GUI_FactoryWindow_LoadGraymapTbl();
@@ -2691,9 +2691,9 @@ static void GUI_FactoryWindow_Init()
 
 		oi = item->objectInfo;
 		if (oi->available == -1) {
-			GUI_DrawSprite(SCREEN_2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, s_factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, s_factoryWindowGraymapTbl, 1);
 		} else {
-			GUI_DrawSprite(SCREEN_2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
 		}
 	}
 
@@ -2703,11 +2703,11 @@ static void GUI_FactoryWindow_Init()
 	oi = g_factoryWindowItems[0].objectInfo;
 
 	wsa = WSA_LoadFile(oi->wsa, s_factoryWindowWsaBuffer, sizeof(s_factoryWindowWsaBuffer), false);
-	WSA_DisplayFrame(wsa, 0, 128, 48, SCREEN_2);
+	WSA_DisplayFrame(wsa, 0, 128, 48, SCREEN_1);
 	WSA_Unload(wsa);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 
 	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, GFX_GetPixel(72, 23));
@@ -2856,7 +2856,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 		if (data[i].index == 0 || data[i].index == selected) continue;
 
 		GUI_Mouse_Hide_Safe();
-		GFX_Screen_Copy2(i * 16, 0, data[i].offsetX, data[i].offsetY, 16, 16, SCREEN_2, SCREEN_0, false);
+		GFX_Screen_Copy2(i * 16, 0, data[i].offsetX, data[i].offsetY, 16, 16, SCREEN_1, SCREEN_0, false);
 		GUI_Mouse_Show_Safe();
 	}
 
@@ -2873,24 +2873,24 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	y += 24;
 
 	GUI_Mouse_Hide_Safe();
-	GFX_Screen_Copy2(x, y, 16, 16, width, height, SCREEN_0, SCREEN_2, false);
+	GFX_Screen_Copy2(x, y, 16, 16, width, height, SCREEN_0, SCREEN_1, false);
 	GUI_Mouse_Show_Safe();
 
-	GFX_Screen_Copy2(16, 16, 176, 16, width, height, SCREEN_2, SCREEN_2, false);
+	GFX_Screen_Copy2(16, 16, 176, 16, width, height, SCREEN_1, SCREEN_1, false);
 
-	GUI_DrawSprite(SCREEN_2, sprite, 16, 16, 0, 0x100, g_remap, 1);
+	GUI_DrawSprite(SCREEN_1, sprite, 16, 16, 0, 0x100, g_remap, 1);
 
 	for (i = 0; i < 20; i++) {
 		GUI_StrategicMap_AnimateArrows();
 
 		if (data[i].index != selected) continue;
 
-		GUI_DrawSprite(SCREEN_2, g_sprites[505 + data[i].arrow], data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(SCREEN_1, g_sprites[505 + data[i].arrow], data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
 	}
 
 	for (i = 0; i < 4; i++) {
 		GUI_Mouse_Hide_Safe();
-		GFX_Screen_Copy2((i % 2 == 0) ? 16 : 176, 16, x, y, width, height, SCREEN_2, SCREEN_0, false);
+		GFX_Screen_Copy2((i % 2 == 0) ? 16 : 176, 16, x, y, width, height, SCREEN_1, SCREEN_0, false);
 		GUI_Mouse_Show_Safe();
 
 		g_timerTimeout = 20;
@@ -2958,9 +2958,9 @@ static void GUI_StrategicMap_DrawText(const char *string)
 	Screen oldScreenID;
 	uint16 y;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
-	GUI_Screen_Copy(8, 165, 8, 186, 24, 14, SCREEN_0, SCREEN_2);
+	GUI_Screen_Copy(8, 165, 8, 186, 24, 14, SCREEN_0, SCREEN_1);
 
 	GUI_DrawFilledRectangle(64, 172, 255, 185, GFX_GetPixel(64, 186));
 
@@ -2969,7 +2969,7 @@ static void GUI_StrategicMap_DrawText(const char *string)
 	while (g_timerGUI + 90 < l_timerNext) sleepIdle();
 
 	for (y = 185; y > 172; y--) {
-		GUI_Screen_Copy(8, y, 8, 165, 24, 14, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(8, y, 8, 165, 24, 14, SCREEN_1, SCREEN_0);
 
 		g_timerTimeout = 3;
 
@@ -3013,9 +3013,9 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		if (!GUI_StrategicMap_IsRegionDone(data[i].index)) hasRegions = true;
 
-		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, SCREEN_2, SCREEN_2, false);
-		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, SCREEN_2, SCREEN_2, false);
-		GUI_DrawSprite(SCREEN_2, g_sprites[505 + data[i].arrow], i * 16, 152, 0, 0x100, g_remap, 1);
+		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, SCREEN_1, SCREEN_1, false);
+		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, SCREEN_1, SCREEN_1, false);
+		GUI_DrawSprite(SCREEN_1, g_sprites[505 + data[i].arrow], i * 16, 152, 0, 0x100, g_remap, 1);
 	}
 
 	count = i;
@@ -3037,7 +3037,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	for (i = 0; i < count; i++) {
 		if (data[i].index == 0) continue;
 
-		GFX_Screen_Copy2(i * 16, 152, data[i].offsetX, data[i].offsetY, 16, 16, SCREEN_2, SCREEN_0, false);
+		GFX_Screen_Copy2(i * 16, 152, data[i].offsetX, data[i].offsetY, 16, 16, SCREEN_1, SCREEN_0, false);
 	}
 
 	GUI_Mouse_Show_Safe();
@@ -3120,11 +3120,11 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 
 	sprite = g_sprites[477 + region];
 
-	GUI_DrawSprite(SCREEN_3, sprite, x + 8, y + 24, 0, 0x100, g_remap, 1);
+	GUI_DrawSprite(SCREEN_1, sprite, x + 8, y + 24, 0, 0x100, g_remap, 1);
 
 	if (!progressive) return;
 
-	GUI_Screen_FadeIn2(x + 8, y + 24, Sprite_GetWidth(sprite), Sprite_GetHeight(sprite), SCREEN_2, SCREEN_0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
+	GUI_Screen_FadeIn2(x + 8, y + 24, Sprite_GetWidth(sprite), Sprite_GetHeight(sprite), SCREEN_1, SCREEN_0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
 }
 
 static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
@@ -3205,7 +3205,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	memset(palette, 0, 256 * 3);
 
 	previousCampaignID = campaignID - (win ? 1 : 0);
-	oldScreenID = GFX_Screen_SetActive(SCREEN_4);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
 
 	GUI_SetPaletteAnimated(palette, 15);
 
@@ -3213,9 +3213,9 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_SetPosition(160, 84);
 
-	Sprites_LoadImage("MAPMACH.CPS", SCREEN_5, g_palette_998A);
+	Sprites_LoadImage("MAPMACH.CPS", SCREEN_2, g_palette_998A);
 
-	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_5, g_remap);
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_2, g_remap);
 
 	x = 0;
 	y = 0;
@@ -3241,16 +3241,16 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	memcpy(s_var_81BA, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 4 * 3);
 	memcpy(s_var_81BA + 4 * 3, s_var_81BA, 4 * 3);
 
-	GUI_Screen_Copy(x, y, 0, 152, 7, 40, SCREEN_4, SCREEN_4);
-	GUI_Screen_Copy(x, y, 33, 152, 7, 40, SCREEN_4, SCREEN_4);
+	GUI_Screen_Copy(x, y, 0, 152, 7, 40, SCREEN_2, SCREEN_2);
+	GUI_Screen_Copy(x, y, 33, 152, 7, 40, SCREEN_2, SCREEN_2);
 
 	switch (g_config.language) {
 		case LANGUAGE_GERMAN:
-			GUI_Screen_Copy(1, 120, 1, 0, 38, 24, SCREEN_4, SCREEN_4);
+			GUI_Screen_Copy(1, 120, 1, 0, 38, 24, SCREEN_2, SCREEN_2);
 			break;
 
 		case LANGUAGE_FRENCH:
-			GUI_Screen_Copy(1, 96, 1, 0, 38, 24, SCREEN_4, SCREEN_4);
+			GUI_Screen_Copy(1, 96, 1, 0, 38, 24, SCREEN_2, SCREEN_2);
 			break;
 
 		default: break;
@@ -3259,18 +3259,18 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	GUI_DrawFilledRectangle(8, 24, 311, 143, 12);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_4, SCREEN_0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
 	GUI_SetPaletteAnimated(g_palette1, 15);
 	GUI_Mouse_Show_Safe();
 
 	s_strategicMapFastForward = false;
 
 	if (win && campaignID == 1) {
-		Sprites_LoadImage("PLANET.CPS", SCREEN_3, g_palette_998A);
+		Sprites_LoadImage("PLANET.CPS", SCREEN_1, g_palette_998A);
 
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_THREE_HOUSES_HAVE_COME_TO_DUNE));
 
-		GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_2, SCREEN_0, 0, false);
+		GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_1, SCREEN_0, 0, false);
 
 		Input_History_Clear();
 
@@ -3283,11 +3283,11 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			sleepIdle();
 		}
 
-		Sprites_LoadImage("DUNEMAP.CPS", SCREEN_3 , g_palette_998A);
+		Sprites_LoadImage("DUNEMAP.CPS", SCREEN_1 , g_palette_998A);
 
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_TO_TAKE_CONTROL_OF_THE_LAND));
 
-		GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_2, SCREEN_0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
+		GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_1, SCREEN_0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
 
 		g_timerTimeout = 60;
 
@@ -3301,19 +3301,19 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		Sprites_CPS_LoadRegionClick();
 	}
 
-	Sprites_LoadImage("DUNERGN.CPS", SCREEN_3, g_palette_998A);
+	Sprites_LoadImage("DUNERGN.CPS", SCREEN_1, g_palette_998A);
 
-	GFX_Screen_SetActive(SCREEN_2);
+	GFX_Screen_SetActive(SCREEN_1);
 
 	GUI_StrategicMap_PrepareRegions(previousCampaignID);
 
 	if (GUI_StrategicMap_FastForwardToggleWithESC()) {
-		GUI_Screen_Copy(1, 24, 1, 24, 38, 120, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(1, 24, 1, 24, 38, 120, SCREEN_1, SCREEN_0);
 	} else {
-		GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_2, SCREEN_0, 0, false);
+		GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_1, SCREEN_0, 0, false);
 	}
 
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_0, SCREEN_2);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_0, SCREEN_1);
 
 	if (campaignID != previousCampaignID) GUI_StrategicMap_ShowProgression(campaignID);
 
@@ -3385,7 +3385,7 @@ void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 fgColou
 void GUI_FactoryWindow_B495_0F30()
 {
 	GUI_Mouse_Hide_Safe();
-	GFX_Screen_Copy2(69, ((g_factoryWindowSelected + 1) * 32) + 5, 69, (g_factoryWindowSelected * 32) + 21, 38, 30, SCREEN_2, SCREEN_0, false);
+	GFX_Screen_Copy2(69, ((g_factoryWindowSelected + 1) * 32) + 5, 69, (g_factoryWindowSelected * 32) + 21, 38, 30, SCREEN_1, SCREEN_0, false);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -3405,10 +3405,10 @@ void GUI_FactoryWindow_DrawDetails()
 	ObjectInfo *oi = item->objectInfo;
 	void *wsa;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	wsa = WSA_LoadFile(oi->wsa, s_factoryWindowWsaBuffer, sizeof(s_factoryWindowWsaBuffer), false);
-	WSA_DisplayFrame(wsa, 0, 128, 48, SCREEN_2);
+	WSA_DisplayFrame(wsa, 0, 128, 48, SCREEN_1);
 	WSA_Unload(wsa);
 
 	if (g_factoryWindowConstructionYard) {
@@ -3436,7 +3436,7 @@ void GUI_FactoryWindow_DrawDetails()
 	}
 
 	if (oi->available == -1) {
-		GUI_Palette_RemapScreen(128, 48, 184, 112, SCREEN_2, s_factoryWindowGraymapTbl);
+		GUI_Palette_RemapScreen(128, 48, 184, 112, SCREEN_1, s_factoryWindowGraymapTbl);
 
 		if (g_factoryWindowStarport) {
 			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_OUT_OF_STOCK), 220, 99, 6, 0, 0x132);
@@ -3451,8 +3451,8 @@ void GUI_FactoryWindow_DrawDetails()
 		}
 	} else {
 		if (g_factoryWindowStarport) {
-			GUI_Screen_Copy(16, 99, 16, 160, 23, 9, SCREEN_2, SCREEN_2);
-			GUI_Screen_Copy(16, 99, 16, 169, 23, 9, SCREEN_2, SCREEN_2);
+			GUI_Screen_Copy(16, 99, 16, 160, 23, 9, SCREEN_1, SCREEN_1);
+			GUI_Screen_Copy(16, 99, 16, 169, 23, 9, SCREEN_1, SCREEN_1);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_OUT_OF_STOCK), 220, 169, 6, 0, 0x132);
 
 			GUI_FactoryWindow_UpdateDetails();
@@ -3460,7 +3460,7 @@ void GUI_FactoryWindow_DrawDetails()
 	}
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, SCREEN_2, oldScreenID);
+	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, SCREEN_1, oldScreenID);
 	GUI_Mouse_Show_Safe();
 
 	GFX_Screen_SetActive(oldScreenID);
@@ -3472,7 +3472,7 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 {
 	Screen oldScreenID;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
 	GUI_DrawFilledRectangle(128, 21, 310, 35, 116);
 
@@ -3495,7 +3495,7 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 	}
 
 	GUI_Mouse_Hide_Safe();
-	if (oldScreenID == SCREEN_0) GFX_Screen_Copy2(128, 21, 128, 21, 182, 14, SCREEN_3, oldScreenID, false);
+	if (oldScreenID == SCREEN_0) GFX_Screen_Copy2(128, 21, 128, 21, 182, 14, SCREEN_1, oldScreenID, false);
 	GUI_Mouse_Show_Safe();
 
 	GFX_Screen_SetActive(oldScreenID);
@@ -3509,7 +3509,7 @@ void GUI_FactoryWindow_UpdateDetails()
 	if (oi->available == -1) return;
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, SCREEN_2, g_screenActiveID);
+	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, SCREEN_1, g_screenActiveID);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -3658,7 +3658,7 @@ void GUI_FactoryWindow_PrepareScrollList()
 	FactoryWindowItem *item;
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(9, 24, 9, 40, 4, 128, SCREEN_0, SCREEN_2);
+	GUI_Screen_Copy(9, 24, 9, 40, 4, 128, SCREEN_0, SCREEN_1);
 	GUI_Mouse_Show_Safe();
 
 	item = GUI_FactoryWindow_GetItem(-1);
@@ -3667,12 +3667,12 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(SCREEN_2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, s_factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 8, 0, 0x100, s_factoryWindowGraymapTbl, 1);
 		} else {
-			GUI_DrawSprite(SCREEN_2, g_sprites[oi->spriteID], 72, 8, 0, 0);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 8, 0, 0);
 		}
 	} else {
-		GUI_Screen_Copy(9, 32, 9, 24, 4, 8, SCREEN_2, SCREEN_2);
+		GUI_Screen_Copy(9, 32, 9, 24, 4, 8, SCREEN_1, SCREEN_1);
 	}
 
 	item = GUI_FactoryWindow_GetItem(4);
@@ -3681,12 +3681,12 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(SCREEN_2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, s_factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 168, 0, 0x100, s_factoryWindowGraymapTbl, 1);
 		} else {
-			GUI_DrawSprite(SCREEN_2, g_sprites[oi->spriteID], 72, 168, 0, 0);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 168, 0, 0);
 		}
 	} else {
-		GUI_Screen_Copy(9, 0, 9, 168, 4, 8, SCREEN_2, SCREEN_2);
+		GUI_Screen_Copy(9, 0, 9, 168, 4, 8, SCREEN_1, SCREEN_1);
 	}
 }
 
@@ -4200,7 +4200,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		s_ticksPlayed = 0;
 	}
 
-	data = (HallOfFameStruct *)GFX_Screen_Get_ByIndex(SCREEN_5);
+	data = (HallOfFameStruct *)GFX_Screen_Get_ByIndex(SCREEN_2);
 
 	if (!File_Exists("SAVEFAME.DAT")) {
 		uint16 written;
@@ -4230,7 +4230,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	width = GUI_HallOfFame_DrawData(data, false);
 
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 
 	if (editLine != 0) {
 		WidgetProperties backupProperties;
@@ -4312,7 +4312,7 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show)
 	uint16 battleX;
 	uint8 i;
 
-	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 	GUI_DrawFilledRectangle(8, 80, 311, 178, 116);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -4356,7 +4356,7 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show)
 
 	if (show) {
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(1, 80, 1, 80, 38, 100, SCREEN_2, SCREEN_0);
+		GUI_Screen_Copy(1, 80, 1, 80, 38, 100, SCREEN_1, SCREEN_0);
 		GUI_Mouse_Show_Safe();
 	}
 
@@ -4478,7 +4478,7 @@ void GUI_DrawScreen(Screen screenID)
 
 			GUI_Mouse_Hide_InWidget(2);
 
-			GUI_Screen_Copy(max(-xOffset << 1, 0), 40 + max(-yOffset << 4, 0), max(0, xOffset << 1), 40 + max(0, yOffset << 4), xOverlap << 1, yOverlap << 4, SCREEN_0, SCREEN_2);
+			GUI_Screen_Copy(max(-xOffset << 1, 0), 40 + max(-yOffset << 4, 0), max(0, xOffset << 1), 40 + max(0, yOffset << 4), xOverlap << 1, yOverlap << 4, SCREEN_0, SCREEN_1);
 		} else {
 			g_viewport_forceRedraw = true;
 		}
