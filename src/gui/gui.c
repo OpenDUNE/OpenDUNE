@@ -3264,7 +3264,6 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		for (g_timerTimeout = 60; g_timerTimeout != 0; sleepIdle()) {
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
-			sleepIdle();
 		}
 
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(STR_THAT_HAS_BECOME_DIVIDED));
