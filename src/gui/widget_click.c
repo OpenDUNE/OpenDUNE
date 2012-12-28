@@ -1363,7 +1363,7 @@ static void GUI_Purchase_ShowInvoice()
 	w = GUI_Widget_Get_ByIndex(w, 10);
 
 	if (w != NULL && Mouse_InsideRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height) != 0) {
-		while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) msleep(0);
+		while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) sleepIdle();
 		Input_History_Clear();
 	}
 

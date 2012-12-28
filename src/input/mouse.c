@@ -134,7 +134,7 @@ uint16 Mouse_InsideRegion(int16 left, int16 top, int16 right, int16 bottom)
 	int16 mx, my;
 	uint16 inside;
 
-	while (g_mouseLock != 0) msleep(0);
+	while (g_mouseLock != 0) sleepIdle();
 	g_mouseLock++;
 
 	mx = g_mouseX;
