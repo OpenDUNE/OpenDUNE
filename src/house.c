@@ -414,8 +414,7 @@ bool House_UpdateRadarState(House *h)
 		WSA_DisplayFrame(wsa, activate ? frameCount - frame : frame, 256, 136, SCREEN_0);
 		GUI_PaletteAnimate();
 
-		g_timerTimeout = 3;
-		while (g_timerTimeout != 0) sleepIdle();
+		Timer_Sleep(3);
 	}
 
 	h->flags.radarActivated = activate;

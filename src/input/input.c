@@ -460,13 +460,11 @@ uint16 Input_Wait()
 {
 	uint16 value = 0;
 
-	for (;;) {
+	for (;; sleepIdle()) {
 		if (g_mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 		value = s_historyHead;
 		if (value != s_historyTail) break;
-
-		sleepIdle();
 	}
 
 	value = Input_ReadHistory(value);
@@ -567,13 +565,11 @@ uint16 Input_WaitForValidInput()
 	uint16 value, i;
 
 	do {
-		for (;;) {
+		for (;; sleepIdle()) {
 			if (g_mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 			index = s_historyHead;
 			if (index != s_historyTail) break;
-
-			sleepIdle();
 		}
 
 		value = Input_ReadHistory(index);
@@ -598,7 +594,7 @@ uint16 Input_Keyboard_NextKey()
 
 	Input_AddHistory(0);
 
-	for (;;) {
+	for (;; sleepIdle()) {
 		uint16 index;
 
 		index = s_historyHead;
@@ -619,8 +615,6 @@ uint16 Input_Keyboard_NextKey()
 		if ((value & 0xFF) >= 0x41 && (value & 0xFF) <= 0x44) index += 4;
 
 		s_historyHead = index + 2;
-
-		sleepIdle();
 	}
 
 	if (value != 0) {

@@ -111,9 +111,9 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 static void GUI_Mentat_HelpListLoop()
 {
-	uint16 key = 0;
+	uint16 key;
 
-	while (key != 0x8001) {
+	for (key = 0; key != 0x8001; sleepIdle()) {
 		Widget *w = g_widgetMentatTail;
 
 		GUI_Mentat_Animation(0);
@@ -183,8 +183,6 @@ static void GUI_Mentat_HelpListLoop()
 		}
 
 		s_selectMentatHelp = false;
-
-		sleepIdle();
 	}
 }
 
@@ -1109,9 +1107,8 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	Input_History_Clear();
 
 	textDone = false;
-	done = false;
 	result = 0;
-	while (!done) {
+	for (done = false; !done; sleepIdle()) {
 		uint16 key;
 
 		GFX_Screen_SetActive(SCREEN_0);
@@ -1247,10 +1244,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 			dirty = true;
 		}
 
-		if (!dirty) {
-			sleepIdle();
-			continue;
-		}
+		if (!dirty) continue;
 
 		GUI_Mentat_DrawInfo(pictureDetails, (g_curWidgetXBase << 3) + 5, g_curWidgetYBase + 3, 8, 0, lines, 0x31);
 
@@ -1259,8 +1253,6 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
 		GUI_Mouse_Show_InWidget();
 		dirty = false;
-
-		sleepIdle();
 	}
 
 	if (wsa != NULL) WSA_Unload(wsa);
