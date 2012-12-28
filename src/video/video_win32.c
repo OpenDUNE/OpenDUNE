@@ -367,12 +367,12 @@ void Video_Tick()
 	}
 
 	/* Do a quick compare to see if the screen changed at all */
-	if (memcmp(GFX_Screen_Get_ByIndex(0), s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
+	if (memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
 		s_lock = false;
 		return;
 	}
 
-	memcpy(s_screen, GFX_Screen_Get_ByIndex(0), SCREEN_WIDTH * SCREEN_HEIGHT);
+	memcpy(s_screen, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
 
 	InvalidateRect(s_hwnd, NULL, TRUE);
 	s_lock = false;

@@ -4,13 +4,13 @@
 #include <string.h>
 #include "types.h"
 #include "os/math.h"
+#include "gfx.h"
 
 #include "wsa.h"
 
 #include "codec/format40.h"
 #include "codec/format80.h"
 #include "file.h"
-#include "gfx.h"
 #include "gui/widget.h"
 
 
@@ -395,7 +395,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
  * @param screenID The screenID to draw on.
  * @return False on failure, true on success.
  */
-bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, uint16 screenID)
+bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, Screen screenID)
 {
 	WSAHeader *header = (WSAHeader *)wsa;
 	uint8 *dst;
@@ -474,7 +474,7 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, uin
 	header->frameCurrent = frameNext;
 
 	if (header->flags.displayInBuffer) {
-		uint16 oldScreenID = GFX_Screen_SetActive(screenID);
+		Screen oldScreenID = GFX_Screen_SetActive(screenID);
 
 		WSA_DrawFrame(posX, posY, header->width, header->height, 0, dst);
 

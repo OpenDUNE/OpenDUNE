@@ -25,22 +25,22 @@
 
 static void GUI_Security_DrawText(char *text)
 {
-	uint16 oldScreenID;
+	Screen oldScreenID;
 
-	oldScreenID = GFX_Screen_SetActive(4);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_4);
 
 	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 0, 4);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_0, SCREEN_4);
 	GUI_Mouse_Show_InRegion();
 
-	GUI_Screen_Copy(0, 0, 0, 160, SCREEN_WIDTH / 8, 40, 4, 4);
+	GUI_Screen_Copy(0, 0, 0, 160, SCREEN_WIDTH / 8, 40, SCREEN_4, SCREEN_4);
 
 	GUI_Mentat_SplitText(text, 304);
 
 	GUI_DrawText_Wrapper(text, 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
 
 	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_4, SCREEN_0);
 	GUI_Mouse_Show_InRegion();
 
 	GFX_Screen_SetActive(oldScreenID);
@@ -49,7 +49,7 @@ static void GUI_Security_DrawText(char *text)
 static void GUI_Security_UndrawText()
 {
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
+	GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_4, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -81,7 +81,7 @@ bool GUI_Security_Show()
 	const char *wsaHouseFilename;
 	uint16 questionsCount;
 	uint16 oldCurrentWidget;
-	uint16 oldScreenID;
+	Screen oldScreenID;
 	uint16 i;
 	bool valid;
 
@@ -96,7 +96,7 @@ bool GUI_Security_Show()
 	GUI_Mentat_Display(wsaHouseFilename, g_playerHouseID);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 
 	GUI_SetPaletteAnimated(g_palette1, 15);
@@ -108,7 +108,7 @@ bool GUI_Security_Show()
 
 	oldCurrentWidget = Widget_SetCurrentWidget(8);
 
-	oldScreenID = GFX_Screen_SetActive(4);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_4);
 
 	for (i = 0, valid = false; i < 3 && !valid; i++) {
 		void *wsa;
@@ -120,14 +120,14 @@ bool GUI_Security_Show()
 
 		Widget_SetCurrentWidget(8);
 
-		wsa = WSA_LoadFile(String_Get_ByIndex(questionIndex + 1), GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3), false);
-		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase << 3, g_curWidgetYBase, 4);
+		wsa = WSA_LoadFile(String_Get_ByIndex(questionIndex + 1), GFX_Screen_Get_ByIndex(SCREEN_3), GFX_Screen_GetSize_ByIndex(SCREEN_3), false);
+		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase << 3, g_curWidgetYBase, SCREEN_4);
 		WSA_Unload(wsa);
 
-		GUI_DrawSprite(4, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+		GUI_DrawSprite(SCREEN_4, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 		GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
-		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_4, SCREEN_0);
 		GUI_Mouse_Show_InWidget();
 
 		strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
@@ -138,10 +138,10 @@ bool GUI_Security_Show()
 		Widget_SetCurrentWidget(9);
 
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(g_curWidgetXBase - 1, g_curWidgetYBase - 8, 0, 0, g_curWidgetWidth + 2, g_curWidgetHeight + 16, 0, 4);
+		GUI_Screen_Copy(g_curWidgetXBase - 1, g_curWidgetYBase - 8, 0, 0, g_curWidgetWidth + 2, g_curWidgetHeight + 16, SCREEN_0, SCREEN_4);
 		GUI_Mouse_Show_Safe();
 
-		GFX_Screen_SetActive(0);
+		GFX_Screen_SetActive(SCREEN_0);
 
 		GUI_Mouse_Hide_Safe();
 		GUI_DrawBorder((g_curWidgetXBase << 3) - 6, g_curWidgetYBase - 6, (g_curWidgetWidth << 3) + 12, g_curWidgetHeight + 12, 1, true);
@@ -159,7 +159,7 @@ bool GUI_Security_Show()
 		GUI_Security_UndrawText();
 
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(0, 0, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16, 4, 0);
+		GUI_Screen_Copy(0, 0, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16, SCREEN_4, SCREEN_0);
 		GUI_Mouse_Show_Safe();
 
 		GUI_Security_NormaliseText(buffer);

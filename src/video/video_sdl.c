@@ -196,7 +196,7 @@ void Video_Uninit()
 #	if SCREEN_MAGNIFICATION == 2
 void Video_DrawScreen()
 {
-	uint8 *data = GFX_Screen_Get_ByIndex(0);
+	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx1 = s_gfx_screen;
 	uint8 *gfx2;
 	uint8 value;
@@ -273,7 +273,7 @@ void Video_DrawScreen()
 #	elif SCREEN_MAGNIFICATION == 3
 void Video_DrawScreen()
 {
-	uint8 *data = GFX_Screen_Get_ByIndex(0);
+	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx1 = s_gfx_screen;
 	uint8 *gfx2;
 	uint8 *gfx3;
@@ -392,7 +392,7 @@ void Video_DrawScreen()
 #	if SCREEN_MAGNIFICATION == 2
 void Video_DrawScreen()
 {
-	uint8 *data = GFX_Screen_Get_ByIndex(0);
+	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx1 = s_gfx_screen;
 	uint8 *gfx2;
 	int x, y;
@@ -412,7 +412,7 @@ void Video_DrawScreen()
 #	elif SCREEN_MAGNIFICATION == 3
 void Video_DrawScreen()
 {
-	uint8 *data = GFX_Screen_Get_ByIndex(0);
+	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx1 = s_gfx_screen;
 	uint8 *gfx2;
 	uint8 *gfx3;
@@ -439,7 +439,7 @@ void Video_DrawScreen()
 #	else /* SCREEN_MAGNIFICATION != 2 != 3 */
 void Video_DrawScreen()
 {
-	uint8 *data = GFX_Screen_Get_ByIndex(0);
+	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx  = s_gfx_screen;
 	int x, y, i, j;
 
@@ -513,11 +513,11 @@ void Video_Tick()
 	}
 
 	/* Do a quick compare to see if the screen changed at all */
-	if (memcmp(GFX_Screen_Get_ByIndex(0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
+	if (memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
 		s_video_lock = false;
 		return;
 	}
-	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(0), SCREEN_WIDTH * SCREEN_HEIGHT);
+	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
 
 	Video_DrawScreen();
 

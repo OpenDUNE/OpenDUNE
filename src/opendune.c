@@ -284,7 +284,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 
 	Font_Select(g_fontIntro);
 
-	GFX_Screen_SetActive(0);
+	GFX_Screen_SetActive(SCREEN_0);
 
 	memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->colour * 16) * 3], 6 * 3);
 
@@ -305,7 +305,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
  * Clears the given memory block.
  * @param index The memory block.
  */
-static void Memory_ClearBlock(uint16 index)
+static void Memory_ClearBlock(Screen index)
 {
 	memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
 }
@@ -317,11 +317,11 @@ static void GameLoop_FinishAnimation()
 
 	GUI_SetPaletteAnimated(g_palette2, 60);
 
-	GUI_ClearScreen(0);
+	GUI_ClearScreen(SCREEN_0);
 
 	Input_History_Clear();
 
-	Memory_ClearBlock(7);
+	Memory_ClearBlock(SCREEN_7);
 }
 
 static void GameLoop_PlaySoundEffect(uint8 animation)
@@ -547,16 +547,16 @@ static void GameLoop_PlayAnimation()
 			}
 
 			if ((animation->flags & 0x480) != 0) {
-				GUI_ClearScreen(3);
+				GUI_ClearScreen(SCREEN_3);
 
-				wsa = GFX_Screen_Get_ByIndex(5);
+				wsa = GFX_Screen_Get_ByIndex(SCREEN_5);
 
-				loc24 = GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6);
+				loc24 = GFX_Screen_GetSize_ByIndex(SCREEN_5) + GFX_Screen_GetSize_ByIndex(SCREEN_6);
 				loc20 = false;
 			} else {
-				wsa = GFX_Screen_Get_ByIndex(3);
+				wsa = GFX_Screen_Get_ByIndex(SCREEN_3);
 
-				loc24 = GFX_Screen_GetSize_ByIndex(3) + GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6);
+				loc24 = GFX_Screen_GetSize_ByIndex(SCREEN_3) + GFX_Screen_GetSize_ByIndex(SCREEN_5) + GFX_Screen_GetSize_ByIndex(SCREEN_6);
 			}
 
 			snprintf(filenameBuffer, sizeof(filenameBuffer), "%s.WSA", animation->string);
@@ -576,7 +576,7 @@ static void GameLoop_PlayAnimation()
 
 		if ((animation->flags & 0x4) != 0) {
 			GameLoop_PlaySubtitle(animationMode);
-			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
+			WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
 			GameLoop_PalettePart_Update(true);
 
 			memcpy(&g_palette1[215 * 3], s_palettePartCurrent, 18);
@@ -587,13 +587,13 @@ static void GameLoop_PlayAnimation()
 		} else {
 			if ((animation->flags & 0x480) != 0) {
 				GameLoop_PlaySubtitle(animationMode);
-				WSA_DisplayFrame(wsa, frame++, posX, posY, 2);
+				WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_2);
 				locdi++;
 
 				if ((animation->flags & 0x480) == 0x80) {
-					GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, 1, false);
+					GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_2, SCREEN_0, 1, false);
 				} else if ((animation->flags & 0x480) == 0x400) {
-					GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, 2, 0);
+					GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, SCREEN_2, SCREEN_0);
 				}
 			}
 		}
@@ -635,7 +635,7 @@ static void GameLoop_PlayAnimation()
 			g_timerTimeout = loc18;
 
 			GameLoop_PlaySubtitle(animationMode);
-			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
+			WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
 
 			if (mode == 1 && frame == loc04) {
 				frame = 0;
@@ -658,7 +658,7 @@ static void GameLoop_PlayAnimation()
 			bool displayed;
 			do {
 				GameLoop_PlaySubtitle(animationMode);
-				displayed = WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
+				displayed = WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
 			} while (displayed);
 		}
 
@@ -779,11 +779,11 @@ static void GameLoop_Uninit()
 	free(g_paletteMapping2); g_paletteMapping2 = NULL;
 }
 
-static void GameCredits_SwapScreen(uint16 top, uint16 height, uint16 screenID, void *buffer)
+static void GameCredits_SwapScreen(uint16 top, uint16 height, Screen screenID, void *buffer)
 {
 	uint16 *b = (uint16 *)buffer;
 	uint16 *screen1 = (uint16 *)GFX_Screen_Get_ByIndex(screenID) + top * SCREEN_WIDTH / 2;
-	uint16 *screen2 = (uint16 *)GFX_Screen_Get_ByIndex(0) + top * SCREEN_WIDTH / 2;
+	uint16 *screen2 = (uint16 *)GFX_Screen_Get_ByIndex(SCREEN_0) + top * SCREEN_WIDTH / 2;
 	uint16 count = height * SCREEN_WIDTH / 2;
 
 	while (count-- != 0) {
@@ -798,7 +798,7 @@ static void GameCredits_SwapScreen(uint16 top, uint16 height, uint16 screenID, v
 	}
 }
 
-static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 screenID, uint16 delay)
+static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen screenID, uint16 delay)
 {
 	uint16 loc02;
 	uint16 stringCount = 0;
@@ -841,12 +841,12 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	positions[5].x = 0;
 	positions[5].y = spriteY;
 
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 0, memory);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_0, memory);
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, memory, screenID);
 
 	GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, memory, s_buffer_182E);
 
-	GFX_Screen_SetActive(0);
+	GFX_Screen_SetActive(SCREEN_0);
 	loc0C = g_timerSleep;
 
 	Input_History_Clear();
@@ -967,7 +967,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_curWidgetYBase, 255, 0);
 
-				GFX_Screen_SetActive(0);
+				GFX_Screen_SetActive(SCREEN_0);
 			}
 
 			strings[loc02].y--;
@@ -993,7 +993,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 	GUI_SetPaletteAnimated(g_palette2, 120);
 
-	GUI_ClearScreen(0);
+	GUI_ClearScreen(SCREEN_0);
 	GUI_ClearScreen(memory);
 	GUI_ClearScreen(screenID);
 }
@@ -1003,7 +1003,7 @@ static void GameCredits_LoadPalette()
 	uint16 i;
 	uint8 *p;
 
-	s_buffer_182E = GFX_Screen_Get_ByIndex(7);
+	s_buffer_182E = GFX_Screen_Get_ByIndex(SCREEN_7);
 	s_buffer_1832 = (uint8 *)s_buffer_182E + SCREEN_WIDTH * g_curWidgetHeight;
 
 	g_palette1 = malloc(256 * 3 * 10);
@@ -1039,11 +1039,11 @@ static void GameLoop_GameCredits()
 
 	Widget_SetCurrentWidget(20);
 
-	Sprites_LoadImage("BIGPLAN.CPS", 3, g_palette_998A);
+	Sprites_LoadImage("BIGPLAN.CPS", SCREEN_3, g_palette_998A);
 
-	GUI_ClearScreen(0);
+	GUI_ClearScreen(SCREEN_0);
 
-	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
 
 	GUI_SetPaletteAnimated(g_palette_998A, 60);
 
@@ -1053,7 +1053,7 @@ static void GameLoop_GameCredits()
 
 	Music_Play(33);
 
-	memory = GFX_Screen_Get_ByIndex(5);
+	memory = GFX_Screen_Get_ByIndex(SCREEN_5);
 
 	for (i = 0; i < 256; i++) {
 		uint8 loc06;
@@ -1069,11 +1069,11 @@ static void GameLoop_GameCredits()
 		}
 	}
 
-	Sprites_LoadImage("MAPPLAN.CPS", 3, g_palette_998A);
+	Sprites_LoadImage("MAPPLAN.CPS", SCREEN_3, g_palette_998A);
 
-	GUI_Palette_RemapScreen(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, 2, memory);
+	GUI_Palette_RemapScreen(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, SCREEN_2, memory);
 
-	GUI_Screen_FadeIn2(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, 2, 0, 1, false);
+	GUI_Screen_FadeIn2(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, SCREEN_2, SCREEN_0, 1, false);
 
 	GameCredits_LoadPalette();
 
@@ -1086,7 +1086,7 @@ static void GameLoop_GameCredits()
 	GFX_SetPalette(g_palette1);
 
 	while (true) {
-		File_ReadBlockFile(String_GenerateFilename("CREDITS"), s_buffer_1832, GFX_Screen_GetSize_ByIndex(6));
+		File_ReadBlockFile(String_GenerateFilename("CREDITS"), s_buffer_1832, GFX_Screen_GetSize_ByIndex(SCREEN_6));
 
 		GameCredits_Play(s_buffer_1832, 20, 2, 4, 6);
 
@@ -1190,7 +1190,7 @@ static void GameLoop_LevelEnd()
 				GUI_Mouse_Hide_Safe();
 
 				GUI_SetPaletteAnimated(g_palette2, 15);
-				GUI_ClearScreen(0);
+				GUI_ClearScreen(SCREEN_0);
 				GameLoop_GameEndAnimation();
 				PrepareEnd();
 				exit(0);
@@ -1240,11 +1240,11 @@ static void GameLoop_LevelEnd()
  */
 static void Gameloop_Logos()
 {
-	uint16 oldScreenID;
+	Screen oldScreenID;
 	void *wsa;
 	uint16 frame;
 
-	oldScreenID = GFX_Screen_SetActive(0);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_0);
 
 	GFX_SetPalette(g_palette2);
 	GFX_ClearScreen();
@@ -1252,8 +1252,8 @@ static void Gameloop_Logos()
 	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 256 * 3);
 
 	frame = 0;
-	wsa = WSA_LoadFile("WESTWOOD.WSA", GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3) + GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6), true);
-	WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
+	wsa = WSA_LoadFile("WESTWOOD.WSA", GFX_Screen_Get_ByIndex(SCREEN_3), GFX_Screen_GetSize_ByIndex(SCREEN_3) + GFX_Screen_GetSize_ByIndex(SCREEN_5) + GFX_Screen_GetSize_ByIndex(SCREEN_6), true);
+	WSA_DisplayFrame(wsa, frame++, 0, 0, SCREEN_0);
 
 	GUI_SetPaletteAnimated(g_palette_998A, 60);
 
@@ -1265,7 +1265,7 @@ static void Gameloop_Logos()
 		uint32 loc04;
 		bool displayed;
 
-		displayed = WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
+		displayed = WSA_DisplayFrame(wsa, frame++, 0, 0, SCREEN_0);
 		if (!displayed) break;
 
 		loc04 = g_timerGUI + 6;
@@ -1290,7 +1290,7 @@ static void Gameloop_Logos()
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
-		GUI_ClearScreen(0);
+		GUI_ClearScreen(SCREEN_0);
 
 		GFX_Screen_SetActive(oldScreenID);
 		return;
@@ -1308,7 +1308,7 @@ static void Gameloop_Logos()
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
-		GUI_ClearScreen(0);
+		GUI_ClearScreen(SCREEN_0);
 
 		GFX_Screen_SetActive(oldScreenID);
 		return;
@@ -1318,9 +1318,9 @@ static void Gameloop_Logos()
 
 	GFX_ClearScreen();
 
-	Sprites_LoadImage(String_GenerateFilename("AND"), 2, g_palette_998A);
+	Sprites_LoadImage(String_GenerateFilename("AND"), SCREEN_2, g_palette_998A);
 
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
 
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
@@ -1333,7 +1333,7 @@ static void Gameloop_Logos()
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
-		GUI_ClearScreen(0);
+		GUI_ClearScreen(SCREEN_0);
 
 		GFX_Screen_SetActive(oldScreenID);
 		return;
@@ -1341,11 +1341,11 @@ static void Gameloop_Logos()
 
 	GUI_SetPaletteAnimated(g_palette2, 30);
 
-	GUI_ClearScreen(0);
+	GUI_ClearScreen(SCREEN_0);
 
-	Sprites_LoadImage("VIRGIN.CPS", 2, g_palette_998A);
+	Sprites_LoadImage("VIRGIN.CPS", SCREEN_2, g_palette_998A);
 
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
 
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
@@ -1361,7 +1361,7 @@ static void Gameloop_Logos()
 
 	GUI_SetPaletteAnimated(g_palette2, 30);
 
-	GUI_ClearScreen(0);
+	GUI_ClearScreen(SCREEN_0);
 
 	GFX_Screen_SetActive(oldScreenID);
 }
@@ -1633,10 +1633,10 @@ static void ReadProfileIni(const char *filename)
 	if (filename == NULL) return;
 	if (!File_Exists(filename)) return;
 
-	source = GFX_Screen_Get_ByIndex(3);
+	source = GFX_Screen_Get_ByIndex(SCREEN_3);
 
 	memset(source, 0, 32000);
-	File_ReadBlockFile(filename, source, GFX_Screen_GetSize_ByIndex(3));
+	File_ReadBlockFile(filename, source, GFX_Screen_GetSize_ByIndex(SCREEN_3));
 
 	keys = source + strlen(source) + 5000;
 	*keys = '\0';
@@ -1786,7 +1786,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	memmove(g_palette1, g_palette_998A, 256 * 3);
 
-	GUI_ClearScreen(0);
+	GUI_ClearScreen(SCREEN_0);
 
 	Video_SetPalette(g_palette1, 0, 256);
 
@@ -1906,7 +1906,7 @@ static void GameLoop_GameIntroAnimationMenu()
 				case STR_LOAD_GAME:
 					GUI_Mouse_Hide_Safe();
 					GUI_SetPaletteAnimated(g_palette2, 30);
-					GUI_ClearScreen(0);
+					GUI_ClearScreen(SCREEN_0);
 					GUI_Mouse_Show_Safe();
 
 					GFX_SetPalette(g_palette1);
@@ -1960,13 +1960,13 @@ static void GameLoop_GameIntroAnimationMenu()
 				g_widgetProperties[13].yBase  = 160 - ((g_widgetProperties[21].height * g_fontCurrent->height) >> 1);
 				g_widgetProperties[13].height = (g_widgetProperties[21].height * g_fontCurrent->height) + 11;
 
-				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, NULL);
+				Sprites_LoadImage(String_GenerateFilename("TITLE"), SCREEN_3, NULL);
 
 				GUI_Mouse_Hide_Safe();
 
-				GUI_ClearScreen(0);
+				GUI_ClearScreen(SCREEN_0);
 
-				GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
+				GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_2, SCREEN_0);
 
 				GUI_SetPaletteAnimated(g_palette1, 30);
 
@@ -2018,7 +2018,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 		GUI_SetPaletteAnimated(g_palette2, 15);
 
-		GUI_ClearScreen(0);
+		GUI_ClearScreen(SCREEN_0);
 	}
 
 	Input_History_Clear();
@@ -2154,7 +2154,7 @@ static void GameLoop_Main()
 
 			GUI_Mouse_Hide_Safe();
 
-			Memory_ClearBlock(1);
+			Memory_ClearBlock(SCREEN_1);
 
 			Sprites_LoadTiles();
 
@@ -2216,7 +2216,7 @@ static void GameLoop_Main()
 			}
 		}
 
-		GFX_Screen_SetActive(0);
+		GFX_Screen_SetActive(SCREEN_0);
 
 		key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
@@ -2243,7 +2243,7 @@ static void GameLoop_Main()
 			GameLoop_Structure();
 			GameLoop_House();
 
-			GUI_DrawScreen(0);
+			GUI_DrawScreen(SCREEN_0);
 		}
 
 		GUI_DisplayText(NULL, 0);
@@ -2265,11 +2265,11 @@ static void GameLoop_Main()
 
 	Widget_SetCurrentWidget(0);
 
-	GFX_Screen_SetActive(2);
+	GFX_Screen_SetActive(SCREEN_2);
 
 	GFX_ClearScreen();
 
-	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
+	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
 }
 
 static bool Unknown_25C4_000E()

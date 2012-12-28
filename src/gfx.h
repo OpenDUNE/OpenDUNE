@@ -8,20 +8,31 @@ enum {
 	SCREEN_HEIGHT = 200  /*!< Height of the screen in pixels. */
 };
 
-extern uint16 g_screenActiveID;
+typedef enum Screen {
+	SCREEN_0 = 0,
+	SCREEN_1 = 1,
+	SCREEN_2 = 2,
+	SCREEN_3 = 3,
+	SCREEN_4 = 4,
+	SCREEN_5 = 5,
+	SCREEN_6 = 6,
+	SCREEN_7 = 7
+} Screen;
+
+extern Screen g_screenActiveID;
 
 extern void GFX_Init();
 extern void GFX_Uninit();
-extern uint16 GFX_Screen_SetActive(uint16 screenID);
+extern Screen GFX_Screen_SetActive(Screen screenID);
 extern void *GFX_Screen_GetActive();
-extern uint16 GFX_Screen_GetSize_ByIndex(uint16 screenID);
-extern void *GFX_Screen_Get_ByIndex(uint16 screenID);
+extern uint16 GFX_Screen_GetSize_ByIndex(Screen screenID);
+extern void *GFX_Screen_Get_ByIndex(Screen screenID);
 
 extern void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID);
 extern void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize);
 extern void GFX_PutPixel(uint16 x, uint16 y, uint8 colour);
-extern void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull);
-extern void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst);
+extern void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, Screen screenSrc, Screen screenDst, bool skipNull);
+extern void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, Screen screenSrc, Screen screenDst);
 extern void GFX_ClearScreen();
 extern void GFX_SetPalette(uint8 *palette);
 extern uint8 GFX_GetPixel(uint16 x, uint16 y);

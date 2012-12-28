@@ -422,13 +422,13 @@ static void GUI_Widget_Undraw(Widget *w, uint8 colour)
 	width = w->width;
 	height = w->height;
 
-	if (g_screenActiveID == 0) {
+	if (g_screenActiveID == SCREEN_0) {
 		GUI_Mouse_Hide_InRegion(offsetX, offsetY, offsetX + width, offsetY + height);
 	}
 
 	GUI_DrawFilledRectangle(offsetX, offsetY, offsetX + width, offsetY + height, colour);
 
-	if (g_screenActiveID == 0) {
+	if (g_screenActiveID == SCREEN_0) {
 		GUI_Mouse_Show_InRegion();
 	}
 }
@@ -441,7 +441,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	g_widgetLinkedListTail = NULL;
 
-	GFX_Screen_SetActive(2);
+	GFX_Screen_SetActive(SCREEN_2);
 
 	Widget_SetCurrentWidget(desc->index);
 
@@ -540,11 +540,11 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	Widget_SetCurrentWidget(desc->index);
 
-	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
 
 	GUI_Mouse_Show_Safe();
 
-	GFX_Screen_SetActive(0);
+	GFX_Screen_SetActive(SCREEN_0);
 }
 
 static void GUI_Window_BackupScreen(WindowDesc *desc)
@@ -552,7 +552,7 @@ static void GUI_Window_BackupScreen(WindowDesc *desc)
 	Widget_SetCurrentWidget(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-	GFX_CopyToBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, GFX_Screen_Get_ByIndex(5));
+	GFX_CopyToBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, GFX_Screen_Get_ByIndex(SCREEN_5));
 	GUI_Mouse_Show_Safe();
 }
 
@@ -561,7 +561,7 @@ static void GUI_Window_RestoreScreen(WindowDesc *desc)
 	Widget_SetCurrentWidget(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-	GFX_CopyFromBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, GFX_Screen_Get_ByIndex(5));
+	GFX_CopyFromBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, GFX_Screen_Get_ByIndex(SCREEN_5));
 	GUI_Mouse_Show_Safe();
 }
 
@@ -785,7 +785,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	g_textDisplayNeedsUpdate = true;
 
 	Sprites_LoadTiles();
-	GUI_DrawInterfaceAndRadar(0);
+	GUI_DrawInterfaceAndRadar(SCREEN_0);
 
 	UnshadeScreen();
 
@@ -873,7 +873,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 	if (*saveDesc == '[') key = s_savegameCountOnDisk;
 
-	GFX_Screen_SetActive(0);
+	GFX_Screen_SetActive(SCREEN_0);
 
 	Widget_SetCurrentWidget(15);
 
@@ -1152,7 +1152,7 @@ static void GUI_FactoryWindow_ScrollList(int16 step)
 
 	for (i = 0; i < 32; i++) {
 		y += step;
-		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
+		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, SCREEN_2, SCREEN_0, false);
 	}
 
 	GUI_Mouse_Show_Safe();
@@ -1175,12 +1175,12 @@ static void GUI_FactoryWindow_FailScrollList(int16 step)
 
 	for (i = 0; i < 6; i++) {
 		y += step;
-		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
+		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, SCREEN_2, SCREEN_0, false);
 	}
 
 	for (i = 0; i < 6; i++) {
 		y -= step;
-		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
+		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, SCREEN_2, SCREEN_0, false);
 	}
 
 	GUI_Mouse_Show_Safe();
@@ -1285,11 +1285,13 @@ bool GUI_Production_Up_Click(Widget *w)
 static void GUI_Purchase_ShowInvoice()
 {
 	Widget *w = g_widgetInvoiceTail;
-	uint16 oldScreenID = GFX_Screen_SetActive(2);
+	Screen oldScreenID;
 	uint16 y = 48;
 	uint16 total = 0;
 	uint16 x;
 	char textBuffer[12];
+
+	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
 
 	GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
 
@@ -1338,10 +1340,10 @@ static void GUI_Purchase_ShowInvoice()
 	GUI_DrawText_Monospace(textBuffer, x, 152, 11, 0, 6);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, 2, 0);
+	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, SCREEN_2, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 
-	GFX_Screen_SetActive(0);
+	GFX_Screen_SetActive(SCREEN_0);
 
 	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(STR_INVOICE_OF_UNITS_ON_ORDER));
 

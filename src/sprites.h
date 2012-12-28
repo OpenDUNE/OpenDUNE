@@ -3,6 +3,8 @@
 #ifndef SPRITES_H
 #define SPRITES_H
 
+#include "gfx.h"
+
 /**
  * The \c ICON.MAP contains indices only. An index can point either to another
  * index or to a spriteID in the tiles file, as follows.
@@ -73,7 +75,7 @@ extern uint8 Sprite_GetHeight(uint8 *sprite);
 extern uint16 Sprites_GetType(uint8 *sprite);
 extern void Sprites_LoadTiles();
 extern void Sprites_UnloadTiles();
-extern uint16 Sprites_LoadImage(const char *filename, uint16 screenID, uint8 *palette);
+extern uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette);
 extern void Sprites_SetMouseSprite(uint16 x, uint16 y, uint8 *sprite);
 extern void Sprites_CPS_LoadRegionClick();
 extern bool Sprite_IsUnveiled(uint16 spriteID);

@@ -395,7 +395,7 @@ bool House_UpdateRadarState(House *h)
 
 	if (h->flags.radarActivated == activate) return false;
 
-	wsa = WSA_LoadFile("STATIC.WSA", GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3), true);
+	wsa = WSA_LoadFile("STATIC.WSA", GFX_Screen_Get_ByIndex(SCREEN_3), GFX_Screen_GetSize_ByIndex(SCREEN_3), true);
 	frameCount = WSA_GetFrameCount(wsa);
 
 	g_textDisplayNeedsUpdate = true;
@@ -411,7 +411,7 @@ bool House_UpdateRadarState(House *h)
 	frameCount = WSA_GetFrameCount(wsa);
 
 	for (frame = 0; frame < frameCount; frame++) {
-		WSA_DisplayFrame(wsa, activate ? frameCount - frame : frame, 256, 136, 0);
+		WSA_DisplayFrame(wsa, activate ? frameCount - frame : frame, 256, 136, SCREEN_0);
 		GUI_PaletteAnimate();
 
 		g_timerTimeout = 3;

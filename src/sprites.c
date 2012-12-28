@@ -247,7 +247,7 @@ void Sprites_LoadTiles()
 
 	Orientation_InitTable();
 
-	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, GFX_Screen_Get_ByIndex(5));
+	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, GFX_Screen_Get_ByIndex(SCREEN_5));
 }
 
 /**
@@ -266,7 +266,7 @@ void Sprites_UnloadTiles()
  * @param palette Where to store the palette, if any.
  * @return The size of the loaded image.
  */
-static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *palette)
+static uint32 Sprites_LoadCPSFile(const char *filename, Screen screenID, uint8 *palette)
 {
 	uint8 index;
 	uint16 size;
@@ -315,7 +315,7 @@ static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *
  * @param palette Where to store the palette, if any.
  * @return The size of the loaded image.
  */
-uint16 Sprites_LoadImage(const char *filename, uint16 screenID, uint8 *palette)
+uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette)
 {
 	uint8 index;
 	uint32 header;
@@ -418,10 +418,10 @@ void Sprites_CPS_LoadRegionClick()
 	uint8 i;
 	char filename[16];
 
-	buf = GFX_Screen_Get_ByIndex(5);
+	buf = GFX_Screen_Get_ByIndex(SCREEN_5);
 
 	g_fileRgnclkCPS = buf;
-	Sprites_LoadCPSFile("RGNCLK.CPS", 5, NULL);
+	Sprites_LoadCPSFile("RGNCLK.CPS", SCREEN_5, NULL);
 	for (i = 0; i < 120; i++) memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
 	buf += 120 * 304;
 

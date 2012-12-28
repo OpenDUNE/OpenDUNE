@@ -3,6 +3,8 @@
 #ifndef GUI_GUI_H
 #define GUI_GUI_H
 
+#include "../gfx.h"
+
 /**
  * Factory results.
  */
@@ -112,24 +114,24 @@ extern void GUI_PaletteAnimate();
 extern void GUI_UpdateProductionStringID();
 extern uint16 GUI_DisplayModalMessage(const char *str, uint16 stringID, ...);
 extern uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter);
-extern void GUI_DrawSprite(uint16 memory, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
+extern void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
 extern void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint8 houseID);
 extern uint8 GUI_PickHouse();
 extern void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, uint8 intensity);
 extern void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16 colourSchemaIndex, bool fill);
 extern uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID);
 extern void GUI_DrawProgressbar(uint16 current, uint16 max);
-extern void GUI_DrawInterfaceAndRadar(uint16 unknown);
+extern void GUI_DrawInterfaceAndRadar(Screen screenID);
 extern void GUI_DrawCredits(uint8 houseID, uint16 mode);
 extern void GUI_ChangeSelectionType(uint16 selectionType);
 extern void GUI_InitColors(const uint8 *colors, uint8 first, uint8 last);
 extern void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 color);
 extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom);
-extern void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst);
+extern void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, Screen screenSrc, Screen screenDst);
 extern FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, uint16 upgradeCost);
 extern char *GUI_String_Get_ByIndex(int16 stringID);
 extern uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win);
-extern void GUI_ClearScreen(uint16 arg06);
+extern void GUI_ClearScreen(Screen screenID);
 extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);
 extern void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 fgColour, uint8 bgColour, uint16 charWidth);
 extern void GUI_FactoryWindow_B495_0F30();
@@ -138,9 +140,9 @@ extern void GUI_FactoryWindow_DrawDetails();
 extern void GUI_FactoryWindow_DrawCaption(char *caption);
 extern void GUI_FactoryWindow_UpdateDetails();
 extern void GUI_FactoryWindow_UpdateSelection(bool selectionChanged);
-extern void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint16 width, uint16 height, uint16 memBlockSrc, uint16 memBlockDst);
+extern void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint16 width, uint16 height, Screen screenSrc, Screen screenDst);
 extern void GUI_FactoryWindow_PrepareScrollList();
-extern void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 screenSrc, uint16 screenDst, uint16 arg12, bool arg14);
+extern void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, Screen screenSrc, Screen screenDst, uint16 arg12, bool arg14);
 extern void GUI_Mouse_Show();
 extern void GUI_Mouse_Hide();
 extern void GUI_Mouse_Show_Safe();
@@ -151,13 +153,13 @@ extern void GUI_Mouse_Show_InWidget();
 extern void GUI_Mouse_Hide_InWidget(uint16 widgetIndex);
 extern void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint8 colour);
 extern void GUI_Mouse_SetPosition(uint16 x, uint16 y);
-extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, uint8 *remap);
+extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, Screen screenID, uint8 *remap);
 extern uint16 GUI_HallOfFame_Tick();
 extern void GUI_HallOfFame_Show(uint16 score);
 extern uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show);
 extern void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
 extern void GUI_Palette_CreateRemap(uint8 houseID);
-extern void GUI_DrawScreen(uint16 screenID);
+extern void GUI_DrawScreen(Screen screenID);
 extern void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation);
 
 /* editbox.c */

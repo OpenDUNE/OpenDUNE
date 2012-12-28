@@ -51,7 +51,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
  */
 uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uint16 (*tickProc)(), uint16 unknown4)
 {
-	uint16 oldScreenID;
+	Screen oldScreenID;
 	uint16 oldValue_07AE_0000;
 	uint16 positionX;
 	uint16 maxWidth;
@@ -65,7 +65,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 		Input_Flags_SetBits(INPUT_FLAG_NO_TRANSLATE);
 		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_2000);
 
-		oldScreenID = GFX_Screen_SetActive(0);
+		oldScreenID = GFX_Screen_SetActive(SCREEN_0);
 
 		oldValue_07AE_0000 = Widget_SetCurrentWidget(unknown1);
 
