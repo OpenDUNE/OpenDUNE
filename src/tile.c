@@ -13,7 +13,7 @@
 #include "tools.h"
 
 
-uint8 s_orientationTable[256];
+static uint8 s_orientationTable[256];
 
 
 /**

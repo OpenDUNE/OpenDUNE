@@ -19,9 +19,9 @@ struct Structure *g_scriptCurrentStructure;
 struct Unit *g_scriptCurrentUnit;
 struct Team *g_scriptCurrentTeam;
 
-ScriptInfo s_scriptStructure;
-ScriptInfo s_scriptTeam;
-ScriptInfo s_scriptUnit;
+static ScriptInfo s_scriptStructure;
+static ScriptInfo s_scriptTeam;
+static ScriptInfo s_scriptUnit;
 ScriptInfo *g_scriptStructure = &s_scriptStructure;
 ScriptInfo *g_scriptTeam = &s_scriptTeam;
 ScriptInfo *g_scriptUnit = &s_scriptUnit;

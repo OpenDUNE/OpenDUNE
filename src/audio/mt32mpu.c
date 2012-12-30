@@ -729,7 +729,7 @@ void MPU_Play(uint16 index)
 	data->playing = 1;
 }
 
-void MPU_StopAllNotes(MSData *data)
+static void MPU_StopAllNotes(MSData *data)
 {
 	uint8 i;
 

@@ -51,7 +51,7 @@ static char *GenerateSavegameFilename(uint16 number)
  * @param scrollbar The scrollbar.
  * @param scroll The amount of scrolling.
  */
-void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll)
+static void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll)
 {
 	scrollbar->scrollPosition += scroll;
 

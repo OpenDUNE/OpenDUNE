@@ -44,8 +44,8 @@ uint16 g_wallSpriteID;
 void *g_mouseSprite = NULL;
 void *g_mouseSpriteBuffer = NULL;
 
-uint16 s_mouseSpriteSize = 0;
-uint16 s_mouseSpriteBufferSize = 0;
+static uint16 s_mouseSpriteSize = 0;
+static uint16 s_mouseSpriteBufferSize = 0;
 
 static bool s_iconLoaded = false;
 

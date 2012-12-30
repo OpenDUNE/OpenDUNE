@@ -26,7 +26,7 @@ uint32 g_timerInput = 0;                                    /*!< Tick counter. I
 uint32 g_timerSleep = 0;                                    /*!< Tick counter. Increases with 1 every tick. Used for sleeping. */
 uint32 g_timerTimeout = 0;                                  /*!< Tick counter. Decreases with 1 every tick when non-zero. Used to timeout. */
 
-uint16 s_timersActive = 0;
+static uint16 s_timersActive = 0;
 
 
 typedef struct TimerNode {
@@ -49,7 +49,7 @@ static int s_timerNodeSize  = 0;
 
 static uint32 s_timerLastTime;
 
-const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
+static const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
 
 
 static uint32 Timer_GetTime()
