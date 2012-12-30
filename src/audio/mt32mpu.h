@@ -1,4 +1,4 @@
-/** @file src/mt32mpu.h MPU definitions. */
+/** @file src/audio/mt32mpu.h MPU definitions. */
 
 #ifndef MT32MPU_H
 #define MT32MPU_H

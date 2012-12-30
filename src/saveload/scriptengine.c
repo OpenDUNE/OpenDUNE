@@ -1,4 +1,4 @@
-/** @file src/saveload/house.c Load/save routines for ScriptEngine. */
+/** @file src/saveload/scriptengine.c Load/save routines for ScriptEngine. */
 
 #include <stdio.h>
 #include "types.h"

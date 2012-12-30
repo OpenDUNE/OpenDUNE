@@ -1,4 +1,4 @@
-/** @file src/dsp_none.c In case no DSP is selected, create an empty one,
+/** @file src/audio/dsp_none.c In case no DSP is selected, create an empty one,
  *  which ignores all input */
 
 #include "types.h"

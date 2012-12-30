@@ -1,4 +1,4 @@
-/** @file src/mouse.c Mouse routines. */
+/** @file src/input/mouse.c Mouse routines. */
 
 #include <stdlib.h>
 #include "types.h"

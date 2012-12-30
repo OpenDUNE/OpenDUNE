@@ -1,4 +1,4 @@
-/** @file src/dsp_sdl.c SDL implementation of the DSP. */
+/** @file src/audio/dsp_sdl.c SDL implementation of the DSP. */
 
 #include <assert.h>
 #include <SDL.h>

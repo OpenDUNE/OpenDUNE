@@ -1,4 +1,4 @@
-/** @file src/sound.c Sound routines. */
+/** @file src/audio/sound.c Sound routines. */
 
 #include <stdlib.h>
 #include <string.h>

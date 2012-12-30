@@ -1,4 +1,4 @@
-/** @file src/dsp.h DSP definitions. */
+/** @file src/audio/dsp.h DSP definitions. */
 
 #ifndef DSP_H
 #define DSP_H

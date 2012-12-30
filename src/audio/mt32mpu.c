@@ -1,4 +1,4 @@
-/** @file src/mt32mpu.c MPU routines. */
+/** @file src/audio/mt32mpu.c MPU routines. */
 
 #include <assert.h>
 #include <stdlib.h>

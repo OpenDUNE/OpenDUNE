@@ -1,4 +1,4 @@
-/** @file src/dsp_alsa.c ALSA implementation of the DSP. */
+/** @file src/audio/dsp_alsa.c ALSA implementation of the DSP. */
 
 #include <assert.h>
 #include <alloca.h>

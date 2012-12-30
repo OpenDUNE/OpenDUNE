@@ -1,4 +1,4 @@
-/** @file src/dsp_win32.c Windows implementation of the DSP. */
+/** @file src/audio/dsp_win32.c Windows implementation of the DSP. */
 
 #include <stdio.h>
 #include <windows.h>

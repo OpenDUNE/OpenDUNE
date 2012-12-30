@@ -1,4 +1,4 @@
-/** @file src/driver.c %Driver functions. */
+/** @file src/audio/driver.c %Driver functions. */
 
 #include <assert.h>
 #include <string.h>
