@@ -68,16 +68,16 @@ extern uint16 g_landscapeSpriteID;                          /*!< First landscape
 extern uint16 g_builtSlabSpriteID;                          /*!< SpriteID of the built concrete slab. */
 extern uint16 g_wallSpriteID;                               /*!< First wall spriteID. */
 
-extern void Sprites_Init();
-extern void Sprites_Uninit();
+extern void Sprites_Init(void);
+extern void Sprites_Uninit(void);
 extern uint8 Sprite_GetWidth(uint8 *sprite);
 extern uint8 Sprite_GetHeight(uint8 *sprite);
 extern uint16 Sprites_GetType(uint8 *sprite);
-extern void Sprites_LoadTiles();
-extern void Sprites_UnloadTiles();
+extern void Sprites_LoadTiles(void);
+extern void Sprites_UnloadTiles(void);
 extern uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette);
 extern void Sprites_SetMouseSprite(uint16 x, uint16 y, uint8 *sprite);
-extern void Sprites_CPS_LoadRegionClick();
+extern void Sprites_CPS_LoadRegionClick(void);
 extern bool Sprite_IsUnveiled(uint16 spriteID);
 
 

@@ -138,7 +138,7 @@ static void String_Load(const char *filename, bool compressed)
 /**
  * Loads the language files in the memory, which is used after that with String_GetXXX_ByIndex().
  */
-void String_Init()
+void String_Init(void)
 {
 	String_Load("DUNE", false);
 	String_Load("MESSAGE", false);
@@ -152,7 +152,7 @@ void String_Init()
 /**
  * Unloads the language files in the memory.
  */
-void String_Uninit()
+void String_Uninit(void)
 {
 	uint16 i;
 

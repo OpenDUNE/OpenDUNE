@@ -5,15 +5,15 @@
 
 #include "dsp.h"
 
-void DSP_Stop()
+void DSP_Stop(void)
 {
 }
 
-void DSP_Uninit()
+void DSP_Uninit(void)
 {
 }
 
-bool DSP_Init()
+bool DSP_Init(void)
 {
 	return false;
 }
@@ -23,7 +23,7 @@ void DSP_Play(const uint8 *data)
 	VARIABLE_NOT_USED(data);
 }
 
-uint8 DSP_GetStatus()
+uint8 DSP_GetStatus(void)
 {
 	return 0;
 }

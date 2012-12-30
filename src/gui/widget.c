@@ -975,7 +975,7 @@ uint16 Widget_SetAndPaintCurrentWidget(uint16 index)
 /**
  * Draw the exterior of the currently selected widget.
  */
-void Widget_PaintCurrentWidget()
+void Widget_PaintCurrentWidget(void)
 {
 	GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, ((g_curWidgetXBase + g_curWidgetWidth) << 3) - 1, g_curWidgetYBase + g_curWidgetHeight - 1, g_curWidgetFGColourNormal);
 }

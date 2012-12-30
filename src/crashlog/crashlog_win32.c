@@ -171,7 +171,7 @@ static void AppendDecodedStacktrace(char *buffer)
 	}
 }
 
-bool WriteCrashDump()
+bool WriteCrashDump(void)
 {
 	bool ret = false;
 	HMODULE dbghelp = LoadLibrary(_T("dbghelp.dll"));
@@ -210,7 +210,7 @@ bool WriteCrashDump()
 }
 #endif /* _MSC_VER */
 
-static void ShowCrashlogWindow()
+static void ShowCrashlogWindow(void)
 {
 	PrepareEnd();
 	ShowCursor(TRUE);
@@ -266,7 +266,7 @@ static void CDECL CustomAbort(int signal)
 	RaiseException(0xE1212012, 0, 0, NULL);
 }
 
-void CrashLog_Init()
+void CrashLog_Init(void)
 {
 #ifdef _M_AMD64
 	CONTEXT ctx;

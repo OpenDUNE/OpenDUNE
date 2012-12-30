@@ -53,6 +53,6 @@ extern Animation g_animations[];
 
 extern void Animation_Start(void *commands, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 iconGroup);
 extern void Animation_Stop_ByTile(uint16 packed);
-extern void Animation_Tick();
+extern void Animation_Tick(void);
 
 #endif /* ANIMATE_H */

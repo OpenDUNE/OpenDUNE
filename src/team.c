@@ -19,7 +19,7 @@ static uint32 s_tickTeamGameLoop = 0; /*!< Indicates next time the GameLoop func
 /**
  * Loop over all teams, performing various of tasks.
  */
-void GameLoop_Team()
+void GameLoop_Team(void)
 {
 	PoolFindStruct find;
 

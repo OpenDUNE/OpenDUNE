@@ -6,6 +6,7 @@
 #include "types.h"
 #include "../os/strings.h"
 
+#include "security.h"
 #include "../file.h"
 #include "../gfx.h"
 #include "../gui/gui.h"
@@ -46,7 +47,7 @@ static void GUI_Security_DrawText(char *text)
 	GFX_Screen_SetActive(oldScreenID);
 }
 
-static void GUI_Security_UndrawText()
+static void GUI_Security_UndrawText(void)
 {
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, SCREEN_2, SCREEN_0);
@@ -76,7 +77,7 @@ static void GUI_Security_NormaliseText(char *str)
  * @return True if and only if the user answered one of the three questions
  *   correct.
  */
-bool GUI_Security_Show()
+bool GUI_Security_Show(void)
 {
 	const char *wsaHouseFilename;
 	uint16 questionsCount;

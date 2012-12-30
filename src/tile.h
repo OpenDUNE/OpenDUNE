@@ -31,6 +31,6 @@ extern tile32 Tile_MoveByOrientation(tile32 position, uint8 orientation);
 
 extern uint8 Orientation_Orientation256ToOrientation8(uint8 orientation);
 extern uint8 Orientation_Orientation256ToOrientation16(uint8 orientation);
-extern void Orientation_InitTable();
+extern void Orientation_InitTable(void);
 
 #endif /* TILE_H */

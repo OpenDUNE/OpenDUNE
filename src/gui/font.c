@@ -116,7 +116,7 @@ void Font_Select(Font *f)
 	g_fontCurrent = f;
 }
 
-bool Font_Init()
+bool Font_Init(void)
 {
 	g_fontIntro = Font_LoadFile("INTRO.FNT");
 	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
@@ -133,7 +133,7 @@ static void Font_Unload(Font *f) {
 	free(f);
 }
 
-void Font_Uninit()
+void Font_Uninit(void)
 {
 	Font_Unload(g_fontIntro); g_fontIntro = NULL;
 	Font_Unload(g_fontNew6p); g_fontNew6p = NULL;

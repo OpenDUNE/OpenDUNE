@@ -54,7 +54,7 @@ uint16 g_inputFlags;
 /**
  * Initialize the mouse driver.
  */
-void Mouse_Init()
+void Mouse_Init(void)
 {
 	g_mouseX = SCREEN_WIDTH / 2;
 	g_mouseY = SCREEN_HEIGHT / 2;

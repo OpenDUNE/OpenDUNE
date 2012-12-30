@@ -32,7 +32,7 @@ static uint16 s_timersActive = 0;
 typedef struct TimerNode {
 	uint32 usec_left;
 	uint32 usec_delay;
-	void (*callback)();
+	void (*callback)(void);
 } TimerNode;
 
 #if defined(_WIN32)
@@ -52,7 +52,7 @@ static uint32 s_timerLastTime;
 static const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
 
 
-static uint32 Timer_GetTime()
+static uint32 Timer_GetTime(void)
 {
 #if defined(_MSC_VER)
 	DWORD t;
@@ -68,7 +68,7 @@ static uint32 Timer_GetTime()
 /**
  * Run the timer interrupt handler.
  */
-static void Timer_InterruptRun()
+static void Timer_InterruptRun(int arg)
 {
 	TimerNode *node;
 	uint32 new_time, usec_delta, delta;
@@ -78,6 +78,8 @@ static void Timer_InterruptRun()
 	static bool timerLock = false;
 	if (timerLock) return;
 	timerLock = true;
+
+	VARIABLE_NOT_USED(arg);
 
 	/* Calculate the time between calls */
 	new_time   = Timer_GetTime();
@@ -112,7 +114,7 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 	VARIABLE_NOT_USED(TimerOrWaitFired);
 
 	SuspendThread(s_timerMainThread);
-	Timer_InterruptRun();
+	Timer_InterruptRun(0);
 	ResumeThread(s_timerMainThread);
 }
 #endif /* _WIN32 */
@@ -120,7 +122,7 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 /**
  * Suspend the timer interrupt handling.
  */
-static void Timer_InterruptSuspend()
+static void Timer_InterruptSuspend(void)
 {
 #if defined(_WIN32)
 	if (s_timerThread != NULL) DeleteTimerQueueTimer(NULL, s_timerThread, NULL);
@@ -133,7 +135,7 @@ static void Timer_InterruptSuspend()
 /**
  * Resume the timer interrupt handling.
  */
-static void Timer_InterruptResume()
+static void Timer_InterruptResume(void)
 {
 #if defined(_WIN32)
 	CreateTimerQueueTimer(&s_timerThread, NULL, Timer_InterruptWindows, NULL, s_timerTime, s_timerTime, WT_EXECUTEINTIMERTHREAD);
@@ -145,7 +147,7 @@ static void Timer_InterruptResume()
 /**
  * Initialize the timer.
  */
-void Timer_Init()
+void Timer_Init(void)
 {
 	s_timerLastTime = Timer_GetTime();
 
@@ -173,7 +175,7 @@ void Timer_Init()
 /**
  * Uninitialize the timer.
  */
-void Timer_Uninit()
+void Timer_Uninit(void)
 {
 	Timer_InterruptSuspend();
 #if defined(_WIN32)
@@ -190,7 +192,7 @@ void Timer_Uninit()
  * @param callback the callback for the timer.
  * @param usec_delay The interval of the timer.
  */
-void Timer_Add(void (*callback)(), uint32 usec_delay)
+void Timer_Add(void (*callback)(void), uint32 usec_delay)
 {
 	TimerNode *node;
 	if (s_timerNodeCount == s_timerNodeSize) {
@@ -209,7 +211,7 @@ void Timer_Add(void (*callback)(), uint32 usec_delay)
  * @param callback The callback to change the timer of.
  * @param usec_delay The interval.
  */
-void Timer_Change(void (*callback)(), uint32 usec_delay)
+void Timer_Change(void (*callback)(void), uint32 usec_delay)
 {
 	int i;
 	TimerNode *node = s_timerNodes;
@@ -225,7 +227,7 @@ void Timer_Change(void (*callback)(), uint32 usec_delay)
  * Remove a timer from the queue.
  * @param callback Which callback to remove.
  */
-void Timer_Remove(void (*callback)())
+void Timer_Remove(void (*callback)(void))
 {
 	int i;
 	TimerNode *node = s_timerNodes;
@@ -240,7 +242,7 @@ void Timer_Remove(void (*callback)())
 /**
  * Handle game timers.
  */
-void Timer_Tick()
+void Timer_Tick(void)
 {
 	if ((s_timersActive & TIMER_GUI)  != 0) g_timerGUI++;
 	if ((s_timersActive & TIMER_GAME) != 0) g_timerGame++;

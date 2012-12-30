@@ -17,10 +17,10 @@ typedef enum Screen {
 
 extern Screen g_screenActiveID;
 
-extern void GFX_Init();
-extern void GFX_Uninit();
+extern void GFX_Init(void);
+extern void GFX_Uninit(void);
 extern Screen GFX_Screen_SetActive(Screen screenID);
-extern void *GFX_Screen_GetActive();
+extern void *GFX_Screen_GetActive(void);
 extern uint16 GFX_Screen_GetSize_ByIndex(Screen screenID);
 extern void *GFX_Screen_Get_ByIndex(Screen screenID);
 
@@ -29,7 +29,7 @@ extern void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize);
 extern void GFX_PutPixel(uint16 x, uint16 y, uint8 colour);
 extern void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, Screen screenSrc, Screen screenDst, bool skipNull);
 extern void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, Screen screenSrc, Screen screenDst);
-extern void GFX_ClearScreen();
+extern void GFX_ClearScreen(void);
 extern void GFX_SetPalette(uint8 *palette);
 extern uint8 GFX_GetPixel(uint16 x, uint16 y);
 extern uint16 GFX_GetSize(int16 width, int16 height);

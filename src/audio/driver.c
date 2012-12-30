@@ -65,7 +65,7 @@ static void Drivers_Uninit(Driver *driver)
 	driver->index = 0xFFFF;
 }
 
-static uint16 Driver_Install()
+static uint16 Driver_Install(void)
 {
 	uint16 index;
 
@@ -145,13 +145,13 @@ static bool Drivers_Voice_Init(bool enable)
 	return true;
 }
 
-static void Drivers_Reset()
+static void Drivers_Reset(void)
 {
 	memset(s_driverInstalled, 0, sizeof(s_driverInstalled));
 	memset(s_driverLoaded, 0, sizeof(s_driverLoaded));
 }
 
-void Drivers_All_Init()
+void Drivers_All_Init(void)
 {
 	Drivers_Reset();
 
@@ -159,7 +159,7 @@ void Drivers_All_Init()
 	g_enableVoices = Drivers_Voice_Init(g_enableVoices);
 }
 
-bool Driver_Music_IsPlaying()
+bool Driver_Music_IsPlaying(void)
 {
 	MSBuffer *buffer = g_bufferMusic;
 
@@ -169,7 +169,7 @@ bool Driver_Music_IsPlaying()
 	return MPU_IsPlaying(buffer->index) == 1;
 }
 
-bool Driver_Voice_IsPlaying()
+bool Driver_Voice_IsPlaying(void)
 {
 	if (g_driverVoice->index == 0xFFFF) return false;
 	return DSP_GetStatus() == 2;
@@ -200,7 +200,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	s_bufferSoundIndex = (s_bufferSoundIndex + 1) % 4;
 }
 
-void Driver_Music_Stop()
+void Driver_Music_Stop(void)
 {
 	Driver *music = g_driverMusic;
 	MSBuffer *musicBuffer = g_bufferMusic;
@@ -213,7 +213,7 @@ void Driver_Music_Stop()
 	musicBuffer->index = 0xFFFF;
 }
 
-void Driver_Sound_Stop()
+void Driver_Sound_Stop(void)
 {
 	Driver *sound = g_driverSound;
 	uint8 i;
@@ -270,7 +270,7 @@ void Driver_Voice_Play(const uint8 *data, int16 arg0A)
 	DSP_Play(data);
 }
 
-void Driver_Voice_Stop()
+void Driver_Voice_Stop(void)
 {
 	Driver *voice = g_driverVoice;
 
@@ -341,7 +341,7 @@ char *Drivers_GenerateFilename(const char *name, Driver *driver)
 	return NULL;
 }
 
-static void Drivers_SoundMusic_Uninit()
+static void Drivers_SoundMusic_Uninit(void)
 {
 	Driver *sound = g_driverSound;
 	Driver *music = g_driverMusic;
@@ -387,14 +387,14 @@ static void Drivers_SoundMusic_Uninit()
 	MPU_Uninit();
 }
 
-static void Drivers_Voice_Uninit()
+static void Drivers_Voice_Uninit(void)
 {
 	Drivers_Uninit(g_driverVoice);
 
 	DSP_Uninit();
 }
 
-void Drivers_All_Uninit()
+void Drivers_All_Uninit(void)
 {
 	Drivers_SoundMusic_Uninit();
 	Drivers_Voice_Uninit();
@@ -430,7 +430,7 @@ void Driver_UnloadFile(Driver *driver)
 	driver->contentMalloced = false;
 }
 
-void Driver_Music_FadeOut()
+void Driver_Music_FadeOut(void)
 {
 	Driver *music = g_driverMusic;
 	MSBuffer *musicBuffer = g_bufferMusic;

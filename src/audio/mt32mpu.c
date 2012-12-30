@@ -181,7 +181,7 @@ static void MPU_FlushChannel(uint8 channel)
 	}
 }
 
-static uint8 MPU_281A()
+static uint8 MPU_281A(void)
 {
 	uint8 i;
 	uint8 chan = 0xFF;
@@ -422,7 +422,7 @@ static uint16 MPU_1B48(MSData *data)
 	return len;
 }
 
-void MPU_Interrupt()
+void MPU_Interrupt(void)
 {
 	static bool locked = false;
 	uint16 count;
@@ -779,12 +779,12 @@ uint16 MPU_IsPlaying(uint16 index)
 	return data->playing;
 }
 
-uint16 MPU_GetDataSize()
+uint16 MPU_GetDataSize(void)
 {
 	return sizeof(MSData);
 }
 
-bool MPU_Init()
+bool MPU_Init(void)
 {
 	uint8 i;
 
@@ -841,7 +841,7 @@ bool MPU_Init()
 	return true;
 }
 
-void MPU_Uninit()
+void MPU_Uninit(void)
 {
 	uint16 i;
 

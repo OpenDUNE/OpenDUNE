@@ -49,7 +49,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
  * @param unknown4 Unknown.
  * @return Unknown.
  */
-uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uint16 (*tickProc)(), uint16 unknown4)
+uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uint16 (*tickProc)(void), uint16 unknown4)
 {
 	Screen oldScreenID;
 	uint16 oldValue_07AE_0000;

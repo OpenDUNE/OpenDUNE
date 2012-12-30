@@ -253,7 +253,7 @@ void Animation_Stop_ByTile(uint16 packed)
 /**
  * Check all Animations if they need changing.
  */
-void Animation_Tick()
+void Animation_Tick(void)
 {
 	Animation *animation = g_animations;
 	int i;

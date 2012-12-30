@@ -172,7 +172,7 @@ bool LoadFile(char *filename)
 /**
  * In case the current house is Mercenary, another palette is loaded.
  */
-void Load_Palette_Mercenaries()
+void Load_Palette_Mercenaries(void)
 {
 	if (g_playerHouseID == HOUSE_MERCENARY) {
 		File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);

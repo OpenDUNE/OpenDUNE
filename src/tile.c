@@ -19,7 +19,7 @@ static uint8 s_orientationTable[256];
 /**
  * Initialize the orientation table.
  */
-void Orientation_InitTable()
+void Orientation_InitTable(void)
 {
 	uint8 *block = s_orientationTable;
 	int16 i;

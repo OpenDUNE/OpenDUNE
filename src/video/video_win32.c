@@ -143,7 +143,7 @@ static uint16 MapKey(WPARAM vk)
 /**
  * Callback wrapper for mouse actions.
  */
-static void Video_Mouse_Callback()
+static void Video_Mouse_Callback(void)
 {
 	Mouse_EventHandler(s_mousePosX / SCREEN_MAGNIFICATION, s_mousePosY / SCREEN_MAGNIFICATION, s_mouseButtonLeft, s_mouseButtonRight);
 }
@@ -272,7 +272,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-bool Video_Init()
+bool Video_Init(void)
 {
 	WNDCLASS wc;
 	HINSTANCE hInstance;
@@ -319,7 +319,7 @@ bool Video_Init()
 	return true;
 }
 
-void Video_Uninit()
+void Video_Uninit(void)
 {
 	if (!s_init) return;
 
@@ -329,7 +329,7 @@ void Video_Uninit()
 	s_init = false;
 }
 
-void Video_Tick()
+void Video_Tick(void)
 {
 	MSG msg;
 
