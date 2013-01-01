@@ -1,4 +1,4 @@
-/** @file src/table/widgetclickinfo.c WindgetClickInfo file table. */
+/** @file src/table/widgetinfo.c WidgetInfo file table. */
 
 #include <stdio.h>
 #include "types.h"

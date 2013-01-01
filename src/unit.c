@@ -94,7 +94,7 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 	Unit_UpdateMap(2, unit);
 }
 
-void Unit_MovementTick(Unit *unit)
+static void Unit_MovementTick(Unit *unit)
 {
 	uint16 speed;
 
@@ -120,7 +120,7 @@ void Unit_MovementTick(Unit *unit)
 /**
  * Loop over all units, performing various of tasks.
  */
-void GameLoop_Unit()
+void GameLoop_Unit(void)
 {
 	PoolFindStruct find;
 	bool tickMovement  = false;
@@ -578,7 +578,7 @@ Team *Unit_GetTeam(Unit *u)
 /**
  * ?? Sorts unit array and count enemy/allied units.
  */
-void Unit_Sort()
+void Unit_Sort(void)
 {
 	House *h;
 	uint16 i;
@@ -974,7 +974,7 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
  * @param target The Unit that is being targeted.
  * @return The score of the target.
  */
-uint16 Unit_Sandworm_GetTargetScore(Unit *unit, Unit *target)
+static uint16 Unit_Sandworm_GetTargetScore(Unit *unit, Unit *target)
 {
 	uint16 res;
 	uint16 distance;

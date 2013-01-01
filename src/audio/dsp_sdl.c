@@ -1,4 +1,4 @@
-/** @file src/dsp_sdl.c SDL implementation of the DSP. */
+/** @file src/audio/dsp_sdl.c SDL implementation of the DSP. */
 
 #include <assert.h>
 #include <SDL.h>
@@ -32,7 +32,7 @@ static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 	}
 }
 
-void DSP_Stop()
+void DSP_Stop(void)
 {
 	SDL_PauseAudio(1);
 
@@ -41,7 +41,7 @@ void DSP_Stop()
 	s_status = 0;
 }
 
-void DSP_Uninit()
+void DSP_Uninit(void)
 {
 	if (SDL_WasInit(SDL_INIT_AUDIO) == 0) return;
 
@@ -54,7 +54,7 @@ void DSP_Uninit()
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
-bool DSP_Init()
+bool DSP_Init(void)
 {
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) return false;
 
@@ -141,7 +141,7 @@ void DSP_Play(const uint8 *data)
 	SDL_PauseAudio(0);
 }
 
-uint8 DSP_GetStatus()
+uint8 DSP_GetStatus(void)
 {
 	return (SDL_GetAudioStatus() != 0) ? s_status : 0;
 }

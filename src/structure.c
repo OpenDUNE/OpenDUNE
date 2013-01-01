@@ -48,7 +48,7 @@ uint16 g_structureIndex;
 /**
  * Loop over all structures, preforming various of tasks.
  */
-void GameLoop_Structure()
+void GameLoop_Structure(void)
 {
 	PoolFindStruct find;
 	bool tickDegrade   = false;

@@ -28,7 +28,7 @@ Screen g_screenActiveID = SCREEN_0;
  * Get the codesegment of the active screen buffer.
  * @return The codesegment of the screen buffer.
  */
-void *GFX_Screen_GetActive()
+void *GFX_Screen_GetActive(void)
 {
 	return GFX_Screen_Get_ByIndex(g_screenActiveID);
 }
@@ -68,7 +68,7 @@ Screen GFX_Screen_SetActive(Screen screenID)
 /**
  * Initialize the GFX system.
  */
-void GFX_Init()
+void GFX_Init(void)
 {
 	uint8 *screenBuffers;
 	uint32 totalSize = 0;
@@ -92,7 +92,7 @@ void GFX_Init()
 /**
  * Uninitialize the GFX system.
  */
-void GFX_Uninit()
+void GFX_Uninit(void)
 {
 	int i;
 
@@ -335,7 +335,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 /**
  * Clears the screen.
  */
-void GFX_ClearScreen()
+void GFX_ClearScreen(void)
 {
 	memset(GFX_Screen_GetActive(), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 }

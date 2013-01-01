@@ -14,8 +14,8 @@ struct PoolFindStruct;
 extern struct Team *Team_Get_ByIndex(uint16 index);
 extern struct Team *Team_Find(struct PoolFindStruct *find);
 
-extern void Team_Init();
-extern void Team_Recount();
+extern void Team_Init(void);
+extern void Team_Recount(void);
 extern struct Team *Team_Allocate(uint16 index);
 extern void Team_Free(struct Team *au);
 

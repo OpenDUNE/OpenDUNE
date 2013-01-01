@@ -66,7 +66,7 @@ static const uint8 s_keyTranslate[] = {
 	 'b', 'g', 'c', 'h', 127, 127,  127, 'z', '{'
 };
 
-void Input_Init()
+void Input_Init(void)
 {
 	uint8 i;
 
@@ -171,7 +171,7 @@ uint16 Input_Flags_SetBits(uint16 bits)
 }
 
 /** Clear the history buffer. */
-void Input_History_Clear()
+void Input_History_Clear(void)
 {
 	s_historyTail = s_historyHead;
 }
@@ -226,7 +226,7 @@ static uint16 Input_History_Add(uint16 value)
 }
 
 /** Read input event from file. */
-static void Input_ReadInputFromFile()
+static void Input_ReadInputFromFile(void)
 {
 	uint16 value;
 	uint16 mouseBuffer[2];
@@ -443,7 +443,7 @@ void Input_HandleInput(uint16 input)
  * Is input available?
  * @return \c 0 if no input, else a value.
  */
-uint16 Input_IsInputAvailable()
+uint16 Input_IsInputAvailable(void)
 {
 	uint16 value;
 
@@ -456,7 +456,7 @@ uint16 Input_IsInputAvailable()
  * Wait for input, and return the read event.
  * @return New input.
  */
-uint16 Input_Wait()
+uint16 Input_Wait(void)
 {
 	uint16 value = 0;
 
@@ -559,7 +559,7 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
  * Wait for valid input.
  * @return Read input.
  */
-uint16 Input_WaitForValidInput()
+uint16 Input_WaitForValidInput(void)
 {
 	uint16 index = 0;
 	uint16 value, i;
@@ -587,7 +587,7 @@ uint16 Input_WaitForValidInput()
  * Get the next key.
  * @return Next key.
  */
-uint16 Input_Keyboard_NextKey()
+uint16 Input_Keyboard_NextKey(void)
 {
 	uint16 i;
 	uint16 value;

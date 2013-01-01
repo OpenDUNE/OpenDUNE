@@ -143,7 +143,7 @@ extern uint16 g_playerCreditsNoSilo;
 extern uint16 g_playerCredits;
 extern uint32 g_tickHousePowerMaintenance;
 
-extern void GameLoop_House();
+extern void GameLoop_House(void);
 extern uint8 House_StringToType(const char *name);
 extern void House_EnsureHarvesterAvailable(uint8 houseID);
 extern bool House_AreAllied(uint8 houseID1, uint8 houseID2);

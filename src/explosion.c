@@ -287,7 +287,7 @@ void Explosion_Start(uint16 explosionType, tile32 position)
 /**
  * Timer tick for explosions.
  */
-void Explosion_Tick()
+void Explosion_Tick(void)
 {
 	uint8 i;
 

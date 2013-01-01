@@ -60,7 +60,7 @@ Unit *Unit_Find(PoolFindStruct *find)
 /**
  * Initialize the Unit array.
  */
-void Unit_Init()
+void Unit_Init(void)
 {
 	memset(g_unitArray, 0, sizeof(g_unitArray));
 	memset(g_unitFindArray, 0, sizeof(g_unitFindArray));
@@ -71,7 +71,7 @@ void Unit_Init()
  * Recount all Units, ignoring the cache array. Also set the unitCount
  *  of all houses to zero.
  */
-void Unit_Recount()
+void Unit_Recount(void)
 {
 	uint16 index;
 	PoolFindStruct find = { -1, -1, -1 };
