@@ -25,8 +25,8 @@ extern int8 g_fontCharOffset;
 
 extern Font *g_fontCurrent;
 
-extern bool Font_Init();
-extern void Font_Uninit();
+extern bool Font_Init(void);
+extern void Font_Uninit(void);
 extern uint16 Font_GetCharWidth(unsigned char c);
 extern uint16 Font_GetStringWidth(char *string);
 extern void Font_Select(Font *f);

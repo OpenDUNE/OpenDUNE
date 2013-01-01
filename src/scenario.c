@@ -29,7 +29,7 @@ Scenario g_scenario;
 
 static void *s_scenarioBuffer = NULL;
 
-static void Scenario_Load_General()
+static void Scenario_Load_General(void)
 {
 	g_scenario.winFlags          = Ini_GetInteger("BASIC", "WinFlags",    0,                            s_scenarioBuffer);
 	g_scenario.loseFlags         = Ini_GetInteger("BASIC", "LoseFlags",   0,                            s_scenarioBuffer);
@@ -78,7 +78,7 @@ static void Scenario_Load_House(uint8 houseID)
 	g_playerCreditsNoSilo = h->credits;
 }
 
-static void Scenario_Load_Houses()
+static void Scenario_Load_Houses(void)
 {
 	House *h;
 	uint8 houseID;

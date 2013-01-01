@@ -54,7 +54,7 @@ House *House_Find(PoolFindStruct *find)
  *
  * @param address If non-zero, the new location of the House array.
  */
-void House_Init()
+void House_Init(void)
 {
 	memset(g_houseArray, 0, sizeof(g_houseArray));
 	memset(g_houseFindArray, 0, sizeof(g_houseFindArray));

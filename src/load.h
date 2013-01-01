@@ -4,6 +4,6 @@
 #define LOAD_H
 
 extern bool LoadFile(char *filename);
-extern void Load_Palette_Mercenaries();
+extern void Load_Palette_Mercenaries(void);
 
 #endif /* LOAD_H */

@@ -17,13 +17,13 @@ extern uint32 g_timerTimeout;
 extern void Timer_Sleep(uint16 ticks);
 extern bool Timer_SetTimer(TimerType timer, bool set);
 
-extern void Timer_Init();
-extern void Timer_Uninit();
+extern void Timer_Init(void);
+extern void Timer_Uninit(void);
 
-extern void Timer_Tick();
+extern void Timer_Tick(void);
 
-extern void Timer_Add(void (*callback)(), uint32 usec_delay);
-extern void Timer_Change(void (*callback)(), uint32 usec_delay);
-extern void Timer_Remove(void (*callback)());
+extern void Timer_Add(void (*callback)(void), uint32 usec_delay);
+extern void Timer_Change(void (*callback)(void), uint32 usec_delay);
+extern void Timer_Remove(void (*callback)(void));
 
 #endif /* OPENDUNE_H */

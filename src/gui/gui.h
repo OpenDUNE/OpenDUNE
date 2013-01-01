@@ -127,7 +127,7 @@ extern void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16
 extern void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, uint8 intensity);
 extern void GUI_Palette_CreateRemap(uint8 houseID);
 extern void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation);
-extern void GUI_PaletteAnimate();
+extern void GUI_PaletteAnimate(void);
 
 extern void GUI_DisplayText(const char *str, int16 importance, ...);
 extern void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour);
@@ -135,10 +135,10 @@ extern void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint
 extern uint16 GUI_DisplayModalMessage(const char *str, uint16 stringID, ...);
 extern uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID);
 
-extern void GUI_UpdateProductionStringID();
+extern void GUI_UpdateProductionStringID(void);
 extern uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter);
 extern void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint8 houseID);
-extern uint8 GUI_PickHouse();
+extern uint8 GUI_PickHouse(void);
 extern void GUI_ChangeSelectionType(uint16 selectionType);
 extern void GUI_InitColors(const uint8 *colors, uint8 first, uint8 last);
 extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom);
@@ -146,27 +146,27 @@ extern FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isSt
 extern char *GUI_String_Get_ByIndex(int16 stringID);
 extern uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win);
 extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);
-extern void GUI_FactoryWindow_B495_0F30();
+extern void GUI_FactoryWindow_B495_0F30(void);
 extern struct FactoryWindowItem *GUI_FactoryWindow_GetItem(int16 offset);
-extern void GUI_FactoryWindow_DrawDetails();
+extern void GUI_FactoryWindow_DrawDetails(void);
 extern void GUI_FactoryWindow_DrawCaption(char *caption);
-extern void GUI_FactoryWindow_UpdateDetails();
+extern void GUI_FactoryWindow_UpdateDetails(void);
 extern void GUI_FactoryWindow_UpdateSelection(bool selectionChanged);
-extern void GUI_FactoryWindow_PrepareScrollList();
-extern void GUI_Mouse_Show();
-extern void GUI_Mouse_Hide();
-extern void GUI_Mouse_Show_Safe();
-extern void GUI_Mouse_Hide_Safe();
-extern void GUI_Mouse_Show_InRegion();
+extern void GUI_FactoryWindow_PrepareScrollList(void);
+extern void GUI_Mouse_Show(void);
+extern void GUI_Mouse_Hide(void);
+extern void GUI_Mouse_Show_Safe(void);
+extern void GUI_Mouse_Hide_Safe(void);
+extern void GUI_Mouse_Show_InRegion(void);
 extern void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 bottom);
-extern void GUI_Mouse_Show_InWidget();
+extern void GUI_Mouse_Show_InWidget(void);
 extern void GUI_Mouse_Hide_InWidget(uint16 widgetIndex);
 extern void GUI_Mouse_SetPosition(uint16 x, uint16 y);
-extern uint16 GUI_HallOfFame_Tick();
+extern uint16 GUI_HallOfFame_Tick(void);
 extern void GUI_HallOfFame_Show(uint16 score);
 extern uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show);
 
 /* editbox.c */
-extern uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, struct Widget *w, uint16 (*tickProc)(), uint16 unknown4);
+extern uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, struct Widget *w, uint16 (*tickProc)(void), uint16 unknown4);
 
 #endif /* GUI_GUI_H */

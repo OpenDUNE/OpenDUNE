@@ -46,7 +46,7 @@ static uint32 s_tickHouseStarportAvailability = 0;
 /**
  * Loop over all houses, preforming various of tasks.
  */
-void GameLoop_House()
+void GameLoop_House(void)
 {
 	PoolFindStruct find;
 	House *h = NULL;

@@ -85,7 +85,7 @@ Structure *Structure_Find(PoolFindStruct *find)
  *
  * @param address If non-zero, the new location of the Structure array.
  */
-void Structure_Init()
+void Structure_Init(void)
 {
 	memset(g_structureArray, 0, sizeof(g_structureArray));
 	memset(g_structureFindArray, 0, sizeof(g_structureFindArray));
@@ -96,7 +96,7 @@ void Structure_Init()
  * Recount all Structures, ignoring the cache array. Also set the structureCount
  *  of all houses to zero.
  */
-void Structure_Recount()
+void Structure_Recount(void)
 {
 	uint16 index;
 	PoolFindStruct find = { -1, -1, -1 };

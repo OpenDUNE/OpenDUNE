@@ -1,4 +1,4 @@
-/** @file src/saveload/house.c Load/save routines for Unit. */
+/** @file src/saveload/unit.c Load/save routines for Unit. */
 
 #include <stdio.h>
 #include "types.h"

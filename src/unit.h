@@ -190,7 +190,7 @@ extern uint16 g_var_39E6;
 extern uint16 g_var_39E8;
 
 
-extern void GameLoop_Unit();
+extern void GameLoop_Unit(void);
 extern uint8 Unit_GetHouseID(Unit *u);
 extern uint8 Unit_StringToType(const char *name);
 extern uint8 Unit_ActionStringToType(const char *name);
@@ -201,7 +201,7 @@ extern void Unit_SetAction(Unit *u, ActionType action);
 extern uint16 Unit_AddToTeam(Unit *u, struct Team *t);
 extern uint16 Unit_RemoveFromTeam(Unit *u);
 extern struct Team *Unit_GetTeam(Unit *u);
-extern void Unit_Sort();
+extern void Unit_Sort(void);
 extern Unit *Unit_Get_ByPackedTile(uint16 packed);
 extern uint16 Unit_IsValidMovementIntoStructure(Unit *unit, struct Structure *s);
 extern void Unit_SetDestination(Unit *u, uint16 destination);

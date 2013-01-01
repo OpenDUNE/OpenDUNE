@@ -57,7 +57,7 @@ Team *Team_Find(PoolFindStruct *find)
  *
  * @param address If non-zero, the new location of the Team array.
  */
-void Team_Init()
+void Team_Init(void)
 {
 	memset(g_teamArray, 0, sizeof(g_teamArray));
 	memset(g_teamFindArray, 0, sizeof(g_teamFindArray));
@@ -67,7 +67,7 @@ void Team_Init()
 /**
  * Recount all Teams, ignoring the cache array.
  */
-void Team_Recount()
+void Team_Recount(void)
 {
 	uint16 index;
 

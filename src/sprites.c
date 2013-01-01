@@ -44,8 +44,8 @@ uint16 g_wallSpriteID;
 void *g_mouseSprite = NULL;
 void *g_mouseSpriteBuffer = NULL;
 
-uint16 s_mouseSpriteSize = 0;
-uint16 s_mouseSpriteBufferSize = 0;
+static uint16 s_mouseSpriteSize = 0;
+static uint16 s_mouseSpriteBufferSize = 0;
 
 static bool s_iconLoaded = false;
 
@@ -228,7 +228,7 @@ static void Sprites_LoadICNFile(const char *filename)
 /**
  * Loads the sprites for tiles.
  */
-void Sprites_LoadTiles()
+void Sprites_LoadTiles(void)
 {
 	if (s_iconLoaded) return;
 
@@ -253,7 +253,7 @@ void Sprites_LoadTiles()
 /**
  * Unloads the sprites for tiles.
  */
-void Sprites_UnloadTiles()
+void Sprites_UnloadTiles(void)
 {
 	s_iconLoaded = false;
 }
@@ -399,7 +399,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 	g_mouseLock--;
 }
 
-static void InitRegions()
+static void InitRegions(void)
 {
 	uint16 *regions = g_regions;
 	uint16 i;
@@ -412,7 +412,7 @@ static void InitRegions()
 	for (i = 0; i < regions[0]; i++) regions[i + 1] = 0xFFFF;
 }
 
-void Sprites_CPS_LoadRegionClick()
+void Sprites_CPS_LoadRegionClick(void)
 {
 	uint8 *buf;
 	uint8 i;
@@ -447,7 +447,7 @@ bool Sprite_IsUnveiled(uint16 spriteID)
 	return false;
 }
 
-void Sprites_Init()
+void Sprites_Init(void)
 {
 	g_spriteBuffer = calloc(1, 20000);
 	Sprites_Load("MOUSE.SHP");                       /*   0 -   6 */
@@ -479,7 +479,7 @@ void Sprites_Init()
 	Sprites_Load("CREDIT11.SHP");                    /* 524 */
 }
 
-void Sprites_Uninit()
+void Sprites_Uninit(void)
 {
 	uint16 i;
 
