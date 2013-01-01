@@ -3565,7 +3565,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 	uint16 offsetsX[40];
 	int x, y;
 
-	if (screenDst == 0) {
+	if (screenDst == SCREEN_0) {
 		GUI_Mouse_Hide_InRegion(xDst << 3, yDst, (xDst + width) << 3, yDst + height);
 	}
 
@@ -3614,7 +3614,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 		if ((y % 4) == 0) Timer_Sleep(1);
 	}
 
-	if (screenDst == 0) {
+	if (screenDst == SCREEN_0) {
 		GUI_Mouse_Show_InRegion();
 	}
 }
@@ -4412,7 +4412,7 @@ void GUI_DrawScreen(Screen screenID)
 
 	oldScreenID = GFX_Screen_SetActive(screenID);
 
-	if (screenID != 0) g_viewport_forceRedraw = true;
+	if (screenID != SCREEN_0) g_viewport_forceRedraw = true;
 
 	Explosion_Tick();
 	Animation_Tick();
@@ -4482,7 +4482,7 @@ void GUI_DrawScreen(Screen screenID)
 		}
 	}
 
-	GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, loc10, screenID != 0);
+	GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, loc10, screenID != SCREEN_0);
 
 	g_viewport_forceRedraw = false;
 
