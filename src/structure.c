@@ -941,9 +941,22 @@ void Structure_ActivateSpecial(Structure *s)
  */
 void Structure_RemoveFog(Structure *s)
 {
+	const StructureInfo *si;
+	tile32 position;
+
 	if (s == NULL || s->o.houseID != g_playerHouseID) return;
 
-	Tile_RemoveFogInRadius(s->o.position, g_table_structureInfo[s->o.type].o.fogUncoverRadius);
+	si = &g_table_structureInfo[s->o.type];
+
+	position.tile = s->o.position.tile;
+
+	/* ENHANCEMENT -- Fog is removed around the top left corner instead of the center of a structure. */
+	if (g_dune2_enhanced) {
+		position.s.x += 256 * (g_table_structure_layoutSize[si->layout].width  - 1) / 2;
+		position.s.y += 256 * (g_table_structure_layoutSize[si->layout].height - 1) / 2;
+	}
+
+	Tile_RemoveFogInRadius(position, si->o.fogUncoverRadius);
 }
 
 /**
