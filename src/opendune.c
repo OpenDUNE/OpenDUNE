@@ -1753,10 +1753,6 @@ static void GameLoop_GameIntroAnimationMenu(void)
 	g_scenarioID = 1;
 	g_playerHouseID = HOUSE_INVALID;
 	g_debugScenario = false;
-	g_table_landscapeInfo[LST_SPICE].radarColour = 0xD7;
-	g_table_landscapeInfo[LST_SPICE].spriteID = 0x35;
-	g_table_landscapeInfo[LST_THICK_SPICE].radarColour = 0xD8;
-	g_table_landscapeInfo[LST_THICK_SPICE].spriteID = 0x35;
 	g_selectionType = SELECTIONTYPE_MENTAT;
 	g_selectionTypeNew = SELECTIONTYPE_MENTAT;
 
