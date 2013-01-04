@@ -53,6 +53,8 @@ Unit
     wobbling, even if it enters a tile where it shouldn't wobble.
 - The warning of an enemy approach tends to be wrong. This due to a math
     failure in the code.
+- When a Unit enters a Structure, the last tile the Unit was on becomes
+    selected rather than the entire Structure.
 
 
 Scenario

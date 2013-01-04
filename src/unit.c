@@ -2126,7 +2126,14 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 
 	if (unit == NULL || s == NULL) return;
 
-	if (unit == g_unitSelected) Unit_Select(NULL);
+	if (unit == g_unitSelected) {
+		/* ENHANCEMENT -- When a Unit enters a Structure, the last tile the Unit was on becomes selected rather than the entire Structure. */
+		if (g_dune2_enhanced) {
+			Map_SetSelection(Tile_PackTile(s->o.position));
+		} else {
+			Unit_Select(NULL);
+		}
+	}
 
 	ui = &g_table_unitInfo[unit->o.type];
 	si = &g_table_structureInfo[s->o.type];
