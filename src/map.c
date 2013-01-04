@@ -512,7 +512,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 				if (target == NULL) continue;
 
 				targetInfo = &g_table_unitInfo[target->o.type];
-				if (targetInfo->bulletType == 0xFFFF) t->target = unitOriginEncoded;
+				if (targetInfo->bulletType == UNIT_INVALID) t->target = unitOriginEncoded;
 				continue;
 			}
 
@@ -526,7 +526,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 				}
 			}
 
-			if (ui->bulletType == 0xFFFF) continue;
+			if (ui->bulletType == UNIT_INVALID) continue;
 
 			if (u->actionID == ACTION_GUARD && u->o.flags.s.byScenario) {
 				Unit_SetAction(u, ACTION_HUNT);

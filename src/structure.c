@@ -1948,7 +1948,7 @@ void Structure_HouseUnderAttack(uint8 houseID)
 
 		ui = &g_table_unitInfo[u->o.type];
 
-		if (ui->bulletType == 0xFFFF) continue;
+		if (ui->bulletType == UNIT_INVALID) continue;
 
 		/* XXX -- Dune2 does something odd here. What was their intention? */
 		if ((u->actionID == ACTION_GUARD && u->actionID == ACTION_AMBUSH) || u->actionID == ACTION_AREA_GUARD) Unit_SetAction(u, ACTION_HUNT);

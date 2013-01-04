@@ -192,7 +192,7 @@ typedef struct UnitInfo {
 	uint16 fireDistance;                                    /*!< Maximal distance this Unit can fire from. */
 	uint16 damage;                                          /*!< Damage this Unit does to other Units. */
 	uint16 explosionType;                                   /*!< Type of the explosion of Unit. */
-	uint16 bulletType;                                      /*!< Type of the bullets of Unit. */
+	uint8  bulletType;                                      /*!< Type of the bullets of Unit. */
 	uint16 bulletSound;                                     /*!< Sound for the bullets. */
 } UnitInfo;
 
