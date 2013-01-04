@@ -1418,7 +1418,6 @@ static void Structure_CancelBuild(Structure *s)
 bool Structure_BuildObject(Structure *s, uint16 objectType)
 {
 	const StructureInfo *si;
-	House *h;
 	char *str;
 	Object *o;
 	ObjectInfo *oi;
@@ -1428,8 +1427,6 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 	si = &g_table_structureInfo[s->o.type];
 
 	if (!si->o.flags.factory) return false;
-
-	h = House_Get_ByIndex(s->o.houseID);
 
 	Structure_SetRepairingState(s, 0, NULL);
 
@@ -1563,7 +1560,10 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 			}
 
 			if (res == FACTORY_BUY) {
+				House *h;
 				uint8 i;
+
+				h = House_Get_ByIndex(s->o.houseID);
 
 				for (i = 0; i < 25; i++) {
 					Unit *u;
