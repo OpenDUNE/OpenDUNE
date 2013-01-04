@@ -33,6 +33,9 @@ typedef enum StructureType {
 	STRUCTURE_INVALID           = 0xFF
 } StructureType;
 
+/**
+ * Flags used to indicate structures in a bitmask.
+ */
 typedef enum StructureFlag {
 	FLAG_STRUCTURE_SLAB_1x1          = 1 << STRUCTURE_SLAB_1x1,          /* 0x____01 */
 	FLAG_STRUCTURE_SLAB_2x2          = 1 << STRUCTURE_SLAB_2x2,          /* 0x____02 */
