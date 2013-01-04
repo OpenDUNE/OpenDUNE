@@ -1997,13 +1997,13 @@ uint16 Structure_AI_PickNextToBuild(Structure *s)
 			u = Unit_Find(&find);
 			if (u == NULL) break;
 
-			buildable &= ~(1 << UNIT_CARRYALL);
+			buildable &= ~FLAG_UNIT_CARRYALL;
 		}
 	}
 
 	if (s->o.type == STRUCTURE_HEAVY_VEHICLE) {
-		buildable &= ~(1 << UNIT_HARVESTER);
-		buildable &= ~(1 << UNIT_MCV);
+		buildable &= ~FLAG_UNIT_HARVESTER;
+		buildable &= ~FLAG_UNIT_MCV;
 	}
 
 	type = 0xFFFF;
