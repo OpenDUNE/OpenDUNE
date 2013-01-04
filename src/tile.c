@@ -13,25 +13,6 @@
 #include "tools.h"
 
 
-static uint8 s_orientationTable[256];
-
-
-/**
- * Initialize the orientation table.
- */
-void Orientation_InitTable(void)
-{
-	uint8 *block = s_orientationTable;
-	int16 i;
-
-	for (i = 0; i < 256; i++) {
-		uint8 low  = ((i + 16) / 32) & 0x7;
-		uint8 hi   = ((i + 8)  / 16) & 0xF;
-
-		*block++ = (hi << 4) | low;
-	}
-}
-
 /**
  * Check whether a tile is valid.
  *
@@ -581,7 +562,7 @@ tile32 Tile_MoveByOrientation(tile32 position, uint8 orientation)
  */
 uint8 Orientation_Orientation256ToOrientation8(uint8 orientation)
 {
-	return s_orientationTable[orientation] & 0x7;
+	return ((orientation + 16) / 32) & 0x7;
 }
 
 /**
@@ -591,5 +572,5 @@ uint8 Orientation_Orientation256ToOrientation8(uint8 orientation)
  */
 uint8 Orientation_Orientation256ToOrientation16(uint8 orientation)
 {
-	return s_orientationTable[orientation] >> 4;
+	return ((orientation + 8) / 16) & 0xF;
 }
