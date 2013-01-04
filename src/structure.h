@@ -50,7 +50,7 @@ typedef enum StructureState {
 	STRUCTURE_STATE_JUSTBUILT = -1,                        /*!< This shows you the building animation etc. */
 	STRUCTURE_STATE_IDLE      = 0,                         /*!< Structure is doing nothing. */
 	STRUCTURE_STATE_BUSY      = 1,                         /*!< Structure is busy (harvester in refinery, unit in repair, .. */
-	STRUCTURE_STATE_READY     = 2                         /*!< Structure is ready and unit will be deployed soon. */
+	STRUCTURE_STATE_READY     = 2                          /*!< Structure is ready and unit will be deployed soon. */
 } StructureState;
 
 /**
