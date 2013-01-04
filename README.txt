@@ -85,6 +85,7 @@ Thanks To (in alphabetical order):
   Szabolcs Nagy (nsz)                  - ANSI C Guru
   Ingo von Borstel (planetmaker)       - For his many bug-reports
   tneo                                 - For his many bug-reports
+  David Wang (wangds)                  - For his many patches and bug-reports
 
   Bug Reporters                        - Thank you all for all bug reports
   Westwood                             - For an amazing game
