@@ -88,6 +88,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 {
 	const StructureInfo *si;
 	Structure *s;
+	tile32 position;
 
 	VARIABLE_NOT_USED(script);
 
@@ -96,7 +97,15 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 
 	si = &g_table_structureInfo[s->o.type];
 
-	Tile_RemoveFogInRadius(s->o.position, si->o.fogUncoverRadius);
+	position.tile = s->o.position.tile;
+
+	/* ENHANCEMENT -- Fog is removed around the top left corner instead of the center of a structure. */
+	if (g_dune2_enhanced) {
+		position.s.x += 256 * g_table_structure_layoutSize[si->layout].width / 2;
+		position.s.y += 256 * g_table_structure_layoutSize[si->layout].height / 2;
+	}
+
+	Tile_RemoveFogInRadius(position, si->o.fogUncoverRadius);
 
 	return 0;
 }

@@ -45,6 +45,8 @@ Structure
     is in fact placed on the map.
 - If a structure gets damaged during upgrading, pressing the "Upgrading" button
     silently starts the repair of the structure, and doesn't cancel upgrading.
+- Fog is removed around the top left corner instead of the center of a
+    structure.
 
 
 Unit
