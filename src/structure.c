@@ -1840,9 +1840,9 @@ uint32 Structure_GetBuildable(Structure *s)
 			for (i = 0; i < 8; i++) {
 				UnitInfo *ui;
 				uint16 upgradeLevelRequired;
-				uint16 unitType = si->buildableUnits[i];
+				uint8 unitType = si->buildableUnits[i];
 
-				if (unitType == 0xFFFF) continue;
+				if (unitType == UNIT_INVALID) continue;
 
 				if (unitType == UNIT_TRIKE && s->creatorHouseID == HOUSE_ORDOS) unitType = UNIT_RAIDER_TRIKE;
 

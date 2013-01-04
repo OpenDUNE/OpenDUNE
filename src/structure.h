@@ -80,7 +80,7 @@ typedef struct StructureInfo {
 	uint16 layout;                                          /*!< Layout type of Structure. */
 	uint16 iconGroup;                                       /*!< In which IconGroup the sprites of the Structure belongs. */
 	uint8  animationIndex[3];                               /*!< The index inside g_table_animation_structure for the Animation of the Structure. */
-	uint16 buildableUnits[8];                               /*!< Which units this structure can produce. */
+	uint8  buildableUnits[8];                               /*!< Which units this structure can produce. */
 	uint16 upgradeCampaign[3];                              /*!< Minimum campaign for upgrades. */
 } StructureInfo;
 
