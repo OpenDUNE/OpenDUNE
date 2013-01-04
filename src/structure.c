@@ -2003,7 +2003,7 @@ uint16 Structure_AI_PickNextToBuild(Structure *s)
 
 	if (s->o.type == STRUCTURE_HEAVY_VEHICLE) {
 		buildable &= ~(1 << UNIT_HARVESTER);
-		buildable &= ~(1 << UNIT_MGV);
+		buildable &= ~(1 << UNIT_MCV);
 	}
 
 	type = 0xFFFF;

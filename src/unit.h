@@ -26,7 +26,7 @@ typedef enum UnitType {
 	UNIT_RAIDER_TRIKE     = 14,
 	UNIT_QUAD             = 15,
 	UNIT_HARVESTER        = 16,
-	UNIT_MGV              = 17,
+	UNIT_MCV              = 17,
 	UNIT_MISSILE_HOUSE    = 18,
 	UNIT_MISSILE_ROCKET   = 19,
 	UNIT_MISSILE_TURRET   = 20,
