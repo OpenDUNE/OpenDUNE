@@ -12,6 +12,7 @@
 #include "../animation.h"
 #include "../audio/sound.h"
 #include "../config.h"
+#include "../explosion.h"
 #include "../gui/gui.h"
 #include "../house.h"
 #include "../map.h"
@@ -514,7 +515,7 @@ uint16 Script_Unit_Die(ScriptEngine *script)
 
 	if (u->o.type != UNIT_SABOTEUR) return 0;
 
-	Map_MakeExplosion(4, u->o.position, 300, 0);
+	Map_MakeExplosion(EXPLOSION_SABOTEUR_DEATH, u->o.position, 300, 0);
 	return 0;
 }
 
@@ -554,10 +555,10 @@ uint16 Script_Unit_ExplosionMultiple(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Map_MakeExplosion(11, u->o.position, Tools_RandomLCG_Range(25, 50), 0);
+	Map_MakeExplosion(EXPLOSION_DEATH_HAND, u->o.position, Tools_RandomLCG_Range(25, 50), 0);
 
 	for (i = 0; i < 7; i++) {
-		Map_MakeExplosion(11, Tile_MoveByRandom(u->o.position, STACK_PEEK(1), false), Tools_RandomLCG_Range(75, 150), 0);
+		Map_MakeExplosion(EXPLOSION_DEATH_HAND, Tile_MoveByRandom(u->o.position, STACK_PEEK(1), false), Tools_RandomLCG_Range(75, 150), 0);
 	}
 
 	return 0;

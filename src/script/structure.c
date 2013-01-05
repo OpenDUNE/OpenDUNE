@@ -7,6 +7,7 @@
 
 #include "../audio/sound.h"
 #include "../config.h"
+#include "../explosion.h"
 #include "../gui/gui.h"
 #include "../house.h"
 #include "../map.h"
@@ -556,7 +557,7 @@ uint16 Script_Structure_Explode(ScriptEngine *script)
 
 		tile = Tile_UnpackTile(position + g_table_structure_layoutTiles[layout][i]);
 
-		Map_MakeExplosion(14, tile, 0, 0);
+		Map_MakeExplosion(EXPLOSION_STRUCTURE, tile, 0, 0);
 	}
 
 	return 0;

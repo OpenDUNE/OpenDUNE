@@ -257,7 +257,7 @@ void Explosion_Start(uint16 explosionType, tile32 position)
 	uint16 packed;
 	uint8 i;
 
-	if (explosionType > 19) return;
+	if (explosionType > EXPLOSION_SPICE_BLOOM_TREMOR) return;
 	commands = g_table_explosion[explosionType];
 
 	packed = Tile_PackTile(position);

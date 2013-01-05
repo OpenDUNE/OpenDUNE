@@ -461,7 +461,7 @@ static bool Map_UpdateWall(uint16 packed)
  */
 void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 unitOriginEncoded)
 {
-	uint16 reactionDistance = (type == 11) ? 32 : 16;
+	uint16 reactionDistance = (type == EXPLOSION_DEATH_HAND) ? 32 : 16;
 	uint16 positionPacked = Tile_PackTile(position);
 
 	if (!s_debugNoExplosionDamage && hitpoints != 0) {
@@ -736,7 +736,7 @@ void Map_Bloom_ExplodeSpice(uint16 packed, uint8 houseID)
 	if (g_validateStrictIfZero == 0) {
 		Unit_Remove(Unit_Get_ByPackedTile(packed));
 		g_map[packed].groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
-		Map_MakeExplosion(19, Tile_UnpackTile(packed), 0, 0);
+		Map_MakeExplosion(EXPLOSION_SPICE_BLOOM_TREMOR, Tile_UnpackTile(packed), 0, 0);
 	}
 
 	if (houseID == g_playerHouseID) Sound_Output_Feedback(36);

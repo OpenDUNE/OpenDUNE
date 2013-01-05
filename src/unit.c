@@ -14,6 +14,7 @@
 #include "animation.h"
 #include "audio/sound.h"
 #include "config.h"
+#include "explosion.h"
 #include "gui/gui.h"
 #include "gui/widget.h"
 #include "house.h"
@@ -1415,7 +1416,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						}
 					} else if (ui->explosionType != 0xFFFF) {
 						if (ui->flags.impactOnSand && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
-							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
+							Map_MakeExplosion(EXPLOSION_SAND_BURST, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
 							Map_DeviateArea(ui->explosionType, newPosition, 32);
 						} else {
@@ -1437,7 +1438,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				}
 
 				if (unit->o.type == UNIT_SABOTEUR && (Map_GetLandscapeType(Tile_PackTile(newPosition)) == LST_WALL || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32))) {
-					Map_MakeExplosion(4, newPosition, 500, 0);
+					Map_MakeExplosion(EXPLOSION_SABOTEUR_DEATH, newPosition, 500, 0);
 
 					Unit_Free(unit);
 					return true;
@@ -1537,7 +1538,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	}
 
 	if (range != 0) {
-		Map_MakeExplosion((damage < 25) ? 0 : 1, unit->o.position, 0, 0);
+		Map_MakeExplosion((damage < 25) ? EXPLOSION_IMPACT_SMALL : EXPLOSION_IMPACT_MEDIUM, unit->o.position, 0, 0);
 	}
 
 	if (houseID != g_playerHouseID && unit->actionID == ACTION_AMBUSH && unit->o.type != UNIT_HARVESTER) {
