@@ -486,7 +486,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			distance = Tile_GetDistance(position, u->o.position) >> 4;
 			if (distance >= reactionDistance) continue;
 
-			if (!(u->o.type == UNIT_SANDWORM && type == 13) && u->o.type != UNIT_FRIGATE) {
+			if (!(u->o.type == UNIT_SANDWORM && type == EXPLOSION_SANDWORM_SWALLOW) && u->o.type != UNIT_FRIGATE) {
 				Unit_Damage(u, hitpoints >> (distance >> 2), 0);
 			}
 
@@ -548,11 +548,11 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		Structure *s = Structure_Get_ByPackedTile(positionPacked);
 
 		if (s != NULL) {
-			if (type == 2) {
+			if (type == EXPLOSION_IMPACT_LARGE) {
 				const StructureInfo *si = &g_table_structureInfo[s->o.type];
 
 				if (si->o.hitpoints / 2 > s->o.hitpoints) {
-					type = 15;
+					type = EXPLOSION_SMOKE_PLUME;
 				}
 			}
 
