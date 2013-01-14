@@ -13,6 +13,6 @@ extern void String_Init(void);
 extern void String_Uninit(void);
 extern uint8 *String_NextString(uint8 *ptr);
 extern uint8 *String_PrevString(uint8 *ptr);
-
+extern void String_Trim(char *string);
 
 #endif /* STRING_H */

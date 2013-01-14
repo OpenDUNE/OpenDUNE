@@ -9,15 +9,7 @@
 
 #include "ini.h"
 
-
-void String_Trim(char *string)
-{
-	char *s = string + strlen(string) - 1;
-	while (s >= string && isspace((uint8)*s)) {
-		*s = '\0';
-		s--;
-	}
-}
+#include "string.h"
 
 char *Ini_GetString(const char *category, const char *key, const char *defaultValue, char *dest, uint16 length, char *source)
 {
