@@ -9,6 +9,6 @@
 #include "../timer.h"
 
 #define msleep(x) usleep(x * 1000)
-#define sleepIdle() Timer_ProcessEvents();
+#define sleepIdle() Timer_ProcessEvents()
 
 #endif /* OS_SLEEP_H */
