@@ -460,6 +460,7 @@ uint16 Script_Unit_MoveToTarget(ScriptEngine *script)
 	Unit_SetOrientation(u, orientation, false, 0);
 
 	diff = abs(orientation - u->orientation[0].current);
+	if (diff > 128) diff = 256 - diff;
 
 	Unit_SetSpeed(u, (max(min(distance / 8, 255), 25) * (255 - diff) + 128) / 256);
 
