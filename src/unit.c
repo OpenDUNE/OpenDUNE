@@ -1226,9 +1226,10 @@ void Unit_RemoveFog(Unit *unit)
  *
  * @param unit The Unit to deviate.
  * @param probability The probability for deviation to succeed.
+ * @param houseID House controlling the deviator.
  * @return True if and only if the unit beacame deviated.
  */
-bool Unit_Deviate(Unit *unit, uint16 probability)
+bool Unit_Deviate(Unit *unit, uint16 probability, uint8 houseID)
 {
 	const UnitInfo *ui;
 
@@ -1418,7 +1419,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						if (ui->flags.impactOnSand && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
 							Map_MakeExplosion(EXPLOSION_SAND_BURST, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
-							Map_DeviateArea(ui->explosionType, newPosition, 32);
+							Map_DeviateArea(ui->explosionType, newPosition, 32, unit->o.houseID);
 						} else {
 							Map_MakeExplosion((ui->explosionType + unit->o.hitpoints / 20) & 3, newPosition, unit->o.hitpoints, unit->originEncoded);
 						}

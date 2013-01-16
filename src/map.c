@@ -703,8 +703,9 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
  * @param type The type of explosion.
  * @param position The position of the explosion.
  * @param radius The radius.
+ * @param houseID House controlling the deviator.
  */
-void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
+void Map_DeviateArea(uint16 type, tile32 position, uint16 radius, uint8 houseID)
 {
 	PoolFindStruct find;
 
@@ -722,7 +723,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 		if (u == NULL) break;
 		if (Tile_GetDistance(position, u->o.position) / 16 >= radius) continue;
 
-		Unit_Deviate(u, 0);
+		Unit_Deviate(u, 0, houseID);
 	}
 }
 
