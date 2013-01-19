@@ -1442,11 +1442,24 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					Unit_Damage(unit, 1, 0);
 				}
 
-				if (unit->o.type == UNIT_SABOTEUR && (Map_GetLandscapeType(Tile_PackTile(newPosition)) == LST_WALL || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32))) {
-					Map_MakeExplosion(EXPLOSION_SABOTEUR_DEATH, newPosition, 500, 0);
+				if (unit->o.type == UNIT_SABOTEUR) {
+					bool detonate = (Map_GetLandscapeType(Tile_PackTile(newPosition)) == LST_WALL);
 
-					Unit_Free(unit);
-					return true;
+					if (!detonate) {
+						/* ENHANCEMENT -- Saboteurs tend to forget their goal, depending on terrain and game speed: to blow up on reaching their destination. */
+						if (g_dune2_enhanced) {
+							detonate = (unit->targetMove != 0 && Tile_GetDistance(newPosition, Tools_Index_GetTile(unit->targetMove)) < 16);
+						} else {
+							detonate = (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32);
+						}
+					}
+					
+					if (detonate) {
+						Map_MakeExplosion(EXPLOSION_SABOTEUR_DEATH, newPosition, 500, 0);
+
+						Unit_Free(unit);
+						return true;
+					}
 				}
 
 				Unit_SetSpeed(unit, 0);

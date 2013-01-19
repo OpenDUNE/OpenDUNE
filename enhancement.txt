@@ -58,6 +58,8 @@ Unit
 - When a Unit enters a Structure, the last tile the Unit was on becomes
     selected rather than the entire Structure.
 - Deviated units always belong to Ordos, no matter who did the deviating.
+- Saboteurs tend to forget their goal, depending on terrain and game speed:
+    to blow up on reaching their destination.
 
 
 Scenario
