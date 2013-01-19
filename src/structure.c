@@ -91,6 +91,7 @@ void GameLoop_Structure(void)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
+		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 
 		si = &g_table_structureInfo[s->o.type];
 		h  = House_Get_ByIndex(s->o.houseID);
@@ -642,6 +643,7 @@ void Structure_CalculateHitpointsMax(House *h)
 
 		s = Structure_Find(&find);
 		if (s == NULL) return;
+		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 
 		si = &g_table_structureInfo[s->o.type];
 
@@ -708,6 +710,7 @@ uint32 Structure_GetStructuresBuilt(House *h)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 		if (s->o.flags.s.isNotOnMap) continue;
+		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 		result |= 1 << s->o.type;
 	}
 
@@ -849,6 +852,7 @@ void Structure_ActivateSpecial(Structure *s)
 
 					sf = Structure_Find(&find);
 					if (sf == NULL) break;
+					if (sf->o.type == STRUCTURE_SLAB_1x1 || sf->o.type == STRUCTURE_SLAB_2x2 || sf->o.type == STRUCTURE_WALL) continue;
 
 					if (House_AreAllied(s->o.houseID, sf->o.houseID)) continue;
 

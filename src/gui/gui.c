@@ -1293,6 +1293,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
+		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 
 		score += g_table_structureInfo[s->o.type].o.buildCredits / 100;
 	}
@@ -1963,6 +1964,7 @@ void GUI_DrawInterfaceAndRadar(Screen screenID)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
+		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 
 		Structure_UpdateMap(s);
 	}

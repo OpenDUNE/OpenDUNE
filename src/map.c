@@ -1326,6 +1326,8 @@ void Map_SelectNext(bool getNext)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
+		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
+
 		if (!Map_IsTileVisible(Tile_PackTile(s->o.position))) continue;
 
 		if ((s->o.seenByHouses & (1 << g_playerHouseID)) == 0) continue;

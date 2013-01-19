@@ -154,6 +154,7 @@ static bool GameLoop_IsLevelFinished(void)
 			s = Structure_Find(&find);
 			if (s == NULL) break;
 
+			if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 			if (s->o.type == STRUCTURE_TURRET) continue;
 			if (s->o.type == STRUCTURE_ROCKET_TURRET) continue;
 
@@ -220,7 +221,7 @@ static bool GameLoop_IsLevelWon(void)
 			s = Structure_Find(&find);
 			if (s == NULL) break;
 
-			if (s->o.type == STRUCTURE_WALL) continue;
+			if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 			if (s->o.type == STRUCTURE_TURRET) continue;
 			if (s->o.type == STRUCTURE_ROCKET_TURRET) continue;
 
@@ -2401,6 +2402,7 @@ void Game_Prepare(void)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
+		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 
 		if (s->o.flags.s.isNotOnMap) continue;
 
