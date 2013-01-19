@@ -917,8 +917,8 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 	tile32 position;
 	uint16 distance;
 	PoolFindStruct find;
-	Unit *targetBest = NULL;
-	uint16 priorityMax = 0;
+	Unit *best = NULL;
+	uint16 bestPriority = 0;
 
 	if (u == NULL) return NULL;
 
@@ -957,28 +957,28 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 
 		priority = Unit_GetTargetUnitPriority(u, target);
 
-		if ((int16)priority > (int16)priorityMax) {
-			targetBest = target;
-			priorityMax = priority;
+		if ((int16)priority > (int16)bestPriority) {
+			best = target;
+			bestPriority = priority;
 		}
 	}
 
-	if (priorityMax == 0) return NULL;
+	if (bestPriority == 0) return NULL;
 
-	return targetBest;
+	return best;
 }
 
 /**
- * Get the score for a target. Various of things have influence on this score,
+ * Get the priority for a target. Various of things have influence on this score,
  *  most noticeable the movementType of the target, his distance to you, and
  *  if he is moving/firing.
  * @note It only considers units on sand.
  *
  * @param unit The Unit that is requesting the score.
  * @param target The Unit that is being targeted.
- * @return The score of the target.
+ * @return The priority of the target.
  */
-static uint16 Unit_Sandworm_GetTargetScore(Unit *unit, Unit *target)
+static uint16 Unit_Sandworm_GetTargetPriority(Unit *unit, Unit *target)
 {
 	uint16 res;
 	uint16 distance;
@@ -1013,9 +1013,9 @@ static uint16 Unit_Sandworm_GetTargetScore(Unit *unit, Unit *target)
  */
 Unit *Unit_Sandworm_FindBestTarget(Unit *unit)
 {
-	Unit *target = NULL;
+	Unit *best = NULL;
 	PoolFindStruct find;
-	uint16 scoreMax = 0;
+	uint16 bestPriority = 0;
 
 	if (unit == NULL) return NULL;
 
@@ -1025,23 +1025,23 @@ Unit *Unit_Sandworm_FindBestTarget(Unit *unit)
 
 	while (true) {
 		Unit *u;
-		uint16 score;
+		uint16 priority;
 
 		u = Unit_Find(&find);
 
 		if (u == NULL) break;
 
-		score = Unit_Sandworm_GetTargetScore(unit, u);
+		priority = Unit_Sandworm_GetTargetPriority(unit, u);
 
-		if (score >= scoreMax) {
-			target = u;
-			scoreMax = score;
+		if (priority >= bestPriority) {
+			best = u;
+			bestPriority = priority;
 		}
 	}
 
-	if (scoreMax == 0) return NULL;
+	if (bestPriority == 0) return NULL;
 
-	return target;
+	return best;
 }
 
 /**
@@ -2288,7 +2288,7 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 		}
 	}
 
-	if (bestPriority == 0) best = NULL;
+	if (bestPriority == 0) return NULL;
 
 	return best;
 }
@@ -2531,7 +2531,6 @@ uint16 Unit_GetTargetStructurePriority(Unit *unit, Structure *target)
 	if (unit == NULL || target == NULL) return 0;
 
 	if (House_AreAllied(Unit_GetHouseID(unit), target->o.houseID)) return 0;
-
 	if ((target->o.seenByHouses & (1 << unit->o.houseID)) == 0) return 0;
 
 	si = &g_table_structureInfo[target->o.type];

@@ -241,12 +241,9 @@ extern void Unit_Sort(void);
 extern Unit *Unit_Get_ByPackedTile(uint16 packed);
 extern uint16 Unit_IsValidMovementIntoStructure(Unit *unit, struct Structure *s);
 extern void Unit_SetDestination(Unit *u, uint16 destination);
-extern uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target);
 extern uint16 Unit_FindClosestRefinery(Unit *unit);
 extern bool Unit_SetPosition(Unit *u, tile32 position);
 extern void Unit_Remove(Unit *u);
-extern Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode);
-extern Unit *Unit_Sandworm_FindBestTarget(Unit *unit);
 extern bool Unit_StartMovement(Unit *unit);
 extern void Unit_SetTarget(Unit* unit, uint16 encoded);
 extern bool Unit_Deviation_Decrease(Unit* unit, uint16 amount);
@@ -267,14 +264,18 @@ extern void Unit_Hide(Unit *unit);
 extern Unit *Unit_CallUnitByType(UnitType type, uint8 houseID, uint16 target, bool createCarryall);
 extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
 extern int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction);
-extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
 extern void Unit_RemovePlayer(Unit *unit);
 extern void Unit_UpdateMap(uint16 type, Unit *unit);
 extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);
 extern void Unit_AddToTile(Unit *unit, uint16 packed);
-extern uint16 Unit_GetTargetStructurePriority(Unit *unit, struct Structure *s);
 extern void Unit_LaunchHouseMissile(uint16 packed);
 extern void Unit_HouseUnitCount_Remove(Unit *unit);
 extern void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID);
+
+extern uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target);
+extern uint16 Unit_GetTargetStructurePriority(Unit *unit, struct Structure *s);
+extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
+extern Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode);
+extern Unit *Unit_Sandworm_FindBestTarget(Unit *unit);
 
 #endif /* UNIT_H */
