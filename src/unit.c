@@ -102,7 +102,13 @@ static void Unit_MovementTick(Unit *unit)
 	if (unit->speed == 0) return;
 
 	speed = unit->speedRemainder;
-	speed += Tools_AdjustToGameSpeed(unit->speedPerTick, 1, 255, false);
+
+	/* Units in the air don't feel the effect of gameSpeed */
+	if (g_table_unitInfo[unit->o.type].movementType != MOVEMENT_WINGER) {
+		speed += Tools_AdjustToGameSpeed(unit->speedPerTick, 1, 255, false);
+	} else {
+		speed += unit->speedPerTick;
+	}
 
 	if ((speed & 0xFF00) != 0) {
 		Unit_Move(unit, min(unit->speed * 16, Tile_GetDistance(unit->o.position, unit->currentDestination) + 16));
@@ -1883,7 +1889,11 @@ void Unit_SetSpeed(Unit *unit, uint16 speed)
 
 	unit->movingSpeed = speed & 0xFF;
 	speed = g_table_unitInfo[unit->o.type].movingSpeed * speed / 256;
-	speed = Tools_AdjustToGameSpeed(speed, 1, 255, false);
+
+	/* Units in the air don't feel the effect of gameSpeed */
+	if (g_table_unitInfo[unit->o.type].movementType != MOVEMENT_WINGER) {
+		speed = Tools_AdjustToGameSpeed(speed, 1, 255, false);
+	}
 
 	speedPerTick = speed << 4;
 	speed        = speed >> 4;
