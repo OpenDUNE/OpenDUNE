@@ -840,8 +840,8 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 							GUI_DrawLine(261, 95, 312, 95, 16);
 							GUI_DrawText_Wrapper(String_Get_ByIndex(STR_POWER_INFONEEDEDOUTPUT), 258, 88, 29, 0, 0x11);
-							GUI_DrawText_Wrapper("%d", 302, g_fontCurrent->height * 2 + 80, 29, 0, 0x11, powerAverage);
-							GUI_DrawText_Wrapper("%d", 302, g_fontCurrent->height * 3 + 80, (powerOutput >= powerAverage) ? 29 : 6, 0, 0x11, powerOutput);
+							GUI_DrawText_Wrapper("%3d", 292, g_fontCurrent->height * 2 + 80, 29, 0, 0x11, powerAverage);
+							GUI_DrawText_Wrapper("%3d", 292, g_fontCurrent->height * 3 + 80, (powerOutput >= powerAverage) ? 29 : 6, 0, 0x11, powerOutput);
 						} break;
 
 						case STRUCTURE_STARPORT: {
