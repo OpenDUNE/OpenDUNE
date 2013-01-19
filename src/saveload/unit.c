@@ -85,6 +85,9 @@ bool Unit_Load(FILE *fp, uint32 length)
 		ul.timer = 0;
 		ul.o.seenByHouses |= 1 << ul.o.houseID;
 
+		/* In case the new ODUN chunk is not available, Ordos is always the one who deviated */
+		if (ul.deviated != 0) ul.deviatedHouse = HOUSE_ORDOS;
+
 		/* ENHANCEMENT -- Due to wrong parameter orders of Unit_Create in original Dune2,
 		 *  it happened that units exists with houseID 13. This in fact are Trikes with
 		 *  the wrong houseID. So remove those units completely from the savegame. */
