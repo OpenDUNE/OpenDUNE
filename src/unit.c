@@ -1457,7 +1457,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					if (detonate) {
 						Map_MakeExplosion(EXPLOSION_SABOTEUR_DEATH, newPosition, 500, 0);
 
-						Unit_Free(unit);
+						Unit_Remove(unit);
 						return true;
 					}
 				}
@@ -2203,7 +2203,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 
 	if (unit->o.type == UNIT_SABOTEUR) {
 		Structure_Damage(s, 500, 1);
-		Unit_Free(unit);
+		Unit_Remove(unit);
 		return;
 	}
 
@@ -2234,7 +2234,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 
 	Object_Script_Variable4_Clear(&s->o);
 
-	Unit_Free(unit);
+	Unit_Remove(unit);
 }
 
 /**
