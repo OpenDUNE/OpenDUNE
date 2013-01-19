@@ -323,7 +323,7 @@ void GameLoop_Unit(void)
 uint8 Unit_GetHouseID(Unit *u)
 {
 	if (u->deviated != 0) {
-		/* ENHANCEMENT - Deviated units always belong to Ordos, no matter who did the deviating. */
+		/* ENHANCEMENT -- Deviated units always belong to Ordos, no matter who did the deviating. */
 		if (g_dune2_enhanced) return u->deviatedHouse;
 		return HOUSE_ORDOS;
 	}
@@ -1087,7 +1087,7 @@ bool Unit_StartMovement(Unit *unit)
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) speed = 255;
 	unit->o.flags.s.isSmoking = false;
 
-	/* ENHANCEMENT: the flag is never set to false in original Dune2; in result, once the wobbling starts, it never stops. */
+	/* ENHANCEMENT -- the flag is never set to false in original Dune2; in result, once the wobbling starts, it never stops. */
 	if (g_dune2_enhanced) {
 		unit->o.flags.s.isWobbling = g_table_landscapeInfo[type].letUnitWobble;
 	} else {
@@ -2226,7 +2226,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		House_CalculatePowerAndCredit(House_Get_ByIndex(s->o.houseID));
 		Structure_UpdateMap(s);
 
-		/* ENHANCEMENT: When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
+		/* ENHANCEMENT -- When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
 		if (g_dune2_enhanced) Structure_UntargetMe(s);
 	} else {
 		Structure_Damage(s, min(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
