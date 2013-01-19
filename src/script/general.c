@@ -377,7 +377,7 @@ uint16 Script_General_IsEnemy(ScriptEngine *script)
 
 	if (!Tools_Index_IsValid(index)) return 0;
 
-	houseID = g_scriptCurrentObject->houseID;
+	houseID = (g_scriptCurrentUnit != NULL) ? Unit_GetHouseID(g_scriptCurrentUnit) : g_scriptCurrentObject->houseID;
 
 	switch (Tools_Index_GetType(index)) {
 		case IT_UNIT:      return (Unit_GetHouseID(Tools_Index_GetUnit(index)) != houseID) ? 1 : 0;
