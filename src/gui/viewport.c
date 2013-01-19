@@ -533,7 +533,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) s_spriteFlags |= 0x100;
 			if (ui->o.flags.blurTile) s_spriteFlags |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, s_spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
+			GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, s_spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->spriteOffset >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);

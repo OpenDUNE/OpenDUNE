@@ -57,6 +57,7 @@ Unit
     failure in the code.
 - When a Unit enters a Structure, the last tile the Unit was on becomes
     selected rather than the entire Structure.
+- Deviated units always belong to Ordos, no matter who did the deviating.
 
 
 Scenario

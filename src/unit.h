@@ -140,7 +140,8 @@ typedef struct Unit {
 	                                                         * - Sandworm : units to eat before disappearing.
 	                                                         * - Harvester : harvested spice.
 	                                                         */
-	uint8  deviated;                                        /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
+	uint8  deviated;                                        /*!< Strength of deviation. Zero if unit is not deviated. */
+	uint8  deviatedHouse;                                   /*!< Which house it is deviated to. Only valid if 'deviated' is non-zero. */
 	tile32 targetLast;                                      /*!< The last position of the Unit. Carry-alls will return the Unit here. */
 	tile32 targetPreLast;                                   /*!< The position before the last position of the Unit. */
 	dir24  orientation[2];                                  /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
@@ -250,7 +251,7 @@ extern bool Unit_StartMovement(Unit *unit);
 extern void Unit_SetTarget(Unit* unit, uint16 encoded);
 extern bool Unit_Deviation_Decrease(Unit* unit, uint16 amount);
 extern void Unit_RemoveFog(Unit *unit);
-extern bool Unit_Deviate(Unit *unit, uint16 probability);
+extern bool Unit_Deviate(Unit *unit, uint16 probability, uint8 houseID);
 extern bool Unit_Move(Unit *unit, uint16 distance);
 extern bool Unit_Damage(Unit *unit, uint16 damage, uint16 range);
 extern void Unit_UntargetMe(Unit *unit);

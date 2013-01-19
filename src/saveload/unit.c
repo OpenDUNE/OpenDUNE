@@ -52,7 +52,9 @@ static const SaveLoadDesc s_saveUnitNewIndex[] = {
 
 static const SaveLoadDesc s_saveUnitNew[] = {
 	SLD_ENTRY (Unit, SLDT_UINT16, fireDelay),
-	SLD_EMPTY2(      SLDT_UINT16, 7),
+	SLD_ENTRY (Unit, SLDT_UINT8,  deviatedHouse),
+	SLD_EMPTY (      SLDT_UINT8),
+	SLD_EMPTY2(      SLDT_UINT16, 6),
 	SLD_END
 };
 

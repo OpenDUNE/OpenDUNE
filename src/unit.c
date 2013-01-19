@@ -322,7 +322,11 @@ void GameLoop_Unit(void)
  */
 uint8 Unit_GetHouseID(Unit *u)
 {
-	if (u->deviated != 0) return HOUSE_ORDOS;
+	if (u->deviated != 0) {
+		/* ENHANCEMENT - Deviated units always belong to Ordos, no matter who did the deviating. */
+		if (g_dune2_enhanced) return u->deviatedHouse;
+		return HOUSE_ORDOS;
+	}
 	return u->o.houseID;
 }
 
@@ -1225,9 +1229,10 @@ void Unit_RemoveFog(Unit *unit)
  *
  * @param unit The Unit to deviate.
  * @param probability The probability for deviation to succeed.
+ * @param houseID House controlling the deviator.
  * @return True if and only if the unit beacame deviated.
  */
-bool Unit_Deviate(Unit *unit, uint16 probability)
+bool Unit_Deviate(Unit *unit, uint16 probability, uint8 houseID)
 {
 	const UnitInfo *ui;
 
@@ -1247,11 +1252,12 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	if (Tools_Random_256() >= probability) return false;
 
-	unit->deviated = 0x78;
+	unit->deviated = 120;
+	unit->deviatedHouse = houseID;
 
 	Unit_UpdateMap(2, unit);
 
-	if (g_playerHouseID == HOUSE_ORDOS) {
+	if (g_playerHouseID == unit->deviatedHouse) {
 		Unit_SetAction(unit, ui->o.actionsPlayer[3]);
 	} else {
 		Unit_SetAction(unit, ui->actionAI);
@@ -1417,7 +1423,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						if (ui->flags.impactOnSand && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
 							Map_MakeExplosion(EXPLOSION_SAND_BURST, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
-							Map_DeviateArea(ui->explosionType, newPosition, 32);
+							Map_DeviateArea(ui->explosionType, newPosition, 32, unit->o.houseID);
 						} else {
 							Map_MakeExplosion((ui->explosionType + unit->o.hitpoints / 20) & 3, newPosition, unit->o.hitpoints, unit->originEncoded);
 						}
