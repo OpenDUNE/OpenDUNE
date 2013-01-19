@@ -1888,7 +1888,7 @@ void Unit_SetSpeed(Unit *unit, uint16 speed)
 	}
 
 	unit->movingSpeed = speed & 0xFF;
-	speed = g_table_unitInfo[unit->o.type].movingSpeed * speed / 256;
+	speed = g_table_unitInfo[unit->o.type].movingSpeedFactor * speed / 256;
 
 	/* Units in the air don't feel the effect of gameSpeed */
 	if (g_table_unitInfo[unit->o.type].movementType != MOVEMENT_WINGER) {

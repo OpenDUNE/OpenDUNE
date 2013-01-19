@@ -181,7 +181,7 @@ typedef struct UnitInfo {
 	uint16 dimension;                                       /*!< The dimension of the Unit Sprite. */
 	uint16 movementType;                                    /*!< MovementType of Unit. */
 	uint16 animationSpeed;                                  /*!< Speed of sprite animation of Unit. */
-	uint16 movingSpeed;                                     /*!< Speed of movement of Unit. */
+	uint16 movingSpeedFactor;                               /*!< Factor speed of movement of Unit, where 256 is full speed. */
 	uint8  turningSpeed;                                    /*!< Speed of orientation change of Unit. */
 	uint16 groundSpriteID;                                  /*!< SpriteID for north direction. */
 	uint16 turretSpriteID;                                  /*!< SpriteID of the turret for north direction. */
