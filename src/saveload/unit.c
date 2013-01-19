@@ -1,6 +1,7 @@
 /** @file src/saveload/unit.c Load/save routines for Unit. */
 
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 
 #include "saveload.h"
@@ -70,6 +71,8 @@ bool Unit_Load(FILE *fp, uint32 length)
 	while (length > 0) {
 		Unit *u;
 		Unit ul;
+
+		memset(&ul, 0, sizeof(ul));
 
 		/* Read the next Structure from disk */
 		if (!SaveLoad_Load(s_saveUnit, fp, &ul)) return false;

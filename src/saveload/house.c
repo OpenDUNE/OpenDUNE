@@ -1,6 +1,7 @@
 /** @file src/saveload/house.c Load/save routines for House. */
 
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 
 #include "saveload.h"
@@ -45,6 +46,8 @@ bool House_Load(FILE *fp, uint32 length)
 	while (length > 0) {
 		House *h;
 		House hl;
+
+		memset(&hl, 0, sizeof(hl));
 
 		/* Read the next House from disk */
 		if (!SaveLoad_Load(s_saveHouse, fp, &hl)) return false;
