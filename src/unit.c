@@ -1195,8 +1195,8 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	}
 
 	Unit_UntargetMe(unit);
-	Unit_SetTarget(unit, 0);
-	Unit_SetDestination(unit, 0);
+	unit->targetAttack = 0;
+	unit->targetMove = 0;
 
 	return true;
 }
@@ -1262,6 +1262,8 @@ bool Unit_Deviate(Unit *unit, uint16 probability, uint8 houseID)
 	}
 
 	Unit_UntargetMe(unit);
+	unit->targetAttack = 0;
+	unit->targetMove = 0;
 
 	return true;
 }
