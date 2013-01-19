@@ -388,7 +388,7 @@ uint16 Script_Unit_SetSpeed(ScriptEngine *script)
 
 	Unit_SetSpeed(u, speed);
 
-	return u->speed;
+	return u->speed / 16;
 }
 
 /**

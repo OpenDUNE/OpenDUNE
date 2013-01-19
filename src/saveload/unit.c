@@ -32,9 +32,9 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT32, targetLast),
 	SLD_ENTRY (Unit, SLDT_UINT32, targetPreLast),
 	SLD_SLD2  (Unit, orientation, s_saveUnitOrientation, 2),
-	SLD_ENTRY (Unit, SLDT_UINT8,  speedPerTick),
+	SLD_ENTRY (Unit, SLDT_UINT8,  oldSpeedPerTick),
 	SLD_ENTRY (Unit, SLDT_UINT8,  speedRemainder),
-	SLD_ENTRY (Unit, SLDT_UINT8,  speed),
+	SLD_ENTRY (Unit, SLDT_UINT8,  oldSpeed),
 	SLD_ENTRY (Unit, SLDT_UINT8,  movingSpeed),
 	SLD_ENTRY (Unit, SLDT_UINT8,  wobbleIndex),
 	SLD_ENTRY (Unit,  SLDT_INT8,  spriteOffset),
@@ -52,7 +52,8 @@ static const SaveLoadDesc s_saveUnitNewIndex[] = {
 
 static const SaveLoadDesc s_saveUnitNew[] = {
 	SLD_ENTRY (Unit, SLDT_UINT16, fireDelay),
-	SLD_EMPTY2(      SLDT_UINT16, 7),
+	SLD_ENTRY (Unit, SLDT_UINT16, speed),
+	SLD_EMPTY2(      SLDT_UINT16, 6),
 	SLD_END
 };
 
@@ -79,6 +80,21 @@ bool Unit_Load(FILE *fp, uint32 length)
 		ul.o.script.delay = 0;
 		ul.timer = 0;
 		ul.o.seenByHouses |= 1 << ul.o.houseID;
+
+		/* Conversion from old speed system to new */
+		if (ul.oldSpeedPerTick != 0 || ul.oldSpeed != 0) {
+			if (ul.oldSpeedPerTick == 255) {
+				ul.speed = ul.oldSpeed << 4;
+			} else {
+				ul.speed = ul.oldSpeedPerTick >> 4;
+			}
+
+			ul.oldSpeed = 0;
+			ul.oldSpeedPerTick = 0;
+			ul.speedRemainder = 0;
+		} else {
+			ul.speed = 0;
+		}
 
 		/* ENHANCEMENT -- Due to wrong parameter orders of Unit_Create in original Dune2,
 		 *  it happened that units exists with houseID 13. This in fact are Trikes with

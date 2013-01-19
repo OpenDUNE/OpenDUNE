@@ -101,20 +101,22 @@ static void Unit_MovementTick(Unit *unit)
 
 	if (unit->speed == 0) return;
 
-	speed = unit->speedRemainder;
+	speed = unit->speed;
 
 	/* Units in the air don't feel the effect of gameSpeed */
 	if (g_table_unitInfo[unit->o.type].movementType != MOVEMENT_WINGER) {
-		speed += Tools_AdjustToGameSpeed(unit->speedPerTick, 1, 255, false);
-	} else {
-		speed += unit->speedPerTick;
+		speed = Tools_AdjustToGameSpeed(unit->speed, 1, 0xFFFF, false);
+		speed = Tools_AdjustToGameSpeed(unit->speed, 1, 0xFFFF, false);
 	}
 
-	if ((speed & 0xFF00) != 0) {
-		Unit_Move(unit, min(unit->speed * 16, Tile_GetDistance(unit->o.position, unit->currentDestination) + 16));
+	speed += unit->speedRemainder;
+
+	/* We move per 16 units */
+	if ((speed & 0xFFF0) != 0) {
+		Unit_Move(unit, min(speed & 0xFFF0, Tile_GetDistance(unit->o.position, unit->currentDestination)));
 	}
 
-	unit->speedRemainder = speed & 0xFF;
+	unit->speedRemainder = speed & 0xF;
 }
 
 /**
@@ -1868,44 +1870,23 @@ bool Unit_IsTileOccupied(Unit *unit)
  */
 void Unit_SetSpeed(Unit *unit, uint16 speed)
 {
-	uint16 speedPerTick;
-
 	assert(unit != NULL);
 
-	speedPerTick = 0;
-
-	unit->speed          = 0;
+	unit->speed = 0;
 	unit->speedRemainder = 0;
-	unit->speedPerTick   = 0;
 
+	/* The more spice there is in the harvester, the slower it will move. unit->amount is at max 100, so ~60% of its original speed. */
 	if (unit->o.type == UNIT_HARVESTER) {
 		speed = ((255 - unit->amount) * speed) / 256;
 	}
 
-	if (speed == 0 || speed >= 256) {
+	if (speed == 0) {
 		unit->movingSpeed = 0;
 		return;
 	}
 
 	unit->movingSpeed = speed & 0xFF;
-	speed = g_table_unitInfo[unit->o.type].movingSpeed * speed / 256;
-
-	/* Units in the air don't feel the effect of gameSpeed */
-	if (g_table_unitInfo[unit->o.type].movementType != MOVEMENT_WINGER) {
-		speed = Tools_AdjustToGameSpeed(speed, 1, 255, false);
-	}
-
-	speedPerTick = speed << 4;
-	speed        = speed >> 4;
-
-	if (speed != 0) {
-		speedPerTick = 255;
-	} else {
-		speed = 1;
-	}
-
-	unit->speed = speed & 0xFF;
-	unit->speedPerTick = speedPerTick & 0xFF;
+	unit->speed = g_table_unitInfo[unit->o.type].movingSpeed * speed / 256;
 }
 
 /**

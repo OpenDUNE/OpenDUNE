@@ -144,9 +144,10 @@ typedef struct Unit {
 	tile32 targetLast;                                      /*!< The last position of the Unit. Carry-alls will return the Unit here. */
 	tile32 targetPreLast;                                   /*!< The position before the last position of the Unit. */
 	dir24  orientation[2];                                  /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
-	uint8  speedPerTick;                                    /*!< Every tick this amount is added; if over 255 Unit is moved. */
+	uint8  oldSpeedPerTick;                                 /*!< Original Dune2, no longer used - Every tick this amount is added; if over 255 Unit is moved. */
+	uint8  oldSpeed;                                        /*!< Original Dune2, no longer used - The amount to move when speedPerTick goes over 255. */
 	uint8  speedRemainder;                                  /*!< Remainder of speedPerTick. */
-	uint8  speed;                                           /*!< The amount to move when speedPerTick goes over 255. */
+	uint16 speed;                                           /*!< Current speed of the unit. */
 	uint8  movingSpeed;                                     /*!< The speed of moving as last set. */
 	uint8  wobbleIndex;                                     /*!< At which wobble index the Unit currently is. */
 	 int8  spriteOffset;                                    /*!< Offset of the current sprite for Unit. */
