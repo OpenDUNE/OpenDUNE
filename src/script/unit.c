@@ -463,7 +463,7 @@ uint16 Script_Unit_MoveToTarget(ScriptEngine *script)
 
 	diff = abs(orientation - u->orientation[0].current);
 
-	Unit_SetSpeed(u, Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - diff) / 256);
+	Unit_SetSpeed(u, (Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - diff) + 128) / 256);
 
 	delay = max((int16)distance / 1024, 1);
 
