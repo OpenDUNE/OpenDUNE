@@ -943,8 +943,6 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 		target = Unit_Find(&find);
 
 		if (target == NULL) break;
-		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(target))) continue;
-		if ((target->o.seenByHouses & (1 << u->o.houseID)) == 0) continue;
 
 		if (mode != 0 && mode != 4) {
 			if (mode == 1) {
