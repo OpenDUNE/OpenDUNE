@@ -415,12 +415,22 @@ static const int8 _stepY[256] = {
  */
 tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distance)
 {
+	int diffX, diffY;
+	int roundingOffsetX, roundingOffsetY;
+
 	distance = min(distance, 0xFF);
 
 	if (distance == 0) return tile;
 
-	tile.s.x += (64 + _stepX[orientation & 0xFF] * distance) / 128;
-	tile.s.y += (64 - _stepY[orientation & 0xFF] * distance) / 128;
+	diffX = _stepX[orientation & 0xFF];
+	diffY = _stepY[orientation & 0xFF];
+
+	/* Always round away from zero */
+	roundingOffsetX = diffX < 0 ? -64 : 64;
+	roundingOffsetY = diffY < 0 ? -64 : 64;
+
+	tile.s.x += (diffX * distance + roundingOffsetX) / 128;
+	tile.s.y -= (diffY * distance + roundingOffsetY) / 128;
 
 	return tile;
 }
