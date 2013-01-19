@@ -322,7 +322,13 @@ void GameLoop_Unit(void)
  */
 uint8 Unit_GetHouseID(Unit *u)
 {
-	if (u->deviated != 0) return HOUSE_ORDOS;
+	if (u->deviated != 0) {
+		if (!g_dune2_enhanced) {
+			return HOUSE_ORDOS;
+		} else { /* ENHANCEMENT - deviated unit is controlled by   */
+			return (u->deviated >> 5);
+		}
+	}
 	return u->o.houseID;
 }
 
@@ -1172,12 +1178,28 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	if (!ui->flags.isNormalUnit) return false;
 
 	if (amount == 0) {
-		amount = g_table_houseInfo[unit->o.houseID].toughness;
+		if (!g_dune2_enhanced) {
+			amount = g_table_houseInfo[unit->o.houseID].toughness;
+		}
+		else { /* ENHANCEMENT - less check various houses deviation stop */
+			amount = (g_table_houseInfo[unit->o.houseID].toughness - 1) / 8;
+		}
 	}
 
-	if (unit->deviated > amount) {
-		unit->deviated -= amount;
-		return false;
+	if (!g_dune2_enhanced) { 
+		if (unit->deviated > amount) {
+			unit->deviated -= amount;
+			return false;
+		}
+	}
+	else { /* ENHANCEMENT - check various houses deviation stop */
+		uint8 deviation_counter;
+		deviation_counter = unit->deviated << 3;
+		deviation_counter = deviation_counter >> 3;
+		if (deviation_counter > amount) {
+			unit->deviated -= amount;
+			return false;
+		}
 	}
 
 	unit->deviated = 0;
@@ -1225,9 +1247,10 @@ void Unit_RemoveFog(Unit *unit)
  *
  * @param unit The Unit to deviate.
  * @param probability The probability for deviation to succeed.
+ * @param houseID House controlling the deviator.
  * @return True if and only if the unit beacame deviated.
  */
-bool Unit_Deviate(Unit *unit, uint16 probability)
+bool Unit_Deviate(Unit *unit, uint16 probability, uint8 houseID)
 {
 	const UnitInfo *ui;
 
@@ -1247,14 +1270,29 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	if (Tools_Random_256() >= probability) return false;
 
-	unit->deviated = 0x78;
+	if (!g_dune2_enhanced) {
+		unit->deviated = 0x78;
+	}
+	else { /* ENHANCEMENT - deviation depends on firing Deviators' House */
+		unit->deviated = (houseID << 5) + 31;
+	}
 
 	Unit_UpdateMap(2, unit);
 
-	if (g_playerHouseID == HOUSE_ORDOS) {
-		Unit_SetAction(unit, ui->o.actionsPlayer[3]);
-	} else {
-		Unit_SetAction(unit, ui->actionAI);
+	if (!g_dune2_enhanced) {
+		if (g_playerHouseID == HOUSE_ORDOS) {
+			Unit_SetAction(unit, ui->o.actionsPlayer[3]);
+		} else {
+			Unit_SetAction(unit, ui->actionAI);
+		}
+	}
+	else { /* ENHANCEMENT - deviated unit action depend on house that deviated it */
+		if (g_playerHouseID == (unit->deviated >> 5) ) {
+			Unit_SetAction(unit, ui->o.actionsPlayer[3]);
+		}
+		else {
+			Unit_SetAction(unit, ui->actionAI);
+		}
 	}
 
 	Unit_UntargetMe(unit);
@@ -1417,7 +1455,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						if (ui->flags.impactOnSand && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
 							Map_MakeExplosion(EXPLOSION_SAND_BURST, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
-							Map_DeviateArea(ui->explosionType, newPosition, 32);
+							Map_DeviateArea(ui->explosionType, newPosition, 32, unit->o.houseID);
 						} else {
 							Map_MakeExplosion((ui->explosionType + unit->o.hitpoints / 20) & 3, newPosition, unit->o.hitpoints, unit->originEncoded);
 						}
