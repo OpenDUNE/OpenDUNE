@@ -2336,7 +2336,7 @@ int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction)
 	res = g_table_landscapeInfo[type].movementSpeed[ui->movementType];
 
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) {
-		if (!House_AreAllied(g_map[packed].houseID, unit->o.houseID)) res = 255;
+		if (!House_AreAllied(g_map[packed].houseID, Unit_GetHouseID(unit))) res = 255;
 	}
 
 	if (res == 0) return 256;
@@ -2531,7 +2531,7 @@ uint16 Unit_GetTargetStructurePriority(Unit *unit, Structure *target)
 	if (unit == NULL || target == NULL) return 0;
 
 	if (House_AreAllied(Unit_GetHouseID(unit), target->o.houseID)) return 0;
-	if ((target->o.seenByHouses & (1 << unit->o.houseID)) == 0) return 0;
+	if ((target->o.seenByHouses & (1 << Unit_GetHouseID(unit))) == 0) return 0;
 
 	si = &g_table_structureInfo[target->o.type];
 	priority = si->o.priorityBuild + si->o.priorityTarget;
