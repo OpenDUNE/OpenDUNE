@@ -240,7 +240,7 @@ void GameLoop_Unit(void)
 
 		if (tickUnknown5) {
 			if (u->timer == 0) {
-				if ((ui->movementType == MOVEMENT_FOOT && (u->speed != 0 || u->speedSub != 0)) || u->o.flags.s.isSmoking) {
+				if ((ui->movementType == MOVEMENT_FOOT && u->speed != 0 && u->speedSub != 0) || u->o.flags.s.isSmoking) {
 					if (u->spriteOffset >= 0) {
 						u->spriteOffset &= 0x3F;
 						u->spriteOffset++;
