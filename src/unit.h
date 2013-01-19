@@ -144,9 +144,9 @@ typedef struct Unit {
 	tile32 targetLast;                                      /*!< The last position of the Unit. Carry-alls will return the Unit here. */
 	tile32 targetPreLast;                                   /*!< The position before the last position of the Unit. */
 	dir24  orientation[2];                                  /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
-	uint8  speedSub;                                        /*!< The amount to move (modulo 16). */
-	uint8  speedRemainder;                                  /*!< Remainder of speedSub (till it tips over 16). */
-	uint8  speed;                                           /*!< The amount to move (divided by 16). */
+	uint8  speedPerTick;                                    /*!< Every tick this amount is added; if over 255 Unit is moved. */
+	uint8  speedRemainder;                                  /*!< Remainder of speedPerTick. */
+	uint8  speed;                                           /*!< The amount to move when speedPerTick goes over 255. */
 	uint8  movingSpeed;                                     /*!< The speed of moving as last set. */
 	uint8  wobbleIndex;                                     /*!< At which wobble index the Unit currently is. */
 	 int8  spriteOffset;                                    /*!< Offset of the current sprite for Unit. */
@@ -181,7 +181,7 @@ typedef struct UnitInfo {
 	uint16 dimension;                                       /*!< The dimension of the Unit Sprite. */
 	uint16 movementType;                                    /*!< MovementType of Unit. */
 	uint16 animationSpeed;                                  /*!< Speed of sprite animation of Unit. */
-	uint16 movingSpeedFactor;                               /*!< Factor speed of movement of Unit, where 256 is full speed. */
+	uint16 movingSpeed;                                     /*!< Speed of movement of Unit. */
 	uint8  turningSpeed;                                    /*!< Speed of orientation change of Unit. */
 	uint16 groundSpriteID;                                  /*!< SpriteID for north direction. */
 	uint16 turretSpriteID;                                  /*!< SpriteID of the turret for north direction. */

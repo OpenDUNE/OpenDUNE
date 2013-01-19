@@ -32,7 +32,7 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT32, targetLast),
 	SLD_ENTRY (Unit, SLDT_UINT32, targetPreLast),
 	SLD_SLD2  (Unit, orientation, s_saveUnitOrientation, 2),
-	SLD_ENTRY (Unit, SLDT_UINT8,  speedSub),
+	SLD_ENTRY (Unit, SLDT_UINT8,  speedPerTick),
 	SLD_ENTRY (Unit, SLDT_UINT8,  speedRemainder),
 	SLD_ENTRY (Unit, SLDT_UINT8,  speed),
 	SLD_ENTRY (Unit, SLDT_UINT8,  movingSpeed),
@@ -79,9 +79,6 @@ bool Unit_Load(FILE *fp, uint32 length)
 		ul.o.script.delay = 0;
 		ul.timer = 0;
 		ul.o.seenByHouses |= 1 << ul.o.houseID;
-
-		/* In original Dune2 savegames, speedSub was shifted left by 4 */
-		if (ul.speedSub > 0xF) ul.speedSub >>= 4;
 
 		/* ENHANCEMENT -- Due to wrong parameter orders of Unit_Create in original Dune2,
 		 *  it happened that units exists with houseID 13. This in fact are Trikes with

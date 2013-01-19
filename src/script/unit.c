@@ -382,10 +382,11 @@ uint16 Script_Unit_SetSpeed(ScriptEngine *script)
 	uint16 speed;
 
 	u = g_scriptCurrentUnit;
-	speed = STACK_PEEK(1);
+	speed = clamp(STACK_PEEK(1), 0, 255);
 
-	/* Scenario-based units move on a different speed */
 	if (!u->o.flags.s.byScenario) speed = speed * 192 / 256;
+
+	if (g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) speed = Tools_AdjustToGameSpeed(speed, 0, 255, true);
 
 	Unit_SetSpeed(u, speed);
 
@@ -462,7 +463,7 @@ uint16 Script_Unit_MoveToTarget(ScriptEngine *script)
 
 	diff = abs(orientation - u->orientation[0].current);
 
-	Unit_SetSpeed(u, max(min(distance / 8, 255), 25) * (255 - diff) / 256);
+	Unit_SetSpeed(u, Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - diff) / 256);
 
 	delay = max((int16)distance / 1024, 1);
 
