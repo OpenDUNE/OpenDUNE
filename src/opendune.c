@@ -1272,13 +1272,7 @@ static void Gameloop_Logos(void)
 
 	WSA_Unload(wsa);
 
-	if (!s_canSkipIntro) {
-		Voice_LoadVoices(0xFFFF);
-	} else {
-		if (Input_Keyboard_NextKey() == 0 && s_canSkipIntro) {
-			Voice_LoadVoices(0xFFFF);
-		}
-	}
+	if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) Voice_LoadVoices(0xFFFF);
 
 	for (; g_timerTimeout != 0; sleepIdle()) {
 		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
@@ -1294,17 +1288,6 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette2, 60);
 
 	while (Driver_Music_IsPlaying()) sleepIdle();
-
-	for (; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
-
-		GUI_SetPaletteAnimated(g_palette2, 30);
-
-		GUI_ClearScreen(SCREEN_0);
-
-		GFX_Screen_SetActive(oldScreenID);
-		return;
-	}
 
 	GUI_SetPaletteAnimated(g_palette2, 60);
 
