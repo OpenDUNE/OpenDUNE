@@ -112,7 +112,7 @@ static void *s_buffer_1832 = NULL;
 static uint16 s_var_8052 = 0;
 
 static uint8 s_enableLog = 0; /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
-static bool s_var_37B4;
+static bool s_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
 uint16 g_validateStrictIfZero = 0; /*!< 0 = strict validation, basically: no-cheat-mode. */
 bool g_running = true; /*!< true if game needs to keep running; false to stop the game. */
@@ -644,7 +644,7 @@ static void GameLoop_PlayAnimation(void)
 				if (mode == 3) frame--;
 			}
 
-			if (Input_Keyboard_NextKey() != 0 && s_var_37B4) {
+			if (Input_Keyboard_NextKey() != 0 && s_canSkipIntro) {
 				WSA_Unload(wsa);
 				return;
 			}
@@ -1272,16 +1272,16 @@ static void Gameloop_Logos(void)
 
 	WSA_Unload(wsa);
 
-	if (!s_var_37B4) {
+	if (!s_canSkipIntro) {
 		Voice_LoadVoices(0xFFFF);
 	} else {
-		if (Input_Keyboard_NextKey() == 0 && s_var_37B4) {
+		if (Input_Keyboard_NextKey() == 0 && s_canSkipIntro) {
 			Voice_LoadVoices(0xFFFF);
 		}
 	}
 
 	for (; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
@@ -1296,7 +1296,7 @@ static void Gameloop_Logos(void)
 	while (Driver_Music_IsPlaying()) sleepIdle();
 
 	for (; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
@@ -1317,7 +1317,7 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 60; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
@@ -1338,7 +1338,7 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 180; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
@@ -1364,7 +1364,7 @@ static void GameLoop_GameIntroAnimation(void)
 
 	Gameloop_Logos();
 
-	if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
+	if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) {
 		const HouseAnimation_Animation   *animation   = g_table_houseAnimation_animation[HOUSEANIMATION_INTRO];
 		const HouseAnimation_Subtitle    *subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
 		const HouseAnimation_SoundEffect *soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_INTRO];
@@ -1739,8 +1739,8 @@ static void GameLoop_GameIntroAnimationMenu(void)
 		{STR_PLAY_A_GAME, STR_REPLAY_INTRODUCTION, STR_LOAD_GAME, STR_EXIT_GAME,    STR_HALL_OF_FAME, STR_NULL}  /* Has a HOF and a save game. */
 	};
 
-	bool loc02 = false;
-	bool loc06;
+	bool loadGame = false;
+	bool drawMenu = true;
 
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT | INPUT_FLAG_UNKNOWN_0010 | INPUT_FLAG_UNKNOWN_0200 |
 	                    INPUT_FLAG_UNKNOWN_2000);
@@ -1811,23 +1811,15 @@ static void GameLoop_GameIntroAnimationMenu(void)
 	House_Init();
 	Structure_Init();
 
-	loc06 = true;
-
 	GUI_Mouse_Show_Safe();
 
 	if (!g_debugSkipDialogs) {
 		uint16 stringID;
 		uint16 maxWidth;
-		bool hasSave;
-		bool hasFame;
-		bool loc10;
+		bool hasSave = File_Exists("_save000.dat");
+		bool hasFame = File_Exists("SAVEFAME.DAT");
 
-		loc10 = true;
-
-		hasSave = File_Exists("_save000.dat");
-		hasFame = File_Exists("SAVEFAME.DAT");
-
-		if (hasSave || File_Exists("ONETIME.DAT")) s_var_37B4 = true;
+		if (hasSave || File_Exists("ONETIME.DAT")) s_canSkipIntro = true;
 
 		stringID = STR_REPLAY_INTRODUCTION;
 
@@ -1853,12 +1845,12 @@ static void GameLoop_GameIntroAnimationMenu(void)
 					File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
 					memmove(g_palette1, g_palette_998A, 256 * 3);
 
-					if (!s_var_37B4) {
+					if (!s_canSkipIntro) {
 						uint8 fileID;
 
 						fileID = File_Open("ONETIME.DAT", 2);
 						File_Close(fileID);
-						s_var_37B4 = true;
+						s_canSkipIntro = true;
 					}
 
 					Music_Play(0);
@@ -1871,7 +1863,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 					Music_Play(28);
 
-					loc06 = true;
+					drawMenu = true;
 					break;
 
 				case STR_EXIT_GAME:
@@ -1885,7 +1877,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 					GFX_SetPalette(g_palette2);
 
 					hasFame = File_Exists("SAVEFAME.DAT");
-					loc06 = true;
+					drawMenu = true;
 					break;
 
 				case STR_LOAD_GAME:
@@ -1897,21 +1889,20 @@ static void GameLoop_GameIntroAnimationMenu(void)
 					GFX_SetPalette(g_palette1);
 
 					if (GUI_Widget_SaveLoad_Click(false)) {
-						loc02 = true;
-						loc10 = false;
+						loadGame = true;
 						if (g_gameMode == GM_RESTART) break;
 						g_gameMode = GM_NORMAL;
 					} else {
 						GFX_SetPalette(g_palette2);
 
-						loc06 = true;
+						drawMenu = true;
 					}
 					break;
 
 				default: break;
 			}
 
-			if (loc06) {
+			if (drawMenu) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
 				uint16 i;
 
@@ -1966,10 +1957,10 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 				GUI_Mouse_Show_Safe();
 
-				loc06 = false;
+				drawMenu = false;
 			}
 
-			if (!loc10) break;
+			if (loadGame) break;
 
 			stringID = GameLoop_HandleEvents(0, strings, 0xFF, 0);
 
@@ -1992,11 +1983,11 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 	GUI_Mouse_Hide_Safe();
 
-	s_var_37B4 = false;
+	s_canSkipIntro = false;
 
 	GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 12);
 
-	if (!loc02) {
+	if (!loadGame) {
 		Voice_LoadVoices(5);
 
 		GUI_SetPaletteAnimated(g_palette2, 15);
@@ -2008,7 +1999,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 	if (s_enableLog != 0) Mouse_SetMouseMode((uint8)s_enableLog, "DUNE.LOG");
 
-	if (!loc02) {
+	if (!loadGame) {
 		if (g_playerHouseID == HOUSE_INVALID) {
 			GUI_Mouse_Show_Safe();
 
