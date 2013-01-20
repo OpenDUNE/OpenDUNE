@@ -4,9 +4,10 @@
 #define OPENDUNE_H
 
 typedef enum GameMode {
-	GM_NORMAL    = 0,
-	GM_RESTART   = 1,
-	GM_PICKHOUSE = 2
+	GM_MENU      = 0,
+	GM_NORMAL    = 1,
+	GM_RESTART   = 2,
+	GM_PICKHOUSE = 3
 } GameMode;
 
 /**
