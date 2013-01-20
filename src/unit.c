@@ -599,14 +599,6 @@ void Unit_Sort(void)
 
 		u1 = g_unitFindArray[i];
 		u2 = g_unitFindArray[i + 1];
-
-		if ((u1->o.seenByHouses & (1 << g_playerHouseID)) != 0 && !u1->o.flags.s.isNotOnMap) {
-			if (House_AreAllied(u1->o.houseID, g_playerHouseID)) {
-				h->unitCountAllied++;
-			} else {
-				h->unitCountEnemy++;
-			}
-		}
 		y1 = Tile_GetY(u1->o.position);
 		y2 = Tile_GetY(u2->o.position);
 		if (g_table_unitInfo[u1->o.type].movementType == MOVEMENT_FOOT) y1 -= 0x100;
@@ -615,6 +607,19 @@ void Unit_Sort(void)
 		if ((int16)y1 > (int16)y2) {
 			g_unitFindArray[i] = u2;
 			g_unitFindArray[i + 1] = u1;
+		}
+	}
+
+	for (i = 0; i < g_unitFindCount; i++) {
+		Unit *u;
+
+		u = g_unitFindArray[i];
+		if ((u->o.seenByHouses & (1 << g_playerHouseID)) != 0 && !u->o.flags.s.isNotOnMap) {
+			if (House_AreAllied(u->o.houseID, g_playerHouseID)) {
+				h->unitCountAllied++;
+			} else {
+				h->unitCountEnemy++;
+			}
 		}
 	}
 }
