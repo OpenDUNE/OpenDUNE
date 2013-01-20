@@ -109,8 +109,6 @@ static bool  s_debugForceWin = false; /*!< When true, you immediately win the le
 static void *s_buffer_182E = NULL;
 static void *s_buffer_1832 = NULL;
 
-static uint16 s_var_8052 = 0;
-
 static uint8 s_enableLog = 0; /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
 static bool s_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
@@ -1366,53 +1364,28 @@ static void GameLoop_GameIntroAnimation(void)
 	GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 }
 
-static uint16 GameLoop_B4E6_0000(uint16 arg06, uint32 arg08, uint16 arg0C)
-{
-	uint16 i = 0;
-
-	if (arg08 == 0xFFFFFFFF) return arg06;
-
-	while (arg06 != 0) {
-		if ((arg08 & (1 << (arg0C + i))) != 0) arg06--;
-		i++;
-	}
-
-	while (true) {
-		if ((arg08 & (1 << (arg0C + i))) != 0) break;
-		i++;
-	}
-
-	return i;
-}
-
-static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint16 arg10, uint16 arg12)
+static void GameLoop_DrawMenu(char **strings)
 {
 	WidgetProperties *props;
 	uint16 left;
-	uint16 old;
 	uint16 top;
 	uint8 i;
 
-	props = &g_widgetProperties[21 + arg06];
+	props = &g_widgetProperties[21];
 	top = g_curWidgetYBase + props->yBase;
 	left = (g_curWidgetXBase + props->xBase) << 3;
-
-	old = GameLoop_B4E6_0000(props->fgColourBlink, arg0C, arg10);
 
 	GUI_Mouse_Hide_Safe();
 
 	for (i = 0; i < props->height; i++) {
-		uint16 index = GameLoop_B4E6_0000(i, arg0C, arg10);
-		uint16 pos = top + ((g_fontCurrent->height + arg12) * i);
+		uint16 pos = top + g_fontCurrent->height * i;
 
-		if (index == old) {
-			GUI_DrawText_Wrapper(strings[index], left, pos, props->fgColourSelected, 0, 0x22);
+		if (i == props->fgColourBlink) {
+			GUI_DrawText_Wrapper(strings[i], left, pos, props->fgColourSelected, 0, 0x22);
 		} else {
-			GUI_DrawText_Wrapper(strings[index], left, pos, props->fgColourNormal, 0, 0x22);
+			GUI_DrawText_Wrapper(strings[i], left, pos, props->fgColourNormal, 0, 0x22);
 		}
 	}
-
-	s_var_8052 = arg12;
 
 	GUI_Mouse_Show_Safe();
 
@@ -1440,7 +1413,7 @@ static bool GameLoop_IsInRange(uint16 x, uint16 y, uint16 minX, uint16 minY, uin
 	return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }
 
-static uint16 GameLoop_HandleEvents(uint16 arg06, char **strings, uint32 arg10, uint16 arg14)
+static uint16 GameLoop_HandleEvents(char **strings)
 {
 	uint8 last;
 	uint16 result;
@@ -1458,7 +1431,7 @@ static uint16 GameLoop_HandleEvents(uint16 arg06, char **strings, uint32 arg10, 
 	WidgetProperties *props;
 	uint8 current;
 
-	props = &g_widgetProperties[21 + arg06];
+	props = &g_widgetProperties[21];
 
 	last = props->height - 1;
 	old = props->fgColourBlink % (last + 1);
@@ -1469,10 +1442,10 @@ static uint16 GameLoop_HandleEvents(uint16 arg06, char **strings, uint32 arg10, 
 	top = g_curWidgetYBase + props->yBase;
 	left = (g_curWidgetXBase + props->xBase) << 3;
 
-	lineHeight = g_fontCurrent->height + s_var_8052;
+	lineHeight = g_fontCurrent->height;
 
 	minX = (g_curWidgetXBase << 3) + (g_fontCurrent->maxWidth * props->xBase);
-	minY = g_curWidgetYBase + props->yBase - s_var_8052 / 2;
+	minY = g_curWidgetYBase + props->yBase;
 	maxX = minX + (g_fontCurrent->maxWidth * props->width) - 1;
 	maxY = minY + (props->height * lineHeight) - 1;
 
@@ -1532,7 +1505,7 @@ static uint16 GameLoop_HandleEvents(uint16 arg06, char **strings, uint32 arg10, 
 				char c1;
 				char c2;
 
-				c1 = toupper(*strings[GameLoop_B4E6_0000(i, arg10, arg14)]);
+				c1 = toupper(*strings[i]);
 				c2 = toupper(Input_Keyboard_HandleKeys(key & 0xFF));
 
 				if (c1 == c2) {
@@ -1545,26 +1518,15 @@ static uint16 GameLoop_HandleEvents(uint16 arg06, char **strings, uint32 arg10, 
 	}
 
 	if (current != old) {
-		uint16 index;
-
 		GUI_Mouse_Hide_Safe();
-
-		index = GameLoop_B4E6_0000(old, arg10, arg14);
-
-		GUI_DrawText_Wrapper(strings[index], left, top + (old * lineHeight), fgColourNormal, 0, 0x22);
-
-		index = GameLoop_B4E6_0000(current, arg10, arg14);
-
-		GUI_DrawText_Wrapper(strings[index], left, top + (current * lineHeight), fgColourSelected, 0, 0x22);
-
+		GUI_DrawText_Wrapper(strings[old], left, top + (old * lineHeight), fgColourNormal, 0, 0x22);
+		GUI_DrawText_Wrapper(strings[current], left, top + (current * lineHeight), fgColourSelected, 0, 0x22);
 		GUI_Mouse_Show_Safe();
 	}
 
 	props->fgColourBlink = current;
 
 	if (result == 0xFFFF) return 0xFFFF;
-
-	result = GameLoop_B4E6_0000(result, arg10, arg14);
 
 	GUI_Mouse_Hide_Safe();
 	GameLoop_DrawText2(strings[result], left, top + (current * lineHeight), fgColourNormal, fgColourSelected, 0);
@@ -1936,7 +1898,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 				GUI_Widget_DrawBorder(13, 2, 1);
 
-				GameLoop_B4E6_0108(0, strings, 0xFFFF, 0, 0);
+				GameLoop_DrawMenu(strings);
 
 				GUI_Mouse_Show_Safe();
 
@@ -1945,7 +1907,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 			if (loadGame) break;
 
-			stringID = GameLoop_HandleEvents(0, strings, 0xFF, 0);
+			stringID = GameLoop_HandleEvents(strings);
 
 			if (stringID != 0xFFFF) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
