@@ -7,10 +7,33 @@
 #include "../os/common.h"
 #include "../os/math.h"
 #include "../os/endian.h"
+#include "../os/error.h"
+#include "../os/sleep.h"
 
 #include "mt32mpu.h"
 
 #include "midi.h"
+
+#if defined(_WIN32)
+	#include <Windows.h>
+
+	static HANDLE s_mpu_event = NULL;
+	static HANDLE s_mpu_thread = NULL;
+	static uint32 s_mpu_usec = 0;
+
+DWORD WINAPI MPU_TreadProc(LPVOID lpParameter)
+{
+	while (WaitForSingleObject(s_mpu_event, 0) != WAIT_OBJECT_0) {
+		msleep(s_mpu_usec / 1000);
+		MPU_Interrupt();
+	}
+
+	return 0;
+}
+
+#else
+	#include "../timer.h"
+#endif /* _WIN32 */
 
 typedef struct Controls {
 	uint8 volume;
@@ -790,6 +813,21 @@ bool MPU_Init(void)
 
 	if (!midi_init()) return false;
 
+#if defined(_WIN32)
+	s_mpu_event = CreateEvent(NULL, false, false, NULL);
+	if (s_mpu_event == NULL) {
+		Error("Failed to create event\n");
+		return false;
+	}
+
+	s_mpu_thread = CreateThread(NULL, 0, MPU_TreadProc, NULL, CREATE_SUSPENDED, NULL);
+	if (s_mpu_thread == NULL) {
+		Error("Failed to create thread\n");
+		CloseHandle(s_mpu_event);
+		return false;
+	}
+#endif /* _WIN32 */
+
 	s_mpu_msdataSize = 0;
 	s_mpu_msdataCurrent = 0;
 	memset(s_mpu_msdata, 0, sizeof(s_mpu_msdata));
@@ -860,6 +898,11 @@ void MPU_Uninit(void)
 
 	midi_uninit();
 	s_mpuIgnore = false;
+
+#if defined(_WIN32)
+	CloseHandle(s_mpu_thread);
+	CloseHandle(s_mpu_event);
+#endif /* _WIN32 */
 }
 
 void MPU_ClearData(uint16 index)
@@ -903,3 +946,27 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
 	if (data->variable_002C == 0) data->variable_002C = 1;
 	data->variable_0028 = 0;
 }
+
+#if defined(_WIN32)
+void MPU_StartThread(uint32 usec)
+{
+	s_mpu_usec = usec;
+	ResumeThread(s_mpu_thread);
+}
+
+void MPU_StopThread(void)
+{
+	SetEvent(s_mpu_event);
+	WaitForSingleObject(s_mpu_thread, INFINITE);
+}
+#else
+void MPU_StartThread(uint32 usec)
+{
+	Timer_Add(MPU_Interrupt, usec);
+}
+
+void MPU_StopThread(void)
+{
+	Timer_Remove(MPU_Interrupt);
+}
+#endif /* _WIN32 */

@@ -110,7 +110,7 @@ static bool Drivers_SoundMusic_Init(bool enable)
 	if (!Drivers_Init(sound, "C55")) return false;
 	memcpy(music, sound, sizeof(Driver));
 
-	Timer_Add(MPU_Interrupt, 1000000 / 120);
+	MPU_StartThread(1000000 / 120);
 
 	size = MPU_GetDataSize();
 
@@ -346,31 +346,33 @@ static void Drivers_SoundMusic_Uninit(void)
 	Driver *sound = g_driverSound;
 	Driver *music = g_driverMusic;
 
-	if (music->index != 0xFFFF) {
-		MSBuffer *buffer = g_bufferMusic;
+	if (g_enableSoundMusic) {
+		uint8 i;
+		MSBuffer *buffer = NULL;
 
+		for (i = 0; i < 4; i++) {
+			buffer = g_bufferSound[i];
+			if (buffer->index != 0xFFFF) {
+				MPU_Stop(buffer->index);
+				MPU_ClearData(buffer->index);
+				buffer->index = 0xFFFF;
+			}
+		}
+
+		buffer = g_bufferMusic;
 		if (buffer->index != 0xFFFF) {
 			MPU_Stop(buffer->index);
 			MPU_ClearData(buffer->index);
 			buffer->index = 0xFFFF;
 		}
 
+		MPU_StopThread();
+
 		free(buffer->buffer);
 		buffer->buffer = NULL;
-	}
-
-	if (sound->index != 0xFFFF) {
-		uint8 i;
 
 		for (i = 0; i < 4; i++) {
-			MSBuffer *buffer = g_bufferSound[i];
-
-			if (buffer->index != 0xFFFF) {
-				MPU_Stop(buffer->index);
-				MPU_ClearData(buffer->index);
-				buffer->index = 0xFFFF;
-			}
-
+			buffer = g_bufferSound[i];
 			free(buffer->buffer);
 			buffer->buffer = NULL;
 		}
@@ -383,7 +385,6 @@ static void Drivers_SoundMusic_Uninit(void)
 	Drivers_Uninit(sound);
 	memcpy(music, sound, sizeof(Driver));
 
-	Timer_Remove(MPU_Interrupt);
 	MPU_Uninit();
 }
 
