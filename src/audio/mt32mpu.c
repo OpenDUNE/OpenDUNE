@@ -9,31 +9,15 @@
 #include "../os/endian.h"
 #include "../os/error.h"
 #include "../os/sleep.h"
+#include "../os/thread.h"
 
 #include "mt32mpu.h"
 
 #include "midi.h"
 
-#if defined(_WIN32)
-	#include <Windows.h>
-
-	static HANDLE s_mpu_event = NULL;
-	static HANDLE s_mpu_thread = NULL;
-	static uint32 s_mpu_usec = 0;
-
-DWORD WINAPI MPU_TreadProc(LPVOID lpParameter)
-{
-	while (WaitForSingleObject(s_mpu_event, 0) != WAIT_OBJECT_0) {
-		msleep(s_mpu_usec / 1000);
-		MPU_Interrupt();
-	}
-
-	return 0;
-}
-
-#else
-	#include "../timer.h"
-#endif /* _WIN32 */
+static Semaphore s_mpu_sem = NULL;
+static Thread s_mpu_thread = NULL;
+static uint32 s_mpu_usec = 0;
 
 typedef struct Controls {
 	uint8 volume;
@@ -807,26 +791,35 @@ uint16 MPU_GetDataSize(void)
 	return sizeof(MSData);
 }
 
+static int MPU_ThreadProc(void *data)
+{
+	Semaphore_Lock(s_mpu_sem);
+	while (!Semaphore_TryLock(s_mpu_sem)) {
+		msleep(s_mpu_usec / 1000);
+		MPU_Interrupt();
+	}
+	Semaphore_Unlock(s_mpu_sem);
+	return 0;
+}
+
 bool MPU_Init(void)
 {
 	uint8 i;
 
 	if (!midi_init()) return false;
 
-#if defined(_WIN32)
-	s_mpu_event = CreateEvent(NULL, false, false, NULL);
-	if (s_mpu_event == NULL) {
-		Error("Failed to create event\n");
+	s_mpu_sem = Semaphore_Create(0);
+	if (s_mpu_sem == NULL) {
+		Error("Failed to create semaphore\n");
 		return false;
 	}
 
-	s_mpu_thread = CreateThread(NULL, 0, MPU_TreadProc, NULL, CREATE_SUSPENDED, NULL);
+	s_mpu_thread = Thread_Create(MPU_ThreadProc, NULL);
 	if (s_mpu_thread == NULL) {
 		Error("Failed to create thread\n");
-		CloseHandle(s_mpu_event);
+		Semaphore_Destroy(s_mpu_sem);
 		return false;
 	}
-#endif /* _WIN32 */
 
 	s_mpu_msdataSize = 0;
 	s_mpu_msdataCurrent = 0;
@@ -899,10 +892,7 @@ void MPU_Uninit(void)
 	midi_uninit();
 	s_mpuIgnore = false;
 
-#if defined(_WIN32)
-	CloseHandle(s_mpu_thread);
-	CloseHandle(s_mpu_event);
-#endif /* _WIN32 */
+	Semaphore_Destroy(s_mpu_sem);
 }
 
 void MPU_ClearData(uint16 index)
@@ -947,26 +937,14 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
 	data->variable_0028 = 0;
 }
 
-#if defined(_WIN32)
 void MPU_StartThread(uint32 usec)
 {
 	s_mpu_usec = usec;
-	ResumeThread(s_mpu_thread);
+	Semaphore_Unlock(s_mpu_sem);
 }
 
 void MPU_StopThread(void)
 {
-	SetEvent(s_mpu_event);
-	WaitForSingleObject(s_mpu_thread, INFINITE);
+	Semaphore_Unlock(s_mpu_sem);
+	Thread_Wait(s_mpu_thread, NULL);
 }
-#else
-void MPU_StartThread(uint32 usec)
-{
-	Timer_Add(MPU_Interrupt, usec);
-}
-
-void MPU_StopThread(void)
-{
-	Timer_Remove(MPU_Interrupt);
-}
-#endif /* _WIN32 */
