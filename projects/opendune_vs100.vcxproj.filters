@@ -16,29 +16,32 @@
     <Filter Include="src\crashlog">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000003}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\gui">
+    <Filter Include="src\depend">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000004}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\input">
+    <Filter Include="src\gui">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000005}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\os">
+    <Filter Include="src\input">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000006}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\pool">
+    <Filter Include="src\os">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000007}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\saveload">
+    <Filter Include="src\pool">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000008}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\script">
+    <Filter Include="src\saveload">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000009}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\table">
+    <Filter Include="src\script">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000010}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\video">
+    <Filter Include="src\table">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\video">
+      <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000012}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -333,6 +336,15 @@
     <ClInclude Include="..\src\os\strings.h">
       <Filter>src\os</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\os\thread.h">
+      <Filter>src\os</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\os\thread_sdl.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\thread_win32.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\pool\house.c">
       <Filter>src\pool</Filter>
     </ClCompile>

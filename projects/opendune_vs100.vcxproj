@@ -281,6 +281,14 @@
     <ClInclude Include="..\src\os\math.h"/>
     <ClInclude Include="..\src\os\sleep.h"/>
     <ClInclude Include="..\src\os\strings.h"/>
+    <ClInclude Include="..\src\os\thread.h"/>
+    <ClCompile Include="..\src\os\thread_sdl.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\os\thread_win32.c">
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src\pool\house.c">
       <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
     </ClCompile>
