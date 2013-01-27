@@ -341,6 +341,15 @@ void GFX_ClearScreen(void)
 }
 
 /**
+ * Clears the given memory block.
+ * @param index The memory block.
+ */
+void GFX_ClearBlock(Screen index)
+{
+	memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
+}
+
+/**
  * Set a new palette for the screen.
  * @param palette The palette in RGB order.
  */
