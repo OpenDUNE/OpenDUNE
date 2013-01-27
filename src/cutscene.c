@@ -107,15 +107,6 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 	GUI_InitColors(colors, 0, 15);
 }
 
-/**
- * Clears the given memory block.
- * @param index The memory block.
- */
-static void Memory_ClearBlock(Screen index)
-{
-	memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
-}
-
 static void GameLoop_FinishAnimation(void)
 {
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
@@ -127,7 +118,7 @@ static void GameLoop_FinishAnimation(void)
 
 	Input_History_Clear();
 
-	Memory_ClearBlock(SCREEN_3);
+	GFX_ClearBlock(SCREEN_3);
 }
 
 static void GameLoop_PlaySoundEffect(uint8 animation)

@@ -224,15 +224,6 @@ static bool GameLoop_IsLevelWon(void)
 	return win;
 }
 
-/**
- * Clears the given memory block.
- * @param index The memory block.
- */
-static void Memory_ClearBlock(Screen index)
-{
-	memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
-}
-
 void GameLoop_Uninit(void)
 {
 	while (g_widgetLinkedListHead != NULL) {
@@ -1006,7 +997,7 @@ static void GameLoop_Main(void)
 
 			GUI_Mouse_Hide_Safe();
 
-			Memory_ClearBlock(SCREEN_0);
+			GFX_ClearBlock(SCREEN_0);
 
 			Sprites_LoadTiles();
 
