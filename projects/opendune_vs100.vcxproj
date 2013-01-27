@@ -84,6 +84,10 @@
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
     <ClInclude Include="..\src\config.h"/>
+    <ClCompile Include="..\src\cutscene.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\cutscene.h"/>
     <ClCompile Include="..\src\explosion.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
