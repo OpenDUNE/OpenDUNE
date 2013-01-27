@@ -28,6 +28,7 @@ crashlog/crashlog_win32.c
 #else
 crashlog/crashlog_none.c
 #endif
+cutscene.c
 explosion.c
 file.c
 gfx.c
