@@ -3,7 +3,7 @@
 #ifndef CUTSCENE_H
 #define CUTSCENE_H
 
-extern bool s_canSkipIntro;
+extern bool g_canSkipIntro;
 
 extern void GameLoop_LevelEndAnimation(void);
 extern void GameLoop_GameEndAnimation(void);

@@ -57,7 +57,7 @@ static uint8                s_palettePartChange[18];   /*!< Amount of change of 
 static void *s_buffer_182E = NULL;
 static void *s_buffer_1832 = NULL;
 
-bool s_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
+bool g_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
 static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation, const HouseAnimation_Subtitle *subtitle, uint16 arg_8062, const HouseAnimation_SoundEffect *soundEffect)
 {
@@ -449,7 +449,7 @@ static void GameLoop_PlayAnimation(void)
 				if (mode == 3) frame--;
 			}
 
-			if (Input_Keyboard_NextKey() != 0 && s_canSkipIntro) {
+			if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) {
 				WSA_Unload(wsa);
 				return;
 			}
@@ -974,10 +974,10 @@ static void Gameloop_Logos(void)
 
 	WSA_Unload(wsa);
 
-	if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) Voice_LoadVoices(0xFFFF);
+	if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) Voice_LoadVoices(0xFFFF);
 
 	for (; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
+		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
@@ -1002,7 +1002,7 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 60; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
+		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
@@ -1023,7 +1023,7 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 180; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) continue;
+		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
 
 		GUI_SetPaletteAnimated(g_palette2, 30);
 
@@ -1049,7 +1049,7 @@ void GameLoop_GameIntroAnimation(void)
 
 	Gameloop_Logos();
 
-	if (Input_Keyboard_NextKey() == 0 || !s_canSkipIntro) {
+	if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) {
 		const HouseAnimation_Animation   *animation   = g_table_houseAnimation_animation[HOUSEANIMATION_INTRO];
 		const HouseAnimation_Subtitle    *subtitle    = g_table_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
 		const HouseAnimation_SoundEffect *soundEffect = g_table_houseAnimation_soundEffect[HOUSEANIMATION_INTRO];

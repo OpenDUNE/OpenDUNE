@@ -671,7 +671,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 		index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
 	}
 
-	if (hasSave || File_Exists("ONETIME.DAT")) s_canSkipIntro = true;
+	if (hasSave || File_Exists("ONETIME.DAT")) g_canSkipIntro = true;
 
 	switch (stringID) {
 		case STR_REPLAY_INTRODUCTION:
@@ -692,12 +692,12 @@ static void GameLoop_GameIntroAnimationMenu(void)
 			File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
 			memmove(g_palette1, g_palette_998A, 256 * 3);
 
-			if (!s_canSkipIntro) {
+			if (!g_canSkipIntro) {
 				uint8 fileID;
 
 				fileID = File_Open("ONETIME.DAT", 2);
 				File_Close(fileID);
-				s_canSkipIntro = true;
+				g_canSkipIntro = true;
 			}
 
 			Music_Play(0);
@@ -985,7 +985,7 @@ static void GameLoop_Main(void)
 
 			GUI_Mouse_Hide_Safe();
 
-			s_canSkipIntro = false;
+			g_canSkipIntro = false;
 
 			GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 12);
 
