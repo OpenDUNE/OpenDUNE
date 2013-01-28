@@ -28,6 +28,7 @@ crashlog/crashlog_win32.c
 #else
 crashlog/crashlog_none.c
 #endif
+cutscene.c
 explosion.c
 file.c
 gfx.c
@@ -119,6 +120,7 @@ codec/format40.h
 codec/format80.h
 config.h
 crashlog/crashlog.h
+cutscene.h
 explosion.h
 file.h
 gfx.h
