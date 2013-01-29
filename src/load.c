@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "types.h"
 #include "os/endian.h"
 #include "os/strings.h"
@@ -9,6 +10,7 @@
 #include "load.h"
 
 #include "audio/sound.h"
+#include "config.h"
 #include "file.h"
 #include "gui/gui.h"
 #include "gui/widget.h"
@@ -136,7 +138,8 @@ bool LoadFile(char *filename)
 
 	Game_Init();
 
-	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
+	strncpy(filenameComplete, DATA_DIR, sizeof(DATA_DIR));
+	strncat(filenameComplete, filename, sizeof(filenameComplete) - sizeof(DATA_DIR));
 	fp = fopen(filenameComplete, "rb");
 	if (fp == NULL) {
 		Error("Failed to open file '%s' for reading.\n", filenameComplete);
