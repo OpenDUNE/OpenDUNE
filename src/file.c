@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "types.h"
 #include "config.h"
 #include "os/endian.h"
@@ -61,8 +60,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	uint8 fileIndex;
 	uint16 fileInfoIndex;
 
-	strncpy(filenameComplete, DATA_DIR, sizeof(DATA_DIR));
-	strncat(filenameComplete, filename, sizeof(filenameComplete) - sizeof(DATA_DIR));
+	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filename);
 	/* XXX -- This should be removed when all references are changed to lowercase */
 	{
 		char *f;
@@ -108,8 +106,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (!g_table_fileInfo[fileInfoIndex].flags.inPAKFile) return FILE_INVALID;
 
 	pakName = g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename;
-	strncpy(pakNameComplete, DATA_DIR, sizeof(DATA_DIR));
-	strncat(pakNameComplete, pakName, sizeof(pakNameComplete) - sizeof(DATA_DIR));
+	snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakName);
 	/* XXX -- This should be removed when all references are changed to lowercase */
 	{
 		char *f;
@@ -374,8 +371,7 @@ void File_Delete(const char *filename)
 {
 	char filenameComplete[1024];
 
-	strncpy(filenameComplete, DATA_DIR, sizeof(DATA_DIR));
-	strncat(filenameComplete, filename, sizeof(filenameComplete) - sizeof(DATA_DIR));
+	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filename);
 	/* XXX -- This should be removed when all references are changed to lowercase */
 	{
 		char *f;

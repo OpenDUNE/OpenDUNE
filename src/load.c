@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "types.h"
 #include "os/endian.h"
 #include "os/strings.h"
@@ -138,8 +137,7 @@ bool LoadFile(char *filename)
 
 	Game_Init();
 
-	strncpy(filenameComplete, DATA_DIR, sizeof(DATA_DIR));
-	strncat(filenameComplete, filename, sizeof(filenameComplete) - sizeof(DATA_DIR));
+	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filename);
 	fp = fopen(filenameComplete, "rb");
 	if (fp == NULL) {
 		Error("Failed to open file '%s' for reading.\n", filenameComplete);

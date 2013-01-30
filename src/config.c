@@ -8,6 +8,7 @@
 #include "config.h"
 
 #include "audio/sound.h"
+#include "os/strings.h"
 #include "file.h"
 
 GameCfg g_gameConfig = { 1, 1, 2, 1, 0 };
@@ -33,8 +34,7 @@ bool Config_Read(const char *filename, DuneCfg *config)
 
 	assert(strlen(filename) < 13);
 
-	strcpy(name, DATA_DIR);
-	strcat(name, filename);
+	snprintf(name, sizeof(name), DATA_DIR "%s", filename);
 
 	f = fopen(name, "rb");
 	if (f == NULL) return false;
