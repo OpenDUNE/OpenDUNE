@@ -60,7 +60,7 @@ typedef struct MSData {
 	Controls controls[16];                                  /*!< ?? */
 	uint8  noteOnChans[32];                                 /*!< ?? */
 	uint8  noteOnNotes[32];                                 /*!< ?? */
-	uint32 noteOnDuration[32];                              /*!< ?? */
+	int32  noteOnDuration[32];                              /*!< ?? */
 } MSData;
 
 static MSData *s_mpu_msdata[8];
@@ -140,7 +140,7 @@ static uint16 MPU_NoteOn(MSData *data)
 
 	data->noteOnChans[i] = chan;
 	data->noteOnNotes[i] = note;
-	data->noteOnDuration[i] = duration;
+	data->noteOnDuration[i] = duration - 1;
 
 	chan = data->chanMaps[chan];
 	s_mpu_noteOnCount[chan]++;
@@ -485,7 +485,7 @@ void MPU_Interrupt(void)
 				}
 				if (index == 0x20) break;
 
-				if (--data->noteOnDuration[index] > 0) continue;
+				if (--data->noteOnDuration[index] >= 0) continue;
 
 				chan = data->chanMaps[data->noteOnChans[index]];
 				data->noteOnChans[index] = 0xFF;
