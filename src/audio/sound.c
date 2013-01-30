@@ -80,7 +80,11 @@ static void Driver_Music_LoadFile(const char *musicName)
  */
 void Music_Play(uint16 musicID)
 {
-	if (musicID == 0xFFFF || musicID >= 38) return;
+	static uint16 currentMusicID = 0;
+
+	if (musicID == 0xFFFF || musicID >= 38 || musicID == currentMusicID) return;
+
+	currentMusicID = musicID;
 
 	if (g_table_musics[musicID].string != s_currentMusic) {
 		s_currentMusic = g_table_musics[musicID].string;
