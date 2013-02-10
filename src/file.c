@@ -30,20 +30,36 @@ static File s_file[FILE_MAX];
 uint16 g_fileOperation = 0; /*!< If non-zero, input (keyboard + mouse), video is not updated, .. Basically, any operation that might trigger a free() in the signal handler, which can collide with malloc() of file operations. */
 
 /**
- * Find the FileInfo index for the given filename.
+ * Find the FileInfo for the given filename.
  *
- * @param filename The filename to get the index for.
- * @return The index or 0xFFFF if not found.
+ * @param filename The filename to get the FileInfo for.
+ * @return The FileInfo pointer or NULL if not found.
  */
-static uint16 FileInfo_FindIndex_ByName(const char *filename)
+static FileInfo * FileInfo_Find_ByName(const char *filename)
 {
 	uint16 index;
 
 	for (index = 0; index < FILEINFO_MAX; index++) {
-		if (!strcasecmp(g_table_fileInfo[index].filename, filename)) return index;
+		if (!strcasecmp(g_table_fileInfo[index].filename, filename))
+			return &g_table_fileInfo[index];
 	}
 
-	return FILEINFO_INVALID;
+	return NULL;
+}
+
+/**
+ * Get the parent FileInfo for the given FileInfo
+ *
+ * @param child The FileInfo to get the parent for.
+ * @return The parent FileInfo pointer or NULL if not found.
+ */
+static FileInfo * FileInfo_GetParent(FileInfo * child)
+{
+	if (child == NULL)
+		return NULL;
+	if (!child->flags.inPAKFile)
+		return NULL;
+	return &g_table_fileInfo[child->parentIndex];
 }
 
 /**
@@ -62,7 +78,8 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	char pakNameUpper[1024];
 	char pakNameComplete[1024];
 	uint8 fileIndex;
-	uint16 fileInfoIndex;
+	FileInfo * fileInfo;
+	FileInfo * pakInfo;
 
 	/* build upper and lower case versions of the file name */
 	strncpy(filenameLower, filename, sizeof(filenameLower));
@@ -116,15 +133,17 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if ((mode & 2) != 0) return FILE_INVALID;
 
 	/* Check if the file could be inside any of our PAK files */
-	fileInfoIndex = FileInfo_FindIndex_ByName(filename);
-	if (fileInfoIndex == FILEINFO_INVALID) return FILE_INVALID;
+	fileInfo = FileInfo_Find_ByName(filename);
+	if (fileInfo == NULL) return FILE_INVALID;
 
 	/* If the file is not inside another PAK, then the file doesn't exist (as it wasn't in the directory either) */
-	if (!g_table_fileInfo[fileInfoIndex].flags.inPAKFile) return FILE_INVALID;
+	if (!fileInfo->flags.inPAKFile) return FILE_INVALID;
 
-	strncpy(pakNameLower, g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename, sizeof(pakNameLower));
+	pakInfo = FileInfo_GetParent(fileInfo);
+	if (pakInfo == NULL) return FILE_INVALID;
+	strncpy(pakNameLower, pakInfo->filename, sizeof(pakNameLower));
 	pakNameLower[sizeof(pakNameLower) - 1] = '\0';
-	strncpy(pakNameUpper, g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename, sizeof(pakNameUpper));
+	strncpy(pakNameUpper, pakInfo->filename, sizeof(pakNameUpper));
 	pakNameUpper[sizeof(pakNameUpper) - 1] = '\0';
 	{
 		char *f;
@@ -147,17 +166,15 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 
 	/* If this file is not yet read from the PAK, read the complete index
 	 *  of the PAK and index all files */
-	if (!g_table_fileInfo[fileInfoIndex].flags.isLoaded) {
-		uint16 pakIndexLast;
-
-		pakIndexLast = FILEINFO_INVALID;
+	if (!fileInfo->flags.isLoaded) {
+		FileInfo * pakInfoLast = NULL;
 
 		while (true) {
 			char pakFilename[1024];
 			uint32 pakPosition;
-			uint16 pakIndex;
 			uint16 i;
 
+			/* XXX -- The following code does assume little endian */
 			if (fread(&pakPosition, sizeof(uint32), 1, s_file[fileIndex].fp) != 1) {
 				fclose(s_file[fileIndex].fp);
 				s_file[fileIndex].fp = NULL;
@@ -184,35 +201,35 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 			}
 
 			/* Check if we expected this file in this PAK */
-			pakIndex = FileInfo_FindIndex_ByName(pakFilename);
-			if (pakIndex == FILEINFO_INVALID) continue;
-			if (g_table_fileInfo[pakIndex].parentIndex != g_table_fileInfo[fileInfoIndex].parentIndex) continue;
+			pakInfo = FileInfo_Find_ByName(pakFilename);
+			if (pakInfo == NULL) continue;
+			if (pakInfo->parentIndex != fileInfo->parentIndex) continue;
 
 			/* Update the information of the file */
-			g_table_fileInfo[pakIndex].flags.isLoaded = true;
-			g_table_fileInfo[pakIndex].filePosition = pakPosition;
-			if (pakIndexLast != FILEINFO_INVALID) g_table_fileInfo[pakIndexLast].fileSize = pakPosition - g_table_fileInfo[pakIndexLast].filePosition;
+			pakInfo->flags.isLoaded = true;
+			pakInfo->filePosition = pakPosition;
+			if (pakInfoLast != NULL) pakInfoLast->fileSize = pakPosition - pakInfoLast->filePosition;
 
-			pakIndexLast = pakIndex;
+			pakInfoLast = pakInfo;
 		}
 
 		/* Make sure we set the right size of the last entry */
-		if (pakIndexLast != FILEINFO_INVALID) {
+		if (pakInfoLast != NULL) {
 			fseek(s_file[fileIndex].fp, 0, SEEK_END);
-			g_table_fileInfo[pakIndexLast].fileSize = ftell(s_file[fileIndex].fp) - g_table_fileInfo[pakIndexLast].filePosition;
+			pakInfoLast->fileSize = ftell(s_file[fileIndex].fp) - pakInfoLast->filePosition;
 		}
 	}
 
 	/* Check if the file is inside the PAK file */
-	if (!g_table_fileInfo[fileInfoIndex].flags.isLoaded) {
+	if (!fileInfo->flags.isLoaded) {
 		fclose(s_file[fileIndex].fp);
 		s_file[fileIndex].fp = NULL;
 		return FILE_INVALID;
 	}
 
-	s_file[fileIndex].start    = g_table_fileInfo[fileInfoIndex].filePosition;
+	s_file[fileIndex].start    = fileInfo->filePosition;
 	s_file[fileIndex].position = 0;
-	s_file[fileIndex].size     = g_table_fileInfo[fileInfoIndex].fileSize;
+	s_file[fileIndex].size     = fileInfo->fileSize;
 
 	/* Go to the start of the file now */
 	fseek(s_file[fileIndex].fp, s_file[fileIndex].start, SEEK_SET);
