@@ -9,6 +9,7 @@
 #include "load.h"
 
 #include "audio/sound.h"
+#include "config.h"
 #include "file.h"
 #include "gui/gui.h"
 #include "gui/widget.h"
@@ -136,7 +137,7 @@ bool LoadFile(char *filename)
 
 	Game_Init();
 
-	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
+	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filename);
 	fp = fopen(filenameComplete, "rb");
 	if (fp == NULL) {
 		Error("Failed to open file '%s' for reading.\n", filenameComplete);

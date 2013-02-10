@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
+#include "os/strings.h"
 
 #include "config.h"
 
@@ -24,17 +25,14 @@ bool g_enableVoices = true;
  */
 bool Config_Read(const char *filename, DuneCfg *config)
 {
-	char name[18]; /* "data/8.3" */
+	char name[1024];
 	FILE *f;
 	size_t read;
 	uint8 sum;
 	uint8 *c;
 	int8 i;
 
-	assert(strlen(filename) < 13);
-
-	strcpy(name, DATA_DIR);
-	strcat(name, filename);
+	snprintf(name, sizeof(name), DATA_DIR "%s", filename);
 
 	f = fopen(name, "rb");
 	if (f == NULL) return false;

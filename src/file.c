@@ -12,6 +12,7 @@
 
 #include "file.h"
 
+#include "config.h"
 
 
 /**
@@ -79,7 +80,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 		}
 	}
 
-	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameLower);
+	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameLower);
 
 	if ((mode & 1) == 0 && (mode & 2) == 0) return FILE_INVALID;
 
@@ -93,7 +94,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
 	if (s_file[fileIndex].fp == NULL) {
 		/* try with the upper case filename */
-		snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameUpper);
+		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameUpper);
 		s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
 	}
 	if (s_file[fileIndex].fp != NULL) {
@@ -135,11 +136,11 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 			if (*f >= 'a' && *f <= 'z') *f -= 32;
 		}
 	}
-	snprintf(pakNameComplete, sizeof(pakNameComplete), "data/%s", pakNameLower);
+	snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakNameLower);
 	s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
 	if (s_file[fileIndex].fp == NULL) {
 		/* try with the upper case version of the pakName */
-		snprintf(pakNameComplete, sizeof(pakNameComplete), "data/%s", pakNameUpper);
+		snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakNameUpper);
 		s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
 	}
 	if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
@@ -413,12 +414,12 @@ void File_Delete(const char *filename)
 			if (*f >= 'a' && *f <= 'z') *f -= 32;
 		}
 	}
-	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameLower);
+	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameLower);
 
 	g_fileOperation++;
 	if (unlink(filenameComplete) < 0) {
 		/* try with the upper case file name */
-		snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameUpper);
+		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameUpper);
 		unlink(filenameComplete);
 	}
 	g_fileOperation--;
