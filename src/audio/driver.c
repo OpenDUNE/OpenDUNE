@@ -319,22 +319,23 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 char *Drivers_GenerateFilename(const char *name, Driver *driver)
 {
+	char basefilename[14];
 	static char filename[14];
 
 	if (name == NULL || driver == NULL || driver->index == 0xFFFF) return NULL;
 
-	strcpy(filename, name);
-	if (strrchr(filename, '.') != NULL) *strrchr(filename, '.') = '\0';
-	strcat(filename, ".");
-	strcat(filename, driver->extension);
+	strncpy(basefilename, name, sizeof(basefilename));
+	basefilename[sizeof(basefilename) - 1] = '\0';
+	/* Remove extension if there is one */
+	if (strrchr(basefilename, '.') != NULL) *strrchr(basefilename, '.') = '\0';
+
+	snprintf(filename, sizeof(filename), "%s.%s", basefilename, driver->extension);
 
 	if (File_Exists(filename)) return filename;
 
 	if (driver->index == 0xFFFF) return NULL;
 
-	strcpy(filename, name);
-	if (strrchr(filename, '.') != NULL) *strrchr(filename, '.') = '\0';
-	strcat(filename, ".XMI");
+	snprintf(filename, sizeof(filename), "%s.XMI", basefilename);
 
 	if (File_Exists(filename)) return filename;
 
