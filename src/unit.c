@@ -2078,7 +2078,14 @@ void Unit_DisplayStatusText(Unit *unit)
 		}
 	}
 
-	strcat(buffer, ".");
+	{
+		/* add a dot "." at the end of the buffer */
+		size_t len = strlen(buffer);
+		if (len < sizeof(buffer) - 1) {
+			buffer[len] = '.';
+			buffer[len + 1] = '\0';
+		}
+	}
 	GUI_DisplayText(buffer, 2);
 }
 

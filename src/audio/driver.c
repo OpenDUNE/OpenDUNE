@@ -405,6 +405,7 @@ void Drivers_All_Uninit(void)
 void Driver_LoadFile(const char *musicName, Driver *driver)
 {
 	char *filename;
+	size_t len;
 
 	filename = Drivers_GenerateFilename(musicName, driver);
 
@@ -412,8 +413,10 @@ void Driver_LoadFile(const char *musicName, Driver *driver)
 
 	Driver_UnloadFile(driver);
 
-	driver->filename = malloc(strlen(filename) + 1);
-	strcpy(driver->filename, filename);
+	/* String length including terminating \0 */
+	len = strlen(filename) + 1;
+	driver->filename = malloc(len);
+	memcpy(driver->filename, filename, len);
 
 	driver->content = File_ReadWholeFile(filename);
 	driver->contentMalloced = true;
