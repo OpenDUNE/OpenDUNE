@@ -170,10 +170,14 @@ void Ini_SetString(const char *category, const char *key, const char *value, cha
 	if (s != NULL) {
 		uint16 count = strcspn(s, "\r\n");
 		if (count != 0) {
-			strcpy(s, s + count + 1);
+			/* Drop first line if not empty */
+			size_t len = strlen(s + count + 1) + 1;
+			memmove(s, s + count + 1, len);
 		}
 		if (*s == '\n') {
-			strcpy(s, s + 1);
+			/* Drop first line if empty */
+			size_t len = strlen(s + 1) + 1;
+			memmove(s, s + 1, len);
 		}
 	} else {
 		s = Ini_GetString(category, NULL, NULL, NULL, 0, source);
