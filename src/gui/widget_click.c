@@ -824,7 +824,7 @@ static void FillSavegameDesc(bool save)
 		if (s_savegameIndexBase - i == s_savegameCountOnDisk) {
 			if (!save) continue;
 
-			strcpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_));
+			strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
 			continue;
 		}
 
