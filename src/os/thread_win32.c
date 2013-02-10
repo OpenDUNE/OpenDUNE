@@ -9,7 +9,7 @@ Thread Thread_Create(ThreadProc proc, void *data)
 	return CreateThread(NULL, 0, proc, data, 0, NULL);
 }
 
-void Thread_Wait(Thread thread, int *status)
+void Thread_Wait(Thread thread, ThreadStatus *status)
 {
 	WaitForSingleObject(thread, INFINITE);
 	if (status != NULL) GetExitCodeThread(thread, status);

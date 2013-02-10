@@ -791,7 +791,7 @@ uint16 MPU_GetDataSize(void)
 	return sizeof(MSData);
 }
 
-static int WINAPI MPU_ThreadProc(void *data)
+static ThreadStatus WINAPI MPU_ThreadProc(void *data)
 {
 	Semaphore_Lock(s_mpu_sem);
 	while (!Semaphore_TryLock(s_mpu_sem)) {

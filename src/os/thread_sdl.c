@@ -9,7 +9,7 @@ Thread Thread_Create(ThreadProc proc, void *data)
 	return SDL_CreateThread(proc, data);
 }
 
-void Thread_Wait(Thread thread, int *status)
+void Thread_Wait(Thread thread, ThreadStatus *status)
 {
 	SDL_WaitThread(thread, status);
 }
