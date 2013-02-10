@@ -6,7 +6,7 @@
 
 Thread Thread_Create(ThreadProc proc, void *data)
 {
-	return CreateThread(NULL, 0, proc, data, 0, NULL);
+	return CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)proc, data, 0, NULL);
 }
 
 void Thread_Wait(Thread thread, int *status)
