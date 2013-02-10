@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "types.h"
 #include "os/endian.h"
 #include "os/error.h"
@@ -53,21 +54,32 @@ static uint16 FileInfo_FindIndex_ByName(const char *filename)
  */
 static uint8 _File_Open(const char *filename, uint8 mode)
 {
-	const char *pakName;
+	char filenameLower[1024];
+	char filenameUpper[1024];
 	char filenameComplete[1024];
+	char pakNameLower[1024];
+	char pakNameUpper[1024];
 	char pakNameComplete[1024];
 	uint8 fileIndex;
 	uint16 fileInfoIndex;
 
-	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
-	/* XXX -- This should be removed when all references are changed to lowercase */
+	/* build upper and lower case versions of the file name */
+	strncpy(filenameLower, filename, sizeof(filenameLower));
+	filenameLower[sizeof(filenameLower) - 1] = '\0';
+	strncpy(filenameUpper, filename, sizeof(filenameUpper));
+	filenameUpper[sizeof(filenameUpper) - 1] = '\0';
 	{
 		char *f;
 
-		for (f = filenameComplete; *f != '\0'; f++) {
+		for (f = filenameLower; *f != '\0'; f++) {
 			if (*f >= 'A' && *f <= 'Z') *f += 32;
 		}
+		for (f = filenameUpper; *f != '\0'; f++) {
+			if (*f >= 'a' && *f <= 'z') *f -= 32;
+		}
 	}
+
+	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameLower);
 
 	if ((mode & 1) == 0 && (mode & 2) == 0) return FILE_INVALID;
 
@@ -79,6 +91,11 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 
 	/* Check if we can find the file outside any PAK file */
 	s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
+	if (s_file[fileIndex].fp == NULL) {
+		/* try with the upper case filename */
+		snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameUpper);
+		s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
+	}
 	if (s_file[fileIndex].fp != NULL) {
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
@@ -104,17 +121,27 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	/* If the file is not inside another PAK, then the file doesn't exist (as it wasn't in the directory either) */
 	if (!g_table_fileInfo[fileInfoIndex].flags.inPAKFile) return FILE_INVALID;
 
-	pakName = g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename;
-	snprintf(pakNameComplete, sizeof(pakNameComplete), "data/%s", pakName);
-	/* XXX -- This should be removed when all references are changed to lowercase */
+	strncpy(pakNameLower, g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename, sizeof(pakNameLower));
+	pakNameLower[sizeof(pakNameLower) - 1] = '\0';
+	strncpy(pakNameUpper, g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename, sizeof(pakNameUpper));
+	pakNameUpper[sizeof(pakNameUpper) - 1] = '\0';
 	{
 		char *f;
 
-		for (f = pakNameComplete; *f != '\0'; f++) {
+		for (f = pakNameLower; *f != '\0'; f++) {
 			if (*f >= 'A' && *f <= 'Z') *f += 32;
 		}
+		for (f = pakNameUpper; *f != '\0'; f++) {
+			if (*f >= 'a' && *f <= 'z') *f -= 32;
+		}
 	}
+	snprintf(pakNameComplete, sizeof(pakNameComplete), "data/%s", pakNameLower);
 	s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
+	if (s_file[fileIndex].fp == NULL) {
+		/* try with the upper case version of the pakName */
+		snprintf(pakNameComplete, sizeof(pakNameComplete), "data/%s", pakNameUpper);
+		s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
+	}
 	if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
 
 	/* If this file is not yet read from the PAK, read the complete index
@@ -368,20 +395,32 @@ uint32 File_GetSize(uint8 index)
  */
 void File_Delete(const char *filename)
 {
+	char filenameLower[1024];
+	char filenameUpper[1024];
 	char filenameComplete[1024];
 
-	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
-	/* XXX -- This should be removed when all references are changed to lowercase */
+	strncpy(filenameLower, filename, sizeof(filenameLower));
+	filenameLower[sizeof(filenameLower) - 1] = '\0';
+	strncpy(filenameUpper, filename, sizeof(filenameUpper));
+	filenameUpper[sizeof(filenameUpper) - 1] = '\0';
 	{
 		char *f;
 
-		for (f = filenameComplete; *f != '\0'; f++) {
+		for (f = filenameLower; *f != '\0'; f++) {
 			if (*f >= 'A' && *f <= 'Z') *f += 32;
 		}
+		for (f = filenameUpper; *f != '\0'; f++) {
+			if (*f >= 'a' && *f <= 'z') *f -= 32;
+		}
 	}
+	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameLower);
 
 	g_fileOperation++;
-	unlink(filenameComplete);
+	if (unlink(filenameComplete) < 0) {
+		/* try with the upper case file name */
+		snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filenameUpper);
+		unlink(filenameComplete);
+	}
 	g_fileOperation--;
 }
 
