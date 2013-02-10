@@ -3,8 +3,6 @@
 #ifndef OS_THREAD_H
 #define OS_THREAD_H
 
-typedef int (*ThreadProc)(void *);
-
 #if defined(_WIN32)
 	#include <Windows.h>
 	typedef HANDLE Thread;
@@ -14,7 +12,11 @@ typedef int (*ThreadProc)(void *);
 	#include <SDL_thread.h>
 	typedef SDL_Thread *Thread;
 	typedef SDL_sem *Semaphore;
+
+	#define WINAPI
 #endif /* _WIN32 */
+
+typedef int (WINAPI *ThreadProc)(void *);
 
 extern Thread Thread_Create(ThreadProc proc, void *data);
 extern void Thread_Wait(Thread thread, int *status);
