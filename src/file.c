@@ -17,6 +17,24 @@
 
 
 /**
+ * Extensions to stdio.h
+ */
+
+/**
+ * Read a uint32 value from a little endian file
+ */
+bool fread_le_uint32(uint32 *value, FILE *stream)
+{
+	uint8 buffer[4];
+	if (value == NULL)
+		return false;
+	if (fread(buffer, 1, 4, stream) != 4)
+		return false;
+	*value = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 16);
+	return true;
+}
+
+/**
  * Static information about opened files.
  */
 typedef struct File {
@@ -231,8 +249,7 @@ static bool _File_Init_ProcessPak(const char * pakpath, uint32 paksize, FileInfo
 		Error("failed to open %s", pakpath);
 		return false;
 	}
-	/* XXX be endian agnostic ! */
-	if (fread(&nextposition, sizeof(uint32), 1, f) != 1) {
+	if (!fread_le_uint32(&nextposition, f)) {
 		fclose(f);
 		return false;
 	}
@@ -247,7 +264,7 @@ static bool _File_Init_ProcessPak(const char * pakpath, uint32 paksize, FileInfo
 				break;
 		}
 		/* be endian agnostic ! */
-		if (fread(&nextposition, sizeof(uint32), 1, f) != 1) {
+		if (!fread_le_uint32(&nextposition, f)) {
 			fclose(f);
 			return false;
 		}
