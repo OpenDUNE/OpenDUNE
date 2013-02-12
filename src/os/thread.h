@@ -4,7 +4,7 @@
 #define OS_THREAD_H
 
 #if defined(_WIN32)
-	#include <Windows.h>
+	#include <windows.h>
 	typedef HANDLE Thread;
 	typedef HANDLE Semaphore;
 	typedef DWORD ThreadStatus;
