@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 #include "types.h"
 #include "file.h"
 #include "error.h"
@@ -18,7 +19,32 @@
  */
 bool ReadDir_ProcessAllFiles(const char * dirpath, bool (*cb)(const char * name, const char * path, uint32 size))
 {
-	Error("ReadDir_ProcessAllFiles() not yet implemented for Win32\n");
-	return false;
+	WIN32_FIND_DATA ffd;
+	char dir[MAX_PATH];
+	char path[MAX_PATH];
+	uint32 size;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+
+	snprintf(dir, sizeof(dir), "%s*", dirpath);
+	hFind = FindFirstFile(dir, &ffd);
+	if (INVALID_HANDLE_VALUE == hFind) {
+		return false;
+	}
+
+	do {
+		/* Skip directories */
+		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			continue;
+		snprintf(path, sizeof(path), "%s%s", dirpath, ffd.cFileName);
+		size = ffd.nFileSizeLow | (ffd.nFileSizeHigh << 16);
+		cb(ffd.cFileName, path, size);
+	} while (FindNextFile(hFind, &ffd) != 0);
+
+	if (GetLastError() != ERROR_NO_MORE_FILES) {
+		FindClose (hFind);
+		return false;
+	}
+	FindClose (hFind);
+	return true;
 }
 
