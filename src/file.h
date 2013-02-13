@@ -4,9 +4,6 @@
 #define FILE_H
 
 enum {
-	FILEINFO_MAX     = 676,
-	FILEINFO_INVALID = 0xFFFF,
-
 	FILE_MAX = 20,
 	FILE_INVALID = 0xFF
 };
@@ -25,9 +22,6 @@ typedef struct FileInfo {
 	} flags;                                                /*!< General flags of the FileInfo. */
 } FileInfo;
 
-#if 0
-extern FileInfo g_table_fileInfo[];
-#endif
 extern uint16 g_fileOperation;
 
 extern bool File_Init(void);

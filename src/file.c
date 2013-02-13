@@ -21,15 +21,13 @@
  */
 
 /**
- * Read a uint32 value from a little endian file
+ * Read a uint32 value from a little endian file.
  */
 bool fread_le_uint32(uint32 *value, FILE *stream)
 {
 	uint8 buffer[4];
-	if (value == NULL)
-		return false;
-	if (fread(buffer, 1, 4, stream) != 4)
-		return false;
+	if (value == NULL) return false;
+	if (fread(buffer, 1, 4, stream) != 4) return false;
 	*value = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 16);
 	return true;
 }
@@ -48,24 +46,24 @@ static File s_file[FILE_MAX];
 
 /**
  * Information about files in data/ directory
- * and processed content of PAK files
+ * and processed content of PAK files.
  */
 typedef struct FileInfoLinkedElem {
-	struct FileInfoLinkedElem * next;
+	struct FileInfoLinkedElem *next;
 	FileInfo info;
 	char filenamebuffer[1];
 } FileInfoLinkedElem;
 
-static FileInfoLinkedElem * s_files_in_root = NULL;
+static FileInfoLinkedElem *s_files_in_root = NULL;
 
 typedef struct PakFileInfoLinkedElem {
-	struct PakFileInfoLinkedElem * next;
-	FileInfo * pak;
+	struct PakFileInfoLinkedElem *next;
+	FileInfo *pak;
 	FileInfo info;
 	char filenamebuffer[1];
 } PakFileInfoLinkedElem;
 
-static PakFileInfoLinkedElem * s_files_in_pak = NULL;
+static PakFileInfoLinkedElem *s_files_in_pak = NULL;
 
 uint16 g_fileOperation = 0; /*!< If non-zero, input (keyboard + mouse), video is not updated, .. Basically, any operation that might trigger a free() in the signal handler, which can collide with malloc() of file operations. */
 
@@ -75,7 +73,7 @@ uint16 g_fileOperation = 0; /*!< If non-zero, input (keyboard + mouse), video is
  * @param filename The filename to get the FileInfo for.
  * @return The FileInfo pointer or NULL if not found.
  */
-static FileInfo * FileInfo_Find_ByName(const char *filename, FileInfo ** pakInfo)
+static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo)
 {
 	{
 		FileInfoLinkedElem * e;
@@ -171,15 +169,15 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 }
 
 /**
- * Memorize a file from the data/ directory
+ * Memorize a file from the data/ directory.
  *
- * @param filename
- * @param filesize
- * @return A pointer to the newly created FileInfo
+ * @param filename The name of the file.
+ * @param filesize The size of the file.
+ * @return A pointer to the newly created FileInfo.
  */
-static FileInfo * _File_Init_AddFileInRootDir(const char * filename, uint32 filesize)
+static FileInfo *_File_Init_AddFileInRootDir(const char *filename, uint32 filesize)
 {
-	FileInfoLinkedElem * new;
+	FileInfoLinkedElem *new;
 	size_t size;
 	size = sizeof(FileInfoLinkedElem) + strlen(filename);
 	new = malloc(size);
@@ -198,16 +196,17 @@ static FileInfo * _File_Init_AddFileInRootDir(const char * filename, uint32 file
 }
 
 /**
- * Memorize a file inside a PAK file
+ * Memorize a file inside a PAK file.
  *
- * @param filename the filename as indicated in PAK header
- * @param filesize the size as calculated from PAK header
- * @param position the position of the file from the start of the PAK file
- * @param pakInfo FileInfo pointer for the PAK file
- * @return A pointer to the newly created FileInfo
+ * @param filename the filename as indicated in PAK header.
+ * @param filesize the size as calculated from PAK header.
+ * @param position the position of the file from the start of the PAK file.
+ * @param pakInfo FileInfo pointer for the PAK file.
+ * @return A pointer to the newly created FileInfo.
  */
-static FileInfo * _File_Init_AddFileInPak(const char * filename, uint32 filesize, uint32 position, FileInfo * pakInfo) {
-	PakFileInfoLinkedElem * new;
+static FileInfo *_File_Init_AddFileInPak(const char *filename, uint32 filesize, uint32 position, FileInfo *pakInfo)
+{
+	PakFileInfoLinkedElem *new;
 	size_t size;
 	size = sizeof(PakFileInfoLinkedElem) + strlen(filename);
 	new = malloc(size);
@@ -228,15 +227,16 @@ static FileInfo * _File_Init_AddFileInPak(const char * filename, uint32 filesize
 }
 
 /**
- * Process (parse) a PAK file
+ * Process (parse) a PAK file.
  *
- * @param pakpath real path to open PAK file
- * @param paksize size (bytes) of the PAK file
- * @param pakInfo pointer to the FileInfo for PAK file
- * @return True if PAK processing was ok
+ * @param pakpath real path to open PAK file.
+ * @param paksize size (bytes) of the PAK file.
+ * @param pakInfo pointer to the FileInfo for PAK file.
+ * @return True if PAK processing was ok.
  */
-static bool _File_Init_ProcessPak(const char * pakpath, uint32 paksize, FileInfo * pakInfo) {
-	FILE * f;
+static bool _File_Init_ProcessPak(const char *pakpath, uint32 paksize, FileInfo *pakInfo)
+{
+	FILE *f;
 	uint32 position;
 	uint32 nextposition;
 	uint32 size;
@@ -244,8 +244,7 @@ static bool _File_Init_ProcessPak(const char * pakpath, uint32 paksize, FileInfo
 	unsigned int i;
 
 	f = fopen(pakpath, "rb");
-	if (f == NULL)
-	{
+	if (f == NULL) {
 		Error("failed to open %s", pakpath);
 		return false;
 	}
@@ -260,10 +259,8 @@ static bool _File_Init_ProcessPak(const char * pakpath, uint32 paksize, FileInfo
 				fclose(f);
 				return false;
 			}
-			if (filename[i] == '\0')
-				break;
+			if (filename[i] == '\0') break;
 		}
-		/* be endian agnostic ! */
 		if (!fread_le_uint32(&nextposition, f)) {
 			fclose(f);
 			return false;
@@ -279,21 +276,20 @@ static bool _File_Init_ProcessPak(const char * pakpath, uint32 paksize, FileInfo
 }
 
 /**
- * Callback for processing files found in data/ directory
+ * Callback for processing files found in data/ directory.
  *
- * @param name file name
- * @param path file relative path
- * @param size file size (bytes)
- * @return True if the processing went OK
+ * @param name The name of the file.
+ * @param path The relative path of the file.
+ * @param size The file size (bytes).
+ * @return True if the processing went OK.
  */
-static bool _File_Init_Callback(const char * name, const char * path, uint32 size)
+static bool _File_Init_Callback(const char *name, const char *path, uint32 size)
 {
-	char * ext;
-	FileInfo * fileInfo;
+	char *ext;
+	FileInfo *fileInfo;
 
 	fileInfo = _File_Init_AddFileInRootDir(name, size);
-	if (fileInfo == NULL)
-		return false;
+	if (fileInfo == NULL) return false;
 	ext = strrchr(path, '.');
 	if (ext != NULL) {
 		if (strcasecmp(ext, ".pak") == 0) {
@@ -305,9 +301,9 @@ static bool _File_Init_Callback(const char * name, const char * path, uint32 siz
 }
 
 /**
- * Initialize files tables by reading the DATA_DIR directory
+ * Initialize files tables by reading the DATA_DIR directory.
  *
- * @return True if and only if everything was ok
+ * @return True if and only if everything was ok.
  */
 bool File_Init(void)
 {
@@ -315,18 +311,18 @@ bool File_Init(void)
 }
 
 /**
- * Free all ressources loaded in memory
+ * Free all ressources loaded in memory.
  */
 void File_Uninit(void)
 {
 	while (s_files_in_root != NULL) {
-		FileInfoLinkedElem * e = s_files_in_root;
+		FileInfoLinkedElem *e = s_files_in_root;
 		s_files_in_root = e->next;
 		free(e);
 	}
 
 	while (s_files_in_pak != NULL) {
-		PakFileInfoLinkedElem * e = s_files_in_pak;
+		PakFileInfoLinkedElem *e = s_files_in_pak;
 		s_files_in_pak = e->next;
 		free(e);
 	}
