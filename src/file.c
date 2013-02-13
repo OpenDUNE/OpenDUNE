@@ -240,7 +240,7 @@ static bool _File_Init_ProcessPak(const char *pakpath, uint32 paksize, FileInfo 
 	uint32 position;
 	uint32 nextposition;
 	uint32 size;
-	char filename[32];
+	char filename[256];
 	unsigned int i;
 
 	f = fopen(pakpath, "rb");
@@ -260,6 +260,10 @@ static bool _File_Init_ProcessPak(const char *pakpath, uint32 paksize, FileInfo 
 				return false;
 			}
 			if (filename[i] == '\0') break;
+		}
+		if (i == sizeof(filename)) {
+			fclose(f);
+			return false;
 		}
 		if (!fread_le_uint32(&nextposition, f)) {
 			fclose(f);
