@@ -2227,7 +2227,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		s->o.houseID = Unit_GetHouseID(unit);
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 
-		h = House_Get_ByIndex(unit->o.houseID);
+		h = House_Get_ByIndex(s->o.houseID);
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 
 		if (s->o.linkedID != 0xFF) {
