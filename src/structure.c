@@ -704,6 +704,9 @@ uint32 Structure_GetStructuresBuilt(House *h)
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
+	/* Recount windtraps after capture or loading old saved games. */
+	h->windtrapCount = 0;
+
 	while (true) {
 		Structure *s;
 
@@ -712,6 +715,8 @@ uint32 Structure_GetStructuresBuilt(House *h)
 		if (s->o.flags.s.isNotOnMap) continue;
 		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 		result |= 1 << s->o.type;
+
+		if (s->o.type == STRUCTURE_WINDTRAP) h->windtrapCount++;
 	}
 
 	return result;
