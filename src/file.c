@@ -28,7 +28,7 @@ bool fread_le_uint32(uint32 *value, FILE *stream)
 	uint8 buffer[4];
 	if (value == NULL) return false;
 	if (fread(buffer, 1, 4, stream) != 4) return false;
-	*value = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 16);
+	*value = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
 	return true;
 }
 
