@@ -10,6 +10,7 @@
 #include "../os/math.h"
 #include "../os/sleep.h"
 #include "../os/strings.h"
+#include "../os/endian.h"
 
 #include "gui.h"
 
@@ -963,7 +964,7 @@ void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 	bottom = g_widgetProperties[windowID].yBase + g_widgetProperties[windowID].height;
 
-	loc10 = *(uint16 *)sprite;
+	loc10 = READ_LE_UINT16(sprite);
 	sprite += 2;
 
 	loc12 = *sprite++;
@@ -976,7 +977,7 @@ void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 	if ((flags & 0x8000) != 0) posY -= loc12 / 2;
 
-	loc1A = *(uint16 *)sprite;
+	loc1A = READ_LE_UINT16(sprite);
 	sprite += 2;
 
 	loc14 = loc1A;
@@ -993,7 +994,7 @@ void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 	sprite += 3;
 
-	locbx = *(uint16 *)sprite;
+	locbx = READ_LE_UINT16(sprite);
 	sprite += 2;
 
 	if ((loc10 & 0x1) != 0 && (flags & 0x2000) == 0) loc3E = sprite;

@@ -62,11 +62,11 @@ static uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index)
 	uint32 offset;
 
 	if (buffer == NULL) return NULL;
-	if (*(uint16 *)buffer <= index) return NULL;
+	if (READ_LE_UINT16(buffer) <= index) return NULL;
 
 	buffer += 2;
 
-	offset = *(uint32*)(buffer + 4 * index);
+	offset = READ_LE_UINT32(buffer + 4 * index);
 
 	if (offset == 0) return NULL;
 
@@ -87,7 +87,7 @@ static void Sprites_Load(const char *filename)
 
 	buffer = File_ReadWholeFile(filename);
 
-	count = *(uint16 *)buffer;
+	count = READ_LE_UINT16(buffer);
 
 	s_spritesCount += count;
 	g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
@@ -97,7 +97,7 @@ static void Sprites_Load(const char *filename)
 		uint8 *dst = NULL;
 
 		if (src != NULL) {
-			uint16 size = ((uint16 *)src)[3];
+			uint16 size = READ_LE_UINT16(src + 6);
 			dst = (uint8 *)malloc(size);
 			memcpy(dst, src, size);
 		}
@@ -144,7 +144,7 @@ uint16 Sprites_GetType(uint8 *sprite)
 {
 	if (sprite == NULL) return 0;
 
-	return *(uint16 *)sprite;
+	return READ_LE_UINT16(sprite);
 }
 
 /**
@@ -161,16 +161,16 @@ static uint32 Sprites_Decode(uint8 *source, uint8 *dest)
 	switch(*source) {
 		case 0x0:
 			source += 2;
-			size = *((uint32 *)source);
+			size = READ_LE_UINT32(source);
 			source += 4;
-			source += *((uint16 *)source);
+			source += READ_LE_UINT16(source);
 			source += 2;
 			memmove(dest, source, size);
 			break;
 
 		case 0x4:
 			source += 6;
-			source += *((uint16 *)source);
+			source += READ_LE_UINT16(source);
 			source += 2;
 			size = Format80_Decode(dest, source, 0xFFFF);
 			break;
@@ -269,7 +269,7 @@ static uint32 Sprites_LoadCPSFile(const char *filename, Screen screenID, uint8 *
 {
 	uint8 index;
 	uint16 size;
-	void *buffer;
+	uint8 *buffer;
 	uint8 *buffer2;
 	uint16 paletteSize;
 
@@ -277,13 +277,13 @@ static uint32 Sprites_LoadCPSFile(const char *filename, Screen screenID, uint8 *
 
 	index = File_Open(filename, 1);
 
-	File_Read(index, &size, 2);
+	size = File_Read_LE16(index);
 
 	File_Read(index, buffer, 8);
 
 	size -= 8;
 
-	paletteSize = ((uint16 *)buffer)[3];
+	paletteSize = READ_LE_UINT16(buffer + 6);
 
 	if (palette != NULL && paletteSize != 0) {
 		File_Read(index, palette, paletteSize);
@@ -291,7 +291,8 @@ static uint32 Sprites_LoadCPSFile(const char *filename, Screen screenID, uint8 *
 		File_Seek(index, paletteSize, 1);
 	}
 
-	((uint16 *)buffer)[3] = 0;
+	buffer[6] = 0;	/* dont read palette next time */
+	buffer[7] = 0;
 	size -= paletteSize;
 
 	buffer2 = GFX_Screen_Get_ByIndex(screenID);
@@ -340,29 +341,30 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	GUI_Mouse_Hide();
 
-	size = GFX_GetSize(*(uint16 *)(sprite + 3) + 16, sprite[5]);
+	size = GFX_GetSize(READ_LE_UINT16(sprite + 3) + 16, sprite[5]);
 
 	if (s_mouseSpriteBufferSize < size) {
 		g_mouseSpriteBuffer = realloc(g_mouseSpriteBuffer, size);
 		s_mouseSpriteBufferSize = size;
 	}
 
-	size = *(uint16 *)(sprite + 8) + 10;
-	if ((*(uint16 *)sprite & 0x1) != 0) size += 16;
+	size = READ_LE_UINT16(sprite + 8) + 10;
+	if ((*sprite & 0x1) != 0) size += 16;
 
 	if (s_mouseSpriteSize < size) {
 		g_mouseSprite = realloc(g_mouseSprite, size);
 		s_mouseSpriteSize = size;
 	}
 
-	if ((*(uint16 *)sprite & 0x2) != 0) {
-		memcpy(g_mouseSprite, sprite, *(uint16 *)(sprite + 6) * 2);
+	if ((*sprite & 0x2) != 0) {
+		memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6) * 2);
 	} else {
 		uint8 *dst = (uint8 *)g_mouseSprite;
 		uint8 *buf = g_spriteBuffer;
-		uint16 flags = *(uint16 *)sprite | 0x2;
+		uint16 flags = READ_LE_UINT16(sprite) | 0x2;
 
-		*(uint16 *)dst = flags;
+		dst[0] = sprite[0] | 0x2;
+		dst[1] = sprite[1];
 		dst += 2;
 		sprite += 2;
 
@@ -370,8 +372,9 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 		dst += 6;
 		sprite += 6;
 
-		size = *(uint16 *)sprite;
-		*(uint16 *)dst = size;
+		size = READ_LE_UINT16(sprite);
+		dst[0] = sprite[0];
+		dst[1] = sprite[1];
 		dst += 2;
 		sprite += 2;
 
@@ -391,7 +394,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	sprite = g_mouseSprite;
 	g_mouseHeight = sprite[5];
-	g_mouseWidth = (*(uint16 *)(sprite + 3) >> 3) + 2;
+	g_mouseWidth = (READ_LE_UINT16(sprite + 3) >> 3) + 2;
 
 	GUI_Mouse_Show();
 
