@@ -7,6 +7,7 @@
 #include "types.h"
 #include "os/common.h"
 #include "os/strings.h"
+#include "os/endian.h"
 
 #include "string.h"
 
@@ -99,19 +100,19 @@ void String_TranslateSpecial(char *source, char *dest)
 
 static void String_Load(const char *filename, bool compressed)
 {
-	void *buf;
+	uint8 *buf;
 	uint16 count;
 	uint16 i;
 
 	buf = File_ReadWholeFile(String_GenerateFilename(filename));
-	count = *(uint16 *)buf / 2;
+	count = READ_LE_UINT16(buf) / 2;
 
 	s_stringsCount += count;
 	s_strings = (char **)realloc(s_strings, s_stringsCount * sizeof(char *));
 	s_strings[s_stringsCount - count] = NULL;
 
 	for (i = 0; i < count; i++) {
-		char *src = (char *)buf + ((uint16 *)buf)[i];
+		char *src = (char *)buf + READ_LE_UINT16(buf + i * 2);
 		char *dst;
 
 		if (compressed) {
