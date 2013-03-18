@@ -5,6 +5,7 @@
 #include <string.h>
 #include "types.h"
 #include "os/math.h"
+#include "os/endian.h"
 #include "gfx.h"
 
 #include "wsa.h"
@@ -49,16 +50,14 @@ MSVC_PACKED_BEGIN
  * The header of a WSA file as on the disk.
  */
 typedef struct WSAFileHeader {
-	/* 0000(2)   */ PACK uint16 frames;                     /*!< Amount of animation frames in this WSA. */
-	/* 0002(2)   */ PACK uint16 width;                      /*!< Width of WSA. */
-	/* 0004(2)   */ PACK uint16 height;                     /*!< Height of WSA. */
-	/* 0006(2)   */ PACK uint16 requiredBufferSize;         /*!< The size the buffer has to be at least to process this WSA. */
-	/* 0008(2)   */ PACK uint16 isSpecial;                  /*!< Indicates if the WSA has a special buffer. */
-	/* 000A(4)   */ PACK uint32 animationOffsetStart;       /*!< Offset where animation starts. */
-	/* 000E(4)   */ PACK uint32 animationOffsetEnd;         /*!< Offset where animation ends. */
-} GCC_PACKED WSAFileHeader;
-MSVC_PACKED_END
-assert_compile(sizeof(WSAFileHeader) == 0x12);
+	/* 0000(2)   */ uint16 frames;                     /*!< Amount of animation frames in this WSA. */
+	/* 0002(2)   */ uint16 width;                      /*!< Width of WSA. */
+	/* 0004(2)   */ uint16 height;                     /*!< Height of WSA. */
+	/* 0006(2)   */ uint16 requiredBufferSize;         /*!< The size the buffer has to be at least to process this WSA. */
+	/* 0008(2)   */ uint16 isSpecial;                  /*!< Indicates if the WSA has a special buffer. */
+	/* 000A(4)   */ uint32 animationOffsetStart;       /*!< Offset where animation starts. */
+	/* 000E(4)   */ uint32 animationOffsetEnd;         /*!< Offset where animation ends. */
+} WSAFileHeader;
 
 /**
  * Get the amount of frames a WSA has.
@@ -67,6 +66,7 @@ uint16 WSA_GetFrameCount(void *wsa)
 {
 	WSAHeader *header = (WSAHeader *)wsa;
 
+	if (header == NULL) return 0;
 	return header->frames;
 }
 
@@ -80,17 +80,19 @@ uint16 WSA_GetFrameCount(void *wsa)
 static uint32 WSA_GetFrameOffset_FromMemory(WSAHeader *header, uint16 frame)
 {
 	uint16 lengthAnimation = 0;
-	uint32 *animationArray;
+	uint32 animationFrame;
+	uint32 animation0;
 
-	animationArray = (uint32 *)header->fileContent;
+	animationFrame = READ_LE_UINT32(header->fileContent + frame * 4);
 
-	if (animationArray[frame] == 0) return 0;
+	if (animationFrame == 0) return 0;
 
-	if (animationArray[0] != 0) {
-		lengthAnimation = animationArray[1] - animationArray[0];
+	animation0 = READ_LE_UINT32(header->fileContent);
+	if (animation0 != 0) {
+		lengthAnimation = READ_LE_UINT32(header->fileContent + 4) - animation0;
 	}
 
-	return animationArray[frame] - lengthAnimation - 10;
+	return animationFrame - lengthAnimation - 10;
 }
 
 /**
@@ -102,12 +104,12 @@ static uint32 WSA_GetFrameOffset_FromMemory(WSAHeader *header, uint16 frame)
  */
 static uint32 WSA_GetFrameOffset_FromDisk(uint8 fileno, uint16 frame)
 {
-	uint32 length;
+	uint32 offset;
 
 	File_Seek(fileno, frame * 4 + 10, 0);
-	if (File_Read(fileno, &length, 4) != 4) return 0;
+	offset = File_Read_LE32(fileno);
 
-	return length;
+	return offset;
 }
 
 /**
@@ -206,7 +208,13 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	memset(&flags, 0, sizeof(flags));
 
 	fileno = File_Open(filename, 1);
-	File_Read(fileno, &fileheader, sizeof(WSAFileHeader));
+	fileheader.frames = File_Read_LE16(fileno);
+	fileheader.width = File_Read_LE16(fileno);
+	fileheader.height = File_Read_LE16(fileno);
+	fileheader.requiredBufferSize = File_Read_LE16(fileno);
+	fileheader.isSpecial = File_Read_LE16(fileno);
+	fileheader.animationOffsetStart = File_Read_LE32(fileno);
+	fileheader.animationOffsetEnd = File_Read_LE32(fileno);
 
 	lengthSpecial = 0;
 	if (fileheader.isSpecial) {
