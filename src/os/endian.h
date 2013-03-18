@@ -14,6 +14,15 @@
 	#endif /* _MSC_VER */
 #elif defined(__APPLE__)
 	#include <machine/endian.h>
+	#if !defined(__BYTE_ORDER)
+		#define __BYTE_ORDER BYTE_ORDER
+	#endif
+	#if !defined(__LITTLE_ENDIAN)
+		#define __LITTLE_ENDIAN LITTLE_ENDIAN
+	#endif
+	#if !defined(__BIG_ENDIAN)
+		#define __BIG_ENDIAN BIG_ENDIAN
+	#endif
 #elif defined(__TINYC__)
 	#include <endian.h>
 
