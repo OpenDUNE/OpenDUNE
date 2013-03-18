@@ -441,6 +441,20 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 	return length;
 }
 
+uint16 File_Read_LE16(uint8 index)
+{
+	uint8 buffer[2];
+	File_Read(index, buffer, sizeof(buffer));
+	return READ_LE_UINT16(buffer);
+}
+
+uint32 File_Read_LE32(uint8 index)
+{
+	uint8 buffer[4];
+	File_Read(index, buffer, sizeof(buffer));
+	return READ_LE_UINT32(buffer);
+}
+
 /**
  * Write bytes from a buffer to a file.
  *

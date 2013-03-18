@@ -30,6 +30,8 @@ extern bool File_Exists(const char *filename);
 extern uint8 File_Open(const char *filename, uint8 mode);
 extern void File_Close(uint8 index);
 extern uint32 File_Read(uint8 index, void *buffer, uint32 length);
+extern uint16 File_Read_LE16(uint8 index);
+extern uint32 File_Read_LE32(uint8 index);
 extern uint32 File_Write(uint8 index, void *buffer, uint32 length);
 extern uint32 File_Seek(uint8 index, uint32 position, uint8 mode);
 extern uint32 File_GetSize(uint8 index);

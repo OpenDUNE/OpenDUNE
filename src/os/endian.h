@@ -51,4 +51,7 @@
 	#define BETOH16(x) (x)
 #endif
 
+#define READ_LE_UINT16(p) ((uint16)(p)[0] | ((uint16)(p)[1] << 8))
+#define READ_LE_UINT32(p) ((uint32)(p)[0] | ((uint32)(p)[1] << 8) | ((uint32)(p)[2] << 16) | ((uint32)(p)[3] << 24))
+
 #endif /* OS_ENDIAN_H */
