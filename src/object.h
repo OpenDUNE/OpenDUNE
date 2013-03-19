@@ -35,10 +35,7 @@ typedef struct Object {
 			BIT_U8 notused_6_0004:6;
 			BIT_U8 notused_6_0100:8;
 		} s;
-		struct {
-			uint16 low;
-			uint16 high;
-		} half; } flags;                                    /*!< General flags of the Structure/Unit. */
+		uint32 all; } flags;                                    /*!< General flags of the Structure/Unit. */
 	uint8  houseID;                                         /*!< House of Structure. */
 	uint8  seenByHouses;                                    /*!< Bitmask of which houses have seen this object. */
 	tile32 position;                                        /*!< Position on the map. */

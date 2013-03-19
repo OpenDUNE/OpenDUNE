@@ -427,8 +427,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 	static uint16 displayedIndex            = 0xFFFF;
 	static uint16 displayedCountdown        = 0xFFFF;
 	static uint16 displayedObjectType       = 0xFFFF;
-	static uint16 displayedStructureLoFlags = 0;
-	static uint16 displayedStructureHiFlags = 0;
+	static uint32 displayedStructureFlags   = 0;
 	static uint16 displayedLinkedID         = 0xFFFF;
 	static uint16 displayedHouseID          = 0xFFFF;
 	static uint16 displayedActiveAction     = 0xFFFF;
@@ -479,10 +478,9 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 				|| s->upgradeTimeLeft   != displayedUpgradeTime
 				|| s->o.linkedID        != displayedLinkedID
 				|| s->objectType        != displayedObjectType
-				|| s->o.flags.half.high != displayedStructureHiFlags
 				|| s->o.houseID         != displayedHouseID
 				|| House_Get_ByIndex(s->o.houseID)->starportTimeLeft != displayedStarportTime
-				|| s->o.flags.half.low  != displayedStructureLoFlags) {
+				|| s->o.flags.all       != displayedStructureFlags) {
 					g_variable_37B2 = (s->o.hitpoints > (g_table_structureInfo[s->o.type].o.hitpoints / 2)) ? 1 : 0;
 					actionType = 3; /* Structure */
 			}
@@ -523,9 +521,8 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 			displayedObjectType       = s->objectType;
 			displayedCountdown        = s->countDown;
 			displayedUpgradeTime      = s->upgradeTimeLeft;
-			displayedStructureHiFlags = s->o.flags.half.high;
 			displayedLinkedID         = s->o.linkedID;
-			displayedStructureLoFlags = s->o.flags.half.low;
+			displayedStructureFlags   = s->o.flags.all;
 			displayedHouseID          = s->o.houseID;
 			displayedMissileCountdown = 0xFFFF;
 			displayedStarportTime     = House_Get_ByIndex(s->o.houseID)->starportTimeLeft;
