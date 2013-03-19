@@ -1648,18 +1648,18 @@ uint8 GUI_PickHouse(void)
 		for (i = 0; i < 3; i++) {
 			static uint8 l_var_2BAC[3][3] = {
 				/* x, y, shortcut */
-				{ 16, 56, 31 },
-				{ 112, 56, 25 },
-				{ 208, 56, 36 },
+				{ 16, 56, 31 }, /* A */
+				{ 112, 56, 25 }, /* O */
+				{ 208, 56, 36 }, /* H */
 			};
 			Widget *w2;
 
 			w2 = GUI_Widget_Allocate(i + 1, l_var_2BAC[i][2], l_var_2BAC[i][0], l_var_2BAC[i][1], 0xFFFF, 0);
 
-			w2->flags.all = 0x0;
-			w2->flags.s.loseSelect = true;
-			w2->flags.s.buttonFilterLeft = 1;
-			w2->flags.s.buttonFilterRight = 1;
+			memset(&w2->flags, 0, sizeof(w2->flags));
+			w2->flags.loseSelect = true;
+			w2->flags.buttonFilterLeft = 1;
+			w2->flags.buttonFilterRight = 1;
 			w2->width  = 96;
 			w2->height = 104;
 
@@ -2179,12 +2179,12 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			while (w != NULL) {
 				const int8 *s = g_table_selectionType[selectionType].visibleWidgets;
 
-				w->state.s.selected = false;
-				w->flags.s.invisible = true;
+				w->state.selected = false;
+				w->flags.invisible = true;
 
 				for (; *s != -1; s++) {
 					if (*s == w->index) {
-						w->flags.s.invisible = false;
+						w->flags.invisible = false;
 						break;
 					}
 				}
@@ -2523,10 +2523,19 @@ static uint32 GUI_FactoryWindow_CreateWidgets(void)
 		count++;
 
 		w->index     = i + 46;
-		w->state.all = 0x0;
+		memset(&w->state, 0, sizeof(w->state));
 		w->offsetX   = wi->offsetX;
 		w->offsetY   = wi->offsetY;
-		w->flags.all = wi->flags;
+		w->flags.requiresClick = (wi->flags & 0x0001) ? true : false;
+		w->flags.notused1 = (wi->flags & 0x0002) ? true : false;
+		w->flags.clickAsHover = (wi->flags & 0x0004) ? true : false;
+		w->flags.invisible = (wi->flags & 0x0008) ? true : false;
+		w->flags.greyWhenInvisible = (wi->flags & 0x0010) ? true : false;
+		w->flags.noClickCascade = (wi->flags & 0x0020) ? true : false;
+		w->flags.loseSelect = (wi->flags & 0x0040) ? true : false;
+		w->flags.notused2 = (wi->flags & 0x0080) ? true : false;
+		w->flags.buttonFilterLeft = (wi->flags >> 8) & 0x0f;
+		w->flags.buttonFilterRight = (wi->flags >> 12) & 0x0f;
 		w->shortcut  = (wi->shortcut < 0) ? abs(wi->shortcut) : GUI_Widget_GetShortcut(*String_Get_ByIndex(wi->shortcut));
 		w->clickProc = wi->clickProc;
 		w->width     = wi->width;
@@ -4086,7 +4095,13 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	wClear->width     = width;
 	wClear->height    = 10;
 	wClear->clickProc = &GUI_Widget_HOF_ClearList_Click;
-	wClear->flags.all = 0x44C5;
+	memset(&wClear->flags, 0, sizeof(wClear->flags));
+	wClear->flags.requiresClick = true;
+	wClear->flags.clickAsHover = true;
+	wClear->flags.loseSelect = true;
+	wClear->flags.notused2 = true;
+	wClear->flags.buttonFilterLeft = 4;
+	wClear->flags.buttonFilterRight = 4;
 	wClear->data      = data;
 
 	/* "Resume Game" */
@@ -4094,7 +4109,13 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	wResume->width     = width;
 	wResume->height    = 10;
 	wResume->clickProc = &GUI_Widget_HOF_Resume_Click;
-	wResume->flags.all = 0x44C5;
+	memset(&wResume->flags, 0, sizeof(wResume->flags));
+	wResume->flags.requiresClick = true;
+	wResume->flags.clickAsHover = true;
+	wResume->flags.loseSelect = true;
+	wResume->flags.notused2 = true;
+	wResume->flags.buttonFilterLeft = 4;
+	wResume->flags.buttonFilterRight = 4;
 	wResume->data      = data;
 
 	return GUI_Widget_Insert(wClear, wResume);

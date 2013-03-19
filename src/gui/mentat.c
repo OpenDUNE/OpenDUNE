@@ -846,9 +846,9 @@ void GUI_Mentat_Create_HelpScreen_Widgets(void)
 	for (i = 0; i < 13; i++) {
 		w->index = i + 2;
 
-		w->flags.all = 0;
-		w->flags.s.buttonFilterLeft = 9;
-		w->flags.s.buttonFilterRight = 1;
+		memset(&w->flags, 0, sizeof(w->flags));
+		w->flags.buttonFilterLeft = 9;
+		w->flags.buttonFilterRight = 1;
 
 		w->clickProc = &GUI_Mentat_List_Click;
 
@@ -858,7 +858,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets(void)
 
 		w->drawModeNormal = DRAW_MODE_TEXT;
 
-		w->state.all      = 0;
+		memset(&w->state, 0, sizeof(w->state));
 
 		w->offsetX        = 24;
 		w->offsetY        = ypos;
@@ -1011,7 +1011,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 		return true;
 	}
 
-	if ((w->state.s.buttonState & 0x11) == 0 && !s_selectMentatHelp) return true;
+	if ((w->state.buttonState & 0x11) == 0 && !s_selectMentatHelp) return true;
 
 	if (w->stringID != 0x31) return true;
 

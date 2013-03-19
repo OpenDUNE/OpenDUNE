@@ -78,10 +78,10 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	click = false;
 	drag = false;
 
-	if ((w->state.s.buttonState & 0x11) != 0) {
+	if ((w->state.buttonState & 0x11) != 0) {
 		click = true;
 		g_var_37B8 = false;
-	} else if ((w->state.s.buttonState & 0x22) != 0 && !g_var_37B8) {
+	} else if ((w->state.buttonState & 0x22) != 0 && !g_var_37B8) {
 		drag = true;
 	}
 
@@ -273,7 +273,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			}
 		}
 
-		if ((w->state.s.buttonState & 0x10) != 0) Map_SetViewportPosition(packed);
+		if ((w->state.buttonState & 0x10) != 0) Map_SetViewportPosition(packed);
 
 		return true;
 	}

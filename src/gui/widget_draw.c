@@ -48,8 +48,8 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	g_widgetProperties[19].width  = width >> 3;
 	g_widgetProperties[19].height = height;
 
-	state  = (w->state.s.selected) ? 0 : 2;
-	colour = (w->state.s.hover2) ? 231 : 232;
+	state  = (w->state.selected) ? 0 : 2;
+	colour = (w->state.hover2) ? 231 : 232;
 
 	GUI_Widget_DrawBorder(19, state, 1);
 
@@ -106,7 +106,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		GFX_Screen_SetActive(SCREEN_1);
 	}
 
-	buttonDown = w->state.s.hover2;
+	buttonDown = w->state.hover2;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -158,7 +158,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		GFX_Screen_SetActive(SCREEN_1);
 	}
 
-	buttonDown = w->state.s.hover2;
+	buttonDown = w->state.hover2;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -312,8 +312,8 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	stringID = w->stringID;
 
-	buttonSelected = w->state.s.selected;
-	buttonDown     = w->state.s.hover2;
+	buttonSelected = w->state.selected;
+	buttonDown     = w->state.hover2;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -368,7 +368,7 @@ void GUI_Widget_Scrollbar_Draw(Widget *w)
 	uint16 scrollRight, scrollBottom;
 
 	if (w == NULL) return;
-	if (w->flags.s.invisible) return;
+	if (w->flags.invisible) return;
 
 	scrollbar = w->data;
 

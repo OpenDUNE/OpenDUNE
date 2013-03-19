@@ -169,12 +169,12 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 	if (w->offsetY < 0) positionY += g_widgetProperties[w->parentID].height;
 	positionY += g_widgetProperties[w->parentID].yBase;
 
-	if ((w->state.s.buttonState & 0x44) != 0) {
+	if ((w->state.buttonState & 0x44) != 0) {
 		scrollbar->pressed = 0;
 		GUI_Widget_Scrollbar_Draw(w);
 	}
 
-	if ((w->state.s.buttonState & 0x11) != 0) {
+	if ((w->state.buttonState & 0x11) != 0) {
 		int16 positionCurrent;
 		int16 positionBegin;
 		int16 positionEnd;
@@ -199,7 +199,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 		}
 	}
 
-	if ((w->state.s.buttonState & 0x22) != 0 && scrollbar->pressed != 0) {
+	if ((w->state.buttonState & 0x22) != 0 && scrollbar->pressed != 0) {
 		int16 position, size;
 
 		if (w->width > w->height) {
@@ -490,7 +490,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		w->drawParameterSelected.proc = &GUI_Widget_TextButton_Draw;
 		w->drawParameterDown.proc     = &GUI_Widget_TextButton_Draw;
 		w->parentID = desc->index;
-		w->state.all = 0x0;
+		memset(&w->state, 0, sizeof(w->state));
 
 		g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 

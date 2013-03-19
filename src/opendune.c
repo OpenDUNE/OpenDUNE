@@ -513,7 +513,16 @@ static void Window_WidgetClick_Create(void)
 		}
 
 		w->clickProc = wi->clickProc;
-		w->flags.all = wi->flags;
+		w->flags.requiresClick = (wi->flags & 0x0001) ? true : false;
+		w->flags.notused1 = (wi->flags & 0x0002) ? true : false;
+		w->flags.clickAsHover = (wi->flags & 0x0004) ? true : false;
+		w->flags.invisible = (wi->flags & 0x0008) ? true : false;
+		w->flags.greyWhenInvisible = (wi->flags & 0x0010) ? true : false;
+		w->flags.noClickCascade = (wi->flags & 0x0020) ? true : false;
+		w->flags.loseSelect = (wi->flags & 0x0040) ? true : false;
+		w->flags.notused2 = (wi->flags & 0x0080) ? true : false;
+		w->flags.buttonFilterLeft = (wi->flags >> 8) & 0x0f;
+		w->flags.buttonFilterRight = (wi->flags >> 12) & 0x0f;
 
 		g_widgetLinkedListHead = GUI_Widget_Insert(g_widgetLinkedListHead, w);
 	}
