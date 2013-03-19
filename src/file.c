@@ -9,11 +9,28 @@
 #include "os/file.h"
 #include "os/math.h"
 #include "os/strings.h"
+#include "os/readdir.h"
 
 #include "file.h"
 
 #include "config.h"
 
+
+/**
+ * Extensions to stdio.h
+ */
+
+/**
+ * Read a uint32 value from a little endian file.
+ */
+bool fread_le_uint32(uint32 *value, FILE *stream)
+{
+	uint8 buffer[4];
+	if (value == NULL) return false;
+	if (fread(buffer, 1, 4, stream) != 4) return false;
+	*value = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
+	return true;
+}
 
 /**
  * Static information about opened files.
@@ -27,23 +44,56 @@ typedef struct File {
 
 static File s_file[FILE_MAX];
 
+/**
+ * Information about files in data/ directory
+ * and processed content of PAK files.
+ */
+typedef struct FileInfoLinkedElem {
+	struct FileInfoLinkedElem *next;
+	FileInfo info;
+	char filenamebuffer[1];
+} FileInfoLinkedElem;
+
+static FileInfoLinkedElem *s_files_in_root = NULL;
+
+typedef struct PakFileInfoLinkedElem {
+	struct PakFileInfoLinkedElem *next;
+	FileInfo *pak;
+	FileInfo info;
+	char filenamebuffer[1];
+} PakFileInfoLinkedElem;
+
+static PakFileInfoLinkedElem *s_files_in_pak = NULL;
+
 uint16 g_fileOperation = 0; /*!< If non-zero, input (keyboard + mouse), video is not updated, .. Basically, any operation that might trigger a free() in the signal handler, which can collide with malloc() of file operations. */
 
 /**
- * Find the FileInfo index for the given filename.
+ * Find the FileInfo for the given filename.
  *
- * @param filename The filename to get the index for.
- * @return The index or 0xFFFF if not found.
+ * @param filename The filename to get the FileInfo for.
+ * @return The FileInfo pointer or NULL if not found.
  */
-static uint16 FileInfo_FindIndex_ByName(const char *filename)
+static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo)
 {
-	uint16 index;
-
-	for (index = 0; index < FILEINFO_MAX; index++) {
-		if (!strcasecmp(g_table_fileInfo[index].filename, filename)) return index;
+	{
+		FileInfoLinkedElem * e;
+		for (e = s_files_in_root; e != NULL; e = e->next) {
+			if (!strcasecmp(e->info.filename, filename)) {
+				if (pakInfo) *pakInfo = NULL;
+				return &e->info;
+			}
+		}
 	}
-
-	return FILEINFO_INVALID;
+	{
+		PakFileInfoLinkedElem * e;
+		for (e = s_files_in_pak; e != NULL; e = e->next) {
+			if (!strcasecmp(e->info.filename, filename)) {
+				if (pakInfo) *pakInfo = e->pak;
+				return &e->info;
+			}
+		}
+	}
+	return NULL;
 }
 
 /**
@@ -55,32 +105,20 @@ static uint16 FileInfo_FindIndex_ByName(const char *filename)
  */
 static uint8 _File_Open(const char *filename, uint8 mode)
 {
-	char filenameLower[1024];
-	char filenameUpper[1024];
 	char filenameComplete[1024];
-	char pakNameLower[1024];
-	char pakNameUpper[1024];
 	char pakNameComplete[1024];
 	uint8 fileIndex;
-	uint16 fileInfoIndex;
+	FileInfo * fileInfo;
+	FileInfo * pakInfo = NULL;
 
-	/* build upper and lower case versions of the file name */
-	strncpy(filenameLower, filename, sizeof(filenameLower));
-	filenameLower[sizeof(filenameLower) - 1] = '\0';
-	strncpy(filenameUpper, filename, sizeof(filenameUpper));
-	filenameUpper[sizeof(filenameUpper) - 1] = '\0';
-	{
-		char *f;
-
-		for (f = filenameLower; *f != '\0'; f++) {
-			if (*f >= 'A' && *f <= 'Z') *f += 32;
-		}
-		for (f = filenameUpper; *f != '\0'; f++) {
-			if (*f >= 'a' && *f <= 'z') *f -= 32;
-		}
+	fileInfo = FileInfo_Find_ByName(filename, &pakInfo);
+	if (fileInfo != NULL) {
+		/* Take the filename from the FileInfo structure, as it was read
+		 * from the data/ directory */
+		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", fileInfo->filename);
+	} else {
+		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filename);
 	}
-
-	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameLower);
 
 	if ((mode & 1) == 0 && (mode & 2) == 0) return FILE_INVALID;
 
@@ -92,11 +130,6 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 
 	/* Check if we can find the file outside any PAK file */
 	s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
-	if (s_file[fileIndex].fp == NULL) {
-		/* try with the upper case filename */
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameUpper);
-		s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
-	}
 	if (s_file[fileIndex].fp != NULL) {
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
@@ -116,107 +149,187 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if ((mode & 2) != 0) return FILE_INVALID;
 
 	/* Check if the file could be inside any of our PAK files */
-	fileInfoIndex = FileInfo_FindIndex_ByName(filename);
-	if (fileInfoIndex == FILEINFO_INVALID) return FILE_INVALID;
+	if (fileInfo == NULL) return FILE_INVALID;
 
 	/* If the file is not inside another PAK, then the file doesn't exist (as it wasn't in the directory either) */
-	if (!g_table_fileInfo[fileInfoIndex].flags.inPAKFile) return FILE_INVALID;
+	if (!fileInfo->flags.inPAKFile) return FILE_INVALID;
 
-	strncpy(pakNameLower, g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename, sizeof(pakNameLower));
-	pakNameLower[sizeof(pakNameLower) - 1] = '\0';
-	strncpy(pakNameUpper, g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename, sizeof(pakNameUpper));
-	pakNameUpper[sizeof(pakNameUpper) - 1] = '\0';
-	{
-		char *f;
-
-		for (f = pakNameLower; *f != '\0'; f++) {
-			if (*f >= 'A' && *f <= 'Z') *f += 32;
-		}
-		for (f = pakNameUpper; *f != '\0'; f++) {
-			if (*f >= 'a' && *f <= 'z') *f -= 32;
-		}
-	}
-	snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakNameLower);
+	if (pakInfo == NULL) return FILE_INVALID;
+	snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakInfo->filename);
 	s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
-	if (s_file[fileIndex].fp == NULL) {
-		/* try with the upper case version of the pakName */
-		snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakNameUpper);
-		s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
-	}
 	if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
 
-	/* If this file is not yet read from the PAK, read the complete index
-	 *  of the PAK and index all files */
-	if (!g_table_fileInfo[fileInfoIndex].flags.isLoaded) {
-		uint16 pakIndexLast;
-
-		pakIndexLast = FILEINFO_INVALID;
-
-		while (true) {
-			char pakFilename[1024];
-			uint32 pakPosition;
-			uint16 pakIndex;
-			uint16 i;
-
-			if (fread(&pakPosition, sizeof(uint32), 1, s_file[fileIndex].fp) != 1) {
-				fclose(s_file[fileIndex].fp);
-				s_file[fileIndex].fp = NULL;
-				return FILE_INVALID;
-			}
-			if (pakPosition == 0) break;
-
-			/* Read the name of the file inside the PAK */
-			for (i = 0; i < sizeof(pakFilename); i++) {
-				if (fread(&pakFilename[i], 1, 1, s_file[fileIndex].fp) != 1) {
-					fclose(s_file[fileIndex].fp);
-					s_file[fileIndex].fp = NULL;
-					return FILE_INVALID;
-				}
-				if (pakFilename[i] == '\0') break;
-
-				/* We always work in lowercase */
-				if (pakFilename[i] >= 'A' && pakFilename[i] <= 'Z') pakFilename[i] += 32;
-			}
-			if (i == sizeof(pakFilename)) {
-				fclose(s_file[fileIndex].fp);
-				s_file[fileIndex].fp = NULL;
-				return FILE_INVALID;
-			}
-
-			/* Check if we expected this file in this PAK */
-			pakIndex = FileInfo_FindIndex_ByName(pakFilename);
-			if (pakIndex == FILEINFO_INVALID) continue;
-			if (g_table_fileInfo[pakIndex].parentIndex != g_table_fileInfo[fileInfoIndex].parentIndex) continue;
-
-			/* Update the information of the file */
-			g_table_fileInfo[pakIndex].flags.isLoaded = true;
-			g_table_fileInfo[pakIndex].filePosition = pakPosition;
-			if (pakIndexLast != FILEINFO_INVALID) g_table_fileInfo[pakIndexLast].fileSize = pakPosition - g_table_fileInfo[pakIndexLast].filePosition;
-
-			pakIndexLast = pakIndex;
-		}
-
-		/* Make sure we set the right size of the last entry */
-		if (pakIndexLast != FILEINFO_INVALID) {
-			fseek(s_file[fileIndex].fp, 0, SEEK_END);
-			g_table_fileInfo[pakIndexLast].fileSize = ftell(s_file[fileIndex].fp) - g_table_fileInfo[pakIndexLast].filePosition;
-		}
-	}
-
-	/* Check if the file is inside the PAK file */
-	if (!g_table_fileInfo[fileInfoIndex].flags.isLoaded) {
-		fclose(s_file[fileIndex].fp);
-		s_file[fileIndex].fp = NULL;
-		return FILE_INVALID;
-	}
-
-	s_file[fileIndex].start    = g_table_fileInfo[fileInfoIndex].filePosition;
+	s_file[fileIndex].start    = fileInfo->filePosition;
 	s_file[fileIndex].position = 0;
-	s_file[fileIndex].size     = g_table_fileInfo[fileInfoIndex].fileSize;
+	s_file[fileIndex].size     = fileInfo->fileSize;
 
 	/* Go to the start of the file now */
 	fseek(s_file[fileIndex].fp, s_file[fileIndex].start, SEEK_SET);
 	return fileIndex;
+}
+
+/**
+ * Memorize a file from the data/ directory.
+ *
+ * @param filename The name of the file.
+ * @param filesize The size of the file.
+ * @return A pointer to the newly created FileInfo.
+ */
+static FileInfo *_File_Init_AddFileInRootDir(const char *filename, uint32 filesize)
+{
+	FileInfoLinkedElem *new;
+	size_t size;
+	size = sizeof(FileInfoLinkedElem) + strlen(filename);
+	new = malloc(size);
+	if (new == NULL) {
+		Error("cannot allocate %u bytes of memory\n", size);
+		return NULL;
+	}
+	new->next = s_files_in_root;
+	memset(&new->info, 0, sizeof(FileInfo));
+	memcpy(new->filenamebuffer, filename, strlen(filename) + 1);
+	new->info.filename = new->filenamebuffer;
+	new->info.fileSize = filesize;
+	new->info.filePosition = 0;
+	s_files_in_root = new;
+	return &new->info;
+}
+
+/**
+ * Memorize a file inside a PAK file.
+ *
+ * @param filename the filename as indicated in PAK header.
+ * @param filesize the size as calculated from PAK header.
+ * @param position the position of the file from the start of the PAK file.
+ * @param pakInfo FileInfo pointer for the PAK file.
+ * @return A pointer to the newly created FileInfo.
+ */
+static FileInfo *_File_Init_AddFileInPak(const char *filename, uint32 filesize, uint32 position, FileInfo *pakInfo)
+{
+	PakFileInfoLinkedElem *new;
+	size_t size;
+	size = sizeof(PakFileInfoLinkedElem) + strlen(filename);
+	new = malloc(size);
+	if (new == NULL) {
+		Error("cannot allocate %u bytes of memory\n", size);
+		return NULL;
+	}
+	new->next = s_files_in_pak;
+	new->pak = pakInfo;
+	memset(&new->info, 0, sizeof(FileInfo));
+	memcpy(new->filenamebuffer, filename, strlen(filename) + 1);
+	new->info.filename = new->filenamebuffer;
+	new->info.fileSize = filesize;
+	new->info.filePosition = position;
+	new->info.flags.inPAKFile = true;
+	s_files_in_pak = new;
+	return &new->info;
+}
+
+/**
+ * Process (parse) a PAK file.
+ *
+ * @param pakpath real path to open PAK file.
+ * @param paksize size (bytes) of the PAK file.
+ * @param pakInfo pointer to the FileInfo for PAK file.
+ * @return True if PAK processing was ok.
+ */
+static bool _File_Init_ProcessPak(const char *pakpath, uint32 paksize, FileInfo *pakInfo)
+{
+	FILE *f;
+	uint32 position;
+	uint32 nextposition;
+	uint32 size;
+	char filename[256];
+	unsigned int i;
+
+	f = fopen(pakpath, "rb");
+	if (f == NULL) {
+		Error("failed to open %s", pakpath);
+		return false;
+	}
+	if (!fread_le_uint32(&nextposition, f)) {
+		fclose(f);
+		return false;
+	}
+	while (nextposition != 0) {
+		position = nextposition;
+		for (i = 0; i < sizeof(filename); i++) {
+			if (fread(filename + i, 1, 1, f) != 1) {
+				fclose(f);
+				return false;
+			}
+			if (filename[i] == '\0') break;
+		}
+		if (i == sizeof(filename)) {
+			fclose(f);
+			return false;
+		}
+		if (!fread_le_uint32(&nextposition, f)) {
+			fclose(f);
+			return false;
+		}
+		size = (nextposition != 0) ? nextposition - position : paksize - position;
+		if (_File_Init_AddFileInPak(filename, size, position, pakInfo) == NULL) {
+			fclose(f);
+			return false;
+		}
+	}
+	fclose(f);
+	return true;
+}
+
+/**
+ * Callback for processing files found in data/ directory.
+ *
+ * @param name The name of the file.
+ * @param path The relative path of the file.
+ * @param size The file size (bytes).
+ * @return True if the processing went OK.
+ */
+static bool _File_Init_Callback(const char *name, const char *path, uint32 size)
+{
+	char *ext;
+	FileInfo *fileInfo;
+
+	fileInfo = _File_Init_AddFileInRootDir(name, size);
+	if (fileInfo == NULL) return false;
+	ext = strrchr(path, '.');
+	if (ext != NULL) {
+		if (strcasecmp(ext, ".pak") == 0) {
+			if (!_File_Init_ProcessPak(path, size, fileInfo))
+				return false;
+		}
+	}
+	return true;
+}
+
+/**
+ * Initialize files tables by reading the DATA_DIR directory.
+ *
+ * @return True if and only if everything was ok.
+ */
+bool File_Init(void)
+{
+	return ReadDir_ProcessAllFiles(DATA_DIR, _File_Init_Callback);
+}
+
+/**
+ * Free all ressources loaded in memory.
+ */
+void File_Uninit(void)
+{
+	while (s_files_in_root != NULL) {
+		FileInfoLinkedElem *e = s_files_in_root;
+		s_files_in_root = e->next;
+		free(e);
+	}
+
+	while (s_files_in_pak != NULL) {
+		PakFileInfoLinkedElem *e = s_files_in_pak;
+		s_files_in_pak = e->next;
+		free(e);
+	}
 }
 
 /**

@@ -1183,6 +1183,11 @@ int main(int argc, char **argv)
 	VARIABLE_NOT_USED(argc);
 	VARIABLE_NOT_USED(argv);
 
+	if (!File_Init()) {
+		Error("Cannot initialise files. Does %s directory exist ?\n", DATA_DIR);
+		exit(1);
+	}
+
 	if (!Config_Read("dune.cfg", &g_config)) {
 		Error("Missing dune.cfg file.\n");
 		exit(1);
@@ -1416,6 +1421,7 @@ void PrepareEnd(void)
 
 	if (g_mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
+	File_Uninit();
 	Timer_Uninit();
 	GFX_Uninit();
 	Video_Uninit();
