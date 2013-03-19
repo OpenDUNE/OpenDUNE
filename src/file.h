@@ -4,9 +4,6 @@
 #define FILE_H
 
 enum {
-	FILEINFO_MAX     = 676,
-	FILEINFO_INVALID = 0xFFFF,
-
 	FILE_MAX = 20,
 	FILE_INVALID = 0xFF
 };
@@ -19,17 +16,16 @@ typedef struct FileInfo {
 	uint32 fileSize;                                        /*!< The size of this file. */
 	void *buffer;                                           /*!< In case the file is read in the memory, this is the location of the data. */
 	uint32 filePosition;                                    /*!< Where in the file we currently are (doesn't have to start at zero when in PAK file). */
-	uint8  parentIndex;                                     /*!< In which FileInfo this file can be found. */
 	struct {
-		BIT_U8 isLoaded:1;                                  /*!< File is mapped in the memory. */
 		BIT_U8 inMemory:1;                                  /*!< File is loaded in alloc'd memory. */
     	BIT_U8 inPAKFile:1;                                 /*!< File can be in other PAK file. */
 	} flags;                                                /*!< General flags of the FileInfo. */
 } FileInfo;
 
-extern FileInfo g_table_fileInfo[];
 extern uint16 g_fileOperation;
 
+extern bool File_Init(void);
+extern void File_Uninit(void);
 extern bool File_Exists(const char *filename);
 extern uint8 File_Open(const char *filename, uint8 mode);
 extern void File_Close(uint8 index);
