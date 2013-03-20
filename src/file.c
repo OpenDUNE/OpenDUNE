@@ -441,6 +441,12 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 	return length;
 }
 
+/**
+ * Read a 16bit unsigned from the file (written on disk in Little endian)
+ *
+ * @param index The index given by File_Open() of the file.
+ * @return The integer read.
+ */
 uint16 File_Read_LE16(uint8 index)
 {
 	uint8 buffer[2];
@@ -448,6 +454,12 @@ uint16 File_Read_LE16(uint8 index)
 	return READ_LE_UINT16(buffer);
 }
 
+/**
+ * Read a 32bit unsigned from the file (written on disk in Little endian)
+ *
+ * @param index The index given by File_Open() of the file.
+ * @return The integer read.
+ */
 uint32 File_Read_LE32(uint8 index)
 {
 	uint8 buffer[4];
@@ -610,7 +622,7 @@ uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length)
  *
  * @param filename The name of the file to open.
  * @param mallocFlags The type of memory to allocate.
- * @return The CS:IP of the allocated memory where the file has been read.
+ * @return The pointer to allocated memory where the file has been read.
  */
 void *File_ReadWholeFile(const char *filename)
 {
@@ -628,6 +640,41 @@ void *File_ReadWholeFile(const char *filename)
 	((char *)buffer)[length] = '\0';
 
 	File_Close(index);
+
+	return buffer;
+}
+
+/**
+ * Reads the whole file in the memory. The file should contain little endian
+ * 16bits unsigned integers. It is converted to host byte ordering if needed.
+ *
+ * @param filename The name of the file to open.
+ * @param mallocFlags The type of memory to allocate.
+ * @return The pointer to allocated memory where the file has been read.
+ */
+uint16 *File_ReadWholeFileLE16(const char *filename)
+{
+	uint8 index;
+	uint32 i;
+	uint32 count;
+	uint16 *buffer;
+
+	index = File_Open(filename, 1);
+	count = File_GetSize(index) / sizeof(uint16);
+
+	buffer = malloc(count * sizeof(uint16));
+	if (File_Read(index, buffer, count * sizeof(uint16)) != count * sizeof(uint16)) {
+		free(buffer);
+		return NULL;
+	}
+
+	File_Close(index);
+
+#if __BYTE_ORDER == __BIG_ENDIAN
+	for(i = 0; i < count; i++) {
+		buffer[i] = LETOH16(buffer[i]);
+	}
+#endif
 
 	return buffer;
 }

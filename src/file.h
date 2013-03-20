@@ -39,6 +39,7 @@ extern void File_Delete(const char *filename);
 extern void File_Create(const char *filename);
 extern uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length);
 extern void *File_ReadWholeFile(const char *filename);
+extern uint16 *File_ReadWholeFileLE16(const char *filename);
 extern uint32 File_ReadFile(const char *filename, void *buf);
 extern uint8 ChunkFile_Open(const char *filename);
 extern void ChunkFile_Close(uint8 index);
