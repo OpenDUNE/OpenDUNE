@@ -283,6 +283,14 @@
     </ClCompile>
     <ClInclude Include="..\src\os\file.h"/>
     <ClInclude Include="..\src\os\math.h"/>
+    <ClCompile Include="..\src\os\readdir.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\os\readdir.h"/>
+    <ClCompile Include="..\src\os\readdir_win32.c">
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
     <ClInclude Include="..\src\os\sleep.h"/>
     <ClInclude Include="..\src\os\strings.h"/>
     <ClInclude Include="..\src\os\thread.h"/>
@@ -361,9 +369,6 @@
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\src\table\explosion.c">
-      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\src\table\fileinfo.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\src\table\houseanimation.c">

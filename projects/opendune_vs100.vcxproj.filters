@@ -336,6 +336,15 @@
     <ClInclude Include="..\src\os\math.h">
       <Filter>src\os</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\os\readdir.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\os\readdir.h">
+      <Filter>src\os</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\os\readdir_win32.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
     <ClInclude Include="..\src\os\sleep.h">
       <Filter>src\os</Filter>
     </ClInclude>
@@ -433,9 +442,6 @@
       <Filter>src\table</Filter>
     </ClCompile>
     <ClCompile Include="..\src\table\explosion.c">
-      <Filter>src\table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\table\fileinfo.c">
       <Filter>src\table</Filter>
     </ClCompile>
     <ClCompile Include="..\src\table\houseanimation.c">
