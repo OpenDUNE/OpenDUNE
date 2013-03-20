@@ -384,7 +384,8 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->o.houseID            = houseID;
 	s->creatorHouseID       = houseID;
 	s->o.flags.s.isNotOnMap = true;
-	s->o.position.tile      = 0;
+	s->o.position.x         = 0;
+	s->o.position.y         = 0;
 	s->o.linkedID           = 0xFF;
 	s->state                = (g_debugScenario) ? STRUCTURE_STATE_IDLE : STRUCTURE_STATE_JUSTBUILT;
 
@@ -537,8 +538,8 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->o.flags.s.isNotOnMap = false;
 
 	s->o.position = Tile_UnpackTile(position);
-	s->o.position.s.x &= 0xFF00;
-	s->o.position.s.y &= 0xFF00;
+	s->o.position.x &= 0xFF00;
+	s->o.position.y &= 0xFF00;
 
 	s->rotationSpriteDiff = 0;
 	s->o.hitpoints  = si->o.hitpoints;
@@ -832,8 +833,8 @@ void Structure_ActivateSpecial(Structure *s)
 			Unit *u;
 			tile32 position;
 
-			position.s.x = 0xFFFF;
-			position.s.y = 0xFFFF;
+			position.x = 0xFFFF;
+			position.y = 0xFFFF;
 
 			g_validateStrictIfZero++;
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->o.houseID, position, Tools_Random_256());
@@ -958,12 +959,12 @@ void Structure_RemoveFog(Structure *s)
 
 	si = &g_table_structureInfo[s->o.type];
 
-	position.tile = s->o.position.tile;
+	position = s->o.position;
 
 	/* ENHANCEMENT -- Fog is removed around the top left corner instead of the center of a structure. */
 	if (g_dune2_enhanced) {
-		position.s.x += 256 * (g_table_structure_layoutSize[si->layout].width  - 1) / 2;
-		position.s.y += 256 * (g_table_structure_layoutSize[si->layout].height - 1) / 2;
+		position.x += 256 * (g_table_structure_layoutSize[si->layout].width  - 1) / 2;
+		position.y += 256 * (g_table_structure_layoutSize[si->layout].height - 1) / 2;
 	}
 
 	Tile_RemoveFogInRadius(position, si->o.fogUncoverRadius);
@@ -1613,7 +1614,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 					g_validateStrictIfZero++;
 					{
 						tile32 tile;
-						tile.tile = 0xFFFFFFFF;
+						tile.x = 0xFFFF;
+						tile.y = 0xFFFF;
 						u = Unit_Create(UNIT_INDEX_INVALID, (uint8)objectType, s->o.houseID, tile, 0);
 					}
 					g_validateStrictIfZero--;
@@ -1652,7 +1654,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 	if (s->o.type != STRUCTURE_CONSTRUCTION_YARD) {
 		tile32 tile;
-		tile.tile = 0xFFFFFFFF;
+		tile.x = 0xFFFF;
+		tile.y = 0xFFFF;
 
 		oi = &g_table_unitInfo[objectType].o;
 		o = &Unit_Create(UNIT_INDEX_INVALID, (uint8)objectType, s->o.houseID, tile, 0)->o;

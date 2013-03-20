@@ -90,33 +90,15 @@ assert_compile(sizeof( int16) == 2);
 assert_compile(sizeof(uint32) == 4);
 assert_compile(sizeof( int32) == 4);
 
-typedef union csip32 {
-	struct {
-		uint16 ip;
-		uint16 cs;
-	} s;
-	uint32 csip;
-} csip32;
-assert_compile(sizeof(csip32) == 4);
-
 /**
- * ox is the offset in the tile.
- * px is the position on the map.
- * ux is never used (or should never be used).
- * x is all the above.
+ * bits 0 to 7 are the offset in the tile.
+ * bits 8 to 13 are the position on the map.
+ * bits 14 and 15 are never used (or should never be used).
  */
-typedef union tile32 {
-	struct {
-		uint32 x:16;
-		uint32 y:16;
-	} s;
-	struct {
-		uint32 ox:8; uint32 px:6; uint32 ux:2;
-		uint32 oy:8; uint32 py:6; uint32 uy:2;
-	} d;
-	uint32 tile;
+typedef struct tile32 {
+	uint16 x;
+	uint16 y;
 } tile32;
-assert_compile(sizeof(tile32) == 4);
 
 typedef unsigned char bool;
 #define false 0

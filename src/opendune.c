@@ -1299,7 +1299,7 @@ void Game_Prepare(void)
 			House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 		}
 
-		if (House_Get_ByIndex(s->o.houseID)->palacePosition.tile != 0) continue;
+		if ((House_Get_ByIndex(s->o.houseID)->palacePosition.x != 0) || (House_Get_ByIndex(s->o.houseID)->palacePosition.y != 0)) continue;
 		House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 	}
 

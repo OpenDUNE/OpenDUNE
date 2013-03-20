@@ -306,7 +306,7 @@ void GameLoop_Unit(void)
 		}
 
 		if (u->nextActionID == ACTION_INVALID) continue;
-		if (u->currentDestination.tile != 0) continue;
+		if (u->currentDestination.x != 0 || u->currentDestination.y != 0) continue;
 
 		Unit_SetAction(u, u->nextActionID);
 		u->nextActionID = ACTION_INVALID;
@@ -407,16 +407,17 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 
 	Unit_SetSpeed(u, 0);
 
-	u->o.position.tile  = position.tile;
+	u->o.position       = position;
 	u->o.hitpoints      = ui->o.hitpoints;
-	u->currentDestination.tile = 0;
+	u->currentDestination.x = 0;
+	u->currentDestination.y = 0;
 	u->originEncoded    = 0x0000;
 	u->route[0]         = 0xFF;
 
-	if (position.tile != 0xFFFFFFFF) {
-		u->originEncoded      = Unit_FindClosestRefinery(u);
-		u->targetLast.tile    = position.tile;
-		u->targetPreLast.tile = position.tile;
+	if (position.x != 0xFFFF || position.y != 0xFFFF) {
+		u->originEncoded = Unit_FindClosestRefinery(u);
+		u->targetLast    = position;
+		u->targetPreLast = position;
 	}
 
 	u->o.linkedID    = 0xFF;
@@ -445,13 +446,13 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	if (ui->movementType == MOVEMENT_WINGER) {
 		Unit_SetSpeed(u, 255);
 	} else {
-		if (position.tile != 0xFFFFFFFF && Unit_IsTileOccupied(u)) {
+		if ((position.x != 0xFFFF || position.y != 0xFFFF) && Unit_IsTileOccupied(u)) {
 			Unit_Free(u);
 			return NULL;
 		}
 	}
 
-	if (position.tile == 0xFFFFFFFF) {
+	if ((position.x == 0xFFFF) && (position.y == 0xFFFF)) {
 		u->o.flags.s.isNotOnMap = true;
 		return u;
 	}
@@ -504,7 +505,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 
 	switch (ai->switchType) {
 		case 0:
-			if (u->currentDestination.tile != 0) {
+			if (u->currentDestination.x != 0 || u->currentDestination.y != 0) {
 				u->nextActionID = action;
 				return;
 			}
@@ -512,7 +513,8 @@ void Unit_SetAction(Unit *u, ActionType action)
 		case 1:
 			u->actionID = action;
 			u->nextActionID = ACTION_INVALID;
-			u->currentDestination.tile = 0;
+			u->currentDestination.x = 0;
+			u->currentDestination.y = 0;
 			u->o.script.delay = 0;
 			Script_Reset(&u->o.script, g_scriptUnit);
 			u->o.script.variables[0] = action;
@@ -861,7 +863,8 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 		return false;
 	}
 
-	u->currentDestination.tile = 0;
+	u->currentDestination.x = 0;
+	u->currentDestination.y = 0;
 	u->targetMove = 0;
 	u->targetAttack = 0;
 
@@ -1217,7 +1220,7 @@ void Unit_RemoveFog(Unit *unit)
 
 	if (unit == NULL) return;
 	if (unit->o.flags.s.isNotOnMap) return;
-	if (unit->o.position.tile == 0xFFFFFFFF || unit->o.position.tile == 0) return;
+	if ((unit->o.position.x == 0xFFFF && unit->o.position.y == 0xFFFF) || (unit->o.position.x == 0 && unit->o.position.y == 0)) return;
 	if (!House_AreAllied(Unit_GetHouseID(unit), g_playerHouseID)) return;
 
 	fogUncoverRadius = g_table_unitInfo[unit->o.type].o.fogUncoverRadius;
@@ -1297,9 +1300,9 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	newPosition = Tile_MoveByDirection(unit->o.position, unit->orientation[0].current, distance);
 
-	if (newPosition.tile == unit->o.position.tile) return false;
+	if ((newPosition.x == unit->o.position.x) && (newPosition.y == unit->o.position.y)) return false;
 
-	if ((newPosition.tile & 0xC000C000) != 0) {
+	if (!Tile_IsValid(newPosition)) {
 		if (!ui->flags.mustStayInMap) {
 			Unit_Remove(unit);
 			return true;
@@ -1419,8 +1422,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							static int16 offsetX[17] = { 0, 0, 200, 256, 200, 0, -200, -256, -200, 0, 400, 512, 400, 0, -400, -512, -400 };
 							static int16 offsetY[17] = { 0, -256, -200, 0, 200, 256, 200, 0, -200, -512, -400, 0, 400, 512, 400, 0, -400 };
 							tile32 p = newPosition;
-							p.s.y += offsetY[i];
-							p.s.x += offsetX[i];
+							p.y += offsetY[i];
+							p.x += offsetX[i];
 
 							Map_MakeExplosion(ui->explosionType, p, 200, 0);
 						}
@@ -1438,10 +1441,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					return true;
 				}
 			} else if (ui->flags.isGroundUnit) {
-				if (currentDestination.tile != 0) newPosition = currentDestination;
+				if (currentDestination.x != 0 || currentDestination.y != 0) newPosition = currentDestination;
 				unit->targetPreLast = unit->targetLast;
 				unit->targetLast    = unit->o.position;
-				unit->currentDestination.tile = 0;
+				unit->currentDestination.x = 0;
+				unit->currentDestination.y = 0;
 
 				if (unit->o.flags.s.degrades && (Tools_Random_256() & 3) == 0) {
 					Unit_Damage(unit, 1, 0);
@@ -1478,8 +1482,10 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 					s = Structure_Get_ByPackedTile(packed);
 					if (s != NULL) {
-						unit->targetPreLast.tile = 0;
-						unit->targetLast.tile    = 0;
+						unit->targetPreLast.x = 0;
+						unit->targetPreLast.y = 0;
+						unit->targetLast.x    = 0;
+						unit->targetLast.y    = 0;
 						Unit_EnterStructure(unit, s);
 						return true;
 					}
@@ -1764,8 +1770,8 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 
 	{
 		tile32 t;
-		t.s.x = 0x2000;
-		t.s.y = 0x2000;
+		t.x = 0x2000;
+		t.y = 0x2000;
 		orientation = Tile_GetDirection(tile, t);
 	}
 
@@ -1798,7 +1804,8 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 		carryall->o.flags.s.byScenario = true;
 	}
 
-	tile.tile = 0xFFFFFFFF;
+	tile.x = 0xFFFF;
+	tile.y = 0xFFFF;
 
 	g_validateStrictIfZero++;
 	unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, 0);
@@ -2142,7 +2149,8 @@ Unit *Unit_CallUnitByType(UnitType type, uint8 houseID, uint16 target, bool crea
 		tile32 position;
 
 		g_validateStrictIfZero++;
-		position.tile = 0;
+		position.x = 0;
+		position.y = 0;
 		unit = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, 96);
 		g_validateStrictIfZero--;
 
@@ -2282,7 +2290,8 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 		if (s == NULL) break;
 		if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 
-		curPosition.tile = s->o.position.tile + g_table_structure_layoutTileDiff[g_table_structureInfo[s->o.type].layout].tile;
+		curPosition.x = s->o.position.x + g_table_structure_layoutTileDiff[g_table_structureInfo[s->o.type].layout].x;
+		curPosition.y = s->o.position.y + g_table_structure_layoutTileDiff[g_table_structureInfo[s->o.type].layout].y;
 
 		if (mode != 0 && mode != 4) {
 			if (mode == 1) {

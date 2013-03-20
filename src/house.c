@@ -156,7 +156,8 @@ void GameLoop_House(void)
 
 			if (deployed && g_scenario.reinforcement[i].repeat != 0) {
 				tile32 tile;
-				tile.tile = 0xFFFFFFFF;
+				tile.x = 0xFFFF;
+				tile.y = 0xFFFF;
 
 				g_validateStrictIfZero++;
 				u = Unit_Create(UNIT_INDEX_INVALID, u->o.type, u->o.houseID, tile, 0);

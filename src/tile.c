@@ -21,7 +21,7 @@
  */
 bool Tile_IsValid(tile32 tile)
 {
-	return (tile.d.ux == 0x0 && tile.d.uy == 0x0);
+	return (tile.x & 0xc000) == 0 && (tile.y & 0xc000) == 0;
 }
 
 /**
@@ -35,9 +35,8 @@ tile32 Tile_MakeXY(uint16 x, uint16 y)
 {
 	tile32 tile;
 
-	tile.tile = 0;
-	tile.d.px = x;
-	tile.d.py = y;
+	tile.x = x << 8;
+	tile.y = y << 8;
 
 	return tile;
 }
@@ -50,7 +49,7 @@ tile32 Tile_MakeXY(uint16 x, uint16 y)
  */
 uint8 Tile_GetPosX(tile32 tile)
 {
-	return tile.d.px;
+	return tile.x >> 8;
 }
 
 /**
@@ -61,7 +60,7 @@ uint8 Tile_GetPosX(tile32 tile)
  */
 uint8 Tile_GetPosY(tile32 tile)
 {
-	return tile.d.py;
+	return tile.y >> 8;
 }
 
 /**
@@ -72,7 +71,7 @@ uint8 Tile_GetPosY(tile32 tile)
  */
 uint32 Tile_GetXY(tile32 tile)
 {
-	return tile.tile;
+	return ((uint32)tile.x | ((uint32)tile.y << 16));
 }
 
 /**
@@ -83,7 +82,7 @@ uint32 Tile_GetXY(tile32 tile)
  */
 uint16 Tile_GetX(tile32 tile)
 {
-	return tile.s.x;
+	return tile.x;
 }
 
 /**
@@ -94,7 +93,7 @@ uint16 Tile_GetX(tile32 tile)
  */
 uint16 Tile_GetY(tile32 tile)
 {
-	return tile.s.y;
+	return tile.y;
 }
 
 /**
@@ -105,7 +104,7 @@ uint16 Tile_GetY(tile32 tile)
  */
 uint16 Tile_PackTile(tile32 tile)
 {
-	return (tile.d.py << 6) | tile.d.px;
+	return (Tile_GetPosY(tile) << 6) | Tile_GetPosX(tile);
 }
 
 /**
@@ -130,11 +129,8 @@ tile32 Tile_UnpackTile(uint16 packed)
 {
 	tile32 tile;
 
-	tile.tile = 0;
-	tile.d.px = (packed >> 0) & 0x3F;
-	tile.d.py = (packed >> 6) & 0x3F;
-	tile.d.ox = 0x80;
-	tile.d.oy = 0x80;
+	tile.x = (((packed >> 0) & 0x3F) << 8) | 0x80;
+	tile.y = (((packed >> 6) & 0x3F) << 8) | 0x80;
 
 	return tile;
 }
@@ -180,8 +176,8 @@ bool Tile_IsOutOfMap(uint16 packed)
  */
 uint16 Tile_GetDistance(tile32 from, tile32 to)
 {
-	uint16 distance_x = abs(from.s.x - to.s.x);
-	uint16 distance_y = abs(from.s.y - to.s.y);
+	uint16 distance_x = abs(from.x - to.x);
+	uint16 distance_y = abs(from.y - to.y);
 
 	if (distance_x > distance_y) return distance_x + (distance_y / 2);
 	return distance_y + (distance_x / 2);
@@ -198,8 +194,8 @@ tile32 Tile_AddTileDiff(tile32 from, tile32 diff)
 {
 	tile32 result;
 
-	result.s.x = from.s.x + diff.s.x;
-	result.s.y = from.s.y + diff.s.y;
+	result.x = from.x + diff.x;
+	result.y = from.y + diff.y;
 
 	return result;
 }
@@ -214,8 +210,8 @@ tile32 Tile_Center(tile32 tile)
 	tile32 result;
 
 	result = tile;
-	result.d.ox = 0x80;
-	result.d.oy = 0x80;
+	result.x = (result.x & 0xff00) | 0x80;
+	result.y = (result.y & 0xff00) | 0x80;
 
 	return result;
 }
@@ -429,8 +425,8 @@ tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distance)
 	roundingOffsetX = diffX < 0 ? -64 : 64;
 	roundingOffsetY = diffY < 0 ? -64 : 64;
 
-	tile.s.x += (diffX * distance + roundingOffsetX) / 128;
-	tile.s.y -= (diffY * distance + roundingOffsetY) / 128;
+	tile.x += (diffX * distance + roundingOffsetX) / 128;
+	tile.y -= (diffY * distance + roundingOffsetY) / 128;
 
 	return tile;
 }
@@ -466,8 +462,8 @@ tile32 Tile_MoveByRandom(tile32 tile, uint16 distance, bool center)
 
 	if (x > 16384 || y > 16384) return tile;
 
-	ret.s.x = x;
-	ret.s.y = y;
+	ret.x = x;
+	ret.y = y;
 
 	return center ? Tile_Center(ret) : ret;
 }
@@ -495,8 +491,8 @@ int8 Tile_GetDirection(tile32 from, tile32 to)
 	bool invert;
 	uint16 loc0C = 0;
 
-	dx = to.s.x - from.s.x;
-	dy = to.s.y - from.s.y;
+	dx = to.x - from.x;
+	dy = to.y - from.y;
 
 	if (abs(dx) + abs(dy) > 8000) {
 		dx /= 2;
@@ -559,8 +555,8 @@ tile32 Tile_MoveByOrientation(tile32 position, uint8 orientation)
 
 	if (x > 16384 || y > 16384) return position;
 
-	position.s.x = x;
-	position.s.y = y;
+	position.x = x;
+	position.y = y;
 
 	return position;
 }

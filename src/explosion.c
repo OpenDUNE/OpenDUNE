@@ -171,7 +171,7 @@ static void Explosion_Func_SetAnimation(Explosion *e, uint16 animationMapID)
  */
 static void Explosion_Func_MoveYPosition(Explosion *e, uint16 row)
 {
-	e->position.s.y += (int16)row;
+	e->position.y += (int16)row;
 }
 
 /**

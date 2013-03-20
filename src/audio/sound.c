@@ -114,7 +114,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 	if (!g_gameConfig.sounds) return;
 
 	volume = 255;
-	if (position.tile != 0) {
+	if (position.x != 0 || position.y != 0) {
 		volume = Tile_GetDistancePacked(g_minimapPosition, Tile_PackTile(position));
 		if (volume > 64) volume = 64;
 
@@ -141,7 +141,8 @@ void Voice_Play(int16 voiceID)
 {
 	tile32 tile;
 
-	tile.tile = 0;
+	tile.x = 0;
+	tile.y = 0;
 	Voice_PlayAtTile(voiceID, tile);
 }
 

@@ -155,7 +155,8 @@ tile32 Tools_Index_GetTile(uint16 encoded)
 	tile32 tile;
 
 	index = Tools_Index_Decode(encoded);
-	tile.tile = 0;
+	tile.x = 0;
+	tile.y = 0;
 
 	switch (Tools_Index_GetType(encoded)) {
 		case IT_TILE: return Tile_UnpackTile(index);

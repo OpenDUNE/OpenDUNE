@@ -390,8 +390,8 @@ static void Scenario_Load_Reinforcement(const char *key, char *settings)
 	/* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
 	if (!g_dune2_enhanced) repeat = false;
 
-	position.s.x = 0xFFFF;
-	position.s.y = 0xFFFF;
+	position.x = 0xFFFF;
+	position.y = 0xFFFF;
 	u = Unit_Create(UNIT_INDEX_INVALID, unitType, houseType, position, 0);
 	if (u == NULL) return;
 
