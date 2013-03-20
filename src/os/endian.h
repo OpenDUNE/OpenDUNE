@@ -32,7 +32,11 @@
 #if defined __GNUC__ && defined __GNUC_MINOR__
 	#if (((__GNUC__ << 16) + __GNUC_MINOR__) >= 0x040003)
 		#define BSWAP32 __builtin_bswap32
-		#define BSWAP16 __builtin_bswap16
+		#if defined __POWERPC
+			#define BSWAP16 __builtin_bswap16
+		#else
+			#define BSWAP16(x) (__builtin_bswap32(x) >> 16)
+		#endif
 	#endif
 #endif
 
