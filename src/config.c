@@ -25,16 +25,13 @@ bool g_enableVoices = true;
  */
 bool Config_Read(const char *filename, DuneCfg *config)
 {
-	char name[1024];
 	FILE *f;
 	size_t read;
 	uint8 sum;
 	uint8 *c;
 	int8 i;
 
-	snprintf(name, sizeof(name), DATA_DIR "%s", filename);
-
-	f = fopen(name, "rb");
+	f = fopendatadir(filename, "rb");
 	if (f == NULL) return false;
 
 	read = fread(config, 1, sizeof(DuneCfg), f);

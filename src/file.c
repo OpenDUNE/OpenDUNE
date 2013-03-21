@@ -15,6 +15,8 @@
 
 #include "config.h"
 
+static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo);
+
 
 /**
  * Extensions to stdio.h
@@ -30,6 +32,25 @@ bool fread_le_uint32(uint32 *value, FILE *stream)
 	if (fread(buffer, 1, 4, stream) != 4) return false;
 	*value = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
 	return true;
+}
+
+/**
+ * Open a file from the data/ directory
+ */
+FILE *fopendatadir(const char *name, const char *mode)
+{
+	char filenameComplete[1024];
+	FileInfo *fileInfo;
+
+	fileInfo = FileInfo_Find_ByName(name, NULL);
+	if (fileInfo != NULL) {
+		/* Take the filename from the FileInfo structure, as it was read
+		 * from the data/ directory */
+		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", fileInfo->filename);
+	} else {
+		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", name);
+	}
+	return fopen(filenameComplete, mode);
 }
 
 /**
@@ -105,20 +126,10 @@ static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo)
  */
 static uint8 _File_Open(const char *filename, uint8 mode)
 {
-	char filenameComplete[1024];
 	char pakNameComplete[1024];
 	uint8 fileIndex;
 	FileInfo * fileInfo;
 	FileInfo * pakInfo = NULL;
-
-	fileInfo = FileInfo_Find_ByName(filename, &pakInfo);
-	if (fileInfo != NULL) {
-		/* Take the filename from the FileInfo structure, as it was read
-		 * from the data/ directory */
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", fileInfo->filename);
-	} else {
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filename);
-	}
 
 	if ((mode & 1) == 0 && (mode & 2) == 0) return FILE_INVALID;
 
@@ -129,7 +140,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (fileIndex == FILE_MAX) return FILE_INVALID;
 
 	/* Check if we can find the file outside any PAK file */
-	s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
+	s_file[fileIndex].fp = fopendatadir(filename, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
 	if (s_file[fileIndex].fp != NULL) {
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
@@ -147,6 +158,8 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 
 	/* We never allow writing of files inside PAKs */
 	if ((mode & 2) != 0) return FILE_INVALID;
+
+	fileInfo = FileInfo_Find_ByName(filename, &pakInfo);
 
 	/* Check if the file could be inside any of our PAK files */
 	if (fileInfo == NULL) return FILE_INVALID;

@@ -43,4 +43,6 @@ extern void ChunkFile_Close(uint8 index);
 extern uint32 ChunkFile_Seek(uint8 index, uint32 header);
 extern uint32 ChunkFile_Read(uint8 index, uint32 header, void *buffer, uint32 buflen);
 
+extern FILE *fopendatadir(const char *name, const char *mode);
+
 #endif /* FILE_H */

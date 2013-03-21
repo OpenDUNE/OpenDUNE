@@ -130,17 +130,15 @@ static bool Load_Main(FILE *fp)
 bool LoadFile(char *filename)
 {
 	FILE *fp;
-	char filenameComplete[1024];
 	bool res;
 
 	Sound_Output_Feedback(0xFFFE);
 
 	Game_Init();
 
-	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filename);
-	fp = fopen(filenameComplete, "rb");
+	fp = fopendatadir(filename, "rb");
 	if (fp == NULL) {
-		Error("Failed to open file '%s' for reading.\n", filenameComplete);
+		Error("Failed to open file '%s' for reading.\n", filename);
 
 		/* TODO -- Load failures should not result in termination */
 		exit(0);

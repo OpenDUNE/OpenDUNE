@@ -21,6 +21,7 @@
 #include "structure.h"
 #include "team.h"
 #include "unit.h"
+#include "file.h"
 
 /**
  * Save a chunk of data.
@@ -123,7 +124,6 @@ static bool Save_Main(FILE *fp, char *description)
 bool SaveFile(char *filename, char *description)
 {
 	FILE *fp;
-	char filenameComplete[1024];
 	bool res;
 
 	/* In debug-scenario mode, the whole map is uncovered. Cover it now in
@@ -170,10 +170,9 @@ bool SaveFile(char *filename, char *description)
 		}
 	}
 
-	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
-	fp = fopen(filenameComplete, "wb");
+	fp = fopendatadir(filename, "wb");
 	if (fp == NULL) {
-		Error("Failed to open file '%s' for writing.\n", filenameComplete);
+		Error("Failed to open file '%s' for writing.\n", filename);
 		return false;
 	}
 
