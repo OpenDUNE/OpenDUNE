@@ -640,9 +640,6 @@ make_compiler_cflags() {
 		# warning: expression result unused
 		flags="$flags -Wno-unused-value"
 
-		# warning: multi-character character constant
-		flags="$flags -Wno-multichar"
-
 		# warning: explicitly assigning a variable of type '...' to itself
 		# it happens when using the FOR_ALL_WINDOWS_FROM_BACK_FROM macro
 		flags="$flags -Wno-self-assign"
@@ -685,7 +682,7 @@ make_compiler_cflags() {
 		fi
 
 		flags="$flags -ansi -pedantic"
-		flags="$flags -Wall -Wno-multichar -Wsign-compare -Wundef"
+		flags="$flags -Wall -Wsign-compare -Wundef"
 		flags="$flags -Wwrite-strings -Wpointer-arith"
 		flags="$flags -W -Wno-unused-parameter -Wredundant-decls"
 		flags="$flags -Wformat=2 -Wformat-security"

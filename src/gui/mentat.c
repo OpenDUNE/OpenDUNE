@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "multichar.h"
 #include "types.h"
 #include "../os/endian.h"
 #include "../os/sleep.h"
@@ -207,7 +208,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	}
 
 	fileID = ChunkFile_Open(s_mentatFilename);
-	length = ChunkFile_Read(fileID, HTOBE32('NAME'), helpDataList, GFX_Screen_GetSize_ByIndex(SCREEN_1));
+	length = ChunkFile_Read(fileID, HTOBE32(CC_NAME), helpDataList, GFX_Screen_GetSize_ByIndex(SCREEN_1));
 	ChunkFile_Close(fileID);
 
 	s_numberHelpSubjects = 0;
@@ -924,7 +925,7 @@ static void GUI_Mentat_ShowHelp(void)
 	offset = HTOBE32(*(uint32 *)(subject + 1));
 
 	fileID = ChunkFile_Open(s_mentatFilename);
-	ChunkFile_Read(fileID, HTOBE32('INFO'), &info, 12);
+	ChunkFile_Read(fileID, HTOBE32(CC_INFO), &info, 12);
 	ChunkFile_Close(fileID);
 
 	info.length = HTOBE32(info.length);

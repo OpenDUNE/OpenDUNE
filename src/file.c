@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "multichar.h"
 #include "types.h"
 #include "os/endian.h"
 #include "os/error.h"
@@ -656,7 +657,7 @@ uint8 ChunkFile_Open(const char *filename)
 
 	File_Read(index, &header, 4);
 
-	if (header != HTOBE32('FORM')) {
+	if (header != HTOBE32(CC_FORM)) {
 		File_Close(index);
 		return FILE_INVALID;
 	}

@@ -45,6 +45,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\multichar.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\types.h">
       <Filter>include</Filter>
     </ClInclude>

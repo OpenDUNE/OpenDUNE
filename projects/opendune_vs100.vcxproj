@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\multichar.h"/>
     <ClInclude Include="..\include\types.h"/>
     <ClCompile Include="..\src\animation.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>

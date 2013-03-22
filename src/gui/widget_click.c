@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include "multichar.h"
 #include "types.h"
 #include "../os/endian.h"
 #include "../os/math.h"
@@ -833,7 +834,7 @@ static void FillSavegameDesc(bool save)
 		if (!File_Exists(filename)) continue;
 
 		fileId = ChunkFile_Open(filename);
-		ChunkFile_Read(fileId, HTOBE32('NAME'), desc, 50);
+		ChunkFile_Read(fileId, HTOBE32(CC_NAME), desc, 50);
 		ChunkFile_Close(fileId);
 		continue;
 	}

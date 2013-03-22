@@ -328,6 +328,10 @@
 			Name="include"
 			>
 			<File
+				RelativePath="..\include\multichar.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\types.h"
 				>
 			</File>

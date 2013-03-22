@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "multichar.h"
 #include "types.h"
 #include "os/common.h"
 #include "os/endian.h"
@@ -198,29 +199,29 @@ static void Sprites_LoadICNFile(const char *filename)
 	fileIndex = ChunkFile_Open(filename);
 
 	/* Get the length of the chunks */
-	spriteInfoLength = ChunkFile_Seek(fileIndex, HTOBE32('SSET'));
-	tableLength      = ChunkFile_Seek(fileIndex, HTOBE32('RTBL'));
-	paletteLength    = ChunkFile_Seek(fileIndex, HTOBE32('RPAL'));
+	spriteInfoLength = ChunkFile_Seek(fileIndex, HTOBE32(CC_SSET));
+	tableLength      = ChunkFile_Seek(fileIndex, HTOBE32(CC_RTBL));
+	paletteLength    = ChunkFile_Seek(fileIndex, HTOBE32(CC_RPAL));
 
 	/* Read the header information */
-	ChunkFile_Read(fileIndex, HTOBE32('SINF'), info, 4);
+	ChunkFile_Read(fileIndex, HTOBE32(CC_SINF), info, 4);
 	GFX_Init_SpriteInfo(info[0], info[1]);
 
 	/* Get the SpriteInfo chunk */
 	free(g_spriteInfo);
 	g_spriteInfo = calloc(1, spriteInfoLength);
-	ChunkFile_Read(fileIndex, HTOBE32('SSET'), g_spriteInfo, spriteInfoLength);
+	ChunkFile_Read(fileIndex, HTOBE32(CC_SSET), g_spriteInfo, spriteInfoLength);
 	Sprites_Decode(g_spriteInfo, g_spriteInfo);
 
 	/* Get the Table chunk */
 	free(g_iconRTBL);
 	g_iconRTBL = calloc(1, tableLength);
-	ChunkFile_Read(fileIndex, HTOBE32('RTBL'), g_iconRTBL, tableLength);
+	ChunkFile_Read(fileIndex, HTOBE32(CC_RTBL), g_iconRTBL, tableLength);
 
 	/* Get the Palette chunk */
 	free(g_iconRPAL);
 	g_iconRPAL = calloc(1, paletteLength);
-	ChunkFile_Read(fileIndex, HTOBE32('RPAL'), g_iconRPAL, paletteLength);
+	ChunkFile_Read(fileIndex, HTOBE32(CC_RPAL), g_iconRPAL, paletteLength);
 
 	ChunkFile_Close(fileIndex);
 }

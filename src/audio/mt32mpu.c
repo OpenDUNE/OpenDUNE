@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include "multichar.h"
 #include "types.h"
 #include "../os/common.h"
 #include "../os/math.h"
@@ -625,22 +626,22 @@ static void *MPU_FindSoundStart(uint8 *file, uint16 index)
 		header = BETOH32(*(uint32 *)(file + 0));
 		size   = BETOH32(*(uint32 *)(file + 4));
 
-		if (header != 'CAT ' && header != 'FORM') return NULL;
-		if (*(uint32 *)(file + 8) == BETOH32('XMID')) break;
+		if (header != CC_CAT && header != CC_FORM) return NULL;
+		if (*(uint32 *)(file + 8) == BETOH32(CC_XMID)) break;
 
 		file += 8;
 		file += size;
 	}
 	total = size - 5;
 
-	if (header == 'FORM') return (index == 1) ? file : NULL;
+	if (header == CC_FORM) return (index == 1) ? file : NULL;
 
 	file += 12;
 
 	while (true) {
 		size = BETOH32(*(uint32 *)(file + 4));
 
-		if (*(uint32 *)(file + 8) == BETOH32('XMID') && --index == 0) break;
+		if (*(uint32 *)(file + 8) == BETOH32(CC_XMID) && --index == 0) break;
 
 		size = size + 8;
 		total -= size;
@@ -702,7 +703,7 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 
 	header = BETOH32(*(uint32 *)(file + 0));
 	size   = 12;
-	while (header != 'EVNT') {
+	while (header != CC_EVNT) {
 		file += size;
 		header = BETOH32(*(uint32 *)(file + 0));
 		size   = BETOH32(*(uint32 *)(file + 4)) + 8;
