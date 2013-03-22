@@ -21,14 +21,19 @@ typedef enum TeamActionType {
 
 
 /**
+ * flags for Team structure
+ */
+typedef struct {
+		BIT_U8 used:1;                                      /*!< The Team is in use (no longer free in the pool). */
+		BIT_U8 notused_0002:7;                              /*!< Never used - remaining bits. */
+} TeamFlags;
+
+/**
  * An Team as stored in the memory.
  */
 typedef struct Team {
 	uint16 index;                                           /*!< The index of the Team in the array. */
-	struct {
-		BIT_U8 used:1;                                      /*!< The Team is in use (no longer free in the pool). */
-		BIT_U8 notused_0002:7;                              /*!< Never used - remaining bits. */
-	} flags;                                                /*!< General flags of the Team. */
+	TeamFlags flags;                                        /*!< General flags of the Team. */
 	uint16 members;                                         /*!< Amount of members in Team. */
 	uint16 minMembers;                                      /*!< Minimum amount of members in Team. */
 	uint16 maxMembers;                                      /*!< Maximum amount of members in Team. */

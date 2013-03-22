@@ -15,6 +15,7 @@
 #include "../timer.h"
 #include "../unit.h"
 #include "../gui/gui.h"
+#include "../file.h"
 
 static uint32 SaveLoad_SelectionType(void *object, uint32 value, bool loading)
 {

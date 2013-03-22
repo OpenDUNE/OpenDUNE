@@ -73,7 +73,7 @@ static bool Load_Main(FILE *fp)
 	if (length == 0) return false;
 
 	/* Read the savegame version */
-	if (fread(&version, sizeof(uint16), 1, fp) != 1) return false;
+	if (!fread_le_uint16(&version, fp)) return false;
 	length -= 2;
 	if (version == 0) return false;
 

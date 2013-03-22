@@ -12,7 +12,7 @@
 
 static const SaveLoadDesc s_saveTeam[] = {
 	SLD_ENTRY (Team, SLDT_UINT16, index),
-	SLD_ENTRY2(Team, SLDT_UINT16, flags, SLDT_UINT8),
+	SLD_ENTRY2(Team, SLDT_UINT16, flags, SLDT_TEAMFLAGS),
 	SLD_ENTRY (Team, SLDT_UINT16, members),
 	SLD_ENTRY (Team, SLDT_UINT16, minMembers),
 	SLD_ENTRY (Team, SLDT_UINT16, maxMembers),
@@ -21,7 +21,8 @@ static const SaveLoadDesc s_saveTeam[] = {
 	SLD_ENTRY (Team, SLDT_UINT16, actionStart),
 	SLD_ENTRY (Team, SLDT_UINT8,  houseID),
 	SLD_EMPTY2(      SLDT_UINT8, 3),
-	SLD_ENTRY (Team, SLDT_UINT32, position),
+	SLD_ENTRY (Team, SLDT_UINT16, position.x),
+	SLD_ENTRY (Team, SLDT_UINT16, position.y),
 	SLD_ENTRY (Team, SLDT_UINT16, targetTile),
 	SLD_ENTRY (Team, SLDT_UINT16, target),
 	SLD_SLD   (Team,              script, g_saveScriptEngine),

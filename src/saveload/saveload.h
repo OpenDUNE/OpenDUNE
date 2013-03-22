@@ -7,6 +7,7 @@
  * Types of storage we support / understand.
  */
 typedef enum SaveLoadType {
+	SLDT_INVALID,                                           /*!< Invalid value. */
 	SLDT_UINT8,                                             /*!< 8bit unsigned integer. */
 	SLDT_UINT16,                                            /*!< 16bit unsigned integer. */
 	SLDT_UINT32,                                            /*!< 32bit unsigned integer. */
@@ -17,6 +18,10 @@ typedef enum SaveLoadType {
 
 	SLDT_CALLBACK,                                          /*!< A callback handler. */
 	SLDT_SLD,                                               /*!< A SaveLoadDesc. */
+
+	SLDT_HOUSEFLAGS,                                        /*!< flags for House struct */
+	SLDT_OBJECTFLAGS,                                       /*!< flags for Object struct */
+	SLDT_TEAMFLAGS,                                         /*!< flags for Team struct */
 
 	SLDT_NULL                                               /*!< Not stored. */
 } SaveLoadType;

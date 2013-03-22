@@ -12,7 +12,7 @@
 static const SaveLoadDesc s_saveHouse[] = {
 	SLD_ENTRY2(House, SLDT_UINT16, index,           SLDT_UINT8),
 	SLD_ENTRY (House, SLDT_UINT16, harvestersIncoming),
-	SLD_ENTRY2(House, SLDT_UINT16, flags,           SLDT_UINT8),
+	SLD_ENTRY2(House, SLDT_UINT16, flags,           SLDT_HOUSEFLAGS),
 	SLD_ENTRY (House, SLDT_UINT16, unitCount),
 	SLD_ENTRY (House, SLDT_UINT16, unitCountMax),
 	SLD_ENTRY (House, SLDT_UINT16, unitCountEnemy),
@@ -24,7 +24,8 @@ static const SaveLoadDesc s_saveHouse[] = {
 	SLD_ENTRY (House, SLDT_UINT16, powerUsage),
 	SLD_ENTRY (House, SLDT_UINT16, windtrapCount),
 	SLD_ENTRY (House, SLDT_UINT16, creditsQuota),
-	SLD_ENTRY (House, SLDT_UINT32, palacePosition),
+	SLD_ENTRY (House, SLDT_UINT16, palacePosition.x),
+	SLD_ENTRY (House, SLDT_UINT16, palacePosition.y),
 	SLD_EMPTY (       SLDT_UINT16),
 	SLD_ENTRY (House, SLDT_UINT16, timerUnitAttack),
 	SLD_ENTRY (House, SLDT_UINT16, timerSandwormAttack),

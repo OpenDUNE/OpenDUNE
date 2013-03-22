@@ -6,36 +6,41 @@
 #include "script/script.h"
 
 /**
+ * Flags for Object structure
+ */
+typedef union {
+	struct {
+		BIT_U8 used:1;                                  /*!< The Object is in use (no longer free in the pool). */
+		BIT_U8 allocated:1;                             /*!< The Object is allocated (created, and ready to be put on the map). */
+		BIT_U8 isNotOnMap:1;                            /*!< The Object is not on the map (under construction, in refinery, etc). */
+		BIT_U8 isSmoking:1;                             /*!< The Object has a smoke cloud coming out of it. */
+		BIT_U8 fireTwiceFlip:1;                         /*!< Used for Unit fire twice, to keep track if it is the second shot. */
+		BIT_U8 animationFlip:1;                         /*!< Used for Unit (bullet / missile) animation, to differ between two sprite groups. */
+		BIT_U8 bulletIsBig:1;                           /*!< If true, the Unit (bullet / sonic wave) is twice as big (visual only). */
+		BIT_U8 isWobbling:1;                            /*!< If true, the Unit will be wobbling during movement. */
+		BIT_U8 inTransport:1;                           /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
+		BIT_U8 byScenario:1;                            /*!< The Unit is created by the scenario. */
+		BIT_U8 degrades:1;                              /*!< Structure degrades. Unit ?? */
+		BIT_U8 isHighlighted:1;                         /*!< The Object is currently highlighted. */
+		BIT_U8 isDirty:1;                               /*!< If true, the Unit will be redrawn next update. */
+		BIT_U8 repairing:1;                             /*!< Structure is being repaired. */
+		BIT_U8 onHold:1;                                /*!< Structure is on hold. */
+		BIT_U8 notused_4_8000:1;
+		BIT_U8 isUnit:1;                                /*!< If true, this is an Unit, otherwise a Structure. */
+		BIT_U8 upgrading:1;                             /*!< Structure is being upgraded. */
+		BIT_U8 notused_6_0004:6;
+		BIT_U8 notused_6_0100:8;
+	} s;
+	uint32 all; } ObjectFlags;
+
+/**
  * Data common to Structure and Unit.
  */
 typedef struct Object {
 	uint16 index;                                           /*!< The index of the Structure/Unit in the array. */
 	uint8  type;                                            /*!< Type of Structure/Unit. */
 	uint8  linkedID;                                        /*!< Structure/Unit we are linked to, or 0xFF if we are not linked to a Structure/Unit. */
-	union {
-		struct {
-			BIT_U8 used:1;                                  /*!< The Object is in use (no longer free in the pool). */
-			BIT_U8 allocated:1;                             /*!< The Object is allocated (created, and ready to be put on the map). */
-			BIT_U8 isNotOnMap:1;                            /*!< The Object is not on the map (under construction, in refinery, etc). */
-			BIT_U8 isSmoking:1;                             /*!< The Object has a smoke cloud coming out of it. */
-			BIT_U8 fireTwiceFlip:1;                         /*!< Used for Unit fire twice, to keep track if it is the second shot. */
-			BIT_U8 animationFlip:1;                         /*!< Used for Unit (bullet / missile) animation, to differ between two sprite groups. */
-			BIT_U8 bulletIsBig:1;                           /*!< If true, the Unit (bullet / sonic wave) is twice as big (visual only). */
-			BIT_U8 isWobbling:1;                            /*!< If true, the Unit will be wobbling during movement. */
-			BIT_U8 inTransport:1;                           /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
-			BIT_U8 byScenario:1;                            /*!< The Unit is created by the scenario. */
-			BIT_U8 degrades:1;                              /*!< Structure degrades. Unit ?? */
-			BIT_U8 isHighlighted:1;                         /*!< The Object is currently highlighted. */
-			BIT_U8 isDirty:1;                               /*!< If true, the Unit will be redrawn next update. */
-			BIT_U8 repairing:1;                             /*!< Structure is being repaired. */
-			BIT_U8 onHold:1;                                /*!< Structure is on hold. */
-			BIT_U8 notused_4_8000:1;
-			BIT_U8 isUnit:1;                                /*!< If true, this is an Unit, otherwise a Structure. */
-			BIT_U8 upgrading:1;                             /*!< Structure is being upgraded. */
-			BIT_U8 notused_6_0004:6;
-			BIT_U8 notused_6_0100:8;
-		} s;
-		uint32 all; } flags;                                    /*!< General flags of the Structure/Unit. */
+	ObjectFlags flags;                                    /*!< General flags of the Structure/Unit. */
 	uint8  houseID;                                         /*!< House of Structure. */
 	uint8  seenByHouses;                                    /*!< Bitmask of which houses have seen this object. */
 	tile32 position;                                        /*!< Position on the map. */
