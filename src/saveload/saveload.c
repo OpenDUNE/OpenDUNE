@@ -4,6 +4,7 @@
 #include "types.h"
 
 #include "saveload.h"
+#include "../file.h"
 
 
 /**
@@ -67,7 +68,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_UINT16: {
 					uint16 v;
 
-					if (fread(&v, sizeof(uint16), 1, fp) != 1) return false;
+					if (!fread_le_uint16(&v, fp)) return false;
 
 					value = v;
 				} break;
@@ -75,7 +76,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_UINT32: {
 					uint32 v;
 
-					if (fread(&v, sizeof(uint32), 1, fp) != 1) return false;
+					if (!fread_le_uint32(&v, fp) != 1) return false;
 
 					value = v;
 				} break;
@@ -92,7 +93,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_INT16: {
 					int16 v;
 
-					if (fread(&v, sizeof(int16), 1, fp) != 1) return false;
+					if (!fread_le_int16(&v, fp) != 1) return false;
 
 					value = v;
 				} break;
@@ -100,7 +101,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_INT32: {
 					int32 v;
 
-					if (fread(&v, sizeof(int32), 1, fp) != 1) return false;
+					if (!fread_le_int32(&v, fp) != 1) return false;
 
 					value = v;
 				} break;
@@ -224,13 +225,13 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_UINT16: {
 					uint16 v = (uint16)value;
 
-					if (fwrite(&v, sizeof(uint16), 1, fp) != 1) return false;
+					if (!fwrite_le_uint16(v, fp)) return false;
 				} break;
 
 				case SLDT_UINT32: {
 					uint32 v = (uint32)value;
 
-					if (fwrite(&v, sizeof(uint32), 1, fp) != 1) return false;
+					if (!fwrite_le_uint32(v, fp)) return false;
 				} break;
 
 
@@ -243,13 +244,13 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_INT16: {
 					int16 v = (int16)value;
 
-					if (fwrite(&v, sizeof(int16), 1, fp) != 1) return false;
+					if (!fwrite_le_int16(v, fp)) return false;
 				} break;
 
 				case SLDT_INT32: {
 					int32 v = (int32)value;
 
-					if (fwrite(&v, sizeof(int32), 1, fp) != 1) return false;
+					if (!fwrite_le_int32(v, fp)) return false;
 				} break;
 			}
 		}

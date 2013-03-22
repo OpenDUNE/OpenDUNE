@@ -48,6 +48,18 @@ bool fread_le_uint16(uint16 *value, FILE *stream)
 }
 
 /**
+ * Write a uint32 value from a little endian file.
+ */
+bool fwrite_le_uint32(uint32 value, FILE *stream)
+{
+	if (putc(value & 0xff, stream) == EOF) return false;
+	if (putc((value >> 8) & 0xff, stream) == EOF) return false;
+	if (putc((value >> 16) & 0xff, stream) == EOF) return false;
+	if (putc((value >> 24) & 0xff, stream) == EOF) return false;
+	return true;
+}
+
+/**
  * Write a uint16 value from a little endian file.
  */
 bool fwrite_le_uint16(uint16 value, FILE *stream)

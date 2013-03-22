@@ -198,7 +198,7 @@ bool Info_Save(FILE *fp)
 {
 	static uint16 savegameVersion = 0x0290;
 
-	if (fwrite(&savegameVersion, sizeof(uint16), 1, fp) != 1) return false;
+	if (!fwrite_le_uint16(savegameVersion, fp)) return false;
 
 	if (!SaveLoad_Save(s_saveInfo, fp, NULL)) return false;
 

@@ -49,6 +49,11 @@ extern uint32 ChunkFile_Read(uint8 index, uint32 header, void *buffer, uint32 bu
 extern FILE *fopendatadir(const char *name, const char *mode);
 extern bool fread_le_uint32(uint32 *value, FILE *stream);
 extern bool fread_le_uint16(uint16 *value, FILE *stream);
+extern bool fwrite_le_uint32(uint32 value, FILE *stream);
 extern bool fwrite_le_uint16(uint16 value, FILE *stream);
+#define fread_le_int32(p, f) fread_le_uint32((uint32 *)(p), (f))
+#define fread_le_int16(p, f) fread_le_uint16((uint16 *)(p), (f))
+#define fwrite_le_int32(v, f) fwrite_le_uint32((uint32)(v), (f))
+#define fwrite_le_int16(v, f) fwrite_le_uint16((uint16)(v), (f))
 
 #endif /* FILE_H */
