@@ -31,7 +31,29 @@ bool fread_le_uint32(uint32 *value, FILE *stream)
 	uint8 buffer[4];
 	if (value == NULL) return false;
 	if (fread(buffer, 1, 4, stream) != 4) return false;
-	*value = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
+	*value = READ_LE_UINT32(buffer);
+	return true;
+}
+
+/**
+ * Read a uint16 value from a little endian file.
+ */
+bool fread_le_uint16(uint16 *value, FILE *stream)
+{
+	uint8 buffer[2];
+	if (value == NULL) return false;
+	if (fread(buffer, 1, 2, stream) != 2) return false;
+	*value = READ_LE_UINT16(buffer);
+	return true;
+}
+
+/**
+ * Write a uint16 value from a little endian file.
+ */
+bool fwrite_le_uint16(uint16 value, FILE *stream)
+{
+	if (putc(value & 0xff, stream) == EOF) return false;
+	if (putc((value >> 8) & 0xff, stream) == EOF) return false;
 	return true;
 }
 

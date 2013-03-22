@@ -47,5 +47,8 @@ extern uint32 ChunkFile_Seek(uint8 index, uint32 header);
 extern uint32 ChunkFile_Read(uint8 index, uint32 header, void *buffer, uint32 buflen);
 
 extern FILE *fopendatadir(const char *name, const char *mode);
+extern bool fread_le_uint32(uint32 *value, FILE *stream);
+extern bool fread_le_uint16(uint16 *value, FILE *stream);
+extern bool fwrite_le_uint16(uint16 value, FILE *stream);
 
 #endif /* FILE_H */
