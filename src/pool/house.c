@@ -95,8 +95,7 @@ void House_Free(House *h)
 	int i;
 
 	/* Walk the array to find the House we are removing */
-	for (i = 0; i < g_houseFindCount; i++) {
-		if (g_houseFindArray[i] == h) break;
+	for (i = 0; i < g_houseFindCount && g_houseFindArray[i] != h; i++) {
 	}
 	assert(i < g_houseFindCount); /* We should always find an entry */
 

@@ -100,20 +100,17 @@ void Structure_Recount(void)
 {
 	uint16 index;
 	PoolFindStruct find = { -1, -1, -1 };
-	House *h = House_Find(&find);
+	House *h;
 
-	while (h != NULL) {
+	while ((h = House_Find(&find)) != NULL) {
 		h->unitCount = 0;
-		h = House_Find(&find);
 	}
 
 	g_structureFindCount = 0;
 
 	for (index = 0; index < STRUCTURE_INDEX_MAX_SOFT; index++) {
 		Structure *s = Structure_Get_ByIndex(index);
-		if (!s->o.flags.s.used) continue;
-
-		g_structureFindArray[g_structureFindCount++] = s;
+		if (s->o.flags.s.used) g_structureFindArray[g_structureFindCount++] = s;
 	}
 }
 
@@ -191,9 +188,7 @@ void Structure_Free(Structure *s)
 
 	/* Walk the array to find the Structure we are removing */
 	assert(g_structureFindCount <= STRUCTURE_INDEX_MAX_SOFT);
-	for (i = 0; i < g_structureFindCount; i++) {
-		if (g_structureFindArray[i] != s) continue;
-		break;
+	for (i = 0; i < g_structureFindCount && g_structureFindArray[i] != s; i++) {
 	}
 	assert(i < g_structureFindCount); /* We should always find an entry */
 
