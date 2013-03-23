@@ -72,6 +72,7 @@
       <OptimizeReferences Condition="'$(Configuration)'=='Release'">true</OptimizeReferences>
       <EnableCOMDATFolding Condition="'$(Configuration)'=='Release'">true</EnableCOMDATFolding>
       <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ImageHasSafeExceptionHandlers Condition="'$(Configuration)'=='Debug'"/>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
