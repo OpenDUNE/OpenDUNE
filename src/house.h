@@ -75,8 +75,8 @@ typedef struct House {
 	HouseFlags flags;                                       /*!< General flags of the House. */
 	uint16 unitCount;                                       /*!< Amount of units owned by House. */
 	uint16 unitCountMax;                                    /*!< Maximum amount of units this House is allowed to have. */
-	uint16 unitCountEnemy;                                  /*!< Amount of units owned by allies. */
-	uint16 unitCountAllied;                                 /*!< Amount of units owned by enemy. */
+	uint16 unitCountEnemy;                                  /*!< Amount of units owned by enemy. */
+	uint16 unitCountAllied;                                 /*!< Amount of units owned by allies. */
 	uint32 structuresBuilt;                                 /*!< The Nth bit active means the Nth structure type is built (one or more). */
 	uint16 credits;                                         /*!< Amount of credits the House currently has. */
 	uint16 creditsStorage;                                  /*!< Amount of credits the House can store. */
