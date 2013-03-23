@@ -75,11 +75,10 @@ void Unit_Recount(void)
 {
 	uint16 index;
 	PoolFindStruct find = { -1, -1, -1 };
-	House *h = House_Find(&find);
+	House *h;
 
-	while (h != NULL) {
+	while ((h = House_Find(&find)) != NULL) {
 		h->unitCount = 0;
-		h = House_Find(&find);
 	}
 
 	g_unitFindCount = 0;
@@ -166,9 +165,7 @@ void Unit_Free(Unit *u)
 	Script_Reset(&u->o.script, g_scriptUnit);
 
 	/* Walk the array to find the Unit we are removing */
-	for (i = 0; i < g_unitFindCount; i++) {
-		if (g_unitFindArray[i] != u) continue;
-		break;
+	for (i = 0; i < g_unitFindCount && g_unitFindArray[i] != u; i++) {
 	}
 	assert(i < g_unitFindCount); /* We should always find an entry */
 
