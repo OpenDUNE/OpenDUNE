@@ -167,8 +167,7 @@ void Unit_Free(Unit *u)
 
 	/* Walk the array to find the Unit we are removing */
 	for (i = 0; i < g_unitFindCount; i++) {
-		if (g_unitFindArray[i] != u) continue;
-		break;
+		if (g_unitFindArray[i] == u) break;
 	}
 	assert(i < g_unitFindCount); /* We should always find an entry */
 

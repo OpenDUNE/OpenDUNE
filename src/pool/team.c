@@ -44,9 +44,7 @@ Team *Team_Find(PoolFindStruct *find)
 		Team *t = g_teamFindArray[find->index];
 		if (t == NULL) continue;
 
-		if (find->houseID != HOUSE_INVALID && find->houseID != t->houseID) continue;
-
-		return t;
+		if (find->houseID == HOUSE_INVALID || find->houseID == t->houseID) return t;
 	}
 
 	return NULL;
@@ -75,9 +73,7 @@ void Team_Recount(void)
 
 	for (index = 0; index < TEAM_INDEX_MAX; index++) {
 		Team *t = Team_Get_ByIndex(index);
-		if (!t->flags.used) continue;
-
-		g_teamFindArray[g_teamFindCount++] = t;
+		if (t->flags.used) g_teamFindArray[g_teamFindCount++] = t;
 	}
 }
 
@@ -127,8 +123,7 @@ void Team_Free(Team *t)
 
 	/* Walk the array to find the Team we are removing */
 	for (i = 0; i < g_teamFindCount; i++) {
-		if (g_teamFindArray[i] != t) continue;
-		break;
+		if (g_teamFindArray[i] == t) break;
 	}
 	assert(i < g_teamFindCount); /* We should always find an entry */
 
