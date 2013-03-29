@@ -14,7 +14,11 @@ audio/midi_win32.c
 		#else
 			audio/dsp_none.c
 		#endif
-		audio/midi_none.c
+		#if OSX
+			audio/midi_osx.c
+		#else
+			audio/midi_none.c
+		#endif
 	#endif
 #endif
 audio/mt32mpu.c
