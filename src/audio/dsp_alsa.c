@@ -80,11 +80,11 @@ void DSP_Play(const uint8 *data)
 
 	DSP_Stop();
 
-	data += ((uint16 *)data)[10];
+	data += ((const uint16 *)data)[10];
 
 	if (*data != 1) return;
 
-	len = (*(uint32 *)data >> 8) - 2;
+	len = (*(const uint32 *)data >> 8) - 2;
 
 	if (s_dataLen < len) {
 		s_data = realloc(s_data, len);
