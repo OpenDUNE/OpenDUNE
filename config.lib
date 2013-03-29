@@ -634,9 +634,6 @@ make_compiler_cflags() {
 		# -Weverything enables too many useless warnings that can't be disabled (as of 3.0)
 		flags="$flags -Wall -W"
 
-		# warning: unused parameter '...'
-		flags="$flags -Wno-unused-parameter"
-
 		# warning: expression result unused
 		flags="$flags -Wno-unused-value"
 
@@ -684,7 +681,7 @@ make_compiler_cflags() {
 		flags="$flags -ansi -pedantic"
 		flags="$flags -Wall -Wsign-compare -Wundef"
 		flags="$flags -Wwrite-strings -Wpointer-arith"
-		flags="$flags -W -Wno-unused-parameter -Wredundant-decls"
+		flags="$flags -W -Wredundant-decls"
 		flags="$flags -Wformat=2 -Wformat-security"
 
 		if [ $enable_assert -eq 0 ]; then
