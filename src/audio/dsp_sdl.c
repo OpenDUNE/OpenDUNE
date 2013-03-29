@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <SDL.h>
 #include "types.h"
+#include "../os/endian.h"
 
 #include "dsp.h"
 
@@ -122,11 +123,11 @@ void DSP_Play(const uint8 *data)
 {
 	DSP_Stop();
 
-	data += ((uint16 *)data)[10];
+	data += READ_LE_UINT16(data + 20);
 
 	if (*data != 1) return;
 
-	s_bufferLen = (*(uint32 *)data >> 8) - 2;
+	s_bufferLen = (READ_LE_UINT32(data) >> 8) - 2;
 
 	if (s_dataLen < s_bufferLen) {
 		s_data = realloc(s_data, s_bufferLen);

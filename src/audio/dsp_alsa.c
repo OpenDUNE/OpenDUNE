@@ -5,6 +5,7 @@
 #include <alsa/asoundlib.h>
 #include "types.h"
 #include "../os/error.h"
+#include "../os/endian.h"
 
 #include "dsp.h"
 
@@ -80,11 +81,11 @@ void DSP_Play(const uint8 *data)
 
 	DSP_Stop();
 
-	data += ((const uint16 *)data)[10];
+	data += READ_LE_UINT16(data + 20);
 
 	if (*data != 1) return;
 
-	len = (*(const uint32 *)data >> 8) - 2;
+	len = (READ_LE_UINT32(data) >> 8) - 2;
 
 	if (s_dataLen < len) {
 		s_data = realloc(s_data, len);
