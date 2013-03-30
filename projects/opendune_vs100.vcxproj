@@ -427,6 +427,21 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\video\scale2x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale2x.h"/>
+    <ClCompile Include="..\src\video\scale3x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale3x.h"/>
+    <ClCompile Include="..\src\video\scalebit.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scalebit.h"/>
     <ClInclude Include="..\src\video\video.h"/>
     <ClCompile Include="..\src\video\video_sdl.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>

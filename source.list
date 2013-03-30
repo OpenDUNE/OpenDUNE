@@ -114,6 +114,9 @@ unit.c
 	video/video_win32.c
 #else
 	video/video_sdl.c
+	video/scalebit.c
+	video/scale2x.c
+	video/scale3x.c
 #endif
 wsa.c
 
