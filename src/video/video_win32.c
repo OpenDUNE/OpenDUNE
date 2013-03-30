@@ -273,7 +273,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-bool Video_Init(int screen_magnification)
+bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	WNDCLASS wc;
 	HINSTANCE hInstance;
@@ -286,6 +286,7 @@ bool Video_Init(int screen_magnification)
 		return false;
 	}
 	s_screen_magnification = screen_magnification;
+	VARIABLE_NOT_USED(filter);		/* XXX */
 
 	hInstance = GetModuleHandle(NULL);
 
