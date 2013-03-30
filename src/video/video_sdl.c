@@ -15,8 +15,9 @@
 /** When enabled, it uses a non-linear approach to scaling as described at http://scale2x.sourceforge.net/algorithm.html */
 #define SCREEN_USE_SCALE2X
 #undef SCREEN_USE_SCALE2X
+
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
-#define SCREEN_MAGNIFICATION 2
+static int s_screen_magnification;
 
 static SDL_Surface *s_gfx_surface = NULL;
 static uint8 *s_gfx_screen = NULL;
@@ -67,7 +68,7 @@ static uint8 s_SDL_keymap[] = {
  */
 static void Video_Mouse_Callback(void)
 {
-	Mouse_EventHandler(s_mousePosX / SCREEN_MAGNIFICATION, s_mousePosY / SCREEN_MAGNIFICATION, s_mouseButtonLeft, s_mouseButtonRight);
+	Mouse_EventHandler(s_mousePosX / s_screen_magnification, s_mousePosY / s_screen_magnification, s_mouseButtonLeft, s_mouseButtonRight);
 }
 
 /**
@@ -131,7 +132,7 @@ static void Video_Mouse_Button(bool left, bool down)
  */
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SDL_WarpMouse(x * SCREEN_MAGNIFICATION, y * SCREEN_MAGNIFICATION);
+	SDL_WarpMouse(x * s_screen_magnification, y * s_screen_magnification);
 }
 
 /**
@@ -143,18 +144,23 @@ void Video_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX * SCREEN_MAGNIFICATION;
-	s_mouseMaxX = maxX * SCREEN_MAGNIFICATION;
-	s_mouseMinY = minY * SCREEN_MAGNIFICATION;
-	s_mouseMaxY = maxY * SCREEN_MAGNIFICATION;
+	s_mouseMinX = minX * s_screen_magnification;
+	s_mouseMaxX = maxX * s_screen_magnification;
+	s_mouseMinY = minY * s_screen_magnification;
+	s_mouseMaxY = maxY * s_screen_magnification;
 }
 
 /**
  * Initialize the video driver.
  */
-bool Video_Init(void)
+bool Video_Init(int screen_magnification)
 {
 	if (s_video_initialized) return true;
+	if (screen_magnification <= 0 || screen_magnification > 4) {
+		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
+		return false;
+	}
+	s_screen_magnification = screen_magnification;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		Error("Could not initialize SDL: %s\n", SDL_GetError());
@@ -162,7 +168,7 @@ bool Video_Init(void)
 	}
 
 	SDL_WM_SetCaption(window_caption, "");
-	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, 8, SDL_SWSURFACE | SDL_HWPALETTE);
+	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_SWSURFACE | SDL_HWPALETTE);
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;
@@ -172,7 +178,7 @@ bool Video_Init(void)
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
-	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * SCREEN_MAGNIFICATION * SCREEN_MAGNIFICATION);
+	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification);
 
 	s_video_initialized = true;
 
@@ -193,84 +199,6 @@ void Video_Uninit(void)
  *  320x200 buffer to the real screen, scaling where needed.
  */
 #if defined(SCREEN_USE_SCALE2X)
-#	if SCREEN_MAGNIFICATION == 2
-static void Video_DrawScreen(void)
-{
-	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	uint8 *gfx1 = s_gfx_screen;
-	uint8 *gfx2;
-	uint8 value;
-	int x, y;
-
-	/* The top side */
-	gfx2 = gfx1 + SCREEN_WIDTH * 2;
-	for (x = 0; x < SCREEN_WIDTH; x++) {
-		uint8 value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-	}
-	gfx1 = gfx2;
-
-	for (y = 1; y < SCREEN_HEIGHT - 1; y++) {
-		gfx2 = gfx1 + SCREEN_WIDTH * 2;
-
-		/* The left side */
-		value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-
-		for (x = 1; x < SCREEN_WIDTH - 1; x++) {
-			int b = *(data - SCREEN_WIDTH);
-			int d = *(data - 1);
-			int e = *(data);
-			int f = *(data + 1);
-			int h = *(data + SCREEN_WIDTH);
-
-			/* Algorthm described at http://scale2x.sourceforge.net/algorithm.html */
-			if (b != h && d != f) {
-				*gfx1 = (d == b) ? d : e;
-				*gfx2 = (d == h) ? d : e;
-				gfx1++; gfx2++;
-				*gfx1 = (f == b) ? f : e;
-				*gfx2 = (f == h) ? f : e;
-				gfx1++; gfx2++;
-				data++;
-				continue;
-			}
-
-			value = *data++;
-			*gfx1++ = value;
-			*gfx2++ = value;
-			*gfx1++ = value;
-			*gfx2++ = value;
-		}
-
-		/* The right side */
-		value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-
-		gfx1 = gfx2;
-	}
-
-	/* The bottom side */
-	gfx2 = gfx1 + SCREEN_WIDTH * 2;
-	for (x = 0; x < SCREEN_WIDTH; x++) {
-		uint8 value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-	}
-	gfx1 = gfx2;
-}
-#	elif SCREEN_MAGNIFICATION == 3
 static void Video_DrawScreen(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
@@ -280,124 +208,8 @@ static void Video_DrawScreen(void)
 	uint8 value;
 	int x, y;
 
-	/* The top side */
-	gfx2 = gfx1 + SCREEN_WIDTH * 3;
-	gfx3 = gfx2 + SCREEN_WIDTH * 3;
-	for (x = 0; x < SCREEN_WIDTH; x++) {
-		uint8 value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-	}
-	gfx1 = gfx3;
-
-	for (y = 1; y < SCREEN_HEIGHT - 1; y++) {
-		gfx2 = gfx1 + SCREEN_WIDTH * 3;
-		gfx3 = gfx2 + SCREEN_WIDTH * 3;
-
-		/* The left side */
-		value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-
-		for (x = 1; x < SCREEN_WIDTH - 1; x++) {
-			int a = *(data - SCREEN_WIDTH - 1);
-			int b = *(data - SCREEN_WIDTH);
-			int c = *(data - SCREEN_WIDTH + 1);
-			int d = *(data - 1);
-			int e = *(data);
-			int f = *(data + 1);
-			int g = *(data + SCREEN_WIDTH - 1);
-			int h = *(data + SCREEN_WIDTH);
-			int i = *(data + SCREEN_WIDTH + 1);
-
-			/* Algorthm described at http://scale2x.sourceforge.net/algorithm.html */
-			if (b != h && d != f) {
-				*gfx1 =  (d == b)                                  ? d : e;
-				*gfx2 = ((d == b && e != g) || (d == h && e != a)) ? d : e;
-				*gfx3 =                        (d == h)            ? d : e;
-				gfx1++; gfx2++; gfx3++;
-				*gfx1 = ((d == b && e != c) || (f == b && e != a)) ? b : e;
-				*gfx2 =                                                  e;
-				*gfx3 = ((d == h && e != i) || (f == h && e != g)) ? h : e;
-				gfx1++; gfx2++; gfx3++;
-				*gfx1 =  (f == b)                                  ? f : e;
-				*gfx2 = ((f == b && e != i) || (f == h && e != g)) ? f : e;
-				*gfx3 =                        (f == h)            ? f : e;
-				gfx1++; gfx2++; gfx3++;
-				data++;
-				continue;
-			}
-
-			value = *data++;
-			*gfx1++ = value;
-			*gfx2++ = value;
-			*gfx3++ = value;
-			*gfx1++ = value;
-			*gfx2++ = value;
-			*gfx3++ = value;
-			*gfx1++ = value;
-			*gfx2++ = value;
-			*gfx3++ = value;
-		}
-
-		/* The right side */
-		value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-
-		gfx1 = gfx3;
-	}
-
-	/* The bottom side */
-	gfx2 = gfx1 + SCREEN_WIDTH * 3;
-	gfx3 = gfx2 + SCREEN_WIDTH * 3;
-	for (x = 0; x < SCREEN_WIDTH; x++) {
-		uint8 value = *data++;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-		*gfx1++ = value;
-		*gfx2++ = value;
-		*gfx3++ = value;
-	}
-	gfx1 = gfx3;
-}
-#	else /* SCREEN_MAGNIFICATION != 2 != 3 */
-#	endif /* SCREEN_MAGNIFICATION */
-#else /* SCREEN_USE_SCALE2X */
-#	if SCREEN_MAGNIFICATION == 2
-static void Video_DrawScreen(void)
-{
-	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	uint8 *gfx1 = s_gfx_screen;
-	uint8 *gfx2;
-	int x, y;
-
-	for (y = 0; y < SCREEN_HEIGHT; y++) {
+	if(s_screen_magnification == 2) {
+		/* The top side */
 		gfx2 = gfx1 + SCREEN_WIDTH * 2;
 		for (x = 0; x < SCREEN_WIDTH; x++) {
 			uint8 value = *data++;
@@ -407,57 +219,232 @@ static void Video_DrawScreen(void)
 			*gfx2++ = value;
 		}
 		gfx1 = gfx2;
-	}
-}
-#	elif SCREEN_MAGNIFICATION == 3
-static void Video_DrawScreen(void)
-{
-	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	uint8 *gfx1 = s_gfx_screen;
-	uint8 *gfx2;
-	uint8 *gfx3;
-	int x, y;
 
-	for (y = 0; y < SCREEN_HEIGHT; y++) {
-		gfx2 = gfx1 + SCREEN_WIDTH * 3;
-		gfx3 = gfx2 + SCREEN_WIDTH * 3;
-		for (x = 0; x < SCREEN_WIDTH; x++) {
-			uint8 value = *data++;
-			*gfx1++ = value;
-			*gfx2++ = value;
-			*gfx3++ = value;
-			*gfx1++ = value;
-			*gfx2++ = value;
-			*gfx3++ = value;
-			*gfx1++ = value;
-			*gfx2++ = value;
-			*gfx3++ = value;
-		}
-		gfx1 = gfx3;
-	}
-}
-#	else /* SCREEN_MAGNIFICATION != 2 != 3 */
-static void Video_DrawScreen(void)
-{
-	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	uint8 *gfx  = s_gfx_screen;
-	int x, y, i, j;
+		for (y = 1; y < SCREEN_HEIGHT - 1; y++) {
+			gfx2 = gfx1 + SCREEN_WIDTH * 2;
 
-	/* The non-optimized works-for-every-magnification method */
-	for (y = 0; y < SCREEN_HEIGHT; y++) {
-		for (x = 0; x < SCREEN_WIDTH; x++) {
-			for (i = 0; i < SCREEN_MAGNIFICATION; i++) {
-				for (j = 0; j < SCREEN_MAGNIFICATION; j++) {
-					*(gfx + SCREEN_WIDTH * SCREEN_MAGNIFICATION * j) = *data;
+			/* The left side */
+			value = *data++;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+
+			for (x = 1; x < SCREEN_WIDTH - 1; x++) {
+				int b = *(data - SCREEN_WIDTH);
+				int d = *(data - 1);
+				int e = *(data);
+				int f = *(data + 1);
+				int h = *(data + SCREEN_WIDTH);
+
+				/* Algorthm described at http://scale2x.sourceforge.net/algorithm.html */
+				if (b != h && d != f) {
+					*gfx1 = (d == b) ? d : e;
+					*gfx2 = (d == h) ? d : e;
+					gfx1++; gfx2++;
+					*gfx1 = (f == b) ? f : e;
+					*gfx2 = (f == h) ? f : e;
+					gfx1++; gfx2++;
+					data++;
+					continue;
 				}
-				gfx++;
+
+				value = *data++;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx1++ = value;
+				*gfx2++ = value;
 			}
-			data++;
+
+			/* The right side */
+			value = *data++;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+
+			gfx1 = gfx2;
 		}
-		gfx += SCREEN_WIDTH * SCREEN_MAGNIFICATION * (SCREEN_MAGNIFICATION - 1);
+
+		/* The bottom side */
+		gfx2 = gfx1 + SCREEN_WIDTH * 2;
+		for (x = 0; x < SCREEN_WIDTH; x++) {
+			uint8 value = *data++;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+		}
+		gfx1 = gfx2;
+	} else if(s_screen_magnification == 3) {
+		/* The top side */
+		gfx2 = gfx1 + SCREEN_WIDTH * 3;
+		gfx3 = gfx2 + SCREEN_WIDTH * 3;
+		for (x = 0; x < SCREEN_WIDTH; x++) {
+			uint8 value = *data++;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+		}
+		gfx1 = gfx3;
+
+		for (y = 1; y < SCREEN_HEIGHT - 1; y++) {
+			gfx2 = gfx1 + SCREEN_WIDTH * 3;
+			gfx3 = gfx2 + SCREEN_WIDTH * 3;
+
+			/* The left side */
+			value = *data++;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+
+			for (x = 1; x < SCREEN_WIDTH - 1; x++) {
+				int a = *(data - SCREEN_WIDTH - 1);
+				int b = *(data - SCREEN_WIDTH);
+				int c = *(data - SCREEN_WIDTH + 1);
+				int d = *(data - 1);
+				int e = *(data);
+				int f = *(data + 1);
+				int g = *(data + SCREEN_WIDTH - 1);
+				int h = *(data + SCREEN_WIDTH);
+				int i = *(data + SCREEN_WIDTH + 1);
+
+				/* Algorthm described at http://scale2x.sourceforge.net/algorithm.html */
+				if (b != h && d != f) {
+					*gfx1 =  (d == b)                                  ? d : e;
+					*gfx2 = ((d == b && e != g) || (d == h && e != a)) ? d : e;
+					*gfx3 =                        (d == h)            ? d : e;
+					gfx1++; gfx2++; gfx3++;
+					*gfx1 = ((d == b && e != c) || (f == b && e != a)) ? b : e;
+					*gfx2 =                                                  e;
+					*gfx3 = ((d == h && e != i) || (f == h && e != g)) ? h : e;
+					gfx1++; gfx2++; gfx3++;
+					*gfx1 =  (f == b)                                  ? f : e;
+					*gfx2 = ((f == b && e != i) || (f == h && e != g)) ? f : e;
+					*gfx3 =                        (f == h)            ? f : e;
+					gfx1++; gfx2++; gfx3++;
+					data++;
+					continue;
+				}
+
+				value = *data++;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx3++ = value;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx3++ = value;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx3++ = value;
+			}
+
+			/* The right side */
+			value = *data++;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+
+			gfx1 = gfx3;
+		}
+
+		/* The bottom side */
+		gfx2 = gfx1 + SCREEN_WIDTH * 3;
+		gfx3 = gfx2 + SCREEN_WIDTH * 3;
+		for (x = 0; x < SCREEN_WIDTH; x++) {
+			uint8 value = *data++;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+			*gfx1++ = value;
+			*gfx2++ = value;
+			*gfx3++ = value;
+		}
+		gfx1 = gfx3;
+	} else {
+		Error("unsupported screen magnification factor : %d\n", s_screen_magnification);
 	}
 }
-#	endif /* SCREEN_MAGNIFICATION */
+#else /* SCREEN_USE_SCALE2X */
+static void Video_DrawScreen(void)
+{
+	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+	uint8 *gfx1 = s_gfx_screen;
+	uint8 *gfx2;
+	uint8 *gfx3;
+	int x, y;
+	int i, j;
+
+	switch(s_screen_magnification) {
+	case 2:
+		for (y = 0; y < SCREEN_HEIGHT; y++) {
+			gfx2 = gfx1 + SCREEN_WIDTH * 2;
+			for (x = 0; x < SCREEN_WIDTH; x++) {
+				uint8 value = *data++;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx1++ = value;
+				*gfx2++ = value;
+			}
+			gfx1 = gfx2;
+		}
+		break;
+	case 3:
+		for (y = 0; y < SCREEN_HEIGHT; y++) {
+			gfx2 = gfx1 + SCREEN_WIDTH * 3;
+			gfx3 = gfx2 + SCREEN_WIDTH * 3;
+			for (x = 0; x < SCREEN_WIDTH; x++) {
+				uint8 value = *data++;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx3++ = value;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx3++ = value;
+				*gfx1++ = value;
+				*gfx2++ = value;
+				*gfx3++ = value;
+			}
+			gfx1 = gfx3;
+		}
+		break;
+	default:
+		/* The non-optimized works-for-every-magnification method */
+		for (y = 0; y < SCREEN_HEIGHT; y++) {
+			for (x = 0; x < SCREEN_WIDTH; x++) {
+				for (i = 0; i < s_screen_magnification; i++) {
+					for (j = 0; j < s_screen_magnification; j++) {
+						*(gfx1 + SCREEN_WIDTH * s_screen_magnification * j) = *data;
+					}
+					gfx1++;
+				}
+				data++;
+			}
+			gfx1 += SCREEN_WIDTH * s_screen_magnification * (s_screen_magnification - 1);
+		}
+	}
+}
 #endif /* SCREEN_USE_SCALE2X */
 
 /**

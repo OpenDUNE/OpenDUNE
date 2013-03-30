@@ -3,7 +3,7 @@
 #ifndef VIDEO_VIDEO_H
 #define VIDEO_VIDEO_H
 
-extern bool Video_Init(void);
+extern bool Video_Init(int screen_magnification);
 extern void Video_Uninit(void);
 extern void Video_Tick(void);
 extern void Video_SetPalette(void *palette, int from, int length);
