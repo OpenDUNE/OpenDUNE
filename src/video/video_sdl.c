@@ -12,9 +12,7 @@
 #include "../input/mouse.h"
 #include "../opendune.h"
 
-/** When enabled, it uses a non-linear approach to scaling as described at http://scale2x.sourceforge.net/algorithm.html */
-#define SCREEN_USE_SCALE2X
-#undef SCREEN_USE_SCALE2X
+static VideoScaleFilter s_scale_filter;
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 static int s_screen_magnification;
@@ -153,13 +151,14 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 /**
  * Initialize the video driver.
  */
-bool Video_Init(int screen_magnification)
+bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
+	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -194,12 +193,7 @@ void Video_Uninit(void)
 	SDL_Quit();
 }
 
-/**
- * Because we rarely want to draw in 320x200, this function copies from the
- *  320x200 buffer to the real screen, scaling where needed.
- */
-#if defined(SCREEN_USE_SCALE2X)
-static void Video_DrawScreen(void)
+static void Video_DrawScreen_Scale2x(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx1 = s_gfx_screen;
@@ -386,8 +380,8 @@ static void Video_DrawScreen(void)
 		Error("unsupported screen magnification factor : %d\n", s_screen_magnification);
 	}
 }
-#else /* SCREEN_USE_SCALE2X */
-static void Video_DrawScreen(void)
+
+static void Video_DrawScreen_Nearest_Neighbor(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx1 = s_gfx_screen;
@@ -445,7 +439,24 @@ static void Video_DrawScreen(void)
 		}
 	}
 }
-#endif /* SCREEN_USE_SCALE2X */
+
+/**
+ * Because we rarely want to draw in 320x200, this function copies from the
+ *  320x200 buffer to the real screen, scaling where needed.
+ */
+static void Video_DrawScreen(void)
+{
+	switch(s_scale_filter) {
+	case FILTER_NEAREST_NEIGHBOR:
+		Video_DrawScreen_Nearest_Neighbor();
+		break;
+	case FILTER_SCALE2X:
+		Video_DrawScreen_Scale2x();
+		break;
+	default:
+		Error("Unsupported scale filter\n");
+	}
+}
 
 /**
  * Runs every tick to handle video driver updates.
