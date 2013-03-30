@@ -17,7 +17,7 @@
 #include "../input/mouse.h"
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
-#define SCREEN_MAGNIFICATION 2
+static int s_screen_magnification;
 
 static const char *s_className = "OpenDUNE";
 static bool s_init = false;
@@ -145,7 +145,7 @@ static uint16 MapKey(WPARAM vk)
  */
 static void Video_Mouse_Callback(void)
 {
-	Mouse_EventHandler(s_mousePosX / SCREEN_MAGNIFICATION, s_mousePosY / SCREEN_MAGNIFICATION, s_mouseButtonLeft, s_mouseButtonRight);
+	Mouse_EventHandler(s_mousePosX / s_screen_magnification, s_mousePosY / s_screen_magnification, s_mouseButtonLeft, s_mouseButtonRight);
 }
 
 static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -180,7 +180,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			dc = BeginPaint(hwnd, &ps);
 			dc2 = CreateCompatibleDC(dc);
 			old_bmp = (HBITMAP)SelectObject(dc2, s_dib);
-			StretchBlt(dc, 0, 0, SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+			StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
 			SelectObject(dc2, old_bmp);
 			DeleteDC(dc2);
 			EndPaint(hwnd, &ps);
@@ -273,7 +273,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-bool Video_Init(void)
+bool Video_Init(int screen_magnification)
 {
 	WNDCLASS wc;
 	HINSTANCE hInstance;
@@ -281,6 +281,11 @@ bool Video_Init(void)
 	HDC dc;
 
 	if (s_init) return true;
+	if (screen_magnification <= 0 || screen_magnification > 4) {
+		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
+		return false;
+	}
+	s_screen_magnification = screen_magnification;
 
 	hInstance = GetModuleHandle(NULL);
 
@@ -347,8 +352,8 @@ void Video_Tick(void)
 
 		r.left   = 0;
 		r.top    = 0;
-		r.right  = SCREEN_WIDTH * SCREEN_MAGNIFICATION;
-		r.bottom = SCREEN_HEIGHT * SCREEN_MAGNIFICATION;
+		r.right  = SCREEN_WIDTH * s_screen_magnification;
+		r.bottom = SCREEN_HEIGHT * s_screen_magnification;
 		AdjustWindowRect(&r, style, false);
 
 		s_hwnd = CreateWindow(s_className, window_caption, style, CW_USEDEFAULT, CW_USEDEFAULT, r.right - r.left, r.bottom - r.top, NULL, NULL, GetModuleHandle(NULL), NULL);
@@ -408,13 +413,13 @@ void Video_SetPalette(void *palette, int from, int length)
 
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SetCursorPos(s_x + x * SCREEN_MAGNIFICATION, s_y + y * SCREEN_MAGNIFICATION);
+	SetCursorPos(s_x + x * s_screen_magnification, s_y + y * s_screen_magnification);
 }
 
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX * SCREEN_MAGNIFICATION;
-	s_mouseMaxX = maxX * SCREEN_MAGNIFICATION;
-	s_mouseMinY = minY * SCREEN_MAGNIFICATION;
-	s_mouseMaxY = maxY * SCREEN_MAGNIFICATION;
+	s_mouseMinX = minX * s_screen_magnification;
+	s_mouseMaxX = maxX * s_screen_magnification;
+	s_mouseMinY = minY * s_screen_magnification;
+	s_mouseMaxY = maxY * s_screen_magnification;
 }

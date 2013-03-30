@@ -1120,11 +1120,11 @@ static void GameLoop_Main(void)
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 }
 
-static bool Unknown_25C4_000E(void)
+static bool Unknown_25C4_000E(int screen_magnification)
 {
 	Timer_Init();
 
-	if (!Video_Init()) return false;
+	if (!Video_Init(screen_magnification)) return false;
 
 	Mouse_Init();
 
@@ -1216,7 +1216,7 @@ int main(int argc, char **argv)
 
 	Drivers_All_Init();
 
-	if (!Unknown_25C4_000E()) exit(1);
+	if (!Unknown_25C4_000E(2)) exit(1);
 
 	g_var_7097 = 0;
 
