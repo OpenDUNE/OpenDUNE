@@ -689,9 +689,11 @@ void *File_ReadWholeFile(const char *filename)
 uint16 *File_ReadWholeFileLE16(const char *filename)
 {
 	uint8 index;
-	uint32 i;
 	uint32 count;
 	uint16 *buffer;
+#if __BYTE_ORDER == __BIG_ENDIAN
+	uint32 i;
+#endif
 
 	index = File_Open(filename, 1);
 	count = File_GetSize(index) / sizeof(uint16);
