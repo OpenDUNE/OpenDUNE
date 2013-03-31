@@ -540,10 +540,11 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	s_video_lock = true;
 
+	/* convert from 6bit to 8bit per component */
 	for (i = from; i < from + length; i++) {
-		paletteRGB[i].r = ((*p++) & 0x3F) * 4;
-		paletteRGB[i].g = ((*p++) & 0x3F) * 4;
-		paletteRGB[i].b = ((*p++) & 0x3F) * 4;
+		paletteRGB[i].r = (((*p++) & 0x3F) * 0x41) >> 4;
+		paletteRGB[i].g = (((*p++) & 0x3F) * 0x41) >> 4;
+		paletteRGB[i].b = (((*p++) & 0x3F) * 0x41) >> 4;
 	}
 
 	SDL_SetPalette(s_gfx_surface, SDL_LOGPAL | SDL_PHYSPAL, paletteRGB, from, length);
