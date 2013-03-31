@@ -417,6 +417,9 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\video\video.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
     <ClInclude Include="..\src\video\video.h"/>
     <ClCompile Include="..\src\video\video_sdl.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>

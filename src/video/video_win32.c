@@ -315,6 +315,8 @@ bool Video_Init(void)
 	}
 	ReleaseDC(NULL, dc);
 
+	Video_ThreadInit();
+
 	s_init = true;
 	return true;
 }
@@ -327,6 +329,7 @@ void Video_Uninit(void)
 	UnregisterClass(s_className, GetModuleHandle(NULL));
 	ShowCursor(TRUE);
 	s_init = false;
+	Video_ThreadUnInit();
 }
 
 void Video_Tick(void)

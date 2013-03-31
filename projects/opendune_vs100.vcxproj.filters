@@ -492,6 +492,9 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <Filter>src\table</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\video\video.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
     <ClInclude Include="..\src\video\video.h">
       <Filter>src\video</Filter>
     </ClInclude>

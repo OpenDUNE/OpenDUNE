@@ -174,6 +174,8 @@ bool Video_Init(void)
 	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
 	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * SCREEN_MAGNIFICATION * SCREEN_MAGNIFICATION);
 
+	Video_ThreadInit();
+
 	s_video_initialized = true;
 
 	return true;
@@ -185,6 +187,7 @@ bool Video_Init(void)
 void Video_Uninit(void)
 {
 	s_video_initialized = false;
+	Video_ThreadUnInit();
 	SDL_Quit();
 }
 
