@@ -225,6 +225,9 @@
     <ClCompile Include="..\src\audio\midi_none.c">
       <Filter>src\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\audio\midi_osx.c">
+      <Filter>src\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\audio\midi_win32.c">
       <Filter>src\audio</Filter>
     </ClCompile>

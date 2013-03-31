@@ -203,6 +203,10 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\audio\midi_osx.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src\audio\midi_win32.c">
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
