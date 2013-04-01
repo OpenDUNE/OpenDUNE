@@ -321,7 +321,7 @@ uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette)
 	uint32 header;
 
 	index = File_Open(filename, FILE_MODE_READ);
-	if (index == 0xFF) return 0;
+	if (index == FILE_INVALID) return 0;
 
 	File_Read(index, &header, 4);
 	File_Close(index);
