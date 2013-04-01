@@ -176,6 +176,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HDC dc2;
 			HBITMAP old_bmp;
 
+			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
 			dc = BeginPaint(hwnd, &ps);
 			dc2 = CreateCompatibleDC(dc);
 			old_bmp = (HBITMAP)SelectObject(dc2, s_dib);
