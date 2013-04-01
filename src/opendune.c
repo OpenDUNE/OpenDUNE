@@ -693,10 +693,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 			memmove(g_palette1, g_palette_998A, 256 * 3);
 
 			if (!g_canSkipIntro) {
-				uint8 fileID;
-
-				fileID = File_Open("ONETIME.DAT", 2);
-				File_Close(fileID);
+				File_Create("ONETIME.DAT");
 				g_canSkipIntro = true;
 			}
 

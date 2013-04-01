@@ -170,7 +170,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 
 			Tools_RandomLCG_Seed(0x21433412);
 
-			g_mouseFileID = File_Open(filename, 3);
+			g_mouseFileID = File_Open(filename, FILE_MODE_READ | FILE_MODE_WRITE);
 
 			g_mouseMode = mouseMode;
 
@@ -181,7 +181,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 
 		case INPUT_MOUSE_MODE_PLAY:
 			if (g_mouseFileID == 0xFF) {
-				g_mouseFileID = File_Open(filename, 1);
+				g_mouseFileID = File_Open(filename, FILE_MODE_READ);
 
 				Tools_RandomLCG_Seed(0x21433412);
 			}

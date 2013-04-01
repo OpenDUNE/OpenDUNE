@@ -2572,7 +2572,7 @@ static uint32 GUI_FactoryWindow_LoadGraymapTbl(void)
 {
 	uint8 fileID;
 
-	fileID = File_Open("GRAYRMAP.TBL", 1);
+	fileID = File_Open("GRAYRMAP.TBL", FILE_MODE_READ);
 	File_Read(fileID, s_factoryWindowGraymapTbl, 256);
 	File_Close(fileID);
 
@@ -4196,7 +4196,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 		GUI_HallOfFame_Encode(data);
 
-		fileID = File_Open("SAVEFAME.DAT", 2);
+		fileID = File_Open("SAVEFAME.DAT", FILE_MODE_WRITE);
 		written = File_Write(fileID, data, 128);
 		File_Close(fileID);
 
@@ -4259,7 +4259,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 		GUI_HallOfFame_Encode(data);
 
-		fileID = File_Open("SAVEFAME.DAT", 2);
+		fileID = File_Open("SAVEFAME.DAT", FILE_MODE_WRITE);
 		File_Write(fileID, data, 128);
 		File_Close(fileID);
 	}

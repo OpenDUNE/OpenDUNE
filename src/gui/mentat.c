@@ -933,7 +933,7 @@ static void GUI_Mentat_ShowHelp(void)
 	text = g_readBuffer;
 	compressedText = GFX_Screen_Get_ByIndex(SCREEN_1);
 
-	fileID = File_Open(s_mentatFilename, 1);
+	fileID = File_Open(s_mentatFilename, FILE_MODE_READ);
 	File_Seek(fileID, offset, 0);
 	File_Read(fileID, compressedText, info.length);
 	String_Decompress(compressedText, text);

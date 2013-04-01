@@ -407,7 +407,7 @@ void *Sound_Unknown0823(const char *filename, uint32 *retFileSize)
 
 	if (filename == NULL || !File_Exists(filename)) return NULL;
 
-	fileIndex = File_Open(filename, 1);
+	fileIndex = File_Open(filename, FILE_MODE_READ);
 	fileSize  = File_GetSize(fileIndex);
 	File_Close(fileIndex);
 

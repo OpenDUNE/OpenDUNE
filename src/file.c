@@ -166,7 +166,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	FileInfo * fileInfo;
 	FileInfo * pakInfo = NULL;
 
-	if ((mode & 1) == 0 && (mode & 2) == 0) return FILE_INVALID;
+	if ((mode & 3) == 0) return FILE_INVALID;
 
 	/* Find a free spot in our limited array */
 	for (fileIndex = 0; fileIndex < FILE_MAX; fileIndex++) {
@@ -175,14 +175,14 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (fileIndex == FILE_MAX) return FILE_INVALID;
 
 	/* Check if we can find the file outside any PAK file */
-	s_file[fileIndex].fp = fopendatadir(filename, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
+	s_file[fileIndex].fp = fopendatadir(filename, (mode == FILE_MODE_WRITE) ? "wb" : ((mode == (FILE_MODE_READ | FILE_MODE_WRITE)) ? "wb+" : "rb"));
 	if (s_file[fileIndex].fp != NULL) {
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
 		s_file[fileIndex].size     = 0;
 
 		/* We can only check the size of the file if we are reading (or appending) */
-		if ((mode & 1) != 0) {
+		if ((mode & FILE_MODE_READ) != 0) {
 			fseek(s_file[fileIndex].fp, 0, SEEK_END);
 			s_file[fileIndex].size = ftell(s_file[fileIndex].fp);
 			fseek(s_file[fileIndex].fp, 0, SEEK_SET);
@@ -192,7 +192,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	}
 
 	/* We never allow writing of files inside PAKs */
-	if ((mode & 2) != 0) return FILE_INVALID;
+	if ((mode & FILE_MODE_WRITE) != 0) return FILE_INVALID;
 
 	fileInfo = FileInfo_Find_ByName(filename, &pakInfo);
 
@@ -392,7 +392,7 @@ bool File_Exists(const char *filename)
 
 	g_fileOperation++;
 
-	index = _File_Open(filename, 1);
+	index = _File_Open(filename, FILE_MODE_READ);
 	if (index == FILE_INVALID) {
 		g_fileOperation--;
 		return false;
@@ -637,7 +637,7 @@ void File_Create(const char *filename)
 
 	g_fileOperation++;
 
-	index = _File_Open(filename, 2);
+	index = _File_Open(filename, FILE_MODE_WRITE);
 	if (index == FILE_INVALID) {
 		g_fileOperation--;
 		return;
@@ -659,7 +659,7 @@ uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length)
 {
 	uint8 index;
 
-	index = File_Open(filename, 1);
+	index = File_Open(filename, FILE_MODE_READ);
 	length = File_Read(index, buffer, length);
 	File_Close(index);
 	return length;
@@ -678,7 +678,7 @@ void *File_ReadWholeFile(const char *filename)
 	uint32 length;
 	void *buffer;
 
-	index = File_Open(filename, 1);
+	index = File_Open(filename, FILE_MODE_READ);
 	length = File_GetSize(index);
 
 	buffer = malloc(length + 1);
@@ -709,7 +709,7 @@ uint16 *File_ReadWholeFileLE16(const char *filename)
 	uint32 i;
 #endif
 
-	index = File_Open(filename, 1);
+	index = File_Open(filename, FILE_MODE_READ);
 	count = File_GetSize(index) / sizeof(uint16);
 
 	buffer = malloc(count * sizeof(uint16));
@@ -741,7 +741,7 @@ uint32 File_ReadFile(const char *filename, void *buf)
 	uint8 index;
 	uint32 length;
 
-	index = File_Open(filename, 1);
+	index = File_Open(filename, FILE_MODE_READ);
 	length = File_Seek(index, 0, 2);
 	File_Seek(index, 0, 0);
 	File_Read(index, buf, length);
@@ -761,10 +761,10 @@ uint8 ChunkFile_Open(const char *filename)
 	uint8 index;
 	uint32 header;
 
-	index = File_Open(filename, 1);
+	index = File_Open(filename, FILE_MODE_READ);
 	File_Close(index);
 
-	index = File_Open(filename, 1);
+	index = File_Open(filename, FILE_MODE_READ);
 
 	File_Read(index, &header, 4);
 

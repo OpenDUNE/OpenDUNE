@@ -83,7 +83,7 @@ void GameOptions_Save(void)
 {
 	uint8 index;
 
-	index = File_Open("OPTIONS.CFG", 2);
+	index = File_Open("OPTIONS.CFG", FILE_MODE_WRITE);
 
 	File_Write_LE16(index, g_gameConfig.music);
 	File_Write_LE16(index, g_gameConfig.sounds);

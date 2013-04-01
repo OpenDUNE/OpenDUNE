@@ -22,6 +22,13 @@ typedef struct FileInfo {
 	} flags;                                                /*!< General flags of the FileInfo. */
 } FileInfo;
 
+/**
+ * File modes for File_Open()
+ * The values can be or'd
+ */
+#define FILE_MODE_READ	0x01
+#define FILE_MODE_WRITE	0x02
+
 extern uint16 g_fileOperation;
 
 extern bool File_Init(void);
