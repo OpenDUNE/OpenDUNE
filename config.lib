@@ -679,6 +679,7 @@ make_compiler_cflags() {
 		fi
 
 		flags="$flags -ansi -pedantic"
+		flags="$flags -fno-common"
 		flags="$flags -Wall -Wsign-compare -Wundef"
 		flags="$flags -Wwrite-strings -Wpointer-arith"
 		flags="$flags -W -Wredundant-decls"
