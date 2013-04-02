@@ -18,7 +18,7 @@ typedef enum Language {
 	LANGUAGE_FRENCH      = 1,
 	LANGUAGE_GERMAN      = 2,
 	LANGUAGE_ITALIAN     = 3,
-	LANGUAGE_SPANSIH     = 4,
+	LANGUAGE_SPANISH     = 4,
 
 	LANGUAGE_MAX         = 5,
 	LANGUAGE_INVALID     = 0xFF
