@@ -42,6 +42,7 @@ extern bool g_enableSoundMusic;
 extern bool g_enableVoices;
 
 extern bool Config_Read(const char *filename, DuneCfg *config);
+extern bool Config_Write(const char *filename, DuneCfg *config);
 extern bool GameOptions_Load(void);
 extern void GameOptions_Save(void);
 

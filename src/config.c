@@ -53,6 +53,39 @@ bool Config_Read(const char *filename, DuneCfg *config)
 }
 
 /**
+ * encode and write the config
+ *
+ * @param filename The name of file containing config.
+ * @param config The address where the config will be read.
+ * @return True if successful.
+ */
+bool Config_Write(const char * filename, DuneCfg *config)
+{
+	FILE *f;
+	size_t write;
+	uint8 coded[sizeof(DuneCfg)];
+	uint8 sum;
+	uint8 *c1, *c2;
+	int8 i;
+
+	f = fopendatadir(filename, "wb");
+	if (f == NULL) return false;
+
+	sum = 0;
+	for (c1 = (uint8 *)config, c2 = coded, i = 7; i >= 0; c1++, c2++, i--) {
+		*c2 = (*c1 + i) ^ 0xA5;
+		sum += *c1;
+	}
+	/* Language */
+	*c2++ = *c1++;
+	sum ^= 0xA5;
+	*c2 = sum;
+	write = fwrite(coded, 1, sizeof(DuneCfg), f);
+	fclose(f);
+	return (write == sizeof(DuneCfg));
+}
+
+/**
  * Loads the game options.
  *
  * @return True if loading is successful.
