@@ -13,14 +13,18 @@
 #include "../opendune.h"
 
 #include "scalebit.h"
+#include "hqx.h"
 
 static VideoScaleFilter s_scale_filter;
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 static int s_screen_magnification;
 
+/** The palette used for HQX */
+static uint32 rgb_palette[256];
+static bool s_screen_needrepaint = false;
+
 static SDL_Surface *s_gfx_surface = NULL;
-static uint8 *s_gfx_screen = NULL;
 
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
@@ -162,6 +166,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
+	if (filter == FILTER_HQX) {
+		hqxInit();
+	}
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		Error("Could not initialize SDL: %s\n", SDL_GetError());
@@ -169,7 +176,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 
 	SDL_WM_SetCaption(window_caption, "");
-	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_SWSURFACE | SDL_HWPALETTE);
+	if (filter == FILTER_HQX) {
+		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_SWSURFACE);
+	} else {
+		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_SWSURFACE | SDL_HWPALETTE);
+	}
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;
@@ -178,8 +189,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
-	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification);
+	memset(s_gfx_surface->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification);
 
 	s_video_initialized = true;
 
@@ -198,13 +208,40 @@ void Video_Uninit(void)
 static void Video_DrawScreen_Scale2x(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	scale(s_screen_magnification, s_gfx_screen, s_screen_magnification * SCREEN_WIDTH, data, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+	scale(s_screen_magnification, s_gfx_surface->pixels, s_screen_magnification * SCREEN_WIDTH, data, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+static void Video_DrawScreen_Hqx(void)
+{
+	static uint32 rgb_screen[SCREEN_WIDTH*SCREEN_HEIGHT];
+	uint8 *p;
+	uint32 *rgb;
+	int i;
+
+	i = SCREEN_WIDTH*SCREEN_HEIGHT;
+	p = GFX_Screen_Get_ByIndex(SCREEN_0);
+	rgb = rgb_screen;
+	do {
+		*rgb++ = rgb_palette[*p++];
+	} while(--i > 0);
+
+	switch(s_screen_magnification) {
+	case 2:
+		hq2x_32(rgb_screen, s_gfx_surface->pixels, SCREEN_WIDTH, SCREEN_HEIGHT);
+		break;
+	case 3:
+		hq3x_32(rgb_screen, s_gfx_surface->pixels, SCREEN_WIDTH, SCREEN_HEIGHT);
+		break;
+	case 4:
+		hq4x_32(rgb_screen, s_gfx_surface->pixels, SCREEN_WIDTH, SCREEN_HEIGHT);
+		break;
+	}
 }
 
 static void Video_DrawScreen_Nearest_Neighbor(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	uint8 *gfx1 = s_gfx_screen;
+	uint8 *gfx1 = s_gfx_surface->pixels;
 	uint8 *gfx2;
 	uint8 *gfx3;
 	int x, y;
@@ -273,6 +310,9 @@ static void Video_DrawScreen(void)
 	case FILTER_SCALE2X:
 		Video_DrawScreen_Scale2x();
 		break;
+	case FILTER_HQX:
+		Video_DrawScreen_Hqx();
+		break;
 	default:
 		Error("Unsupported scale filter\n");
 	}
@@ -331,7 +371,7 @@ void Video_Tick(void)
 	}
 
 	/* Do a quick compare to see if the screen changed at all */
-	if (memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
+	if (!s_screen_needrepaint && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
 		s_video_lock = false;
 		return;
 	}
@@ -340,6 +380,7 @@ void Video_Tick(void)
 	Video_DrawScreen();
 
 	SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
+	s_screen_needrepaint = false;
 
 	s_video_lock = false;
 }
@@ -358,14 +399,24 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	s_video_lock = true;
 
-	/* convert from 6bit to 8bit per component */
-	for (i = from; i < from + length; i++) {
-		paletteRGB[i].r = (((*p++) & 0x3F) * 0x41) >> 4;
-		paletteRGB[i].g = (((*p++) & 0x3F) * 0x41) >> 4;
-		paletteRGB[i].b = (((*p++) & 0x3F) * 0x41) >> 4;
-	}
+	if (s_scale_filter == FILTER_HQX) {
+		uint32 value;
+		for (i = from; i < from + length; i++) {
+			value = (((*p++) & 0x3F) * 0x41000) & 0xff0000;
+			value |= (((*p++) & 0x3F) * 0x410) & 0x00ff00;
+			rgb_palette[i] = value | ((((*p++) & 0x3F) * 0x41)>> 4);
+		}
+		s_screen_needrepaint = true;
+	} else {
+		/* convert from 6bit to 8bit per component */
+		for (i = from; i < from + length; i++) {
+			paletteRGB[i].r = (((*p++) & 0x3F) * 0x41) >> 4;
+			paletteRGB[i].g = (((*p++) & 0x3F) * 0x41) >> 4;
+			paletteRGB[i].b = (((*p++) & 0x3F) * 0x41) >> 4;
+		}
 
-	SDL_SetPalette(s_gfx_surface, SDL_LOGPAL | SDL_PHYSPAL, paletteRGB, from, length);
+		SDL_SetPalette(s_gfx_surface, SDL_LOGPAL | SDL_PHYSPAL, paletteRGB, from, length);
+	}
 
 	s_video_lock = false;
 }
