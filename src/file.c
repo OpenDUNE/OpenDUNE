@@ -529,6 +529,20 @@ uint32 File_Write(uint8 index, void *buffer, uint32 length)
 }
 
 /**
+ * Write a 16bit unsigned to the file (written on disk in Little endian)
+ *
+ * @param index The index given by File_Open() of the file.
+ * @param value The 16bit unsigned integer
+ * @return true if the operation succeeded
+ */
+bool File_Write_LE16(uint8 index, uint16 value)
+{
+	uint8 buffer[2];
+	WRITE_LE_UINT16(buffer, value);
+	return (File_Write(index, buffer, 2) == 2);
+}
+
+/**
  * Seek inside a file.
  *
  * @param index The index given by File_Open() of the file.
