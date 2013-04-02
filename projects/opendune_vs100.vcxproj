@@ -428,6 +428,28 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
+    <ClInclude Include="..\src\video\common.h"/>
+    <ClCompile Include="..\src\video\hq2x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hqx.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\hqx.h"/>
+    <ClCompile Include="..\src\video\hqx_init.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src\video\scale2x.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
