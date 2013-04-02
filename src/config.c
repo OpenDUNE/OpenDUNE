@@ -59,9 +59,16 @@ bool Config_Read(const char *filename, DuneCfg *config)
  */
 bool GameOptions_Load(void)
 {
-	if (!File_Exists("OPTIONS.CFG")) return false;
+	uint8 index;
 
-	File_ReadBlockFile("OPTIONS.CFG", &g_gameConfig, sizeof(g_gameConfig));
+	index = File_Open("OPTIONS.CFG", 1);
+	if (index == FILE_INVALID) return false;
+
+	g_gameConfig.music = File_Read_LE16(index);
+	g_gameConfig.sounds = File_Read_LE16(index);
+	g_gameConfig.gameSpeed = File_Read_LE16(index);
+	g_gameConfig.hints = File_Read_LE16(index);
+	g_gameConfig.autoScroll = File_Read_LE16(index);
 
 	return true;
 }
@@ -75,7 +82,11 @@ void GameOptions_Save(void)
 
 	index = File_Open("OPTIONS.CFG", 2);
 
-	File_Write(index, &g_gameConfig, sizeof(g_gameConfig));
+	File_Write_LE16(index, g_gameConfig.music);
+	File_Write_LE16(index, g_gameConfig.sounds);
+	File_Write_LE16(index, g_gameConfig.gameSpeed);
+	File_Write_LE16(index, g_gameConfig.hints);
+	File_Write_LE16(index, g_gameConfig.autoScroll);
 
 	File_Close(index);
 

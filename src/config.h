@@ -24,19 +24,16 @@ typedef struct DuneCfg {
 MSVC_PACKED_END
 assert_compile(sizeof(DuneCfg) == 0xA);
 
-MSVC_PACKED_BEGIN
 /**
- * This is the layout of decoded dune.cfg.
+ * This is the layout of options.cfg.
  */
 typedef struct GameCfg {
-	/* 0000(2)   */ PACK uint16 music;                      /*!< 0:Off, 1:On. */
-	/* 0002(2)   */ PACK uint16 sounds;                     /*!< 0:Off, 1:On. */
-	/* 0004(2)   */ PACK uint16 gameSpeed;                  /*!< 0:Slowest, 1:Slow, 2:Normal, 3:Fast, 4:Fastest. */
-	/* 0006(2)   */ PACK uint16 hints;                      /*!< 0:Off, 1:On. */
-	/* 0008(2)   */ PACK uint16 autoScroll;                 /*!< 0:Off, 1:On. */
-} GCC_PACKED GameCfg;
-MSVC_PACKED_END
-assert_compile(sizeof(GameCfg) == 0xA);
+	uint16 music;                      /*!< 0:Off, 1:On. */
+	uint16 sounds;                     /*!< 0:Off, 1:On. */
+	uint16 gameSpeed;                  /*!< 0:Slowest, 1:Slow, 2:Normal, 3:Fast, 4:Fastest. */
+	uint16 hints;                      /*!< 0:Off, 1:On. */
+	uint16 autoScroll;                 /*!< 0:Off, 1:On. */
+} GameCfg;
 
 extern GameCfg g_gameConfig;
 extern DuneCfg g_config;
