@@ -70,6 +70,8 @@ bool GameOptions_Load(void)
 	g_gameConfig.hints = File_Read_LE16(index);
 	g_gameConfig.autoScroll = File_Read_LE16(index);
 
+	File_Close(index);
+
 	return true;
 }
 
