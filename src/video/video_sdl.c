@@ -161,19 +161,6 @@ bool Video_Init(void)
 		return false;
 	}
 
-	SDL_WM_SetCaption(window_caption, "");
-	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, 8, SDL_SWSURFACE | SDL_HWPALETTE);
-	if (s_gfx_surface == NULL) {
-		Error("Could not set resolution: %s\n", SDL_GetError());
-		return false;
-	}
-
-	SDL_ShowCursor(SDL_DISABLE);
-	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-	s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
-	memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * SCREEN_MAGNIFICATION * SCREEN_MAGNIFICATION);
-
 	Video_ThreadInit();
 
 	s_video_initialized = true;
@@ -476,6 +463,22 @@ void Video_Tick(void)
 
 	if (s_video_lock) return;
 	s_video_lock = true;
+
+	if (s_gfx_surface == NULL) {
+		SDL_WM_SetCaption(window_caption, "");
+		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, 8, SDL_SWSURFACE | SDL_HWPALETTE);
+		if (s_gfx_surface == NULL) {
+			Error("Could not set resolution: %s\n", SDL_GetError());
+			PrepareEnd();
+			return;
+		}
+
+		SDL_ShowCursor(SDL_DISABLE);
+		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+		s_gfx_screen = (uint8 *)s_gfx_surface->pixels;
+		memset(s_gfx_screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT * SCREEN_MAGNIFICATION * SCREEN_MAGNIFICATION);
+	}
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;
