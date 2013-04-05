@@ -954,17 +954,11 @@ static void Gameloop_Logos(void)
 	
 	WSA_Unload(wsa);
 
-	if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) Voice_LoadVoices(0xFFFF);
+	if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+	Voice_LoadVoices(0xFFFF);
 
 	for (; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
-
-		GUI_SetPaletteAnimated(g_palette2, 30);
-
-		GUI_ClearScreen(SCREEN_0);
-
-		GFX_Screen_SetActive(oldScreenID);
-		return;
+		if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 	}
 
 	GUI_SetPaletteAnimated(g_palette2, 60);
@@ -982,14 +976,7 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 60; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
-
-		GUI_SetPaletteAnimated(g_palette2, 30);
-
-		GUI_ClearScreen(SCREEN_0);
-
-		GFX_Screen_SetActive(oldScreenID);
-		return;
+		if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 	}
 
 	GUI_SetPaletteAnimated(g_palette2, 30);
@@ -1003,16 +990,10 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 180; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
-
-		GUI_SetPaletteAnimated(g_palette2, 30);
-
-		GUI_ClearScreen(SCREEN_0);
-
-		GFX_Screen_SetActive(oldScreenID);
-		return;
+		if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 	}
 
+logos_exit:
 	GUI_SetPaletteAnimated(g_palette2, 30);
 
 	GUI_ClearScreen(SCREEN_0);
