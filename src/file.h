@@ -4,6 +4,10 @@
 #define FILE_H
 
 enum {
+	FILE_MODE_READ       = 0x01,
+	FILE_MODE_WRITE      = 0x02,
+	FILE_MODE_READ_WRITE = 0x03,
+
 	FILE_MAX = 20,
 	FILE_INVALID = 0xFF
 };
@@ -21,13 +25,6 @@ typedef struct FileInfo {
     	BIT_U8 inPAKFile:1;                                 /*!< File can be in other PAK file. */
 	} flags;                                                /*!< General flags of the FileInfo. */
 } FileInfo;
-
-/**
- * File modes for File_Open()
- * The values can be or'd
- */
-#define FILE_MODE_READ	0x01
-#define FILE_MODE_WRITE	0x02
 
 extern uint16 g_fileOperation;
 

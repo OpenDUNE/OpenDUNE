@@ -63,7 +63,7 @@ bool GameOptions_Load(void)
 
 	if (!File_Exists("OPTIONS.CFG")) return false;
 
-	index = File_Open("OPTIONS.CFG", 1);
+	index = File_Open("OPTIONS.CFG", FILE_MODE_READ);
 
 	g_gameConfig.music = File_Read_LE16(index);
 	g_gameConfig.sounds = File_Read_LE16(index);

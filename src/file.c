@@ -166,7 +166,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	FileInfo * fileInfo;
 	FileInfo * pakInfo = NULL;
 
-	if ((mode & 3) == 0) return FILE_INVALID;
+	if ((mode & FILE_MODE_READ_WRITE) == 0) return FILE_INVALID;
 
 	/* Find a free spot in our limited array */
 	for (fileIndex = 0; fileIndex < FILE_MAX; fileIndex++) {
@@ -175,7 +175,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (fileIndex == FILE_MAX) return FILE_INVALID;
 
 	/* Check if we can find the file outside any PAK file */
-	s_file[fileIndex].fp = fopendatadir(filename, (mode == FILE_MODE_WRITE) ? "wb" : ((mode == (FILE_MODE_READ | FILE_MODE_WRITE)) ? "wb+" : "rb"));
+	s_file[fileIndex].fp = fopendatadir(filename, (mode == FILE_MODE_WRITE) ? "wb" : ((mode == FILE_MODE_READ_WRITE) ? "wb+" : "rb"));
 	if (s_file[fileIndex].fp != NULL) {
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
