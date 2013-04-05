@@ -132,7 +132,7 @@ uint16 g_fileOperation = 0; /*!< If non-zero, input (keyboard + mouse), video is
 static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo)
 {
 	{
-		FileInfoLinkedElem * e;
+		FileInfoLinkedElem *e;
 		for (e = s_files_in_root; e != NULL; e = e->next) {
 			if (!strcasecmp(e->info.filename, filename)) {
 				if (pakInfo) *pakInfo = NULL;
@@ -141,7 +141,7 @@ static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo)
 		}
 	}
 	{
-		PakFileInfoLinkedElem * e;
+		PakFileInfoLinkedElem *e;
 		for (e = s_files_in_pak; e != NULL; e = e->next) {
 			if (!strcasecmp(e->info.filename, filename)) {
 				if (pakInfo) *pakInfo = e->pak;
@@ -163,8 +163,8 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 {
 	char pakNameComplete[1024];
 	uint8 fileIndex;
-	FileInfo * fileInfo;
-	FileInfo * pakInfo = NULL;
+	FileInfo *fileInfo;
+	FileInfo *pakInfo = NULL;
 
 	if ((mode & FILE_MODE_READ_WRITE) == 0) return FILE_INVALID;
 
