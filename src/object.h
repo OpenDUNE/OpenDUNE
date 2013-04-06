@@ -31,7 +31,8 @@ typedef union {
 		BIT_U8 notused_6_0004:6;
 		BIT_U8 notused_6_0100:8;
 	} s;
-	uint32 all; } ObjectFlags;
+	uint32 all;
+} ObjectFlags;
 
 /**
  * Data common to Structure and Unit.
@@ -40,7 +41,7 @@ typedef struct Object {
 	uint16 index;                                           /*!< The index of the Structure/Unit in the array. */
 	uint8  type;                                            /*!< Type of Structure/Unit. */
 	uint8  linkedID;                                        /*!< Structure/Unit we are linked to, or 0xFF if we are not linked to a Structure/Unit. */
-	ObjectFlags flags;                                    /*!< General flags of the Structure/Unit. */
+	ObjectFlags flags;                                      /*!< General flags of the Structure/Unit. */
 	uint8  houseID;                                         /*!< House of Structure. */
 	uint8  seenByHouses;                                    /*!< Bitmask of which houses have seen this object. */
 	tile32 position;                                        /*!< Position on the map. */
