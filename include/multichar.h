@@ -28,6 +28,6 @@ enum {
 	CC_ODUN = FOURCC('O','D','U','N')  /* OpenDUNE Unit New. */
 };
 
-#undef MULTICHAR
+#undef FOURCC
 
 #endif
