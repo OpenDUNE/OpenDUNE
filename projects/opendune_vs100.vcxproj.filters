@@ -399,6 +399,9 @@
     <ClCompile Include="..\src\saveload\info.c">
       <Filter>src\saveload</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\saveload\map.c">
+      <Filter>src\saveload</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\saveload\object.c">
       <Filter>src\saveload</Filter>
     </ClCompile>

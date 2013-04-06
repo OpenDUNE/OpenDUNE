@@ -94,8 +94,6 @@ extern uint16 Map_SetSelectionSize(uint16 layout);
 extern uint16 Map_SetSelectionObjectPosition(uint16 packed);
 extern void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate);
 extern bool Map_IsValidPosition(uint16 position);
-extern bool Map_Save(FILE *fp);
-extern bool Map_Load(FILE *fp, uint32 length);
 extern bool Map_IsPositionUnveiled(uint16 position);
 extern bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY);
 extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 unitOriginEncoded);

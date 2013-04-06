@@ -70,6 +70,7 @@ rev.c
 save.c
 saveload/house.c
 saveload/info.c
+saveload/map.c
 saveload/object.c
 saveload/saveload.c
 saveload/scenario.c

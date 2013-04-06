@@ -330,6 +330,9 @@
     <ClCompile Include="..\src\saveload\info.c">
       <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\saveload\map.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src\saveload\object.c">
       <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
     </ClCompile>

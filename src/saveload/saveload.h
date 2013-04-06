@@ -146,6 +146,9 @@ extern bool Info_Load(FILE *fp, uint32 length);
 extern bool Info_LoadOld(FILE *fp, uint32 length);
 extern bool Info_Save(FILE *fp);
 
+extern bool Map_Save(FILE *fp);
+extern bool Map_Load(FILE *fp, uint32 length);
+
 extern bool Unit_Load(FILE *fp, uint32 length);
 extern bool Unit_Save(FILE *fp);
 extern bool UnitNew_Load(FILE *fp, uint32 length);
