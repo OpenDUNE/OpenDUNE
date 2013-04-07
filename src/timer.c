@@ -49,7 +49,7 @@ static int s_timerNodeSize  = 0;
 
 static uint32 s_timerLastTime;
 
-static const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
+const uint32 g_timerSpeed = 10000; /* Our timer runs at 100Hz */
 
 
 static uint32 Timer_GetTime(void)
@@ -68,7 +68,7 @@ static uint32 Timer_GetTime(void)
 /**
  * Run the timer interrupt handler.
  */
-static void Timer_InterruptRun(int arg)
+void Timer_InterruptRun(int arg)
 {
 	TimerNode *node;
 	uint32 new_time, usec_delta, delta;
@@ -122,7 +122,7 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 /**
  * Suspend the timer interrupt handling.
  */
-static void Timer_InterruptSuspend(void)
+void Timer_InterruptSuspend(void)
 {
 #if defined(_WIN32)
 	if (s_timerThread != NULL) DeleteTimerQueueTimer(NULL, s_timerThread, NULL);
@@ -135,7 +135,7 @@ static void Timer_InterruptSuspend(void)
 /**
  * Resume the timer interrupt handling.
  */
-static void Timer_InterruptResume(void)
+void Timer_InterruptResume(void)
 {
 #if defined(_WIN32)
 	CreateTimerQueueTimer(&s_timerThread, NULL, Timer_InterruptWindows, NULL, s_timerTime, s_timerTime, WT_EXECUTEINTIMERTHREAD);
@@ -152,13 +152,13 @@ void Timer_Init(void)
 	s_timerLastTime = Timer_GetTime();
 
 #if defined(_WIN32)
-	s_timerTime = s_timerSpeed / 1000;
+	s_timerTime = g_timerSpeed / 1000;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &s_timerMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 #else
 	s_timerTime.it_value.tv_sec = 0;
-	s_timerTime.it_value.tv_usec = s_timerSpeed;
+	s_timerTime.it_value.tv_usec = g_timerSpeed;
 	s_timerTime.it_interval.tv_sec = 0;
-	s_timerTime.it_interval.tv_usec = s_timerSpeed;
+	s_timerTime.it_interval.tv_usec = g_timerSpeed;
 
 	{
 		struct sigaction timerSignal;
@@ -169,7 +169,6 @@ void Timer_Init(void)
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
 #endif /* _WIN32 */
-	Timer_InterruptResume();
 }
 
 /**
@@ -177,7 +176,6 @@ void Timer_Init(void)
  */
 void Timer_Uninit(void)
 {
-	Timer_InterruptSuspend();
 #if defined(_WIN32)
 	CloseHandle(s_timerMainThread);
 #endif /* _WIN32 */

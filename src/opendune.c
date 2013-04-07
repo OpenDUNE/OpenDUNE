@@ -1210,8 +1210,6 @@ int main(int argc, char **argv)
 
 	Input_Init();
 
-	Drivers_All_Init();
-
 	if (!Unknown_25C4_000E()) exit(1);
 
 	g_var_7097 = 0;
@@ -1221,11 +1219,24 @@ int main(int argc, char **argv)
 		thread = Thread_Create(GameLoop_Main, NULL);
 	}
 
+	if (thread == NULL) {
+		Warning("Failed to create GameLoop thread.\nOpenDUNE will run without any audio output.\n");
+		g_enableSoundMusic = false;
+		g_enableVoices = false;
+	}
+
+	Drivers_All_Init();
+
 	if (thread != NULL) {
-		while (!Semaphore_TryLock(s_main_sem)) sleepIdle();
+		while (!Semaphore_TryLock(s_main_sem)) {
+			msleep(g_timerSpeed / 1000);
+			Timer_InterruptRun(0);
+		}
 		Thread_Wait(thread, NULL);
 	} else {
+		Timer_InterruptResume();
 		GameLoop_Main(NULL);
+		Timer_InterruptSuspend();
 	}
 
 	if (s_main_sem != NULL) Semaphore_Destroy(s_main_sem);

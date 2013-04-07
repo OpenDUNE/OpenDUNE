@@ -13,6 +13,7 @@ extern uint32 g_timerGame;
 extern uint32 g_timerInput;
 extern uint32 g_timerSleep;
 extern uint32 g_timerTimeout;
+extern const uint32 g_timerSpeed;
 
 extern void Timer_Sleep(uint16 ticks);
 extern bool Timer_SetTimer(TimerType timer, bool set);
@@ -25,5 +26,9 @@ extern void Timer_Tick(void);
 extern void Timer_Add(void (*callback)(void), uint32 usec_delay);
 extern void Timer_Change(void (*callback)(void), uint32 usec_delay);
 extern void Timer_Remove(void (*callback)(void));
+
+extern void Timer_InterruptSuspend(void);
+extern void Timer_InterruptResume(void);
+extern void Timer_InterruptRun(int arg);
 
 #endif /* OPENDUNE_H */
