@@ -107,6 +107,7 @@ tile.c
 timer.c
 tools.c
 unit.c
+video/video.c
 #if WIN32
 	video/video_win32.c
 #else

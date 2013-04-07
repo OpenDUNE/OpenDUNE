@@ -10,4 +10,10 @@ extern void Video_SetPalette(void *palette, int from, int length);
 extern void Video_Mouse_SetPosition(uint16 x, uint16 y);
 extern void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY);
 
+/* Common functions */
+extern void Video_StartThread(uint32 usec);
+extern void Video_StopThread(void);
+extern void Video_ThreadInit(void);
+extern void Video_ThreadUnInit(void);
+
 #endif /* VIDEO_VIDEO_H */
