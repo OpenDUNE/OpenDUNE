@@ -60,7 +60,8 @@
 #include "unit.h"
 #include "video/video.h"
 
-static Semaphore s_main_sem = NULL;
+static Semaphore s_start_sem = NULL;
+static Semaphore s_stop_sem = NULL;
 
 const char *window_caption = "OpenDUNE - Pre v0.8";
 
@@ -893,6 +894,8 @@ static ThreadStatus WINAPI GameLoop_Main(void *data)
 
 	VARIABLE_NOT_USED(data);
 
+	if (s_start_sem != NULL) Semaphore_Lock(s_start_sem);
+
 	String_Init();
 	Sprites_Init();
 
@@ -1122,7 +1125,7 @@ static ThreadStatus WINAPI GameLoop_Main(void *data)
 
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 
-	Semaphore_Unlock(s_main_sem);
+	if (s_stop_sem != NULL) Semaphore_Unlock(s_stop_sem);
 	return 0;
 }
 
@@ -1214,8 +1217,9 @@ int main(int argc, char **argv)
 
 	g_var_7097 = 0;
 
-	s_main_sem = Semaphore_Create(0);
-	if (s_main_sem != NULL) {
+	s_start_sem = Semaphore_Create(0);
+	s_stop_sem = Semaphore_Create(0);
+	if (s_start_sem != NULL && s_stop_sem != NULL) {
 		thread = Thread_Create(GameLoop_Main, NULL);
 	}
 
@@ -1227,8 +1231,10 @@ int main(int argc, char **argv)
 
 	Drivers_All_Init();
 
+	if (s_start_sem != NULL) Semaphore_Unlock(s_start_sem);
+
 	if (thread != NULL) {
-		while (!Semaphore_TryLock(s_main_sem)) {
+		while (!Semaphore_TryLock(s_stop_sem)) {
 			msleep(g_timerSpeed / 1000);
 			Timer_InterruptRun(0);
 		}
@@ -1239,7 +1245,8 @@ int main(int argc, char **argv)
 		Timer_InterruptSuspend();
 	}
 
-	if (s_main_sem != NULL) Semaphore_Destroy(s_main_sem);
+	if (s_start_sem != NULL) Semaphore_Destroy(s_start_sem);
+	if (s_stop_sem != NULL) Semaphore_Destroy(s_stop_sem);
 
 	printf("%s\n", String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
