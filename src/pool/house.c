@@ -41,9 +41,7 @@ House *House_Find(PoolFindStruct *find)
 
 	for (; find->index < g_houseFindCount; find->index++) {
 		House *h = g_houseFindArray[find->index];
-		if (h == NULL) continue;
-
-		return h;
+		if (h != NULL) return h;
 	}
 
 	return NULL;
@@ -97,9 +95,7 @@ void House_Free(House *h)
 	int i;
 
 	/* Walk the array to find the House we are removing */
-	for (i = 0; i < g_houseFindCount; i++) {
-		if (g_houseFindArray[i] != h) continue;
-		break;
+	for (i = 0; i < g_houseFindCount && g_houseFindArray[i] != h; i++) {
 	}
 	assert(i < g_houseFindCount); /* We should always find an entry */
 
