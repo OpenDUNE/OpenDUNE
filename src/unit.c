@@ -1425,7 +1425,9 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							p.y += offsetY[i];
 							p.x += offsetX[i];
 
-							Map_MakeExplosion(ui->explosionType, p, 200, 0);
+							if (Tile_IsValid(p)) {
+								Map_MakeExplosion(ui->explosionType, p, 200, 0);
+							}
 						}
 					} else if (ui->explosionType != 0xFFFF) {
 						if (ui->flags.impactOnSand && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
