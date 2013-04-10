@@ -49,7 +49,7 @@ tile32 Tile_MakeXY(uint16 x, uint16 y)
  */
 uint8 Tile_GetPosX(tile32 tile)
 {
-	return tile.x >> 8;
+	return (tile.x >> 8) & 0x3f;
 }
 
 /**
@@ -60,7 +60,7 @@ uint8 Tile_GetPosX(tile32 tile)
  */
 uint8 Tile_GetPosY(tile32 tile)
 {
-	return tile.y >> 8;
+	return (tile.y >> 8) & 0x3f;
 }
 
 /**
