@@ -324,6 +324,9 @@
     <ClInclude Include="..\src\os\common.h">
       <Filter>src\os</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\os\endian.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
     <ClInclude Include="..\src\os\endian.h">
       <Filter>src\os</Filter>
     </ClInclude>

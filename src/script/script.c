@@ -296,7 +296,8 @@ bool Script_Run(ScriptEngine *script)
 	if (!Script_IsLoaded(script)) return false;
 	scriptInfo = script->scriptInfo;
 
-	current = BETOH16(*script->script++);
+	current = BETOH16(*script->script);
+	script->script++;
 
 	opcode    = (current >> 8) & 0x1F;
 	parameter = 0;
@@ -310,7 +311,8 @@ bool Script_Run(ScriptEngine *script)
 		parameter = (int16)(int8)(current & 0xFF);
 	} else if ((current & 0x2000) != 0) {
 		/* When this flag is set, the parameter is in the next opcode */
-		parameter = BETOH16(*script->script++);
+		parameter = BETOH16(*script->script);
+		script->script++;
 	}
 
 	switch (opcode) {

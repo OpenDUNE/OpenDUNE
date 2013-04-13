@@ -278,6 +278,10 @@
     </ClCompile>
     <ClInclude Include="..\src\input\mouse.h"/>
     <ClInclude Include="..\src\os\common.h"/>
+    <ClCompile Include="..\src\os\endian.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
     <ClInclude Include="..\src\os\endian.h"/>
     <ClCompile Include="..\src\os\error.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
