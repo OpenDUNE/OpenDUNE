@@ -17,7 +17,7 @@ The latest version of OpenDUNE is always availabe at:
 The latest development version is at:
   https://github.com/OpenDUNE/OpenDUNE
 Our IRC (chat) is at:
-  irc.oftc.net / #OpenDUNE
+  irc://irc.oftc.net/OpenDUNE
 You can report bugs at:
   https://github.com/OpenDUNE/OpenDUNE/issues
 Our wiki is at:
