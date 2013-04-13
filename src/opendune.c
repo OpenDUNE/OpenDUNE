@@ -1379,7 +1379,7 @@ void Game_Init(void)
 }
 
 /**
- * Load a scenario is a safe way, and prepare the game.
+ * Load a scenario in a safe way, and prepare the game.
  * @param houseID The House which is going to play the game.
  * @param scenarioID The Scenario to load.
  */
