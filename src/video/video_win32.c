@@ -389,9 +389,9 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	/* convert from 6bit to 8bit per component */
 	for (i = 0; i < length; i++) {
-		rgb[i].rgbRed      = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbGreen    = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbBlue     = (((*p++) & 0x3F) * 0x41) >> 4;
+		rgb[i].rgbRed      = (((*p++) & 0x3F) * 510 + 53) / 126;
+		rgb[i].rgbGreen    = (((*p++) & 0x3F) * 510 + 53) / 126;
+		rgb[i].rgbBlue     = (((*p++) & 0x3F) * 510 + 53) / 126;
 		rgb[i].rgbReserved = 0;
 	}
 
