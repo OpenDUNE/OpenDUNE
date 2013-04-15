@@ -36,7 +36,7 @@ bool ReadDir_ProcessAllFiles(const char * dirpath, bool (*cb)(const char * name,
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
 		snprintf(path, sizeof(path), "%s%s", dirpath, ffd.cFileName);
-		size = ffd.nFileSizeLow | (ffd.nFileSizeHigh << 16);
+		size = ffd.nFileSizeLow;
 		cb(ffd.cFileName, path, size);
 	} while (FindNextFile(hFind, &ffd) != 0);
 
