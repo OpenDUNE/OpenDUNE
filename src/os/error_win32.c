@@ -15,7 +15,7 @@ void Error(const char *format, ...) {
 	vfprintf(stderr, format, ap);
 	va_end(ap);
 
-	MessageBox(NULL, message, "Error", MB_OK);
+	MessageBox(NULL, message, "Error - OpenDUNE", MB_OK | MB_ICONERROR);
 }
 
 void Warning(const char *format, ...) {
