@@ -10,7 +10,7 @@
 
 #include "../config.h"
 #include "../file.h"
-#include "../opendune.h"
+#include "../string.h"
 
 Font *g_fontIntro = NULL;
 Font *g_fontNew6p = NULL;

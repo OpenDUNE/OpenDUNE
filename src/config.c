@@ -8,9 +8,9 @@
 
 #include "config.h"
 
-#include "opendune.h"
 #include "audio/sound.h"
 #include "file.h"
+#include "string.h"
 
 GameCfg g_gameConfig = { 1, 1, 2, 1, 0 };
 DuneCfg g_config;
