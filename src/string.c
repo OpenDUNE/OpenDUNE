@@ -19,7 +19,7 @@ static char **s_strings = NULL;
 static uint16 s_stringsCount = 0;
 
 const char * const g_languageSuffixes[] = { "ENG", "FRE", "GER", "ITA", "SPA" };
-static const char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";
+static const char * const s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";
 
 /**
  * Decompress a string.
@@ -28,21 +28,18 @@ static const char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieora
  * @param dest The decompressed string.
  * @return The length of decompressed string.
  */
-uint16 String_Decompress(char *source, char *dest)
+uint16 String_Decompress(const char *source, char *dest)
 {
 	uint16 count;
-	char *s;
+	const char *s;
 
 	count = 0;
 
 	for (s = source; *s != '\0'; s++) {
 		uint8 c = *s;
 		if ((c & 0x80) != 0) {
-			c &= 0x78;
-			c >>= 3;
-			dest[count++] = s_stringDecompress[c];
-			c <<= 3;
-			c += (*s & 0x07);
+			c &= 0x7F;
+			dest[count++] = s_stringDecompress[c >> 3];
 			c = s_stringDecompress[c + 16];
 		}
 		dest[count++] = c;
