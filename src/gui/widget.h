@@ -178,8 +178,8 @@ typedef struct WidgetProperties {
 	uint8  fgColourSelected;                                /*!< Foreground colour when 'selected' */
 } WidgetProperties;
 
-extern WidgetInfo g_table_gameWidgetInfo[];
-extern WidgetInfo g_table_factoryWidgetInfo[];
+extern WidgetInfo g_table_gameWidgetInfo[19];
+extern WidgetInfo g_table_factoryWidgetInfo[13];
 
 extern WindowDesc g_optionsWindowDesc;
 extern WindowDesc g_gameControlWindowDesc;
@@ -187,7 +187,7 @@ extern WindowDesc g_yesNoWindowDesc;
 extern WindowDesc g_saveLoadWindowDesc;
 extern WindowDesc g_savegameNameWindowDesc;
 
-extern uint8 g_paletteActive[];
+extern uint8 g_paletteActive[256 * 3];
 extern uint8 *g_palette1;
 extern uint8 *g_palette2;
 extern uint8 *g_paletteMapping1;
@@ -211,7 +211,7 @@ extern uint16 g_curWidgetHeight;
 extern uint8  g_curWidgetFGColourBlink;
 extern uint8  g_curWidgetFGColourNormal;
 
-extern Widget g_table_windowWidgets[];
+extern Widget g_table_windowWidgets[9];
 
 
 extern Widget *GUI_Widget_GetNext(Widget *w);

@@ -69,8 +69,8 @@ struct Widget;
 extern const SelectionTypeStruct g_table_selectionType[];
 
 extern uint8 *g_palette_998A;
-extern uint8 g_remap[];
-extern FactoryWindowItem g_factoryWindowItems[];
+extern uint8 g_remap[256];
+extern FactoryWindowItem g_factoryWindowItems[25];
 extern uint16 g_factoryWindowOrdered;
 extern uint16 g_factoryWindowBase;
 extern uint16 g_factoryWindowTotal;

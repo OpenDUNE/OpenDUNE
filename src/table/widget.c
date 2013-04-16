@@ -6,7 +6,7 @@
 #include "../gui/widget.h"
 #include "strings.h"
 
-Widget g_table_windowWidgets[] = {
+Widget g_table_windowWidgets[9] = {
 	{ /* 0 */
 		/* next                  */ NULL,
 		/* index                 */ 30,
