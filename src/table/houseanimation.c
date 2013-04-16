@@ -5,7 +5,7 @@
 #include "../house.h"
 #include "strings.h"
 
-const HouseAnimation_Animation g_table_houseAnimation_animation[][32] = {
+const HouseAnimation_Animation g_table_houseAnimation_animation[HOUSEANIMATION_MAX][32] = {
 	{ /* 0 - intro */
 		{ /* 0 */
 			/* string     */ "",
@@ -622,7 +622,7 @@ const HouseAnimation_Animation g_table_houseAnimation_animation[][32] = {
 	}
 };
 
-const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
+const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[HOUSEANIMATION_MAX][32] = {
 	{ /* 0 - intro */
 		{ /* 0 */
 			/* stringID       */ STR_PRESENT,
@@ -1546,7 +1546,7 @@ const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 	}
 };
 
-const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[][90] = {
+const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[HOUSEANIMATION_MAX][90] = {
 	{ /* 0 - intro */
 		{ /* 0 */
 			/* animationID   */ 5,

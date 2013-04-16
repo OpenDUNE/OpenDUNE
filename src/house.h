@@ -51,7 +51,9 @@ typedef enum HouseAnimationType {
 	HOUSEANIMATION_LEVEL8_ORDOS     = 6,
 	HOUSEANIMATION_LEVEL9_HARKONNEN = 7,
 	HOUSEANIMATION_LEVEL9_ARTREIDES = 8,
-	HOUSEANIMATION_LEVEL9_ORDOS     = 9
+	HOUSEANIMATION_LEVEL9_ORDOS     = 9,
+
+	HOUSEANIMATION_MAX              = 10
 } HouseAnimationType;
 
 /**
@@ -149,9 +151,9 @@ typedef struct HouseAnimation_SoundEffect {
 } HouseAnimation_SoundEffect;
 
 extern const HouseInfo g_table_houseInfo[];
-extern const HouseAnimation_Animation g_table_houseAnimation_animation[][32];
-extern const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32];
-extern const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[][90];
+extern const HouseAnimation_Animation g_table_houseAnimation_animation[HOUSEANIMATION_MAX][32];
+extern const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[HOUSEANIMATION_MAX][32];
+extern const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[HOUSEANIMATION_MAX][90];
 
 extern House *g_playerHouse;
 extern HouseType g_playerHouseID;
