@@ -4,7 +4,7 @@
 
 #include "../house.h"
 
-const HouseInfo g_table_houseInfo[] = {
+const HouseInfo g_table_houseInfo[HOUSE_MAX] = {
 	{ /* 0 */
 		/* name                 */ "Harkonnen",
 		/* toughness            */ 200,

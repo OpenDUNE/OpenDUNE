@@ -7,7 +7,7 @@
 #include "../unit.h"
 #include "strings.h"
 
-const ActionInfo g_table_actionInfo[] = {
+const ActionInfo g_table_actionInfo[ACTION_MAX] = {
 	{ /* 0 */
 		/* stringID      */ STR_ATTACK,
 		/* name          */ "Attack",

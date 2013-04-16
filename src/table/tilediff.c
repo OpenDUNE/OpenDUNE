@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-const tile32 g_table_tilediff[][8] = {
+const tile32 g_table_tilediff[34][8] = {
 	{ /* 0 */
 		{ /* 0 */ 0, 0 },
 		{ /* 1 */ 0, (uint16)-1 },

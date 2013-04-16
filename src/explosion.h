@@ -32,6 +32,7 @@ typedef enum ExplosionType {
 	EXPLOSION_MINI_ROCKET         = 18,
 	EXPLOSION_SPICE_BLOOM_TREMOR  = 19,
 
+	EXPLOSIONTYPE_MAX             = 20,
 	EXPLOSION_INVALID             = 0xFFFF
 } ExplosionType;
 
@@ -72,7 +73,7 @@ typedef struct Explosion {
 	tile32 position;                                        /*!< Position where this explosion acts. */
 } Explosion;
 
-extern const ExplosionCommandStruct *g_table_explosion[];
+extern const ExplosionCommandStruct *g_table_explosion[EXPLOSIONTYPE_MAX];
 
 extern void Explosion_Init(void);
 extern void Explosion_Start(uint16 explosionType, tile32 position);

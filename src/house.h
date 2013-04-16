@@ -150,7 +150,7 @@ typedef struct HouseAnimation_SoundEffect {
 	uint8  wait;                                            /*!< How long to wait before we play this SoundEffect. */
 } HouseAnimation_SoundEffect;
 
-extern const HouseInfo g_table_houseInfo[];
+extern const HouseInfo g_table_houseInfo[HOUSE_MAX];
 extern const HouseAnimation_Animation g_table_houseAnimation_animation[HOUSEANIMATION_MAX][32];
 extern const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[HOUSEANIMATION_MAX][32];
 extern const HouseAnimation_SoundEffect g_table_houseAnimation_soundEffect[HOUSEANIMATION_MAX][90];

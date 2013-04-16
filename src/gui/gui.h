@@ -26,7 +26,9 @@ typedef enum SelectionType {
 	SELECTIONTYPE_STRUCTURE = 4,                            /*!< Used when selecting a Structure or nothing. */
 	SELECTIONTYPE_DEBUG     = 5,                            /*!< Used when debugging scenario. */
 	SELECTIONTYPE_UNKNOWN6  = 6,                            /*!< ?? */
-	SELECTIONTYPE_INTRO     = 7                             /*!< Used in intro of the game. */
+	SELECTIONTYPE_INTRO     = 7,                            /*!< Used in intro of the game. */
+
+	SELECTIONTYPE_MAX       = 8
 } SelectionType;
 
 /**
@@ -66,7 +68,7 @@ typedef struct SelectionTypeStruct {
 
 struct Widget;
 
-extern const SelectionTypeStruct g_table_selectionType[];
+extern const SelectionTypeStruct g_table_selectionType[SELECTIONTYPE_MAX];
 
 extern uint8 *g_palette_998A;
 extern uint8 g_remap[256];

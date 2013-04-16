@@ -67,8 +67,8 @@ typedef struct LandscapeInfo {
 
 struct Unit;
 
-extern uint16 g_mapSpriteID[];
-extern Tile g_map[];
+extern uint16 g_mapSpriteID[64 * 64];
+extern Tile g_map[64 * 64];
 extern uint8 g_functions[3][3];
 
 extern uint8 g_dirtyMinimap[512];
@@ -81,7 +81,7 @@ extern uint16 g_changedTiles[200];
 extern uint8 g_changedTilesMap[512];
 
 extern const MapInfo g_mapInfos[3];
-extern const tile32 g_table_tilediff[][8];
+extern const tile32 g_table_tilediff[34][8];
 
 extern uint16 g_dirtyViewportCount;
 extern uint16 g_var_3A08;

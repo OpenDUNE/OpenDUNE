@@ -213,9 +213,9 @@ struct Structure;
 
 extern const char * const g_table_movementTypeName[MOVEMENT_MAX];
 
-extern const uint16 g_table_actionsAI[];
-extern const ActionInfo g_table_actionInfo[];
-extern UnitInfo g_table_unitInfo[];
+extern const uint16 g_table_actionsAI[4];
+extern const ActionInfo g_table_actionInfo[ACTION_MAX];
+extern UnitInfo g_table_unitInfo[UNIT_MAX];
 
 extern Unit *g_unitActive;
 extern Unit *g_unitHouseMissile;

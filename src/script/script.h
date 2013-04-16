@@ -77,9 +77,9 @@ extern ScriptInfo *g_scriptStructure;
 extern ScriptInfo *g_scriptTeam;
 extern ScriptInfo *g_scriptUnit;
 
-extern const ScriptFunction g_scriptFunctionsStructure[];
-extern const ScriptFunction g_scriptFunctionsTeam[];
-extern const ScriptFunction g_scriptFunctionsUnit[];
+extern const ScriptFunction g_scriptFunctionsStructure[SCRIPT_FUNCTIONS_COUNT];
+extern const ScriptFunction g_scriptFunctionsTeam[SCRIPT_FUNCTIONS_COUNT];
+extern const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT];
 
 void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
 extern void Script_Load(ScriptEngine *script, uint8 typeID);

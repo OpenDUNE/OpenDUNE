@@ -69,7 +69,9 @@ typedef enum StructureLayout {
 	STRUCTURE_LAYOUT_2x2 = 3,
 	STRUCTURE_LAYOUT_2x3 = 4,
 	STRUCTURE_LAYOUT_3x2 = 5,
-	STRUCTURE_LAYOUT_3x3 = 6
+	STRUCTURE_LAYOUT_3x3 = 6,
+
+	STRUCTURE_LAYOUT_MAX = 7
 } StructureLayout;
 
 /** States a structure can be in */
@@ -121,13 +123,13 @@ typedef struct XYSize {
 struct House;
 struct Widget;
 
-extern StructureInfo g_table_structureInfo[];
-extern const uint16  g_table_structure_layoutTiles[][9];
-extern const uint16  g_table_structure_layoutEdgeTiles[][8];
-extern const uint16  g_table_structure_layoutTileCount[];
-extern const tile32  g_table_structure_layoutTileDiff[];
-extern const XYSize  g_table_structure_layoutSize[];
-extern const int16   g_table_structure_layoutTilesAround[][16];
+extern StructureInfo g_table_structureInfo[STRUCTURE_MAX];
+extern const uint16  g_table_structure_layoutTiles[STRUCTURE_LAYOUT_MAX][9];
+extern const uint16  g_table_structure_layoutEdgeTiles[STRUCTURE_LAYOUT_MAX][8];
+extern const uint16  g_table_structure_layoutTileCount[STRUCTURE_LAYOUT_MAX];
+extern const tile32  g_table_structure_layoutTileDiff[STRUCTURE_LAYOUT_MAX];
+extern const XYSize  g_table_structure_layoutSize[STRUCTURE_LAYOUT_MAX];
+extern const int16   g_table_structure_layoutTilesAround[STRUCTURE_LAYOUT_MAX][16];
 
 extern Structure *g_structureActive;
 extern uint16 g_structureActivePosition;
