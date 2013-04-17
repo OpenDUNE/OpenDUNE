@@ -1194,10 +1194,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	if (!Config_Read("dune.cfg", &g_config)) {
-		Error("Missing dune.cfg file.\n");
-		exit(1);
-	}
+	if (!Config_Read("dune.cfg", &g_config)) g_config.language = LANGUAGE_ENGLISH;
 
 	Input_Init();
 
