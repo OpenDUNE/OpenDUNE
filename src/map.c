@@ -375,11 +375,9 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 
 static bool Map_UpdateWall(uint16 packed)
 {
-	Tile *t;
+	Tile *t = &g_map[packed];
 
-	if (Map_GetLandscapeType(packed) != LST_WALL) return 0;
-
-	t = &g_map[packed];
+	if (Map_GetLandscapeType(packed) != LST_WALL) return false;
 
 	t->groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
 
