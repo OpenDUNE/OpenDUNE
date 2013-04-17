@@ -8,6 +8,7 @@
 
 #include "config.h"
 
+#include "opendune.h"
 #include "audio/sound.h"
 #include "file.h"
 
@@ -83,6 +84,24 @@ bool Config_Write(const char * filename, DuneCfg *config)
 	write = fwrite(coded, 1, sizeof(DuneCfg), f);
 	fclose(f);
 	return (write == sizeof(DuneCfg));
+}
+
+/**
+ * Set a default config
+ */
+bool Config_Default(DuneCfg *config)
+{
+	if (config == NULL) return false;
+
+	memset(config, 0, sizeof(DuneCfg));
+	config->graphicDrv = 1;
+	config->musicDrv = 1;
+	config->soundDrv = 1;
+	config->voiceDrv = 1;
+	config->useMouse = 1;
+	config->useXMS = 1;
+	config->language = LANGUAGE_ENGLISH;
+	return true;
 }
 
 /**

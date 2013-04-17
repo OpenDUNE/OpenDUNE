@@ -1169,6 +1169,7 @@ int SDL_main(int argc, char **argv)
 int main(int argc, char **argv)
 #endif /* __APPLE__ */
 {
+	bool commit_dune_cfg = false;
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
 		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
@@ -1194,8 +1195,13 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
+	/* Loading / writing config from/to dune.cfg */
 	if (!Config_Read("dune.cfg", &g_config)) {
-		Error("Missing dune.cfg file.\n");
+		Config_Default(&g_config);
+		commit_dune_cfg = true;
+	}
+	if (commit_dune_cfg && !Config_Write("dune.cfg", &g_config)) {
+		Error("Error writing to dune.cfg file.\n");
 		exit(1);
 	}
 
