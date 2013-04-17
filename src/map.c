@@ -377,7 +377,7 @@ static bool Map_UpdateWall(uint16 packed)
 {
 	Tile *t;
 
-	if (Map_GetLandscapeType(packed) != LST_WALL) return 0;
+	if (Map_GetLandscapeType(packed) != LST_WALL) return false;
 
 	t = &g_map[packed];
 
