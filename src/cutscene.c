@@ -954,15 +954,8 @@ static void Gameloop_Logos(void)
 
 	g_timerTimeout = 360;
 
-	while (true) {
-		bool displayed;
-
-		displayed = WSA_DisplayFrame(wsa, frame++, 0, 0, SCREEN_0);
-		if (!displayed) break;
-
-		Timer_Sleep(6);
-	}
-
+	while (WSA_DisplayFrame(wsa, frame++, 0, 0, SCREEN_0)) Timer_Sleep(6);
+	
 	WSA_Unload(wsa);
 
 	if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) Voice_LoadVoices(0xFFFF);
