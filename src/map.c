@@ -1528,8 +1528,8 @@ void Map_CreateLandscape(uint32 seed)
 
 				if (Tile_IsOutOfMap(packed)) continue;
 
-				packed1 = Tile_PackXY((i * 4 + offsets[0]) & 0x3F, j * 4 + offsets[1]);
-				packed2 = Tile_PackXY((i * 4 + offsets[2]) & 0x3F, j * 4 + offsets[3]);
+				packed1 = Tile_PackXY((i * 4 + offsets[0]) & 0x3F, (j * 4 + offsets[1]) & 0x3F);
+				packed2 = Tile_PackXY((i * 4 + offsets[2]) & 0x3F, (j * 4 + offsets[3]) & 0x3F);
 
 				g_map[packed].groundSpriteID = (g_map[packed1].groundSpriteID + g_map[packed2].groundSpriteID + 1) / 2;
 			}
