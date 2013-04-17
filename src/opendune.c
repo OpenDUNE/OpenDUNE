@@ -20,6 +20,7 @@
 #include "os/math.h"
 #include "os/strings.h"
 #include "os/sleep.h"
+#include "os/thread.h"
 
 #include "opendune.h"
 
@@ -59,6 +60,8 @@
 #include "unit.h"
 #include "video/video.h"
 
+static Semaphore s_start_sem = NULL;
+static Semaphore s_stop_sem = NULL;
 
 const char *window_caption = "OpenDUNE - Pre v0.8";
 
@@ -881,13 +884,17 @@ static void InGame_Numpad_Move(uint16 key)
 /**
  * Main game loop.
  */
-static void GameLoop_Main(void)
+static ThreadStatus WINAPI GameLoop_Main(void *data)
 {
 	static uint32 l_timerNext = 0;
 	static uint32 l_timerUnitStatus = 0;
 	static int16  l_selectionState = -2;
 
 	uint16 key;
+
+	VARIABLE_NOT_USED(data);
+
+	if (s_start_sem != NULL) Semaphore_Lock(s_start_sem);
 
 	String_Init();
 	Sprites_Init();
@@ -1117,6 +1124,9 @@ static void GameLoop_Main(void)
 	GFX_ClearScreen();
 
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
+
+	if (s_stop_sem != NULL) Semaphore_Unlock(s_stop_sem);
+	return 0;
 }
 
 static bool Unknown_25C4_000E(void)
@@ -1169,6 +1179,8 @@ int SDL_main(int argc, char **argv)
 int main(int argc, char **argv)
 #endif /* __APPLE__ */
 {
+	Thread thread = NULL;
+
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
 		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
@@ -1201,13 +1213,40 @@ int main(int argc, char **argv)
 
 	Input_Init();
 
-	Drivers_All_Init();
-
 	if (!Unknown_25C4_000E()) exit(1);
 
 	g_var_7097 = 0;
 
-	GameLoop_Main();
+	s_start_sem = Semaphore_Create(0);
+	s_stop_sem = Semaphore_Create(0);
+	if (s_start_sem != NULL && s_stop_sem != NULL) {
+		thread = Thread_Create(GameLoop_Main, NULL);
+	}
+
+	if (thread == NULL) {
+		Warning("Failed to create GameLoop thread.\nOpenDUNE will run without any audio output.\n");
+		g_enableSoundMusic = false;
+		g_enableVoices = false;
+	}
+
+	Drivers_All_Init();
+
+	if (s_start_sem != NULL) Semaphore_Unlock(s_start_sem);
+
+	if (thread != NULL) {
+		while (!Semaphore_TryLock(s_stop_sem)) {
+			msleep(g_timerSpeed / 1000);
+			Timer_InterruptRun(0);
+		}
+		Thread_Wait(thread, NULL);
+	} else {
+		Timer_InterruptResume();
+		GameLoop_Main(NULL);
+		Timer_InterruptSuspend();
+	}
+
+	if (s_start_sem != NULL) Semaphore_Destroy(s_start_sem);
+	if (s_stop_sem != NULL) Semaphore_Destroy(s_stop_sem);
 
 	printf("%s\n", String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
