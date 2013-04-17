@@ -341,7 +341,8 @@ bool Map_IsValidPosition(uint16 position)
 bool Map_IsPositionUnveiled(uint16 position)
 {
 	Tile *t = &g_map[position];
-	return g_debugScenario || (t->isUnveiled && Sprite_IsUnveiled(t->overlaySpriteID));
+	if (g_debugScenario) return true;
+	return t->isUnveiled && Sprite_IsUnveiled(t->overlaySpriteID);
 }
 
 /**
