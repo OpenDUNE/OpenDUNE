@@ -20,7 +20,7 @@ static AudioUnit synthUnit;
 OSStatus CreateAUGraph()
 {
 	OSStatus result;
-	/*create the nodes of the graph*/
+	/* Create the nodes of the graph */
 	AUNode synthNode, limiterNode, outNode;
 	ComponentDescription cd;
 
@@ -54,7 +54,7 @@ OSStatus CreateAUGraph()
 	result = AUGraphConnectNodeInput(graph, limiterNode, 0, outNode, 0);
 	if (result != 0) return result;
 
-	/* ok we're good to go - get the Synth Unit... */
+	/* Ok we're good to go - get the Synth Unit... */
 	result = AUGraphGetNodeInfo(graph, synthNode, 0, 0, 0, &synthUnit);
 	return result;
 }
@@ -63,21 +63,21 @@ bool midi_init(void)
 {
 	OSStatus result;
 	result = CreateAUGraph();
-	if(result != 0) return false;
+	if (result != 0) return false;
 	result = AUGraphInitialize(graph);
-	if(result != 0) return false;
+	if (result != 0) return false;
 	result = AUGraphStart(graph);
-	if(result != 0) return false;
+	if (result != 0) return false;
 	return true;
 }
 
 void midi_uninit(void)
 {
-	if (graph) {
-		AUGraphStop(graph);
-		DisposeAUGraph(graph);
-		graph = 0;
-	}
+	if (graph == 0) return;
+
+	AUGraphStop(graph);
+	DisposeAUGraph(graph);
+	graph = 0;
 }
 
 /**
@@ -90,9 +90,9 @@ void midi_send(uint32 data)
 
 void midi_reset(void)
 {
-	if (graph) {
-		AUGraphStop(graph);
-		AUGraphStart(graph);
-	}
+	if (graph == 0) return;
+
+	AUGraphStop(graph);
+	AUGraphStart(graph);
 }
 
