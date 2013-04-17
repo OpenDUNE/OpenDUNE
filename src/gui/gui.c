@@ -114,7 +114,7 @@ uint16 g_productionStringID;                                /*!< Descriptive tex
 bool g_textDisplayNeedsUpdate;                              /*!< If set, text display needs to be updated. */
 uint32 g_strategicRegionBits;                               /*!< Region bits at the map. */
 static uint32 s_ticksPlayed;
-bool g_var_81E6;
+bool g_doQuitHOF;
 static uint8 s_var_81BA[24];
 static bool s_strategicMapFastForward;
 
@@ -4272,7 +4272,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	GFX_Screen_SetActive(SCREEN_0);
 
-	for (g_var_81E6 = false; !g_var_81E6; sleepIdle()) {
+	for (g_doQuitHOF = false; !g_doQuitHOF; sleepIdle()) {
 		GUI_Widget_HandleEvents(w);
 	}
 

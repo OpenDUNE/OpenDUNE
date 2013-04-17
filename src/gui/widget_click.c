@@ -1046,7 +1046,7 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 
 		GUI_HallOfFame_DrawData(data, true);
 
-		g_var_81E6 = true;
+		g_doQuitHOF = true;
 	}
 
 	GUI_Widget_MakeNormal(w, false);
@@ -1063,7 +1063,7 @@ bool GUI_Widget_HOF_Resume_Click(Widget *w)
 {
 	VARIABLE_NOT_USED(w);
 
-	g_var_81E6 = true;
+	g_doQuitHOF = true;
 
 	return true;
 }
