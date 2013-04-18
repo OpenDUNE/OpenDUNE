@@ -1377,10 +1377,10 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 			if (s != NULL) {
 				/* ENHANCEMENT -- make sonic blast trigger counter attack, but
-				 * do not warn about base under attack (original behaviour).
-				 */
-				if (g_dune2_enhanced && s->o.houseID != g_playerHouseID && !House_AreAllied(unit->o.houseID, s->o.houseID))
+				 * do not warn about base under attack (original behaviour). */
+				if (g_dune2_enhanced && s->o.houseID != g_playerHouseID && !House_AreAllied(unit->o.houseID, s->o.houseID)) {
 					Structure_HouseUnderAttack(s->o.houseID);
+				}
 
 				Structure_Damage(s, damage, 0);
 			} else {
