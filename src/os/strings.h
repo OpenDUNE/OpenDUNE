@@ -86,7 +86,7 @@
 		#endif /* __APPLE__ */
 	#endif /* __GCC__ */
 	
-	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(strdup)
+	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(strdup) && !defined(__APPLE__)
 		/* strdup is not ANSI-C, but our own implemention would only be slower */
 		extern char *strdup (__const char *__s);
 	#endif /* __GCC__ */
