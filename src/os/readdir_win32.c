@@ -40,11 +40,6 @@ bool ReadDir_ProcessAllFiles(const char * dirpath, bool (*cb)(const char * name,
 		cb(ffd.cFileName, path, size);
 	} while (FindNextFile(hFind, &ffd) != 0);
 
-	if (GetLastError() != ERROR_NO_MORE_FILES) {
-		FindClose (hFind);
-		return false;
-	}
 	FindClose (hFind);
-	return true;
+	return GetLastError() == ERROR_NO_MORE_FILES);
 }
-
