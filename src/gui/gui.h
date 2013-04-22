@@ -104,7 +104,7 @@ extern uint16 g_mouseHeight;
 extern uint16 g_cursorSpriteID;
 extern uint16 g_cursorDefaultSpriteID;
 
-extern uint16 g_variable_37B2;
+extern bool g_structureHighHealth;
 extern bool g_var_37B8;
 
 extern void GUI_ClearScreen(Screen screenID);
