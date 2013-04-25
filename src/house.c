@@ -226,14 +226,6 @@ void GameLoop_House(void)
 				s = Structure_Get_ByIndex(g_structureIndex);
 				if (s->o.type == STRUCTURE_STARPORT && s->o.houseID == h->index) {
 					u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
-
-					if (u != NULL) {
-						u->o.linkedID = (uint8)h->starportLinkedID;
-						h->starportLinkedID = UNIT_INDEX_INVALID;
-						u->o.flags.s.inTransport = true;
-
-						Sound_Output_Feedback(38);
-					}
 				} else {
 					PoolFindStruct find2;
 
@@ -247,15 +239,16 @@ void GameLoop_House(void)
 						if (s->o.linkedID != 0xFF) continue;
 
 						u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
-
-						if (u != NULL) {
-							u->o.linkedID = (uint8)h->starportLinkedID;
-							h->starportLinkedID = 0xFFFF;
-							u->o.flags.s.inTransport = true;
-
-							Sound_Output_Feedback(38);
-						}
+						break;
 					}
+				}
+
+				if (u != NULL) {
+					u->o.linkedID = (uint8)h->starportLinkedID;
+					h->starportLinkedID = UNIT_INDEX_INVALID;
+					u->o.flags.s.inTransport = true;
+
+					Sound_Output_Feedback(38);
 				}
 
 				h->starportTimeLeft = (u != NULL) ? g_table_houseInfo[h->index].starportDeliveryTime : 1;
