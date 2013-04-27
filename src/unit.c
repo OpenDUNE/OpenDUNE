@@ -2243,6 +2243,9 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		s->o.houseID = Unit_GetHouseID(unit);
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 
+		/* ENHANCEMENT -- recalculate the power and credits for the house losing the structure. */
+		if (g_dune2_enhanced) House_CalculatePowerAndCredit(h);
+
 		h = House_Get_ByIndex(s->o.houseID);
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 
