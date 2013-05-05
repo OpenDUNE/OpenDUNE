@@ -1521,6 +1521,7 @@ void Map_CreateLandscape(uint32 seed)
 				uint16 packed1;
 				uint16 packed2;
 				uint16 packed;
+				uint16 sprite2;
 
 				packed1 = Tile_PackXY(i * 4 + offsets[0], j * 4 + offsets[1]);
 				packed2 = Tile_PackXY(i * 4 + offsets[2], j * 4 + offsets[3]);
@@ -1530,8 +1531,16 @@ void Map_CreateLandscape(uint32 seed)
 
 				packed1 = Tile_PackXY((i * 4 + offsets[0]) & 0x3F, j * 4 + offsets[1]);
 				packed2 = Tile_PackXY((i * 4 + offsets[2]) & 0x3F, j * 4 + offsets[3]);
+				assert(packed1 < 64 * 64);
 
-				g_map[packed].groundSpriteID = (g_map[packed1].groundSpriteID + g_map[packed2].groundSpriteID + 1) / 2;
+				/* ENHANCEMENT -- use groundSpriteID=0 when out-of-bounds to generate the original maps. */
+				if (packed2 < 64 * 64) {
+					sprite2 = g_map[packed2].groundSpriteID;
+				} else {
+					sprite2 = 0;
+				}
+
+				g_map[packed].groundSpriteID = (g_map[packed1].groundSpriteID + sprite2 + 1) / 2;
 			}
 		}
 	}
