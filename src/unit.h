@@ -222,8 +222,8 @@ extern Unit *g_unitHouseMissile;
 extern Unit *g_unitSelected;
 extern int16 g_starportAvailable[UNIT_MAX];
 
-extern uint16 g_var_39E6;
-extern uint16 g_var_39E8;
+extern uint16 g_dirtyUnitCount;
+extern uint16 g_dirtyAirUnitCount;
 
 
 extern void GameLoop_Unit(void);

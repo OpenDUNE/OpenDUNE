@@ -457,7 +457,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		g_var_3A08 = 0;
 	}
 
-	if (g_var_39E6 != 0 || forceRedraw || updateDisplay) {
+	if (g_dirtyUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -605,7 +605,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 		}
 
-		g_var_39E6 = 0;
+		g_dirtyUnitCount = 0;
 	}
 
 	for (i = 0; i < EXPLOSION_MAX; i++) {
@@ -629,7 +629,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
 	}
 
-	if (g_var_39E8 != 0 || forceRedraw || updateDisplay) {
+	if (g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -719,7 +719,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0x2000, s_paletteHouse);
 		}
 
-		g_var_39E8 = 0;
+		g_dirtyAirUnitCount = 0;
 	}
 
 	if (updateDisplay) {
