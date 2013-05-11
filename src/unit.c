@@ -35,8 +35,8 @@
 #include "tools.h"
 
 
-static uint32 s_tickUnitUnknown1  = 0; /*!< Indicates next time the Unknown1 function is executed. */
-static uint32 s_tickUnitUnknown2  = 0; /*!< Indicates next time the Unknown2 function is executed. */
+static uint32 s_tickUnitMovement  = 0; /*!< Indicates next time the Movement function is executed. */
+static uint32 s_tickUnitRotation  = 0; /*!< Indicates next time the Rotation function is executed. */
 static uint32 s_tickUnitBlinking  = 0; /*!< Indicates next time the Blinking function is executed. */
 static uint32 s_tickUnitUnknown4  = 0; /*!< Indicates next time the Unknown4 function is executed. */
 static uint32 s_tickUnitScript    = 0; /*!< Indicates next time the Script function is executed. */
@@ -133,14 +133,14 @@ void GameLoop_Unit(void)
 
 	if (g_debugScenario) return;
 
-	if (s_tickUnitUnknown1 <= g_timerGame) {
+	if (s_tickUnitMovement <= g_timerGame) {
 		tickMovement = true;
-		s_tickUnitUnknown1 = g_timerGame + 3;
+		s_tickUnitMovement = g_timerGame + 3;
 	}
 
-	if (s_tickUnitUnknown2 <= g_timerGame) {
+	if (s_tickUnitRotation <= g_timerGame) {
 		tickRotation = true;
-		s_tickUnitUnknown2 = g_timerGame + Tools_AdjustToGameSpeed(4, 2, 8, true);
+		s_tickUnitRotation = g_timerGame + Tools_AdjustToGameSpeed(4, 2, 8, true);
 	}
 
 	if (s_tickUnitBlinking <= g_timerGame) {
