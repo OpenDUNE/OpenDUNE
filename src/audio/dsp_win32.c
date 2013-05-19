@@ -60,6 +60,7 @@ void DSP_Play(const uint8 *data)
 	uint32 len;
 	WAVEFORMATEX waveFormat;
 	DWORD freq;
+	MMRESULT res;
 
 	DSP_Stop();
 
@@ -86,8 +87,9 @@ void DSP_Play(const uint8 *data)
 	waveFormat.wBitsPerSample  = 8;
 	waveFormat.cbSize = sizeof(WAVEFORMATEX);
 
-	if (waveOutOpen(&s_waveOut, WAVE_MAPPER, &waveFormat, (DWORD_PTR)&DSP_Callback, 0, CALLBACK_FUNCTION) != MMSYSERR_NOERROR) {
-		Error("waveOutOpen failed\n");
+	res = waveOutOpen(&s_waveOut, WAVE_MAPPER, &waveFormat, (DWORD_PTR)&DSP_Callback, 0, CALLBACK_FUNCTION);
+	if (res != MMSYSERR_NOERROR) {
+		Error("waveOutOpen failed (%d)\n", res);
 		s_waveOut = NULL;
 		return;
 	}
@@ -96,13 +98,15 @@ void DSP_Play(const uint8 *data)
 	s_waveHdr.dwBufferLength = len;
 	s_waveHdr.dwFlags        = 0;
 	s_waveHdr.dwLoops        = 0;
-	if (waveOutPrepareHeader(s_waveOut, &s_waveHdr, sizeof(s_waveHdr)) != MMSYSERR_NOERROR) {
-		Error("waveOutPrepareHeader failed\n");
+	res = waveOutPrepareHeader(s_waveOut, &s_waveHdr, sizeof(s_waveHdr));
+	if (res != MMSYSERR_NOERROR) {
+		Error("waveOutPrepareHeader failed (%d)\n", res);
 		return;
 	}
 
-	if (waveOutWrite(s_waveOut, &s_waveHdr, sizeof(s_waveHdr)) != MMSYSERR_NOERROR) {
-		Error("waveOutWrite failed\n");
+	res = waveOutWrite(s_waveOut, &s_waveHdr, sizeof(s_waveHdr));
+	if (res != MMSYSERR_NOERROR) {
+		Error("waveOutWrite failed (%d)\n", res);
 		return;
 	}
 	s_playing = true;
