@@ -835,8 +835,12 @@ make_cflags_and_ldflags() {
 			LDFLAGS="$LDFLAGS -mwin32"
 		fi
 		if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ]; then
-			flags="$flags -mno-cygwin"
-			LDFLAGS="$LDFLAGS -mno-cygwin -Wl,--subsystem,windows"
+			if [ $cc_version -lt 46 ]; then
+				flags="$flags -mno-cygwin"
+				LDFLAGS="$LDFLAGS -mno-cygwin"
+			fi
+
+			LDFLAGS="$LDFLAGS -Wl,--subsystem,windows"
 
 			LIBS="$LIBS -lwinmm -lcomctl32 -lgdi32"
 
