@@ -829,7 +829,7 @@ void Structure_ActivateSpecial(Structure *s)
 	if (!h->flags.used) return;
 
 	switch (g_table_houseInfo[s->o.houseID].specialWeapon) {
-		case HOUSE_WEAPON_MISSLE: {
+		case HOUSE_WEAPON_MISSILE: {
 			Unit *u;
 			tile32 position;
 

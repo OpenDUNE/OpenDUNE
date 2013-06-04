@@ -34,7 +34,7 @@ typedef enum HouseFlag {
  * Types of special %House Weapons available in the game.
  */
 typedef enum HouseWeapon {
-	HOUSE_WEAPON_MISSLE   = 1,
+	HOUSE_WEAPON_MISSILE  = 1,
 	HOUSE_WEAPON_FREMEN   = 2,
 	HOUSE_WEAPON_SABOTEUR = 3,
 
