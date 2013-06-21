@@ -1475,7 +1475,7 @@ uint16 Script_Unit_StartAnimation(ScriptEngine *script)
 	g_map[position].houseID = Unit_GetHouseID(u);
 
 	assert(animationUnitID < 4);
-	if (g_table_unitInfo[u->o.type].displayMode == 3) {
+	if (g_table_unitInfo[u->o.type].displayMode == DISPLAYMODE_INFANTRY_3_FRAMES) {
 		Animation_Start(g_table_animation_unitScript1[animationUnitID], u->o.position, 0, Unit_GetHouseID(u), 4);
 	} else {
 		Animation_Start(g_table_animation_unitScript2[animationUnitID], u->o.position, 0, Unit_GetHouseID(u), 4);

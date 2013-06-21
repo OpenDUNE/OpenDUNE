@@ -500,14 +500,14 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 				index = ui->groundSpriteID;
 
 				switch (ui->displayMode) {
-					case 1:
-					case 2:
+					case DISPLAYMODE_UNIT:
+					case DISPLAYMODE_ROCKET:
 						if (ui->movementType == MOVEMENT_SLITHER) break;
 						index += values_32A4[orientation][0];
 						s_spriteFlags = values_32A4[orientation][1];
 						break;
 
-					case 3: {
+					case DISPLAYMODE_INFANTRY_3_FRAMES: {
 						static const uint16 values_334A[4] = {0, 1, 0, 2};
 
 						index += values_32C4[orientation][0] * 3;
@@ -515,7 +515,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 						s_spriteFlags = values_32C4[orientation][1];
 					} break;
 
-					case 4:
+					case DISPLAYMODE_INFANTRY_4_FRAMES:
 						index += values_32C4[orientation][0] * 4;
 						index += u->spriteOffset & 3;
 						s_spriteFlags = values_32C4[orientation][1];
@@ -668,18 +668,18 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			s_spriteFlags = 0xC000;
 
 			switch (ui->displayMode) {
-				case 0:
+				case DISPLAYMODE_SINGLE_FRAME:
 					if (u->o.flags.s.bulletIsBig) index++;
 					break;
 
-				case 1:
+				case DISPLAYMODE_UNIT:
 					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 					index += values_32E4[orientation][0];
 					s_spriteFlags |= values_32E4[orientation][1];
 					break;
 
-				case 2: {
+				case DISPLAYMODE_ROCKET: {
 					static const uint16 values_3304[16][2] = {
 						{0, 0}, {1, 0}, {2, 0}, {3, 0},
 						{4, 0}, {3, 2}, {2, 2}, {1, 2},
@@ -693,7 +693,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 					s_spriteFlags |= values_3304[orientation][1];
 				} break;
 
-				case 5: {
+				case DISPLAYMODE_ORNITHOPTER: {
 					static const uint16 values_33AE[4] = {2, 1, 0, 1};
 
 					orientation = Orientation_Orientation256ToOrientation8(orientation);
