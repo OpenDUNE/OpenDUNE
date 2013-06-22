@@ -267,7 +267,7 @@ void Tools_Random_Seed(uint32 seed)
 /**
  * Set the seed for the LCG randomizer.
  */
-void Tools_RandomLCG_Seed(uint32 seed)
+void Tools_RandomLCG_Seed(uint16 seed)
 {
 	s_randomLCG = seed;
 }
@@ -275,7 +275,7 @@ void Tools_RandomLCG_Seed(uint32 seed)
 /**
  * Get a random value from the LCG.
  */
-static uint16 Tools_RandomLCG(void)
+static int16 Tools_RandomLCG(void)
 {
 	/* Borland C/C++ 'a' and 'b' value, bits 30..16, as used by Dune2 */
 	s_randomLCG = 0x015A4E35 * s_randomLCG + 1;
@@ -291,7 +291,6 @@ static uint16 Tools_RandomLCG(void)
  */
 uint16 Tools_RandomLCG_Range(uint16 min, uint16 max)
 {
-	int32 value;
 	uint16 ret;
 
 	if (min > max) {
@@ -301,12 +300,8 @@ uint16 Tools_RandomLCG_Range(uint16 min, uint16 max)
 	}
 
 	do {
-		value = Tools_RandomLCG();
-		value *= max - min + 1;
-		value /= 0x8000;
-		value += min;
-
-		ret = value & 0xFFFF;
+		uint16 value = (int32)Tools_RandomLCG() * (max - min + 1) / 0x8000 + min;
+		ret = value;
 	} while (ret > max);
 
 	return ret;
