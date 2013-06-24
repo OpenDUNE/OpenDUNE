@@ -1323,7 +1323,7 @@ static void GUI_Purchase_ShowInvoice(void)
 	x = 311 - strlen(textBuffer) * 6;
 
 	/* "Total Cost :" */
-	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(0xB8), x - 3, 152, 11, 0, 0x211);
+	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(STR_TOTAL_COST_), x - 3, 152, 11, 0, 0x211);
 	GUI_DrawText_Monospace(textBuffer, x, 152, 11, 0, 6);
 
 	GUI_Mouse_Hide_Safe();
