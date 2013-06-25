@@ -17,7 +17,7 @@
  * @param cb function called back for each file found
  * @return True if and only if everything was ok
  */
-bool ReadDir_ProcessAllFiles(const char * dirpath, bool (*cb)(const char * name, const char * path, uint32 size))
+bool ReadDir_ProcessAllFiles(const char *dirpath, bool (*cb)(const char *name, const char *path, uint32 size))
 {
 	WIN32_FIND_DATA ffd;
 	char dir[MAX_PATH];
@@ -41,10 +41,9 @@ bool ReadDir_ProcessAllFiles(const char * dirpath, bool (*cb)(const char * name,
 	} while (FindNextFile(hFind, &ffd) != 0);
 
 	if (GetLastError() != ERROR_NO_MORE_FILES) {
-		FindClose (hFind);
+		FindClose(hFind);
 		return false;
 	}
-	FindClose (hFind);
+	FindClose(hFind);
 	return true;
 }
-

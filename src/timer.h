@@ -4,8 +4,8 @@
 #define TIMER_H
 
 typedef enum TimerType {
-    TIMER_GUI  = 1,                                         /*!< The identifier for GUI timer. */
-    TIMER_GAME = 2                                          /*!< The identifier for Game timer. */
+	TIMER_GUI  = 1,                                         /*!< The identifier for GUI timer. */
+	TIMER_GAME = 2                                          /*!< The identifier for Game timer. */
 } TimerType;
 
 extern uint32 g_timerGUI;

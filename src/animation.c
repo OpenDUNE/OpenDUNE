@@ -16,7 +16,7 @@
 #include "tools.h"
 
 enum {
-    ANIMATION_MAX = 112
+	ANIMATION_MAX = 112
 };
 
 typedef struct Animation {

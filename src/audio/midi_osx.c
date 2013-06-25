@@ -17,7 +17,7 @@ static AUGraph s_graph = 0;
 static AudioUnit s_synthUnit;
 
 /* This call creates the Graph and the Synth unit... */
-OSStatus CreateAUGraph()
+static OSStatus CreateAUGraph(void)
 {
 	OSStatus result;
 	/* Create the nodes of the graph */
@@ -97,4 +97,3 @@ void midi_reset(void)
 	AUGraphStop(s_graph);
 	AUGraphStart(s_graph);
 }
-

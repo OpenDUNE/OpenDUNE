@@ -22,7 +22,7 @@ typedef struct FileInfo {
 	uint32 filePosition;                                    /*!< Where in the file we currently are (doesn't have to start at zero when in PAK file). */
 	struct {
 		BIT_U8 inMemory:1;                                  /*!< File is loaded in alloc'd memory. */
-    	BIT_U8 inPAKFile:1;                                 /*!< File can be in other PAK file. */
+		BIT_U8 inPAKFile:1;                                 /*!< File can be in other PAK file. */
 	} flags;                                                /*!< General flags of the FileInfo. */
 } FileInfo;
 

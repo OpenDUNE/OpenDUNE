@@ -81,7 +81,7 @@ extern const ScriptFunction g_scriptFunctionsStructure[SCRIPT_FUNCTIONS_COUNT];
 extern const ScriptFunction g_scriptFunctionsTeam[SCRIPT_FUNCTIONS_COUNT];
 extern const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT];
 
-void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
+extern void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
 extern void Script_Load(ScriptEngine *script, uint8 typeID);
 extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);

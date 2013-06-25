@@ -4,7 +4,7 @@
 #define EXPLOSION_H
 
 enum {
-    EXPLOSION_MAX = 32                                      /*!< The maximum amount of active explosions we can have. */
+	EXPLOSION_MAX = 32                                      /*!< The maximum amount of active explosions we can have. */
 };
 
 /**
