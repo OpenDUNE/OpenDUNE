@@ -86,7 +86,7 @@ extern bool g_textDisplayNeedsUpdate;
 extern uint32 g_strategicRegionBits;
 
 extern uint16 g_viewportMessageCounter;
-extern char *g_viewportMessageText;
+extern const char *g_viewportMessageText;
 extern uint16 g_viewportPosition;
 extern uint16 g_minimapPosition;
 extern uint16 g_selectionRectanglePosition;
@@ -151,7 +151,7 @@ extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);
 extern void GUI_FactoryWindow_B495_0F30(void);
 extern struct FactoryWindowItem *GUI_FactoryWindow_GetItem(int16 offset);
 extern void GUI_FactoryWindow_DrawDetails(void);
-extern void GUI_FactoryWindow_DrawCaption(char *caption);
+extern void GUI_FactoryWindow_DrawCaption(const char *caption);
 extern void GUI_FactoryWindow_UpdateDetails(void);
 extern void GUI_FactoryWindow_UpdateSelection(bool selectionChanged);
 extern void GUI_FactoryWindow_PrepareScrollList(void);

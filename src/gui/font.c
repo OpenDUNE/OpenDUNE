@@ -37,7 +37,7 @@ uint16 Font_GetCharWidth(unsigned char c)
  * @param string The string to get the width of.
  * @return The width of the string in pixels.
  */
-uint16 Font_GetStringWidth(char *string)
+uint16 Font_GetStringWidth(const char *string)
 {
 	uint16 width = 0;
 

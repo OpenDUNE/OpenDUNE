@@ -1442,7 +1442,7 @@ static void Structure_CancelBuild(Structure *s)
 bool Structure_BuildObject(Structure *s, uint16 objectType)
 {
 	const StructureInfo *si;
-	char *str;
+	const char *str;
 	Object *o;
 	ObjectInfo *oi;
 

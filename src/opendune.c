@@ -327,7 +327,7 @@ static void GameLoop_LevelEnd(void)
 	levelEndTimer = g_timerGame + 300;
 }
 
-static void GameLoop_DrawMenu(char **strings)
+static void GameLoop_DrawMenu(const char **strings)
 {
 	WidgetProperties *props;
 	uint16 left;
@@ -355,7 +355,7 @@ static void GameLoop_DrawMenu(char **strings)
 	Input_History_Clear();
 }
 
-static void GameLoop_DrawText2(char *string, uint16 left, uint16 top, uint8 fgColourNormal, uint8 fgColourSelected, uint8 bgColour)
+static void GameLoop_DrawText2(const char *string, uint16 left, uint16 top, uint8 fgColourNormal, uint8 fgColourSelected, uint8 bgColour)
 {
 	uint8 i;
 
@@ -376,7 +376,7 @@ static bool GameLoop_IsInRange(uint16 x, uint16 y, uint16 minX, uint16 minY, uin
 	return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }
 
-static uint16 GameLoop_HandleEvents(char **strings)
+static uint16 GameLoop_HandleEvents(const char **strings)
 {
 	uint8 last;
 	uint16 result;
@@ -662,7 +662,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 	uint16 maxWidth;
 	static bool hasSave = false;
 	static bool hasFame = false;
-	static char *strings[6];
+	static const char *strings[6];
 	static uint16 index = 0xFFFF;
 
 	if (index == 0xFFFF) {

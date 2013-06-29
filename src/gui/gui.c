@@ -135,7 +135,7 @@ bool g_structureHighHealth;                                 /*!< If false, the r
 bool g_var_37B8;
 
 uint16 g_viewportMessageCounter;                            /*!< Countdown counter for displaying #g_viewportMessageText, bit 0 means 'display the text'. */
-char *g_viewportMessageText;                                /*!< If not \c NULL, message text displayed in the viewport. */
+const char *g_viewportMessageText;                          /*!< If not \c NULL, message text displayed in the viewport. */
 
 uint16 g_viewportPosition;                                  /*!< Top-left tile of the viewport. */
 uint16 g_minimapPosition;                                   /*!< Top-left tile of the border in the minimap. */
@@ -1344,7 +1344,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
  * @param string The string to draw.
  * @param top The most top position where to draw the string.
  */
-static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
+static void GUI_DrawTextOnFilledRectangle(const char *string, uint16 top)
 {
 	uint16 halfWidth;
 
@@ -3450,7 +3450,7 @@ void GUI_FactoryWindow_DrawDetails(void)
 	GUI_FactoryWindow_DrawCaption(NULL);
 }
 
-void GUI_FactoryWindow_DrawCaption(char *caption)
+void GUI_FactoryWindow_DrawCaption(const char *caption)
 {
 	Screen oldScreenID;
 
@@ -4076,8 +4076,8 @@ uint16 GUI_HallOfFame_Tick(void)
 
 static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 {
-	char *resumeString;
-	char *clearString;
+	const char *resumeString;
+	const char *clearString;
 	Widget *wClear;
 	Widget *wResume;
 	uint16 width;
@@ -4288,8 +4288,8 @@ void GUI_HallOfFame_Show(uint16 score)
 uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show)
 {
 	Screen oldScreenID;
-	char *scoreString;
-	char *battleString;
+	const char *scoreString;
+	const char *battleString;
 	uint16 width = 0;
 	uint16 offsetY;
 	uint16 scoreX;
