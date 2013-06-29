@@ -258,7 +258,7 @@ static void Scenario_Load_Structure(const char *key, char *settings)
 	*split = '\0';
 
 	/* Third value is the Hitpoints in percent (in base 256) */
-	hitpoints = atoi(settings);
+	hitpoints = atoi(settings) % 257;
 	/* ENHANCEMENT -- Dune2 ignores the % hitpoints read from the scenario */
 	if (!g_dune2_enhanced) hitpoints = 256;
 
