@@ -93,17 +93,17 @@ static void Scenario_Load_Houses(void)
 	if (h->unitCountMax == 0) {
 		PoolFindStruct find;
 		uint8 max;
-		House *h;
+		House *h2;
 
 		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
 		find.type    = 0xFFFF;
 
 		max = 80;
-		while ((h = House_Find(&find)) != NULL) {
+		while ((h2 = House_Find(&find)) != NULL) {
 			/* Skip the human controlled house */
-			if (h->flags.human) continue;
-			max -= h->unitCountMax;
+			if (h2->flags.human) continue;
+			max -= h2->unitCountMax;
 		}
 
 		h->unitCountMax = max;
