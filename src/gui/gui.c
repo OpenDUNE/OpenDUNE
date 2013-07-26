@@ -699,7 +699,7 @@ void GUI_UpdateProductionStringID(void)
 	if (s == NULL) return;
 
 	if (!g_table_structureInfo[s->o.type].o.flags.factory) {
-		if (s->o.type == STRUCTURE_PALACE) g_productionStringID = g_table_houseInfo[s->o.houseID].specialWeapon + 0x29;
+		if (s->o.type == STRUCTURE_PALACE) g_productionStringID = STR_LAUNCH + g_table_houseInfo[s->o.houseID].specialWeapon - 1;
 		return;
 	}
 
