@@ -3,8 +3,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define DATA_DIR "data/"
-
 MSVC_PACKED_BEGIN
 /**
  * This is the layout of decoded dune.cfg.
@@ -35,6 +33,8 @@ typedef struct GameCfg {
 	uint16 autoScroll;                 /*!< 0:Off, 1:On. */
 } GameCfg;
 
+extern const char* DATA_DIR;
+
 extern GameCfg g_gameConfig;
 extern DuneCfg g_config;
 
@@ -46,5 +46,6 @@ extern bool Config_Write(const char *filename, DuneCfg *config);
 extern bool Config_Default(DuneCfg *config);
 extern bool GameOptions_Load(void);
 extern void GameOptions_Save(void);
+extern void CommandLineOptions_Load(int argc, char **argv);
 
 #endif /* CONFIG_H */

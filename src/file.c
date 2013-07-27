@@ -81,9 +81,9 @@ FILE *fopendatadir(const char *name, const char *mode)
 	if (fileInfo != NULL) {
 		/* Take the filename from the FileInfo structure, as it was read
 		 * from the data/ directory */
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", fileInfo->filename);
+		snprintf(filenameComplete, sizeof(filenameComplete), "%s%s", DATA_DIR, fileInfo->filename);
 	} else {
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", name);
+		snprintf(filenameComplete, sizeof(filenameComplete), "%s%s", DATA_DIR, name);
 	}
 	return fopen(filenameComplete, mode);
 }
@@ -203,7 +203,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (!fileInfo->flags.inPAKFile) return FILE_INVALID;
 
 	if (pakInfo == NULL) return FILE_INVALID;
-	snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakInfo->filename);
+	snprintf(pakNameComplete, sizeof(pakNameComplete), "%s%s", DATA_DIR, pakInfo->filename);
 	s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
 	if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
 
@@ -615,12 +615,12 @@ void File_Delete(const char *filename)
 			if (*f >= 'a' && *f <= 'z') *f -= 32;
 		}
 	}
-	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameLower);
+	snprintf(filenameComplete, sizeof(filenameComplete), "%s%s", DATA_DIR, filenameLower);
 
 	g_fileOperation++;
 	if (unlink(filenameComplete) < 0) {
 		/* try with the upper case file name */
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameUpper);
+		snprintf(filenameComplete, sizeof(filenameComplete), "%s%s", DATA_DIR, filenameUpper);
 		unlink(filenameComplete);
 	}
 	g_fileOperation--;
