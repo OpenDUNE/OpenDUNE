@@ -3137,19 +3137,19 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 {
 	char key[10];
 	char category[10];
-	char buffer[100];
+	char buf[100];
 	uint16 i;
 
 	sprintf(category, "GROUP%d", campaignID);
 
 	for (i = 0; i < 6; i++) {
 		uint8 houseID = (g_playerHouseID + i) % 6;
-		char *s = buffer;
+		const char *s = buf;
 
 		strncpy(key, g_table_houseInfo[houseID].name, 3);
 		key[3] = '\0';
 
-		if (Ini_GetString(category, key, NULL, buffer, 99, g_fileRegionINI) == NULL) continue;
+		if (Ini_GetString(category, key, NULL, buf, 99, g_fileRegionINI) == NULL) continue;
 
 		while (*s != '\0') {
 			uint16 region = atoi(s);

@@ -183,8 +183,6 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 		s_palettePartDirection = PPD_TO_BLACK;
 
 		if (subtitle->paletteFadeout != 0) {
-			uint8 i;
-
 			s_palettePartCount = subtitle->paletteFadeout;
 
 			for (i = 0; i < 18; i++) {
@@ -226,8 +224,6 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 	s_palettePartDirection = PPD_TO_NEW_PALETTE;
 
 	if (subtitle->paletteFadein != 0) {
-		uint8 i;
-
 		s_palettePartCount = subtitle->paletteFadein;
 
 		for (i = 0; i < 18; i++) {
