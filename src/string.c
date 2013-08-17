@@ -95,7 +95,7 @@ void String_TranslateSpecial(char *source, char *dest)
 	*dest = '\0';
 }
 
-static void String_Load(const char *filename, bool compressed)
+static void String_Load(const char *filename, bool compressed, int start, int end)
 {
 	uint8 *buf;
 	uint16 count;
@@ -104,11 +104,11 @@ static void String_Load(const char *filename, bool compressed)
 	buf = File_ReadWholeFile(String_GenerateFilename(filename));
 	count = READ_LE_UINT16(buf) / 2;
 
-	s_stringsCount += count;
-	s_strings = (char **)realloc(s_strings, s_stringsCount * sizeof(char *));
-	s_strings[s_stringsCount - count] = NULL;
+	if (end < 0) end = start + count - 1;
 
-	for (i = 0; i < count; i++) {
+	s_strings = (char **)realloc(s_strings, (end + 1) * sizeof(char *));
+
+	for (i = 0; i < count && s_stringsCount <= end; i++) {
 		char *src = (char *)buf + READ_LE_UINT16(buf + i * 2);
 		char *dst;
 
@@ -123,16 +123,19 @@ static void String_Load(const char *filename, bool compressed)
 		String_Trim(dst);
 
 		if (strlen(dst) == 0 && s_strings[0] != NULL) {
-			s_stringsCount--;
 			free(dst);
 			continue;
 		}
 
-		s_strings[s_stringsCount - count + i] = dst;
+		s_strings[s_stringsCount++] = dst;
 	}
 
 	/* EU version has one more string in DUNE langfile. */
 	if (s_stringsCount == STR_LOAD_GAME) s_strings[s_stringsCount++] = strdup(s_strings[STR_LOAD_A_GAME]);
+
+	while (s_stringsCount <= end) {
+		s_strings[s_stringsCount++] = NULL;
+	}
 
 	free(buf);
 }
@@ -142,13 +145,13 @@ static void String_Load(const char *filename, bool compressed)
  */
 void String_Init(void)
 {
-	String_Load("DUNE", false);
-	String_Load("MESSAGE", false);
-	String_Load("INTRO", false);
-	String_Load("TEXTH",true);
-	String_Load("TEXTA", true);
-	String_Load("TEXTO",true);
-	String_Load("PROTECT", true);
+	String_Load("DUNE",     false,   1, 339);
+	String_Load("MESSAGE",  false, 340, 367);
+	String_Load("INTRO",    false, 368, 404);
+	String_Load("TEXTH",    true,  405, 444);
+	String_Load("TEXTA",    true,  445, 484);
+	String_Load("TEXTO",    true,  485, 524);
+	String_Load("PROTECT",  true,  525,  -1);
 }
 
 /**
