@@ -107,6 +107,7 @@ static void String_Load(const char *filename, bool compressed, int start, int en
 	if (end < 0) end = start + count - 1;
 
 	s_strings = (char **)realloc(s_strings, (end + 1) * sizeof(char *));
+	s_strings[s_stringsCount] = NULL;
 
 	for (i = 0; i < count && s_stringsCount <= end; i++) {
 		char *src = (char *)buf + READ_LE_UINT16(buf + i * 2);
