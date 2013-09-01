@@ -307,6 +307,7 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 	Unit *u;
 	uint32 distanceCurrent;
 	uint32 targetRange;
+	tile32 position;
 
 	s = g_scriptCurrentStructure;
 	targetRange = STACK_PEEK(1);
@@ -316,6 +317,13 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
+
+	/* ENHANCEMENT -- The original code calculated distances from the top-left corner of the structure. */
+	if (g_dune2_enhanced) {
+		position = Tile_Center(s->o.position);
+	} else {
+		position = s->o.position;
+	}
 
 	while (true) {
 		uint16 distance;
@@ -330,13 +338,21 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 			if ((uf->o.seenByHouses & (1 << s->o.houseID)) == 0) continue;
 		}
 
-		distance = Tile_GetDistance(uf->o.position, s->o.position);
+		distance = Tile_GetDistance(uf->o.position, position);
 		if (distance >= distanceCurrent) continue;
 
-		if (uf->o.type == UNIT_ORNITHOPTER) {
-			if (distance >= targetRange * 3) continue;
+		if (g_dune2_enhanced) {
+			if (uf->o.type == UNIT_ORNITHOPTER) {
+				if (distance > targetRange * 3) continue;
+			} else {
+				if (distance > targetRange) continue;
+			}
 		} else {
-			if (distance >= targetRange) continue;
+			if (uf->o.type == UNIT_ORNITHOPTER) {
+				if (distance >= targetRange * 3) continue;
+			} else {
+				if (distance >= targetRange) continue;
+			}
 		}
 
 		/* ENHANCEMENT -- The original code swapped the assignment, making it do nothing, Now it finds the closest unit to shoot at, what seems to be the intention */
