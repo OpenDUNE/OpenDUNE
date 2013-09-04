@@ -2640,6 +2640,8 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 
 		unit->o.seenByHouses &= ~(1 << h->index);
 	}
+
+	if (g_dune2_enhanced) unit->o.seenByHouses = 0;
 }
 
 /**
