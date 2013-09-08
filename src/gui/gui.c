@@ -881,8 +881,8 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  */
 void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
+	static const uint16 s_variable_60[8] = {1, 3, 2, 5, 4, 3, 2, 1};
 	static uint16 s_variable_5E     = 0;
-	static uint16 s_variable_60[8]  = {1, 3, 2, 5, 4, 3, 2, 1};
 	static uint16 s_variable_70     = 1;
 	static uint16 s_variable_72     = 0x8B55;
 	static uint16 s_variable_74     = 0x51EC;
@@ -1646,7 +1646,7 @@ uint8 GUI_PickHouse(void)
 		uint16 yes_no;
 
 		for (i = 0; i < 3; i++) {
-			static uint8 l_var_2BAC[3][3] = {
+			static const uint8 l_var_2BAC[3][3] = {
 				/* x, y, shortcut */
 				{ 16, 56, 31 }, /* A */
 				{ 112, 56, 25 }, /* O */
@@ -2661,8 +2661,8 @@ static void GUI_FactoryWindow_InitItems(void)
 
 static void GUI_FactoryWindow_Init(void)
 {
-	static uint8 xSrc[HOUSE_MAX] = { 0, 0, 16, 0, 0, 0 };
-	static uint8 ySrc[HOUSE_MAX] = { 8, 152, 48, 0, 0, 0 };
+	static const uint8 xSrc[HOUSE_MAX] = { 0, 0, 16, 0, 0, 0 };
+	static const uint8 ySrc[HOUSE_MAX] = { 8, 152, 48, 0, 0, 0 };
 	Screen oldScreenID;
 	void *wsa;
 	int16 i;
@@ -2798,7 +2798,7 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 			break;
 
 		case -12: {
-			static uint16 gameSpeedStrings[] = {
+			static const uint16 gameSpeedStrings[] = {
 				STR_SLOWEST,
 				STR_SLOW,
 				STR_NORMAL,

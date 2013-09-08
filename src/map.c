@@ -596,7 +596,7 @@ static bool Map_IsTileVisible(uint16 packed)
  */
 void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 {
-	static int16 offsets[9] = {
+	static const int16 offsets[9] = {
 		-64, /* up */
 		-63, /* up right */
 		1,   /* right */
@@ -926,7 +926,7 @@ void Map_Bloom_ExplodeSpecial(uint16 packed, uint8 houseID)
  */
 uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 {
-	static int16 mapBase[3] = {1, -2, -2};
+	static const int16 mapBase[3] = {1, -2, -2};
 
 	uint16 ret = 0;
 	uint16 mapOffset;
