@@ -1134,7 +1134,6 @@ bool Structure_IsUpgradable(Structure *s)
  */
 bool Structure_ConnectWall(uint16 position, bool recurse)
 {
-	static const int16 offset[] = { -64, 1, 64, -1 };
 	static const uint8 wall[] = {
 		 0,  3,  1,  2,  3,  3,  4,  5,  1,  6,  1,  7,  8,  9, 10, 11,
 		 1, 12,  1, 19,  1, 16,  1, 31,  1, 28,  1, 52,  1, 45,  1, 59,
@@ -1163,7 +1162,7 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 	isDestroyedWall = Map_GetLandscapeType(position) == LST_DESTROYED_WALL;
 
 	for (i = 0; i < 4; i++) {
-		uint16 curPos = position + offset[i];
+		const uint16 curPos = position + g_table_mapDiff[i];
 
 		if (recurse && Map_GetLandscapeType(curPos) == LST_WALL) Structure_ConnectWall(curPos, false);
 

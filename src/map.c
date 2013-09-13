@@ -731,9 +731,6 @@ void Map_FillCircleWithSpice(uint16 packed, uint16 radius)
  */
 static void Map_FixupSpiceEdges(uint16 packed)
 {
-	/* Relative steps in the map array for moving up, right, down, left. */
-	static const int16 _mapDifference[] = {-64, 1, 64, -1};
-
 	uint16 type;
 	uint16 spriteID;
 
@@ -745,7 +742,7 @@ static void Map_FixupSpiceEdges(uint16 packed)
 		uint8 i;
 
 		for (i = 0; i < 4; i++) {
-			uint16 curPacked = packed + _mapDifference[i];
+			const uint16 curPacked = packed + g_table_mapDiff[i];
 			uint16 curType;
 
 			if (Tile_IsOutOfMap(curPacked)) {
@@ -1327,8 +1324,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 		spriteID = 0;
 
 		for (i = 0; i < 4; i++) {
-			static const int16 mapOffset[] = {-64, 1, 64, -1};
-			uint16 neighbour = packed + mapOffset[i];
+			const uint16 neighbour = packed + g_table_mapDiff[i];
 
 			if (Tile_IsOutOfMap(neighbour)) {
 				spriteID |= 1 << i;

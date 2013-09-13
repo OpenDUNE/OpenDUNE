@@ -81,6 +81,7 @@ extern uint16 g_changedTiles[200];
 extern uint8 g_changedTilesMap[512];
 
 extern const MapInfo g_mapInfos[3];
+extern const int16 g_table_mapDiff[4];
 extern const tile32 g_table_tilediff[34][8];
 
 extern uint16 g_dirtyViewportCount;
