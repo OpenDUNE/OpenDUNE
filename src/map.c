@@ -924,11 +924,10 @@ void Map_Bloom_ExplodeSpecial(uint16 packed, uint8 houseID)
 uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 {
 	static const int16 mapBase[3] = {1, -2, -2};
+	const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+	const uint16 mapOffset = mapBase[g_scenario.mapScale];
 
 	uint16 ret = 0;
-	uint16 mapOffset;
-
-	mapOffset = mapBase[g_scenario.mapScale];
 
 	if (locationID == 6) { /* Enemy Base */
 		PoolFindStruct find;
@@ -953,36 +952,26 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 
 	while (ret == 0) {
 		switch (locationID) {
-			case 0: { /* North */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 0: /* North */
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX - 2), mapInfo->minY + mapOffset);
 				break;
-			}
 
-			case 1: { /* East */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 1: /* East */
 				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - mapOffset, mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY - 2));
 				break;
-			}
 
-			case 2: { /* South */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 2: /* South */
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - mapOffset);
 				break;
-			}
 
-			case 3: { /* West */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 3: /* West */
 				ret = Tile_PackXY(mapInfo->minX + mapOffset, mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY - 2));
 				break;
-			}
 
-			case 4: { /* Air */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 4: /* Air */
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
-			}
 
 			case 5: /* Visible */
 				ret = Tile_PackXY(Tile_GetPackedX(g_minimapPosition) + Tools_RandomLCG_Range(0, 14), Tile_GetPackedY(g_minimapPosition) + Tools_RandomLCG_Range(0, 9));
@@ -1014,7 +1003,6 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 					if (u != NULL) {
 						ret = Tile_PackTile(Tile_MoveByRandom(u->o.position, 120, true));
 					} else {
-						const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 						ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY));
 					}
 				}
