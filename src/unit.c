@@ -2259,6 +2259,9 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 
 		/* ENHANCEMENT -- When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
 		if (g_dune2_enhanced) Structure_UntargetMe(s);
+
+		/* ENHANCEMENT -- When taking over a structure, unveil the fog around the structure. */
+		if (g_dune2_enhanced) Structure_RemoveFog(s);
 	} else {
 		Structure_Damage(s, min(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
 	}

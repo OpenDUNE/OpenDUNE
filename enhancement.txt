@@ -49,6 +49,7 @@ Structure
     structure.
 - The range of a turret was calculated from the top left corner instead of the
     center of the structure.
+- Fog was not removed from around captured structures.
 
 
 Unit
