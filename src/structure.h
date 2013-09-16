@@ -58,7 +58,7 @@ typedef enum StructureFlag {
 	FLAG_STRUCTURE_OUTPOST           = 1 << STRUCTURE_OUTPOST,           /* 0x04____ */
 
 	FLAG_STRUCTURE_NONE              = 0,
-	FLAG_STRUCTURE_NEVER             = 0xFFFF                            /*!< Special flag to mark that certain buildings can never be built on a Construction Yard. */
+	FLAG_STRUCTURE_NEVER             = -1                                /*!< Special flag to mark that certain buildings can never be built on a Construction Yard. */
 } StructureFlag;
 
 /** Available structure layouts. */
