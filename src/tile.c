@@ -291,7 +291,6 @@ uint16 Tile_GetTileInDirectionOf(uint16 packed_from, uint16 packed_to)
 {
 	int16 distance;
 	uint8 direction;
-	uint8 i;
 
 	if (packed_from == 0 || packed_to == 0) return 0;
 
@@ -300,12 +299,12 @@ uint16 Tile_GetTileInDirectionOf(uint16 packed_from, uint16 packed_to)
 
 	if (distance <= 10) return 0;
 
-	for (i = 0; i < 4; i++) {
+	while (true) {
 		int16 dir;
 		tile32 position;
 		uint16 packed;
 
-		dir = 29 + (Tools_Random_256() & 0x3F);
+		dir = 31 + (Tools_Random_256() & 0x3F);
 
 		if ((Tools_Random_256() & 1) != 0) dir = -dir;
 
