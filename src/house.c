@@ -43,6 +43,8 @@ static uint32 s_tickHouseReinforcement = 0;
 static uint32 s_tickHouseMissileCountdown = 0;
 static uint32 s_tickHouseStarportAvailability = 0;
 
+static void House_EnsureHarvesterAvailable(uint8 houseID);
+
 /**
  * Loop over all houses, preforming various of tasks.
  */
@@ -212,7 +214,7 @@ void GameLoop_House(void)
 			}
 		}
 
-		if (tickHouse) House_EnsureHarvesterAvailable((uint8)h->index);
+		if (tickHouse) House_EnsureHarvesterAvailable(h->index);
 
 		if (tickStarport && h->starportLinkedID != UNIT_INDEX_INVALID) {
 			Unit *u = NULL;
@@ -293,7 +295,7 @@ uint8 House_StringToType(const char *name)
  *
  * @param houseID The index of the house to give a harvester to.
  */
-void House_EnsureHarvesterAvailable(uint8 houseID)
+static void House_EnsureHarvesterAvailable(uint8 houseID)
 {
 	PoolFindStruct find;
 	Structure *s;
