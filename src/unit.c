@@ -2369,19 +2369,25 @@ int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 orient8)
 
 	type = Map_GetLandscapeType(packed);
 
-	res = g_table_landscapeInfo[type].movementSpeed[ui->movementType];
+	if (g_dune2_enhanced) {
+		res = g_table_landscapeInfo[type].movementSpeed[ui->movementType] * ui->movingSpeedFactor / 256;
+	} else {
+		res = g_table_landscapeInfo[type].movementSpeed[ui->movementType];
+	}
 
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) {
 		if (!House_AreAllied(g_map[packed].houseID, Unit_GetHouseID(unit))) res = 255;
 	}
 
 	if (res == 0) return 256;
-	res ^= 0xFF;
 
 	/* Check if the unit is travelling diagonally. */
 	if ((orient8 & 1) != 0) {
 		res -= res / 4 + res / 8;
 	}
+
+	/* 'Invert' the speed to get a rough estimate of the time taken. */
+	res ^= 0xFF;
 
 	return (int16)res;
 }
