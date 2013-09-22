@@ -275,7 +275,7 @@ extern void Unit_DisplayStatusText(Unit *unit);
 extern void Unit_Hide(Unit *unit);
 extern Unit *Unit_CallUnitByType(UnitType type, uint8 houseID, uint16 target, bool createCarryall);
 extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
-extern int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction);
+extern int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 orient8);
 extern void Unit_RemovePlayer(Unit *unit);
 extern void Unit_UpdateMap(uint16 type, Unit *unit);
 extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);

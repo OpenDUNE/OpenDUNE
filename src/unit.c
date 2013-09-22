@@ -2338,7 +2338,7 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
  * @return 256 if tile is not accessable, -1 when it is an accessable structure,
  *   or a score to enter the tile otherwise.
  */
-int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction)
+int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 orient8)
 {
 	const UnitInfo *ui;
 	Unit *u;
@@ -2378,7 +2378,8 @@ int16 Unit_GetTileEnterScore(Unit *unit, uint16 packed, uint16 direction)
 	if (res == 0) return 256;
 	res ^= 0xFF;
 
-	if ((direction & 1) != 0) {
+	/* Check if the unit is travelling diagonally. */
+	if ((orient8 & 1) != 0) {
 		res -= res / 4 + res / 8;
 	}
 
