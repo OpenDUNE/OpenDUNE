@@ -4091,7 +4091,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	width = max(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
 
 	/* "Clear List" */
-	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147);
+	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, STR_CLEAR_LIST);
 	wClear->width     = width;
 	wClear->height    = 10;
 	wClear->clickProc = &GUI_Widget_HOF_ClearList_Click;
@@ -4105,7 +4105,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	wClear->data      = data;
 
 	/* "Resume Game" */
-	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146);
+	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, STR_RESUME_GAME2);
 	wResume->width     = width;
 	wResume->height    = 10;
 	wResume->clickProc = &GUI_Widget_HOF_Resume_Click;
