@@ -667,12 +667,12 @@ static void GameLoop_GameIntroAnimationMenu(void)
 	static uint16 index = 0xFFFF;
 
 	if (index == 0xFFFF) {
-		hasSave = File_Exists("_save000.dat");
-		hasFame = File_Exists("SAVEFAME.DAT");
+		hasSave = File_Exists_Personal("_save000.dat");
+		hasFame = File_Exists_Personal("SAVEFAME.DAT");
 		index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
 	}
 
-	if (hasSave || File_Exists("ONETIME.DAT")) g_canSkipIntro = true;
+	if (hasSave || File_Exists_Personal("ONETIME.DAT")) g_canSkipIntro = true;
 
 	switch (stringID) {
 		case STR_REPLAY_INTRODUCTION:
@@ -694,7 +694,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 			memmove(g_palette1, g_palette_998A, 256 * 3);
 
 			if (!g_canSkipIntro) {
-				File_Create("ONETIME.DAT");
+				File_Create_Personal("ONETIME.DAT");
 				g_canSkipIntro = true;
 			}
 
@@ -720,7 +720,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 			GFX_SetPalette(g_palette2);
 
-			hasFame = File_Exists("SAVEFAME.DAT");
+			hasFame = File_Exists_Personal("SAVEFAME.DAT");
 			drawMenu = true;
 			break;
 
@@ -1195,7 +1195,6 @@ int main(int argc, char **argv)
 	Load_IniFile();
 
 	if (!File_Init()) {
-		Error("Cannot initialise files. Does %s directory exist ?\n", DATA_DIR);
 		exit(1);
 	}
 

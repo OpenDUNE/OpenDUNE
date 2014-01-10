@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "multichar.h"
 #include "types.h"
 #include "os/endian.h"
@@ -15,6 +16,18 @@
 #include "file.h"
 
 #include "config.h"
+
+/* Set DUNE_DATA_DIR at compile time.  e.g. */
+/* #define DUNE_DATA_DIR "/usr/local/share/opendune" */
+
+#ifndef DUNE_DATA_DIR
+#define DUNE_DATA_DIR "."
+#endif
+
+#define DUNE2_DATA_PREFIX       "data/"
+
+static char g_dune_data_dir[1024] = DUNE_DATA_DIR;
+static char g_personal_data_dir[1024] = ".";
 
 static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo);
 
@@ -69,22 +82,53 @@ bool fwrite_le_uint16(uint16 value, FILE *stream)
 	return true;
 }
 
+void
+File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const char *filename, bool convert_to_lowercase)
+{
+	int i = 0;
+
+	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
+		/* Note: campaign specific data directory not implemented. */
+		i = snprintf(buf, len, "%s/" DUNE2_DATA_PREFIX, g_dune_data_dir);
+	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
+		i = snprintf(buf, len, "%s/", g_personal_data_dir);
+	}
+
+	strncpy(buf + i, filename, len - i);
+	buf[len - 1] = '\0';
+
+	if (convert_to_lowercase) {
+		int j;
+
+		for (j = len - 2; j >= i; j--) {
+			if (buf[j] == '/' || buf[j] == '\\')
+				break;
+
+			if ('A' <= buf[j] && buf[j] <= 'Z')
+				buf[j] = buf[j] + 'a' - 'A';
+		}
+	}
+}
+
 /**
  * Open a file from the data/ directory
  */
-FILE *fopendatadir(const char *name, const char *mode)
+FILE *fopendatadir(enum SearchDirectory dir, const char *name, const char *mode)
 {
 	char filenameComplete[1024];
 	FileInfo *fileInfo;
+	const char *filename;
 
 	fileInfo = FileInfo_Find_ByName(name, NULL);
 	if (fileInfo != NULL) {
 		/* Take the filename from the FileInfo structure, as it was read
 		 * from the data/ directory */
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", fileInfo->filename);
+		filename = fileInfo->filename;
 	} else {
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", name);
+		filename = name;
 	}
+
+	File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), dir, filename, false);
 	return fopen(filenameComplete, mode);
 }
 
@@ -159,9 +203,8 @@ static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo)
  * @param mode The mode to open the file in. Bit 1 means reading, bit 2 means writing.
  * @return An index value refering to the opened file, or FILE_INVALID.
  */
-static uint8 _File_Open(const char *filename, uint8 mode)
+static uint8 _File_Open(enum SearchDirectory dir, const char *filename, uint8 mode)
 {
-	char pakNameComplete[1024];
 	uint8 fileIndex;
 	FileInfo *fileInfo;
 	FileInfo *pakInfo = NULL;
@@ -175,7 +218,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (fileIndex == FILE_MAX) return FILE_INVALID;
 
 	/* Check if we can find the file outside any PAK file */
-	s_file[fileIndex].fp = fopendatadir(filename, (mode == FILE_MODE_WRITE) ? "wb" : ((mode == FILE_MODE_READ_WRITE) ? "wb+" : "rb"));
+	s_file[fileIndex].fp = fopendatadir(dir, filename, (mode == FILE_MODE_WRITE) ? "wb" : ((mode == FILE_MODE_READ_WRITE) ? "wb+" : "rb"));
 	if (s_file[fileIndex].fp != NULL) {
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
@@ -203,8 +246,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (!fileInfo->flags.inPAKFile) return FILE_INVALID;
 
 	if (pakInfo == NULL) return FILE_INVALID;
-	snprintf(pakNameComplete, sizeof(pakNameComplete), DATA_DIR "%s", pakInfo->filename);
-	s_file[fileIndex].fp = fopen(pakNameComplete, "rb");
+	s_file[fileIndex].fp = fopendatadir(dir, pakInfo->filename, "rb");
 	if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
 
 	s_file[fileIndex].start    = fileInfo->filePosition;
@@ -352,14 +394,68 @@ static bool _File_Init_Callback(const char *name, const char *path, uint32 size)
 	return true;
 }
 
+static bool File_MakeDirectory(char *dir)
+{
+	struct stat st;
+	char *s = dir;
+	bool success = true;
+
+	if (stat(dir, &st) == 0) {
+		return S_ISDIR(st.st_mode);
+	}
+
+	while (success) {
+		s = strchr(s + 1, '/');
+
+		if (s != NULL)
+			*s = '\0';
+
+		if (stat(dir, &st) < 0) {
+			success = (mkdir(dir, S_IRWXU) == 0);
+		} else {
+			success = S_ISDIR(st.st_mode);
+		}
+
+		if (s == NULL)
+			break;
+
+		*s = '/';
+	}
+
+	return success;
+}
+
 /**
- * Initialize files tables by reading the DATA_DIR directory.
+ * Initialize the personal and global data directories, and the file tables.
  *
  * @return True if and only if everything was ok.
  */
 bool File_Init(void)
 {
-	return ReadDir_ProcessAllFiles(DATA_DIR, _File_Init_Callback);
+	char buf[1024];
+	char *homedir = NULL;
+
+	homedir = getenv("HOME");
+
+	if (homedir == NULL) {
+		snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");
+	} else {
+		snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), "%s/.config/opendune", homedir);
+	}
+
+	if (!File_MakeDirectory(g_personal_data_dir)) {
+		Error("Cannot open personal data directory %s. Do you have sufficient permissions?\n", g_personal_data_dir);
+		return false;
+	}
+
+	File_MakeCompleteFilename(buf, sizeof(buf), SEARCHDIR_GLOBAL_DATA_DIR, "", false);
+
+	if (!ReadDir_ProcessAllFiles(buf, _File_Init_Callback)) {
+		Error("Cannot initialise files. Does %s directory exist ?\n", buf);
+		return false;
+	}
+
+	return true;
 }
 
 /**
@@ -386,13 +482,13 @@ void File_Uninit(void)
  * @param filename The filename to check for.
  * @return True if and only if the file can be found.
  */
-bool File_Exists(const char *filename)
+bool File_Exists_Ex(enum SearchDirectory dir, const char *filename)
 {
 	uint8 index;
 
 	g_fileOperation++;
 
-	index = _File_Open(filename, FILE_MODE_READ);
+	index = _File_Open(dir, filename, FILE_MODE_READ);
 	if (index == FILE_INVALID) {
 		g_fileOperation--;
 		return false;
@@ -411,12 +507,12 @@ bool File_Exists(const char *filename)
  * @param mode The mode to open the file in. Bit 1 means reading, bit 2 means writing.
  * @return An index value refering to the opened file, or FILE_INVALID.
  */
-uint8 File_Open(const char *filename, uint8 mode)
+uint8 File_Open_Ex(enum SearchDirectory dir, const char *filename, uint8 mode)
 {
 	uint8 res;
 
 	g_fileOperation++;
-	res = _File_Open(filename, mode);
+	res = _File_Open(dir, filename, mode);
 	g_fileOperation--;
 
 	if (res == FILE_INVALID) {
@@ -595,7 +691,7 @@ uint32 File_GetSize(uint8 index)
  *
  * @param filename The filename to remove.
  */
-void File_Delete(const char *filename)
+void File_Delete_Personal(const char *filename)
 {
 	char filenameLower[1024];
 	char filenameUpper[1024];
@@ -615,12 +711,12 @@ void File_Delete(const char *filename)
 			if (*f >= 'a' && *f <= 'z') *f -= 32;
 		}
 	}
-	snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameLower);
+	File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filenameLower, false);
 
 	g_fileOperation++;
 	if (unlink(filenameComplete) < 0) {
 		/* try with the upper case file name */
-		snprintf(filenameComplete, sizeof(filenameComplete), DATA_DIR "%s", filenameUpper);
+		File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filenameUpper, false);
 		unlink(filenameComplete);
 	}
 	g_fileOperation--;
@@ -631,13 +727,13 @@ void File_Delete(const char *filename)
  *
  * @param filename The filename to create.
  */
-void File_Create(const char *filename)
+void File_Create_Personal(const char *filename)
 {
 	uint8 index;
 
 	g_fileOperation++;
 
-	index = _File_Open(filename, FILE_MODE_WRITE);
+	index = _File_Open(SEARCHDIR_PERSONAL_DATA_DIR, filename, FILE_MODE_WRITE);
 	if (index == FILE_INVALID) {
 		g_fileOperation--;
 		return;
@@ -655,11 +751,11 @@ void File_Create(const char *filename)
  * @param length The amount of bytes to read.
  * @return The amount of bytes truly read, or 0 if there was a failure.
  */
-uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length)
+uint32 File_ReadBlockFile_Ex(enum SearchDirectory dir, const char *filename, void *buffer, uint32 length)
 {
 	uint8 index;
 
-	index = File_Open(filename, FILE_MODE_READ);
+	index = File_Open_Ex(dir, filename, FILE_MODE_READ);
 	length = File_Read(index, buffer, length);
 	File_Close(index);
 	return length;
@@ -756,15 +852,12 @@ uint32 File_ReadFile(const char *filename, void *buf)
  * @param filename The name of the file to open.
  * @return An index value refering to the opened file, or FILE_INVALID.
  */
-uint8 ChunkFile_Open(const char *filename)
+uint8 ChunkFile_Open_Ex(enum SearchDirectory dir, const char *filename)
 {
 	uint8 index;
 	uint32 header;
 
-	index = File_Open(filename, FILE_MODE_READ);
-	File_Close(index);
-
-	index = File_Open(filename, FILE_MODE_READ);
+	index = File_Open_Ex(dir, filename, FILE_MODE_READ);
 
 	File_Read(index, &header, 4);
 
