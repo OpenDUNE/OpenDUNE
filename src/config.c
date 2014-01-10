@@ -32,7 +32,7 @@ bool Config_Read(const char *filename, DuneCfg *config)
 	uint8 *c;
 	int8 i;
 
-	f = fopendatadir(filename, "rb");
+	f = fopendatadir(SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
 	if (f == NULL) return false;
 
 	read = fread(config, 1, sizeof(DuneCfg), f);
@@ -69,7 +69,7 @@ bool Config_Write(const char * filename, DuneCfg *config)
 	uint8 *c1, *c2;
 	int8 i;
 
-	f = fopendatadir(filename, "wb");
+	f = fopendatadir(SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
 	if (f == NULL) return false;
 
 	sum = 0;
@@ -113,9 +113,9 @@ bool GameOptions_Load(void)
 {
 	uint8 index;
 
-	if (!File_Exists("OPTIONS.CFG")) return false;
+	if (!File_Exists_Personal("OPTIONS.CFG")) return false;
 
-	index = File_Open("OPTIONS.CFG", FILE_MODE_READ);
+	index = File_Open_Personal("OPTIONS.CFG", FILE_MODE_READ);
 
 	g_gameConfig.music = File_Read_LE16(index);
 	g_gameConfig.sounds = File_Read_LE16(index);
@@ -135,7 +135,7 @@ void GameOptions_Save(void)
 {
 	uint8 index;
 
-	index = File_Open("OPTIONS.CFG", FILE_MODE_WRITE);
+	index = File_Open_Personal("OPTIONS.CFG", FILE_MODE_WRITE);
 
 	File_Write_LE16(index, g_gameConfig.music);
 	File_Write_LE16(index, g_gameConfig.sounds);
