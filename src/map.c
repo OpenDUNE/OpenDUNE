@@ -1618,15 +1618,15 @@ void Map_CreateLandscape(uint32 seed)
 		for (i = 0; i < 64; i++) {
 			uint16 current = t[i].groundSpriteID;
 			uint16 up      = (j == 0)  ? current : previousRow[i];
-			uint16 left    = (i == 63) ? current : currentRow[i + 1];
+			uint16 right   = (i == 63) ? current : currentRow[i + 1];
 			uint16 down    = (j == 63) ? current : t[i + 64].groundSpriteID;
-			uint16 right   = (i == 0)  ? current : currentRow[i - 1];
+			uint16 left    = (i == 0)  ? current : currentRow[i - 1];
 			uint16 spriteID = 0;
 
 			if (up    == current) spriteID |= 1;
-			if (left  == current) spriteID |= 2;
+			if (right == current) spriteID |= 2;
 			if (down  == current) spriteID |= 4;
-			if (right == current) spriteID |= 8;
+			if (left  == current) spriteID |= 8;
 
 			switch (current) {
 				case LST_NORMAL_SAND:
@@ -1634,9 +1634,9 @@ void Map_CreateLandscape(uint32 seed)
 					break;
 				case LST_ENTIRELY_ROCK:
 					if (up    == LST_ENTIRELY_MOUNTAIN) spriteID |= 1;
-					if (left  == LST_ENTIRELY_MOUNTAIN) spriteID |= 2;
+					if (right == LST_ENTIRELY_MOUNTAIN) spriteID |= 2;
 					if (down  == LST_ENTIRELY_MOUNTAIN) spriteID |= 4;
-					if (right == LST_ENTIRELY_MOUNTAIN) spriteID |= 8;
+					if (left  == LST_ENTIRELY_MOUNTAIN) spriteID |= 8;
 					spriteID++;
 					break;
 				case LST_ENTIRELY_DUNE:
@@ -1647,9 +1647,9 @@ void Map_CreateLandscape(uint32 seed)
 					break;
 				case LST_SPICE:
 					if (up    == LST_THICK_SPICE) spriteID |= 1;
-					if (left  == LST_THICK_SPICE) spriteID |= 2;
+					if (right == LST_THICK_SPICE) spriteID |= 2;
 					if (down  == LST_THICK_SPICE) spriteID |= 4;
-					if (right == LST_THICK_SPICE) spriteID |= 8;
+					if (left  == LST_THICK_SPICE) spriteID |= 8;
 					spriteID += 49;
 					break;
 				case LST_THICK_SPICE:
