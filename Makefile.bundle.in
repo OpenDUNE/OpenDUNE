@@ -114,7 +114,7 @@ else
 install: bundle
 	@echo '[INSTALL] Installing OpenDUNE'
 	$(Q)install -d "$(INSTALL_BINARY_DIR)"
-	$(Q)install -d "$(INSTALL_ICON_DIR)"
+	$(Q)install -d "$(INSTALL_DATA_DIR)"
 ifeq ($(OPENDUNE), opendune.exe)
 	$(Q)install -m 755 "$(BUNDLE_DIR)/$(OPENDUNE)" "$(INSTALL_BINARY_DIR)/${BINARY_NAME}.exe"
 else

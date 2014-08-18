@@ -24,6 +24,7 @@ set_default() {
 	config_log="config.log"
 	prefix_dir="/usr/local"
 	binary_dir="games"
+	doc_dir="share/games/doc/opendune"
 	data_dir="share/games/opendune"
 	install_dir="/"
 	binary_name="opendune"
@@ -1651,6 +1652,7 @@ make_sed() {
 		s@!!OSXAPP!!@$OSXAPP@g;
 		s@!!OPENDUNE!!@$OPENDUNE@g;
 		s@!!BINARY_DIR!!@$prefix_dir/$binary_dir@g;
+		s@!!DOC_DIR!!@$prefix_dir/$doc_dir@g;
 		s@!!DATA_DIR!!@$prefix_dir/$data_dir@g;
 		s@!!INSTALL_DIR!!@$install_dir@g;
 		s@!!BINARY_NAME!!@$binary_name@g;
