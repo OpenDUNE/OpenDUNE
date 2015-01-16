@@ -6,7 +6,11 @@
 
 Thread Thread_Create(ThreadProc proc, void *data)
 {
+#if SDL_MAJOR_VERSION == 1
 	return SDL_CreateThread(proc, data);
+#elif SDL_MAJOR_VERSION == 2
+	return SDL_CreateThread(proc, "OpenDUNE", data);
+#endif
 }
 
 void Thread_Wait(Thread thread, ThreadStatus *status)
