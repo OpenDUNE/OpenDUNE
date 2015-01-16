@@ -1357,7 +1357,7 @@ detect_sdl() {
 	fi
 
 	if [ "$with_sdl" = "1" ] || [ "$with_sdl" = "" ] || [ "$with_sdl" = "2" ]; then
-		sdl_config="sdl-config"
+		sdl_config="sdl2-config"
 	else
 		sdl_config="$with_sdl"
 	fi

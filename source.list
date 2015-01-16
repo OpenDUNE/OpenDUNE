@@ -112,7 +112,7 @@ unit.c
 #if WIN32
 	video/video_win32.c
 #else
-	video/video_sdl.c
+	video/video_sdl2.c
 #endif
 wsa.c
 
