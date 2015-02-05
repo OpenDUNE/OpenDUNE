@@ -21,3 +21,6 @@ projects/*
 !projects/*.vcproj.user
 !projects/*.vcxproj
 src/rev.c
+TAGS
+*~
+

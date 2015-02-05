@@ -46,6 +46,7 @@
 #include "../unit.h"
 #include "../video/video.h"
 #include "../wsa.h"
+#include "../lock.h"
 
 MSVC_PACKED_BEGIN
 typedef struct ClippingArea {
@@ -3806,17 +3807,16 @@ void GUI_Mouse_Hide(void)
  */
 void GUI_Mouse_Hide_Safe(void)
 {
-	while (g_mouseLock != 0) sleepIdle();
-	g_mouseLock++;
+	Lock_Mouse();
 
 	if (g_var_7097 == 1) {
-		g_mouseLock--;
+		Unlock_Mouse();
 		return;
 	}
 
 	GUI_Mouse_Hide();
 
-	g_mouseLock--;
+	Unlock_Mouse();
 }
 
 /**
@@ -3825,17 +3825,16 @@ void GUI_Mouse_Hide_Safe(void)
  */
 void GUI_Mouse_Show_Safe(void)
 {
-	while (g_mouseLock != 0) sleepIdle();
-	g_mouseLock++;
+	Lock_Mouse();
 
 	if (g_var_7097 == 1) {
-		g_mouseLock--;
+		Unlock_Mouse();
 		return;
 	}
 
 	GUI_Mouse_Show();
 
-	g_mouseLock--;
+	Unlock_Mouse();
 }
 
 /**
@@ -3846,13 +3845,12 @@ void GUI_Mouse_Show_InRegion(void)
 {
 	uint8 counter;
 
-	while (g_mouseLock != 0) sleepIdle();
-	g_mouseLock++;
+	Lock_Mouse();
 
 	counter = g_regionFlags & 0xFF;
 	if (counter == 0 || --counter != 0) {
 		g_regionFlags = (g_regionFlags & 0xFF00) | (counter & 0xFF);
-		g_mouseLock--;
+		Unlock_Mouse();
 		return;
 	}
 
@@ -3861,7 +3859,7 @@ void GUI_Mouse_Show_InRegion(void)
 	}
 
 	g_regionFlags = 0;
-	g_mouseLock--;
+	Unlock_Mouse();
 }
 
 /**
@@ -3886,8 +3884,7 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	maxy = bottom + g_mouseSpriteHotspotY;
 	if (maxy > SCREEN_HEIGHT - 1) maxy = SCREEN_HEIGHT - 1;
 
-	while (g_mouseLock != 0) sleepIdle();
-	g_mouseLock++;
+	Lock_Mouse();
 
 	if (g_regionFlags == 0) {
 		g_regionMinX = minx;
@@ -3914,7 +3911,7 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	g_regionFlags |= 0x8000;
 	g_regionFlags = (g_regionFlags & 0xFF00) | (((g_regionFlags & 0x00FF) + 1) & 0xFF);
 
-	g_mouseLock--;
+	Unlock_Mouse();
 }
 
 /**
@@ -4008,8 +4005,7 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
  */
 void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	while (g_mouseLock != 0) sleepIdle();
-	g_mouseLock++;
+	Lock_Mouse();
 
 	if (x < g_mouseRegionLeft)   x = g_mouseRegionLeft;
 	if (x > g_mouseRegionRight)  x = g_mouseRegionRight;
@@ -4026,7 +4022,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 		GUI_Mouse_Show();
 	}
 
-	g_mouseLock--;
+	Unlock_Mouse();
 }
 
 /**

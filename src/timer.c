@@ -8,10 +8,8 @@
 	#define _WIN32_WINNT 0x0500
 	#include <windows.h>
 #else
-	#if !defined(__USE_POSIX)
-		#define __USE_POSIX
-	#endif /* !__USE_POSIX */
-	#include <signal.h>
+        #include <SDL.h>
+        #include "os/error.h"
 #endif /* _WIN32 */
 #include "types.h"
 #include "os/sleep.h"
@@ -40,7 +38,7 @@ static HANDLE s_timerMainThread = NULL;
 static HANDLE s_timerThread = NULL;
 static int s_timerTime;
 #else
-static struct itimerval s_timerTime;
+SDL_TimerID s_SDLTimer;
 #endif /* _WIN32 */
 
 static TimerNode *s_timerNodes = NULL;
@@ -49,7 +47,7 @@ static int s_timerNodeSize  = 0;
 
 static uint32 s_timerLastTime;
 
-static const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
+static const uint32 s_timerSpeed = 10; /* Our timer runs at 100Hz */
 
 
 static uint32 Timer_GetTime(void)
@@ -117,6 +115,15 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 	Timer_InterruptRun(0);
 	ResumeThread(s_timerMainThread);
 }
+#else
+Uint32 Timer_InterruptSDL(Uint32 interval, void *param)
+{
+	VARIABLE_NOT_USED(param);
+
+	Timer_InterruptRun(0);
+
+	return interval;
+}
 #endif /* _WIN32 */
 
 /**
@@ -128,7 +135,7 @@ static void Timer_InterruptSuspend(void)
 	if (s_timerThread != NULL) DeleteTimerQueueTimer(NULL, s_timerThread, NULL);
 	s_timerThread = NULL;
 #else
-	setitimer(ITIMER_REAL, NULL, NULL);
+	SDL_RemoveTimer(s_SDLTimer);
 #endif /* _WIN32 */
 }
 
@@ -140,7 +147,7 @@ static void Timer_InterruptResume(void)
 #if defined(_WIN32)
 	CreateTimerQueueTimer(&s_timerThread, NULL, Timer_InterruptWindows, NULL, s_timerTime, s_timerTime, WT_EXECUTEINTIMERTHREAD);
 #else
-	setitimer(ITIMER_REAL, &s_timerTime, NULL);
+	s_SDLTimer = SDL_AddTimer(s_timerSpeed, Timer_InterruptSDL, NULL);
 #endif /* _WIN32 */
 }
 
@@ -152,21 +159,12 @@ void Timer_Init(void)
 	s_timerLastTime = Timer_GetTime();
 
 #if defined(_WIN32)
-	s_timerTime = s_timerSpeed / 1000;
+	s_timerTime = s_timerSpeed;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &s_timerMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 #else
-	s_timerTime.it_value.tv_sec = 0;
-	s_timerTime.it_value.tv_usec = s_timerSpeed;
-	s_timerTime.it_interval.tv_sec = 0;
-	s_timerTime.it_interval.tv_usec = s_timerSpeed;
-
-	{
-		struct sigaction timerSignal;
-
-		sigemptyset(&timerSignal.sa_mask);
-		timerSignal.sa_handler = Timer_InterruptRun;
-		timerSignal.sa_flags   = 0;
-		sigaction(SIGALRM, &timerSignal, NULL);
+	if (SDL_Init(SDL_INIT_TIMER) < 0) {
+		Error("Could not initialize SDL: %s\n", SDL_GetError());
+		return;
 	}
 #endif /* _WIN32 */
 	Timer_InterruptResume();

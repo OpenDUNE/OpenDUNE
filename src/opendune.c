@@ -58,7 +58,7 @@
 #include "tools.h"
 #include "unit.h"
 #include "video/video.h"
-
+#include "lock.h"
 
 const char *window_caption = "OpenDUNE - Pre v0.8";
 
@@ -1186,6 +1186,8 @@ int main(int argc, char **argv)
 	FreeConsole();
 #endif
 	CrashLog_Init();
+
+	Lock_Init();
 
 	VARIABLE_NOT_USED(argc);
 	VARIABLE_NOT_USED(argv);

@@ -2,18 +2,13 @@
 animation.c
 audio/driver.c
 #if WIN32
-audio/dsp_win32.c
-audio/midi_win32.c
+	audio/dsp_win32.c
+	audio/midi_win32.c
 #else
+	audio/dsp_sdl.c
 	#if ALSA
-		audio/dsp_alsa.c
 		audio/midi_alsa.c
 	#else
-		#if SDL
-			audio/dsp_sdl.c
-		#else
-			audio/dsp_none.c
-		#endif
 		#if OSX
 			audio/midi_osx.c
 		#else
@@ -111,8 +106,10 @@ tools.c
 unit.c
 #if WIN32
 	video/video_win32.c
+	lock_none.c
 #else
 	video/video_sdl.c
+	lock_sdl.c
 #endif
 wsa.c
 
