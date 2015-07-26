@@ -699,7 +699,7 @@ void GUI_UpdateProductionStringID(void)
 	if (s == NULL) return;
 
 	if (!g_table_structureInfo[s->o.type].o.flags.factory) {
-		if (s->o.type == STRUCTURE_PALACE) g_productionStringID = g_table_houseInfo[s->o.houseID].specialWeapon + 0x29;
+		if (s->o.type == STRUCTURE_PALACE) g_productionStringID = STR_LAUNCH + g_table_houseInfo[s->o.houseID].specialWeapon - 1;
 		return;
 	}
 
@@ -881,8 +881,8 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  */
 void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
+	static const uint16 s_variable_60[8] = {1, 3, 2, 5, 4, 3, 2, 1};
 	static uint16 s_variable_5E     = 0;
-	static uint16 s_variable_60[8]  = {1, 3, 2, 5, 4, 3, 2, 1};
 	static uint16 s_variable_70     = 1;
 	static uint16 s_variable_72     = 0x8B55;
 	static uint16 s_variable_74     = 0x51EC;
@@ -1646,7 +1646,7 @@ uint8 GUI_PickHouse(void)
 		uint16 yes_no;
 
 		for (i = 0; i < 3; i++) {
-			static uint8 l_var_2BAC[3][3] = {
+			static const uint8 l_var_2BAC[3][3] = {
 				/* x, y, shortcut */
 				{ 16, 56, 31 }, /* A */
 				{ 112, 56, 25 }, /* O */
@@ -2661,8 +2661,8 @@ static void GUI_FactoryWindow_InitItems(void)
 
 static void GUI_FactoryWindow_Init(void)
 {
-	static uint8 xSrc[HOUSE_MAX] = { 0, 0, 16, 0, 0, 0 };
-	static uint8 ySrc[HOUSE_MAX] = { 8, 152, 48, 0, 0, 0 };
+	static const uint8 xSrc[HOUSE_MAX] = { 0, 0, 16, 0, 0, 0 };
+	static const uint8 ySrc[HOUSE_MAX] = { 8, 152, 48, 0, 0, 0 };
 	Screen oldScreenID;
 	void *wsa;
 	int16 i;
@@ -2798,7 +2798,7 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 			break;
 
 		case -12: {
-			static uint16 gameSpeedStrings[] = {
+			static const uint16 gameSpeedStrings[] = {
 				STR_SLOWEST,
 				STR_SLOW,
 				STR_NORMAL,
@@ -3137,19 +3137,19 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 {
 	char key[10];
 	char category[10];
-	char buffer[100];
+	char buf[100];
 	uint16 i;
 
 	sprintf(category, "GROUP%d", campaignID);
 
 	for (i = 0; i < 6; i++) {
 		uint8 houseID = (g_playerHouseID + i) % 6;
-		char *s = buffer;
+		const char *s = buf;
 
 		strncpy(key, g_table_houseInfo[houseID].name, 3);
 		key[3] = '\0';
 
-		if (Ini_GetString(category, key, NULL, buffer, 99, g_fileRegionINI) == NULL) continue;
+		if (Ini_GetString(category, key, NULL, buf, 99, g_fileRegionINI) == NULL) continue;
 
 		while (*s != '\0') {
 			uint16 region = atoi(s);
@@ -4091,7 +4091,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	width = max(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
 
 	/* "Clear List" */
-	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147);
+	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, STR_CLEAR_LIST);
 	wClear->width     = width;
 	wClear->height    = 10;
 	wClear->clickProc = &GUI_Widget_HOF_ClearList_Click;
@@ -4105,7 +4105,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameStruct *data)
 	wClear->data      = data;
 
 	/* "Resume Game" */
-	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146);
+	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, STR_RESUME_GAME2);
 	wResume->width     = width;
 	wResume->height    = 10;
 	wResume->clickProc = &GUI_Widget_HOF_Resume_Click;

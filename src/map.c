@@ -596,7 +596,7 @@ static bool Map_IsTileVisible(uint16 packed)
  */
 void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 {
-	static int16 offsets[9] = {
+	static const int16 offsets[9] = {
 		-64, /* up */
 		-63, /* up right */
 		1,   /* right */
@@ -731,9 +731,6 @@ void Map_FillCircleWithSpice(uint16 packed, uint16 radius)
  */
 static void Map_FixupSpiceEdges(uint16 packed)
 {
-	/* Relative steps in the map array for moving up, right, down, left. */
-	static const int16 _mapDifference[] = {-64, 1, 64, -1};
-
 	uint16 type;
 	uint16 spriteID;
 
@@ -745,7 +742,7 @@ static void Map_FixupSpiceEdges(uint16 packed)
 		uint8 i;
 
 		for (i = 0; i < 4; i++) {
-			uint16 curPacked = packed + _mapDifference[i];
+			const uint16 curPacked = packed + g_table_mapDiff[i];
 			uint16 curType;
 
 			if (Tile_IsOutOfMap(curPacked)) {
@@ -926,12 +923,11 @@ void Map_Bloom_ExplodeSpecial(uint16 packed, uint8 houseID)
  */
 uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 {
-	static int16 mapBase[3] = {1, -2, -2};
+	static const int16 mapBase[3] = {1, -2, -2};
+	const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+	const uint16 mapOffset = mapBase[g_scenario.mapScale];
 
 	uint16 ret = 0;
-	uint16 mapOffset;
-
-	mapOffset = mapBase[g_scenario.mapScale];
 
 	if (locationID == 6) { /* Enemy Base */
 		PoolFindStruct find;
@@ -946,6 +942,7 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 
 			s = Structure_Find(&find);
 			if (s == NULL) break;
+			if (s->o.type == STRUCTURE_SLAB_1x1 || s->o.type == STRUCTURE_SLAB_2x2 || s->o.type == STRUCTURE_WALL) continue;
 
 			if (s->o.houseID == houseID) continue;
 
@@ -956,36 +953,26 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 
 	while (ret == 0) {
 		switch (locationID) {
-			case 0: { /* North */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 0: /* North */
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX - 2), mapInfo->minY + mapOffset);
 				break;
-			}
 
-			case 1: { /* East */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 1: /* East */
 				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - mapOffset, mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY - 2));
 				break;
-			}
 
-			case 2: { /* South */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 2: /* South */
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - mapOffset);
 				break;
-			}
 
-			case 3: { /* West */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 3: /* West */
 				ret = Tile_PackXY(mapInfo->minX + mapOffset, mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY - 2));
 				break;
-			}
 
-			case 4: { /* Air */
-				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
+			case 4: /* Air */
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
-			}
 
 			case 5: /* Visible */
 				ret = Tile_PackXY(Tile_GetPackedX(g_minimapPosition) + Tools_RandomLCG_Range(0, 14), Tile_GetPackedY(g_minimapPosition) + Tools_RandomLCG_Range(0, 9));
@@ -1017,7 +1004,6 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 					if (u != NULL) {
 						ret = Tile_PackTile(Tile_MoveByRandom(u->o.position, 120, true));
 					} else {
-						const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 						ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY));
 					}
 				}
@@ -1056,7 +1042,7 @@ void Map_UpdateAround(uint16 radius, tile32 position, Unit *unit, uint8 function
 		0x0100, 0x0180
 	};
 
-	uint16 i;
+	int16 i, j;
 	tile32 diff;
 	uint16 lastPacked;
 
@@ -1068,8 +1054,6 @@ void Map_UpdateAround(uint16 radius, tile32 position, Unit *unit, uint8 function
 	if (radius >= 32) {
 		uint16 x = Tile_GetPosX(position);
 		uint16 y = Tile_GetPosY(position);
-		int16 j;
-		int16 i;
 
 		for (i = -2; i <= 2; i++) {
 			for (j = -2; j <= 2; j++) {
@@ -1329,8 +1313,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 		spriteID = 0;
 
 		for (i = 0; i < 4; i++) {
-			static const int16 mapOffset[] = {-64, 1, 64, -1};
-			uint16 neighbour = packed + mapOffset[i];
+			const uint16 neighbour = packed + g_table_mapDiff[i];
 
 			if (Tile_IsOutOfMap(neighbour)) {
 				spriteID |= 1 << i;
@@ -1635,15 +1618,15 @@ void Map_CreateLandscape(uint32 seed)
 		for (i = 0; i < 64; i++) {
 			uint16 current = t[i].groundSpriteID;
 			uint16 up      = (j == 0)  ? current : previousRow[i];
-			uint16 left    = (i == 63) ? current : currentRow[i + 1];
+			uint16 right   = (i == 63) ? current : currentRow[i + 1];
 			uint16 down    = (j == 63) ? current : t[i + 64].groundSpriteID;
-			uint16 right   = (i == 0)  ? current : currentRow[i - 1];
+			uint16 left    = (i == 0)  ? current : currentRow[i - 1];
 			uint16 spriteID = 0;
 
 			if (up    == current) spriteID |= 1;
-			if (left  == current) spriteID |= 2;
+			if (right == current) spriteID |= 2;
 			if (down  == current) spriteID |= 4;
-			if (right == current) spriteID |= 8;
+			if (left  == current) spriteID |= 8;
 
 			switch (current) {
 				case LST_NORMAL_SAND:
@@ -1651,9 +1634,9 @@ void Map_CreateLandscape(uint32 seed)
 					break;
 				case LST_ENTIRELY_ROCK:
 					if (up    == LST_ENTIRELY_MOUNTAIN) spriteID |= 1;
-					if (left  == LST_ENTIRELY_MOUNTAIN) spriteID |= 2;
+					if (right == LST_ENTIRELY_MOUNTAIN) spriteID |= 2;
 					if (down  == LST_ENTIRELY_MOUNTAIN) spriteID |= 4;
-					if (right == LST_ENTIRELY_MOUNTAIN) spriteID |= 8;
+					if (left  == LST_ENTIRELY_MOUNTAIN) spriteID |= 8;
 					spriteID++;
 					break;
 				case LST_ENTIRELY_DUNE:
@@ -1664,9 +1647,9 @@ void Map_CreateLandscape(uint32 seed)
 					break;
 				case LST_SPICE:
 					if (up    == LST_THICK_SPICE) spriteID |= 1;
-					if (left  == LST_THICK_SPICE) spriteID |= 2;
+					if (right == LST_THICK_SPICE) spriteID |= 2;
 					if (down  == LST_THICK_SPICE) spriteID |= 4;
-					if (right == LST_THICK_SPICE) spriteID |= 8;
+					if (left  == LST_THICK_SPICE) spriteID |= 8;
 					spriteID += 49;
 					break;
 				case LST_THICK_SPICE:

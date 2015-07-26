@@ -34,7 +34,7 @@ bool ReadDir_ProcessAllFiles(const char * dirpath, bool (*callback)(const char *
 		snprintf(path, sizeof(path), "%s%s", dirpath, ep->d_name);
 		/* lstat() should be prefered, but is not always available */
 		if (stat(path, &st) < 0) {
-			Warning("lstat(%s) failed", path);
+			Warning("lstat(%s) failed\n", path);
 			continue;
 		}
 		if (S_ISDIR(st.st_mode)) continue;

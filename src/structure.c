@@ -529,7 +529,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	validBuildLocation = Structure_IsValidBuildLocation(position, s->o.type);
 	if (validBuildLocation == 0 && s->o.houseID == g_playerHouseID && !g_debugScenario && g_validateStrictIfZero == 0) return false;
 
-	/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
+	/* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 	if (!g_dune2_enhanced && s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
 
 	s->o.seenByHouses |= 1 << s->o.houseID;
@@ -583,7 +583,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			Unit_Remove(u);
 
-			/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
+			/* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 			if (g_dune2_enhanced && s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 2);
 
 		}
@@ -745,14 +745,14 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 	isValid = true;
 	neededSlabs = 0;
 	for (i = 0; i < g_table_structure_layoutTileCount[si->layout]; i++) {
-		uint16 type;
+		uint16 lst;
 
 		curPos = position + layoutTile[i];
 
-		type = Map_GetLandscapeType(curPos);
+		lst = Map_GetLandscapeType(curPos);
 
 		if (g_debugScenario) {
-			if (!g_table_landscapeInfo[type].isValidForStructure2) {
+			if (!g_table_landscapeInfo[lst].isValidForStructure2) {
 				isValid = false;
 				break;
 			}
@@ -763,16 +763,16 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			}
 
 			if (si->o.flags.notOnConcrete) {
-				if (!g_table_landscapeInfo[type].isValidForStructure2 && g_validateStrictIfZero == 0) {
+				if (!g_table_landscapeInfo[lst].isValidForStructure2 && g_validateStrictIfZero == 0) {
 					isValid = false;
 					break;
 				}
 			} else {
-				if (!g_table_landscapeInfo[type].isValidForStructure && g_validateStrictIfZero == 0) {
+				if (!g_table_landscapeInfo[lst].isValidForStructure && g_validateStrictIfZero == 0) {
 					isValid = false;
 					break;
 				}
-				if (type != LST_CONCRETE_SLAB) neededSlabs++;
+				if (lst != LST_CONCRETE_SLAB) neededSlabs++;
 			}
 		}
 
@@ -785,7 +785,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 	if (g_validateStrictIfZero == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario) {
 		isValid = false;
 		for (i = 0; i < 16; i++) {
-			uint16 offset, type;
+			uint16 offset, lst;
 			Structure *s;
 
 			offset = g_table_structure_layoutTilesAround[si->layout][i];
@@ -799,8 +799,8 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 
-			type = Map_GetLandscapeType(curPos);
-			if (type != LST_CONCRETE_SLAB && type != LST_WALL) continue;
+			lst = Map_GetLandscapeType(curPos);
+			if (lst != LST_CONCRETE_SLAB && lst != LST_WALL) continue;
 			if (g_map[curPos].houseID != g_playerHouseID) continue;
 
 			isValid = true;
@@ -1134,7 +1134,6 @@ bool Structure_IsUpgradable(Structure *s)
  */
 bool Structure_ConnectWall(uint16 position, bool recurse)
 {
-	static const int16 offset[] = { -64, 1, 64, -1 };
 	static const uint8 wall[] = {
 		 0,  3,  1,  2,  3,  3,  4,  5,  1,  6,  1,  7,  8,  9, 10, 11,
 		 1, 12,  1, 19,  1, 16,  1, 31,  1, 28,  1, 52,  1, 45,  1, 59,
@@ -1163,7 +1162,7 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 	isDestroyedWall = Map_GetLandscapeType(position) == LST_DESTROYED_WALL;
 
 	for (i = 0; i < 4; i++) {
-		uint16 curPos = position + offset[i];
+		const uint16 curPos = position + g_table_mapDiff[i];
 
 		if (recurse && Map_GetLandscapeType(curPos) == LST_WALL) Structure_ConnectWall(curPos, false);
 
@@ -2001,7 +2000,7 @@ uint16 Structure_AI_PickNextToBuild(Structure *s)
 
 	if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 		for (i = 0; i < 5; i++) {
-			uint16 type = h->ai_structureRebuild[i][0];
+			type = h->ai_structureRebuild[i][0];
 
 			if (type == 0) continue;
 			if ((buildable & (1 << type)) == 0) continue;

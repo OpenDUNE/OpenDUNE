@@ -559,7 +559,6 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	House *h;
 	Widget *buttons[4];
 	Widget *widget24, *widget28, *widget2C, *widget30, *widget34;
-	int i;
 
 	o  = NULL;
 	u  = NULL;
@@ -637,6 +636,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 	if (actionType != 0) {
 		Widget *w = g_widgetLinkedListHead;
+		int i;
 
 		oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
@@ -818,14 +818,14 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 						case STRUCTURE_REPAIR: {
 							uint16 percent;
 							uint16 steps;
-							Unit *u;
+							Unit *u2;
 
-							u = Structure_GetLinkedUnit(s);
-							if (u == NULL) break;
+							u2 = Structure_GetLinkedUnit(s);
+							if (u2 == NULL) break;
 
-							GUI_DrawSprite(g_screenActiveID, g_sprites[g_table_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
+							GUI_DrawSprite(g_screenActiveID, g_sprites[g_table_unitInfo[u2->o.type].o.spriteID], 260, 89, 0, 0);
 
-							steps = g_table_unitInfo[u->o.type].o.buildTime / 4;
+							steps = g_table_unitInfo[u2->o.type].o.buildTime / 4;
 							percent = (steps - (s->countDown >> 8)) * 100 / steps;
 
 							GUI_DrawText_Wrapper(String_Get_ByIndex(STR_D_DONE), 258, 116, 29, 0, 0x11, percent);

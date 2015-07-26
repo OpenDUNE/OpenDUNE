@@ -47,6 +47,9 @@ Structure
     silently starts the repair of the structure, and doesn't cancel upgrading.
 - Fog is removed around the top left corner instead of the center of a
     structure.
+- The range of a turret was calculated from the top left corner instead of the
+    center of the structure.
+- Fog was not removed from around captured structures.
 
 
 Unit

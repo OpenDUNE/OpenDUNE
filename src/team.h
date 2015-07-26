@@ -52,7 +52,7 @@ extern const char * const g_table_teamActionName[TEAM_ACTION_MAX];
 extern void GameLoop_Team(void);
 extern bool Team_Save(FILE *fp);
 extern bool Team_Load(FILE *fp, uint32 length);
-extern Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint16 unknown1, uint16 unknown2);
+extern Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint16 minMembers, uint16 maxMembers);
 extern uint8 Team_ActionStringToType(const char *name);
 
 #endif /* TEAM_H */

@@ -985,7 +985,7 @@ uint16 Script_Unit_GetInfo(ScriptEngine *script)
  * @param direction The direction we move on this tile.
  * @return 256 if tile is not accessable, or a score for entering otherwise.
  */
-static int16 Script_Unit_Pathfind_GetScore(uint16 packed, uint8 direction)
+static int16 Script_Unit_Pathfind_GetScore(uint16 packed, uint8 orient8)
 {
 	int16 res;
 	Unit *u;
@@ -994,7 +994,11 @@ static int16 Script_Unit_Pathfind_GetScore(uint16 packed, uint8 direction)
 
 	u = g_scriptCurrentUnit;
 
-	res = Unit_GetTileEnterScore(u, packed, direction << 5);
+	if (g_dune2_enhanced) {
+		res = Unit_GetTileEnterScore(u, packed, orient8);
+	} else {
+		res = Unit_GetTileEnterScore(u, packed, orient8 << 5);
+	}
 
 	if (res == -1) res = 256;
 
@@ -1840,7 +1844,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 	Unit_UpdateMap(0, u);
 
 	for (i = 0; i < 4; i++) {
-		static int8 offsets[4] = { 0, -1, -64, -65 };
+		static const int8 offsets[4] = { 0, -1, -64, -65 };
 
 		s = Structure_Create(STRUCTURE_INDEX_INVALID, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + offsets[i]);
 

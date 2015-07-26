@@ -735,7 +735,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 				case 3:
 					/* "Are you sure you wish to restart?" */
-					if (!GUI_YesNo(0x76)) break;
+					if (!GUI_YesNo(STR_ARE_YOU_SURE_YOU_WISH_TO_RESTART)) break;
 
 					loop = false;
 					g_gameMode = GM_RESTART;
@@ -743,7 +743,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 				case 4:
 					/* "Are you sure you wish to pick a new house?" */
-					if (!GUI_YesNo(0x77)) break;
+					if (!GUI_YesNo(STR_ARE_YOU_SURE_YOU_WISH_TO_PICK_A_NEW_HOUSE)) break;
 
 					loop = false;
 					Driver_Music_FadeOut();
@@ -756,7 +756,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 				case 6:
 					/* "Are you sure you want to quit playing?" */
-					loop = !GUI_YesNo(0x65);
+					loop = !GUI_YesNo(STR_ARE_YOU_SURE_YOU_WANT_TO_QUIT_PLAYING);
 					g_running = loop;
 
 					Sound_Output_Feedback(0xFFFE);
@@ -1037,7 +1037,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 {
 	/* "Are you sure you want to clear the high scores?" */
-	if (GUI_YesNo(0x148)) {
+	if (GUI_YesNo(STR_ARE_YOU_SURE_YOU_WANT_TO_CLEAR_THE_HIGH_SCORES)) {
 		HallOfFameStruct *data = w->data;
 
 		memset(data, 0, 128);

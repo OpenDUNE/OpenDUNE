@@ -257,7 +257,7 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 				case SLDT_HOUSEFLAGS: {
 					HouseFlags *f = (HouseFlags *)ptr;
-					value = f->used | (f->human << 1) | (f->doneFullScaleAttack << 2) | (f->isAIActive << 3) | (f->radarActivated << 4) | (f->radarActivated << 5);
+					value = f->used | (f->human << 1) | (f->doneFullScaleAttack << 2) | (f->isAIActive << 3) | (f->radarActivated << 4);
 				} break;
 
 				case SLDT_OBJECTFLAGS: {

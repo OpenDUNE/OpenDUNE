@@ -291,7 +291,6 @@ uint16 Tile_GetTileInDirectionOf(uint16 packed_from, uint16 packed_to)
 {
 	int16 distance;
 	uint8 direction;
-	uint8 i;
 
 	if (packed_from == 0 || packed_to == 0) return 0;
 
@@ -300,12 +299,12 @@ uint16 Tile_GetTileInDirectionOf(uint16 packed_from, uint16 packed_to)
 
 	if (distance <= 10) return 0;
 
-	for (i = 0; i < 4; i++) {
+	while (true) {
 		int16 dir;
 		tile32 position;
 		uint16 packed;
 
-		dir = 29 + (Tools_Random_256() & 0x3F);
+		dir = 31 + (Tools_Random_256() & 0x3F);
 
 		if ((Tools_Random_256() & 1) != 0) dir = -dir;
 
@@ -328,7 +327,7 @@ uint16 Tile_GetTileInDirectionOf(uint16 packed_from, uint16 packed_to)
  */
 uint8 Tile_GetDirectionPacked(uint16 packed_from, uint16 packed_to)
 {
-	static uint8 returnValues[16] = {0x20, 0x40, 0x20, 0x00, 0xE0, 0xC0, 0xE0, 0x00, 0x60, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xA0, 0x80};
+	static const uint8 returnValues[16] = {0x20, 0x40, 0x20, 0x00, 0xE0, 0xC0, 0xE0, 0x00, 0x60, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xA0, 0x80};
 
 	int16 x1, y1, x2, y2;
 	int16 dx, dy;
@@ -477,7 +476,7 @@ tile32 Tile_MoveByRandom(tile32 tile, uint16 distance, bool center)
  */
 int8 Tile_GetDirection(tile32 from, tile32 to)
 {
-	static const uint16 mapOffsets[] = {0x40, 0x80, 0x0, 0xC0};
+	static const uint16 orientationOffsets[] = {0x40, 0x80, 0x0, 0xC0};
 	static const int32 directions[] = {
 			0x3FFF, 0x28BC, 0x145A, 0xD8E,  0xA27, 0x81B, 0x6BD, 0x5C3,  0x506, 0x474, 0x3FE, 0x39D,  0x34B, 0x306, 0x2CB, 0x297,
 			0x26A,  0x241,  0x21D,  0x1FC,  0x1DE, 0x1C3, 0x1AB, 0x194,  0x17F, 0x16B, 0x159, 0x148,  0x137, 0x128, 0x11A, 0x10C
@@ -485,11 +484,11 @@ int8 Tile_GetDirection(tile32 from, tile32 to)
 
 	int32 dx;
 	int32 dy;
-	uint16 loc02;
-	int32 loc06;
-	uint16 loc08;
+	uint16 i;
+	int32 gradient;
+	uint16 baseOrientation;
 	bool invert;
-	uint16 loc0C = 0;
+	uint16 quadrant = 0;
 
 	dx = to.x - from.x;
 	dy = to.y - from.y;
@@ -500,35 +499,35 @@ int8 Tile_GetDirection(tile32 from, tile32 to)
 	}
 
 	if (dy <= 0) {
-		loc0C |= 2;
+		quadrant |= 0x2;
 		dy = -dy;
 	}
 
 	if (dx < 0) {
-		loc0C |= 1;
+		quadrant |= 0x1;
 		dx = -dx;
 	}
 
-	loc08 = mapOffsets[loc0C];
+	baseOrientation = orientationOffsets[quadrant];
 	invert = false;
-	loc06 = 0x7FFF;
+	gradient = 0x7FFF;
 
 	if (dx >= dy) {
-		if (dy != 0) loc06 = (dx << 8) / dy;
+		if (dy != 0) gradient = (dx << 8) / dy;
 	} else {
 		invert = true;
-		if (dx != 0) loc06 = (dy << 8) / dx;
+		if (dx != 0) gradient = (dy << 8) / dx;
 	}
 
-	for (loc02 = 0; loc02 < lengthof(directions); loc02++) {
-		if (directions[loc02] <= loc06) break;
+	for (i = 0; i < lengthof(directions); i++) {
+		if (directions[i] <= gradient) break;
 	}
 
-	if (!invert) loc02 = 64 - loc02;
+	if (!invert) i = 64 - i;
 
-	if (loc0C == 0 || loc0C == 3) return (loc08 + 64 - loc02) & 0xFF;
+	if (quadrant == 0 || quadrant == 3) return (baseOrientation + 64 - i) & 0xFF;
 
-	return (loc08 + loc02) & 0xFF;
+	return (baseOrientation + i) & 0xFF;
 }
 
 /**

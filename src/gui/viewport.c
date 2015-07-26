@@ -550,7 +550,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			if (u->spriteOffset >= 0 && ui->turretSpriteID != 0xFFFF) {
 				int16 offsetX = 0;
 				int16 offsetY = 0;
-				uint16 index = ui->turretSpriteID;
+				uint16 spriteID = ui->turretSpriteID;
 
 				orientation = Orientation_Orientation256ToOrientation8(u->orientation[ui->o.flags.hasTurret ? 1 : 0].current);
 
@@ -588,9 +588,9 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 				}
 
 				s_spriteFlags = values_32A4[orientation][1];
-				index += values_32A4[orientation][0];
+				spriteID += values_32A4[orientation][0];
 
-				GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, s_spriteFlags | 0xE000, s_paletteHouse);
+				GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, s_spriteFlags | 0xE000, s_paletteHouse);
 			}
 
 			if (u->o.flags.s.isSmoking) {
@@ -784,11 +784,11 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 
 			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 			if (g_dune2_enhanced) {
-				Screen oldScreenID = g_screenActiveID;
+				Screen oldScreenID2 = g_screenActiveID;
 
 				GFX_Screen_SetActive(SCREEN_0);
 				GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 0);
-				GFX_Screen_SetActive(oldScreenID);
+				GFX_Screen_SetActive(oldScreenID2);
 			}
 
 			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, SCREEN_0);
