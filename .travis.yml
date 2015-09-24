@@ -1,0 +1,29 @@
+language: c
+
+os:
+  - linux
+  - osx
+
+addons:
+  apt:
+    packages:
+    # packages list: https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+    - libsdl1.2-dev
+
+# container-based builds
+sudo: false
+
+compiler:
+  - gcc
+  - clang
+
+before_install:
+  - 'if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update > /dev/null && brew install sdl; fi'
+
+script:
+  - 'cd $TRAVIS_BUILD_DIR'
+  - './configure'
+  - 'make -j3'
+
+after_success:
+  - 'INSTALLPREFIX="$HOME/$PROJECT" make install'
