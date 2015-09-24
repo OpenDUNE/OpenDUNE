@@ -12,6 +12,8 @@
 #include "file.h"
 #include "string.h"
 
+const char* DATA_DIR = "data/";
+
 GameCfg g_gameConfig = { 1, 1, 2, 1, 0 };
 DuneCfg g_config;
 bool g_enableSoundMusic = true;
@@ -146,4 +148,17 @@ void GameOptions_Save(void)
 	File_Close(index);
 
 	if (g_gameConfig.music == 0) Music_Play(0);
+}
+
+void CommandLineOptions_Load(int argc, char **argv)
+{
+	uint8 index = 0;
+
+	while (index < argc - 1) {
+		if (strcmp(argv[index], "-d") == 0) {
+			DATA_DIR = argv[index + 1];
+		}
+
+		++index;
+	}
 }

@@ -59,7 +59,6 @@
 #include "unit.h"
 #include "video/video.h"
 
-
 const char *window_caption = "OpenDUNE - Pre v0.8";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
@@ -1187,8 +1186,7 @@ int main(int argc, char **argv)
 #endif
 	CrashLog_Init();
 
-	VARIABLE_NOT_USED(argc);
-	VARIABLE_NOT_USED(argv);
+	CommandLineOptions_Load(argc, argv);
 
 	if (!File_Init()) {
 		Error("Cannot initialise files. Does %s directory exist ?\n", DATA_DIR);
