@@ -18,7 +18,9 @@
 #endif /* _WIN32 */
 
 #include "config.h"
+#include "string.h"
 #include "inifile.h"
+#include "ini.h"
 
 char * g_openduneini = NULL;
 
@@ -91,5 +93,26 @@ bool Load_IniFile(void)
 	}
 	g_openduneini[fileSize] = '\0';
 	fclose(f);
+	return true;
+}
+
+bool SetLanguage_From_IniFile(DuneCfg *config)
+{
+	char language[16];
+
+	if (config == NULL || g_openduneini == NULL) return false;
+	if (Ini_GetString("opendune", "language", NULL, language, sizeof(language), g_openduneini) == NULL) {
+		return false;
+	}
+	if (strcasecmp(language, "ENGLISH") == 0)
+		config->language = LANGUAGE_ENGLISH;
+	else if(strcasecmp(language, "FRENCH") == 0)
+		config->language = LANGUAGE_FRENCH;
+	else if(strcasecmp(language, "GERMAN") == 0)
+		config->language = LANGUAGE_GERMAN;
+	else if(strcasecmp(language, "ITALIAN") == 0)
+		config->language = LANGUAGE_ITALIAN;
+	else if(strcasecmp(language, "SPANISH") == 0)
+		config->language = LANGUAGE_SPANISH;
 	return true;
 }

@@ -1199,11 +1199,15 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	/* Loading / writing config from/to dune.cfg */
+	/* Loading config from dune.cfg */
 	if (!Config_Read("dune.cfg", &g_config)) {
 		Config_Default(&g_config);
 		commit_dune_cfg = true;
 	}
+	/* reading config from opendune.ini which prevail over dune.cfg */
+	SetLanguage_From_IniFile(&g_config);
+
+	/* Writing config to dune.cfg */
 	if (commit_dune_cfg && !Config_Write("dune.cfg", &g_config)) {
 		Error("Error writing to dune.cfg file.\n");
 		exit(1);
