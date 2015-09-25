@@ -10,6 +10,11 @@
 #if defined(_WIN32)
 #include <Shlwapi.h>
 #include <Shlobj.h>
+#else  /* _WIN32 */
+#include <limits.h>
+#ifndef PATH_MAX
+#define PATH_MAX (4096)
+#endif /* PATH_MAX */
 #endif /* _WIN32 */
 
 #include "config.h"
@@ -32,19 +37,19 @@ bool Load_IniFile(void)
 	   3) data/ dir
 	*/
 #if defined(_WIN32)
-	TCHAR path[1024];
+	TCHAR path[MAX_PATH];
 	if (SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, path ) != S_OK) {
-		Warning("Cannot find AppData directory.");
+		Warning("Cannot find AppData directory.\n");
 	} else {
 		PathAppend(path, TEXT("OpenDUNE\\opendune.ini"));
 		f = fopen(path, "rb");
 	}
 #else  /* _WIN32 */
-	char path[MAX_PATH];
+	char path[PATH_MAX];
 	char * homeDir;
 	homeDir = getenv("HOME");
 	if (homeDir != NULL) {
-		snprintf(path, sizeof(PATH), "%s/.config/opendune/opendune.ini", homeDir);
+		snprintf(path, sizeof(path), "%s/.config/opendune/opendune.ini", homeDir);
 		f = fopen(path, "rb");
 	}
 #endif /* _WIN32 */
@@ -56,29 +61,29 @@ bool Load_IniFile(void)
 		f = fopen(DATA_DIR "opendune.ini", "rb");
 	}
 	if (f == NULL) {
-		Warning("opendune.ini file not found.");
+		Warning("opendune.ini file not found.\n");
 		return false;
 	}
 	if (fseek(f, 0, SEEK_END) < 0) {
-		Error("Cannot get opendune.ini file size.");
+		Error("Cannot get opendune.ini file size.\n");
 		fclose(f);
 		return false;
 	}
 	fileSize = ftell(f);
 	if (fileSize < 0) {
-		Error("Cannot get opendune.ini file size.");
+		Error("Cannot get opendune.ini file size.\n");
 		fclose(f);
 		return false;
 	}
 	rewind(f);
 	g_openduneini = malloc(fileSize + 1);
 	if (g_openduneini == NULL) {
-		Error("Cannot allocate %ld bytes", fileSize + 1);
+		Error("Cannot allocate %ld bytes\n", fileSize + 1);
 		fclose(f);
 		return false;
 	}
-	if (fread(g_openduneini, 1, fileSize, f) != fileSize) {
-		Error("Failed to read opendune.ini");
+	if ((long)fread(g_openduneini, 1, fileSize, f) != fileSize) {
+		Error("Failed to read opendune.ini\n");
 		fclose(f);
 		free(g_openduneini);
 		g_openduneini = NULL;
