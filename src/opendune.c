@@ -39,6 +39,7 @@
 #include "gui/widget.h"
 #include "house.h"
 #include "ini.h"
+#include "inifile.h"
 #include "input/input.h"
 #include "input/mouse.h"
 #include "map.h"
@@ -1189,6 +1190,9 @@ int main(int argc, char **argv)
 
 	VARIABLE_NOT_USED(argc);
 	VARIABLE_NOT_USED(argv);
+
+	/* Load opendune.ini file */
+	Load_IniFile();
 
 	if (!File_Init()) {
 		Error("Cannot initialise files. Does %s directory exist ?\n", DATA_DIR);

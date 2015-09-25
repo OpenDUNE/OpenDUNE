@@ -64,7 +64,7 @@
       <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;comctl32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine Condition="'$(Platform)'=='Win32'">MachineX86</TargetMachine>
@@ -110,10 +110,12 @@
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
     <ClInclude Include="..\src\ini.h"/>
+    <ClCompile Include="..\src\inifile.c" />
     <ClCompile Include="..\src\load.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
     <ClInclude Include="..\src\load.h"/>
+    <ClInclude Include="..\src\inifile.h" />
     <ClCompile Include="..\src\map.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>

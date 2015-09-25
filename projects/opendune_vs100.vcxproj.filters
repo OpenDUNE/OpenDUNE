@@ -507,8 +507,16 @@
     <ClCompile Include="..\src\video\video_win32.c">
       <Filter>src\video</Filter>
     </ClCompile>
+    <ClInclude Include="..\src\inifile.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\source.list" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\inifile.c">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

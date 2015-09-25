@@ -1,0 +1,90 @@
+/** @file src/inifile.c opendune.ini file handling */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "types.h"
+#include "os/strings.h"
+#include "os/error.h"
+#if defined(_WIN32)
+#include <Shlwapi.h>
+#include <Shlobj.h>
+#endif /* _WIN32 */
+
+#include "config.h"
+#include "inifile.h"
+
+char * g_openduneini = NULL;
+
+/**
+ * Find and read the opendune.ini file
+ *
+ * @return True if and only if opendune.ini file was found and read.
+ */
+bool Load_IniFile(void)
+{
+	FILE *f = NULL;
+	long fileSize;
+	/* look for opendune.ini in the following locations :
+	   1) %APPDATA%/OpenDUNE (win32) ~/.config/opendune (non win32)
+	   2) current directory
+	   3) data/ dir
+	*/
+#if defined(_WIN32)
+	TCHAR path[1024];
+	if (SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, path ) != S_OK) {
+		Warning("Cannot find AppData directory.");
+	} else {
+		PathAppend(path, TEXT("OpenDUNE\\opendune.ini"));
+		f = fopen(path, "rb");
+	}
+#else  /* _WIN32 */
+	char path[MAX_PATH];
+	char * homeDir;
+	homeDir = getenv("HOME");
+	if (homeDir != NULL) {
+		snprintf(path, sizeof(PATH), "%s/.config/opendune/opendune.ini", homeDir);
+		f = fopen(path, "rb");
+	}
+#endif /* _WIN32 */
+	if (f == NULL) {
+		/* current directory */
+		f = fopen("opendune.ini", "rb");
+	}
+	if (f == NULL) {
+		f = fopen(DATA_DIR "opendune.ini", "rb");
+	}
+	if (f == NULL) {
+		Warning("opendune.ini file not found.");
+		return false;
+	}
+	if (fseek(f, 0, SEEK_END) < 0) {
+		Error("Cannot get opendune.ini file size.");
+		fclose(f);
+		return false;
+	}
+	fileSize = ftell(f);
+	if (fileSize < 0) {
+		Error("Cannot get opendune.ini file size.");
+		fclose(f);
+		return false;
+	}
+	rewind(f);
+	g_openduneini = malloc(fileSize + 1);
+	if (g_openduneini == NULL) {
+		Error("Cannot allocate %ld bytes", fileSize + 1);
+		fclose(f);
+		return false;
+	}
+	if (fread(g_openduneini, 1, fileSize, f) != fileSize) {
+		Error("Failed to read opendune.ini");
+		fclose(f);
+		free(g_openduneini);
+		g_openduneini = NULL;
+		return false;
+	}
+	g_openduneini[fileSize] = '\0';
+	fclose(f);
+	return true;
+}
