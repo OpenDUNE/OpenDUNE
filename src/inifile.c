@@ -60,7 +60,7 @@ bool Load_IniFile(void)
 		f = fopen("opendune.ini", "rb");
 	}
 	if (f == NULL) {
-		f = fopen(DATA_DIR "opendune.ini", "rb");
+		f = fopen("data/opendune.ini", "rb");
 	}
 	if (f == NULL) {
 		Warning("opendune.ini file not found.\n");

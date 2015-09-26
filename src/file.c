@@ -82,30 +82,41 @@ bool fwrite_le_uint16(uint16 value, FILE *stream)
 	return true;
 }
 
-void
-File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const char *filename, bool convert_to_lowercase)
+enum ConverCase {
+	NO_CONVERT = 0,
+	CONVERT_TO_UPPERCASE,
+	CONVERT_TO_LOWERCASE
+};
+
+static void
+File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const char *filename, enum ConverCase convert)
 {
+	int j;
 	int i = 0;
 
 	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
 		/* Note: campaign specific data directory not implemented. */
-		i = snprintf(buf, len, "%s/" DUNE2_DATA_PREFIX, g_dune_data_dir);
+		i = snprintf(buf, len, "%s/%s%s", g_dune_data_dir, DUNE2_DATA_PREFIX, filename);
 	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
-		i = snprintf(buf, len, "%s/", g_personal_data_dir);
+		i = snprintf(buf, len, "%s/%s", g_personal_data_dir, filename);
 	}
-
-	strncpy(buf + i, filename, len - i);
 	buf[len - 1] = '\0';
 
-	if (convert_to_lowercase) {
-		int j;
-
-		for (j = len - 2; j >= i; j--) {
+	if (i > (int)len) {
+		Warning("%s: output truncated : %s (%s)\n", __func__, buf, filename);
+		i = len;
+	}
+	if (convert != NO_CONVERT) {
+		for (j = i - 1; j >= 0; j--) {
 			if (buf[j] == '/' || buf[j] == '\\')
 				break;
-
-			if ('A' <= buf[j] && buf[j] <= 'Z')
-				buf[j] = buf[j] + 'a' - 'A';
+			if (convert == CONVERT_TO_LOWERCASE) {
+				if ('A' <= buf[j] && buf[j] <= 'Z')
+					buf[j] = buf[j] + 'a' - 'A';
+			} else if (convert == CONVERT_TO_UPPERCASE) {
+				if ('a' <= buf[j] && buf[j] <= 'z')
+					buf[j] = buf[j] - 'a' + 'A';
+			}
 		}
 	}
 }
@@ -119,17 +130,26 @@ FILE *fopendatadir(enum SearchDirectory dir, const char *name, const char *mode)
 	FileInfo *fileInfo;
 	const char *filename;
 
-	fileInfo = FileInfo_Find_ByName(name, NULL);
-	if (fileInfo != NULL) {
-		/* Take the filename from the FileInfo structure, as it was read
-		 * from the data/ directory */
-		filename = fileInfo->filename;
+	if(dir != SEARCHDIR_PERSONAL_DATA_DIR) {
+		fileInfo = FileInfo_Find_ByName(name, NULL);
+		if (fileInfo != NULL) {
+			/* Take the filename from the FileInfo structure, as it was read
+			 * from the data/ directory */
+			filename = fileInfo->filename;
+		} else {
+			filename = name;
+		}
+		File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), dir, filename, NO_CONVERT);
+		return fopen(filenameComplete, mode);
 	} else {
-		filename = name;
+		FILE *f;
+		/* try both in lower and upper case */
+		File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), dir, name, CONVERT_TO_UPPERCASE);
+		f = fopen(filenameComplete, mode);
+		if (f != NULL) return f;
+		File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), dir, name, CONVERT_TO_LOWERCASE);
+		return fopen(filenameComplete, mode);
 	}
-
-	File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), dir, filename, false);
-	return fopen(filenameComplete, mode);
 }
 
 /**
@@ -236,6 +256,8 @@ static uint8 _File_Open(enum SearchDirectory dir, const char *filename, uint8 mo
 
 	/* We never allow writing of files inside PAKs */
 	if ((mode & FILE_MODE_WRITE) != 0) return FILE_INVALID;
+	/* Personnal files are not inside PAKs */
+	if (dir == SEARCHDIR_PERSONAL_DATA_DIR) return FILE_INVALID;
 
 	fileInfo = FileInfo_Find_ByName(filename, &pakInfo);
 
@@ -448,7 +470,7 @@ bool File_Init(void)
 		return false;
 	}
 
-	File_MakeCompleteFilename(buf, sizeof(buf), SEARCHDIR_GLOBAL_DATA_DIR, "", false);
+	File_MakeCompleteFilename(buf, sizeof(buf), SEARCHDIR_GLOBAL_DATA_DIR, "", NO_CONVERT);
 
 	if (!ReadDir_ProcessAllFiles(buf, _File_Init_Callback)) {
 		Error("Cannot initialise files. Does %s directory exist ?\n", buf);
@@ -693,30 +715,14 @@ uint32 File_GetSize(uint8 index)
  */
 void File_Delete_Personal(const char *filename)
 {
-	char filenameLower[1024];
-	char filenameUpper[1024];
 	char filenameComplete[1024];
 
-	strncpy(filenameLower, filename, sizeof(filenameLower));
-	filenameLower[sizeof(filenameLower) - 1] = '\0';
-	strncpy(filenameUpper, filename, sizeof(filenameUpper));
-	filenameUpper[sizeof(filenameUpper) - 1] = '\0';
-	{
-		char *f;
-
-		for (f = filenameLower; *f != '\0'; f++) {
-			if (*f >= 'A' && *f <= 'Z') *f += 32;
-		}
-		for (f = filenameUpper; *f != '\0'; f++) {
-			if (*f >= 'a' && *f <= 'z') *f -= 32;
-		}
-	}
-	File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filenameLower, false);
+	File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filename, CONVERT_TO_LOWERCASE);
 
 	g_fileOperation++;
 	if (unlink(filenameComplete) < 0) {
 		/* try with the upper case file name */
-		File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filenameUpper, false);
+		File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filename, CONVERT_TO_UPPERCASE);
 		unlink(filenameComplete);
 	}
 	g_fileOperation--;
