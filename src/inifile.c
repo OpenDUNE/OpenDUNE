@@ -131,3 +131,15 @@ bool SetLanguage_From_IniFile(DuneCfg *config)
 		config->language = LANGUAGE_SPANISH;
 	return true;
 }
+
+char *IniFile_GetString(const char *key, const char *defaultValue, char *dest, uint16 length)
+{
+	if (g_openduneini == NULL) return NULL;
+	return Ini_GetString("opendune", key, defaultValue, dest, length, g_openduneini);
+}
+
+int IniFile_GetInteger(const char *key, int defaultValue)
+{
+	if (g_openduneini == NULL) return defaultValue;
+	return Ini_GetInteger("opendune", key, defaultValue, g_openduneini);
+}
