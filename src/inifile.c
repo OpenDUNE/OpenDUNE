@@ -116,7 +116,7 @@ bool SetLanguage_From_IniFile(DuneCfg *config)
 	char language[16];
 
 	if (config == NULL || g_openduneini == NULL) return false;
-	if (Ini_GetString("opendune", "language", NULL, language, sizeof(language), g_openduneini) == NULL) {
+	if (IniFile_GetString("language", NULL, language, sizeof(language)) == NULL) {
 		return false;
 	}
 	if (strcasecmp(language, "ENGLISH") == 0)
@@ -134,8 +134,16 @@ bool SetLanguage_From_IniFile(DuneCfg *config)
 
 char *IniFile_GetString(const char *key, const char *defaultValue, char *dest, uint16 length)
 {
+	char * p;
+	uint16 i;
 	if (g_openduneini == NULL) return NULL;
-	return Ini_GetString("opendune", key, defaultValue, dest, length, g_openduneini);
+	p = Ini_GetString("opendune", key, defaultValue, dest, length, g_openduneini);
+	if (p) {
+		/* Trim space from the beginning of the dest */
+		for (i = 0; i < length && (dest[i] == ' ' || dest[i] == '\t') && (dest[i] != '\0'); i++);
+		if (i > 0 && i < length) memmove(dest, dest+i, length - i);
+	}
+	return p;
 }
 
 int IniFile_GetInteger(const char *key, int defaultValue)
