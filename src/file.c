@@ -16,6 +16,7 @@
 #include "file.h"
 
 #include "config.h"
+#include "inifile.h"
 
 /* Set DUNE_DATA_DIR at compile time.  e.g. */
 /* #define DUNE_DATA_DIR "/usr/local/share/opendune" */
@@ -457,12 +458,16 @@ bool File_Init(void)
 	char buf[1024];
 	char *homedir = NULL;
 
-	homedir = getenv("HOME");
-
-	if (homedir == NULL) {
-		snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");
+	if (IniFile_GetString("savedir", NULL, buf, sizeof(buf)) != NULL) {
+		/* savedir is defined in opendune.ini */
+		strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
 	} else {
-		snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), "%s/.config/opendune", homedir);
+		homedir = getenv("HOME");
+		if (homedir == NULL) {
+			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");
+		} else {
+			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), "%s/.config/opendune", homedir);
+		}
 	}
 
 	if (!File_MakeDirectory(g_personal_data_dir)) {
@@ -470,6 +475,10 @@ bool File_Init(void)
 		return false;
 	}
 
+	if (IniFile_GetString("datadir", NULL, buf, sizeof(buf)) != NULL) {
+		/* datadir is defined in opendune.ini */
+		strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
+	}
 	File_MakeCompleteFilename(buf, sizeof(buf), SEARCHDIR_GLOBAL_DATA_DIR, "", NO_CONVERT);
 
 	if (!ReadDir_ProcessAllFiles(buf, _File_Init_Callback)) {
