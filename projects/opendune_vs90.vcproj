@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib comctl32.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib Shlwapi.lib"
 				AdditionalLibraryDirectories=".."
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -140,7 +140,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib comctl32.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib Shlwapi.lib"
 				AdditionalLibraryDirectories=".."
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
@@ -214,7 +214,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib comctl32.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib Shlwapi.lib"
 				AdditionalLibraryDirectories=".."
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -291,7 +291,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib comctl32.lib"
+				AdditionalDependencies="winmm.lib comctl32.lib Shlwapi.lib"
 				AdditionalLibraryDirectories=".."
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
@@ -657,6 +657,46 @@
 			</File>
 			<File
 				RelativePath="..\src\ini.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\inifile.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\inifile.h"
 				>
 			</File>
 			<File

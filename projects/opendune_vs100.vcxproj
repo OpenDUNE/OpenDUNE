@@ -110,12 +110,14 @@
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
     <ClInclude Include="..\src\ini.h"/>
-    <ClCompile Include="..\src\inifile.c" />
+    <ClCompile Include="..\src\inifile.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\inifile.h"/>
     <ClCompile Include="..\src\load.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
     <ClInclude Include="..\src\load.h"/>
-    <ClInclude Include="..\src\inifile.h" />
     <ClCompile Include="..\src\map.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
