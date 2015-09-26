@@ -22,7 +22,7 @@
 #include "inifile.h"
 #include "ini.h"
 
-char * g_openduneini = NULL;
+static char * g_openduneini = NULL;
 
 /**
  * Find and read the opendune.ini file
