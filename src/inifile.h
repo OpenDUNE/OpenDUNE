@@ -5,6 +5,8 @@
 
 extern bool Load_IniFile(void);
 
+extern void Free_IniFile(void);
+
 extern bool SetLanguage_From_IniFile(DuneCfg *config);
 
 #endif /* INIFILE_H */

@@ -1226,6 +1226,7 @@ int main(int argc, char **argv)
 	printf("%s\n", String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
 	PrepareEnd();
+	Free_IniFile();
 	exit(0);
 }
 

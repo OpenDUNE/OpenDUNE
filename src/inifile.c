@@ -96,6 +96,21 @@ bool Load_IniFile(void)
 	return true;
 }
 
+/**
+ * Release opendune.ini malloc'd buffer
+ */
+void Free_IniFile(void)
+{
+	free(g_openduneini);
+	g_openduneini = NULL;
+}	
+
+/**
+ * Set language depending on value in opendune.ini
+ *
+ * @param config dune config to modify
+ * @return False in case of error
+ */
 bool SetLanguage_From_IniFile(DuneCfg *config)
 {
 	char language[16];
