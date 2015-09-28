@@ -419,14 +419,29 @@ static bool _File_Init_Callback(const char *name, const char *path, uint32 size)
 
 static bool File_MakeDirectory(char *dir)
 {
+#ifdef _WIN32
+	DWORD attributes;
+#else /* _WIN32 */
 	struct stat st;
 	char *s = dir;
+#endif /* _WIN32 */
 	bool success = true;
 
+#ifdef _WIN32
+	attributes = GetFileAttributes(dir);
+	if (attributes != INVALID_FILE_ATTRIBUTES) {
+		return ((attributes & FILE_ATTRIBUTE_DIRECTORY) != 0);
+	}
+#else /* _WIN32 */
 	if (stat(dir, &st) == 0) {
 		return S_ISDIR(st.st_mode);
 	}
+#endif /* _WIN32 */
 
+#ifdef _WIN32
+	/* create intermediate folders if they do not exist */
+	success = (SHCreateDirectoryEx(NULL, dir, NULL) == ERROR_SUCCESS);
+#else /* _WIN32 */
 	while (success) {
 		s = strchr(s + 1, '/');
 
@@ -444,6 +459,7 @@ static bool File_MakeDirectory(char *dir)
 
 		*s = '/';
 	}
+#endif /* _WIN32 */
 
 	return success;
 }
@@ -462,12 +478,24 @@ bool File_Init(void)
 		/* savedir is defined in opendune.ini */
 		strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
 	} else {
+#ifdef _WIN32
+		/* %APPDATA%/OpenDUNE (win32) */
+		if (SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, buf ) != S_OK) {
+			Warning("Cannot find AppData directory.\n");
+			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");
+		} else {
+			PathAppend(buf, TEXT("OpenDUNE"));
+			strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
+		}
+#else /* _WIN32 */
+		/* ~/.config/opendune (non win32) */
 		homedir = getenv("HOME");
 		if (homedir == NULL) {
 			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");
 		} else {
 			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), "%s/.config/opendune", homedir);
 		}
+#endif /* _WIN32 */
 	}
 
 	if (!File_MakeDirectory(g_personal_data_dir)) {
