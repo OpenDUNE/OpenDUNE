@@ -104,7 +104,7 @@ File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const
 	buf[len - 1] = '\0';
 
 	if (i > (int)len) {
-		Warning("%s: output truncated : %s (%s)\n", __func__, buf, filename);
+		Warning("output truncated : %s (%s)\n", buf, filename);
 		i = len;
 	}
 	if (convert != NO_CONVERT) {
