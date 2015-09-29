@@ -12,7 +12,7 @@ OpenDUNE is licensed under the GNU General Public License version 2.0. For
 
 Contact
 -------
-The latest version of OpenDUNE is always availabe at:
+The latest version of OpenDUNE is always available at:
   http://www.opendune.org/
 The latest development version is at:
   https://github.com/OpenDUNE/OpenDUNE
