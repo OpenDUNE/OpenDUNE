@@ -34,7 +34,9 @@ bool Load_IniFile(void)
 	FILE *f = NULL;
 	long fileSize;
 	/* look for opendune.ini in the following locations :
-	   1) %APPDATA%/OpenDUNE (win32) ~/.config/opendune (non win32)
+	   1) %APPDATA%/OpenDUNE (win32)
+	      ~/Library/Application Support/OpenDUNE (Mac OS X)
+	      ~/.config/opendune (Linux)
 	   2) current directory
 	   3) data/ dir
 	*/
@@ -51,7 +53,11 @@ bool Load_IniFile(void)
 	char * homeDir;
 	homeDir = getenv("HOME");
 	if (homeDir != NULL) {
+#if defined(__APPLE__)
+		snprintf(path, sizeof(path), "%s/Library/Application Support/OpenDUNE/opendune.ini", homeDir);
+#else /* __APPLE__ */
 		snprintf(path, sizeof(path), "%s/.config/opendune/opendune.ini", homeDir);
+#endif /* __APPLE__ */
 		f = fopen(path, "rb");
 	}
 #endif /* _WIN32 */

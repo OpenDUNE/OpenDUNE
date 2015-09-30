@@ -488,12 +488,16 @@ bool File_Init(void)
 			strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
 		}
 #else /* _WIN32 */
-		/* ~/.config/opendune (non win32) */
+		/* ~/.config/opendune (Linux)  ~/Library/Application Support/OpenDUNE (Mac OS X) */
 		homedir = getenv("HOME");
 		if (homedir == NULL) {
 			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");
 		} else {
+#if defined(__APPLE__)
+			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), "%s/Library/Application Support/OpenDUNE", homedir);
+#else /* __APPLE__ */
 			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), "%s/.config/opendune", homedir);
+#endif /* __APPLE__ */
 		}
 #endif /* _WIN32 */
 	}
