@@ -1,9 +1,9 @@
 /** @file src/audio/midi_osx.c Mac OS X implementation of the MIDI.
  * See PlaySoftMIDI example from the OS X SDK. */
 
-#include "types.h"
 #include <AudioUnit/AudioUnit.h>
 #include <AudioToolbox/AudioToolbox.h>
+#include "types.h"
 #include "midi.h"
 
 #if defined(AUDIO_TOOLBOX_VERSION) && (AUDIO_TOOLBOX_VERSION >= 0x0105)
