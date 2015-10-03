@@ -666,10 +666,12 @@ void Video_Tick(void)
 
 #ifdef _DEBUG
 	if (!s_showFPS) {
-		if (!GFX_Screen_IsDirty(SCREEN_0) && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
-			Warning("**** SCREEN0 DIRTY NOT DETECTED ! ****\n");
+		if (GFX_Screen_Get_ByIndex(SCREEN_0) != NULL) {
+			if (!GFX_Screen_IsDirty(SCREEN_0) && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
+				Warning("**** SCREEN0 DIRTY NOT DETECTED ! ****\n");
+			}
+			memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
 		}
-		memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
 	}
 #endif /* _DEBUG */
 
@@ -689,7 +691,6 @@ void Video_Tick(void)
 		GFX_Screen_SetClean(SCREEN_0);
 		s_screen_needrepaint = false;
 	}
-
 	s_video_lock = false;
 }
 
