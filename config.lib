@@ -684,6 +684,7 @@ make_compiler_cflags() {
 		flags="$flags -Wwrite-strings -Wpointer-arith"
 		flags="$flags -W -Wredundant-decls"
 		flags="$flags -Wformat=2 -Wformat-security"
+		flags="$flags -Wno-format-nonliteral"
 
 		if [ $enable_assert -eq 0 ]; then
 			# Do not warn about unused variables when building without asserts
