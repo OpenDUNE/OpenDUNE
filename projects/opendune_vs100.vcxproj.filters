@@ -99,6 +99,12 @@
     <ClInclude Include="..\src\ini.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\inifile.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\inifile.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClCompile Include="..\src\load.c">
       <Filter>src</Filter>
     </ClCompile>

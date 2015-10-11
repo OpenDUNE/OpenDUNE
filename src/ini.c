@@ -41,7 +41,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 		if (current == NULL) break;
 
 		if (strncasecmp(current, buffer, catLength) != 0) continue;
-		if (*(current - 1) != '\r' && *(current - 1) != '\n') continue;
+		if (current != source && *(current - 1) != '\r' && *(current - 1) != '\n') continue;
 
 		current += catLength;
 		while (isspace((uint8)*current)) current++;

@@ -50,12 +50,18 @@ In order to use sounds and music on Linux, you need a working ALSA driver.
 Installation & Running
 ----------------------
 Extract OpenDUNE.
-Copy the original Dune2 1.07 data files (including dune2.exe) to data/. All
- filenames should be lowercase for case-sensitive file systems (Linux, MacOSX).
+Copy the original Dune2 1.07 data files (including dune2.exe) to data/.
  All three existing versions of the Dune 1.07 data files (eu, hs and us) will
   work, but only with the eu/hs data files the French language will work, and
   only with the eu data files the German language will work.
 Start 'opendune'.
+
+Additional options may be specified using an opendune.ini file located
+in the data/ directory, in the current directory or in %APPDATA%\OpenDUNE
+(on Windows) or ~/.config/opendune (on Linux). All options must be in
+an [opendune] section.
+Available options are :
+language : english / french / german
 
 
 Enhancement over Dune2

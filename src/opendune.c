@@ -39,6 +39,7 @@
 #include "gui/widget.h"
 #include "house.h"
 #include "ini.h"
+#include "inifile.h"
 #include "input/input.h"
 #include "input/mouse.h"
 #include "map.h"
@@ -1190,16 +1191,23 @@ int main(int argc, char **argv)
 	VARIABLE_NOT_USED(argc);
 	VARIABLE_NOT_USED(argv);
 
+	/* Load opendune.ini file */
+	Load_IniFile();
+
 	if (!File_Init()) {
 		Error("Cannot initialise files. Does %s directory exist ?\n", DATA_DIR);
 		exit(1);
 	}
 
-	/* Loading / writing config from/to dune.cfg */
+	/* Loading config from dune.cfg */
 	if (!Config_Read("dune.cfg", &g_config)) {
 		Config_Default(&g_config);
 		commit_dune_cfg = true;
 	}
+	/* reading config from opendune.ini which prevail over dune.cfg */
+	SetLanguage_From_IniFile(&g_config);
+
+	/* Writing config to dune.cfg */
 	if (commit_dune_cfg && !Config_Write("dune.cfg", &g_config)) {
 		Error("Error writing to dune.cfg file.\n");
 		exit(1);
@@ -1218,6 +1226,7 @@ int main(int argc, char **argv)
 	printf("%s\n", String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
 	PrepareEnd();
+	Free_IniFile();
 	exit(0);
 }
 

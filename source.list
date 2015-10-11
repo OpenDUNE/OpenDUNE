@@ -47,6 +47,7 @@ gui/widget_click.c
 gui/widget_draw.c
 house.c
 ini.c
+inifile.c
 input/input.c
 input/mouse.c
 load.c
