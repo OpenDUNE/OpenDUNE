@@ -1171,6 +1171,9 @@ int main(int argc, char **argv)
 #endif /* __APPLE__ */
 {
 	bool commit_dune_cfg = false;
+	VideoScaleFilter scale_filter = FILTER_NEAREST_NEIGHBOR;
+	int scaling_factor = 2;
+	char filter_text[64];
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
 		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
@@ -1217,7 +1220,20 @@ int main(int argc, char **argv)
 
 	Drivers_All_Init();
 
-	if (!Unknown_25C4_000E(2, FILTER_NEAREST_NEIGHBOR)) exit(1);
+	scaling_factor = IniFile_GetInteger("scalefactor", 2);
+	if (IniFile_GetString("scalefilter", NULL, filter_text, sizeof(filter_text)) != NULL) {
+		if (strcasecmp(filter_text, "nearest") == 0) {
+			scale_filter = FILTER_NEAREST_NEIGHBOR;
+		} else if (strcasecmp(filter_text, "scale2x") == 0) {
+			scale_filter = FILTER_SCALE2X;
+		} else if (strcasecmp(filter_text, "hqx") == 0) {
+			scale_filter = FILTER_HQX;
+		} else {
+			Error("unrecognized scalefilter value '%s'\n", filter_text);
+		}
+	}
+
+	if (!Unknown_25C4_000E(scaling_factor, scale_filter)) exit(1);
 
 	g_var_7097 = 0;
 
