@@ -105,6 +105,9 @@ HQX_API void HQX_CALLCONV hq3x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp
 
         for (i=0; i<Xres; i++)
         {
+            int pattern = 0;
+            int flag = 1;
+
             w[2] = *(sp + prevline);
             w[5] = *sp;
             w[8] = *(sp + nextline);
@@ -134,9 +137,6 @@ HQX_API void HQX_CALLCONV hq3x_32_rb( uint32_t * sp, uint32_t srb, uint32_t * dp
                 w[6] = w[5];
                 w[9] = w[8];
             }
-
-            int pattern = 0;
-            int flag = 1;
 
             yuv1 = rgb_to_yuv(w[5]);
 
