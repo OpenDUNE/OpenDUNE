@@ -62,7 +62,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 
 			ret = current;
 
-			while (true) {
+			while (current < end) {
 				char *value;
 				char *lineEnd;
 
