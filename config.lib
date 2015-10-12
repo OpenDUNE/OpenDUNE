@@ -895,6 +895,11 @@ make_cflags_and_ldflags() {
 					# Intel is only available starting from 10.4
 					CFLAGS="$CFLAGS -mmacosx-version-min=10.4"
 				fi
+				machine=$(machine)
+				case $machine in
+					ppc7400 | ppc7450 | ppc970)
+					CFLAGS="$CFLAGS -maltivec" ;;
+				esac
 			fi
 		fi
 	fi
