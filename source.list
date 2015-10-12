@@ -114,14 +114,14 @@ unit.c
 	video/video_win32.c
 #else
 	video/video_sdl.c
-	video/scalebit.c
-	video/scale2x.c
-	video/scale3x.c
-	video/hqx_init.c
-	video/hq2x.c
-	video/hq3x.c
-	video/hq4x.c
 #endif
+video/hqx_init.c
+video/hq2x.c
+video/hq3x.c
+video/hq4x.c
+video/scalebit.c
+video/scale2x.c
+video/scale3x.c
 wsa.c
 
 # Header files

@@ -37,7 +37,9 @@
     #ifdef DLL_EXPORT
         #define HQX_API __declspec(dllexport)
     #else
-        #define HQX_API __declspec(dllimport)
+        /* #define HQX_API __declspec(dllimport) */
+		/* statically link HQX */
+	    #define HQX_API
     #endif
 #else
     #define HQX_API
