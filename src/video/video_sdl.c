@@ -1,12 +1,15 @@
 /** @file src/video/video_sdl.c SDL video driver. */
 
 #include <SDL.h>
+#if defined(__ALTIVEC__)
+#include <altivec.h>
+#endif /* __ALTIVEC__ */
 #include "types.h"
 #include "../os/error.h"
 
 #if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
 #include <mmintrin.h>
-#endif
+#endif /* i386 / x86_64 */
 
 #include "video.h"
 
@@ -266,6 +269,23 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 				gfx1 += 8;
 				*((__m64 *)gfx2) = m;
 				gfx2 += 8;
+			}
+#elif defined(__ALTIVEC__)
+			/* G4/G5 altivec code */
+			for (x = SCREEN_WIDTH / 16; x > 0; x--) {
+				vector unsigned char m0;
+				vector unsigned char m1;
+				m0 = *((vector unsigned char *)data);
+				m1 = m0;
+				data += 16;
+				m0 = vec_mergeh(m0, m0);
+				m1 = vec_mergel(m1, m1);
+				((vector unsigned char *)gfx1)[0] = m0;
+				((vector unsigned char *)gfx1)[1] = m1;
+				gfx1 += 32;
+				((vector unsigned char *)gfx2)[0] = m0;
+				((vector unsigned char *)gfx2)[1] = m1;
+				gfx2 += 32;
 			}
 #else
 			for (x = 0; x < SCREEN_WIDTH; x++) {
