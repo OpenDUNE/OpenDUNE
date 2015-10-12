@@ -4,6 +4,10 @@
 #include "types.h"
 #include "../os/error.h"
 
+#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#include <mmintrin.h>
+#endif
+
 #include "video.h"
 
 #include "../file.h"
@@ -251,6 +255,19 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			gfx2 = gfx1 + SCREEN_WIDTH * 2;
+#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+			/* MMX code */
+			for (x = SCREEN_WIDTH / 4; x > 0; x--) {
+				__m64 m;
+				m = _mm_cvtsi32_si64(*((int *)data));	/* Load Word */
+				data += 4;
+				m = _mm_unpacklo_pi8(m, m);	/* unpack and interlace same value */
+				*((__m64 *)gfx1) = m;	/* store */
+				gfx1 += 8;
+				*((__m64 *)gfx2) = m;
+				gfx2 += 8;
+			}
+#else
 			for (x = 0; x < SCREEN_WIDTH; x++) {
 				uint8 value = *data++;
 				*gfx1++ = value;
@@ -258,6 +275,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 				*gfx1++ = value;
 				*gfx2++ = value;
 			}
+#endif
 			gfx1 = gfx2;
 		}
 		break;
