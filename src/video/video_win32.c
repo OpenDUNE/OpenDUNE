@@ -16,8 +16,16 @@
 #include "../input/input.h"
 #include "../input/mouse.h"
 
+#include "scalebit.h"
+#include "hqx.h"
+
+static VideoScaleFilter s_scale_filter;
+
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 static int s_screen_magnification;
+
+/** The palette used for HQX */
+static uint32 rgb_palette[256];
 
 static const char *s_className = "OpenDUNE";
 static bool s_init = false;
@@ -25,6 +33,7 @@ static bool s_lock = false;
 static HWND s_hwnd = NULL;
 static HBITMAP s_dib = NULL;
 static void *s_screen = NULL;
+static void *s_screen2 = NULL;
 static uint16 s_x;
 static uint16 s_y;
 
@@ -178,10 +187,44 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if (!GetUpdateRect(hwnd, NULL, FALSE))
 				return 0;
+			if (s_scale_filter == FILTER_SCALE2X) {
+				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+			} else if(s_scale_filter == FILTER_HQX) {
+				static uint32 rgb_screen[SCREEN_WIDTH*SCREEN_HEIGHT];
+				uint8 *p;
+				uint32 *rgb;
+				int i;
+
+				i = SCREEN_WIDTH*SCREEN_HEIGHT;
+				p = s_screen;
+				rgb = rgb_screen;
+				do {
+					*rgb++ = rgb_palette[*p++];
+				} while(--i > 0);
+				switch(s_screen_magnification) {
+				case 2:
+					hq2x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					break;
+				case 3:
+					hq3x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					break;
+				case 4:
+					hq4x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					break;
+				}
+			}
 			dc = BeginPaint(hwnd, &ps);
 			dc2 = CreateCompatibleDC(dc);
 			old_bmp = (HBITMAP)SelectObject(dc2, s_dib);
-			StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+			switch (s_scale_filter) {
+			case FILTER_HQX:
+			case FILTER_SCALE2X:
+				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SRCCOPY);
+				break;
+			case FILTER_NEAREST_NEIGHBOR:
+			default:
+				StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+			}
 			SelectObject(dc2, old_bmp);
 			DeleteDC(dc2);
 			EndPaint(hwnd, &ps);
@@ -287,7 +330,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		return false;
 	}
 	s_screen_magnification = screen_magnification;
-	VARIABLE_NOT_USED(filter);		/* XXX */
+	s_scale_filter = filter;
+
+	if (filter == FILTER_HQX) {
+		hqxInit();
+	}
 
 	hInstance = GetModuleHandle(NULL);
 
@@ -309,20 +356,32 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	bi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	memset(bi, 0, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	bi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	bi->bmiHeader.biWidth = SCREEN_WIDTH;
-	bi->bmiHeader.biHeight = -SCREEN_HEIGHT;
+	if (filter == FILTER_NEAREST_NEIGHBOR) {
+		bi->bmiHeader.biWidth = SCREEN_WIDTH;
+		bi->bmiHeader.biHeight = -SCREEN_HEIGHT;
+	} else {
+		bi->bmiHeader.biWidth = SCREEN_WIDTH * s_screen_magnification;
+		bi->bmiHeader.biHeight = -SCREEN_HEIGHT * s_screen_magnification;
+	}
 	bi->bmiHeader.biPlanes = 1;
-	bi->bmiHeader.biBitCount = 8;
+	if (filter == FILTER_HQX) {
+		bi->bmiHeader.biBitCount = 32;
+	} else {
+		bi->bmiHeader.biBitCount = 8;
+	}
 	bi->bmiHeader.biCompression = BI_RGB;
 
 	dc = GetDC(NULL);
-	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, &s_screen, NULL, 0);
+	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, (filter == FILTER_NEAREST_NEIGHBOR) ? &s_screen : &s_screen2, NULL, 0);
 	if (s_dib == NULL) {
 		Error("CreateDIBSection failed\n");
 		return false;
 	}
 	ReleaseDC(NULL, dc);
 
+	if (filter != FILTER_NEAREST_NEIGHBOR) {
+		s_screen = malloc(SCREEN_WIDTH * SCREEN_HEIGHT);
+	}
 	s_init = true;
 	return true;
 }
@@ -332,6 +391,9 @@ void Video_Uninit(void)
 	if (!s_init) return;
 
 	DeleteObject(s_dib);
+	if (s_scale_filter != FILTER_NEAREST_NEIGHBOR) {
+		free(s_screen);
+	}
 	UnregisterClass(s_className, GetModuleHandle(NULL));
 	ShowCursor(TRUE);
 	s_init = false;
@@ -388,28 +450,39 @@ void Video_Tick(void)
 
 void Video_SetPalette(void *palette, int from, int length)
 {
-	RGBQUAD rgb[256];
-	HDC dc;
-	HDC dc2;
-	HBITMAP old_bmp;
 	uint8 *p = palette;
 	int i;
 
-	/* convert from 6bit to 8bit per component */
-	for (i = 0; i < length; i++) {
-		rgb[i].rgbRed      = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbGreen    = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbBlue     = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbReserved = 0;
-	}
+	if (s_scale_filter == FILTER_HQX) {
+		uint32 value;
 
-	dc = GetDC(s_hwnd);
-	dc2 = CreateCompatibleDC(dc);
-	old_bmp = SelectObject(dc2, s_dib);
-	SetDIBColorTable(dc2, from, length, rgb);
-	SelectObject(dc2, old_bmp);
-	DeleteDC(dc2);
-	ReleaseDC(s_hwnd, dc);
+		for (i = from; i < from + length; i++) {
+			value = (((*p++) & 0x3F) * 0x41000) & 0xff0000;
+			value |= (((*p++) & 0x3F) * 0x410) & 0x00ff00;
+			rgb_palette[i] = value | ((((*p++) & 0x3F) * 0x41)>> 4);
+		}
+	} else {
+		RGBQUAD rgb[256];
+		HDC dc;
+		HDC dc2;
+		HBITMAP old_bmp;
+
+		/* convert from 6bit to 8bit per component */
+		for (i = 0; i < length; i++) {
+			rgb[i].rgbRed      = (((*p++) & 0x3F) * 0x41) >> 4;
+			rgb[i].rgbGreen    = (((*p++) & 0x3F) * 0x41) >> 4;
+			rgb[i].rgbBlue     = (((*p++) & 0x3F) * 0x41) >> 4;
+			rgb[i].rgbReserved = 0;
+		}
+
+		dc = GetDC(s_hwnd);
+		dc2 = CreateCompatibleDC(dc);
+		old_bmp = SelectObject(dc2, s_dib);
+		SetDIBColorTable(dc2, from, length, rgb);
+		SelectObject(dc2, old_bmp);
+		DeleteDC(dc2);
+		ReleaseDC(s_hwnd, dc);
+	}
 	InvalidateRect(s_hwnd, NULL, TRUE);
 }
 

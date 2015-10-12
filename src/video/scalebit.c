@@ -37,17 +37,22 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+#include <stdlib.h>
+
+#ifdef _MSC_VER
+#define inline __inline
+#define restrict __restrict
+#else /* _MSC_VER */
 #define inline __inline__
 #define restrict __restrict__
+#endif /* _MSC_VER */
 #include "scale2x.h"
 #include "scale3x.h"
 
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
-
-#include <assert.h>
-#include <stdlib.h>
 
 #define SSDST(bits, num) (scale2x_uint##bits *)dst##num
 #define SSSRC(bits, num) (const scale2x_uint##bits *)src##num

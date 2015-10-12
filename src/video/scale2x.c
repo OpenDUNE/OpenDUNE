@@ -36,11 +36,16 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+
+#ifdef _MSC_VER
+#define inline __inline
+#define restrict __restrict
+#else /* _MSC_VER */
 #define inline __inline__
 #define restrict __restrict__
+#endif /* _MSC_VER */
 #include "scale2x.h"
-
-#include <assert.h>
 
 /***************************************************************************/
 /* Scale2x C implementation */
