@@ -11,6 +11,11 @@
 #include <mmintrin.h>
 #endif /* i386 / x86_64 */
 
+#if defined(__x86_64__)
+/* every x86_64 CPU supports at least SSE/SSE2 */
+#include <emmintrin.h>
+#endif /* __x86_64__ */
+
 #include "video.h"
 
 #include "../file.h"
@@ -258,7 +263,24 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			gfx2 = gfx1 + SCREEN_WIDTH * 2;
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(__x86_64__)
+			/* SSE2 code */
+			for (x = SCREEN_WIDTH / 16; x > 0; x--) {
+				__m128i m, mh, ml;
+				m = *((__m128i *)data);
+				data += 16;
+				ml = _mm_unpacklo_epi8(m, m);
+				mh = _mm_unpackhi_epi8(m, m);
+				*((__m128i *)gfx1) = ml;
+				gfx1 += 16;
+				*((__m128i *)gfx1) = mh;
+				gfx1 += 16;
+				*((__m128i *)gfx2) = ml;
+				gfx2 += 16;
+				*((__m128i *)gfx2) = mh;
+				gfx2 += 16;
+			}
+#elif defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
 			/* MMX code */
 			for (x = SCREEN_WIDTH / 4; x > 0; x--) {
 				__m64 m;
