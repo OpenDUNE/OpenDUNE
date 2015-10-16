@@ -12,35 +12,39 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
 /*
- * This file contains a C and MMX implementation of the Scale2x effect.
+ * This file contains C, MMX and Altivec implementation of the Scale2x effect.
  *
  * You can find an high level description of the effect at :
  *
- * http://scale2x.sourceforge.net/
- *
- * Alternatively at the previous license terms, you are allowed to use this
- * code in your program with these conditions:
- * - the program is not used in commercial activities.
- * - the whole source code of the program is released with the binary.
- * - derivative works of the program are allowed.
+ * http://www.scale2x.it/
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#ifdef __ALTIVEC__
+#include <altivec.h>
 #endif
 
-#define inline __inline__
-#define restrict __restrict__
-#include "scale2x.h"
+#if defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2))
+		/* use SSE2 code :
+		 *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
+		 *      if __SSE2__ is defined (-msse2 with GCC)
+		 *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)   */
+#include <emmintrin.h>
+#endif
 
 #include <assert.h>
+
+#ifdef _MSC_VER
+#define inline __inline
+#define restrict __restrict
+#else /* _MSC_VER */
+#define inline __inline__
+#define restrict __restrict__
+#endif /* _MSC_VER */
+
+#include "scale2x.h"
 
 /***************************************************************************/
 /* Scale2x C implementation */
@@ -54,6 +58,7 @@
  */
 /* #define USE_SCALE_RANDOMWRITE */
 
+#ifdef USE_SCALE_RANDOMWRITE
 static inline void scale2x_8_def_whole(scale2x_uint8* restrict dst0, scale2x_uint8* restrict dst1, const scale2x_uint8* restrict src0, const scale2x_uint8* restrict src1, const scale2x_uint8* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -112,7 +117,9 @@ static inline void scale2x_8_def_whole(scale2x_uint8* restrict dst0, scale2x_uin
 		dst1[1] = src1[0];
 	}
 }
+#endif
 
+#ifndef USE_SCALE_RANDOMWRITE
 static inline void scale2x_8_def_border(scale2x_uint8* restrict dst, const scale2x_uint8* restrict src0, const scale2x_uint8* restrict src1, const scale2x_uint8* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -157,6 +164,7 @@ static inline void scale2x_8_def_border(scale2x_uint8* restrict dst, const scale
 		dst[1] = src1[0];
 	}
 }
+#endif
 
 static inline void scale2x_8_def_center(scale2x_uint8* restrict dst, const scale2x_uint8* restrict src0, const scale2x_uint8* restrict src1, const scale2x_uint8* restrict src2, unsigned count)
 {
@@ -203,6 +211,7 @@ static inline void scale2x_8_def_center(scale2x_uint8* restrict dst, const scale
 	}
 }
 
+#ifdef USE_SCALE_RANDOMWRITE
 static inline void scale2x_16_def_whole(scale2x_uint16* restrict dst0, scale2x_uint16* restrict dst1, const scale2x_uint16* restrict src0, const scale2x_uint16* restrict src1, const scale2x_uint16* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -261,7 +270,9 @@ static inline void scale2x_16_def_whole(scale2x_uint16* restrict dst0, scale2x_u
 		dst1[1] = src1[0];
 	}
 }
+#endif
 
+#ifndef USE_SCALE_RANDOMWRITE
 static inline void scale2x_16_def_border(scale2x_uint16* restrict dst, const scale2x_uint16* restrict src0, const scale2x_uint16* restrict src1, const scale2x_uint16* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -306,6 +317,7 @@ static inline void scale2x_16_def_border(scale2x_uint16* restrict dst, const sca
 		dst[1] = src1[0];
 	}
 }
+#endif
 
 static inline void scale2x_16_def_center(scale2x_uint16* restrict dst, const scale2x_uint16* restrict src0, const scale2x_uint16* restrict src1, const scale2x_uint16* restrict src2, unsigned count)
 {
@@ -352,6 +364,7 @@ static inline void scale2x_16_def_center(scale2x_uint16* restrict dst, const sca
 	}
 }
 
+#ifdef USE_SCALE_RANDOMWRITE
 static inline void scale2x_32_def_whole(scale2x_uint32* restrict dst0, scale2x_uint32* restrict dst1, const scale2x_uint32* restrict src0, const scale2x_uint32* restrict src1, const scale2x_uint32* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -410,7 +423,9 @@ static inline void scale2x_32_def_whole(scale2x_uint32* restrict dst0, scale2x_u
 		dst1[1] = src1[0];
 	}
 }
+#endif
 
+#ifndef USE_SCALE_RANDOMWRITE
 static inline void scale2x_32_def_border(scale2x_uint32* restrict dst, const scale2x_uint32* restrict src0, const scale2x_uint32* restrict src1, const scale2x_uint32* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -455,6 +470,7 @@ static inline void scale2x_32_def_border(scale2x_uint32* restrict dst, const sca
 		dst[1] = src1[0];
 	}
 }
+#endif
 
 static inline void scale2x_32_def_center(scale2x_uint32* restrict dst, const scale2x_uint32* restrict src0, const scale2x_uint32* restrict src1, const scale2x_uint32* restrict src2, unsigned count)
 {
@@ -1462,3 +1478,245 @@ void scale2x4_32_mmx(scale2x_uint32* dst0, scale2x_uint32* dst1, scale2x_uint32*
 
 #endif
 
+#ifdef __ALTIVEC__
+/*
+ * e1 = B if (B == D) && !(B == H) && !(D == F)
+ * e2 = B if (B == F) && !(B == H) && !(D == F)
+ */
+static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_uint8* src0, const scale2x_uint8* src1, const scale2x_uint8* src2, unsigned count)
+{
+	vector unsigned char B, D, E, F, H, e1, e2;
+	vector __bool char BDeq, BFeq, BHeq, DFeq;
+	static const vector unsigned char perm_first = {0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14};
+	static const vector unsigned char perm_last = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15};
+
+	assert(count >= 32);
+	assert(count % 16 == 0);
+
+	/* first run */
+	B = *((const vector unsigned char *)src0);
+	E = *((const vector unsigned char *)src1);
+	H = *((const vector unsigned char *)src2);
+	D = vec_perm(E, E, perm_first);
+	F = vec_perm(E, *(((const vector unsigned char *)src1)+1), vec_lvsl(1, src1));
+	src0 += 16;
+	src1 += 16;
+	src2 += 16;
+
+	BDeq = vec_cmpeq(B, D);
+	BFeq = vec_cmpeq(B, F);
+	BHeq = vec_cmpeq(B, H);
+	DFeq = vec_cmpeq(D, F);
+
+	e1 = vec_sel(E, B, vec_andc(vec_andc(BDeq, BHeq), DFeq));
+	e2 = vec_sel(E, B, vec_andc(vec_andc(BFeq, BHeq), DFeq));
+
+	*((vector unsigned char *)dst) = vec_mergeh(e1, e2);
+	dst += 16;
+	*((vector unsigned char *)dst) = vec_mergel(e1, e2);
+	dst += 16;
+
+	/* middle */
+	for (count -= 32; count > 0; count -= 16) {
+		B = *((const vector unsigned char *)src0);
+		E = *((const vector unsigned char *)src1);
+		H = *((const vector unsigned char *)src2);
+		D = vec_perm(*(((const vector unsigned char *)src1)-1), E, vec_lvsl(15, src1));
+		F = vec_perm(E, *(((const vector unsigned char *)src1)+1), vec_lvsl(1, src1));
+		src0 += 16;
+		src1 += 16;
+		src2 += 16;
+
+		BDeq = vec_cmpeq(B, D);
+		BFeq = vec_cmpeq(B, F);
+		BHeq = vec_cmpeq(B, H);
+		DFeq = vec_cmpeq(D, F);
+
+		e1 = vec_sel(E, B, vec_andc(vec_andc(BDeq, BHeq), DFeq));
+		e2 = vec_sel(E, B, vec_andc(vec_andc(BFeq, BHeq), DFeq));
+
+		*((vector unsigned char *)dst) = vec_mergeh(e1, e2);
+		dst += 16;
+		*((vector unsigned char *)dst) = vec_mergel(e1, e2);
+		dst += 16;
+	}
+
+	/* last run */
+	B = *((const vector unsigned char *)src0);
+	E = *((const vector unsigned char *)src1);
+	H = *((const vector unsigned char *)src2);
+	D = vec_perm(*(((const vector unsigned char *)src1)-1), E, vec_lvsl(15, src1));
+	F = vec_perm(E, E, perm_last);
+	src0 += 16;
+	src1 += 16;
+	src2 += 16;
+
+	BDeq = vec_cmpeq(B, D);
+	BFeq = vec_cmpeq(B, F);
+	BHeq = vec_cmpeq(B, H);
+	DFeq = vec_cmpeq(D, F);
+
+	e1 = vec_sel(E, B, vec_andc(vec_andc(BDeq, BHeq), DFeq));
+	e2 = vec_sel(E, B, vec_andc(vec_andc(BFeq, BHeq), DFeq));
+
+	*((vector unsigned char *)dst) = vec_mergeh(e1, e2);
+	dst += 16;
+	*((vector unsigned char *)dst) = vec_mergel(e1, e2);
+	dst += 16;
+}
+
+/**
+ * Scale by a factor of 2 a row of pixels of 8 bits.
+ * This is a very fast Altivec implementation.
+ * The implementation uses a combination of cmp/and/not operations to
+ * completly remove the need of conditional jumps. This trick give the
+ * major speed improvement.
+ * Also, using the 16 bytes Altivec registers more than one pixel are computed
+ * at the same time.
+ * The pixels over the left and right borders are assumed of the same color of
+ * the pixels on the border.
+ * Note that the implementation is optimized to write data sequentially to
+ * maximize the bandwidth on video memory.
+ * \param src0 Pointer at the first pixel of the previous row.
+ * \param src1 Pointer at the first pixel of the current row.
+ * \param src2 Pointer at the first pixel of the next row.
+ * \param count Length in pixels of the src0, src1 and src2 rows.
+ * \param dst0 First destination row, double length in pixels.
+ * \param dst1 Second destination row, double length in pixels.
+ */
+void scale2x_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_uint8* src0, const scale2x_uint8* src1, const scale2x_uint8* src2, unsigned count)
+{
+	if (count % 16 != 0 || count < 32) {
+		scale2x_8_def(dst0, dst1, src0, src1, src2, count);
+	} else {
+		scale2x_8_altivec_border(dst0, src0, src1, src2, count);
+		scale2x_8_altivec_border(dst1, src2, src1, src0, count);
+	}
+}
+
+#endif /* __ALTIVEC__ */
+
+#if defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2))
+/* SSE2 code :
+ *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
+ *      if __SSE2__ is defined (-msse2 with GCC)
+ *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)   */
+/* SEL(A, B, cond) = cond ? A : B; */
+#define SEL(A, B, cond) _mm_or_si128( _mm_and_si128((cond), (A)), \
+                                      _mm_andnot_si128((cond), (B)) )
+/*
+ * e1 = B if (B == D) && !(B == H) && !(D == F)
+ * e2 = B if (B == F) && !(B == H) && !(D == F)
+ */
+static inline void scale2x_8_sse2_border(scale2x_uint8* dst, const scale2x_uint8* src0, const scale2x_uint8* src1, const scale2x_uint8* src2, unsigned count)
+{
+	__m128i B, D, E, F, H, e1, e2;
+	__m128i BDeq, BFeq, BHeq, DFeq;
+	const __m128i mask_first = _mm_set_epi8(0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,'\xff');
+	const __m128i mask_last = _mm_set_epi8('\xff',0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0);
+
+	assert(count >= 32);
+	assert(count % 16 == 0);
+
+	/* first run */
+	B = *((const __m128i *)src0);
+	E = *((const __m128i *)src1);
+	H = *((const __m128i *)src2);
+	D = _mm_or_si128(_mm_and_si128(E, mask_first), _mm_slli_si128(E, 1));
+	F = _mm_or_si128(_mm_srli_si128(E, 1), _mm_slli_si128(*(((const __m128i *)src1)+1), 15));
+	src0 += 16;
+	src1 += 16;
+	src2 += 16;
+
+	BDeq = _mm_cmpeq_epi8(B, D);
+	BFeq = _mm_cmpeq_epi8(B, F);
+	BHeq = _mm_cmpeq_epi8(B, H);
+	DFeq = _mm_cmpeq_epi8(D, F);
+
+	e1 = SEL(B, E, _mm_andnot_si128(DFeq, _mm_andnot_si128(BHeq, BDeq)));
+	e2 = SEL(B, E, _mm_andnot_si128(DFeq, _mm_andnot_si128(BHeq, BFeq)));
+
+	*((__m128i *)dst) = _mm_unpacklo_epi8(e1, e2);
+	dst += 16;
+	*((__m128i *)dst) = _mm_unpackhi_epi8(e1, e2);
+	dst += 16;
+
+	/* middle */
+	for (count -= 32; count > 0; count -= 16) {
+		B = *((const __m128i *)src0);
+		E = *((const __m128i *)src1);
+		H = *((const __m128i *)src2);
+		D = _mm_or_si128(_mm_srli_si128(*(((const __m128i *)src1)-1), 15), _mm_slli_si128(E, 1));
+		F = _mm_or_si128(_mm_srli_si128(E, 1), _mm_slli_si128(*(((const __m128i *)src1)+1), 15));
+		src0 += 16;
+		src1 += 16;
+		src2 += 16;
+
+		BDeq = _mm_cmpeq_epi8(B, D);
+		BFeq = _mm_cmpeq_epi8(B, F);
+		BHeq = _mm_cmpeq_epi8(B, H);
+		DFeq = _mm_cmpeq_epi8(D, F);
+
+		e1 = SEL(B, E, _mm_andnot_si128(DFeq, _mm_andnot_si128(BHeq, BDeq)));
+		e2 = SEL(B, E, _mm_andnot_si128(DFeq, _mm_andnot_si128(BHeq, BFeq)));
+
+		*((__m128i *)dst) = _mm_unpacklo_epi8(e1, e2);
+		dst += 16;
+		*((__m128i *)dst) = _mm_unpackhi_epi8(e1, e2);
+		dst += 16;
+	}
+
+	/* last run */
+	B = *((const __m128i *)src0);
+	E = *((const __m128i *)src1);
+	H = *((const __m128i *)src2);
+	D = _mm_or_si128(_mm_srli_si128(*(((const __m128i *)src1)-1), 15), _mm_slli_si128(E, 1));
+	F = _mm_or_si128(_mm_srli_si128(E, 1), _mm_and_si128(E, mask_last));
+	src0 += 16;
+	src1 += 16;
+	src2 += 16;
+
+	BDeq = _mm_cmpeq_epi8(B, D);
+	BFeq = _mm_cmpeq_epi8(B, F);
+	BHeq = _mm_cmpeq_epi8(B, H);
+	DFeq = _mm_cmpeq_epi8(D, F);
+
+	e1 = SEL(B, E, _mm_andnot_si128(DFeq, _mm_andnot_si128(BHeq, BDeq)));
+	e2 = SEL(B, E, _mm_andnot_si128(DFeq, _mm_andnot_si128(BHeq, BFeq)));
+
+	*((__m128i *)dst) = _mm_unpacklo_epi8(e1, e2);
+	dst += 16;
+	*((__m128i *)dst) = _mm_unpackhi_epi8(e1, e2);
+	dst += 16;
+}
+
+/**
+ * Scale by a factor of 2 a row of pixels of 8 bits.
+ * This is a very fast SSE2 implementation.
+ * The implementation uses a combination of cmp/and/not operations to
+ * completly remove the need of conditional jumps. This trick give the
+ * major speed improvement.
+ * Also, using the 16 bytes SSE2 registers more than one pixel are computed
+ * at the same time.
+ * The pixels over the left and right borders are assumed of the same color of
+ * the pixels on the border.
+ * Note that the implementation is optimized to write data sequentially to
+ * maximize the bandwidth on video memory.
+ * \param src0 Pointer at the first pixel of the previous row.
+ * \param src1 Pointer at the first pixel of the current row.
+ * \param src2 Pointer at the first pixel of the next row.
+ * \param count Length in pixels of the src0, src1 and src2 rows. It must
+ * be at least 32 and a multiple of 16
+ * \param dst0 First destination row, double length in pixels.
+ * \param dst1 Second destination row, double length in pixels.
+ */
+void scale2x_8_sse2(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_uint8* src0, const scale2x_uint8* src1, const scale2x_uint8* src2, unsigned count)
+{
+	if (count % 16 != 0 || count < 32) {
+		scale2x_8_def(dst0, dst1, src0, src1, src2, count);
+	} else {
+		scale2x_8_sse2_border(dst0, src0, src1, src2, count);
+		scale2x_8_sse2_border(dst1, src2, src1, src0, count);
+	}
+}
+#endif /* defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2)) */
