@@ -83,14 +83,14 @@ bool fwrite_le_uint16(uint16 value, FILE *stream)
 	return true;
 }
 
-enum ConverCase {
+enum ConvertCase {
 	NO_CONVERT = 0,
 	CONVERT_TO_UPPERCASE,
 	CONVERT_TO_LOWERCASE
 };
 
 static void
-File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const char *filename, enum ConverCase convert)
+File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const char *filename, enum ConvertCase convert)
 {
 	int j;
 	int i = 0;
