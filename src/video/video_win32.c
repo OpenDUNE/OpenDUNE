@@ -380,7 +380,12 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	ReleaseDC(NULL, dc);
 
 	if (filter != FILTER_NEAREST_NEIGHBOR) {
+#ifdef _MSC_VER
+		/* we need aligned memory for rescale filter */
+		s_screen = _aligned_malloc(SCREEN_WIDTH * SCREEN_HEIGHT, 16);
+#else  /* _MSC_VER */
 		s_screen = malloc(SCREEN_WIDTH * SCREEN_HEIGHT);
+#endif /* _MSC_VER */
 	}
 	s_init = true;
 	return true;
@@ -392,7 +397,11 @@ void Video_Uninit(void)
 
 	DeleteObject(s_dib);
 	if (s_scale_filter != FILTER_NEAREST_NEIGHBOR) {
+#ifdef _MSC_VER
+		_aligned_free(s_screen);
+#else  /* _MSC_VER */
 		free(s_screen);
+#endif /* _MSC_VER */
 	}
 	UnregisterClass(s_className, GetModuleHandle(NULL));
 	ShowCursor(TRUE);

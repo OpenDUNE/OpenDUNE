@@ -26,7 +26,7 @@
 #include <altivec.h>
 #endif
 
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(_M_IX86_FP)
 /* Every x86_64 CPU supports SSE/SSE2 */
 #include <emmintrin.h>
 #endif
@@ -1594,7 +1594,7 @@ void scale2x_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_u
 
 #endif /* __ALTIVEC__ */
 
-#if defined(__GNUC__) && defined(__x86_64__)
+#if defined(__x86_64__) || defined(_M_IX86_FP)
 /* SSE2 code */
 /* SEL(A, B, cond) = cond ? A : B; */
 #define SEL(A, B, cond) _mm_or_si128( _mm_and_si128((cond), (A)), \
@@ -1607,8 +1607,8 @@ static inline void scale2x_8_sse2_border(scale2x_uint8* dst, const scale2x_uint8
 {
 	__m128i B, D, E, F, H, e1, e2;
 	__m128i BDeq, BFeq, BHeq, DFeq;
-	static const unsigned char mask_first[] = {255,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0};
-	static const unsigned char mask_last[] = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,255};
+	const __m128i mask_first = _mm_set_epi8(0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,'\xff');
+	const __m128i mask_last = _mm_set_epi8('\xff',0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0);
 
 	assert(count >= 32);
 	assert(count % 16 == 0);
@@ -1617,7 +1617,7 @@ static inline void scale2x_8_sse2_border(scale2x_uint8* dst, const scale2x_uint8
 	B = *((const __m128i *)src0);
 	E = *((const __m128i *)src1);
 	H = *((const __m128i *)src2);
-	D = _mm_or_si128(_mm_and_si128(E, *((const __m128i *)mask_first)), _mm_slli_si128(E, 1));
+	D = _mm_or_si128(_mm_and_si128(E, mask_first), _mm_slli_si128(E, 1));
 	F = _mm_or_si128(_mm_srli_si128(E, 1), _mm_slli_si128(*(((const __m128i *)src1)+1), 15));
 	src0 += 16;
 	src1 += 16;
@@ -1666,7 +1666,7 @@ static inline void scale2x_8_sse2_border(scale2x_uint8* dst, const scale2x_uint8
 	E = *((const __m128i *)src1);
 	H = *((const __m128i *)src2);
 	D = _mm_or_si128(_mm_srli_si128(*(((const __m128i *)src1)-1), 15), _mm_slli_si128(E, 1));
-	F = _mm_or_si128(_mm_srli_si128(E, 1), _mm_and_si128(E, *((const __m128i *)mask_last)));
+	F = _mm_or_si128(_mm_srli_si128(E, 1), _mm_and_si128(E, mask_last));
 	src0 += 16;
 	src1 += 16;
 	src2 += 16;
