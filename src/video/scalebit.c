@@ -12,10 +12,6 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
 /*
@@ -24,18 +20,8 @@
  *
  * You can find an high level description of the effect at :
  *
- * http://scale2x.sourceforge.net/
- *
- * Alternatively at the previous license terms, you are allowed to use this
- * code in your program with these conditions:
- * - the program is not used in commercial activities.
- * - the whole source code of the program is released with the binary.
- * - derivative works of the program are allowed.
+ * http://www.scale2x.it/
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include <assert.h>
 #include <stdlib.h>
@@ -63,10 +49,18 @@
 static inline void stage_scale2x(void* dst0, void* dst1, const void* src0, const void* src1, const void* src2, unsigned pixel, unsigned pixel_per_row)
 {
 	switch (pixel) {
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(__GNUC__) && defined(__x86_64__)
+		case 1 : scale2x_8_sse2(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
+		case 2 : scale2x_16_mmx(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
+		case 4 : scale2x_32_mmx(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
+#elif defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
 		case 1 : scale2x_8_mmx(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
 		case 2 : scale2x_16_mmx(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
 		case 4 : scale2x_32_mmx(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
+#elif defined(__ALTIVEC__)
+		case 1 : scale2x_8_altivec(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
+		case 2 : scale2x_16_def(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
+		case 4 : scale2x_32_def(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
 #else
 		case 1 : scale2x_8_def(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
 		case 2 : scale2x_16_def(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
