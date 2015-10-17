@@ -1492,11 +1492,11 @@ static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_ui
 	assert(count % 16 == 0);
 
 	/* first run */
-	B = *((vector unsigned char *)src0);
-	E = *((vector unsigned char *)src1);
-	H = *((vector unsigned char *)src2);
+	B = *((const vector unsigned char *)src0);
+	E = *((const vector unsigned char *)src1);
+	H = *((const vector unsigned char *)src2);
 	D = vec_perm(E, E, perm_first);
-	F = vec_perm(E, *(((vector unsigned char *)src1)+1), vec_lvsl(1, src1));
+	F = vec_perm(E, *(((const vector unsigned char *)src1)+1), vec_lvsl(1, src1));
 	src0 += 16;
 	src1 += 16;
 	src2 += 16;
@@ -1516,11 +1516,11 @@ static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_ui
 
 	/* middle */
 	for (count -= 32; count > 0; count -= 16) {
-		B = *((vector unsigned char *)src0);
-		E = *((vector unsigned char *)src1);
-		H = *((vector unsigned char *)src2);
-		D = vec_perm(*(((vector unsigned char *)src1)-1), E, vec_lvsl(15, src1));
-		F = vec_perm(E, *(((vector unsigned char *)src1)+1), vec_lvsl(1, src1));
+		B = *((const vector unsigned char *)src0);
+		E = *((const vector unsigned char *)src1);
+		H = *((const vector unsigned char *)src2);
+		D = vec_perm(*(((const vector unsigned char *)src1)-1), E, vec_lvsl(15, src1));
+		F = vec_perm(E, *(((const vector unsigned char *)src1)+1), vec_lvsl(1, src1));
 		src0 += 16;
 		src1 += 16;
 		src2 += 16;
@@ -1540,10 +1540,10 @@ static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_ui
 	}
 
 	/* last run */
-	B = *((vector unsigned char *)src0);
-	E = *((vector unsigned char *)src1);
-	H = *((vector unsigned char *)src2);
-	D = vec_perm(*(((vector unsigned char *)src1)-1), E, vec_lvsl(15, src1));
+	B = *((const vector unsigned char *)src0);
+	E = *((const vector unsigned char *)src1);
+	H = *((const vector unsigned char *)src2);
+	D = vec_perm(*(((const vector unsigned char *)src1)-1), E, vec_lvsl(15, src1));
 	F = vec_perm(E, E, perm_last);
 	src0 += 16;
 	src1 += 16;
