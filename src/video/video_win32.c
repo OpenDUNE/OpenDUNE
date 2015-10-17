@@ -185,8 +185,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HDC dc2;
 			HBITMAP old_bmp;
 
-			if (!GetUpdateRect(hwnd, NULL, FALSE))
-				return 0;
+			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
 			if (s_scale_filter == FILTER_SCALE2X) {
 				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 			} else if(s_scale_filter == FILTER_HQX) {
