@@ -214,6 +214,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 void Video_Uninit(void)
 {
 	s_video_initialized = false;
+	if (s_scale_filter == FILTER_HQX) {
+		hqxUnInit();
+	}
 	SDL_Quit();
 }
 
