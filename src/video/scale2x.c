@@ -26,8 +26,11 @@
 #include <altivec.h>
 #endif
 
-#if defined(__x86_64__) || defined(_M_IX86_FP)
-/* Every x86_64 CPU supports SSE/SSE2 */
+#if defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2))
+		/* use SSE2 code :
+		 *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
+		 *      if __SSE2__ is defined (-msse2 with GCC)
+		 *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)   */
 #include <emmintrin.h>
 #endif
 
@@ -1594,8 +1597,11 @@ void scale2x_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_u
 
 #endif /* __ALTIVEC__ */
 
-#if defined(__x86_64__) || defined(_M_IX86_FP)
-/* SSE2 code */
+#if defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2))
+/* SSE2 code :
+ *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
+ *      if __SSE2__ is defined (-msse2 with GCC)
+ *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)   */
 /* SEL(A, B, cond) = cond ? A : B; */
 #define SEL(A, B, cond) _mm_or_si128( _mm_and_si128((cond), (A)), \
                                       _mm_andnot_si128((cond), (B)) )
@@ -1714,4 +1720,4 @@ void scale2x_8_sse2(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_uint
 		scale2x_8_sse2_border(dst1, src2, src1, src0, count);
 	}
 }
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2)) */
