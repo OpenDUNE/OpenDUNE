@@ -404,6 +404,10 @@ void Video_Uninit(void)
 	}
 	UnregisterClass(s_className, GetModuleHandle(NULL));
 	ShowCursor(TRUE);
+
+	if (s_scale_filter == FILTER_HQX) {
+		hqxUnInit();
+	}
 	s_init = false;
 }
 

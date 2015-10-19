@@ -17,15 +17,17 @@
  */
 
 #include <stdint.h>
+#include <stdlib.h>
 #include "hqx.h"
 
-uint32_t   RGBtoYUV[16777216];
-uint32_t   YUV1, YUV2;
+uint32_t * RGBtoYUV = NULL;
 
 HQX_API void HQX_CALLCONV hqxInit(void)
 {
-    /* Initalize RGB to YUV lookup table */
+	/* Initalize RGB to YUV lookup table */
     uint32_t c, r, g, b, y, u, v;
+	RGBtoYUV = malloc(sizeof(uint32_t) * 16777216);
+
     for (c = 0; c < 16777215; c++) {
         r = (c & 0xFF0000) >> 16;
         g = (c & 0x00FF00) >> 8;
@@ -35,4 +37,10 @@ HQX_API void HQX_CALLCONV hqxInit(void)
         v = (uint32_t)(0.5*r - 0.419*g - 0.081*b) + 128;
         RGBtoYUV[c] = (y << 16) + (u << 8) + v;
     }
+}
+
+HQX_API void HQX_CALLCONV hqxUnInit(void)
+{
+	free(RGBtoYUV);
+	RGBtoYUV = NULL;
 }
