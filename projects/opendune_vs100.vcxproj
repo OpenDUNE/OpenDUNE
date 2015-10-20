@@ -62,6 +62,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <AdditionalDependencies>winmm.lib;comctl32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -427,6 +429,36 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\video\hq2x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hqx.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\hqx.h"/>
+    <ClInclude Include="..\src\video\hqx_common.h"/>
+    <ClCompile Include="..\src\video\hqx_init.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\scale2x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale2x.h"/>
+    <ClCompile Include="..\src\video\scale3x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale3x.h"/>
+    <ClCompile Include="..\src\video\scalebit.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scalebit.h"/>
     <ClInclude Include="..\src\video\video.h"/>
     <ClCompile Include="..\src\video\video_sdl.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>

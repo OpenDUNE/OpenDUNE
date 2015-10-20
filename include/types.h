@@ -100,6 +100,11 @@ typedef struct tile32 {
 	uint16 y;
 } tile32;
 
+#ifdef __ALTIVEC__
+#undef bool
+#undef pixel
+#endif
+
 #ifndef bool
 typedef unsigned char bool;
 #define false 0

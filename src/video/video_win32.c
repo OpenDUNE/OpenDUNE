@@ -16,8 +16,16 @@
 #include "../input/input.h"
 #include "../input/mouse.h"
 
+#include "scalebit.h"
+#include "hqx.h"
+
+static VideoScaleFilter s_scale_filter;
+
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
-#define SCREEN_MAGNIFICATION 2
+static int s_screen_magnification;
+
+/** The palette used for HQX */
+static uint32 rgb_palette[256];
 
 static const char *s_className = "OpenDUNE";
 static bool s_init = false;
@@ -25,6 +33,7 @@ static bool s_lock = false;
 static HWND s_hwnd = NULL;
 static HBITMAP s_dib = NULL;
 static void *s_screen = NULL;
+static void *s_screen2 = NULL;
 static uint16 s_x;
 static uint16 s_y;
 
@@ -145,7 +154,7 @@ static uint16 MapKey(WPARAM vk)
  */
 static void Video_Mouse_Callback(void)
 {
-	Mouse_EventHandler(s_mousePosX / SCREEN_MAGNIFICATION, s_mousePosY / SCREEN_MAGNIFICATION, s_mouseButtonLeft, s_mouseButtonRight);
+	Mouse_EventHandler(s_mousePosX / s_screen_magnification, s_mousePosY / s_screen_magnification, s_mouseButtonLeft, s_mouseButtonRight);
 }
 
 static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -176,10 +185,45 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HDC dc2;
 			HBITMAP old_bmp;
 
+			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
+			if (s_scale_filter == FILTER_SCALE2X) {
+				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+			} else if(s_scale_filter == FILTER_HQX) {
+				static uint32 rgb_screen[SCREEN_WIDTH*SCREEN_HEIGHT];
+				uint8 *p;
+				uint32 *rgb;
+				int i;
+
+				i = SCREEN_WIDTH*SCREEN_HEIGHT;
+				p = s_screen;
+				rgb = rgb_screen;
+				do {
+					*rgb++ = rgb_palette[*p++];
+				} while(--i > 0);
+				switch(s_screen_magnification) {
+				case 2:
+					hq2x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					break;
+				case 3:
+					hq3x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					break;
+				case 4:
+					hq4x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					break;
+				}
+			}
 			dc = BeginPaint(hwnd, &ps);
 			dc2 = CreateCompatibleDC(dc);
 			old_bmp = (HBITMAP)SelectObject(dc2, s_dib);
-			StretchBlt(dc, 0, 0, SCREEN_WIDTH * SCREEN_MAGNIFICATION, SCREEN_HEIGHT * SCREEN_MAGNIFICATION, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+			switch (s_scale_filter) {
+			case FILTER_HQX:
+			case FILTER_SCALE2X:
+				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SRCCOPY);
+				break;
+			case FILTER_NEAREST_NEIGHBOR:
+			default:
+				StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+			}
 			SelectObject(dc2, old_bmp);
 			DeleteDC(dc2);
 			EndPaint(hwnd, &ps);
@@ -272,7 +316,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-bool Video_Init(void)
+bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	WNDCLASS wc;
 	HINSTANCE hInstance;
@@ -280,6 +324,16 @@ bool Video_Init(void)
 	HDC dc;
 
 	if (s_init) return true;
+	if (screen_magnification <= 0 || screen_magnification > 4) {
+		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
+		return false;
+	}
+	s_screen_magnification = screen_magnification;
+	s_scale_filter = filter;
+
+	if (filter == FILTER_HQX) {
+		hqxInit();
+	}
 
 	hInstance = GetModuleHandle(NULL);
 
@@ -301,20 +355,37 @@ bool Video_Init(void)
 	bi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	memset(bi, 0, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	bi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	bi->bmiHeader.biWidth = SCREEN_WIDTH;
-	bi->bmiHeader.biHeight = -SCREEN_HEIGHT;
+	if (filter == FILTER_NEAREST_NEIGHBOR) {
+		bi->bmiHeader.biWidth = SCREEN_WIDTH;
+		bi->bmiHeader.biHeight = -SCREEN_HEIGHT;
+	} else {
+		bi->bmiHeader.biWidth = SCREEN_WIDTH * s_screen_magnification;
+		bi->bmiHeader.biHeight = -SCREEN_HEIGHT * s_screen_magnification;
+	}
 	bi->bmiHeader.biPlanes = 1;
-	bi->bmiHeader.biBitCount = 8;
+	if (filter == FILTER_HQX) {
+		bi->bmiHeader.biBitCount = 32;
+	} else {
+		bi->bmiHeader.biBitCount = 8;
+	}
 	bi->bmiHeader.biCompression = BI_RGB;
 
 	dc = GetDC(NULL);
-	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, &s_screen, NULL, 0);
+	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, (filter == FILTER_NEAREST_NEIGHBOR) ? &s_screen : &s_screen2, NULL, 0);
 	if (s_dib == NULL) {
 		Error("CreateDIBSection failed\n");
 		return false;
 	}
 	ReleaseDC(NULL, dc);
 
+	if (filter != FILTER_NEAREST_NEIGHBOR) {
+#ifdef _MSC_VER
+		/* we need aligned memory for rescale filter */
+		s_screen = _aligned_malloc(SCREEN_WIDTH * SCREEN_HEIGHT, 16);
+#else  /* _MSC_VER */
+		s_screen = malloc(SCREEN_WIDTH * SCREEN_HEIGHT);
+#endif /* _MSC_VER */
+	}
 	s_init = true;
 	return true;
 }
@@ -324,8 +395,19 @@ void Video_Uninit(void)
 	if (!s_init) return;
 
 	DeleteObject(s_dib);
+	if (s_scale_filter != FILTER_NEAREST_NEIGHBOR) {
+#ifdef _MSC_VER
+		_aligned_free(s_screen);
+#else  /* _MSC_VER */
+		free(s_screen);
+#endif /* _MSC_VER */
+	}
 	UnregisterClass(s_className, GetModuleHandle(NULL));
 	ShowCursor(TRUE);
+
+	if (s_scale_filter == FILTER_HQX) {
+		hqxUnInit();
+	}
 	s_init = false;
 }
 
@@ -346,8 +428,8 @@ void Video_Tick(void)
 
 		r.left   = 0;
 		r.top    = 0;
-		r.right  = SCREEN_WIDTH * SCREEN_MAGNIFICATION;
-		r.bottom = SCREEN_HEIGHT * SCREEN_MAGNIFICATION;
+		r.right  = SCREEN_WIDTH * s_screen_magnification;
+		r.bottom = SCREEN_HEIGHT * s_screen_magnification;
 		AdjustWindowRect(&r, style, false);
 
 		s_hwnd = CreateWindow(s_className, window_caption, style, CW_USEDEFAULT, CW_USEDEFAULT, r.right - r.left, r.bottom - r.top, NULL, NULL, GetModuleHandle(NULL), NULL);
@@ -380,40 +462,51 @@ void Video_Tick(void)
 
 void Video_SetPalette(void *palette, int from, int length)
 {
-	RGBQUAD rgb[256];
-	HDC dc;
-	HDC dc2;
-	HBITMAP old_bmp;
 	uint8 *p = palette;
 	int i;
 
-	/* convert from 6bit to 8bit per component */
-	for (i = 0; i < length; i++) {
-		rgb[i].rgbRed      = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbGreen    = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbBlue     = (((*p++) & 0x3F) * 0x41) >> 4;
-		rgb[i].rgbReserved = 0;
-	}
+	if (s_scale_filter == FILTER_HQX) {
+		uint32 value;
 
-	dc = GetDC(s_hwnd);
-	dc2 = CreateCompatibleDC(dc);
-	old_bmp = SelectObject(dc2, s_dib);
-	SetDIBColorTable(dc2, from, length, rgb);
-	SelectObject(dc2, old_bmp);
-	DeleteDC(dc2);
-	ReleaseDC(s_hwnd, dc);
+		for (i = from; i < from + length; i++) {
+			value = (((*p++) & 0x3F) * 0x41000) & 0xff0000;
+			value |= (((*p++) & 0x3F) * 0x410) & 0x00ff00;
+			rgb_palette[i] = value | ((((*p++) & 0x3F) * 0x41)>> 4);
+		}
+	} else {
+		RGBQUAD rgb[256];
+		HDC dc;
+		HDC dc2;
+		HBITMAP old_bmp;
+
+		/* convert from 6bit to 8bit per component */
+		for (i = 0; i < length; i++) {
+			rgb[i].rgbRed      = (((*p++) & 0x3F) * 0x41) >> 4;
+			rgb[i].rgbGreen    = (((*p++) & 0x3F) * 0x41) >> 4;
+			rgb[i].rgbBlue     = (((*p++) & 0x3F) * 0x41) >> 4;
+			rgb[i].rgbReserved = 0;
+		}
+
+		dc = GetDC(s_hwnd);
+		dc2 = CreateCompatibleDC(dc);
+		old_bmp = SelectObject(dc2, s_dib);
+		SetDIBColorTable(dc2, from, length, rgb);
+		SelectObject(dc2, old_bmp);
+		DeleteDC(dc2);
+		ReleaseDC(s_hwnd, dc);
+	}
 	InvalidateRect(s_hwnd, NULL, TRUE);
 }
 
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SetCursorPos(s_x + x * SCREEN_MAGNIFICATION, s_y + y * SCREEN_MAGNIFICATION);
+	SetCursorPos(s_x + x * s_screen_magnification, s_y + y * s_screen_magnification);
 }
 
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX * SCREEN_MAGNIFICATION;
-	s_mouseMaxX = maxX * SCREEN_MAGNIFICATION;
-	s_mouseMinY = minY * SCREEN_MAGNIFICATION;
-	s_mouseMaxY = maxY * SCREEN_MAGNIFICATION;
+	s_mouseMinX = minX * s_screen_magnification;
+	s_mouseMaxX = maxX * s_screen_magnification;
+	s_mouseMinY = minY * s_screen_magnification;
+	s_mouseMaxY = maxY * s_screen_magnification;
 }

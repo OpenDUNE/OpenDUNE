@@ -62,6 +62,8 @@ in the data/ directory, in the current directory or in %APPDATA%\OpenDUNE
 an [opendune] section.
 Available options are :
 language : english / french / german
+scalefactor : 2 (default), 3, 4
+scalefilter : nearest (default), scale2x, hqx
 
 
 Enhancement over Dune2
