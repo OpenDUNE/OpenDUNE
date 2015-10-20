@@ -4039,10 +4039,6 @@
 				Name="video"
 				>
 				<File
-					RelativePath="..\src\video\common.h"
-					>
-				</File>
-				<File
 					RelativePath="..\src\video\hq2x.c"
 					>
 					<FileConfiguration
@@ -4192,6 +4188,10 @@
 				</File>
 				<File
 					RelativePath="..\src\video\hqx.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\video\hqx_common.h"
 					>
 				</File>
 				<File

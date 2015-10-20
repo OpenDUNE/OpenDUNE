@@ -428,7 +428,6 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\video\common.h"/>
     <ClCompile Include="..\src\video\hq2x.c">
       <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
     </ClCompile>
@@ -443,6 +442,7 @@
       <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
     </ClCompile>
     <ClInclude Include="..\src\video\hqx.h"/>
+    <ClInclude Include="..\src\video\hqx_common.h"/>
     <ClCompile Include="..\src\video\hqx_init.c">
       <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
     </ClCompile>

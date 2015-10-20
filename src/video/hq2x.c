@@ -19,7 +19,7 @@
  */
 
 #include <stdint.h>
-#include "common.h"
+#include "hqx_common.h"
 #include "hqx.h"
 
 #define PIXEL00_0     *dp = w[5];
