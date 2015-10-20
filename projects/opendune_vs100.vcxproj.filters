@@ -504,9 +504,6 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <Filter>src\table</Filter>
     </ClCompile>
-    <ClInclude Include="..\src\video\common.h">
-      <Filter>src\video</Filter>
-    </ClInclude>
     <ClCompile Include="..\src\video\hq2x.c">
       <Filter>src\video</Filter>
     </ClCompile>
@@ -520,6 +517,9 @@
       <Filter>src\video</Filter>
     </ClCompile>
     <ClInclude Include="..\src\video\hqx.h">
+      <Filter>src\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\hqx_common.h">
       <Filter>src\video</Filter>
     </ClInclude>
     <ClCompile Include="..\src\video\hqx_init.c">

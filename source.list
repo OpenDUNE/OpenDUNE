@@ -181,4 +181,9 @@ timer.h
 tools.h
 unit.h
 video/video.h
+video/hqx_common.h
+video/hqx.h
+video/scale2x.h
+video/scale3x.h
+video/scalebit.h
 wsa.h
