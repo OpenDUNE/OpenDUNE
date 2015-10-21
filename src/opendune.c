@@ -1129,8 +1129,8 @@ static bool Unknown_25C4_000E(void)
 	Mouse_Init();
 
 	/* Add the general tickers */
-	Timer_Add(Video_Tick, 1000000 / 60);
-	Timer_Add(Timer_Tick, 1000000 / 60);
+	Timer_Add(Timer_Tick, 1000000 / 60, false);
+	Timer_Add(Video_Tick, 1000000 / 60, true);
 
 	g_var_7097 = -1;
 

@@ -113,7 +113,7 @@ static bool Drivers_SoundMusic_Init(bool enable)
 #if defined(_WIN32)
 	MPU_StartThread(1000000 / 120);
 #else
-	Timer_Add(MPU_Interrupt, 1000000 / 120);
+	Timer_Add(MPU_Interrupt, 1000000 / 120, false);
 #endif
 
 	size = MPU_GetDataSize();

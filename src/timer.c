@@ -34,6 +34,7 @@ typedef struct TimerNode {
 	uint32 usec_left;
 	uint32 usec_delay;
 	void (*callback)(void);
+	bool callonce;
 } TimerNode;
 
 #if defined(_WIN32)
@@ -98,7 +99,14 @@ static void Timer_InterruptRun(int arg)
 			continue;
 		}
 
-		while (node->usec_left <= delta) {
+		if (node->callonce) {
+			if (node->usec_left <= delta) {
+				delta -= node->usec_left;
+				node->usec_left = node->usec_delay;
+				node->callback();
+				while (node->usec_left <= delta) delta -= node->usec_left;
+			}
+		} else while (node->usec_left <= delta) {
 			delta -= node->usec_left;
 			node->usec_left = node->usec_delay;
 			node->callback();
@@ -220,7 +228,7 @@ void Timer_Uninit(void)
  * @param callback the callback for the timer.
  * @param usec_delay The interval of the timer.
  */
-void Timer_Add(void (*callback)(void), uint32 usec_delay)
+void Timer_Add(void (*callback)(void), uint32 usec_delay, bool callonce)
 {
 	TimerNode *node;
 	if (s_timerNodeCount == s_timerNodeSize) {
@@ -232,6 +240,7 @@ void Timer_Add(void (*callback)(void), uint32 usec_delay)
 	node->usec_left  = usec_delay;
 	node->usec_delay = usec_delay;
 	node->callback   = callback;
+	node->callonce   = callonce;
 }
 
 /**
