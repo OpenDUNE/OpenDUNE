@@ -15,6 +15,7 @@
 #endif /* _WIN32 */
 #include "types.h"
 #include "os/sleep.h"
+#include "os/error.h"
 
 #include "timer.h"
 
@@ -108,6 +109,36 @@ static void Timer_InterruptRun(int arg)
 	timerLock = false;
 }
 
+#if !defined(_WIN32)
+static volatile sig_atomic_t s_timer_count = 0;
+
+static void Timer_Handler(int sig)
+{
+	VARIABLE_NOT_USED(sig);
+	
+	/* indicate that Timer_InterruptRun() should be executed */
+	s_timer_count++;
+}
+
+void SleepAndProcessBackgroundTasks(void)
+{
+	if (s_timer_count == 0) {
+		pause();	/* wait for a signal to happen */
+	}
+	if (s_timer_count > 0) {
+		/* timer signal SIGALRM has been triggered */
+		if (s_timer_count > 1) {
+			Warning("s_timer_count = %d\n", (int)s_timer_count);
+		}
+		s_timer_count = 0;
+		Timer_InterruptRun(0);
+	} else {
+		/* another signal was triggered */
+		Warning("unknown signal\n");
+	}
+}
+#endif /* _WIN32 */
+
 #if defined(_WIN32)
 void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 	VARIABLE_NOT_USED(arg);
@@ -164,7 +195,7 @@ void Timer_Init(void)
 		struct sigaction timerSignal;
 
 		sigemptyset(&timerSignal.sa_mask);
-		timerSignal.sa_handler = Timer_InterruptRun;
+		timerSignal.sa_handler = Timer_Handler;
 		timerSignal.sa_flags   = 0;
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
