@@ -35,7 +35,8 @@ set_default() {
 	enable_strip="0"
 	enable_universal="0"
 	with_osx_sysroot="1"
-	with_sdl="1"
+	with_sdl="0"
+	with_sdl2="1"
 	with_asound="1"
 	enable_builtin_depend="1"
 	with_makedepend="0"
@@ -68,6 +69,7 @@ set_default() {
 		enable_universal
 		with_osx_sysroot
 		with_sdl
+		with_sdl2
 		with_asound
 		enable_builtin_depend
 		with_makedepend
@@ -161,6 +163,10 @@ detect_params() {
 			--with-sdl)                   with_sdl="2";;
 			--without-sdl)                with_sdl="0";;
 			--with-sdl=*)                 with_sdl="$optarg";;
+
+			--with-sdl2)                  with_sdl2="2";;
+			--without-sdl2)               with_sdl2="0";;
+			--with-sdl2=*)                with_sdl2="$optarg";;
 
 			--with-asound)                with_asound="2";;
 			--without-asound)             with_asound="0";;
@@ -405,6 +411,7 @@ check_params() {
 	fi
 
 	detect_sdl
+	detect_sdl2
 	detect_asound
 
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
@@ -917,6 +924,17 @@ make_cflags_and_ldflags() {
 		fi
 	fi
 
+	if [ -n "$sdl2_config" ]; then
+		CFLAGS="$CFLAGS -DWITH_SDL2"
+		# SDL2 must not add _GNU_SOURCE as it breaks many platforms
+		CFLAGS="$CFLAGS `$sdl2_config --cflags | sed 's@-D_GNU_SOURCE[^ ]*@@'` -DSDL_FORCE_INLINE='static __inline'"
+		if [ "$enable_static" != "0" ]; then
+			LIBS="$LIBS `$sdl2_config --static-libs`"
+		else
+			LIBS="$LIBS `$sdl2_config --libs`"
+		fi
+	fi
+
 	if [ "$enable_static" != "0" ]; then
 		# OSX can't handle -static in LDFLAGS
 		if [ "$os" != "OSX" ]; then
@@ -1357,7 +1375,7 @@ detect_sdl() {
 	fi
 
 	if [ "$with_sdl" = "1" ] || [ "$with_sdl" = "" ] || [ "$with_sdl" = "2" ]; then
-		sdl_config="sdl2-config"
+		sdl_config="sdl-config"
 	else
 		sdl_config="$with_sdl"
 	fi
@@ -1383,6 +1401,44 @@ detect_sdl() {
 	fi
 
 	log 1 "checking SDL... found"
+}
+
+detect_sdl2() {
+	# 0 means no, 1 is auto-detect, 2 is force
+	if [ "$with_sdl2" = "0" ]; then
+		log 1 "checking SDL2... disabled"
+
+		sdl2_config=""
+		return 0
+	fi
+
+	if [ "$with_sdl2" = "1" ] || [ "$with_sdl2" = "" ] || [ "$with_sdl2" = "2" ]; then
+		sdl2_config="sdl2-config"
+	else
+		sdl2_config="$with_sdl2"
+	fi
+
+	version=`$sdl2_config --version 2>/dev/null`
+	ret=$?
+	log 2 "executing $sdl2_config --version"
+	log 2 "  returned $version"
+	log 2 "  exit code $ret"
+
+	if [ -z "$version" ] || [ "$ret" != "0" ]; then
+		log 1 "checking SDL2... not found"
+
+		# It was forced, so it should be found.
+		if [ "$with_sdl2" != "1" ]; then
+			log 1 "configure: error: sdl2-config couldn't be found"
+			log 1 "configure: error: you supplied '$with_sdl2', but it seems invalid"
+			exit 1
+		fi
+
+		sdl2_config=""
+		return 0
+	fi
+
+	log 1 "checking SDL2... found"
 }
 
 detect_osx_sdk() {
@@ -1851,6 +1907,7 @@ showhelp() {
 	echo "                                 (OSX ONLY)"
 	echo "  --with-sort=sort               define a non-default location for sort"
 	echo "  --with-sdl[=sdl-config]        enables SDL video driver support"
+	echo "  --with-sdl2[=sdl2-config]      enables SDL2 video driver support"
 	echo "  --with-asound[=libasound.a]    enables ALSA support"
 	echo "  --disable-builtin-depend       disable use of builtin deps finder"
 	echo "  --with-makedepend[=makedepend] enables makedepend support"

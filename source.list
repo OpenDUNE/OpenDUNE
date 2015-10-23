@@ -11,6 +11,8 @@ audio/midi_win32.c
 	#else
 		#if SDL
 			audio/dsp_sdl.c
+		#elif SDL2
+			audio/dsp_sdl.c
 		#else
 			audio/dsp_none.c
 		#endif
@@ -112,7 +114,11 @@ unit.c
 #if WIN32
 	video/video_win32.c
 #else
-	video/video_sdl2.c
+	#if SDL2
+		video/video_sdl2.c
+	#else
+		video/video_sdl.c
+	#endif
 #endif
 wsa.c
 
