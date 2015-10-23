@@ -34,7 +34,9 @@ bool Load_IniFile(void)
 	FILE *f = NULL;
 	long fileSize;
 	/* look for opendune.ini in the following locations :
-	   1) %APPDATA%/OpenDUNE (win32) ~/.config/opendune (non win32)
+	   1) %APPDATA%/OpenDUNE (win32)
+	      ~/Library/Application Support/OpenDUNE (Mac OS X)
+	      ~/.config/opendune (Linux)
 	   2) current directory
 	   3) data/ dir
 	*/
@@ -51,7 +53,11 @@ bool Load_IniFile(void)
 	char * homeDir;
 	homeDir = getenv("HOME");
 	if (homeDir != NULL) {
+#if defined(__APPLE__)
+		snprintf(path, sizeof(path), "%s/Library/Application Support/OpenDUNE/opendune.ini", homeDir);
+#else /* __APPLE__ */
 		snprintf(path, sizeof(path), "%s/.config/opendune/opendune.ini", homeDir);
+#endif /* __APPLE__ */
 		f = fopen(path, "rb");
 	}
 #endif /* _WIN32 */
@@ -60,7 +66,7 @@ bool Load_IniFile(void)
 		f = fopen("opendune.ini", "rb");
 	}
 	if (f == NULL) {
-		f = fopen(DATA_DIR "opendune.ini", "rb");
+		f = fopen("data/opendune.ini", "rb");
 	}
 	if (f == NULL) {
 		Warning("opendune.ini file not found.\n");
@@ -116,7 +122,7 @@ bool SetLanguage_From_IniFile(DuneCfg *config)
 	char language[16];
 
 	if (config == NULL || g_openduneini == NULL) return false;
-	if (Ini_GetString("opendune", "language", NULL, language, sizeof(language), g_openduneini) == NULL) {
+	if (IniFile_GetString("language", NULL, language, sizeof(language)) == NULL) {
 		return false;
 	}
 	if (strcasecmp(language, "ENGLISH") == 0)
@@ -134,8 +140,16 @@ bool SetLanguage_From_IniFile(DuneCfg *config)
 
 char *IniFile_GetString(const char *key, const char *defaultValue, char *dest, uint16 length)
 {
+	char * p;
+	uint16 i;
 	if (g_openduneini == NULL) return NULL;
-	return Ini_GetString("opendune", key, defaultValue, dest, length, g_openduneini);
+	p = Ini_GetString("opendune", key, defaultValue, dest, length, g_openduneini);
+	if (p) {
+		/* Trim space from the beginning of the dest */
+		for (i = 0; i < length && (dest[i] == ' ' || dest[i] == '\t') && (dest[i] != '\0'); i++);
+		if (i > 0 && i < length) memmove(dest, dest+i, length - i);
+	}
+	return p;
 }
 
 int IniFile_GetInteger(const char *key, int defaultValue)

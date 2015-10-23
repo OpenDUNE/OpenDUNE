@@ -58,10 +58,13 @@ Start 'opendune'.
 
 Additional options may be specified using an opendune.ini file located
 in the data/ directory, in the current directory or in %APPDATA%\OpenDUNE
-(on Windows) or ~/.config/opendune (on Linux). All options must be in
+(on Windows) or ~/Library/Application Support/OpenDUNE (on Mac OS X) or
+~/.config/opendune (on Linux). All options must be in
 an [opendune] section.
 Available options are :
-language : english / french / german
+- language : english / french / german
+- datadir : directory where Dune data files are
+- savedir : directory for Dune personal data files (savegames)
 
 
 Enhancement over Dune2

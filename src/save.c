@@ -170,7 +170,7 @@ bool SaveFile(char *filename, char *description)
 		}
 	}
 
-	fp = fopendatadir(filename, "wb");
+	fp = fopendatadir(SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
 	if (fp == NULL) {
 		Error("Failed to open file '%s' for writing.\n", filename);
 		return false;

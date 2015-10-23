@@ -165,8 +165,8 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 		case INPUT_MOUSE_MODE_RECORD:
 			if (g_mouseFileID != 0xFF) break;
 
-			File_Delete(filename);
-			File_Create(filename);
+			File_Delete_Personal(filename);
+			File_Create_Personal(filename);
 
 			Tools_RandomLCG_Seed(0x1234);
 			Tools_Random_Seed(0x12344321);

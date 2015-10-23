@@ -3,8 +3,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define DATA_DIR "data/"
-
 MSVC_PACKED_BEGIN
 /**
  * This is the layout of decoded dune.cfg.
