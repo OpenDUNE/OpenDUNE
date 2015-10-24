@@ -11,10 +11,12 @@ audio/midi_win32.c
 	#else
 		#if SDL
 			audio/dsp_sdl.c
-		#elif SDL2
-			audio/dsp_sdl.c
 		#else
-			audio/dsp_none.c
+			#if SDL2
+				audio/dsp_sdl.c
+			#else
+				audio/dsp_none.c
+			#endif
 		#endif
 		#if OSX
 			audio/midi_osx.c
