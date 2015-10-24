@@ -90,6 +90,7 @@ AWKCOMMAND='
 
 		deep += 1;
 
+		if ($0 == "SDL2"        && "'$sdl2_config'" == "")         { next; }
 		if ($0 == "SDL"         && "'$sdl_config'" == "")          { next; }
 		if ($0 == "ALSA"        && "'$with_asound'" == "0")        { next; }
 		if ($0 == "OSX"         && "'$os'" != "OSX")               { next; }
