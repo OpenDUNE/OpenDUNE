@@ -12,6 +12,7 @@
 #include "opendune.h"
 #include "sprites.h"
 #include "video/video.h"
+#include "os/error.h"
 
 static uint16 s_spriteSpacing  = 0;
 static uint16 s_spriteHeight   = 0;
@@ -355,9 +356,25 @@ void GFX_ClearBlock(Screen index)
  */
 void GFX_SetPalette(uint8 *palette)
 {
-	Video_SetPalette(palette, 0, 256);
+	int from, to;
 
-	memcpy(g_paletteActive, palette, 256 * 3);
+	for (from = 0; from < 256; from++) {
+		if(palette[from*3] != g_paletteActive[from*3] ||
+		   palette[from*3+1] != g_paletteActive[from*3+1] ||
+		   palette[from*3+2] != g_paletteActive[from*3+2]) break;
+	}
+	if (from >= 256) {
+		Warning("Useless GFX_SetPalette() call\n");
+		return;
+	}
+	for (to = 255; to > from; to--) {
+		if(palette[to*3] != g_paletteActive[to*3] ||
+		   palette[to*3+1] != g_paletteActive[to*3+1] ||
+		   palette[to*3+2] != g_paletteActive[to*3+2]) break;
+	}
+	Video_SetPalette(palette + 3 * from, from, to - from + 1);
+
+	memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
 }
 
 /**
