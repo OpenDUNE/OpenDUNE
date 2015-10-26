@@ -23,7 +23,14 @@
 #define __HQX_COMMON_H_
 
 #include <stdlib.h>
+
+#if defined(_MSC_VER) && (_MSC_VER <= 1500)
+/* MS Visual C++ 2008 doesn't include stdint.h */
+#include "types.h"
+typedef uint32 uint32_t;
+#else
 #include <stdint.h>
+#endif
 
 #define MASK_2     0x0000FF00
 #define MASK_13    0x00FF00FF

@@ -21,8 +21,6 @@
 #ifndef __HQX_H_
 #define __HQX_H_
 
-#include <stdint.h>
-
 #if defined( __GNUC__ )
     #ifdef __MINGW32__
         #define HQX_CALLCONV __stdcall
@@ -43,6 +41,15 @@
     #endif
 #else
     #define HQX_API
+#endif
+
+#if defined(_MSC_VER) && (_MSC_VER <= 1500)
+/* MS Visual C++ 2008 doesn't include stdint.h */
+#include "types.h"
+typedef uint32 uint32_t;
+typedef uint8 uint8_t;
+#else
+#include <stdint.h>
 #endif
 
 HQX_API void HQX_CALLCONV hqxInit(void);
