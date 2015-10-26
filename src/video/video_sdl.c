@@ -501,9 +501,9 @@ void Video_Tick(void)
 				keyup = 0;
 				/* Fall Through */
 			case SDL_KEYUP:
-				if (keyup && event.key.keysym.sym == SDLK_RETURN && 
-				    (event.key.keysym.mod & KMOD_ALT)) {
+				if (event.key.keysym.sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
 					/* ALT-ENTER was pressed */
+					if (!keyup) continue; /* ignore keydown */
 					if (!SDL_WM_ToggleFullScreen(s_gfx_surface)) {
 						Warning("Failed to toggle full screen\n");
 					}
