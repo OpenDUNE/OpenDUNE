@@ -502,12 +502,30 @@ void Video_Tick(void)
 				/* Fall Through */
 			case SDL_KEYUP:
 			{
-				if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
-				if (s_SDL_keymap[event.key.keysym.sym] == 0) {
-					Warning("Unhandled key %X\n", event.key.keysym.sym);
-					continue;
+				uint8 scancode;	/* AT keyboard scancode */
+#if defined(__APPLE__)
+				if (event.key.keysym.scancode == 0 && (event.key.keysym.sym < SDLK_SPACE || event.key.keysym.sym > SDLK_WORLD_95)) {
+					/*  On Mac on US keyboards, scancode 0 is actually the 'a'
+					 * key.  For good measure exclude all printables from this
+					 * condition. */
+#else  /* defined(__APPLE__) */
+				if (event.key.keysym.scancode == 0) {
+#endif /* defined(__APPLE__) */
+					/* scancode 0 : retrieve from sym */
+					if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
+					if (s_SDL_keymap[event.key.keysym.sym] == 0) {
+						Warning("Unhandled key %X\n", event.key.keysym.sym);
+						continue;
+					}
+					scancode = s_SDL_keymap[event.key.keysym.sym];
+				} else {
+					scancode = (uint8)event.key.keysym.scancode;
+#if !defined(_WIN32) && !defined(__APPLE__)
+					/* Linux adds 8 to all scancodes */
+					scancode -= 8;
+#endif /* !defined(_WIN32) && !defined(__APPLE__) */
 				}
-				Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
+				Video_Key_Callback(scancode | (keyup ? 0x80 : 0x0));
 			} break;
 		}
 	}
