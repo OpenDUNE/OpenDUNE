@@ -503,12 +503,10 @@ void Video_Tick(void)
 			case SDL_KEYUP:
 			{
 				uint8 scancode;	/* AT keyboard scancode */
-#if defined(__APPLE__)
-				if (event.key.keysym.scancode == 0 && (event.key.keysym.sym < SDLK_SPACE || event.key.keysym.sym > SDLK_WORLD_95)) {
-					/*  On Mac on US keyboards, scancode 0 is actually the 'a'
-					 * key.  For good measure exclude all printables from this
-					 * condition. */
-#else  /* defined(__APPLE__) */
+				/* Mac keyboard scancodes are very different from what
+				 * they are on a PC : we'll need a translation table.
+				 * So now we fallback to old "sym" code */
+#if !defined(__APPLE__)
 				if (event.key.keysym.scancode == 0) {
 #endif /* defined(__APPLE__) */
 					/* scancode 0 : retrieve from sym */
@@ -518,6 +516,7 @@ void Video_Tick(void)
 						continue;
 					}
 					scancode = s_SDL_keymap[event.key.keysym.sym];
+#if !defined(__APPLE__)
 				} else {
 					scancode = (uint8)event.key.keysym.scancode;
 #if !defined(_WIN32) && !defined(__APPLE__)
@@ -525,6 +524,7 @@ void Video_Tick(void)
 					scancode -= 8;
 #endif /* !defined(_WIN32) && !defined(__APPLE__) */
 				}
+#endif /* defined(__APPLE__) */
 				Video_Key_Callback(scancode | (keyup ? 0x80 : 0x0));
 			} break;
 		}
