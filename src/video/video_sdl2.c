@@ -180,7 +180,7 @@ bool Video_Init(void)
 		return false;
 	}
 
-	SDL_SetWindowTitle(s_window, "OpenDUNE");
+	SDL_SetWindowTitle(s_window, window_caption);
 
 	err = SDL_RenderSetLogicalSize(s_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
