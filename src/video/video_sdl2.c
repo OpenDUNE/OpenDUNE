@@ -25,11 +25,7 @@ static SDL_Renderer *s_renderer;
 static SDL_Texture *s_texture;
 static uint32 *s_gfx_screen;
 
-static struct {
-	uint8 r;
-	uint8 g;
-	uint8 b;
-} s_palette[256];
+static uint32 s_palette[256];
 
 static uint8 s_keyBufferLatest = 0;
 
@@ -251,12 +247,7 @@ static void Video_DrawScreen(void)
 	int i;
 
 	for (i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
-		uint8 r = s_palette[gfx_screen8[i]].r;
-		uint8 g = s_palette[gfx_screen8[i]].g;
-		uint8 b = s_palette[gfx_screen8[i]].b;
-		uint8 a = 0xFF;
-
-		s_gfx_screen[i] = (a<<24) | (r<<16) | (g<<8) | b;
+		s_gfx_screen[i] = s_palette[gfx_screen8[i]];
 	}
 
 	SDL_UpdateTexture(s_texture, NULL, s_gfx_screen, SCREEN_WIDTH * sizeof(uint32));
@@ -335,9 +326,11 @@ void Video_SetPalette(void *palette, int from, int length)
 	s_video_lock = true;
 
 	for (i = from; i < from + length; i++) {
-		s_palette[i].r = (((*p++) & 0x3F) * 0x41) >> 4;
-		s_palette[i].g = (((*p++) & 0x3F) * 0x41) >> 4;
-		s_palette[i].b = (((*p++) & 0x3F) * 0x41) >> 4;
+		s_palette[i] = 0xff000000 /* a */
+		             | ((((p[0] & 0x3F) * 0x41) << 12) & 0x00ff0000) /* r */
+		             | ((((p[1] & 0x3F) * 0x41) << 4)  & 0x0000ff00) /* g */
+		             |  (((p[2] & 0x3F) * 0x41) >> 4); /* b */
+		p += 3;
 	}
 
 	s_video_lock = false;
