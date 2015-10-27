@@ -23,7 +23,6 @@ static bool s_video_lock = false;
 static SDL_Window *s_window;
 static SDL_Renderer *s_renderer;
 static SDL_Texture *s_texture;
-static uint32 *s_gfx_screen;
 
 static uint32 s_palette[256];
 
@@ -195,12 +194,6 @@ bool Video_Init(void)
 		return false;
 	}
 
-	s_gfx_screen = malloc(SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(uint32));
-	if (!s_gfx_screen) {
-		Error("Could not create screen buffer\n");
-		return false;
-	}
-
 	SDL_ShowCursor(SDL_DISABLE);
 
 	s_video_initialized = true;
@@ -213,11 +206,6 @@ bool Video_Init(void)
 void Video_Uninit(void)
 {
 	s_video_initialized = false;
-
-	if (s_gfx_screen) {
-		free(s_gfx_screen);
-		s_gfx_screen = NULL;
-	}
 
 	if (s_texture) {
 		SDL_DestroyTexture(s_texture);
@@ -244,14 +232,26 @@ void Video_Uninit(void)
 static void Video_DrawScreen(void)
 {
 	const uint8 *gfx_screen8 = GFX_Screen_Get_ByIndex(SCREEN_0);
-	int i;
+	uint8 * pixels;
+	int pitch;
+	int x, y;
+	uint32 * p;
 
-	for (i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
-		s_gfx_screen[i] = s_palette[gfx_screen8[i]];
+	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
+		Error("Could not set lock texture: %s\n", SDL_GetError());
+		return;
 	}
-
-	SDL_UpdateTexture(s_texture, NULL, s_gfx_screen, SCREEN_WIDTH * sizeof(uint32));
-	SDL_RenderCopy(s_renderer, s_texture, NULL, NULL);
+	for (y = 0; y < SCREEN_HEIGHT; y++) {
+		p = (uint32 *)pixels;
+		for (x = 0; x < SCREEN_WIDTH; x++) {
+			*p++ = s_palette[*gfx_screen8++];
+		}
+		pixels += pitch;
+	}
+	SDL_UnlockTexture(s_texture);
+	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
+	}
 }
 
 /**
