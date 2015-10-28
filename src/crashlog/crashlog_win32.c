@@ -23,11 +23,12 @@ static EXCEPTION_POINTERS *s_ep;
 #define MAX_SYMBOL_LEN 512
 #define MAX_FRAMES     64
 
-/* printf format specification for 32/64-bit addresses. */
+/* printf format specification for 32/64-bit addresses.
+ * AddrPC.Offset is a DWORD64 : according to MSDN, I64 prefix should be used */
 #if defined(_M_AMD64) || defined(_M_X64)
-#define PRINTF_PTR "0x%016IX"
+#define PRINTF_PTR "0x%016I64X"
 #else
-#define PRINTF_PTR "0x%08X"
+#define PRINTF_PTR "0x%08I64X"
 #endif
 
 #if defined(_MSC_VER)
