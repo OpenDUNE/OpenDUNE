@@ -551,7 +551,7 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	if (s_scale_filter == FILTER_HQX) {
 		uint32 value;
-		for (i = from; i < from + length; i++) {
+		for (i = 0; i < length; i++) {
 			value = (((*p++) & 0x3F) * 0x41000) & 0xff0000;
 			value |= (((*p++) & 0x3F) * 0x410) & 0x00ff00;
 			rgb_palette[i] = value | ((((*p++) & 0x3F) * 0x41)>> 4);
@@ -559,7 +559,7 @@ void Video_SetPalette(void *palette, int from, int length)
 		s_screen_needrepaint = true;
 	} else {
 		/* convert from 6bit to 8bit per component */
-		for (i = from; i < from + length; i++) {
+		for (i = 0; i < length; i++) {
 			paletteRGB[i].r = (((*p++) & 0x3F) * 0x41) >> 4;
 			paletteRGB[i].g = (((*p++) & 0x3F) * 0x41) >> 4;
 			paletteRGB[i].b = (((*p++) & 0x3F) * 0x41) >> 4;
