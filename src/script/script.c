@@ -334,7 +334,7 @@ bool Script_Run(ScriptEngine *script)
 
 			if (parameter == 1) { /* PUSH NEXT LOCATION + FRAMEPOINTER */
 				uint32 location;
-				location = (script->script - scriptInfo->start) + 1;
+				location = (uint32)(script->script - scriptInfo->start) + 1;
 
 				STACK_PUSH(location);
 				STACK_PUSH(script->framePointer);
@@ -540,7 +540,7 @@ void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 	scriptInfo = script->scriptInfo;
 	script->isSubroutine = 1;
 
-	STACK_PUSH((script->script - scriptInfo->start));
+	STACK_PUSH((uint16)(script->script - scriptInfo->start));
 	STACK_PUSH(script->returnValue);
 
 	script->script = scriptInfo->start + scriptInfo->offsets[typeID];

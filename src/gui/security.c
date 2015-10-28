@@ -134,7 +134,7 @@ bool GUI_Security_Show(void)
 		strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
 		GUI_Security_DrawText(g_readBuffer);
 
-		g_interrogationTimer = g_timerGUI + strlen(g_readBuffer) * 4;
+		g_interrogationTimer = g_timerGUI + (uint32)strlen(g_readBuffer) * 4;
 
 		Widget_SetCurrentWidget(9);
 
@@ -178,7 +178,7 @@ bool GUI_Security_Show(void)
 
 		GUI_Security_DrawText(g_readBuffer);
 
-		tickWaitTill = g_timerGUI + strlen(g_readBuffer) * 4;
+		tickWaitTill = g_timerGUI + (uint32)strlen(g_readBuffer) * 4;
 
 		Input_History_Clear();
 

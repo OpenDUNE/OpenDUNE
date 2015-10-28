@@ -294,7 +294,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	found = memchr(actions, unitAction, 4);
 	if (found == NULL) return true;
 
-	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, found - actions + 8), false);
+	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, (uint16)(found - actions + 8)), false);
 
 	return true;
 }
@@ -1307,7 +1307,7 @@ static void GUI_Purchase_ShowInvoice(void)
 			oi = g_factoryWindowItems[i].objectInfo;
 			GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, y, 8, 0, 0x11);
 
-			GUI_DrawText_Monospace(textBuffer, 311 - strlen(textBuffer) * 6, y, 15, 0, 6);
+			GUI_DrawText_Monospace(textBuffer, 311 - (short)strlen(textBuffer) * 6, y, 15, 0, 6);
 
 			y += 8;
 		}
@@ -1320,7 +1320,7 @@ static void GUI_Purchase_ShowInvoice(void)
 
 	snprintf(textBuffer, sizeof(textBuffer), "%d", total);
 
-	x = 311 - strlen(textBuffer) * 6;
+	x = 311 - (short)strlen(textBuffer) * 6;
 
 	/* "Total Cost :" */
 	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(STR_TOTAL_COST_), x - 3, 152, 11, 0, 0x211);
