@@ -122,20 +122,17 @@ static void Timer_Handler(int sig)
 
 void SleepAndProcessBackgroundTasks(void)
 {
-	if (s_timer_count == 0) {
+	while (s_timer_count == 0) {
 		pause();	/* wait for a signal to happen */
+		/* another signal can have been triggered,
+		 * ASLA sound is using SIGIO for triggering callbacks */
 	}
-	if (s_timer_count > 0) {
-		/* timer signal SIGALRM has been triggered */
-		if (s_timer_count > 1) {
-			Warning("s_timer_count = %d\n", (int)s_timer_count);
-		}
-		s_timer_count = 0;
-		Timer_InterruptRun(0);
-	} else {
-		/* another signal was triggered */
-		Warning("unknown signal\n");
+	/* timer signal SIGALRM has been triggered */
+	if (s_timer_count > 1) {
+		Warning("s_timer_count = %d\n", (int)s_timer_count);
 	}
+	s_timer_count = 0;
+	Timer_InterruptRun(0);
 }
 #endif /* _WIN32 */
 
