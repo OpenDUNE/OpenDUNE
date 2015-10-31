@@ -105,7 +105,6 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 			}
 
 			/* Failed to find the key. Return anyway. */
-			if (dest != NULL) *dest = '\0';
 			return NULL;
 		}
 
@@ -135,6 +134,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 		}
 
 		*dest++ = '\0';
+		/* end the list with a zero element */
 		*dest++ = '\0';
 
 		return ret;

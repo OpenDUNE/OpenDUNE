@@ -3,7 +3,13 @@
 #ifndef VIDEO_VIDEO_H
 #define VIDEO_VIDEO_H
 
-extern bool Video_Init(void);
+typedef enum VideoScaleFilter {
+	FILTER_NEAREST_NEIGHBOR = 0,	/**<! Default */
+	FILTER_SCALE2X,					/**<! see http://scale2x.sourceforge.net/ */
+	FILTER_HQX						/**<! see https://code.google.com/p/hqx/ */
+} VideoScaleFilter;
+
+extern bool Video_Init(int screen_magnification, VideoScaleFilter filter);
 extern void Video_Uninit(void);
 extern void Video_Tick(void);
 extern void Video_SetPalette(void *palette, int from, int length);
