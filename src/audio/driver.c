@@ -110,7 +110,11 @@ static bool Drivers_SoundMusic_Init(bool enable)
 	if (!Drivers_Init(sound, "C55")) return false;
 	memcpy(music, sound, sizeof(Driver));
 
+#if defined(_WIN32)
 	MPU_StartThread(1000000 / 120);
+#else
+	Timer_Add(MPU_Interrupt, 1000000 / 120);
+#endif
 
 	size = MPU_GetDataSize();
 
@@ -367,7 +371,11 @@ static void Drivers_SoundMusic_Uninit(void)
 			buffer->index = 0xFFFF;
 		}
 
+#if defined(_WIN32)
 		MPU_StopThread();
+#else
+		Timer_Remove(MPU_Interrupt);
+#endif
 
 		free(buffer->buffer);
 		buffer->buffer = NULL;
