@@ -16,7 +16,7 @@ static uint32 SaveLoad_Script_Script(void *object, uint32 value, bool loading)
 	}
 
 	if (script->script == NULL) return 0;
-	return (script->script - script->scriptInfo->start);
+	return (uint32)(script->script - script->scriptInfo->start);
 }
 
 const SaveLoadDesc g_saveScriptEngine[] = {

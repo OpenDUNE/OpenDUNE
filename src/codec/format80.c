@@ -27,7 +27,7 @@ uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 		/* Short move, relative */
 		if ((flag & 0x80) == 0) {
 			size = (flag >> 4) + 3;
-			if (size > end - dest) size = end - dest;
+			if (size > end - dest) size = (uint16)(end - dest);
 
 			offset = ((flag & 0xF) << 8) + (*source++);
 
@@ -43,7 +43,7 @@ uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 		if (flag == 0xFE) {
 			size = *source++;
 			size += (*source++) << 8;
-			if (size > end - dest) size = end - dest;
+			if (size > end - dest) size = (uint16)(end - dest);
 
 			memset(dest, (*source++), size);
 			dest += size;
@@ -56,7 +56,7 @@ uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 
 			size = *source++;
 			size += (*source++) << 8;
-			if (size > end - dest) size = end - dest;
+			if (size > end - dest) size = (uint16)(end - dest);
 
 			offset = *source++;
 			offset += (*source++) << 8;
@@ -72,7 +72,7 @@ uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 			uint8 *s;
 
 			size = (flag & 0x3F) + 3;
-			if (size > end - dest) size = end - dest;
+			if (size > end - dest) size = (uint16)(end - dest);
 
 			offset = *source++;
 			offset += (*source++) << 8;
@@ -86,7 +86,7 @@ uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 		/* Short copy */
 		{
 			size = flag & 0x3F;
-			if (size > end - dest) size = end - dest;
+			if (size > end - dest) size = (uint16)(end - dest);
 
 			/* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
 			for (; size > 0; size--) *dest++ = *source++;
@@ -94,5 +94,5 @@ uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 		}
 	}
 
-	return dest - start;
+	return (uint16)(dest - start);
 }

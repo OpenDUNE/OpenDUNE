@@ -28,7 +28,6 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization Condition="'$(Configuration)'=='Release'">true</WholeProgramOptimization>
-    <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -62,9 +61,11 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;comctl32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine Condition="'$(Platform)'=='Win32'">MachineX86</TargetMachine>
@@ -72,113 +73,117 @@
       <OptimizeReferences Condition="'$(Configuration)'=='Release'">true</OptimizeReferences>
       <EnableCOMDATFolding Condition="'$(Configuration)'=='Release'">true</EnableCOMDATFolding>
       <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ImageHasSafeExceptionHandlers Condition="'$(Configuration)'=='Debug'"/>
+      <ImageHasSafeExceptionHandlers Condition="'$(Configuration)'=='Debug'" />
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\multichar.h"/>
-    <ClInclude Include="..\include\types.h"/>
+    <ClInclude Include="..\include\multichar.h" />
+    <ClInclude Include="..\include\types.h" />
     <ClCompile Include="..\src\animation.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\animation.h"/>
+    <ClInclude Include="..\src\animation.h" />
     <ClCompile Include="..\src\config.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\config.h"/>
+    <ClInclude Include="..\src\config.h" />
     <ClCompile Include="..\src\cutscene.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\cutscene.h"/>
+    <ClInclude Include="..\src\cutscene.h" />
     <ClCompile Include="..\src\explosion.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\explosion.h"/>
+    <ClInclude Include="..\src\explosion.h" />
     <ClCompile Include="..\src\file.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\file.h"/>
+    <ClInclude Include="..\src\file.h" />
     <ClCompile Include="..\src\gfx.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\gfx.h"/>
+    <ClInclude Include="..\src\gfx.h" />
     <ClCompile Include="..\src\house.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\house.h"/>
+    <ClInclude Include="..\src\house.h" />
     <ClCompile Include="..\src\ini.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\ini.h"/>
+    <ClInclude Include="..\src\ini.h" />
+    <ClCompile Include="..\src\inifile.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\inifile.h" />
     <ClCompile Include="..\src\load.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\load.h"/>
+    <ClInclude Include="..\src\load.h" />
     <ClCompile Include="..\src\map.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\map.h"/>
+    <ClInclude Include="..\src\map.h" />
     <ClCompile Include="..\src\object.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\object.h"/>
+    <ClInclude Include="..\src\object.h" />
     <ClCompile Include="..\src\opendune.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\opendune.h"/>
+    <ClInclude Include="..\src\opendune.h" />
     <ClCompile Include="..\src\rev.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\rev.h"/>
+    <ClInclude Include="..\src\rev.h" />
     <ClCompile Include="..\src\save.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\save.h"/>
+    <ClInclude Include="..\src\save.h" />
     <ClCompile Include="..\src\scenario.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\scenario.h"/>
+    <ClInclude Include="..\src\scenario.h" />
     <ClCompile Include="..\src\sprites.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\sprites.h"/>
+    <ClInclude Include="..\src\sprites.h" />
     <ClCompile Include="..\src\string.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\string.h"/>
+    <ClInclude Include="..\src\string.h" />
     <ClCompile Include="..\src\structure.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\structure.h"/>
+    <ClInclude Include="..\src\structure.h" />
     <ClCompile Include="..\src\team.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\team.h"/>
+    <ClInclude Include="..\src\team.h" />
     <ClCompile Include="..\src\tile.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\tile.h"/>
+    <ClInclude Include="..\src\tile.h" />
     <ClCompile Include="..\src\timer.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\timer.h"/>
+    <ClInclude Include="..\src\timer.h" />
     <ClCompile Include="..\src\tools.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\tools.h"/>
+    <ClInclude Include="..\src\tools.h" />
     <ClCompile Include="..\src\unit.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\unit.h"/>
+    <ClInclude Include="..\src\unit.h" />
     <ClCompile Include="..\src\wsa.c">
       <ObjectFileName>$(IntDir)src\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\wsa.h"/>
+    <ClInclude Include="..\src\wsa.h" />
     <ClCompile Include="..\src\audio\driver.c">
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\audio\driver.h"/>
-    <ClInclude Include="..\src\audio\dsp.h"/>
+    <ClInclude Include="..\src\audio\driver.h" />
+    <ClInclude Include="..\src\audio\dsp.h" />
     <ClCompile Include="..\src\audio\dsp_alsa.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
@@ -194,7 +199,7 @@
     <ClCompile Include="..\src\audio\dsp_win32.c">
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\audio\midi.h"/>
+    <ClInclude Include="..\src\audio\midi.h" />
     <ClCompile Include="..\src\audio\midi_alsa.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
@@ -213,23 +218,23 @@
     <ClCompile Include="..\src\audio\mt32mpu.c">
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\audio\mt32mpu.h"/>
+    <ClInclude Include="..\src\audio\mt32mpu.h" />
     <ClCompile Include="..\src\audio\sound.c">
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\audio\sound.h"/>
+    <ClInclude Include="..\src\audio\sound.h" />
     <ClCompile Include="..\src\codec\format40.c">
       <ObjectFileName>$(IntDir)src\codec\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\codec\format40.h"/>
+    <ClInclude Include="..\src\codec\format40.h" />
     <ClCompile Include="..\src\codec\format80.c">
       <ObjectFileName>$(IntDir)src\codec\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\codec\format80.h"/>
+    <ClInclude Include="..\src\codec\format80.h" />
     <ClCompile Include="..\src\crashlog\crashlog.c">
       <ObjectFileName>$(IntDir)src\crashlog\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\crashlog\crashlog.h"/>
+    <ClInclude Include="..\src\crashlog\crashlog.h" />
     <ClCompile Include="..\src\crashlog\crashlog_none.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\crashlog\</ObjectFileName>
@@ -243,26 +248,26 @@
     <ClCompile Include="..\src\gui\font.c">
       <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\gui\font.h"/>
+    <ClInclude Include="..\src\gui\font.h" />
     <ClCompile Include="..\src\gui\gui.c">
       <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\gui\gui.h"/>
+    <ClInclude Include="..\src\gui\gui.h" />
     <ClCompile Include="..\src\gui\mentat.c">
       <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\gui\mentat.h"/>
+    <ClInclude Include="..\src\gui\mentat.h" />
     <ClCompile Include="..\src\gui\security.c">
       <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\gui\security.h"/>
+    <ClInclude Include="..\src\gui\security.h" />
     <ClCompile Include="..\src\gui\viewport.c">
       <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\src\gui\widget.c">
       <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\gui\widget.h"/>
+    <ClInclude Include="..\src\gui\widget.h" />
     <ClCompile Include="..\src\gui\widget_click.c">
       <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
     </ClCompile>
@@ -272,37 +277,37 @@
     <ClCompile Include="..\src\input\input.c">
       <ObjectFileName>$(IntDir)src\input\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\input\input.h"/>
+    <ClInclude Include="..\src\input\input.h" />
     <ClCompile Include="..\src\input\mouse.c">
       <ObjectFileName>$(IntDir)src\input\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\input\mouse.h"/>
-    <ClInclude Include="..\src\os\common.h"/>
+    <ClInclude Include="..\src\input\mouse.h" />
+    <ClInclude Include="..\src\os\common.h" />
     <ClCompile Include="..\src\os\endian.c">
       <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\os\endian.h"/>
+    <ClInclude Include="..\src\os\endian.h" />
     <ClCompile Include="..\src\os\error.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\os\error.h"/>
+    <ClInclude Include="..\src\os\error.h" />
     <ClCompile Include="..\src\os\error_win32.c">
       <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\os\file.h"/>
-    <ClInclude Include="..\src\os\math.h"/>
+    <ClInclude Include="..\src\os\file.h" />
+    <ClInclude Include="..\src\os\math.h" />
     <ClCompile Include="..\src\os\readdir.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\os\readdir.h"/>
+    <ClInclude Include="..\src\os\readdir.h" />
     <ClCompile Include="..\src\os\readdir_win32.c">
       <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\os\sleep.h"/>
-    <ClInclude Include="..\src\os\strings.h"/>
-    <ClInclude Include="..\src\os\thread.h"/>
+    <ClInclude Include="..\src\os\sleep.h" />
+    <ClInclude Include="..\src\os\strings.h" />
+    <ClInclude Include="..\src\os\thread.h" />
     <ClCompile Include="..\src\os\thread_sdl.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
@@ -313,20 +318,20 @@
     <ClCompile Include="..\src\pool\house.c">
       <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\pool\house.h"/>
-    <ClInclude Include="..\src\pool\pool.h"/>
+    <ClInclude Include="..\src\pool\house.h" />
+    <ClInclude Include="..\src\pool\pool.h" />
     <ClCompile Include="..\src\pool\structure.c">
       <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\pool\structure.h"/>
+    <ClInclude Include="..\src\pool\structure.h" />
     <ClCompile Include="..\src\pool\team.c">
       <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\pool\team.h"/>
+    <ClInclude Include="..\src\pool\team.h" />
     <ClCompile Include="..\src\pool\unit.c">
       <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\pool\unit.h"/>
+    <ClInclude Include="..\src\pool\unit.h" />
     <ClCompile Include="..\src\saveload\house.c">
       <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
     </ClCompile>
@@ -342,7 +347,7 @@
     <ClCompile Include="..\src\saveload\saveload.c">
       <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\saveload\saveload.h"/>
+    <ClInclude Include="..\src\saveload\saveload.h" />
     <ClCompile Include="..\src\saveload\scenario.c">
       <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
     </ClCompile>
@@ -364,7 +369,7 @@
     <ClCompile Include="..\src\script\script.c">
       <ObjectFileName>$(IntDir)src\script\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\script\script.h"/>
+    <ClInclude Include="..\src\script\script.h" />
     <ClCompile Include="..\src\script\structure.c">
       <ObjectFileName>$(IntDir)src\script\</ObjectFileName>
     </ClCompile>
@@ -401,7 +406,7 @@
     <ClCompile Include="..\src\table\sound.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\table\strings.h"/>
+    <ClInclude Include="..\src\table\strings.h" />
     <ClCompile Include="..\src\table\structureinfo.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
@@ -423,7 +428,37 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
     </ClCompile>
-    <ClInclude Include="..\src\video\video.h"/>
+    <ClCompile Include="..\src\video\hq2x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hqx.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\hqx.h"/>
+    <ClInclude Include="..\src\video\hqx_common.h"/>
+    <ClCompile Include="..\src\video\hqx_init.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\scale2x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale2x.h" />
+    <ClCompile Include="..\src\video\scale3x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale3x.h" />
+    <ClCompile Include="..\src\video\scalebit.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scalebit.h" />
+    <ClInclude Include="..\src\video\video.h" />
     <ClCompile Include="..\src\video\video_sdl.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\video\</ObjectFileName>

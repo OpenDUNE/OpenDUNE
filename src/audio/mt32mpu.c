@@ -127,7 +127,7 @@ static uint16 MPU_NoteOn(MSData *data)
 		duration <<= 7;
 	}
 
-	len = sound - data->sound;
+	len = (uint16)(sound - data->sound);
 
 	if ((s_mpu_lockStatus[chan] & 0x80) != 0) return len;
 
@@ -395,7 +395,7 @@ static uint16 MPU_1B48(MSData *data)
 		if ((v & 0x80) == 0) break;
 		len <<= 7;
 	}
-	len += sound - data->sound;
+	len += (uint16)(sound - data->sound);
 
 	switch (type) {
 		case 0x2F:

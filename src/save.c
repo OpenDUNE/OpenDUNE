@@ -86,7 +86,7 @@ static bool Save_Main(FILE *fp, char *description)
 
 	/* Write the 'NAME' chunk. Keep ourself word-aligned. */
 	if (fwrite("NAME", 4, 1, fp) != 1) return false;
-	length = min(255, strlen(description) + 1);
+	length = min(255, (uint32)strlen(description) + 1);
 	lengthSwapped = HTOBE32(length);
 	if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
 	if (fwrite(description, length, 1, fp) != 1) return false;
@@ -170,7 +170,7 @@ bool SaveFile(char *filename, char *description)
 		}
 	}
 
-	fp = fopendatadir(filename, "wb");
+	fp = fopendatadir(SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
 	if (fp == NULL) {
 		Error("Failed to open file '%s' for writing.\n", filename);
 		return false;

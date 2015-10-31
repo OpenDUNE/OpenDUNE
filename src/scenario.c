@@ -480,7 +480,7 @@ static void Scenario_Load_MapParts(const char *key, void (*ptr)(uint16 packed, T
 	char *s;
 	char buf[128];
 
-	Ini_GetString("MAP", key, '\0', buf, 127, s_scenarioBuffer);
+	Ini_GetString("MAP", key, "", buf, 127, s_scenarioBuffer);
 
 	s = strtok(buf, ",\r\n");
 	while (s != NULL) {

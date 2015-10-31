@@ -691,6 +691,7 @@ make_compiler_cflags() {
 		flags="$flags -Wwrite-strings -Wpointer-arith"
 		flags="$flags -W -Wredundant-decls"
 		flags="$flags -Wformat=2 -Wformat-security"
+		flags="$flags -Wno-format-nonliteral"
 
 		if [ $enable_assert -eq 0 ]; then
 			# Do not warn about unused variables when building without asserts
@@ -818,7 +819,12 @@ make_cflags_and_ldflags() {
 			# Define only when compiling with GCC. Some GLIBC versions use GNU
 			# extensions in a way that breaks build with at least ICC.
 			# This requires -O1 or more, so debug level 3 (-O0) is excluded.
-			CFLAGS="$CFLAGS -D_FORTIFY_SOURCE=2"
+			osversion=`uname -r | cut -f 1 -d'.'`
+			if [ "$os" != "OSX" ] || [ "$os" = "OSX" -a "$osversion" -ne 9 ] ; then
+				# FORTIFY_SOURCE causes problem with OS X 10.5 / Xcode 3.1.4
+				# OS X 10.5.xx is Darwin 9.xx
+				CFLAGS="$CFLAGS -D_FORTIFY_SOURCE=2"
+			fi
 
 			# Just add -O1 to the tools needed for building.
 			CFLAGS_BUILD="$CFLAGS_BUILD -D_FORTIFY_SOURCE=2 -O1"
@@ -896,6 +902,11 @@ make_cflags_and_ldflags() {
 					# Intel is only available starting from 10.4
 					CFLAGS="$CFLAGS -mmacosx-version-min=10.4"
 				fi
+				machine=$(machine)
+				case $machine in
+					ppc7400 | ppc7450 | ppc970)
+					CFLAGS="$CFLAGS -maltivec" ;;
+				esac
 			fi
 		fi
 	fi

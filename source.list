@@ -51,6 +51,7 @@ gui/widget_click.c
 gui/widget_draw.c
 house.c
 ini.c
+inifile.c
 input/input.c
 input/mouse.c
 load.c
@@ -122,6 +123,13 @@ unit.c
 		video/video_sdl.c
 	#endif
 #endif
+video/hqx_init.c
+video/hq2x.c
+video/hq3x.c
+video/hq4x.c
+video/scalebit.c
+video/scale2x.c
+video/scale3x.c
 wsa.c
 
 # Header files
@@ -181,4 +189,9 @@ timer.h
 tools.h
 unit.h
 video/video.h
+video/hqx_common.h
+video/hqx.h
+video/scale2x.h
+video/scale3x.h
+video/scalebit.h
 wsa.h
