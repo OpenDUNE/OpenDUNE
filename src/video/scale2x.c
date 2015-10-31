@@ -690,7 +690,10 @@ void scale2x4_32_def(scale2x_uint32* dst0, scale2x_uint32* dst1, scale2x_uint32*
 /* Scale2x MMX implementation */
 
 #if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
-
+/* Ignore "OverLength string" warning caused by ASM code being very long
+ * (2434 and 2440 chars) and over the 509 chars ISO C90 limit */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverlength-strings"
 /*
  * Apply the Scale2x effect at a single row.
  * This function must be called only by the other scale2x functions.
@@ -1301,6 +1304,7 @@ static inline void scale2x_32_mmx_border(scale2x_uint32* dst, const scale2x_uint
 		: "cc"
 	);
 }
+#pragma GCC diagnostic pop
 
 /**
  * Scale by a factor of 2 a row of pixels of 8 bits.
