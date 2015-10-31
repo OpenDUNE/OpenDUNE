@@ -624,6 +624,7 @@ void GUI_PaletteAnimate(void)
 	static uint32 timerAnimation = 0;
 	static uint32 timerSelection = 0;
 	static uint32 timerToggle = 0;
+	bool shouldSetPalette = false;
 
 	if (timerAnimation < g_timerGUI) {
 		static bool animationToggle = false;
@@ -633,7 +634,7 @@ void GUI_PaletteAnimate(void)
 		colour = (!g_structureHighHealth && animationToggle) ? 6 : 15;
 		memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
 
-		GFX_SetPalette(g_palette1);
+		shouldSetPalette = true;
 
 		animationToggle = !animationToggle;
 		timerAnimation = g_timerGUI + 60;
@@ -662,7 +663,7 @@ void GUI_PaletteAnimate(void)
 			}
 		}
 
-		GFX_SetPalette(g_palette1);
+		shouldSetPalette = true;
 
 		timerSelection = g_timerGUI + 3;
 	}
@@ -676,10 +677,12 @@ void GUI_PaletteAnimate(void)
 			toggleColour = (toggleColour == 12) ? 10 : 12;
 		}
 
-		GFX_SetPalette(g_palette1);
+		shouldSetPalette = true;
 
 		timerToggle = g_timerGUI + 5;
 	}
+
+	if (shouldSetPalette) GFX_SetPalette(g_palette1);
 
 	Sound_StartSpeech();
 }
