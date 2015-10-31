@@ -35,7 +35,7 @@ set_default() {
 	enable_strip="0"
 	enable_universal="0"
 	with_osx_sysroot="1"
-	with_sdl="1"
+	with_sdl="2"
 	with_asound="1"
 	enable_builtin_depend="1"
 	with_makedepend="0"

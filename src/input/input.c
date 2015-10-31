@@ -14,6 +14,9 @@
 #include "../input/mouse.h"
 #include "../opendune.h"
 #include "../timer.h"
+#include "../lock.h"
+
+#include "../os/error.h"
 
 static uint16 s_history[128];                /*!< History of input commands. */
 static uint16 s_historyHead = 0;             /*!< The current head inside the #s_history array. */
@@ -93,6 +96,10 @@ static uint16 Input_Keyboard_Translate(uint16 keyValue)
 
 	return keyValue;
 }
+
+/**
+ * Not multithread-safe. Must only be called from the actual hardware handler.
+ */
 
 void Input_EventHandler(uint8 key)
 {
@@ -174,7 +181,11 @@ uint16 Input_Flags_SetBits(uint16 bits)
 /** Clear the history buffer. */
 void Input_History_Clear(void)
 {
+	Lock_Input();
+
 	s_historyTail = s_historyHead;
+
+	Unlock_Input();
 }
 
 /**
@@ -186,6 +197,8 @@ void Input_History_Clear(void)
 static uint16 Input_ReadHistory(uint16 index)
 {
 	uint16 value;
+
+	Lock_Input();
 
 	value = g_var_7013 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7013 : s_history[index / 2];
 	index = (index + 2) & 0xFF;
@@ -206,6 +219,9 @@ static uint16 Input_ReadHistory(uint16 index)
 		}
 	}
 	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) s_historyHead = index;
+
+	Unlock_Input();
+
 	return value;
 }
 
@@ -293,11 +309,22 @@ static uint16 Input_AddHistory(uint16 value)
 	return value;
 }
 
+static void DosHandleInput(uint16 input);
+
 /**
  * Handle input.
  * @param input New input.
  */
 void Input_HandleInput(uint16 input)
+{
+	Lock_Input();
+
+	DosHandleInput(input);
+
+	Unlock_Input();
+}
+
+static void DosHandleInput(uint16 input)
 {
 	uint16 oldTail;
 	uint16 saveSize = 0;
@@ -384,7 +411,7 @@ void Input_HandleInput(uint16 input)
 
 			g_mouseX = inputMouseX;
 			g_mouseY = inputMouseY;
-			if (g_mouseLock == 0) {
+			if (!Lock_IsMouseLocked()) {
 				GUI_Mouse_Hide();
 				GUI_Mouse_Show();
 			}
@@ -448,7 +475,11 @@ uint16 Input_IsInputAvailable(void)
 {
 	uint16 value;
 
+	Lock_Input();
+
 	value = s_historyHead ^ s_historyTail;
+
+	Unlock_Input();
 
 	return Input_AddHistory(value);
 }
@@ -462,10 +493,17 @@ uint16 Input_Wait(void)
 	uint16 value = 0;
 
 	for (;; sleepIdle()) {
+		int flag;
+
 		if (g_mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
+		Lock_Input();
+
 		value = s_historyHead;
-		if (value != s_historyTail) break;
+		flag = value != s_historyTail;
+		Unlock_Input();
+
+		if (flag) break;
 	}
 
 	value = Input_ReadHistory(value);
@@ -487,6 +525,8 @@ uint16 Input_Test(uint16 value)
 	return s_activeInputMap[value >> 3] & (1 << (value & 7));
 }
 
+static uint16 DosKeyboard_HandleKeys(uint16 value);
+
 /**
  * Handle keyboard input.
  * @param value Combined keycode and modifier flags.
@@ -495,6 +535,19 @@ uint16 Input_Test(uint16 value)
  *      uint8 at some time in the future?
  */
 uint16 Input_Keyboard_HandleKeys(uint16 value)
+{
+	uint16 ret;
+
+	Lock_Input();
+
+	ret = DosKeyboard_HandleKeys(value);
+
+	Unlock_Input();
+
+	return ret;
+}
+
+static uint16 DosKeyboard_HandleKeys(uint16 value)
 {
 	uint8 keyValue;
 	uint16 keyFlags;
@@ -567,10 +620,18 @@ uint16 Input_WaitForValidInput(void)
 
 	do {
 		for (;; sleepIdle()) {
+			int flag;
+
 			if (g_mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
+			Lock_Input();
+
 			index = s_historyHead;
-			if (index != s_historyTail) break;
+			flag = index != s_historyTail;
+
+			Unlock_Input();
+
+			if (flag) break;
 		}
 
 		value = Input_ReadHistory(index);

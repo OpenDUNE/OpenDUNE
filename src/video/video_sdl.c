@@ -36,6 +36,8 @@ static int s_screen_magnification;
 static uint32 rgb_palette[256];
 static bool s_screen_needrepaint = false;
 
+typedef void (*GUI_RUNNABLE)(void *);
+
 static SDL_Surface *s_gfx_surface = NULL;
 
 static bool s_video_initialized = false;
@@ -78,6 +80,46 @@ static uint8 s_SDL_keymap[] = {
         0x41, 0x42, 0x43, 0x44, 0x57, 0x58,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x36, /* 0x120 - 0x12F */
         0x36,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /* 0x130 - 0x13F */
 };
+
+typedef struct CallbackData
+{
+	GUI_RUNNABLE cb;
+	SDL_sem *sem;
+	void *args;
+} CallbackData;
+
+/**
+ * Synchronously execute something in the context of SDL event thread.
+ * @param func - a function to execute
+ * @param args - arguments for the function
+ */
+static void Video_RunOnGuiThread(GUI_RUNNABLE func, void *args)
+{
+	SDL_Event ev;
+	SDL_UserEvent user;
+	SDL_sem *sem = SDL_CreateSemaphore(0);
+	CallbackData cb_data;
+
+	memset(&cb_data, 0, sizeof(CallbackData));
+	cb_data.cb = func;
+	cb_data.sem = sem;
+	cb_data.args = args;
+
+	memset(&ev, 0, sizeof(SDL_Event));
+	memset(&user, 0, sizeof(SDL_UserEvent));
+
+	user.type = SDL_USEREVENT;
+	user.code = 0;
+	user.data1 = (void*)&cb_data;
+
+	ev.type = SDL_USEREVENT;
+	ev.user = user;
+
+	SDL_PushEvent(&ev);
+
+	SDL_SemWait(sem);
+	SDL_DestroySemaphore(sem);
+}
 
 /**
  * Callback wrapper for mouse actions.
@@ -405,6 +447,16 @@ void Video_Tick(void)
 				exit(0);
 			} break;
 
+			case SDL_USEREVENT: {
+				CallbackData *data=(CallbackData*)event.user.data1;
+				GUI_RUNNABLE callback = data->cb;
+				SDL_sem *sem = data->sem;
+				void *args = data->args;
+				callback(args);
+
+				SDL_SemPost(sem);
+			} break;
+
 			case SDL_MOUSEMOTION:
 				Video_Mouse_Move(event.motion.x, event.motion.y);
 				break;
@@ -448,14 +500,21 @@ void Video_Tick(void)
 	s_video_lock = false;
 }
 
-/**
- * Change the palette with the palette supplied.
- * @param palette The palette to replace the current with.
- * @param from From which colour.
- * @param length The length of the palette (in colours).
- */
-void Video_SetPalette(void *palette, int from, int length)
+typedef struct SetPaletteArgs
 {
+	void *palette;
+	int from;
+	int length;
+} SetPaletteArgs;
+
+static void SetPalette(void *data)
+{
+	SetPaletteArgs *args = (SetPaletteArgs*)data;
+
+	void *palette = args->palette;
+	int from = args->from;
+	int length = args->length;
+
 	SDL_Color paletteRGB[256];
 	uint8 *p = palette;
 	int i;
@@ -482,4 +541,23 @@ void Video_SetPalette(void *palette, int from, int length)
 	}
 
 	s_video_lock = false;
+}
+
+/**
+ * Change the palette with the palette supplied.
+ * @param palette The palette to replace the current with.
+ * @param from From which colour.
+ * @param length The length of the palette (in colours).
+ */
+void Video_SetPalette(void *palette, int from, int length)
+{
+	SetPaletteArgs args;
+
+	memset(&args, 0, sizeof(SetPaletteArgs));
+
+	args.palette = palette;
+	args.from = from;
+	args.length = length;
+
+	Video_RunOnGuiThread(&SetPalette, &args);
 }

@@ -15,8 +15,7 @@
 #include "../timer.h"
 #include "../tools.h"
 #include "../video/video.h"
-
-uint16 g_mouseLock;          /*!< Lock for when handling mouse movement. */
+#include "../lock.h"
 
 uint16 g_mouseX;             /*!< Current X position of the mouse. */
 uint16 g_mouseY;             /*!< Current Y position of the mouse. */
@@ -81,7 +80,7 @@ void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}
 
-		if (g_mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseLock == 0) {
+		if (g_mouseMode != INPUT_MOUSE_MODE_PLAY && !Lock_IsMouseLocked()) {
 			Mouse_HandleMovement(newButtonState, mousePosX, mousePosY);
 		}
 	}
@@ -135,15 +134,14 @@ uint16 Mouse_InsideRegion(int16 left, int16 top, int16 right, int16 bottom)
 	int16 mx, my;
 	uint16 inside;
 
-	while (g_mouseLock != 0) sleepIdle();
-	g_mouseLock++;
+	Lock_Mouse();
 
 	mx = g_mouseX;
 	my = g_mouseY;
 
 	inside = (mx < left || mx > right || my < top || my > bottom) ? 0 : 1;
 
-	g_mouseLock--;
+	Unlock_Mouse();
 	return inside;
 }
 
@@ -269,7 +267,6 @@ static void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 				GUI_Mouse_Show();
 				g_mousePrevX = mouseX;
 				g_mousePrevY = mouseY;
-				g_mouseLock = 0;
 				return;
 			}
 		}
@@ -284,7 +281,6 @@ static void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 
 	g_mousePrevX = mouseX;
 	g_mousePrevY = mouseY;
-	g_mouseLock = 0;
 }
 
 /**
@@ -295,7 +291,7 @@ static void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
  */
 void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 {
-	g_mouseLock = 0x1;
+	Lock_Mouse();
 
 	g_mouseX = mouseX;
 	g_mouseY = mouseY;
@@ -304,6 +300,8 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 	}
 
 	Mouse_CheckMovement(mouseX, mouseY);
+
+	Unlock_Mouse();
 }
 
 /**

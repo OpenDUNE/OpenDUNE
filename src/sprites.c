@@ -22,7 +22,7 @@
 #include "script/script.h"
 #include "string.h"
 #include "tile.h"
-
+#include "lock.h"
 
 uint8 **g_sprites = NULL;
 static uint16 s_spritesCount = 0;
@@ -335,9 +335,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	if (sprite == NULL || g_var_7097 != 0) return;
 
-	while (g_mouseLock != 0) sleepIdle();
-
-	g_mouseLock++;
+	Lock_Mouse();
 
 	GUI_Mouse_Hide();
 
@@ -398,7 +396,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	GUI_Mouse_Show();
 
-	g_mouseLock--;
+	Unlock_Mouse();
 }
 
 static void InitRegions(void)
