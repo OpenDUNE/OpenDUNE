@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include "types.h"
 #include "../os/strings.h"
+#include "../os/sleep.h"
 
 #include "security.h"
 #include "../file.h"
@@ -191,6 +192,7 @@ bool GUI_Security_Show(void)
 			} else {
 				GUI_Mentat_Animation(0);
 			}
+			sleepIdle();
 		}
 
 		GUI_Security_UndrawText();
