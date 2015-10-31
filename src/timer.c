@@ -50,7 +50,7 @@ static int s_timerNodeSize  = 0;
 
 static uint32 s_timerLastTime;
 
-static const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
+static const uint32 s_timerSpeed = 1000000 / 120; /* Our timer runs at 120Hz */
 
 
 static uint32 Timer_GetTime(void)
