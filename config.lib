@@ -410,8 +410,8 @@ check_params() {
 		fi
 	fi
 
-	detect_sdl
 	detect_sdl2
+	detect_sdl
 	detect_asound
 
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
@@ -1446,6 +1446,10 @@ detect_sdl2() {
 		fi
 
 		sdl2_config=""
+		# SDL2 not found, set SDL to autodetect
+		if [ "$with_sdl" = "0" ] ; then
+			with_sdl="1"
+		fi
 		return 0
 	fi
 
