@@ -55,14 +55,16 @@ static uint16 s_mouseMaxY = 0;
 
 static uint8 s_gfx_screen8[SCREEN_WIDTH * SCREEN_HEIGHT];
 
+/* translation from SDLKey (symbolic codes) to AT (or XT ?) keyboard scancodes
+ * Dune 2 input code handle extended scancodes (prefixed with e0, we could generate them also) */
 /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
-static uint8 s_SDL_keymap[] = {
+static const uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x01,    0,    0,    0,    0, /*  0x10 -  0x1F */
-        0x39,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x33, 0x0C, 0x34, 0x35, /*  0x20 -  0x2F */
-        0x0B, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,    0,    0,    0, 0x0D,    0,    0, /*  0x30 -  0x3F */
+        0x39,    0,    0,    0,    0,    0,    0, 0x28,    0,    0,    0,    0, 0x33, 0x0C, 0x34, 0x35, /*  0x20 -  0x2F */
+        0x0B, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,    0, 0x27,    0, 0x0D,    0,    0, /*  0x30 -  0x3F */
            0, 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32, 0x31, 0x18, /*  0x40 -  0x4F */
-        0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C,    0, 0x2B,    0,    0,    0, /*  0x50 -  0x5F */
+        0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C, 0x1A, 0x2B, 0x1B,    0,    0, /*  0x50 -  0x5F */
         0x29, 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32, 0x31, 0x18, /*  0x60 -  0x6F */
         0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C,    0,    0,    0,    0, 0x53, /*  0x70 -  0x7F */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0x80 -  0x8F */
@@ -73,11 +75,62 @@ static uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xD0 -  0xDF */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xE0 -  0xEF */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xF0 -  0xFF */
-           0, 0x4F, 0x50, 0x51, 0x4B, 0x1C, 0x4D, 0x47, 0x48, 0x49,    0,    0,    0,    0,    0,    0, /* 0x100 - 0x10F */
+        0x52, 0x4F, 0x50, 0x51, 0x4B, 0x4C, 0x4D, 0x47, 0x48, 0x49, 0x53, 0x62, 0x37, 0x4A, 0x4E, 0x6C, /* 0x100 - 0x10F */
            0, 0x48, 0x50, 0x4D, 0x4B, 0x52, 0x47, 0x4F, 0x49, 0x51, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, /* 0x110 - 0x11F */
         0x41, 0x42, 0x43, 0x44, 0x57, 0x58,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x36, /* 0x120 - 0x12F */
         0x36,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /* 0x130 - 0x13F */
 };
+
+
+#if defined(__APPLE__)
+/* translation from Mac keyboard scancode to SDLKey symbolic code
+ * Copied from DOSBOX sdl_mapper.cpp */
+#define Z SDLK_UNKNOWN
+static const SDLKey sdlkey_map[] = {
+    /* Main block printables */
+    /*00-05*/ SDLK_a, SDLK_s, SDLK_d, SDLK_f, SDLK_h, SDLK_g,
+    /*06-0B*/ SDLK_z, SDLK_x, SDLK_c, SDLK_v, 0x60/*SDLK_WORLD_0*/, SDLK_b,
+    /*0C-11*/ SDLK_q, SDLK_w, SDLK_e, SDLK_r, SDLK_y, SDLK_t,
+    /*12-17*/ SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_6, SDLK_5,
+    /*18-1D*/ SDLK_EQUALS, SDLK_9, SDLK_7, SDLK_MINUS, SDLK_8, SDLK_0,
+    /*1E-21*/ SDLK_RIGHTBRACKET, SDLK_o, SDLK_u, SDLK_LEFTBRACKET,
+    /*22-23*/ SDLK_i, SDLK_p,
+    /*24-29*/ SDLK_RETURN, SDLK_l, SDLK_j, SDLK_QUOTE, SDLK_k, SDLK_SEMICOLON,
+    /*2A-29*/ SDLK_BACKSLASH, SDLK_COMMA, SDLK_SLASH, SDLK_n, SDLK_m,
+    /*2F-2F*/ SDLK_PERIOD,
+
+    /* Spaces, controls, modifiers */
+    /*30-33*/ SDLK_TAB, SDLK_SPACE, SDLK_BACKQUOTE, SDLK_BACKSPACE,
+    /*34-37*/ Z, SDLK_ESCAPE, Z, SDLK_LMETA,
+    /*38-3B*/ SDLK_LSHIFT, SDLK_CAPSLOCK, SDLK_LALT, SDLK_LCTRL,
+
+    /*3C-40*/ Z, Z, Z, Z, Z,
+
+    /* Keypad (KP_EQUALS not supported, NUMLOCK used on what is CLEAR
+     * in Mac OS X) */
+    /*41-46*/ SDLK_KP_PERIOD, Z, SDLK_KP_MULTIPLY, Z, SDLK_KP_PLUS, Z,
+    /*47-4A*/ SDLK_NUMLOCK /*==SDLK_CLEAR*/, Z, Z, Z,
+    /*4B-4D*/ SDLK_KP_DIVIDE, SDLK_KP_ENTER, Z,
+    /*4E-51*/ SDLK_KP_MINUS, Z, Z, SDLK_KP_EQUALS,
+    /*52-57*/ SDLK_KP0, SDLK_KP1, SDLK_KP2, SDLK_KP3, SDLK_KP4, SDLK_KP5,
+    /*58-5C*/ SDLK_KP6, SDLK_KP7, Z, SDLK_KP8, SDLK_KP9,
+
+    /*5D-5F*/ Z, Z, Z,
+
+    /* Function keys and cursor blocks (F13 not supported, F14 =>
+     * PRINT[SCREEN], F15 => SCROLLOCK, F16 => PAUSE, HELP => INSERT) */
+    /*60-64*/ SDLK_F5, SDLK_F6, SDLK_F7, SDLK_F3, SDLK_F8,
+    /*65-6A*/ SDLK_F9, Z, SDLK_F11, Z, SDLK_F13, SDLK_PAUSE /*==SDLK_F16*/,
+    /*6B-70*/ SDLK_PRINT /*==SDLK_F14*/, Z, SDLK_F10, Z, SDLK_F12, Z,
+    /*71-72*/ SDLK_SCROLLOCK /*==SDLK_F15*/, SDLK_INSERT /*==SDLK_HELP*/,
+    /*73-77*/ SDLK_HOME, SDLK_PAGEUP, SDLK_DELETE, SDLK_F4, SDLK_END,
+    /*78-7C*/ SDLK_F2, SDLK_PAGEDOWN, SDLK_F1, SDLK_LEFT, SDLK_RIGHT,
+    /*7D-7E*/ SDLK_DOWN, SDLK_UP,
+
+    /*7F-7F*/ Z
+};
+#undef Z
+#endif /* defined(__APPLE__) */
 
 /**
  * Callback wrapper for mouse actions.
@@ -423,12 +476,38 @@ void Video_Tick(void)
 				/* Fall Through */
 			case SDL_KEYUP:
 			{
-				if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
-				if (s_SDL_keymap[event.key.keysym.sym] == 0) {
-					Warning("Unhandled key %X\n", event.key.keysym.sym);
-					continue;
+				uint8 scancode;	/* AT keyboard scancode */
+				SDLKey sym = event.key.keysym.sym;	/* SDLKey symbolic code */
+				/* Mac keyboard scancodes are very different from what
+				 * they are on a PC : we need a translation table. */
+#if defined(__APPLE__)
+				/* SDL on OS X returns scancode 0 for 'A' key or some control keys */
+				if (((event.key.keysym.scancode == 0 && sym > SDLK_SPACE && sym < 0x80) ||
+				    (event.key.keysym.scancode > 0 && event.key.keysym.scancode < 0x80))
+				    && sdlkey_map[event.key.keysym.scancode] != SDLK_UNKNOWN) {
+					/* use "translated" KeySym */
+					sym = sdlkey_map[event.key.keysym.scancode];
 				}
-				Video_Key_Callback(s_SDL_keymap[event.key.keysym.sym] | (keyup ? 0x80 : 0x0));
+#else /* defined(__APPLE__) */
+				if (event.key.keysym.scancode == 0) {
+#endif /* defined(__APPLE__) */
+					/* scancode 0 : retrieve from sym */
+					if (sym >= sizeof(s_SDL_keymap)) continue;
+					if (s_SDL_keymap[sym] == 0) {
+						Warning("Unhandled key %X \"%s\"\n", sym, SDL_GetKeyName(sym));
+						continue;
+					}
+					scancode = s_SDL_keymap[sym];
+#if !defined(__APPLE__)
+				} else {
+					scancode = (uint8)event.key.keysym.scancode;
+#if !defined(_WIN32) && !defined(__APPLE__)
+					/* Linux adds 8 to all scancodes */
+					scancode -= 8;
+#endif /* !defined(_WIN32) && !defined(__APPLE__) */
+				}
+#endif /* defined(__APPLE__) */
+				Video_Key_Callback(scancode | (keyup ? 0x80 : 0x0));
 			} break;
 		}
 	}
