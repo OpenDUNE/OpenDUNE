@@ -115,6 +115,13 @@ unit.c
 #else
 	video/video_sdl.c
 #endif
+video/hqx_init.c
+video/hq2x.c
+video/hq3x.c
+video/hq4x.c
+video/scalebit.c
+video/scale2x.c
+video/scale3x.c
 wsa.c
 
 # Header files
@@ -174,4 +181,9 @@ timer.h
 tools.h
 unit.h
 video/video.h
+video/hqx_common.h
+video/hqx.h
+video/scale2x.h
+video/scale3x.h
+video/scalebit.h
 wsa.h
