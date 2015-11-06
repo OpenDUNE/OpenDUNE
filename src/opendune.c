@@ -14,6 +14,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#if defined(WITH_SDL) || defined(WITH_SDL2)
+#include <SDL.h>
+#endif /* WITH_SDL(2) */
 #include "types.h"
 #include "os/common.h"
 #include "os/error.h"
