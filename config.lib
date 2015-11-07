@@ -35,7 +35,7 @@ set_default() {
 	enable_strip="0"
 	enable_universal="0"
 	with_osx_sysroot="1"
-	with_sdl="0"
+	with_sdl="1"
 	with_sdl2="1"
 	with_asound="1"
 	enable_builtin_depend="1"
@@ -1446,14 +1446,14 @@ detect_sdl2() {
 		fi
 
 		sdl2_config=""
-		# SDL2 not found, set SDL to autodetect
-		if [ "$with_sdl" = "0" ] ; then
-			with_sdl="1"
-		fi
 		return 0
 	fi
 
 	log 1 "checking SDL2... found"
+	# SDL2 found, disabling SDL
+	if [ "$with_sdl" = "1" ] ; then
+		with_sdl="0"
+	fi
 }
 
 detect_osx_sdk() {
