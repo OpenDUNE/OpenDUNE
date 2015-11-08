@@ -627,14 +627,16 @@ void GUI_PaletteAnimate(void)
 	bool shouldSetPalette = false;
 
 	if (timerAnimation < g_timerGUI) {
+		/* make the repair button flash */
 		static bool animationToggle = false;
 
 		uint16 colour;
 
 		colour = (!g_structureHighHealth && animationToggle) ? 6 : 15;
-		memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
-
-		shouldSetPalette = true;
+		if (memcmp(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3) != 0) {
+			memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
+			shouldSetPalette = true;
+		}
 
 		animationToggle = !animationToggle;
 		timerAnimation = g_timerGUI + 60;
