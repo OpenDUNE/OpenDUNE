@@ -3519,7 +3519,8 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 
 		memset(g_palette1 + 255 * 3, 0x3F, 3);
 
-		GFX_SetPalette(g_palette1);
+		/* calling GFX_SetPalette() now is useless as it will be done at the end of the function */
+		/*GFX_SetPalette(g_palette1);*/
 
 		paletteChangeTimer = 0;
 		paletteColour = 0;
