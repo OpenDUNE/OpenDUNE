@@ -44,7 +44,7 @@ static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
 /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
-static uint8 s_SDL_keymap[] = {
+static const uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x01,    0,    0,    0,    0, /*  0x10 -  0x1F */
         0x39,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x33, 0x0C, 0x34, 0x35, /*  0x20 -  0x2F */
@@ -53,18 +53,53 @@ static uint8 s_SDL_keymap[] = {
         0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C,    0, 0x2B,    0,    0,    0, /*  0x50 -  0x5F */
         0x29, 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32, 0x31, 0x18, /*  0x60 -  0x6F */
         0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C,    0,    0,    0,    0, 0x53, /*  0x70 -  0x7F */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0x80 -  0x8F */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0x90 -  0x9F */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xA0 -  0xAF */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xB0 -  0xBF */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xC0 -  0xCF */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xD0 -  0xDF */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xE0 -  0xEF */
-           0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xF0 -  0xFF */
-           0, 0x4F, 0x50, 0x51, 0x4B, 0x1C, 0x4D, 0x47, 0x48, 0x49,    0,    0,    0,    0,    0,    0, /* 0x100 - 0x10F */
-           0, 0x48, 0x50, 0x4D, 0x4B, 0x52, 0x47, 0x4F, 0x49, 0x51, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, /* 0x110 - 0x11F */
-        0x41, 0x42, 0x43, 0x44, 0x57, 0x58,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x36, /* 0x120 - 0x12F */
-        0x36,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /* 0x130 - 0x13F */
+};
+
+/* see https://wiki.libsdl.org/SDLKeycodeLookup */
+static const uint8 s_SDL_hikeymap[] = {
+	0x00,	/* 1073741881 0x40000039 SDLK_CAPSLOCK */
+	0x3B,	/* 1073741882 0x4000003A SDLK_F1 */
+	0x3C,	/* 1073741883 0x4000003B SDLK_F2 */
+	0x3D,	/* 1073741884 0x4000003C SDLK_F3 */
+	0x3E,	/* 1073741885 0x4000003D SDLK_F4 */
+	0x3F,	/* 1073741886 0x4000003E SDLK_F5 */
+	0x40,	/* 1073741887 0x4000003F SDLK_F6 */
+	0x41,	/* 1073741888 0x40000040 SDLK_F7 */
+	0x42,	/* 1073741889 0x40000041 SDLK_F8 */
+	0x43,	/* 1073741890 0x40000042 SDLK_F9 */
+	0x44,	/* 1073741891 0x40000043 SDLK_F10 */
+	0x57,	/* 1073741892 0x40000044 SDLK_F11 */
+	0x58,	/* 1073741893 0x40000045 SDLK_F12 */
+	0x00,	/* 1073741894 0x40000046 SDLK_PRINTSCREEN */
+	0x00,	/* 1073741895 0x40000047 SDLK_SCROLLLOCK */
+	0x00,	/* 1073741896 0x40000048 SDLK_PAUSE */
+	0x52,	/* 1073741897 0x40000049 SDLK_INSERT */
+	0x00,	/* 1073741898 0x4000004A SDLK_HOME */
+	0x49,	/* 1073741899 0x4000004B SDLK_PAGEUP */
+	0x00,
+	0x4F,	/* 1073741901 0x4000004D SDLK_END */
+	0x51,	/* 1073741902 0x4000004E SDLK_PAGEDOWN */
+	0x4D,	/* 1073741903 0x4000004F SDLK_RIGHT */
+	0x4B,	/* 1073741904 0x40000050 SDLK_LEFT */
+	0x50,	/* 1073741905 0x40000051 SDLK_DOWN */
+	0x48,	/* 1073741906 0x40000052 SDLK_UP */
+	0x00,	/* 1073741907 0x40000053 SDLK_NUMLOCKCLEAR */
+	0x00,	/* 1073741908 0x40000054 SDLK_KP_DIVIDE */
+	0x37,	/* 1073741909 0x40000055 SDLK_KP_MULTIPLY */
+	0x4A,	/* 1073741910 0x40000056 SDLK_KP_MINUS */
+	0x4E,	/* 1073741911 0x40000057 SDLK_KP_PLUS */
+	0x1C,	/* 1073741912 0x40000058 SDLK_KP_ENTER */
+	0x4F,	/* 1073741913 0x40000059 SDLK_KP_1 */
+	0x50,	/* 1073741914 0x4000005A SDLK_KP_2 */
+	0x51,	/* 1073741915 0x4000005B SDLK_KP_3 */
+	0x4B,	/* 1073741916 0x4000005C SDLK_KP_4 */
+	0x4C,	/* 1073741917 0x4000005D SDLK_KP_5 */
+	0x4D,	/* 1073741918 0x4000005E SDLK_KP_6 */
+	0x47,	/* 1073741919 0x4000005F SDLK_KP_7 */
+	0x48,	/* 1073741920 0x40000060 SDLK_KP_8 */
+	0x49,	/* 1073741921 0x40000061 SDLK_KP_9 */
+	0x52,	/* 1073741922 0x40000062 SDLK_KP_0 */
+	0x53,	/* 1073741923 0x40000063 SDLK_KP_PERIOD */
 };
 
 /**
@@ -438,12 +473,20 @@ void Video_Tick(void)
 			case SDL_KEYUP:
 			{
 				unsigned int sym = event.key.keysym.sym;
-				if (sym >= sizeof(s_SDL_keymap)) continue;
-				if (s_SDL_keymap[sym] == 0) {
-					Warning("Unhandled key %X\n", sym);
+				uint8 code = 0;
+				if (sym >= SDLK_CAPSLOCK) {
+					sym -= SDLK_CAPSLOCK;
+					if (sym < sizeof(s_SDL_hikeymap)) code = s_SDL_hikeymap[sym];
+				} else {
+					if (sym < sizeof(s_SDL_keymap)) code = s_SDL_keymap[sym];
+				}
+				if (code == 0) {
+					Warning("Unhandled key scancode=0x%X sym=0x%X %s\n",
+					        event.key.keysym.scancode, event.key.keysym.sym,
+					        SDL_GetKeyName(event.key.keysym.sym));
 					continue;
 				}
-				Video_Key_Callback(s_SDL_keymap[sym] | (keyup ? 0x80 : 0x0));
+				Video_Key_Callback(code | (keyup ? 0x80 : 0x0));
 			} break;
 		}
 	}
