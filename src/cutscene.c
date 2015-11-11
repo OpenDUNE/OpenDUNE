@@ -711,7 +711,7 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 				break;
 
 			case 3:
-				GFX_SetPalette(g_palette1 + 256 * 3 * counter);
+				if (counter < 8) GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter-- == 0) {
 					stage++;
@@ -720,7 +720,7 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 				break;
 
 			case 5:
-				GFX_SetPalette(g_palette1 + 256 * 3 * counter);
+				if (counter > 0) GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter++ >= 8) stage = 0;
 				break;
