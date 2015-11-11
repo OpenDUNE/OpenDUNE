@@ -4570,36 +4570,35 @@ void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation)
 	tickCurrent = 0;
 	timerCurrent = g_timerSleep;
 
-	do {
-		progress = false;
+	for (;;) {
+		progress = false;	/* will be set true if any color is changed */
 
 		tickCurrent  += (uint16)ticks;
 		timerCurrent += (uint32)(tickCurrent >> 8);
 		tickCurrent  &= 0xFF;
 
 		for (i = 0; i < 256 * 3; i++) {
-			int16 current = palette[i];
-			int16 goal = data[i];
+			int16 goal = palette[i];
+			int16 current = data[i];
 
 			if (goal == current) continue;
 
-			if (goal < current) {
-				goal = min(goal + diffPerTick, current);
-				progress = true;
-			}
-
+			progress = true;
 			if (goal > current) {
-				goal = max(goal - diffPerTick, current);
-				progress = true;
+				current += diffPerTick;
+				if (current > goal) current = goal;
+			} else {
+				current -= diffPerTick;
+				if (current < goal) current = goal;
 			}
-
-			data[i] = goal & 0xFF;
+			data[i] = (uint8)current;
 		}
 
-		if (progress) {
-			GFX_SetPalette(data);
+		/* if no color was changed, the target palette has been reached */
+		if (!progress) break;
 
-			while (g_timerSleep < timerCurrent) sleepIdle();
-		}
-	} while (progress);
+		GFX_SetPalette(data);
+
+		while (g_timerSleep < timerCurrent) sleepIdle();
+	}
 }
