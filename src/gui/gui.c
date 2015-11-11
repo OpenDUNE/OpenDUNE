@@ -590,13 +590,16 @@ void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgCol
 }
 
 /**
- * Do something on the given colour in the given palette.
+ * Shift the given colour toward the reference color.
+ * Increment(or decrement) each component (R, G, B) until
+ * they equal thoses of the reference color.
  *
  * @param palette The palette to work on.
  * @param colour The colour to modify.
  * @param reference The colour to use as reference.
+ * @return true if the colour now equals the reference.
  */
-static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 colour, uint16 reference)
+static bool GUI_Palette_ShiftColour(uint8 *palette, uint16 colour, uint16 reference)
 {
 	bool ret = false;
 	uint16 i;
@@ -643,13 +646,14 @@ void GUI_PaletteAnimate(void)
 	}
 
 	if (timerSelection < g_timerGUI && g_selectionType != SELECTIONTYPE_MENTAT) {
+		/* selection color */
 		static uint16 selectionStateColour = 15;
 
-		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
-		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
-		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
+		GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour);
+		GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour);
+		GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour);
 
-		if (!GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour)) {
+		if (!GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour)) {
 			if (selectionStateColour == 13) {
 				selectionStateColour = 15;
 
@@ -671,11 +675,12 @@ void GUI_PaletteAnimate(void)
 	}
 
 	if (timerToggle < g_timerGUI) {
+		/* windtrap color */
 		static uint16 toggleColour = 12;
 
-		GUI_Palette_2BA5_00A2(g_palette1, 223, toggleColour);
+		GUI_Palette_ShiftColour(g_palette1, 223, toggleColour);
 
-		if (!GUI_Palette_2BA5_00A2(g_palette1, 223, toggleColour)) {
+		if (!GUI_Palette_ShiftColour(g_palette1, 223, toggleColour)) {
 			toggleColour = (toggleColour == 12) ? 10 : 12;
 		}
 
