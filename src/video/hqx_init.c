@@ -23,11 +23,12 @@ uint32_t * RGBtoYUV = NULL;
 
 HQX_API void HQX_CALLCONV hqxInit(void)
 {
-	/* Initalize RGB to YUV lookup table */
+    /* Initalize RGB to YUV lookup table */
     uint32_t c, r, g, b, y, u, v;
-	RGBtoYUV = malloc(sizeof(uint32_t) * 16777216);
+#ifndef HQX_VGACOLORS
+    RGBtoYUV = malloc(sizeof(uint32_t) * 16777216);
 
-    for (c = 0; c < 16777215; c++) {
+    for (c = 0; c < 16777216; c++) {
         r = (c & 0xFF0000) >> 16;
         g = (c & 0x00FF00) >> 8;
         b = c & 0x0000FF;
@@ -36,10 +37,24 @@ HQX_API void HQX_CALLCONV hqxInit(void)
         v = (uint32_t)(0.5*r - 0.419*g - 0.081*b) + 128;
         RGBtoYUV[c] = (y << 16) + (u << 8) + v;
     }
+#else
+    /* DUNE 2 is using 6bit per component colors (VGA) */
+    RGBtoYUV = malloc(sizeof(uint32_t) * 64*64*64);
+
+    for (c = 0; c < 64*64*64; c++) {
+        r = (((c & 0x0FF000) >> 12) * 0x41) >> 4;
+        g = (((c & 0x000FC0) >> 6) * 0x41) >> 4;
+        b = ((c & 0x00003F) * 0x41) >> 4;
+        y = (uint32_t)(0.299*r + 0.587*g + 0.114*b);
+        u = (uint32_t)(-0.169*r - 0.331*g + 0.5*b) + 128;
+        v = (uint32_t)(0.5*r - 0.419*g - 0.081*b) + 128;
+        RGBtoYUV[c] = (y << 16) + (u << 8) + v;
+    }
+#endif
 }
 
 HQX_API void HQX_CALLCONV hqxUnInit(void)
 {
-	free(RGBtoYUV);
-	RGBtoYUV = NULL;
+    free(RGBtoYUV);
+    RGBtoYUV = NULL;
 }

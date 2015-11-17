@@ -21,6 +21,10 @@
 #ifndef __HQX_H_
 #define __HQX_H_
 
+/* only use 6 most significant bits from RGB color components
+ * (VGA colors) */
+#define HQX_VGACOLORS
+
 #if defined( __GNUC__ )
     #ifdef __MINGW32__
         #define HQX_CALLCONV __stdcall

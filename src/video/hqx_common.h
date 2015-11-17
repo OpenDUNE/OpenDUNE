@@ -1,3 +1,5 @@
+/* vim: tabstop=4 shiftwidth=4 expandtab
+ */
 /*
  * Copyright (C) 2003 Maxim Stepin ( maxst@hiend3d.com )
  *
@@ -23,6 +25,7 @@
 #define __HQX_COMMON_H_
 
 #include <stdlib.h>
+#include "hqx.h"
 
 #if defined(_MSC_VER) && (_MSC_VER <= 1500)
 /* MS Visual C++ 2008 doesn't include stdint.h */
@@ -52,7 +55,11 @@ extern uint32_t * RGBtoYUV;
 static inline uint32_t rgb_to_yuv(uint32_t c)
 {
     /* Mask against MASK_RGB to discard the alpha channel */
+#ifndef HQX_VGACOLORS
     return RGBtoYUV[MASK_RGB & c];
+#else
+    return RGBtoYUV[((c & 0x0000FF) >> 2) | ((c & 0x00FF00) >> 4) | ((c & 0xFF0000) >> 6)];
+#endif
 }
 
 /* Test if there is difference in color */
