@@ -12,7 +12,11 @@ audio/midi_win32.c
 		#if SDL
 			audio/dsp_sdl.c
 		#else
-			audio/dsp_none.c
+			#if SDL2
+				audio/dsp_sdl.c
+			#else
+				audio/dsp_none.c
+			#endif
 		#endif
 		#if OSX
 			audio/midi_osx.c
@@ -113,7 +117,11 @@ unit.c
 #if WIN32
 	video/video_win32.c
 #else
-	video/video_sdl.c
+	#if SDL2
+		video/video_sdl2.c
+	#else
+		video/video_sdl.c
+	#endif
 #endif
 video/hqx_init.c
 video/hq2x.c

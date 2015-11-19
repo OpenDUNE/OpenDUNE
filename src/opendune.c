@@ -14,6 +14,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#if defined(WITH_SDL) || defined(WITH_SDL2)
+#include <SDL.h>
+#endif /* WITH_SDL(2) */
 #include "types.h"
 #include "os/common.h"
 #include "os/error.h"
@@ -1164,7 +1167,7 @@ static bool Unknown_25C4_000E(int screen_magnification, VideoScaleFilter filter)
 	return true;
 }
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) && defined(SDL_MAJOR_VERSION) && (SDL_MAJOR_VERSION == 1)
 int SDL_main(int argc, char **argv)
 #else
 int main(int argc, char **argv)
