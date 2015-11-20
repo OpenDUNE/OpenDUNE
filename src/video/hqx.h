@@ -62,4 +62,12 @@ HQX_API void HQX_CALLCONV hq2x_32_rb( uint32_t * src, uint32_t src_rowBytes, uin
 HQX_API void HQX_CALLCONV hq3x_32_rb( uint32_t * src, uint32_t src_rowBytes, uint32_t * dest, uint32_t dest_rowBytes, int width, int height );
 HQX_API void HQX_CALLCONV hq4x_32_rb( uint32_t * src, uint32_t src_rowBytes, uint32_t * dest, uint32_t dest_rowBytes, int width, int height );
 
+HQX_API void HQX_CALLCONV hq2x_8to32_rb( const uint8_t * sp, uint32_t srb, uint32_t * dp, uint32_t drb, int Xres, int Yres, const uint32_t * rgb_palette );
+HQX_API void HQX_CALLCONV hq2x_8to32( const uint8_t * sp, uint32_t * dp, int Xres, int Yres, const uint32_t * rgb_palette );
+
+HQX_API void HQX_CALLCONV hq3x_8to32_rb( const uint8_t * sp, uint32_t srb, uint32_t * dp, uint32_t drb, int Xres, int Yres, const uint32_t * rgb_palette );
+HQX_API void HQX_CALLCONV hq3x_8to32( const uint8_t * sp, uint32_t * dp, int Xres, int Yres, const uint32_t * rgb_palette );
+
+HQX_API void HQX_CALLCONV hq4x_8to32_rb( const uint8_t * sp, uint32_t srb, uint32_t * dp, uint32_t drb, int Xres, int Yres, const uint32_t * rgb_palette );
+HQX_API void HQX_CALLCONV hq4x_8to32( const uint8_t * sp, uint32_t * dp, int Xres, int Yres, const uint32_t * rgb_palette );
 #endif

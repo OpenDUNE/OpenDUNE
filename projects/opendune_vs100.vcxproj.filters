@@ -507,10 +507,19 @@
     <ClCompile Include="..\src\video\hq2x.c">
       <Filter>src\video</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\video\hq2x_8b.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\video\hq3x.c">
       <Filter>src\video</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\video\hq3x_8b.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\video\hq4x.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x_8b.c">
       <Filter>src\video</Filter>
     </ClCompile>
     <ClCompile Include="..\src\video\hqx.c">
@@ -547,6 +556,9 @@
       <Filter>src\video</Filter>
     </ClInclude>
     <ClCompile Include="..\src\video\video_sdl.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_sdl2.c">
       <Filter>src\video</Filter>
     </ClCompile>
     <ClCompile Include="..\src\video\video_win32.c">

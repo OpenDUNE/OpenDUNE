@@ -373,19 +373,11 @@ static void Video_DrawScreen_Scale2x(void)
 
 static void Video_DrawScreen_Hqx(void)
 {
-	int i;
-	static uint32 rgb_screen[SCREEN_WIDTH*SCREEN_HEIGHT];
 	uint8 *src;
-	uint32 *dst;
 	uint32 *pixels;
 	int pitch;
 
-	i = SCREEN_WIDTH*SCREEN_HEIGHT;
 	src = GFX_Screen_Get_ByIndex(SCREEN_0);
-	dst = rgb_screen;
-	do {
-		*dst++ = s_palette[*src++];
-	} while(--i > 0);
 
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
@@ -393,19 +385,19 @@ static void Video_DrawScreen_Hqx(void)
 	}
 	switch(s_screen_magnification) {
 	case 2:
-		hq2x_32_rb(rgb_screen, SCREEN_WIDTH*sizeof(uint32),
-		           pixels, pitch,
-		           SCREEN_WIDTH, SCREEN_HEIGHT);
+		hq2x_8to32_rb(src, SCREEN_WIDTH,
+		              pixels, pitch,
+		              SCREEN_WIDTH, SCREEN_HEIGHT, s_palette);
 		break;
 	case 3:
-		hq3x_32_rb(rgb_screen, SCREEN_WIDTH*sizeof(uint32),
-		           pixels, pitch,
-		           SCREEN_WIDTH, SCREEN_HEIGHT);
+		hq3x_8to32_rb(src, SCREEN_WIDTH,
+		              pixels, pitch,
+		              SCREEN_WIDTH, SCREEN_HEIGHT, s_palette);
 		break;
 	case 4:
-		hq4x_32_rb(rgb_screen, SCREEN_WIDTH*sizeof(uint32),
-		           pixels, pitch,
-		           SCREEN_WIDTH, SCREEN_HEIGHT);
+		hq4x_8to32_rb(src, SCREEN_WIDTH,
+		              pixels, pitch,
+		              SCREEN_WIDTH, SCREEN_HEIGHT, s_palette);
 		break;
 	}
 	SDL_UnlockTexture(s_texture);

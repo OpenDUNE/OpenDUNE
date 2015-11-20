@@ -124,9 +124,9 @@ unit.c
 	#endif
 #endif
 video/hqx_init.c
-video/hq2x.c
-video/hq3x.c
-video/hq4x.c
+video/hq2x_8b.c
+video/hq3x_8b.c
+video/hq4x_8b.c
 video/scalebit.c
 video/scale2x.c
 video/scale3x.c

@@ -189,26 +189,15 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			if (s_scale_filter == FILTER_SCALE2X) {
 				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 			} else if(s_scale_filter == FILTER_HQX) {
-				static uint32 rgb_screen[SCREEN_WIDTH*SCREEN_HEIGHT];
-				uint8 *p;
-				uint32 *rgb;
-				int i;
-
-				i = SCREEN_WIDTH*SCREEN_HEIGHT;
-				p = s_screen;
-				rgb = rgb_screen;
-				do {
-					*rgb++ = rgb_palette[*p++];
-				} while(--i > 0);
 				switch(s_screen_magnification) {
 				case 2:
-					hq2x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					hq2x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
 				case 3:
-					hq3x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					hq3x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
 				case 4:
-					hq4x_32(rgb_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT);
+					hq4x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
 				}
 			}

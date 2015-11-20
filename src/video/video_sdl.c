@@ -281,27 +281,22 @@ static void Video_DrawScreen_Scale2x(void)
 
 static void Video_DrawScreen_Hqx(void)
 {
-	static uint32 rgb_screen[SCREEN_WIDTH*SCREEN_HEIGHT];
 	uint8 *p;
-	uint32 *rgb;
-	int i;
 
-	i = SCREEN_WIDTH*SCREEN_HEIGHT;
 	p = GFX_Screen_Get_ByIndex(SCREEN_0);
-	rgb = rgb_screen;
-	do {
-		*rgb++ = rgb_palette[*p++];
-	} while(--i > 0);
 
 	switch(s_screen_magnification) {
 	case 2:
-		hq2x_32(rgb_screen, s_gfx_surface->pixels, SCREEN_WIDTH, SCREEN_HEIGHT);
+		hq2x_8to32(p, s_gfx_surface->pixels,
+		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	case 3:
-		hq3x_32(rgb_screen, s_gfx_surface->pixels, SCREEN_WIDTH, SCREEN_HEIGHT);
+		hq3x_8to32(p, s_gfx_surface->pixels,
+		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	case 4:
-		hq4x_32(rgb_screen, s_gfx_surface->pixels, SCREEN_WIDTH, SCREEN_HEIGHT);
+		hq4x_8to32(p, s_gfx_surface->pixels,
+		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	}
 }
