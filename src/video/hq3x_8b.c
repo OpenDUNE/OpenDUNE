@@ -1,3 +1,5 @@
+/* vim: tabstop=4 shiftwidth=4 expandtab
+ */
 /*
  * Copyright (C) 2003 Maxim Stepin ( maxst@hiend3d.com )
  *
@@ -97,46 +99,71 @@ HQX_API void HQX_CALLCONV hq3x_8to32_rb( const uint8_t * sp, uint32_t srb, uint3
 
     for (j=0; j<Yres; j++)
     {
-        if (j>0)      prevline = -srb; else prevline = 0;
-        if (j<Yres-1) nextline =  srb; else nextline = 0;
+        if (j>0)      prevline = 0- (int)srb; else prevline = 0;
+        if (j<Yres-1) nextline = (int)srb;    else nextline = 0;
 
         for (i=0; i<Xres; i++)
         {
             int pattern = 0;
             int flag = 1;
 
-            w_rgb[2] = rgb_palette[*(sp + prevline)];
-            w_rgb[5] = rgb_palette[*sp];
-            w_rgb[8] = rgb_palette[*(sp + nextline)];
-
-            if (i>0)
+            if (i==0)
             {
-                w_rgb[1] = rgb_palette[*(sp + prevline - 1)];
-                w_rgb[4] = rgb_palette[*(sp - 1)];
-                w_rgb[7] = rgb_palette[*(sp + nextline - 1)];
+                w_rgb[2] = rgb_palette[*(sp + prevline)];
+                w_rgb[5] = rgb_palette[*sp];
+                w_rgb[8] = rgb_palette[*(sp + nextline)];
+                w_rgb[1] = w_rgb[2];
+                w_rgb[4] = w_rgb[5];
+                w_rgb[7] = w_rgb[8];
+                w_rgb[3] = rgb_palette[*(sp + prevline + 1)];
+                w_rgb[6] = rgb_palette[*(sp + 1)];
+                w_rgb[9] = rgb_palette[*(sp + nextline + 1)];
+                w_yuv[2] = rgb_to_yuv(w_rgb[2]);
+                w_yuv[5] = rgb_to_yuv(w_rgb[5]);
+                w_yuv[8] = rgb_to_yuv(w_rgb[8]);
+                w_yuv[1] = w_yuv[2];
+                w_yuv[4] = w_yuv[5];
+                w_yuv[7] = w_yuv[8];
+                w_yuv[3] = rgb_to_yuv(w_rgb[3]);
+                w_yuv[6] = rgb_to_yuv(w_rgb[6]);
+                w_yuv[9] = rgb_to_yuv(w_rgb[9]);
+            }
+            else if(i<Xres-1)
+            {
+                w_rgb[1] = w_rgb[2];
+                w_rgb[4] = w_rgb[5];
+                w_rgb[7] = w_rgb[8];
+                w_rgb[2] = w_rgb[3];
+                w_rgb[5] = w_rgb[6];
+                w_rgb[8] = w_rgb[9];
+                w_rgb[3] = rgb_palette[*(sp + prevline + 1)];
+                w_rgb[6] = rgb_palette[*(sp + 1)];
+                w_rgb[9] = rgb_palette[*(sp + nextline + 1)];
+                w_yuv[1] = w_yuv[2];
+                w_yuv[4] = w_yuv[5];
+                w_yuv[7] = w_yuv[8];
+                w_yuv[2] = w_yuv[3];
+                w_yuv[5] = w_yuv[6];
+                w_yuv[8] = w_yuv[9];
+                w_yuv[3] = rgb_to_yuv(w_rgb[3]);
+                w_yuv[6] = rgb_to_yuv(w_rgb[6]);
+                w_yuv[9] = rgb_to_yuv(w_rgb[9]);
             }
             else
             {
                 w_rgb[1] = w_rgb[2];
                 w_rgb[4] = w_rgb[5];
                 w_rgb[7] = w_rgb[8];
+                w_rgb[2] = w_rgb[3];
+                w_rgb[5] = w_rgb[6];
+                w_rgb[8] = w_rgb[9];
+                w_yuv[1] = w_yuv[2];
+                w_yuv[4] = w_yuv[5];
+                w_yuv[7] = w_yuv[8];
+                w_yuv[2] = w_yuv[3];
+                w_yuv[5] = w_yuv[6];
+                w_yuv[8] = w_yuv[9];
             }
-
-            if (i<Xres-1)
-            {
-                w_rgb[3] = rgb_palette[*(sp + prevline + 1)];
-                w_rgb[6] = rgb_palette[*(sp + 1)];
-                w_rgb[9] = rgb_palette[*(sp + nextline + 1)];
-            }
-            else
-            {
-                w_rgb[3] = w_rgb[2];
-                w_rgb[6] = w_rgb[5];
-                w_rgb[9] = w_rgb[8];
-            }
-
-            for (k=1; k<=9; k++)
-				w_yuv[k] = rgb_to_yuv(w_rgb[k]);
 
             for (k=1; k<=9; k++)
             {
