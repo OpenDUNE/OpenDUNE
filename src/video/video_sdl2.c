@@ -33,6 +33,8 @@ static uint8 * s_fullsize_buffer = NULL;
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
 
+static bool s_full_screen = false;
+
 static SDL_Window *s_window;
 static SDL_Renderer *s_renderer;
 static SDL_Texture *s_texture;
@@ -496,6 +498,15 @@ void Video_Tick(void)
 			{
 				unsigned int sym = event.key.keysym.sym;
 				uint8 code = 0;
+				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
+					/* ALT-ENTER was pressed */
+					if (!keyup) continue;	/* ignore keydown */
+					if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : SDL_WINDOW_FULLSCREEN) < 0) {
+						Warning("Failed to toggle full screen : %s\n", SDL_GetError());
+					}
+					s_full_screen = !s_full_screen;
+					continue;
+				}
 				if (sym >= SDLK_CAPSLOCK) {
 					sym -= SDLK_CAPSLOCK;
 					if (sym < sizeof(s_SDL_hikeymap)) code = s_SDL_hikeymap[sym];
