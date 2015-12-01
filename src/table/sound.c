@@ -5,7 +5,17 @@
 
 #include "../audio/sound.h"
 
-/** Available voices. */
+/** Available voices.
+ * Prefix :
+ *  '+' : Don't include in voiceSet 0xFFFF
+ *  '?' : don't preload voice in RAM
+ *  '/' : Only include in voiceSet 0xFFFE
+ *  '-' : Only include in voiceSet 0xFFFF
+ *  '%' : Don't include in voiceSet 0xFFFF and 0xFFFE
+ * %c => replaced by language 'F'(french) 'G'(german) 'Z'
+ *       or house prefix char ('A'treides, 'O'rdos or Fremen,
+ *           'H'arkonnen or Sardokar, 'M'ercenary)
+ */
 const SoundData g_table_voices[NUM_VOICES] = {
 	{"+VSCREAM1.VOC",  11}, /*   0 */
 	{"+EXSAND.VOC",    10}, /*   1 */
