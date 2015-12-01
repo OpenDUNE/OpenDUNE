@@ -25,7 +25,7 @@ extern uint16 g_regionMaxY;
 extern uint8 g_mouseDisabled;
 extern uint8 g_mouseHiddenDepth;
 extern uint8 g_mouseFileID;
-extern bool g_var_701B;
+extern bool g_mouseNoRecordedValue;
 
 extern uint16 g_var_7013;
 extern uint16 g_var_7015;

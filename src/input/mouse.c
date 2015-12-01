@@ -41,8 +41,8 @@ uint16 g_regionMaxY;         /*!< Region - maximum value for Y position. */
 uint8 g_mouseDisabled;       /*!< Mouse disabled flag */
 uint8 g_mouseHiddenDepth;
 uint8 g_mouseFileID;
-bool g_var_701B;
 
+bool g_mouseNoRecordedValue; /*!< used in INPUT_MOUSE_MODE_PLAY */
 uint16 g_var_7013;
 uint16 g_var_7015;
 uint16 g_var_7017;
@@ -159,7 +159,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 				File_Close(g_mouseFileID);
 			}
 			g_mouseFileID = 0xFF;
-			g_var_701B = true;
+			g_mouseNoRecordedValue = true;
 			break;
 
 		case INPUT_MOUSE_MODE_RECORD:
@@ -188,7 +188,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 				Tools_Random_Seed(0x12344321);
 			}
 
-			g_var_701B = true;
+			g_mouseNoRecordedValue = true;
 
 			File_Read(g_mouseFileID, &g_var_7013, 2);
 			if (File_Read(g_mouseFileID, &g_var_7015, 2) != 2) break;;
@@ -203,13 +203,13 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 					GUI_Mouse_Hide_Safe();
 					GUI_Mouse_Show_Safe();
 
-					g_var_701B = false;
+					g_mouseNoRecordedValue = false;
 					break;
 				}
-				g_var_701B = true;
+				g_mouseNoRecordedValue = true;
 				break;
 			}
-			g_var_701B = false;
+			g_mouseNoRecordedValue = false;
 			break;
 	}
 

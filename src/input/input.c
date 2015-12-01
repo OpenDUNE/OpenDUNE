@@ -278,7 +278,7 @@ static uint16 Input_AddHistory(uint16 value)
 {
 	if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL || g_mouseMode == INPUT_MOUSE_MODE_RECORD) return value;
 
-	if (g_var_701B) {
+	if (g_mouseNoRecordedValue) {
 		value = 0;
 	} else if (g_timerInput < g_var_7015) {
 		value = 0;
