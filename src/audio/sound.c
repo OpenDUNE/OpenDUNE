@@ -155,7 +155,7 @@ void Voice_Play(int16 voiceID)
 void Voice_LoadVoices(uint16 voiceSet)
 {
 	static uint16 currentVoiceSet = 0xFFFE;
-	uint16 i;
+	int prefixChar = ' ';
 	uint16 voice;
 
 	if (g_enableVoices == 0) return;
@@ -215,11 +215,11 @@ void Voice_LoadVoices(uint16 voiceSet)
 						currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
 				switch (g_config.language) {
-					case LANGUAGE_FRENCH: i = 'F'; break;
-					case LANGUAGE_GERMAN: i = 'G'; break;
-					default: i = g_table_houseInfo[voiceSet].prefixChar;
+					case LANGUAGE_FRENCH: prefixChar = 'F'; break;
+					case LANGUAGE_GERMAN: prefixChar = 'G'; break;
+					default: prefixChar = g_table_houseInfo[voiceSet].prefixChar;
 				}
-				snprintf(filename, sizeof(filename), str, i);
+				snprintf(filename, sizeof(filename), str, prefixChar);
 
 				g_voiceData[voice] = Sound_LoadVoc(filename, &g_voiceDataSize[voice]);
 				break;
@@ -228,11 +228,11 @@ void Voice_LoadVoices(uint16 voiceSet)
 				if (voiceSet == 0xFFFF || g_voiceData[voice] != NULL) break;
 
 				switch (g_config.language) {
-					case LANGUAGE_FRENCH:  i = 'F'; break;
-					case LANGUAGE_GERMAN:  i = 'G'; break;
-					default: i = 'Z'; break;
+					case LANGUAGE_FRENCH:  prefixChar = 'F'; break;
+					case LANGUAGE_GERMAN:  prefixChar = 'G'; break;
+					default: prefixChar = 'Z'; break;
 				}
-				snprintf(filename, sizeof(filename), str + 1, i);
+				snprintf(filename, sizeof(filename), str + 1, prefixChar);
 
 				/* XXX - In the 1.07us datafiles, a few files are named differently:
 				 *
