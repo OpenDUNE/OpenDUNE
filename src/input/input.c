@@ -187,21 +187,24 @@ static uint16 Input_ReadHistory(uint16 index)
 {
 	uint16 value;
 
-	value = g_var_7013 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7013 : s_history[index / 2];
+	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7013 = s_history[index / 2];
+	value = g_var_7013;
 	index = (index + 2) & 0xFF;
 
 	if ((value & 0xFF) >= 0x41) {
 		if ((value & 0xFF) <= 0x42) {
-			g_mouseClickX = g_var_7017 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7017 : s_history[index / 2];
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7017 = s_history[index / 2];
+			g_mouseClickX = g_var_7017;
 			index = (index + 2) & 0xFF;
 
-			g_mouseClickY = g_var_7019 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7019 : s_history[index / 2];
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7019 = s_history[index / 2];
+			g_mouseClickY = g_var_7019;
 			index = (index + 2) & 0xFF;
 		} else if ((value & 0xFF) <= 0x44) {
-			g_var_7017 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7017 : s_history[index / 2];
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7017 = s_history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_var_7019 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7019 : s_history[index / 2];
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7019 = s_history[index / 2];
 			index = (index + 2) & 0xFF;
 		}
 	}
