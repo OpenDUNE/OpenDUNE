@@ -25,6 +25,8 @@ static const char *s_currentMusic = NULL;        /*!< Currently loaded music fil
 static uint16 s_spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play. */
 static uint16 s_variable_4060;
 
+static void *Sound_LoadVoc(const char *filename, uint32 *retFileSize);
+
 static void Driver_Music_Play(int16 index, uint16 volume)
 {
 	Driver *music = g_driverMusic;
@@ -219,7 +221,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				snprintf(filename, sizeof(filename), str, i);
 
-				g_variable_3E54[voice] = Sound_Unknown0823(filename, &g_variable_3E54_size[voice]);
+				g_variable_3E54[voice] = Sound_LoadVoc(filename, &g_variable_3E54_size[voice]);
 				break;
 
 			case '+':
@@ -248,19 +250,19 @@ void Voice_LoadVoices(uint16 voiceSet)
 					memmove(filename, filename + 1, strlen(filename));
 				}
 
-				g_variable_3E54[voice] = Sound_Unknown0823(filename, &g_variable_3E54_size[voice]);
+				g_variable_3E54[voice] = Sound_LoadVoc(filename, &g_variable_3E54_size[voice]);
 				break;
 
 			case '-':
 				if (voiceSet != 0xFFFF || g_variable_3E54[voice] != NULL) break;
 
-				g_variable_3E54[voice] = Sound_Unknown0823(str + 1, &g_variable_3E54_size[voice]);
+				g_variable_3E54[voice] = Sound_LoadVoc(str + 1, &g_variable_3E54_size[voice]);
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
 
-				g_variable_3E54[voice] = Sound_Unknown0823(str + 1, &g_variable_3E54_size[voice]);
+				g_variable_3E54[voice] = Sound_LoadVoc(str + 1, &g_variable_3E54_size[voice]);
 				break;
 
 			case '?':
@@ -269,7 +271,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 			default:
 				if (g_variable_3E54[voice] != NULL) break;
 
-				g_variable_3E54[voice] = Sound_Unknown0823(str, &g_variable_3E54_size[voice]);
+				g_variable_3E54[voice] = Sound_LoadVoc(str, &g_variable_3E54_size[voice]);
 				break;
 		}
 	}
@@ -395,11 +397,11 @@ bool Sound_StartSpeech(void)
 }
 
 /**
- * ??.
+ * Load a voice file to a malloc'd buffer.
  * @param filename The name of the file to load.
  * @return Where the file is loaded.
  */
-void *Sound_Unknown0823(const char *filename, uint32 *retFileSize)
+static void *Sound_LoadVoc(const char *filename, uint32 *retFileSize)
 {
 	uint8 fileIndex;
 	uint32 fileSize;
