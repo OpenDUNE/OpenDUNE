@@ -43,10 +43,10 @@ uint8 g_mouseHiddenDepth;
 uint8 g_mouseFileID;
 
 bool g_mouseNoRecordedValue; /*!< used in INPUT_MOUSE_MODE_PLAY */
-uint16 g_var_7013;
-uint16 g_var_7015;
-uint16 g_var_7017;
-uint16 g_var_7019;
+uint16 g_mouseInputValue;
+uint16 g_mouseRecordedTimer;
+uint16 g_mouseRecordedX;
+uint16 g_mouseRecordedY;
 
 uint8 g_mouseMode;
 uint16 g_inputFlags;
@@ -190,14 +190,15 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 
 			g_mouseNoRecordedValue = true;
 
-			File_Read(g_mouseFileID, &g_var_7013, 2);
-			if (File_Read(g_mouseFileID, &g_var_7015, 2) != 2) break;;
+			File_Read(g_mouseFileID, &g_mouseInputValue, 2);
+			if (File_Read(g_mouseFileID, &g_mouseRecordedTimer, 2) != 2) break;;
 
-			if ((g_var_7013 >= 0x41 && g_var_7013 <= 0x44) || g_var_7013 == 0x2D) {
-				File_Read(g_mouseFileID, &g_var_7017, 2);
-				if (File_Read(g_mouseFileID, &g_var_7019, 2) == 2) {
-					g_mouseX = g_var_7017;
-					g_mouseY = g_var_7019;
+			if ((g_mouseInputValue >= 0x41 && g_mouseInputValue <= 0x44) || g_mouseInputValue == 0x2D) {
+				/* 0x2D == '-' 0x41 == 'A' [...] 0x44 == 'D' */
+				File_Read(g_mouseFileID, &g_mouseRecordedX, 2);
+				if (File_Read(g_mouseFileID, &g_mouseRecordedY, 2) == 2) {
+					g_mouseX = g_mouseRecordedX;
+					g_mouseY = g_mouseRecordedY;
 					g_prevButtonState = 0;
 
 					GUI_Mouse_Hide_Safe();

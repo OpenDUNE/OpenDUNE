@@ -187,24 +187,24 @@ static uint16 Input_ReadHistory(uint16 index)
 {
 	uint16 value;
 
-	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7013 = s_history[index / 2];
-	value = g_var_7013;
+	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_mouseInputValue = s_history[index / 2];
+	value = g_mouseInputValue;
 	index = (index + 2) & 0xFF;
 
 	if ((value & 0xFF) >= 0x41) {
 		if ((value & 0xFF) <= 0x42) {
-			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7017 = s_history[index / 2];
-			g_mouseClickX = g_var_7017;
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_mouseRecordedX = s_history[index / 2];
+			g_mouseClickX = g_mouseRecordedX;
 			index = (index + 2) & 0xFF;
 
-			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7019 = s_history[index / 2];
-			g_mouseClickY = g_var_7019;
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_mouseRecordedY = s_history[index / 2];
+			g_mouseClickY = g_mouseRecordedY;
 			index = (index + 2) & 0xFF;
 		} else if ((value & 0xFF) <= 0x44) {
-			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7017 = s_history[index / 2];
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_mouseRecordedX = s_history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_var_7019 = s_history[index / 2];
+			if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) g_mouseRecordedY = s_history[index / 2];
 			index = (index + 2) & 0xFF;
 		}
 	}
@@ -239,8 +239,8 @@ static void Input_ReadInputFromFile(void)
 
 	File_Read(g_mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
 
-	g_var_7015 = mouseBuffer[1];
-	value = g_var_7013 = mouseBuffer[0];
+	g_mouseRecordedTimer = mouseBuffer[1];
+	value = g_mouseInputValue = mouseBuffer[0];
 
 	if ((value & 0xFF) != 0x2D) {
 		uint8 idx, bit;
@@ -265,8 +265,8 @@ static void Input_ReadInputFromFile(void)
 
 	File_Read(g_mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
 
-	g_mouseX = g_var_7017 = mouseBuffer[0];
-	value = g_mouseY = g_var_7019 = mouseBuffer[1];
+	g_mouseX = g_mouseRecordedX = mouseBuffer[0];
+	value = g_mouseY = g_mouseRecordedY = mouseBuffer[1];
 
 	Mouse_HandleMovementIfMoved(value);
 	g_timerInput = 0;
@@ -283,13 +283,13 @@ static uint16 Input_AddHistory(uint16 value)
 
 	if (g_mouseNoRecordedValue) {
 		value = 0;
-	} else if (g_timerInput < g_var_7015) {
+	} else if (g_timerInput < g_mouseRecordedTimer) {
 		value = 0;
-	} else if (g_var_7013 == 0x2D) {
+	} else if (g_mouseInputValue == 0x2D) {	/* 0x2D == '-' */
 		Input_ReadInputFromFile();
 		value = 0;
 	} else {
-		value = g_var_7013;
+		value = g_mouseInputValue;
 	}
 
 	s_history[s_historyHead / 2] = value;
