@@ -19,8 +19,8 @@
 #include "../tile.h"
 
 
-static void *g_variable_3E54[NUM_VOICES];
-static uint32 g_variable_3E54_size[NUM_VOICES];
+static void *g_voiceData[NUM_VOICES];            /*!< Preloaded Voices sound data */
+static uint32 g_voiceDataSize[NUM_VOICES];       /*!< Preloaded Voices sound data size in byte */
 static const char *s_currentMusic = NULL;        /*!< Currently loaded music file. */
 static uint16 s_spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play. */
 static uint16 s_variable_4060;
@@ -125,9 +125,9 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	index = g_table_voiceMapping[voiceID];
 
-	if (g_enableVoices != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && g_table_voices[index].variable_04 >= s_variable_4060) {
+	if (g_enableVoices != 0 && index != 0xFFFF && g_voiceData[index] != NULL && g_table_voices[index].variable_04 >= s_variable_4060) {
 		s_variable_4060 = g_table_voices[index].variable_04;
-		memmove(g_readBuffer, g_variable_3E54[index], g_variable_3E54_size[index]);
+		memmove(g_readBuffer, g_voiceData[index], g_voiceDataSize[index]);
 
 		Driver_Voice_Play(g_readBuffer, s_variable_4060);
 	} else {
@@ -167,36 +167,36 @@ void Voice_LoadVoices(uint16 voiceSet)
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
 
-				free(g_variable_3E54[voice]);
-				g_variable_3E54[voice] = NULL;
+				free(g_voiceData[voice]);
+				g_voiceData[voice] = NULL;
 				break;
 
 			case '+':
 				if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 
-				free(g_variable_3E54[voice]);
-				g_variable_3E54[voice] = NULL;
+				free(g_voiceData[voice]);
+				g_voiceData[voice] = NULL;
 				break;
 
 			case '-':
 				if (voiceSet == 0xFFFF) break;
 
-				free(g_variable_3E54[voice]);
-				g_variable_3E54[voice] = NULL;
+				free(g_voiceData[voice]);
+				g_voiceData[voice] = NULL;
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
 
-				free(g_variable_3E54[voice]);
-				g_variable_3E54[voice] = NULL;
+				free(g_voiceData[voice]);
+				g_voiceData[voice] = NULL;
 				break;
 
 			case '?':
 				if (voiceSet == 0xFFFF) break;
 
 				/* No free() as there was never a malloc(). */
-				g_variable_3E54[voice] = NULL;
+				g_voiceData[voice] = NULL;
 				break;
 
 			default:
@@ -211,7 +211,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 		const char *str = g_table_voices[voice].string;
 		switch (*str) {
 			case '%':
-				if (g_variable_3E54[voice] != NULL ||
+				if (g_voiceData[voice] != NULL ||
 						currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
 				switch (g_config.language) {
@@ -221,11 +221,11 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				snprintf(filename, sizeof(filename), str, i);
 
-				g_variable_3E54[voice] = Sound_LoadVoc(filename, &g_variable_3E54_size[voice]);
+				g_voiceData[voice] = Sound_LoadVoc(filename, &g_voiceDataSize[voice]);
 				break;
 
 			case '+':
-				if (voiceSet == 0xFFFF || g_variable_3E54[voice] != NULL) break;
+				if (voiceSet == 0xFFFF || g_voiceData[voice] != NULL) break;
 
 				switch (g_config.language) {
 					case LANGUAGE_FRENCH:  i = 'F'; break;
@@ -250,28 +250,28 @@ void Voice_LoadVoices(uint16 voiceSet)
 					memmove(filename, filename + 1, strlen(filename));
 				}
 
-				g_variable_3E54[voice] = Sound_LoadVoc(filename, &g_variable_3E54_size[voice]);
+				g_voiceData[voice] = Sound_LoadVoc(filename, &g_voiceDataSize[voice]);
 				break;
 
 			case '-':
-				if (voiceSet != 0xFFFF || g_variable_3E54[voice] != NULL) break;
+				if (voiceSet != 0xFFFF || g_voiceData[voice] != NULL) break;
 
-				g_variable_3E54[voice] = Sound_LoadVoc(str + 1, &g_variable_3E54_size[voice]);
+				g_voiceData[voice] = Sound_LoadVoc(str + 1, &g_voiceDataSize[voice]);
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
 
-				g_variable_3E54[voice] = Sound_LoadVoc(str + 1, &g_variable_3E54_size[voice]);
+				g_voiceData[voice] = Sound_LoadVoc(str + 1, &g_voiceDataSize[voice]);
 				break;
 
 			case '?':
 				break;
 
 			default:
-				if (g_variable_3E54[voice] != NULL) break;
+				if (g_voiceData[voice] != NULL) break;
 
-				g_variable_3E54[voice] = Sound_LoadVoc(str, &g_variable_3E54_size[voice]);
+				g_voiceData[voice] = Sound_LoadVoc(str, &g_voiceDataSize[voice]);
 				break;
 		}
 	}
@@ -286,8 +286,8 @@ void Voice_UnloadVoices(void)
 	uint16 voice;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
-		free(g_variable_3E54[voice]);
-		g_variable_3E54[voice] = NULL;
+		free(g_voiceData[voice]);
+		g_voiceData[voice] = NULL;
 	}
 }
 
@@ -301,8 +301,8 @@ void Sound_StartSound(uint16 index)
 
 	s_variable_4060 = g_table_voices[index].variable_04;
 
-	if (g_variable_3E54[index] != NULL) {
-		Driver_Voice_Play(g_variable_3E54[index], 0xFF);
+	if (g_voiceData[index] != NULL) {
+		Driver_Voice_Play(g_voiceData[index], 0xFF);
 	} else {
 		char filenameBuffer[16];
 		const char *filename;
