@@ -424,7 +424,7 @@ static uint16 GameLoop_HandleEvents(const char **strings)
 		key = Input_Wait() & 0x8FF;
 	}
 
-	if (g_var_7097 == 0) {
+	if (g_mouseDisabled == 0) {
 		uint16 y = g_mouseY;
 
 		if (GameLoop_IsInRange(g_mouseX, y, minX, minY, maxX, maxY)) {
@@ -1135,7 +1135,7 @@ static bool Unknown_25C4_000E(int screen_magnification, VideoScaleFilter filter)
 	Timer_Add(Video_Tick, 1000000 / 60);
 	Timer_Add(Timer_Tick, 1000000 / 60);
 
-	g_var_7097 = -1;
+	g_mouseDisabled = -1;
 
 	GFX_Init();
 	GFX_ClearScreen();
@@ -1237,7 +1237,7 @@ int main(int argc, char **argv)
 
 	if (!Unknown_25C4_000E(scaling_factor, scale_filter)) exit(1);
 
-	g_var_7097 = 0;
+	g_mouseDisabled = 0;
 
 	GameLoop_Main();
 

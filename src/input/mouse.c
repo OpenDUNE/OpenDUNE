@@ -38,7 +38,7 @@ uint16 g_regionMinY;         /*!< Region - minimum value for Y position. */
 uint16 g_regionMaxX;         /*!< Region - maximum value for X position. */
 uint16 g_regionMaxY;         /*!< Region - maximum value for Y position. */
 
-uint8 g_var_7097;
+uint8 g_mouseDisabled;       /*!< Mouse disabled flag */
 uint8 g_mouseHiddenDepth;
 uint8 g_mouseFileID;
 bool g_var_701B;
@@ -64,7 +64,7 @@ void Mouse_Init(void)
 	g_mouseRegionRight = SCREEN_WIDTH - 1;
 	g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
-	g_var_7097 = true;
+	g_mouseDisabled = 1;
 
 	Video_Mouse_SetPosition(g_mouseX, g_mouseY);
 }
@@ -76,7 +76,7 @@ void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft
 {
 	uint8 newButtonState = (mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0);
 
-	if (g_var_7097 == 0 && (g_mouseMode != INPUT_MOUSE_MODE_RECORD || g_fileOperation == 0)) {
+	if (g_mouseDisabled == 0 && (g_mouseMode != INPUT_MOUSE_MODE_RECORD || g_fileOperation == 0)) {
 		if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}

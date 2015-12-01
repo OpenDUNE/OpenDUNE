@@ -3770,7 +3770,7 @@ void GUI_Mouse_Show(void)
 {
 	int left, top;
 
-	if (g_var_7097 == 1) return;
+	if (g_mouseDisabled == 1) return;
 	if (g_mouseHiddenDepth == 0 || --g_mouseHiddenDepth != 0) return;
 
 	left = g_mouseX - g_mouseSpriteHotspotX;
@@ -3798,7 +3798,7 @@ void GUI_Mouse_Show(void)
  */
 void GUI_Mouse_Hide(void)
 {
-	if (g_var_7097 == 1) return;
+	if (g_mouseDisabled == 1) return;
 
 	if (g_mouseHiddenDepth == 0 && s_mouseSpriteWidth != 0) {
 		if (g_mouseSpriteBuffer != NULL) {
@@ -3818,12 +3818,8 @@ void GUI_Mouse_Hide(void)
 void GUI_Mouse_Hide_Safe(void)
 {
 	while (g_mouseLock != 0) sleepIdle();
+	if (g_mouseDisabled == 1) return;
 	g_mouseLock++;
-
-	if (g_var_7097 == 1) {
-		g_mouseLock--;
-		return;
-	}
 
 	GUI_Mouse_Hide();
 
@@ -3837,12 +3833,8 @@ void GUI_Mouse_Hide_Safe(void)
 void GUI_Mouse_Show_Safe(void)
 {
 	while (g_mouseLock != 0) sleepIdle();
+	if (g_mouseDisabled == 1) return;
 	g_mouseLock++;
-
-	if (g_var_7097 == 1) {
-		g_mouseLock--;
-		return;
-	}
 
 	GUI_Mouse_Show();
 
