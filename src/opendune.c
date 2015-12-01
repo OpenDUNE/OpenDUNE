@@ -1123,7 +1123,11 @@ static void GameLoop_Main(void)
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 }
 
-static bool Unknown_25C4_000E(int screen_magnification, VideoScaleFilter filter)
+/**
+ * Initialize Timer, Video, Mouse, GFX, Fonts, Random number generator
+ * and current Widget
+ */
+static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	Timer_Init();
 
@@ -1235,7 +1239,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (!Unknown_25C4_000E(scaling_factor, scale_filter)) exit(1);
+	if (!OpenDune_Init(scaling_factor, scale_filter)) exit(1);
 
 	g_mouseDisabled = 0;
 
