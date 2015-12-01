@@ -23,7 +23,7 @@ static void *g_voiceData[NUM_VOICES];            /*!< Preloaded Voices sound dat
 static uint32 g_voiceDataSize[NUM_VOICES];       /*!< Preloaded Voices sound data size in byte */
 static const char *s_currentMusic = NULL;        /*!< Currently loaded music file. */
 static uint16 s_spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play. */
-static uint16 s_variable_4060;
+static int16 s_currentVoicePriority;            /*!< Priority of the currently playing Speech */
 
 static void *Sound_LoadVoc(const char *filename, uint32 *retFileSize);
 
@@ -125,11 +125,11 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	index = g_table_voiceMapping[voiceID];
 
-	if (g_enableVoices != 0 && index != 0xFFFF && g_voiceData[index] != NULL && g_table_voices[index].variable_04 >= s_variable_4060) {
-		s_variable_4060 = g_table_voices[index].variable_04;
+	if (g_enableVoices != 0 && index != 0xFFFF && g_voiceData[index] != NULL && g_table_voices[index].variable_04 >= s_currentVoicePriority) {
+		s_currentVoicePriority = g_table_voices[index].variable_04;
 		memmove(g_readBuffer, g_voiceData[index], g_voiceDataSize[index]);
 
-		Driver_Voice_Play(g_readBuffer, s_variable_4060);
+		Driver_Voice_Play(g_readBuffer, s_currentVoicePriority);
 	} else {
 		Driver_Sound_Play(voiceID, volume);
 	}
@@ -297,9 +297,9 @@ void Voice_UnloadVoices(void)
  */
 void Sound_StartSound(uint16 index)
 {
-	if (index == 0xFFFF || g_gameConfig.sounds == 0 || (int16)g_table_voices[index].variable_04 < (int16)s_variable_4060) return;
+	if (index == 0xFFFF || g_gameConfig.sounds == 0 || (int16)g_table_voices[index].variable_04 < (int16)s_currentVoicePriority) return;
 
-	s_variable_4060 = g_table_voices[index].variable_04;
+	s_currentVoicePriority = g_table_voices[index].variable_04;
 
 	if (g_voiceData[index] != NULL) {
 		Driver_Voice_Play(g_voiceData[index], 0xFF);
@@ -342,7 +342,7 @@ void Sound_Output_Feedback(uint16 index)
 			g_viewport_forceRedraw = true;
 			g_viewportMessageCounter = 0;
 		}
-		s_variable_4060 = 0;
+		s_currentVoicePriority = 0;
 
 		return;
 	}
@@ -384,7 +384,7 @@ bool Sound_StartSpeech(void)
 
 	if (Driver_Voice_IsPlaying()) return true;
 
-	s_variable_4060 = 0;
+	s_currentVoicePriority = 0;
 
 	if (s_spokenWords[0] == 0xFFFF) return false;
 
