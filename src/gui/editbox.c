@@ -46,10 +46,10 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
  * @param widgetID the widget in which the EditBox is displayed.
  * @param w The widget this editbox is attached to (for input events).
  * @param tickProc The function to call every tick, for animation etc.
- * @param unknown4 Unknown.
+ * @param paint Flag indicating if the widget need to be repainted.
  * @return Unknown.
  */
-uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, Widget *w, uint16 (*tickProc)(void), uint16 unknown4)
+uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, Widget *w, uint16 (*tickProc)(void), bool paint)
 {
 	Screen oldScreenID;
 	uint16 oldWidgetID;
@@ -88,13 +88,9 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, Widget *w, uin
 	}
 	*t = '\0';
 
-	if ((unknown4 & 0x1) != 0) {
-		unknown4 |= 0x4;
-	}
-
 	GUI_Mouse_Hide_Safe();
 
-	if ((unknown4 & 0x4) != 0) Widget_PaintCurrentWidget();
+	if (paint) Widget_PaintCurrentWidget();
 
 	GUI_DrawText_Wrapper(text, positionX, g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal, 0);
 

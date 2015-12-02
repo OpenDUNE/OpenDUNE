@@ -169,6 +169,6 @@ extern void GUI_HallOfFame_Show(uint16 score);
 extern uint16 GUI_HallOfFame_DrawData(HallOfFameStruct *data, bool show);
 
 /* editbox.c */
-extern uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, struct Widget *w, uint16 (*tickProc)(void), uint16 unknown4);
+extern uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, struct Widget *w, uint16 (*tickProc)(void), bool paint);
 
 #endif /* GUI_GUI_H */

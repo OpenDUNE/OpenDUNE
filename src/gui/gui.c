@@ -4247,7 +4247,7 @@ void GUI_HallOfFame_Show(uint16 score)
 			Widget_SetAndPaintCurrentWidget(19);
 			GFX_Screen_SetActive(oldScreenID);
 
-			GUI_EditBox(name, 5, 19, NULL, &GUI_HallOfFame_Tick, 0);
+			GUI_EditBox(name, 5, 19, NULL, &GUI_HallOfFame_Tick, false);
 
 			if (*name == '\0') continue;
 
