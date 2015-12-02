@@ -2735,9 +2735,9 @@ static void GUI_FactoryWindow_Init(void)
 
 /**
  * Display the window where you can order/build stuff for a structure.
- * @param var06 Unknown.
+ * @param isConstructionYard True if this is for a construction yard.
  * @param isStarPort True if this is for a starport.
- * @param var0A Unknown.
+ * @param upgradeCost Cost of upgrading the structure.
  * @return Unknown value.
  */
 FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, uint16 upgradeCost)
