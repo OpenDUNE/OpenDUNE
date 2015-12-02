@@ -410,8 +410,10 @@ static bool _File_Init_Callback(const char *name, const char *path, uint32 size)
 	ext = strrchr(path, '.');
 	if (ext != NULL) {
 		if (strcasecmp(ext, ".pak") == 0) {
-			if (!_File_Init_ProcessPak(path, size, fileInfo))
+			if (!_File_Init_ProcessPak(path, size, fileInfo)) {
+				Warning("Failed to process PAK file %s\n", path);
 				return false;
+			}
 		}
 	}
 	return true;
