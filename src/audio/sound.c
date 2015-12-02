@@ -150,7 +150,9 @@ void Voice_Play(int16 voiceID)
 
 /**
  * Load voices.
- * @param voiceSet Voice set to load.
+ * voiceSet 0xFFFE is for Game Intro.
+ * voiceSet 0xFFFF is for Game End.
+ * @param voiceSet Voice set to load : either a HouseID, or special values 0xFFFE or 0xFFFF.
  */
 void Voice_LoadVoices(uint16 voiceSet)
 {
