@@ -1656,7 +1656,7 @@ uint8 GUI_PickHouse(void)
 		uint16 yes_no;
 
 		for (i = 0; i < 3; i++) {
-			static const uint8 l_var_2BAC[3][3] = {
+			static const uint8 l_houses[3][3] = {
 				/* x, y, shortcut */
 				{ 16, 56, 31 }, /* A */
 				{ 112, 56, 25 }, /* O */
@@ -1664,7 +1664,7 @@ uint8 GUI_PickHouse(void)
 			};
 			Widget *w2;
 
-			w2 = GUI_Widget_Allocate(i + 1, l_var_2BAC[i][2], l_var_2BAC[i][0], l_var_2BAC[i][1], 0xFFFF, 0);
+			w2 = GUI_Widget_Allocate(i + 1, l_houses[i][2], l_houses[i][0], l_houses[i][1], 0xFFFF, 0);
 
 			memset(&w2->flags, 0, sizeof(w2->flags));
 			w2->flags.loseSelect = true;
