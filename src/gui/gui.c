@@ -115,7 +115,7 @@ bool g_textDisplayNeedsUpdate;                              /*!< If set, text di
 uint32 g_strategicRegionBits;                               /*!< Region bits at the map. */
 static uint32 s_ticksPlayed;
 bool g_doQuitHOF;
-static uint8 s_var_81BA[24];
+static uint8 s_strategicMapArrowColors[24];
 static bool s_strategicMapFastForward;
 
 static uint16 s_mouseSpriteLeft;
@@ -2840,7 +2840,7 @@ static void GUI_StrategicMap_AnimateArrows(void)
 
 	s_arrowAnimationState = (s_arrowAnimationState + 1) % 4;
 
-	memcpy(g_palette1 + 251 * 3, s_var_81BA + s_arrowAnimationState * 3, 4 * 3);
+	memcpy(g_palette1 + 251 * 3, s_strategicMapArrowColors + s_arrowAnimationState * 3, 4 * 3);
 
 	GFX_SetPalette(g_palette1);
 }
@@ -3236,8 +3236,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	}
 
 	memcpy(loc316, g_palette1 + 251 * 3, 12);
-	memcpy(s_var_81BA, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 4 * 3);
-	memcpy(s_var_81BA + 4 * 3, s_var_81BA, 4 * 3);
+	memcpy(s_strategicMapArrowColors, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 4 * 3);
+	memcpy(s_strategicMapArrowColors + 4 * 3, s_strategicMapArrowColors, 4 * 3);
 
 	GUI_Screen_Copy(x, y, 0, 152, 7, 40, SCREEN_2, SCREEN_2);
 	GUI_Screen_Copy(x, y, 33, 152, 7, 40, SCREEN_2, SCREEN_2);
