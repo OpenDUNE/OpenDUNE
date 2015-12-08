@@ -99,7 +99,7 @@ void Music_Play(uint16 musicID)
 		Driver_Sound_LoadFile(s_currentMusic);
 	}
 
-	Driver_Music_Play(g_table_musics[musicID].variable_04, 0xFF);
+	Driver_Music_Play(g_table_musics[musicID].index, 0xFF);
 }
 
 /**
@@ -125,8 +125,8 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	index = g_table_voiceMapping[voiceID];
 
-	if (g_enableVoices != 0 && index != 0xFFFF && g_voiceData[index] != NULL && g_table_voices[index].variable_04 >= s_currentVoicePriority) {
-		s_currentVoicePriority = g_table_voices[index].variable_04;
+	if (g_enableVoices != 0 && index != 0xFFFF && g_voiceData[index] != NULL && g_table_voices[index].priority >= s_currentVoicePriority) {
+		s_currentVoicePriority = g_table_voices[index].priority;
 		memmove(g_readBuffer, g_voiceData[index], g_voiceDataSize[index]);
 
 		Driver_Voice_Play(g_readBuffer, s_currentVoicePriority);
@@ -299,9 +299,9 @@ void Voice_UnloadVoices(void)
  */
 void Sound_StartSound(uint16 index)
 {
-	if (index == 0xFFFF || g_gameConfig.sounds == 0 || (int16)g_table_voices[index].variable_04 < (int16)s_currentVoicePriority) return;
+	if (index == 0xFFFF || g_gameConfig.sounds == 0 || (int16)g_table_voices[index].priority < (int16)s_currentVoicePriority) return;
 
-	s_currentVoicePriority = g_table_voices[index].variable_04;
+	s_currentVoicePriority = g_table_voices[index].priority;
 
 	if (g_voiceData[index] != NULL) {
 		Driver_Voice_Play(g_voiceData[index], 0xFF);

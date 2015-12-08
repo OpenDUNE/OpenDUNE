@@ -16,7 +16,7 @@
  *       or house prefix char ('A'treides, 'O'rdos or Fremen,
  *           'H'arkonnen or Sardokar, 'M'ercenary)
  */
-const SoundData g_table_voices[NUM_VOICES] = {
+const VoiceData g_table_voices[NUM_VOICES] = {
 	{"+VSCREAM1.VOC",  11}, /*   0 */
 	{"+EXSAND.VOC",    10}, /*   1 */
 	{"+ROCKET.VOC",    11}, /*   2 */
@@ -176,7 +176,7 @@ static const char _music_dune20[] = "dune20";
  * Available music.
  * @note The code compares pointers rather than the text itself, thus strings must be unique.
  */
-const SoundData g_table_musics[] = {
+const MusicData g_table_musics[] = {
 	{NULL,          0}, /*  0 */
 	{_music_dune01, 2}, /*  1 */
 	{_music_dune01, 3}, /*  2 */

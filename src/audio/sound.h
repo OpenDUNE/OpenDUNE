@@ -4,10 +4,16 @@
 #define SOUND_H
 
 /** Information about sound files. */
-typedef struct SoundData {
+typedef struct VoiceData {
 	const char *string; /*!< Pointer to a string. */
-	uint16 variable_04; /*!< ?? */
-} SoundData;
+	uint16 priority;    /*!< priority */
+} VoiceData;
+
+/** Information about sound files. */
+typedef struct MusicData {
+	const char *string; /*!< Pointer to a string. */
+	uint16 index;       /*!< index */
+} MusicData;
 
 /** Maximal number of spoken audio fragments in one message. */
 #define NUM_SPEECH_PARTS 5
@@ -23,8 +29,8 @@ typedef struct Feedback {
 #define NUM_VOICES 131
 
 extern const uint16 g_table_voiceMapping[];
-extern const SoundData g_table_musics[];
-extern const SoundData g_table_voices[];
+extern const MusicData g_table_musics[];
+extern const VoiceData g_table_voices[];
 extern const Feedback g_feedback[];
 extern const uint16 g_translatedVoice[][NUM_SPEECH_PARTS];
 
