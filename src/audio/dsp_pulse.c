@@ -15,10 +15,8 @@
 static pa_mainloop* s_mainloop = NULL;
 static pa_mainloop_api* s_mainloop_api = NULL;
 static pa_context* s_context = NULL;
-
-static uint8 *s_data = NULL;
-static uint32 s_dataAllocLen = 0;
-static uint32 s_dataLen = 0;
+static pa_stream * s_stream = NULL;
+static uint32 s_current_freq = 0;
 
 static bool s_playing = false;
 
@@ -32,7 +30,7 @@ static void DSP_PulseAudio_Tick(void)
 static void DSP_context_state_cb(pa_context *c, void *userdata)
 {
 	pa_context_state_t state = pa_context_get_state(c);
-	Warning("DSP_context_state_cb(%p, %p) state=%d\n", c, userdata, (int)state);
+	Debug("DSP_context_state_cb(%p, %p) state=%d\n", c, userdata, (int)state);
 	switch (state) {
 		case PA_CONTEXT_UNCONNECTED:
 		case PA_CONTEXT_CONNECTING:
@@ -48,19 +46,24 @@ static void DSP_context_state_cb(pa_context *c, void *userdata)
 #if 0
 static void DSP_context_success_cb(pa_context *c, int success, void *userdata)
 {
-	Warning("DSP_context_success_cb(%p, %d, %p)\n", c, success, userdata);
+	Debug("DSP_context_success_cb(%p, %d, %p)\n", c, success, userdata);
 }
 #endif
  
 static void DSP_context_event_cb(pa_context *c, const char *name, pa_proplist *p, void *userdata)
 {
-	Warning("DSP_context_event_cb(%p, %s, %p, %p)\n", c, name, p, userdata);
+	VARIABLE_NOT_USED(c);
+	VARIABLE_NOT_USED(name);
+	VARIABLE_NOT_USED(p);
+	VARIABLE_NOT_USED(userdata);
+	Debug("DSP_context_event_cb(%p, %s, %p, %p)\n", c, name, p, userdata);
 }
 
+#if 0
 static void DSP_stream_success_cb(pa_stream *p, int success, void *userdata)
 {
 	/*pa_operation * op;*/
-	Warning("DSP_stream_success_cb(%p, %d, %p)\n", p, success, userdata);
+	Debug("DSP_stream_success_cb(%p, %d, %p)\n", p, success, userdata);
 /*
 	if (success && userdata) {
 		op = pa_stream_trigger(p, DSP_stream_success_cb, NULL);
@@ -68,33 +71,39 @@ static void DSP_stream_success_cb(pa_stream *p, int success, void *userdata)
 	}
 */
 }
+#endif
 
 static void DSP_stream_underflow_cb(pa_stream *p, void *userdata)
 {
-	Warning("DSP_stream_underflow_cb(%p, %p)\n", p, userdata);
+	VARIABLE_NOT_USED(p);
+	VARIABLE_NOT_USED(userdata);
+	Debug("DSP_stream_underflow_cb(%p, %p)\n", p, userdata);
 	s_playing = false;
-	pa_stream_disconnect(p);
 }
 
 static void DSP_stream_state_cb(pa_stream *p, void *userdata)
 {
-	pa_operation * op;
+	/*pa_operation * op;*/
 	pa_stream_state_t state = pa_stream_get_state(p);
-	Warning("DSP_stream_notify_cb(%p, %p) state=%d\n", p, userdata, (int)state);
+	VARIABLE_NOT_USED(userdata);
+	Debug("DSP_stream_state_cb(%p, %p) state=%d\n", p, userdata, (int)state);
 	switch (state) {
 		case PA_STREAM_READY:
+			Debug("PA_STREAM_READY\n");
+#if 0
 			if (pa_stream_write(p, s_data, s_dataLen, NULL, 0, PA_SEEK_RELATIVE) < 0) {
 				Error("pa_stream_write() failed\n");
 			}
 			/*op = pa_stream_cork(p, 0, DSP_stream_success_cb, p);*/
 			op = pa_stream_trigger(p, DSP_stream_success_cb, NULL);
 			pa_operation_unref(op);
+#endif
 			break;
 		case PA_STREAM_FAILED:
 			Warning("PA_STREAM_FAILED\n");
 			break;
 		case PA_STREAM_TERMINATED:
-			Warning("PA_STREAM_TERMINATED\n");
+			Debug("PA_STREAM_TERMINATED\n");
 			break;
 		default:
 		case PA_STREAM_UNCONNECTED:
@@ -103,10 +112,27 @@ static void DSP_stream_state_cb(pa_stream *p, void *userdata)
 	}
 }
 
+static void DSP_stream_update_rate_cb(pa_stream *p, int success, void *userdata)
+{
+	VARIABLE_NOT_USED(p);
+	VARIABLE_NOT_USED(success);
+	VARIABLE_NOT_USED(userdata);
+	Debug("DSP_stream_update_rate_cb(%p, %d, %p)\n", p, success, userdata);
+}
+
+static void DSP_stream_flush_cb(pa_stream *p, int success, void *userdata)
+{
+	VARIABLE_NOT_USED(p);
+	VARIABLE_NOT_USED(success);
+	VARIABLE_NOT_USED(userdata);
+	Debug("DSP_stream_flush_cb(%p, %d, %p)\n", p, success, userdata);
+}
+
 bool DSP_Init(void)
 {
 	int retval;
 	pa_context_state_t state;
+	pa_sample_spec sample_spec;
 
 	s_mainloop = pa_mainloop_new();
 	if (s_mainloop == NULL) {
@@ -137,21 +163,48 @@ bool DSP_Init(void)
 		state = pa_context_get_state(s_context);
 		if (state == PA_CONTEXT_FAILED || state == PA_CONTEXT_TERMINATED) return false;
 	} while(state != PA_CONTEXT_READY);
+	/* create stream */
+	s_current_freq = 10989; /* default value */
+	sample_spec.format = PA_SAMPLE_U8;
+	sample_spec.rate = s_current_freq;
+	sample_spec.channels = 1;
+	s_stream = pa_stream_new(s_context, "DuneSpeech", &sample_spec, NULL);
+	if (s_stream == NULL) {
+		Error("pa_stream_new() failed\n");
+		return false;
+	}
+	pa_stream_set_state_callback(s_stream, DSP_stream_state_cb, NULL);
+	pa_stream_set_underflow_callback(s_stream, DSP_stream_underflow_cb, NULL);
+	if (pa_stream_connect_playback(s_stream, NULL, NULL, PA_STREAM_START_UNMUTED | PA_STREAM_VARIABLE_RATE, NULL, NULL) < 0) {
+		Error("pa_stream_connect_playback() failed\n");
+		return false;
+	}
 	Timer_Add(DSP_PulseAudio_Tick, 1000000 / 100, false);
 	return true;
 }
 
 void DSP_Uninit(void)
 {
+	int retval;
+
+	pa_stream_disconnect(s_stream);
+	pa_stream_unref(s_stream);
+	s_stream = NULL;
+	pa_context_unref(s_context);
+	s_context = NULL;
+	pa_mainloop_quit(s_mainloop, 42);
+	pa_mainloop_run(s_mainloop, &retval);
+	pa_mainloop_free(s_mainloop);
+	s_mainloop = NULL;
 }
 
 void DSP_Play(const uint8 *data)
 {
-	pa_sample_spec sample_spec;
-	pa_stream * stream;
+	/*pa_sample_spec sample_spec;
+	pa_stream * stream;*/
 	uint32 freq;
 	uint32 len;
-	pa_buffer_attr attr;
+	/*pa_buffer_attr attr;*/
 
 	data += READ_LE_UINT16(data + 20);	/* Skip VOC header */
 
@@ -162,40 +215,33 @@ void DSP_Play(const uint8 *data)
 	/* data[5] = codec */
 	data += 6;
 
-Warning("DSP_Play() data=%p freq=%u\n", data, (unsigned)freq);
+	Debug("DSP_Play() data=%p freq=%u\n", data, (unsigned)freq);
 
-	if (s_dataAllocLen < len) {
-		s_data = realloc(s_data, len);
-		s_dataAllocLen = len;
+	if(s_playing) {
+		pa_operation * operation = pa_stream_flush(s_stream, DSP_stream_flush_cb, NULL);
+		pa_operation_unref(operation);
 	}
-	memcpy(s_data, data, len);
-	s_dataLen = len;
 
-	sample_spec.format = PA_SAMPLE_U8;
-	sample_spec.rate = freq;
-	sample_spec.channels = 1;
-	stream = pa_stream_new(s_context, "DuneSpeech", &sample_spec, NULL);
-	if (stream == NULL) {
-		Error("pa_stream_new() failed\n");
+	if(freq != s_current_freq) {	
+		pa_operation * operation;
+		operation = pa_stream_update_sample_rate(s_stream, freq, DSP_stream_update_rate_cb, NULL);
+		s_current_freq = freq;
+		pa_operation_unref(operation);
 	}
-	pa_stream_set_state_callback(stream, DSP_stream_state_cb, NULL);
-	pa_stream_set_underflow_callback(stream, DSP_stream_underflow_cb, NULL);
-	attr.maxlength = (uint32_t)-1;
-	attr.tlength = len;	/*(uint32_t)-1;*/
-	attr.prebuf = (uint32_t)-1;
-	attr.minreq = (uint32_t)-1;
-	attr.fragsize = len;
-	if (pa_stream_connect_playback(stream, NULL, &attr, PA_STREAM_START_UNMUTED, NULL, NULL) < 0) {
-		Error("pa_stream_connect_playback() failed\n");
-	} else {
-		s_playing = true;
+
+	if (pa_stream_write(s_stream, data, len, NULL, 0, PA_SEEK_RELATIVE) < 0) {
+		Error("pa_stream_write() failed\n");
 	}
-	pa_stream_unref(stream);
+	s_playing = true;
 }
 
 void DSP_Stop(void)
 {
-	Warning("DSP_Stop()\n");
+	Debug("DSP_Stop()\n");
+	if(s_playing) {
+		pa_operation * operation = pa_stream_flush(s_stream, DSP_stream_flush_cb, NULL);
+		pa_operation_unref(operation);
+	}
 }
 
 uint8 DSP_GetStatus(void)
