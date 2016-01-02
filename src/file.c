@@ -544,25 +544,37 @@ void File_Uninit(void)
 /**
  * Check if a file exists either in a PAK or on the disk.
  *
+ * @param dir directory for this file
  * @param filename The filename to check for.
+ * @param fileSize Filled with the file size if the file exists
  * @return True if and only if the file can be found.
  */
-bool File_Exists_Ex(enum SearchDirectory dir, const char *filename)
+bool File_Exists_Ex(enum SearchDirectory dir, const char *filename, uint32 *fileSize)
 {
-	uint8 index;
+	bool exists = false;
 
 	g_fileOperation++;
 
-	index = _File_Open(dir, filename, FILE_MODE_READ);
-	if (index == FILE_INVALID) {
-		g_fileOperation--;
-		return false;
+	if(dir != SEARCHDIR_PERSONAL_DATA_DIR) {
+		FileInfo *fileInfo;
+		fileInfo = FileInfo_Find_ByName(filename, NULL);
+		if (fileInfo != NULL) {
+			exists = true;
+			if (fileSize != NULL) *fileSize = fileInfo->fileSize;
+		}
+	} else {
+		uint8 index;
+		index = _File_Open(dir, filename, FILE_MODE_READ);
+		if (index != FILE_INVALID) {
+			exists = true;
+			if (fileSize != NULL) *fileSize = File_GetSize(index);
+			File_Close(index);
+		}
 	}
-	File_Close(index);
 
 	g_fileOperation--;
 
-	return true;
+	return exists;
 }
 
 /**

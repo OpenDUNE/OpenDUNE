@@ -37,7 +37,7 @@ extern uint16 g_fileOperation;
 
 extern bool File_Init(void);
 extern void File_Uninit(void);
-extern bool File_Exists_Ex(enum SearchDirectory dir, const char *filename);
+extern bool File_Exists_Ex(enum SearchDirectory dir, const char *filename, uint32 *fileSize);
 extern uint8 File_Open_Ex(enum SearchDirectory dir, const char *filename, uint8 mode);
 extern void File_Close(uint8 index);
 extern uint32 File_Read(uint8 index, void *buffer, uint32 length);
@@ -58,8 +58,9 @@ extern void ChunkFile_Close(uint8 index);
 extern uint32 ChunkFile_Seek(uint8 index, uint32 header);
 extern uint32 ChunkFile_Read(uint8 index, uint32 header, void *buffer, uint32 buflen);
 
-#define File_Exists(FILENAME)               File_Exists_Ex(SEARCHDIR_GLOBAL_DATA_DIR,   FILENAME)
-#define File_Exists_Personal(FILENAME)      File_Exists_Ex(SEARCHDIR_PERSONAL_DATA_DIR, FILENAME)
+#define File_Exists(FILENAME)               File_Exists_Ex(SEARCHDIR_GLOBAL_DATA_DIR,   FILENAME, NULL)
+#define File_Exists_GetSize(FILENAME, FILESIZE) File_Exists_Ex(SEARCHDIR_GLOBAL_DATA_DIR,   FILENAME, FILESIZE)
+#define File_Exists_Personal(FILENAME)      File_Exists_Ex(SEARCHDIR_PERSONAL_DATA_DIR, FILENAME, NULL)
 #define File_Open(FILENAME,MODE)            File_Open_Ex(SEARCHDIR_GLOBAL_DATA_DIR,   FILENAME, MODE)
 #define File_Open_Personal(FILENAME,MODE)   File_Open_Ex(SEARCHDIR_PERSONAL_DATA_DIR, FILENAME, MODE)
 #define File_ReadBlockFile(FILENAME,BUFFER,LENGTH)          File_ReadBlockFile_Ex(SEARCHDIR_GLOBAL_DATA_DIR,   FILENAME, BUFFER, LENGTH)
