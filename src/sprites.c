@@ -317,6 +317,7 @@ static uint32 Sprites_LoadCPSFile(const char *filename, Screen screenID, uint8 *
  */
 uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette)
 {
+#if 0
 	uint8 index;
 	uint32 header;
 
@@ -325,7 +326,7 @@ uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette)
 
 	File_Read(index, &header, 4);
 	File_Close(index);
-
+#endif
 	return Sprites_LoadCPSFile(filename, screenID, palette) / 8000;
 }
 
