@@ -245,29 +245,29 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 	File_ReadBlockFile(filename, buffer, length);
 }
 
-void Driver_Voice_Play(const uint8 *data, int16 arg0A)
+void Driver_Voice_Play(const uint8 *data, int16 priority)
 {
-	static int16 l_var_639A = -1;
+	static int16 l_currentPriority = -1;	/* priority of sound currently playing */
 
 	Driver *voice = g_driverVoice;
 
 	if (!g_gameConfig.sounds || voice->index == 0xFFFF) return;
 
 	if (data == NULL) {
-		arg0A = 0x100;
-	} else {
-		arg0A = min(arg0A, 0xFF);
+		priority = 0x100;
+	} else if (priority >= 0x100) {
+		priority = 0xFF;
 	}
 
-	if (!Driver_Voice_IsPlaying()) l_var_639A = -1;
+	if (!Driver_Voice_IsPlaying()) l_currentPriority = -1;
 
-	if (arg0A < l_var_639A) return;
+	if (priority < l_currentPriority) return;
 
 	Driver_Voice_Stop();
 
 	if (data == NULL) return;
 
-	l_var_639A = arg0A;
+	l_currentPriority = priority;
 
 	if (data == NULL) return;
 

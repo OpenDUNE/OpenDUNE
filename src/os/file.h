@@ -6,6 +6,8 @@
 #if defined(_MSC_VER)
 	#include <io.h>
 	#define unlink _unlink
+	#include <ShlObj.h>
+	#include <Shlwapi.h>
 #else /* _MSC_VER */
 	#include <unistd.h>
 #endif /* _MSC_VER */

@@ -115,7 +115,7 @@ bool g_textDisplayNeedsUpdate;                              /*!< If set, text di
 uint32 g_strategicRegionBits;                               /*!< Region bits at the map. */
 static uint32 s_ticksPlayed;
 bool g_doQuitHOF;
-static uint8 s_var_81BA[24];
+static uint8 s_strategicMapArrowColors[24];
 static bool s_strategicMapFastForward;
 
 static uint16 s_mouseSpriteLeft;
@@ -590,13 +590,16 @@ void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgCol
 }
 
 /**
- * Do something on the given colour in the given palette.
+ * Shift the given colour toward the reference color.
+ * Increment(or decrement) each component (R, G, B) until
+ * they equal thoses of the reference color.
  *
  * @param palette The palette to work on.
  * @param colour The colour to modify.
  * @param reference The colour to use as reference.
+ * @return true if the colour now equals the reference.
  */
-static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 colour, uint16 reference)
+static bool GUI_Palette_ShiftColour(uint8 *palette, uint16 colour, uint16 reference)
 {
 	bool ret = false;
 	uint16 i;
@@ -624,29 +627,33 @@ void GUI_PaletteAnimate(void)
 	static uint32 timerAnimation = 0;
 	static uint32 timerSelection = 0;
 	static uint32 timerToggle = 0;
+	bool shouldSetPalette = false;
 
 	if (timerAnimation < g_timerGUI) {
+		/* make the repair button flash */
 		static bool animationToggle = false;
 
 		uint16 colour;
 
 		colour = (!g_structureHighHealth && animationToggle) ? 6 : 15;
-		memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
-
-		GFX_SetPalette(g_palette1);
+		if (memcmp(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3) != 0) {
+			memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
+			shouldSetPalette = true;
+		}
 
 		animationToggle = !animationToggle;
 		timerAnimation = g_timerGUI + 60;
 	}
 
 	if (timerSelection < g_timerGUI && g_selectionType != SELECTIONTYPE_MENTAT) {
+		/* selection color */
 		static uint16 selectionStateColour = 15;
 
-		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
-		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
-		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
+		GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour);
+		GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour);
+		GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour);
 
-		if (!GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour)) {
+		if (!GUI_Palette_ShiftColour(g_palette1, 255, selectionStateColour)) {
 			if (selectionStateColour == 13) {
 				selectionStateColour = 15;
 
@@ -662,24 +669,27 @@ void GUI_PaletteAnimate(void)
 			}
 		}
 
-		GFX_SetPalette(g_palette1);
+		shouldSetPalette = true;
 
 		timerSelection = g_timerGUI + 3;
 	}
 
 	if (timerToggle < g_timerGUI) {
+		/* windtrap color */
 		static uint16 toggleColour = 12;
 
-		GUI_Palette_2BA5_00A2(g_palette1, 223, toggleColour);
+		GUI_Palette_ShiftColour(g_palette1, 223, toggleColour);
 
-		if (!GUI_Palette_2BA5_00A2(g_palette1, 223, toggleColour)) {
+		if (!GUI_Palette_ShiftColour(g_palette1, 223, toggleColour)) {
 			toggleColour = (toggleColour == 12) ? 10 : 12;
 		}
 
-		GFX_SetPalette(g_palette1);
+		shouldSetPalette = true;
 
 		timerToggle = g_timerGUI + 5;
 	}
+
+	if (shouldSetPalette) GFX_SetPalette(g_palette1);
 
 	Sound_StartSpeech();
 }
@@ -1646,7 +1656,7 @@ uint8 GUI_PickHouse(void)
 		uint16 yes_no;
 
 		for (i = 0; i < 3; i++) {
-			static const uint8 l_var_2BAC[3][3] = {
+			static const uint8 l_houses[3][3] = {
 				/* x, y, shortcut */
 				{ 16, 56, 31 }, /* A */
 				{ 112, 56, 25 }, /* O */
@@ -1654,7 +1664,7 @@ uint8 GUI_PickHouse(void)
 			};
 			Widget *w2;
 
-			w2 = GUI_Widget_Allocate(i + 1, l_var_2BAC[i][2], l_var_2BAC[i][0], l_var_2BAC[i][1], 0xFFFF, 0);
+			w2 = GUI_Widget_Allocate(i + 1, l_houses[i][2], l_houses[i][0], l_houses[i][1], 0xFFFF, 0);
 
 			memset(&w2->flags, 0, sizeof(w2->flags));
 			w2->flags.loseSelect = true;
@@ -2725,9 +2735,9 @@ static void GUI_FactoryWindow_Init(void)
 
 /**
  * Display the window where you can order/build stuff for a structure.
- * @param var06 Unknown.
+ * @param isConstructionYard True if this is for a construction yard.
  * @param isStarPort True if this is for a starport.
- * @param var0A Unknown.
+ * @param upgradeCost Cost of upgrading the structure.
  * @return Unknown value.
  */
 FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, uint16 upgradeCost)
@@ -2830,7 +2840,7 @@ static void GUI_StrategicMap_AnimateArrows(void)
 
 	s_arrowAnimationState = (s_arrowAnimationState + 1) % 4;
 
-	memcpy(g_palette1 + 251 * 3, s_var_81BA + s_arrowAnimationState * 3, 4 * 3);
+	memcpy(g_palette1 + 251 * 3, s_strategicMapArrowColors + s_arrowAnimationState * 3, 4 * 3);
 
 	GFX_SetPalette(g_palette1);
 }
@@ -3226,8 +3236,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	}
 
 	memcpy(loc316, g_palette1 + 251 * 3, 12);
-	memcpy(s_var_81BA, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 4 * 3);
-	memcpy(s_var_81BA + 4 * 3, s_var_81BA, 4 * 3);
+	memcpy(s_strategicMapArrowColors, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 4 * 3);
+	memcpy(s_strategicMapArrowColors + 4 * 3, s_strategicMapArrowColors, 4 * 3);
 
 	GUI_Screen_Copy(x, y, 0, 152, 7, 40, SCREEN_2, SCREEN_2);
 	GUI_Screen_Copy(x, y, 33, 152, 7, 40, SCREEN_2, SCREEN_2);
@@ -3514,7 +3524,8 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 
 		memset(g_palette1 + 255 * 3, 0x3F, 3);
 
-		GFX_SetPalette(g_palette1);
+		/* calling GFX_SetPalette() now is useless as it will be done at the end of the function */
+		/*GFX_SetPalette(g_palette1);*/
 
 		paletteChangeTimer = 0;
 		paletteColour = 0;
@@ -3759,7 +3770,7 @@ void GUI_Mouse_Show(void)
 {
 	int left, top;
 
-	if (g_var_7097 == 1) return;
+	if (g_mouseDisabled == 1) return;
 	if (g_mouseHiddenDepth == 0 || --g_mouseHiddenDepth != 0) return;
 
 	left = g_mouseX - g_mouseSpriteHotspotX;
@@ -3787,7 +3798,7 @@ void GUI_Mouse_Show(void)
  */
 void GUI_Mouse_Hide(void)
 {
-	if (g_var_7097 == 1) return;
+	if (g_mouseDisabled == 1) return;
 
 	if (g_mouseHiddenDepth == 0 && s_mouseSpriteWidth != 0) {
 		if (g_mouseSpriteBuffer != NULL) {
@@ -3807,12 +3818,8 @@ void GUI_Mouse_Hide(void)
 void GUI_Mouse_Hide_Safe(void)
 {
 	while (g_mouseLock != 0) sleepIdle();
+	if (g_mouseDisabled == 1) return;
 	g_mouseLock++;
-
-	if (g_var_7097 == 1) {
-		g_mouseLock--;
-		return;
-	}
 
 	GUI_Mouse_Hide();
 
@@ -3826,12 +3833,8 @@ void GUI_Mouse_Hide_Safe(void)
 void GUI_Mouse_Show_Safe(void)
 {
 	while (g_mouseLock != 0) sleepIdle();
+	if (g_mouseDisabled == 1) return;
 	g_mouseLock++;
-
-	if (g_var_7097 == 1) {
-		g_mouseLock--;
-		return;
-	}
 
 	GUI_Mouse_Show();
 
@@ -4180,7 +4183,7 @@ void GUI_HallOfFame_Show(uint16 score)
 	GUI_Mouse_Hide_Safe();
 
 	if (score == 0xFFFF) {
-		if (!File_Exists("SAVEFAME.DAT")) {
+		if (!File_Exists_Personal("SAVEFAME.DAT")) {
 			GUI_Mouse_Show_Safe();
 			return;
 		}
@@ -4189,21 +4192,21 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	data = (HallOfFameStruct *)GFX_Screen_Get_ByIndex(SCREEN_2);
 
-	if (!File_Exists("SAVEFAME.DAT")) {
+	if (!File_Exists_Personal("SAVEFAME.DAT")) {
 		uint16 written;
 
 		memset(data, 0, 128);
 
 		GUI_HallOfFame_Encode(data);
 
-		fileID = File_Open("SAVEFAME.DAT", FILE_MODE_WRITE);
+		fileID = File_Open_Personal("SAVEFAME.DAT", FILE_MODE_WRITE);
 		written = File_Write(fileID, data, 128);
 		File_Close(fileID);
 
 		if (written != 128) return;
 	}
 
-	File_ReadBlockFile("SAVEFAME.DAT", data, 128);
+	File_ReadBlockFile_Personal("SAVEFAME.DAT", data, 128);
 
 	GUI_HallOfFame_Decode(data);
 
@@ -4244,7 +4247,7 @@ void GUI_HallOfFame_Show(uint16 score)
 			Widget_SetAndPaintCurrentWidget(19);
 			GFX_Screen_SetActive(oldScreenID);
 
-			GUI_EditBox(name, 5, 19, NULL, &GUI_HallOfFame_Tick, 0);
+			GUI_EditBox(name, 5, 19, NULL, &GUI_HallOfFame_Tick, false);
 
 			if (*name == '\0') continue;
 
@@ -4259,7 +4262,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 		GUI_HallOfFame_Encode(data);
 
-		fileID = File_Open("SAVEFAME.DAT", FILE_MODE_WRITE);
+		fileID = File_Open_Personal("SAVEFAME.DAT", FILE_MODE_WRITE);
 		File_Write(fileID, data, 128);
 		File_Close(fileID);
 	}
@@ -4559,36 +4562,35 @@ void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation)
 	tickCurrent = 0;
 	timerCurrent = g_timerSleep;
 
-	do {
-		progress = false;
+	for (;;) {
+		progress = false;	/* will be set true if any color is changed */
 
 		tickCurrent  += (uint16)ticks;
 		timerCurrent += (uint32)(tickCurrent >> 8);
 		tickCurrent  &= 0xFF;
 
 		for (i = 0; i < 256 * 3; i++) {
-			int16 current = palette[i];
-			int16 goal = data[i];
+			int16 goal = palette[i];
+			int16 current = data[i];
 
 			if (goal == current) continue;
 
-			if (goal < current) {
-				goal = min(goal + diffPerTick, current);
-				progress = true;
-			}
-
+			progress = true;
 			if (goal > current) {
-				goal = max(goal - diffPerTick, current);
-				progress = true;
+				current += diffPerTick;
+				if (current > goal) current = goal;
+			} else {
+				current -= diffPerTick;
+				if (current < goal) current = goal;
 			}
-
-			data[i] = goal & 0xFF;
+			data[i] = (uint8)current;
 		}
 
-		if (progress) {
-			GFX_SetPalette(data);
+		/* if no color was changed, the target palette has been reached */
+		if (!progress) break;
 
-			while (g_timerSleep < timerCurrent) sleepIdle();
-		}
-	} while (progress);
+		GFX_SetPalette(data);
+
+		while (g_timerSleep < timerCurrent) sleepIdle();
+	}
 }

@@ -504,10 +504,61 @@
     <ClCompile Include="..\src\table\windowdesc.c">
       <Filter>src\table</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\video\hq2x.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq2x_8b.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x_8b.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x_8b.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hqx.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\video\hqx.h">
+      <Filter>src\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\hqx_common.h">
+      <Filter>src\video</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\video\hqx_init.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\scale2x.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale2x.h">
+      <Filter>src\video</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\video\scale3x.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale3x.h">
+      <Filter>src\video</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\video\scalebit.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scalebit.h">
+      <Filter>src\video</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\video\video.h">
       <Filter>src\video</Filter>
     </ClInclude>
     <ClCompile Include="..\src\video\video_sdl.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_sdl2.c">
       <Filter>src\video</Filter>
     </ClCompile>
     <ClCompile Include="..\src\video\video_win32.c">

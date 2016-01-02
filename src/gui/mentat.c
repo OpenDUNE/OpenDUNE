@@ -1187,7 +1187,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 						GFX_Screen_SetActive(SCREEN_2);
 						GUI_DrawText_Wrapper(text, 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
 						mentatSpeakingMode = 1;
-						textDelay = strlen(text) * 4;
+						textDelay = (uint32)strlen(text) * 4;
 						textTick = g_timerGUI + textDelay;
 
 						if (textLines != 0) {

@@ -43,16 +43,16 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
  * Show an EditBox and handles the input.
  * @param text The text to edit. Uses the pointer to make the modifications.
  * @param maxLength The maximum length of the text.
- * @param unknown1 Unknown.
- * @param w The widget this editbox is attached to.
+ * @param widgetID the widget in which the EditBox is displayed.
+ * @param w The widget this editbox is attached to (for input events).
  * @param tickProc The function to call every tick, for animation etc.
- * @param unknown4 Unknown.
+ * @param paint Flag indicating if the widget need to be repainted.
  * @return Unknown.
  */
-uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uint16 (*tickProc)(void), uint16 unknown4)
+uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, Widget *w, uint16 (*tickProc)(void), bool paint)
 {
 	Screen oldScreenID;
-	uint16 oldValue_07AE_0000;
+	uint16 oldWidgetID;
 	uint16 positionX;
 	uint16 maxWidth;
 	uint16 textWidth;
@@ -67,7 +67,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 
 		oldScreenID = GFX_Screen_SetActive(SCREEN_0);
 
-		oldValue_07AE_0000 = Widget_SetCurrentWidget(unknown1);
+		oldWidgetID = Widget_SetCurrentWidget(widgetID);
 
 		returnValue = 0x0;
 	}
@@ -88,13 +88,9 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 	}
 	*t = '\0';
 
-	if ((unknown4 & 0x1) != 0) {
-		unknown4 |= 0x4;
-	}
-
 	GUI_Mouse_Hide_Safe();
 
-	if ((unknown4 & 0x4) != 0) Widget_PaintCurrentWidget();
+	if (paint) Widget_PaintCurrentWidget();
 
 	GUI_DrawText_Wrapper(text, positionX, g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal, 0);
 
@@ -178,7 +174,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 		Input_Flags_ClearBits(INPUT_FLAG_NO_TRANSLATE);
 		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000);
 
-		Widget_SetCurrentWidget(oldValue_07AE_0000);
+		Widget_SetCurrentWidget(oldWidgetID);
 
 		GFX_Screen_SetActive(oldScreenID);
 	}
