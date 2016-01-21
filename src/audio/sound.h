@@ -18,7 +18,9 @@ typedef struct MusicData {
 /** Maximal number of spoken audio fragments in one message. */
 #define NUM_SPEECH_PARTS 5
 
-/** Audio and visual feedback about events and commands. */
+/** Audio and visual feedback about events and commands.
+ * in Intro, messageId is used as a flag (force drawing
+ * of message if messageId == 1) */
 typedef struct Feedback {
 	uint16 voiceId[NUM_SPEECH_PARTS]; /*!< English spoken text. */
 	uint16 messageId;                 /*!< Message to display in the viewport when audio is disabled. */

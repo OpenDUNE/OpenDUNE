@@ -33,7 +33,7 @@
 static const HouseAnimation_Animation   *s_houseAnimation_animation = NULL;   /*!< Animation part of animation data. */
 static const HouseAnimation_Subtitle    *s_houseAnimation_subtitle = NULL;    /*!< Subtitle part of animation data. */
 static const HouseAnimation_SoundEffect *s_houseAnimation_soundEffect = NULL; /*!< Soundeffect part of animation data. */
-static uint16 s_var_8062 = 0xFFFF; /*!< Unknown animation data. */
+static uint16 s_feedback_base_index = 0xFFFF; /*!< base index in g_feedback - used in Intro animation.*/
 static uint16 s_var_8068 = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_subtitleWait = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_houseAnimation_currentSubtitle = 0; /*!< Current subtitle (index) part of animation. */
@@ -59,7 +59,7 @@ static void *s_buffer_1832 = NULL;
 
 bool g_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
-static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation, const HouseAnimation_Subtitle *subtitle, uint16 arg_8062, const HouseAnimation_SoundEffect *soundEffect)
+static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation, const HouseAnimation_Subtitle *subtitle, uint16 feedback_base_index, const HouseAnimation_SoundEffect *soundEffect)
 {
 	uint8 i;
 	uint8 colors[16];
@@ -73,7 +73,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 
 	g_fontCharOffset = 0;
 
-	s_var_8062 = arg_8062;
+	s_feedback_base_index = feedback_base_index;
 	s_var_8068 = 0;
 	s_subtitleWait = 0xFFFF;
 	s_subtitleActive = false;
@@ -207,12 +207,15 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, subtitle->top == 85 ? 0 : subtitle->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_enableVoices != 0 && s_var_8062 != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && g_config.language == LANGUAGE_ENGLISH) {
-		uint16 loc06 = s_var_8062 + s_houseAnimation_currentSubtitle;
+	if (g_enableVoices != 0 && s_feedback_base_index != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && g_config.language == LANGUAGE_ENGLISH) {
+		/* specific code for Intro
+		 * @see GameLoop_GameIntroAnimation() */
+		uint16 feedback_index = s_feedback_base_index + s_houseAnimation_currentSubtitle;
 
-		Sound_Output_Feedback(loc06);
+		Sound_Output_Feedback(feedback_index);
 
-		if (g_feedback[loc06].messageId != 0) {
+		if (g_feedback[feedback_index].messageId != 0) {
+			/* force drawing of subtitle */
 			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
 		}
 	} else {
@@ -1017,6 +1020,7 @@ void GameLoop_GameIntroAnimation(void)
 
 		Music_Play(0x1B);
 
+		/* 0x4A = 74 = Intro feedback base index */
 		GameLoop_PrepareAnimation(animation, subtitle, 0x4A, soundEffect);
 
 		GameLoop_PlayAnimation();
