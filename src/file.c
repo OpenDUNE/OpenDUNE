@@ -920,6 +920,8 @@ uint8 ChunkFile_Open_Ex(enum SearchDirectory dir, const char *filename)
 
 	index = File_Open_Ex(dir, filename, FILE_MODE_READ);
 
+	if(index == FILE_INVALID) return index;
+
 	File_Read(index, &header, 4);
 
 	if (header != HTOBE32(CC_FORM)) {
