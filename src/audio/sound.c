@@ -405,15 +405,11 @@ bool Sound_StartSpeech(void)
  */
 static void *Sound_LoadVoc(const char *filename, uint32 *retFileSize)
 {
-	uint8 fileIndex;
 	uint32 fileSize;
 	void *res;
 
-	if (filename == NULL || !File_Exists(filename)) return NULL;
-
-	fileIndex = File_Open(filename, FILE_MODE_READ);
-	fileSize  = File_GetSize(fileIndex);
-	File_Close(fileIndex);
+	if (filename == NULL) return NULL;
+	if (!File_Exists_GetSize(filename, &fileSize)) return NULL;
 
 	fileSize += 1;
 	fileSize &= 0xFFFFFFFE;

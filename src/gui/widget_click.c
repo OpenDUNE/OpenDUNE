@@ -831,9 +831,8 @@ static void FillSavegameDesc(bool save)
 
 		filename = GenerateSavegameFilename(s_savegameIndexBase - i);
 
-		if (!File_Exists_Personal(filename)) continue;
-
 		fileId = ChunkFile_Open_Personal(filename);
+		if (fileId == FILE_INVALID) continue;
 		ChunkFile_Read(fileId, HTOBE32(CC_NAME), desc, 50);
 		ChunkFile_Close(fileId);
 		continue;
