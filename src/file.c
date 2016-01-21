@@ -236,7 +236,39 @@ static uint8 _File_Open(enum SearchDirectory dir, const char *filename, uint8 mo
 	for (fileIndex = 0; fileIndex < FILE_MAX; fileIndex++) {
 		if (s_file[fileIndex].fp == NULL) break;
 	}
-	if (fileIndex == FILE_MAX) return FILE_INVALID;
+	if (fileIndex >= FILE_MAX) {
+		Warning("Limit of %d open files reached.\n", FILE_MAX);
+		return FILE_INVALID;
+	}
+
+	if(mode == FILE_MODE_READ && dir != SEARCHDIR_PERSONAL_DATA_DIR) {
+		/* Look in PAK only for READ only files, and not Personnal files */
+		fileInfo = FileInfo_Find_ByName(filename, &pakInfo);
+		if (fileInfo == NULL) return FILE_INVALID;
+		if (pakInfo == NULL) {
+			/* Check if we can find the file outside any PAK file */
+			s_file[fileIndex].fp = fopendatadir(dir, filename, "rb");
+			if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
+
+			s_file[fileIndex].start    = 0;
+			s_file[fileIndex].position = 0;
+			fseek(s_file[fileIndex].fp, 0, SEEK_END);
+			s_file[fileIndex].size = ftell(s_file[fileIndex].fp);
+			fseek(s_file[fileIndex].fp, 0, SEEK_SET);
+		} else {
+			/* file is found in PAK */
+			s_file[fileIndex].fp = fopendatadir(dir, pakInfo->filename, "rb");
+			if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
+
+			s_file[fileIndex].start    = fileInfo->filePosition;
+			s_file[fileIndex].position = 0;
+			s_file[fileIndex].size     = fileInfo->fileSize;
+
+			/* Go to the start of the file now */
+			fseek(s_file[fileIndex].fp, s_file[fileIndex].start, SEEK_SET);
+		}
+		return fileIndex;
+	}
 
 	/* Check if we can find the file outside any PAK file */
 	s_file[fileIndex].fp = fopendatadir(dir, filename, (mode == FILE_MODE_WRITE) ? "wb" : ((mode == FILE_MODE_READ_WRITE) ? "wb+" : "rb"));
@@ -254,31 +286,7 @@ static uint8 _File_Open(enum SearchDirectory dir, const char *filename, uint8 mo
 
 		return fileIndex;
 	}
-
-	/* We never allow writing of files inside PAKs */
-	if ((mode & FILE_MODE_WRITE) != 0) return FILE_INVALID;
-	/* Personnal files are not inside PAKs */
-	if (dir == SEARCHDIR_PERSONAL_DATA_DIR) return FILE_INVALID;
-
-	fileInfo = FileInfo_Find_ByName(filename, &pakInfo);
-
-	/* Check if the file could be inside any of our PAK files */
-	if (fileInfo == NULL) return FILE_INVALID;
-
-	/* If the file is not inside another PAK, then the file doesn't exist (as it wasn't in the directory either) */
-	if (!fileInfo->flags.inPAKFile) return FILE_INVALID;
-
-	if (pakInfo == NULL) return FILE_INVALID;
-	s_file[fileIndex].fp = fopendatadir(dir, pakInfo->filename, "rb");
-	if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
-
-	s_file[fileIndex].start    = fileInfo->filePosition;
-	s_file[fileIndex].position = 0;
-	s_file[fileIndex].size     = fileInfo->fileSize;
-
-	/* Go to the start of the file now */
-	fseek(s_file[fileIndex].fp, s_file[fileIndex].start, SEEK_SET);
-	return fileIndex;
+	return FILE_INVALID;
 }
 
 /**
