@@ -188,10 +188,17 @@ void Video_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX;
-	s_mouseMaxX = maxX;
-	s_mouseMinY = minY;
-	s_mouseMaxY = maxY;
+	if (s_scale_filter == FILTER_NEAREST_NEIGHBOR) {
+		s_mouseMinX = minX;
+		s_mouseMaxX = maxX;
+		s_mouseMinY = minY;
+		s_mouseMaxY = maxY;
+	} else {
+		s_mouseMinX = minX * s_screen_magnification;
+		s_mouseMaxX = maxX * s_screen_magnification;
+		s_mouseMinY = minY * s_screen_magnification;
+		s_mouseMaxY = maxY * s_screen_magnification;
+	}
 }
 
 /**
