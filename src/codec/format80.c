@@ -12,7 +12,7 @@
  * @param destLength The length of the destionation buffer.
  * @return The length of decoded data.
  */
-uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
+uint16 Format80_Decode(uint8 *dest, const uint8 *source, uint16 destLength)
 {
 	uint8 *start = dest;
 	uint8 *end = dest + destLength;
