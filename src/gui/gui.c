@@ -1161,7 +1161,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			count -= *sprite++ - 1;
 		}
 
-		buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
+		if ((flags & 0xFD) == 0) buf -= count;
+		else buf += count;
 
 		if (loc1C != 0) {
 			count += loc14;
@@ -1171,7 +1172,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 				while (count > 0) {
 					v = *sprite++;
 					if (v == 0) {
-						buf += *sprite * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? 1 : -1);
+						if ((flags & 0xFD) == 0) buf += *sprite;
+						else buf -= *sprite;
 						count -= *sprite++;
 						continue;
 					}
@@ -1243,7 +1245,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 					}
 
-					buf += (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? 1 : -1);
+					if ((flags & 0xFD) == 0) buf++;
+					else buf--;
 					count--;
 				}
 			}
@@ -1260,7 +1263,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 					count -= *sprite++ - 1;
 				}
 
-				buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
+				if ((flags & 0xFD) == 0) buf -= count;
+				else buf += count;
 			}
 		}
 
