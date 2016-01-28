@@ -902,13 +902,14 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * TODO : add #define's
  *
  * sprite data format :
- * 2 bytes = flags 0x01 = has House colors, 0x02 = Format80 encoded
- * 1 byte  = height
- * 2 bytes = width
- * 3 bytes = padding (ignored)
- * 2 bytes = decoded data length
- * [16 bytes] = house colors (if flags & 0x01)
- * xx bytes = data (row or Format80 encoded if flags & 0x02)
+ * 00: 2 bytes = flags 0x01 = has House colors, 0x02 = Format80 encoded
+ * 02: 1 byte  = height
+ * 03: 2 bytes = width
+ * 05: 1 byte  = height - duplicated (ignored)
+ * 06: 2 bytes = sprite data length, including header (ignored)
+ * 08: 2 bytes = decoded data length
+ * 0A: [16 bytes] = house colors (if flags & 0x01)
+ * [1]A: xx bytes = data (row or Format80 encoded if flags & 0x02)
  */
 void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
