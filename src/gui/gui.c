@@ -883,11 +883,32 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * Draws a sprite.
  * @param screenID On which screen to draw the sprite.
  * @param sprite The sprite to draw.
- * @param posX ??.
- * @param posY ??.
+ * @param posX position where to draw sprite.
+ * @param posY position where to draw sprite.
  * @param windowID The ID of the window where the drawing is done.
  * @param flags The flags.
  * @param ... The extra args, flags dependant.
+ *
+ * flags :
+ * 0x0002 reverse Y ? (void)
+ * 0x0004 zoom ? (int zoom_factor_x, int zoomRatioY) UNUSED ?
+ * 0x0100 Remap (uint8* remap, int remapCount)
+ * 0x0200 blur - SandWorm effect (void)
+ * 0x0400 sprite has house colors (set internally, no need to be set by caller)
+ * 0x1000 ? (int)
+ * 0x2000 house colors argument (uint8 houseColors[16])
+ * 0x4000 ? (void)
+ * 0x8000 position posX,posY is relative to center of sprite
+ * TODO : add #define's
+ *
+ * sprite data format :
+ * 2 bytes = flags 0x01 = has House colors, 0x02 = Format80 encoded
+ * 1 byte  = height
+ * 2 bytes = width
+ * 3 bytes = padding (ignored)
+ * 2 bytes = decoded data length
+ * [16 bytes] = house colors (if flags & 0x01)
+ * xx bytes = data (row or Format80 encoded if flags & 0x02)
  */
 void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
@@ -902,26 +923,24 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	int16  top;
 	int16  bottom;
 	uint16 width;
-	uint16 loc10;
-	int16  loc12;
-	int16  loc14;
-	int16  loc16;
-	int16  loc1A;
-	int16  loc1C;
-	int16  loc1E;
-	int16  loc20;
-	uint16 loc22;
+	uint16 spriteFlags;
+	int16  spriteHeight;	/* number of sprite rows to draw */
+	int16  tmpRowCountToDraw;
+	int16  pixelCountPerRow;	/* count of pixel to draw per row */
+	int16  spriteWidthZoomed;	/* spriteWidth * zoomRatioX */
+	int16  spriteWidth;	/* original sprite Width */
+	int16  pixelSkipStart;	/* pixel count to skip at start of row */
+	int16  pixelSkipEnd;	/* pixel count to skip at end of row */
 	uint8 *remap = NULL;
 	int16  remapCount = 0;
-	int16  loc2A;
-	uint16 loc30 = 0;
-	uint16 loc32;
-	uint16 loc34;
-	uint8 *loc38 = NULL;
-	int16  loc3A;
-	uint8 *loc3E = NULL;
-	uint16 loc44;
-	uint16 locbx;
+	int16  distY;
+	uint16 zoomRatioX = 0;	/* 8.8 fixed point, ie 0x0100 = 1x */
+	uint16 zoomRatioY = 0x100;	/* 8.8 fixed point, ie 0x0100 = 1x */
+	uint16 Ycounter = 0;	/* 8.8 fixed point, ie 0x0100 = 1 */
+	const uint8 *spriteSave = NULL;
+	int16  distX;
+	const uint8 *houseColors = NULL;
+	uint16 spriteDecodedLength; /* if encoded with Format80 */
 
 	uint8 *buf = NULL;
 	uint8 *b = NULL;
@@ -929,11 +948,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	if (sprite == NULL) return;
 
-	if ((*sprite & 0x1) != 0) flags |= 0x400;
-
 	va_start(ap, flags);
 
-	if ((flags & 0x2000) != 0) loc3E = va_arg(ap, uint8*);
+	if ((flags & 0x2000) != 0) houseColors = va_arg(ap, uint8*);
 
 	/* Remap */
 	if ((flags & 0x100) != 0) {
@@ -952,88 +969,90 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	if ((flags & 0x1000) != 0) s_variable_72 = (uint16)va_arg(ap, int);
 
 	if ((flags & 0x4) != 0) {
-		loc30 = (uint16)va_arg(ap, int);
-		loc32 = (uint16)va_arg(ap, int);
-	} else {
-		loc32 = 0x100;
+		zoomRatioX = (uint16)va_arg(ap, int);
+		zoomRatioY = (uint16)va_arg(ap, int);
 	}
 
 	va_end(ap);
 
-	loc34 = 0;
-
 	buf = GFX_Screen_Get_ByIndex(screenID);
 	buf += g_widgetProperties[windowID].xBase << 3;
 
-	if ((flags & 0x4000) == 0) posX -= g_widgetProperties[windowID].xBase << 3;
-
 	width = g_widgetProperties[windowID].width << 3;
 	top = g_widgetProperties[windowID].yBase;
+	bottom = top + g_widgetProperties[windowID].height;
 
-	if ((flags & 0x4000) != 0) posY += g_widgetProperties[windowID].yBase;
-
-	bottom = g_widgetProperties[windowID].yBase + g_widgetProperties[windowID].height;
-
-	loc10 = READ_LE_UINT16(sprite);
-	sprite += 2;
-
-	loc12 = *sprite++;
-
-	if ((flags & 0x4) != 0) {
-		loc12 *= loc32;
-		loc12 >>= 8;
-		if (loc12 == 0) return;
+	if ((flags & 0x4000) != 0) {
+		posY += g_widgetProperties[windowID].yBase;
+	} else {
+		posX -= g_widgetProperties[windowID].xBase << 3;
 	}
 
-	if ((flags & 0x8000) != 0) posY -= loc12 / 2;
-
-	loc1A = READ_LE_UINT16(sprite);
+	spriteFlags = READ_LE_UINT16(sprite);
 	sprite += 2;
 
-	loc14 = loc1A;
+	if ((spriteFlags & 0x1) != 0) flags |= 0x400;
+
+	spriteHeight = *sprite++;
 
 	if ((flags & 0x4) != 0) {
-		loc14 = (loc14 * loc30) >> 8;
-		if (loc14 == 0) return;
+		spriteHeight = (spriteHeight * zoomRatioY) >> 8;
+		if (spriteHeight == 0) return;
 	}
 
-	if ((flags & 0x8000) != 0) posX -= loc14 / 2;
+	if ((flags & 0x8000) != 0) posY -= spriteHeight / 2;	/* posY relative to center */
 
-	loc16 = loc14;
+	spriteWidth = READ_LE_UINT16(sprite);
+	sprite += 2;
+
+	spriteWidthZoomed = spriteWidth;
+
+	if ((flags & 0x4) != 0) {
+		spriteWidthZoomed = (spriteWidthZoomed * zoomRatioX) >> 8;
+		if (spriteWidthZoomed == 0) return;
+	}
+
+	if ((flags & 0x8000) != 0) posX -= spriteWidthZoomed / 2;	/* posX relative to center */
+
+	pixelCountPerRow = spriteWidthZoomed;
 
 	sprite += 3;
 
-	locbx = READ_LE_UINT16(sprite);
+	spriteDecodedLength = READ_LE_UINT16(sprite);
 	sprite += 2;
 
-	if ((loc10 & 0x1) != 0 && (flags & 0x2000) == 0) loc3E = sprite;
-
-	if ((flags & 0x400) != 0) {
+	if ((spriteFlags & 0x1) != 0) {
+		if ((flags & 0x2000) == 0) houseColors = sprite;
 		sprite += 16;
 	}
 
-	if ((loc10 & 0x2) == 0) {
-		Format80_Decode(g_spriteBuffer, sprite, locbx);
+	if ((spriteFlags & 0x2) == 0) {
+		Format80_Decode(g_spriteBuffer, sprite, spriteDecodedLength);
 
 		sprite = g_spriteBuffer;
 	}
 
 	if ((flags & 0x2) == 0) {
-		loc2A = posY - top;
+		/* distance between top of window and top of sprite */
+		distY = posY - top;
 	} else {
-		loc2A = bottom - posY - loc12;
+		/* distance between bottom of window and bottom of sprite */
+		distY = bottom - posY - spriteHeight;
 	}
 
-	if (loc2A < 0) {
-		loc12 += loc2A;
-		if (loc12 <= 0) return;
+	if (distY < 0) {
+		/* means the sprite begins outside the window,
+		 * need to skip a few rows before drawing */
+		spriteHeight += distY;
+		if (spriteHeight <= 0) return;
 
-		loc2A = -loc2A;
+		distY = -distY;
 
-		while (loc2A > 0) {
-			loc38 = sprite;
-			count = loc1A;
-			loc1C = loc1A;
+		while (distY > 0) {
+			/* skip a row */
+			spriteSave = sprite;
+			count = spriteWidth;
+			/*loc1C = spriteWidth;*/
 
 			assert((flags & 0xFF) < 4);
 
@@ -1047,86 +1066,87 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 				count -= *sprite++ - 1;
 			}
 
-			buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
+			/*buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);*/
+			if ((flags & 0xFD) == 0) buf -= count;
+			else buf += count;
 
-			loc34 += loc32;
-			if ((loc34 & 0xFF00) == 0) continue;
+			Ycounter += zoomRatioY;
+			if ((Ycounter & 0xFF00) == 0) continue;
 
-			loc2A -= loc34 >> 8;
-			loc34 &= 0xFF;
+			distY -= Ycounter >> 8;
+			Ycounter &= 0xFF;	/* keep only fractional part */
 		}
 
-		if (loc2A < 0) {
-			sprite = loc38;
+		if (distY < 0) {
+			sprite = spriteSave;
 
-			loc2A = -loc2A;
-			loc34 += loc2A << 8;
+			Ycounter += (-distY) << 8;
 		}
 
 		if ((flags & 0x2) == 0) posY = top;
 	}
 
 	if ((flags & 0x2) == 0) {
-		loc1E = bottom - posY;
+		tmpRowCountToDraw = bottom - posY;	/* rows to draw */
 	} else {
-		loc1E = posY + loc12 - top;
+		tmpRowCountToDraw = posY + spriteHeight - top;	/* rows to draw */
 	}
 
-	if (loc1E <= 0) return;
+	if (tmpRowCountToDraw <= 0) return;	/* no row to draw */
 
-	if (loc1E < loc12) {
-		loc12 = loc1E;
+	if (tmpRowCountToDraw < spriteHeight) {
+		/* there are a few rows to skip at the end */
+		spriteHeight = tmpRowCountToDraw;
 		if ((flags & 0x2) != 0) posY = top;
 	}
 
-	loc1E = 0;
+	pixelSkipStart = 0;
 	if (posX < 0) {
-		loc14 += posX;
-		loc1E = -posX;
-		if (loc1E >= loc16) return;
+		/* skip pixels outside window */
+		pixelCountPerRow += posX;
+		pixelSkipStart = -posX;	/* pixel count to skip at row start */
+		if (pixelSkipStart >= spriteWidthZoomed) return;	/* no pixel to draw */
 		posX = 0;
 	}
 
-	loc20 = 0;
-	loc3A = width - posX;
-	if (loc3A <= 0) return;
+	pixelSkipEnd = 0;
+	distX = width - posX;	/* distance between left of sprite and right of window */
+	if (distX <= 0) return;	/* no pixel to draw */
 
-	if (loc3A < loc14) {
-		loc14 = loc3A;
-		loc20 = loc16 - loc1E - loc14;
+	if (distX < pixelCountPerRow) {
+		pixelCountPerRow = distX;
+		pixelSkipEnd = spriteWidthZoomed - pixelSkipStart - pixelCountPerRow;	/* pixel count to skip at row end */
 	}
 
-	loc22 = posY;
-
+	/* move pointer to 1st pixel of 1st row to draw */
+	buf += posY * SCREEN_WIDTH + posX;
 	if ((flags & 0x2) != 0) {
-		loc22 += loc12 - 1;
+		buf += (spriteHeight - 1) * SCREEN_WIDTH;
 	}
-
-	buf += loc22 * SCREEN_WIDTH + posX;
 
 	if ((flags & 0x1) != 0) {
-		uint16 tmp = loc1E;
-		loc1E = loc20;
-		loc20 = tmp;
-		buf += loc14 - 1;
+		/* XCHG pixelSkipStart, pixelSkipEnd */
+		uint16 tmp = pixelSkipStart;
+		pixelSkipStart = pixelSkipEnd;
+		pixelSkipEnd = tmp;
+		buf += pixelCountPerRow - 1;
 	}
 
 	b = buf;
 
 	if ((flags & 0x4) != 0) {
-		loc20 = 0;
-		loc44 = loc1E;
-		loc1E = (loc44 << 8) / loc30;
+		pixelSkipEnd = 0;
+		pixelSkipStart = (pixelSkipStart << 8) / zoomRatioX;
 	}
 
-	if ((loc34 & 0xFF00) == 0) {
+	if ((Ycounter & 0xFF00) == 0) {
 	l__04A4:
 		while (true) {
-			loc34 += loc32;
+			Ycounter += zoomRatioY;
 
-			if ((loc34 & 0xFF00) != 0) break;
-			count = loc1A;
-			loc1C = loc1A;
+			if ((Ycounter & 0xFF00) != 0) break;
+			count = spriteWidth;
+			/*loc1C = spriteWidth;*/
 
 			assert((flags & 0xFF) < 4);
 
@@ -1140,14 +1160,15 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 				count -= *sprite++ - 1;
 			}
 
-			buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
+			if ((flags & 0xFD) == 0) buf -= count;
+			else buf += count;
 		}
-		loc38 = sprite;
+		spriteSave = sprite;
 	}
 
 	while (true) {
-		loc1C = loc1A;
-		count = loc1E;
+		/*loc1C = spriteWidth;*/
+		count = pixelSkipStart;
 
 		assert((flags & 0xFF) < 4);
 
@@ -1164,14 +1185,15 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		if ((flags & 0xFD) == 0) buf -= count;
 		else buf += count;
 
-		if (loc1C != 0) {
-			count += loc14;
+		if (spriteWidth != 0) {
+			count += pixelCountPerRow;
 			if (count > 0) {
 				uint8 v;
 
 				while (count > 0) {
 					v = *sprite++;
 					if (v == 0) {
+						/* run length encoding of transparent pixels */
 						if ((flags & 0xFD) == 0) buf += *sprite;
 						else buf -= *sprite;
 						count -= *sprite++;
@@ -1184,7 +1206,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							*buf = v;
 							break;
 
-						case 1: {
+						case 1: {	/* remap */
 							int16 i;
 
 							for(i = 0; i < remapCount; i++) v = remap[v];
@@ -1194,7 +1216,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 						}
 
-						case 2:
+						case 2:	/* blur ? */
 							s_variable_74 += s_variable_72;
 
 							if ((s_variable_74 & 0xFF00) == 0) {
@@ -1205,7 +1227,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							}
 							break;
 
-						case 3: case 7: {
+						case 3: case 7: {	/* remap + blur ? (+ has house colors) */
 							int16 i;
 
 							v = *buf;
@@ -1217,14 +1239,14 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 						}
 
-						case 4:
-							*buf = loc3E[v];
+						case 4:	/* sprite has house colors */
+							*buf = houseColors[v];
 							break;
 
-						case 5: {
+						case 5: {	/* remap +  sprite has house colors */
 							int16 i;
 
-							v = loc3E[v];
+							v = houseColors[v];
 
 							for(i = 0; i < remapCount; i++) v = remap[v];
 
@@ -1233,11 +1255,11 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 						}
 
-						case 6:
+						case 6:	/* blur ? + sprite has house colors */
 							s_variable_74 += s_variable_72;
 
 							if ((s_variable_74 & 0xFF00) == 0) {
-								*buf = loc3E[v];
+								*buf = houseColors[v];
 							} else {
 								s_variable_74 &= 0xFF;
 								*buf = buf[s_variable_70];
@@ -1251,7 +1273,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 				}
 			}
 
-			count += loc20;
+			count += pixelSkipEnd;
 			if (count != 0) {
 				while (count > 0) {
 					while (count != 0) {
@@ -1272,11 +1294,11 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		else b += SCREEN_WIDTH;
 		buf = b;
 
-		if (--loc12 == 0) return;
+		if (--spriteHeight == 0) return;
 
-		loc34 -= 0x100;
-		if ((loc34 & 0xFF00) == 0) goto l__04A4;
-		sprite = loc38;
+		Ycounter -= 0x100;
+		if ((Ycounter & 0xFF00) == 0) goto l__04A4;
+		sprite = spriteSave;
 	}
 }
 
@@ -1290,9 +1312,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvestedEnemy, uint8 houseID)
 {
 	PoolFindStruct find;
-	uint16 locdi = 0;
 	uint16 targetTime;
-	uint16 loc0C = 0;
+	uint16 sumHarvestedAllied = 0;
+	uint16 sumHarvestedEnnemy = 0;
 	uint32 tmp;
 
 	if (score < 0) score = 0;
@@ -1324,18 +1346,18 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 		if (u == NULL) break;
 
 		if (House_AreAllied(Unit_GetHouseID(u), g_playerHouseID)) {
-			locdi += u->amount * 7;
+			sumHarvestedAllied += u->amount * 7;
 		} else {
-			loc0C += u->amount * 7;
+			sumHarvestedEnnemy += u->amount * 7;
 		}
 	}
 
 	g_validateStrictIfZero--;
 
-	tmp = *harvestedEnemy + loc0C;
+	tmp = *harvestedEnemy + sumHarvestedEnnemy;
 	*harvestedEnemy = (tmp > 65000) ? 65000 : (tmp & 0xFFFF);
 
-	tmp = *harvestedAllied + locdi;
+	tmp = *harvestedAllied + sumHarvestedAllied;
 	*harvestedAllied = (tmp > 65000) ? 65000 : (tmp & 0xFFFF);
 
 	score += House_Get_ByIndex(houseID)->credits / 100;
