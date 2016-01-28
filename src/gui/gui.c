@@ -889,7 +889,7 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * @param flags The flags.
  * @param ... The extra args, flags dependant.
  */
-void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
+void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
 	static const uint16 s_variable_60[8] = {1, 3, 2, 5, 4, 3, 2, 1};
 	static uint16 s_variable_5E     = 0;
@@ -1793,7 +1793,7 @@ uint8 GUI_PickHouse(void)
  * @param reference The colour to use as reference.
  * @param intensity The intensity to use.
  */
-void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colours, uint8 reference, uint8 intensity)
+void GUI_Palette_CreateMapping(const uint8 *palette, uint8 *colours, uint8 reference, uint8 intensity)
 {
 	uint16 index;
 

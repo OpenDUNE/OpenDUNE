@@ -109,7 +109,7 @@ extern bool g_var_37B8;
 
 extern void GUI_ClearScreen(Screen screenID);
 extern void GUI_DrawScreen(Screen screenID);
-extern void GUI_DrawSprite(Screen screenID, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
+extern void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
 extern void GUI_DrawInterfaceAndRadar(Screen screenID);
 extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, Screen screenID, uint8 *remap);
 extern void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, Screen screenSrc, Screen screenDst);
@@ -126,7 +126,7 @@ extern void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
 
-extern void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, uint8 intensity);
+extern void GUI_Palette_CreateMapping(const uint8 *palette, uint8 *colors, uint8 reference, uint8 intensity);
 extern void GUI_Palette_CreateRemap(uint8 houseID);
 extern void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation);
 extern void GUI_PaletteAnimate(void);
