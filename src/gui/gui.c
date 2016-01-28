@@ -1139,38 +1139,34 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		pixelSkipStart = (pixelSkipStart << 8) / zoomRatioX;
 	}
 
-	if ((Ycounter & 0xFF00) == 0) {
-	l__04A4:
-		while (true) {
-			Ycounter += zoomRatioY;
+	assert((flags & 0xFF) < 4);
 
-			if ((Ycounter & 0xFF00) != 0) break;
-			count = spriteWidth;
-			/*loc1C = spriteWidth;*/
+	do {
+		/* drawing loop */
+		if ((Ycounter & 0xFF00) == 0) {
+			while (true) {
+				Ycounter += zoomRatioY;
 
-			assert((flags & 0xFF) < 4);
+				if ((Ycounter & 0xFF00) != 0) break;
+				count = spriteWidth;
 
-			while (count > 0) {
-				while (count != 0) {
-					count--;
-					if (*sprite++ == 0) break;
+				while (count > 0) {
+					while (count != 0) {
+						count--;
+						if (*sprite++ == 0) break;
+					}
+					if (sprite[-1] != 0 && count == 0) break;
+
+					count -= *sprite++ - 1;
 				}
-				if (sprite[-1] != 0 && count == 0) break;
 
-				count -= *sprite++ - 1;
+				if ((flags & 0xFD) == 0) buf -= count;
+				else buf += count;
 			}
-
-			if ((flags & 0xFD) == 0) buf -= count;
-			else buf += count;
+			spriteSave = sprite;
 		}
-		spriteSave = sprite;
-	}
 
-	while (true) {
-		/*loc1C = spriteWidth;*/
 		count = pixelSkipStart;
-
-		assert((flags & 0xFF) < 4);
 
 		while (count > 0) {
 			while (count != 0) {
@@ -1294,12 +1290,11 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		else b += SCREEN_WIDTH;
 		buf = b;
 
-		if (--spriteHeight == 0) return;
+		--spriteHeight;
 
 		Ycounter -= 0x100;
-		if ((Ycounter & 0xFF00) == 0) goto l__04A4;
-		sprite = spriteSave;
-	}
+		if ((Ycounter & 0xFF00) != 0) sprite = spriteSave;
+	} while (spriteHeight > 0);
 }
 
 /**
