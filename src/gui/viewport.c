@@ -35,7 +35,6 @@ static uint32 s_tickMapScroll;                              /*!< Stores last tim
 static uint32 s_tickClick;                                  /*!< Stores last time Viewport handled a click. */
 
 static uint8 s_paletteHouse[16];                            /*!< Used for palette manipulation to get housed coloured units etc. */
-static uint16 s_spriteFlags;
 
 /**
  * Handles the Click events for the Viewport widget.
@@ -423,13 +422,11 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 
 		sprite = GUI_Widget_Viewport_Draw_GetSprite(g_table_unitInfo[u->o.type].groundSpriteID, Unit_GetHouseID(u));
 
-		s_spriteFlags = 0x200;
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, 0x200 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0xC000);
+		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, 0x200 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0xC000);
-
-		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0xC000);
+		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, 0x200 | 0xC000);
 
 		if (u != g_unitSelected) continue;
 
@@ -468,6 +465,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			uint16 packed;
 			uint8 orientation;
 			uint16 index;
+			uint16 spriteFlags = 0;
 
 			u = Unit_Find(&find);
 
@@ -504,7 +502,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 					case DISPLAYMODE_ROCKET:
 						if (ui->movementType == MOVEMENT_SLITHER) break;
 						index += values_32A4[orientation][0];
-						s_spriteFlags = values_32A4[orientation][1];
+						spriteFlags = values_32A4[orientation][1];
 						break;
 
 					case DISPLAYMODE_INFANTRY_3_FRAMES: {
@@ -512,28 +510,28 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 
 						index += values_32C4[orientation][0] * 3;
 						index += values_334A[u->spriteOffset & 3];
-						s_spriteFlags = values_32C4[orientation][1];
+						spriteFlags = values_32C4[orientation][1];
 					} break;
 
 					case DISPLAYMODE_INFANTRY_4_FRAMES:
 						index += values_32C4[orientation][0] * 4;
 						index += u->spriteOffset & 3;
-						s_spriteFlags = values_32C4[orientation][1];
+						spriteFlags = values_32C4[orientation][1];
 						break;
 
 					default:
-						s_spriteFlags = 0;
+						spriteFlags = 0;
 						break;
 				}
 			} else {
 				index = ui->destroyedSpriteID - u->spriteOffset - 1;
-				s_spriteFlags = 0;
+				spriteFlags = 0;
 			}
 
-			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) s_spriteFlags |= 0x100;
-			if (ui->o.flags.blurTile) s_spriteFlags |= 0x200;
+			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) spriteFlags |= 0x100;
+			if (ui->o.flags.blurTile) spriteFlags |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, s_spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
+			GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->spriteOffset >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -587,10 +585,9 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 						break;
 				}
 
-				s_spriteFlags = values_32A4[orientation][1];
 				spriteID += values_32A4[orientation][0];
 
-				GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, s_spriteFlags | 0xE000, s_paletteHouse);
+				GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, values_32A4[orientation][1] | 0xE000, s_paletteHouse);
 			}
 
 			if (u->o.flags.s.isSmoking) {
@@ -624,9 +621,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 		if (!Map_IsPositionInViewport(e->position, &x, &y)) continue;
 
-		s_spriteFlags = 0xC000;
-
-		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, s_spriteFlags, s_paletteHouse);
+		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, 0xC000, s_paletteHouse);
 	}
 
 	if (g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
@@ -645,6 +640,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 			uint8 orientation;
 			uint8 *sprite;
 			uint16 index;
+			uint16 spriteFlags;
 
 			u = Unit_Find(&find);
 
@@ -665,7 +661,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 
 			index = ui->groundSpriteID;
 			orientation = u->orientation[0].current;
-			s_spriteFlags = 0xC000;
+			spriteFlags = 0xC000;
 
 			switch (ui->displayMode) {
 				case DISPLAYMODE_SINGLE_FRAME:
@@ -676,7 +672,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 					index += values_32E4[orientation][0];
-					s_spriteFlags |= values_32E4[orientation][1];
+					spriteFlags |= values_32E4[orientation][1];
 					break;
 
 				case DISPLAYMODE_ROCKET: {
@@ -690,7 +686,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 					orientation = Orientation_Orientation256ToOrientation16(orientation);
 
 					index += values_3304[orientation][0];
-					s_spriteFlags |= values_3304[orientation][1];
+					spriteFlags |= values_3304[orientation][1];
 				} break;
 
 				case DISPLAYMODE_ORNITHOPTER: {
@@ -699,11 +695,11 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 					index += (values_32E4[orientation][0] * 3) + values_33AE[u->spriteOffset & 3];
-					s_spriteFlags |= values_32E4[orientation][1];
+					spriteFlags |= values_32E4[orientation][1];
 				} break;
 
 				default:
-					s_spriteFlags = 0x0;
+					spriteFlags = 0x0;
 					break;
 			}
 
@@ -712,11 +708,11 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 
 			sprite = GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (s_spriteFlags & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+			if (ui->o.flags.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (spriteFlags & 0xDFFF) | 0x300, g_paletteMapping1, 1);
 
-			if (ui->o.flags.blurTile) s_spriteFlags |= 0x200;
+			if (ui->o.flags.blurTile) spriteFlags |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_spriteFlags | 0x2000, s_paletteHouse);
+			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, spriteFlags | 0x2000, s_paletteHouse);
 		}
 
 		g_dirtyAirUnitCount = 0;
