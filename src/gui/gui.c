@@ -993,8 +993,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	loc14 = loc1A;
 
 	if ((flags & 0x4) != 0) {
-		loc14 += loc30;
-		loc14 >>= 8;
+		loc14 = (loc14 * loc30) >> 8;
 		if (loc14 == 0) return;
 	}
 
