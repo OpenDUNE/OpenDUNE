@@ -1096,11 +1096,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		loc20 = loc16 - loc1E - loc14;
 	}
 
-	loc3A = SCREEN_WIDTH;
 	loc22 = posY;
 
 	if ((flags & 0x2) != 0) {
-		loc3A = - loc3A;
 		loc22 += loc12 - 1;
 	}
 
@@ -1266,7 +1264,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			}
 		}
 
-		b += loc3A;
+		if ((flags & 0x2) != 0)	b -= SCREEN_WIDTH;
+		else b += SCREEN_WIDTH;
 		buf = b;
 
 		if (--loc12 == 0) return;
