@@ -997,7 +997,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	spriteHeight = *sprite++;
 
 	if ((flags & 0x4) != 0) {
-		spriteHeight = (spriteHeight * zoomRatioY) >> 8;
+		spriteHeight = (int16)(((int32)spriteHeight * (int32)zoomRatioY) >> 8);
 		if (spriteHeight == 0) return;
 	}
 
@@ -1009,7 +1009,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	spriteWidthZoomed = spriteWidth;
 
 	if ((flags & 0x4) != 0) {
-		spriteWidthZoomed = (spriteWidthZoomed * zoomRatioX) >> 8;
+		spriteWidthZoomed = (int16)(((int32)spriteWidthZoomed * (int32)zoomRatioX) >> 8);
 		if (spriteWidthZoomed == 0) return;
 	}
 
