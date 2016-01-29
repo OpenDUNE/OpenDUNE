@@ -47,7 +47,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
  * @param w The widget this editbox is attached to (for input events).
  * @param tickProc The function to call every tick, for animation etc.
  * @param paint Flag indicating if the widget need to be repainted.
- * @return Unknown.
+ * @return Key code / Button press code.
  */
 uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, Widget *w, uint16 (*tickProc)(void), bool paint)
 {
