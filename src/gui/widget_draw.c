@@ -551,7 +551,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	const UnitInfo *ui;
 	uint16 actionType;
 	Screen oldScreenID;
-	uint16 loc06;
+	uint16 oldWidgetID;
 	bool isNotPlayerOwned;
 	Object *o;
 	Unit *u;
@@ -632,15 +632,14 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	}
 
 	oldScreenID = g_screenActiveID;
-	loc06 = g_curWidgetIndex;
+	oldWidgetID = g_curWidgetIndex;
 
 	if (actionType != 0) {
 		Widget *w = g_widgetLinkedListHead;
 		int i;
 
 		oldScreenID = GFX_Screen_SetActive(SCREEN_1);
-
-		loc06 = Widget_SetCurrentWidget(6);
+		oldWidgetID = Widget_SetCurrentWidget(6);
 
 		widget30 = GUI_Widget_Get_ByIndex(w, 7);
 		GUI_Widget_MakeInvisible(widget30);
@@ -908,8 +907,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	}
 
 	if (actionType > 1) {
-		Widget_SetCurrentWidget(loc06);
-
+		Widget_SetCurrentWidget(oldWidgetID);
 		GFX_Screen_SetActive(oldScreenID);
 	}
 }
