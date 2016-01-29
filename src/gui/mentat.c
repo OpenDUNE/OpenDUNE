@@ -885,13 +885,13 @@ void GUI_Mentat_Create_HelpScreen_Widgets(void)
 
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollbar);
 
-	g_widgetMentatScrollDown = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[385], g_sprites[386], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
+	g_widgetMentatScrollDown = GUI_Widget_AllocateScrollBtn(16, 0, 168, 96, g_sprites[385], g_sprites[386], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), true);
 	g_widgetMentatScrollDown->shortcut  = 0;
 	g_widgetMentatScrollDown->shortcut2 = 0;
 	g_widgetMentatScrollDown->parentID  = 8;
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollDown);
 
-	g_widgetMentatScrollUp = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[383], g_sprites[384], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
+	g_widgetMentatScrollUp = GUI_Widget_AllocateScrollBtn(17, 0, 168, 16, g_sprites[383], g_sprites[384], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), false);
 	g_widgetMentatScrollUp->shortcut  = 0;
 	g_widgetMentatScrollUp->shortcut2 = 0;
 	g_widgetMentatScrollUp->parentID  = 8;
