@@ -915,7 +915,7 @@ static void GUI_Mentat_ShowHelp(void)
 	char *desc;
 	char *picture;
 	char *text;
-	bool loc12;
+	bool loopAnimation;
 
 	subject = s_helpSubjects;
 
@@ -942,7 +942,7 @@ static void GUI_Mentat_ShowHelp(void)
 
 	while (*text != '*' && *text != '?') text++;
 
-	loc12 = (*text == '*');
+	loopAnimation = (*text == '*') ? true : false;
 
 	*text++ = '\0';
 
@@ -964,7 +964,7 @@ static void GUI_Mentat_ShowHelp(void)
 		if (*text != '\0') *text++ = '\0';
 	}
 
-	GUI_Mentat_Loop(picture, desc, text, loc12 ? 1 : 0, g_widgetMentatFirst);
+	GUI_Mentat_Loop(picture, desc, text, loopAnimation, g_widgetMentatFirst);
 
 	GUI_Widget_MakeNormal(g_widgetMentatFirst, false);
 
@@ -1053,7 +1053,7 @@ static bool GUI_Mentat_DrawInfo(char *text, uint16 left, uint16 top, uint16 heig
 	return true;
 }
 
-uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text, bool arg12, Widget *w)
+uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text, bool loopAnimation, Widget *w)
 {
 	Screen oldScreenID;
 	uint16 oldWidgetID;
@@ -1234,7 +1234,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 				if (!WSA_DisplayFrame(wsa, frame++, g_curWidgetXBase << 3, g_curWidgetYBase, SCREEN_2)) {
 					if (step == 0) step = 1;
 
-					if (arg12 != 0) {
+					if (loopAnimation) {
 						frame = 0;
 					} else {
 						WSA_Unload(wsa);
