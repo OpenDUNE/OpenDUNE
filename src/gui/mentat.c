@@ -33,8 +33,10 @@
 
 /**
  * Information about the mentat.
+ *
+ * eyeX, eyeY, mouthX, mouthY, otherX, otherY, shoulderX, shoulderY
  */
-static const uint8 s_unknownHouseData[6][8] = {
+static const uint8 s_mentatSpritePositions[6][8] = {
 	{0x20,0x58,0x20,0x68,0x00,0x00,0x80,0x68}, /* Harkonnen mentat. */
 	{0x28,0x50,0x28,0x60,0x48,0x98,0x80,0x80}, /* Atreides mentat. */
 	{0x10,0x50,0x10,0x60,0x58,0x90,0x80,0x80}, /* Ordos mentat. */
@@ -496,8 +498,8 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 
 	memset(s_mentatSprites, 0, sizeof(s_mentatSprites));
 
-	s_eyesLeft = s_eyesRight  = s_unknownHouseData[houseID][0];
-	s_eyesTop  = s_eyesBottom = s_unknownHouseData[houseID][1];
+	s_eyesLeft = s_eyesRight  = s_mentatSpritePositions[houseID][0];
+	s_eyesTop  = s_eyesBottom = s_mentatSpritePositions[houseID][1];
 
 	for (i = 0; i < 5; i++) {
 		s_mentatSprites[0][i] = g_sprites[387 + houseID * 15 + i];
@@ -506,8 +508,8 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	s_eyesRight  += Sprite_GetWidth(s_mentatSprites[0][0]);
 	s_eyesBottom += Sprite_GetHeight(s_mentatSprites[0][0]);
 
-	s_mouthLeft = s_mouthRight  = s_unknownHouseData[houseID][2];
-	s_mouthTop  = s_mouthBottom = s_unknownHouseData[houseID][3];
+	s_mouthLeft = s_mouthRight  = s_mentatSpritePositions[houseID][2];
+	s_mouthTop  = s_mouthBottom = s_mentatSpritePositions[houseID][3];
 
 	for (i = 0; i < 5; i++) {
 		s_mentatSprites[1][i] = g_sprites[392 + houseID * 15 + i];
@@ -516,15 +518,15 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	s_mouthRight  += Sprite_GetWidth(s_mentatSprites[1][0]);
 	s_mouthBottom += Sprite_GetHeight(s_mentatSprites[1][0]);
 
-	s_otherLeft = s_unknownHouseData[houseID][4];
-	s_otherTop  = s_unknownHouseData[houseID][5];
+	s_otherLeft = s_mentatSpritePositions[houseID][4];
+	s_otherTop  = s_mentatSpritePositions[houseID][5];
 
 	for (i = 0; i < 4; i++) {
 		s_mentatSprites[2][i] = g_sprites[398 + houseID * 15 + i];
 	}
 
-	g_shoulderLeft = s_unknownHouseData[houseID][6];
-	g_shoulderTop  = s_unknownHouseData[houseID][7];
+	g_shoulderLeft = s_mentatSpritePositions[houseID][6];
+	g_shoulderTop  = s_mentatSpritePositions[houseID][7];
 
 	Widget_SetAndPaintCurrentWidget(8);
 
@@ -921,7 +923,7 @@ static void GUI_Mentat_ShowHelp(void)
 
 	for (i = 0; i < s_selectedHelpSubject; i++) subject = String_NextString(subject);
 
-	noDesc = (subject[5] == '0');
+	noDesc = (subject[5] == '0');	/* or no WSA file ? */
 	offset = HTOBE32(*(uint32 *)(subject + 1));
 
 	fileID = ChunkFile_Open(s_mentatFilename);
@@ -940,6 +942,7 @@ static void GUI_Mentat_ShowHelp(void)
 	String_TranslateSpecial(text, text);
 	File_Close(fileID);
 
+	/* skip WSA file name (or string index) */
 	while (*text != '*' && *text != '?') text++;
 
 	loopAnimation = (*text == '*') ? true : false;
