@@ -104,7 +104,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 	do {
 		strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
 		sleepIdle();
-	} while (GUI_Mentat_Show(g_readBuffer, wsaFilename, w1, true) == 0x8002);
+	} while (GUI_Mentat_Show(g_readBuffer, wsaFilename, w1) == 0x8002);
 
 	free(w2);
 	free(w1);
@@ -396,10 +396,9 @@ bool GUI_Widget_Mentat_Click(Widget *w)
  * @param spriteBuffer The buffer of the strings.
  * @param wsaFilename The WSA to show.
  * @param w The widgets to handle. Can be NULL for no widgets.
- * @param unknown A boolean.
  * @return Return value of GUI_Widget_HandleEvents() or f__B4DA_0AB8_002A_AAB2() (latter when no widgets).
  */
-uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, bool unknown)
+uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w)
 {
 	uint16 ret;
 
@@ -444,7 +443,8 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 
 	Input_History_Clear();
 
-	if (unknown) {
+	if (w != NULL) {
+		/* reset palette and tiles */
 		Load_Palette_Mercenaries();
 		Sprites_LoadTiles();
 	}
