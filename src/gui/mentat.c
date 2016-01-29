@@ -1056,7 +1056,7 @@ static bool GUI_Mentat_DrawInfo(char *text, uint16 left, uint16 top, uint16 heig
 uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text, bool arg12, Widget *w)
 {
 	Screen oldScreenID;
-	uint16 old07AE;
+	uint16 oldWidgetID;
 	void *wsa;
 	uint16 descLines;
 	bool dirty;
@@ -1076,7 +1076,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	textTick = 0;
 	textDelay = 0;
 
-	old07AE = Widget_SetCurrentWidget(8);
+	oldWidgetID = Widget_SetCurrentWidget(8);
 	oldScreenID = GFX_Screen_SetActive(SCREEN_2);
 
 	wsa = NULL;
@@ -1263,7 +1263,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_2, SCREEN_0);
 	GUI_Mouse_Show_InWidget();
-	Widget_SetCurrentWidget(old07AE);
+	Widget_SetCurrentWidget(oldWidgetID);
 	GFX_Screen_SetActive(oldScreenID);
 
 	Input_History_Clear();
