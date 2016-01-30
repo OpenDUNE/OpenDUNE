@@ -13,6 +13,7 @@
 #include "../input/mouse.h"
 #include "../opendune.h"
 
+#include "video_fps.h"
 #include "scalebit.h"
 #include "hqx.h"
 
@@ -461,12 +462,17 @@ static void Video_DrawScreen(void)
 void Video_Tick(void)
 {
 	SDL_Event event;
+	static bool s_showFPS = false;
 
 	if (!s_video_initialized) return;
 	if (g_fileOperation != 0) return;
 	if (s_video_lock) return;
 
 	s_video_lock = true;
+
+	if (s_showFPS) {
+		Video_ShowFPS(GFX_Screen_Get_ByIndex(SCREEN_0));
+	}
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;
@@ -505,6 +511,10 @@ void Video_Tick(void)
 						Warning("Failed to toggle full screen : %s\n", SDL_GetError());
 					}
 					s_full_screen = !s_full_screen;
+					continue;
+				}
+				if (sym == SDLK_F8) {
+					if (keyup) s_showFPS = !s_showFPS;
 					continue;
 				}
 				if (sym >= SDLK_CAPSLOCK) {

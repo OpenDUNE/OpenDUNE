@@ -152,6 +152,7 @@ unit.c
 		#endif
 	#endif
 #endif
+video/video_fps.c
 #if TOS
 video/c2p1x1_8.s
 #else
@@ -223,6 +224,7 @@ timer.h
 tools.h
 unit.h
 video/video.h
+video/video_fps.h
 video/hqx_common.h
 video/hqx.h
 video/scale2x.h

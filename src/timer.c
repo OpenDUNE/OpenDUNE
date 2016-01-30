@@ -63,7 +63,7 @@ static uint32 s_timerLastTime;
 static const uint32 s_timerSpeed = 1000000 / 120; /* Our timer runs at 120Hz */
 
 
-static uint32 Timer_GetTime(void)
+uint32 Timer_GetTime(void)
 {
 #if defined(_MSC_VER)
 	DWORD t;
