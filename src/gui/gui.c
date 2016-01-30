@@ -1511,19 +1511,19 @@ static void GUI_EndStats_Sleep(uint16 delay)
  */
 void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint8 houseID)
 {
-	uint16 loc06;
 	Screen oldScreenID;
-	uint16 loc16;
-	uint16 loc18;
-	uint16 loc1A;
-	uint16 loc32[3][2][2];
+	uint16 statsBoxCount;
+	uint16 textLeft;	/* text left position */
+	uint16 statsBarWidth;	/* available width to draw the score bars */
+	struct { uint16 value; uint16 increment; } scores[3][2];
 	uint16 i;
 
 	s_ticksPlayed = ((g_timerGame - g_tickScenarioStart) / 3600) + 1;
 
 	score = Update_Score(score, &harvestedAllied, &harvestedEnemy, houseID);
 
-	loc16 = (g_scenarioID == 1) ? 2 : 3;
+	/* 1st scenario doesn't have the "Building destroyed" stats */
+	statsBoxCount = (g_scenarioID == 1) ? 2 : 3;
 
 	GUI_Mouse_Hide_Safe();
 
@@ -1537,14 +1537,12 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(STR_UNITS_DESTROYED_BY), 119);
 	if (g_scenarioID != 1) GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(STR_BUILDINGS_DESTROYED_BY), 155);
 
-	loc06 = max(Font_GetStringWidth(String_Get_ByIndex(STR_YOU)), Font_GetStringWidth(String_Get_ByIndex(STR_ENEMY)));
+	textLeft = 19 + max(Font_GetStringWidth(String_Get_ByIndex(STR_YOU)), Font_GetStringWidth(String_Get_ByIndex(STR_ENEMY)));
+	statsBarWidth = 261 - textLeft;
 
-	loc18 = loc06 + 19;
-	loc1A = 261 - loc18;
-
-	for (i = 0; i < loc16; i++) {
-		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_YOU), loc18 - 4,  92 + (i * 36), 0xF, 0, 0x221);
-		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_ENEMY), loc18 - 4, 101 + (i * 36), 0xF, 0, 0x221);
+	for (i = 0; i < statsBoxCount; i++) {
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_YOU), textLeft - 4,  92 + (i * 36), 0xF, 0, 0x221);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(STR_ENEMY), textLeft - 4, 101 + (i * 36), 0xF, 0, 0x221);
 	}
 
 	Music_Play(17 + Tools_RandomLCG_Range(0, 5));
@@ -1553,83 +1551,73 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	Input_History_Clear();
 
-	loc32[0][0][0] = harvestedAllied;
-	loc32[0][1][0] = harvestedEnemy;
-	loc32[1][0][0] = killedEnemy;
-	loc32[1][1][0] = killedAllied;
-	loc32[2][0][0] = destroyedEnemy;
-	loc32[2][1][0] = destroyedAllied;
+	scores[0][0].value = harvestedAllied;
+	scores[0][1].value = harvestedEnemy;
+	scores[1][0].value = killedEnemy;
+	scores[1][1].value = killedAllied;
+	scores[2][0].value = destroyedEnemy;
+	scores[2][1].value = destroyedAllied;
 
-	for (i = 0; i < loc16; i++) {
-		uint16 loc08 = loc32[i][0][0];
-		uint16 loc0A = loc32[i][1][0];
+	for (i = 0; i < statsBoxCount; i++) {
+		uint16 scoreIncrement;
 
-		if (loc08 >= 65000) loc08 = 65000;
-		if (loc0A >= 65000) loc0A = 65000;
+		/* You */
+		if (scores[i][0].value > 65000) scores[i][0].value = 65000;
+		/* Enemy */
+		if (scores[i][1].value > 65000) scores[i][1].value = 65000;
 
-		loc32[i][0][0] = loc08;
-		loc32[i][1][0] = loc0A;
+		scoreIncrement = 1 + (max(scores[i][0].value, scores[i][1].value) / statsBarWidth);
 
-		loc06 = max(loc08, loc0A);
-
-		loc32[i][0][1] = 1 + ((loc06 > loc1A) ? (loc06 / loc1A) : 0);
-		loc32[i][1][1] = 1 + ((loc06 > loc1A) ? (loc06 / loc1A) : 0);
+		scores[i][0].increment = scoreIncrement;
+		scores[i][1].increment = scoreIncrement;
 	}
 
 	GUI_EndStats_Sleep(45);
 	GUI_HallOfFame_DrawRank(score, true);
 	GUI_EndStats_Sleep(45);
 
-	for (i = 0; i < loc16; i++) {
-		uint16 loc02;
+	for (i = 0; i < statsBoxCount; i++) {
+		uint16 j;
 
 		GUI_HallOfFame_Tick();
 
-		for (loc02 = 0; loc02 < 2; loc02++) {
+		for (j = 0; j < 2; j++) {	/* 0 : You, 1 : Enemy */
 			uint8 colour;
-			uint16 loc04;
-			uint16 locdi;
-			uint16 loc0E;
-			uint16 loc10;
-			uint16 loc0C;
+			uint16 posX;
+			uint16 posY;
+			uint16 score;
 
 			GUI_HallOfFame_Tick();
 
-			colour = (loc02 == 0) ? 255 : 209;
-			loc04 = loc18;
+			colour = (j == 0) ? 255 : 209;
+			posX = textLeft;
+			posY = 93 + (i * 36) + (j * 9);
 
-			locdi = 93 + (i * 36) + (loc02 * 9);
-
-			loc0E = loc32[i][loc02][0];
-			loc10 = loc32[i][loc02][1];
-
-			for (loc0C = 0; loc0C < loc0E; loc0C += loc10) {
-				GUI_DrawFilledRectangle(271, locdi, 303, locdi + 5, 226);
-
-				GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0x14, 0, 0x121, loc0C);
+			for (score = 0; score < scores[i][j].value; score += scores[i][j].increment) {
+				GUI_DrawFilledRectangle(271, posY, 303, posY + 5, 226);
+				GUI_DrawText_Wrapper("%u", 287, posY - 1, 0x14, 0, 0x121, score);
 
 				GUI_HallOfFame_Tick();
 
 				g_timerTimeout = 1;
 
-				GUI_DrawLine(loc04, locdi, loc04, locdi + 5, colour);
+				GUI_DrawLine(posX, posY, posX, posY + 5, colour);
 
-				loc04++;
+				posX++;
 
-				GUI_DrawLine(loc04, locdi + 1, loc04, locdi + 6, 12);
+				GUI_DrawLine(posX, posY + 1, posX, posY + 6, 12);	/* shadow */
 
-				GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, SCREEN_1, SCREEN_0, false);
+				GFX_Screen_Copy2(textLeft, posY, textLeft, posY, 304, 7, SCREEN_1, SCREEN_0, false);
 
 				Driver_Sound_Play(52, 0xFF);
 
 				GUI_EndStats_Sleep(g_timerTimeout);
 			}
 
-			GUI_DrawFilledRectangle(271, locdi, 303, locdi + 5, 226);
+			GUI_DrawFilledRectangle(271, posY, 303, posY + 5, 226);
+			GUI_DrawText_Wrapper("%u", 287, posY - 1, 0xF, 0, 0x121, scores[i][j].value);
 
-			GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0xF, 0, 0x121, loc0E);
-
-			GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, SCREEN_1, SCREEN_0, false);
+			GFX_Screen_Copy2(textLeft, posY, textLeft, posY, 304, 7, SCREEN_1, SCREEN_0, false);
 
 			Driver_Sound_Play(38, 0xFF);
 
