@@ -329,10 +329,10 @@ static uint8 *GUI_Widget_Viewport_Draw_GetSprite(uint16 spriteID, uint8 houseID)
  * Redraw parts of the viewport that require redrawing.
  *
  * @param forceRedraw If true, dirty flags are ignored, and everything is drawn.
- * @param arg08 ??
+ * @param hasScrolled Viewport position has changed
  * @param drawToMainScreen True if and only if we are drawing to the main screen and not some buffer screen.
  */
-void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScreen)
+void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMainScreen)
 {
 	static const uint16 values_32A4[8][2] = {
 		{0, 0}, {1, 0}, {2, 0}, {3, 0},
@@ -435,7 +435,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 	}
 
-	if (g_unitSelected == NULL && (g_selectionRectangleNeedRepaint || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
+	if (g_unitSelected == NULL && (g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
 		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
@@ -768,7 +768,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 		}
 	}
 
-	if ((g_viewportMessageCounter & 1) != 0 && g_viewportMessageText != NULL && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || forceRedraw)) {
+	if ((g_viewportMessageCounter & 1) != 0 && g_viewportMessageText != NULL && (minX[6] <= 14 || maxX[6] >= 0 || hasScrolled || forceRedraw)) {
 		GUI_DrawText_Wrapper(g_viewportMessageText, 112, 139, 15, 0, 0x132);
 		minX[6] = -1;
 		maxX[6] = 14;
@@ -798,7 +798,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScree
 				uint16 width;
 				uint16 height;
 
-				if (arg08) {
+				if (hasScrolled) {
 					minX[i] = 0;
 					maxX[i] = 14;
 				}

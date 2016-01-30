@@ -4440,7 +4440,7 @@ void GUI_Palette_CreateRemap(uint8 houseID)
 void GUI_DrawScreen(Screen screenID)
 {
 	static uint32 s_timerViewportMessage = 0;
-	bool loc10;
+	bool hasScrolled = false;
 	Screen oldScreenID;
 	uint16 xpos;
 
@@ -4448,8 +4448,6 @@ void GUI_DrawScreen(Screen screenID)
 	if (g_selectionType == SELECTIONTYPE_DEBUG) return;
 	if (g_selectionType == SELECTIONTYPE_UNKNOWN6) return;
 	if (g_selectionType == SELECTIONTYPE_INTRO) return;
-
-	loc10 = false;
 
 	oldScreenID = GFX_Screen_SetActive(screenID);
 
@@ -4471,11 +4469,11 @@ void GUI_DrawScreen(Screen screenID)
 
 		int16 x, y;
 
-		if (xOverlap < 1 || yOverlap < 1) g_viewport_forceRedraw = true;
-
-		if (!g_viewport_forceRedraw && (xOverlap != 15 || yOverlap != 10)) {
+		if (xOverlap < 1 || yOverlap < 1) {
+			g_viewport_forceRedraw = true;
+		} else if (!g_viewport_forceRedraw && (xOverlap != 15 || yOverlap != 10)) {
 			Map_SetSelectionObjectPosition(0xFFFF);
-			loc10 = true;
+			hasScrolled = true;
 
 			GUI_Mouse_Hide_InWidget(2);
 
@@ -4498,7 +4496,7 @@ void GUI_DrawScreen(Screen screenID)
 		}
 	}
 
-	if (loc10) {
+	if (hasScrolled) {
 		Map_SetSelectionObjectPosition(0xFFFF);
 
 		for (xpos = 0; xpos < 14; xpos++) {
@@ -4523,7 +4521,7 @@ void GUI_DrawScreen(Screen screenID)
 		}
 	}
 
-	GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, loc10, screenID != SCREEN_0);
+	GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, hasScrolled, screenID != SCREEN_0);
 
 	g_viewport_forceRedraw = false;
 
