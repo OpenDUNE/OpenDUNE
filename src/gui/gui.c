@@ -504,15 +504,25 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
  * @param fgColour The foreground colour of the text.
  * @param bgColour The background colour of the text.
  * @param flags The flags of the string.
+ *
+ * flags :
+ * 0x0001 : font 6p
+ * 0x0002 : font 8p
+ * 0x0010 : style ?
+ * 0x0020 : style ?
+ * 0x0030 : style ?
+ * 0x0040 : style ?
+ * 0x0100 : align center
+ * 0x0200 : align right
  */
 void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...)
 {
-	static char textBuffer[240];
+	char textBuffer[240];
 	static uint16 displayedarg12low = -1;
 	static uint16 displayedarg2mid  = -1;
 
-	uint8 arg12low = flags & 0xF;
-	uint8 arg2mid  = flags & 0xF0;
+	uint8 arg12low = flags & 0x0F;	/* font : 1 => 6p, 2 => 8p */
+	uint8 arg2mid  = flags & 0xF0;	/* style */
 
 	if ((arg12low != displayedarg12low && arg12low != 0) || string == NULL) {
 		switch (arg12low) {
@@ -565,14 +575,11 @@ void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgCol
 
 	if (string == NULL) return;
 
-	if (string != textBuffer) {
-		char buf[256];
+	{
 		va_list ap;
 
-		strncpy(buf, string, sizeof(buf));
-
 		va_start(ap, flags);
-		vsnprintf(textBuffer, sizeof(textBuffer), buf, ap);
+		vsnprintf(textBuffer, sizeof(textBuffer), string, ap);
 		va_end(ap);
 	}
 
@@ -1053,7 +1060,6 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			/* skip a row */
 			spriteSave = sprite;
 			count = spriteWidth;
-			/*loc1C = spriteWidth;*/
 
 			assert((flags & 0xFF) < 4);
 
