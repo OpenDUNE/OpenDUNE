@@ -503,17 +503,10 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	}
 
 	if (Map_GetLandscapeType(positionPacked) == LST_WALL && hitpoints != 0) {
-		bool loc22 = false;
-
-		if (g_table_structureInfo[STRUCTURE_WALL].o.hitpoints <= hitpoints) loc22 = true;
-
-		if (!loc22) {
-			uint16 loc24 = hitpoints * 256 / g_table_structureInfo[STRUCTURE_WALL].o.hitpoints;
-
-			if (Tools_Random_256() <= loc24) loc22 = true;
+		if ((g_table_structureInfo[STRUCTURE_WALL].o.hitpoints <= hitpoints) ||
+		    (Tools_Random_256() <= (hitpoints * 256 / g_table_structureInfo[STRUCTURE_WALL].o.hitpoints))) {
+			Map_UpdateWall(positionPacked);
 		}
-
-		if (loc22) Map_UpdateWall(positionPacked);
 	}
 
 	Explosion_Start(type, position);
