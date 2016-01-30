@@ -1183,7 +1183,7 @@ static void GUI_FactoryWindow_FailScrollList(int16 step)
  */
 bool GUI_Production_Down_Click(Widget *w)
 {
-	bool locdi = false;
+	bool drawDetails = false;
 
 	if (g_factoryWindowSelected < 3 && (g_factoryWindowSelected + 1) < g_factoryWindowTotal) {
 		g_timerTimeout = 10;
@@ -1192,19 +1192,17 @@ bool GUI_Production_Down_Click(Widget *w)
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
-		locdi = true;
+		drawDetails = true;
 	} else {
 		if (g_factoryWindowBase + 4 < g_factoryWindowTotal) {
 			g_timerTimeout = 10;
 			g_factoryWindowBase++;
-			locdi = true;
+			drawDetails = true;
 
 			GUI_FactoryWindow_ScrollList(1);
 
 			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
-			locdi = false;
-
 			GUI_FactoryWindow_DrawDetails();
 
 			GUI_FactoryWindow_FailScrollList(1);
@@ -1215,7 +1213,7 @@ bool GUI_Production_Down_Click(Widget *w)
 		GUI_FactoryWindow_UpdateSelection(false);
 	}
 
-	if (locdi) GUI_FactoryWindow_DrawDetails();
+	if (drawDetails) GUI_FactoryWindow_DrawDetails();
 
 	GUI_Widget_MakeNormal(w, false);
 
@@ -1229,7 +1227,7 @@ bool GUI_Production_Down_Click(Widget *w)
  */
 bool GUI_Production_Up_Click(Widget *w)
 {
-	bool locdi = false;
+	bool drawDetails = false;
 
 	if (g_factoryWindowSelected != 0) {
 		g_timerTimeout = 10;
@@ -1238,19 +1236,17 @@ bool GUI_Production_Up_Click(Widget *w)
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
-		locdi = true;
+		drawDetails = true;
 	} else {
 		if (g_factoryWindowBase != 0) {
 			g_timerTimeout = 10;
 			g_factoryWindowBase--;
-			locdi = true;
+			drawDetails = true;
 
 			GUI_FactoryWindow_ScrollList(-1);
 
 			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
-			locdi = false;
-
 			GUI_FactoryWindow_DrawDetails();
 
 			GUI_FactoryWindow_FailScrollList(-1);
@@ -1261,7 +1257,7 @@ bool GUI_Production_Up_Click(Widget *w)
 		GUI_FactoryWindow_UpdateSelection(false);
 	}
 
-	if (locdi) GUI_FactoryWindow_DrawDetails();
+	if (drawDetails) GUI_FactoryWindow_DrawDetails();
 
 	GUI_Widget_MakeNormal(w, false);
 
