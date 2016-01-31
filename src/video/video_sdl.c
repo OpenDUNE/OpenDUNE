@@ -267,9 +267,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
 	if (filter == FILTER_HQX) {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_SWSURFACE);
+		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_HWSURFACE | SDL_HWACCEL);
 	} else {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_SWSURFACE | SDL_HWPALETTE);
+		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_HWSURFACE | SDL_HWACCEL | SDL_HWPALETTE);
 	}
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
@@ -445,6 +445,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
  */
 static void Video_DrawScreen(void)
 {
+	SDL_LockSurface(s_gfx_surface);
 	switch(s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
@@ -458,6 +459,7 @@ static void Video_DrawScreen(void)
 	default:
 		Error("Unsupported scale filter\n");
 	}
+	SDL_UnlockSurface(s_gfx_surface);
 }
 
 /**
