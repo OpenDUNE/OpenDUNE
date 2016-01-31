@@ -70,6 +70,7 @@ Available options are :
 - scalefactor : 2 (default), 3, 4
 - scalefilter : nearest (default), scale2x, hqx
 - mt32midi : 0(default)/1 send MT32 init, use .XMI files
+- framerate : maximum frame rate (60 FPS default)
 
 
 Enhancement over Dune2

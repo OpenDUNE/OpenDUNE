@@ -1138,7 +1138,7 @@ static void GameLoop_Main(void)
  * Initialize Timer, Video, Mouse, GFX, Fonts, Random number generator
  * and current Widget
  */
-static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
+static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int frame_rate)
 {
 	if (!Font_Init()) {
 		Error(
@@ -1160,7 +1160,7 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 
 	/* Add the general tickers */
 	Timer_Add(Timer_Tick, 1000000 / 60, false);
-	Timer_Add(Video_Tick, 1000000 / 60, true);
+	Timer_Add(Video_Tick, 1000000 / frame_rate, true);
 
 	g_mouseDisabled = -1;
 
@@ -1199,6 +1199,7 @@ int main(int argc, char **argv)
 	bool commit_dune_cfg = false;
 	VideoScaleFilter scale_filter = FILTER_NEAREST_NEIGHBOR;
 	int scaling_factor = 2;
+	int frame_rate = 60;
 	char filter_text[64];
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
@@ -1276,7 +1277,9 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (!OpenDune_Init(scaling_factor, scale_filter)) exit(1);
+	frame_rate = IniFile_GetInteger("framerate", 60);
+
+	if (!OpenDune_Init(scaling_factor, scale_filter, frame_rate)) exit(1);
 
 	g_mouseDisabled = 0;
 
