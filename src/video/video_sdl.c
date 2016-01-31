@@ -244,6 +244,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
+	/* no filter if scale factor is 1 */
 	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
@@ -340,11 +341,17 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	data += (s_screenOffset << 2);
 	switch(s_screen_magnification) {
 	case 1:
-		memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
+		if (s_gfx_surface->pitch == SCREEN_WIDTH) {
+			memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
+		} else for (y = 0; y < SCREEN_HEIGHT; y++) {
+			memcpy(gfx1, data, SCREEN_WIDTH);
+			data += SCREEN_WIDTH;
+			gfx1 += s_gfx_surface->pitch;
+		}
 		break;
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
-			gfx2 = gfx1 + SCREEN_WIDTH * 2;
+			gfx2 = gfx1 + s_gfx_surface->pitch;
 #if defined(__x86_64__)
 			/* SSE2 code */
 			for (x = SCREEN_WIDTH / 16; x > 0; x--) {
@@ -405,8 +412,8 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		break;
 	case 3:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
-			gfx2 = gfx1 + SCREEN_WIDTH * 3;
-			gfx3 = gfx2 + SCREEN_WIDTH * 3;
+			gfx2 = gfx1 + s_gfx_surface->pitch;
+			gfx3 = gfx2 + s_gfx_surface->pitch;
 			for (x = 0; x < SCREEN_WIDTH; x++) {
 				uint8 value = *data++;
 				*gfx1++ = value;
@@ -428,13 +435,13 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 			for (x = 0; x < SCREEN_WIDTH; x++) {
 				for (i = 0; i < s_screen_magnification; i++) {
 					for (j = 0; j < s_screen_magnification; j++) {
-						*(gfx1 + SCREEN_WIDTH * s_screen_magnification * j) = *data;
+						*(gfx1 + s_gfx_surface->pitch * j) = *data;
 					}
 					gfx1++;
 				}
 				data++;
 			}
-			gfx1 += SCREEN_WIDTH * s_screen_magnification * (s_screen_magnification - 1);
+			gfx1 += s_gfx_surface->pitch * (s_screen_magnification - 1);
 		}
 	}
 }
