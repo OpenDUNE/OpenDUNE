@@ -65,7 +65,6 @@ os/endian.c
 	os/readdir_win32.c
 #else
 	os/error.c
-	os/thread_sdl.c
 	os/readdir.c
 #endif
 pool/house.c
