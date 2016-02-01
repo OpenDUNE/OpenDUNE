@@ -1129,6 +1129,18 @@ static void GameLoop_Main(void)
  */
 static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 {
+	if (!Font_Init()) {
+		Error(
+			"--------------------------\n"
+			"ERROR LOADING DATA FILE\n"
+			"\n"
+			"Did you copy the Dune2 1.07eu data files into the data directory ?\n"
+			"\n"
+		);
+
+		return false;
+	}
+
 	Timer_Init();
 
 	if (!Video_Init(screen_magnification, filter)) return false;
@@ -1143,18 +1155,6 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 
 	GFX_Init();
 	GFX_ClearScreen();
-
-	if (!Font_Init()) {
-		Error(
-			"--------------------------\n"
-			"ERROR LOADING DATA FILE\n"
-			"\n"
-			"Did you copy the Dune2 1.07eu data files into the data directory ?\n"
-			"\n"
-		);
-
-		return false;
-	}
 
 	Font_Select(g_fontNew8p);
 
