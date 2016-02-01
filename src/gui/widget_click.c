@@ -843,14 +843,14 @@ static void FillSavegameDesc(bool save)
 /**
  * Handles Click event for savegame button.
  *
- * @param key The index of the clicked button.
+ * @param index The index of the clicked button.
  * @return True if a game has been saved, False otherwise.
  */
-static bool GUI_Widget_Savegame_Click(uint16 key)
+static bool GUI_Widget_Savegame_Click(uint16 index)
 {
 	WindowDesc *desc = &g_savegameNameWindowDesc;
 	bool loop;
-	char *saveDesc = g_savegameDesc[key];
+	char *saveDesc = g_savegameDesc[index];
 	bool widgetPaint;
 	bool ret;
 
@@ -863,7 +863,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	ret = false;
 	widgetPaint = true;
 
-	if (*saveDesc == '[') key = s_savegameCountOnDisk;
+	if (*saveDesc == '[') index = s_savegameCountOnDisk;
 
 	GFX_Screen_SetActive(SCREEN_0);
 
@@ -874,23 +874,23 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	GUI_Mouse_Show_Safe();
 
 	for (loop = true; loop; sleepIdle()) {
-		uint16 key;
+		uint16 eventKey;
 		Widget *w = g_widgetLinkedListTail;
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 232, 235, 0x22);
 
-		key = GUI_EditBox(saveDesc, 50, 15, g_widgetLinkedListTail, NULL, widgetPaint);
+		eventKey = GUI_EditBox(saveDesc, 50, 15, g_widgetLinkedListTail, NULL, widgetPaint);
 		widgetPaint = false;
 
-		if ((key & 0x8000) == 0) continue;
+		if ((eventKey & 0x8000) == 0) continue;
 
-		GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(w, key & 0x7FFF), false);
+		GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(w, eventKey & 0x7FFF), false);
 
-		switch (key & 0x7FFF) {
+		switch (eventKey & 0x7FFF) {
 			case 0x1E:	/* RETURN / Save Button */
 				if (*saveDesc == 0) break;
 
-				SaveFile(GenerateSavegameFilename(s_savegameIndexBase - key), saveDesc);
+				SaveFile(GenerateSavegameFilename(s_savegameIndexBase - index), saveDesc);
 				loop = false;
 				ret = true;
 				break;
