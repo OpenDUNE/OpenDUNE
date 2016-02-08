@@ -134,7 +134,7 @@ generate_data()
 			print "#2      <ObjectFileName>$(IntDir)" path "\\\\</ObjectFileName>";
 			print "#2    </ClCompile>";
 		} else {
-			print "#2    <ClInclude Include=\\"..\\\\" file "\\"/>";
+			print "#2    <ClInclude Include=\\"..\\\\" file "\\" />";
 		}
 		print "#1" tab "			</File>";
 

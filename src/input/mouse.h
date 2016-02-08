@@ -22,15 +22,15 @@ extern uint16 g_regionMinY;
 extern uint16 g_regionMaxX;
 extern uint16 g_regionMaxY;
 
-extern uint8 g_var_7097;
+extern uint8 g_mouseDisabled;
 extern uint8 g_mouseHiddenDepth;
 extern uint8 g_mouseFileID;
-extern bool g_var_701B;
+extern bool g_mouseNoRecordedValue;
 
-extern uint16 g_var_7013;
-extern uint16 g_var_7015;
-extern uint16 g_var_7017;
-extern uint16 g_var_7019;
+extern uint16 g_mouseInputValue;
+extern uint16 g_mouseRecordedTimer;
+extern uint16 g_mouseRecordedX;
+extern uint16 g_mouseRecordedY;
 
 extern uint8 g_mouseMode;
 extern uint16 g_inputFlags;

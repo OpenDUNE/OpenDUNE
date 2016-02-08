@@ -288,7 +288,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 	mouseY = g_mouseY;
 
 	buttonState = 0;
-	if (g_var_7097 == 0) {
+	if (g_mouseDisabled == 0) {
 		uint16 buttonStateChange = 0;
 
 		/* See if the key was a mouse button action */
@@ -711,10 +711,10 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 }
 
 /**
- * Allocate a widget.
+ * Allocate a scroll button for the Mentat screen scroll bar.
  * @return Allocated widget.
  */
-Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, void *sprite1, void *sprite2, Widget *widget2, uint16 unknown1A)
+Widget *GUI_Widget_AllocateScrollBtn(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, void *sprite1, void *sprite2, Widget *widget2, bool isDown)
 {
 	Widget *w;
 
@@ -742,7 +742,7 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 	w->drawParameterSelected.sprite = sprite1;
 	w->drawParameterDown.sprite     = sprite2;
 
-	if (unknown1A != 0x0) {
+	if (isDown) {
 		w->clickProc = &GUI_Widget_Scrollbar_ArrowDown_Click;
 	} else {
 		w->clickProc = &GUI_Widget_Scrollbar_ArrowUp_Click;

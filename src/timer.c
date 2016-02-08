@@ -81,8 +81,6 @@ static void Timer_InterruptRun(int arg)
 	if (timerLock) return;
 	timerLock = true;
 
-	VARIABLE_NOT_USED(arg);
-
 	/* Calculate the time between calls */
 	new_time   = Timer_GetTime();
 	usec_delta = (new_time - s_timerLastTime) * 1000;
@@ -103,7 +101,7 @@ static void Timer_InterruptRun(int arg)
 			if (node->usec_left <= delta) {
 				delta -= node->usec_left;
 				node->usec_left = node->usec_delay;
-				node->callback();
+				if(arg == 0) node->callback();
 				while (node->usec_left <= delta) delta -= node->usec_left;
 			}
 		} else while (node->usec_left <= delta) {
@@ -141,6 +139,12 @@ void SleepAndProcessBackgroundTasks(void)
 	}
 	s_timer_count = 0;
 	Timer_InterruptRun(0);
+	if(s_timer_count > 0) {
+		/* one more iteration if SIGALRM has been triggered
+		 * during Timer_InterruptRun() */
+		s_timer_count = 0;
+		Timer_InterruptRun(1);	/* don't run "callonce" timers */
+	}
 }
 #endif /* _WIN32 */
 

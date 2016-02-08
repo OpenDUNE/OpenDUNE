@@ -3,6 +3,6 @@
 #ifndef CODEC_FORMAT80_H
 #define CODEC_FORMAT80_H
 
-uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength);
+uint16 Format80_Decode(uint8 *dest, const uint8 *source, uint16 destLength);
 
 #endif /* CODEC_FORMAT80_H */

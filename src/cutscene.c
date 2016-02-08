@@ -30,10 +30,9 @@
 #include "wsa.h"
 
 
-static const HouseAnimation_Animation   *s_houseAnimation_animation = NULL;   /*!< Animation part of animation data. */
 static const HouseAnimation_Subtitle    *s_houseAnimation_subtitle = NULL;    /*!< Subtitle part of animation data. */
 static const HouseAnimation_SoundEffect *s_houseAnimation_soundEffect = NULL; /*!< Soundeffect part of animation data. */
-static uint16 s_var_8062 = 0xFFFF; /*!< Unknown animation data. */
+static uint16 s_feedback_base_index = 0xFFFF; /*!< base index in g_feedback - used in Intro animation.*/
 static uint16 s_var_8068 = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_subtitleWait = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_houseAnimation_currentSubtitle = 0; /*!< Current subtitle (index) part of animation. */
@@ -59,12 +58,11 @@ static void *s_buffer_1832 = NULL;
 
 bool g_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
-static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation, const HouseAnimation_Subtitle *subtitle, uint16 arg_8062, const HouseAnimation_SoundEffect *soundEffect)
+static void GameLoop_PrepareAnimation(const HouseAnimation_Subtitle *subtitle, uint16 feedback_base_index, const HouseAnimation_SoundEffect *soundEffect)
 {
 	uint8 i;
 	uint8 colors[16];
 
-	s_houseAnimation_animation   = animation;
 	s_houseAnimation_subtitle    = subtitle;
 	s_houseAnimation_soundEffect = soundEffect;
 
@@ -73,7 +71,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 
 	g_fontCharOffset = 0;
 
-	s_var_8062 = arg_8062;
+	s_feedback_base_index = feedback_base_index;
 	s_var_8068 = 0;
 	s_subtitleWait = 0xFFFF;
 	s_subtitleActive = false;
@@ -207,12 +205,15 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, subtitle->top == 85 ? 0 : subtitle->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_enableVoices != 0 && s_var_8062 != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && g_config.language == LANGUAGE_ENGLISH) {
-		uint16 loc06 = s_var_8062 + s_houseAnimation_currentSubtitle;
+	if (g_enableVoices != 0 && s_feedback_base_index != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && g_config.language == LANGUAGE_ENGLISH) {
+		/* specific code for Intro
+		 * @see GameLoop_GameIntroAnimation() */
+		uint16 feedback_index = s_feedback_base_index + s_houseAnimation_currentSubtitle;
 
-		Sound_Output_Feedback(loc06);
+		Sound_Output_Feedback(feedback_index);
 
-		if (g_feedback[loc06].messageId != 0) {
+		if (g_feedback[feedback_index].messageId != 0) {
+			/* force drawing of subtitle */
 			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
 		}
 	} else {
@@ -296,25 +297,20 @@ static uint16 GameLoop_PalettePart_Update(bool finishNow)
 	return s_palettePartDirection;
 }
 
-static void GameLoop_PlayAnimation(void)
+static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 {
-	const HouseAnimation_Animation *animation;
 	uint8 animationMode = 0;
 
-	animation = s_houseAnimation_animation;
-
 	while (animation->duration != 0) {
-		uint16 loc04;
+		uint16 frameCount;
 		uint16 posX = 0;
 		uint16 posY = 0;
-		uint32 loc10 = g_timerGUI + animation->duration * 6;
-		uint32 loc14 = loc10 + 30;
-		uint32 loc18;
-		uint32 loc1C;
+		uint32 timeout = g_timerGUI + animation->duration * 6;
+		uint32 timeout2 = timeout + 30;	/* timeout + 0.5 s */
+		uint32 timeLeftForFrame;
+		uint32 timeLeft;
 		uint16 mode = animation->flags & 0x3;
-		bool loc20;
-		uint32 loc24;
-		uint16 locdi;
+		uint16 addFrameCount;	/* additional frame count */
 		uint16 frame;
 		void *wsa;
 
@@ -330,13 +326,15 @@ static void GameLoop_PlayAnimation(void)
 			frame = 0;
 		} else {
 			char filenameBuffer[16];
+			uint32 wsaSize;
+			bool wsaReservedDisplayFrame;
 
 			if (mode == 3) {
 				frame = animation->frameCount;
-				loc20 = true;
+				wsaReservedDisplayFrame = true;
 			} else {
 				frame = 0;
-				loc20 = ((animation->flags & 0x40) != 0) ? true : false;
+				wsaReservedDisplayFrame = ((animation->flags & 0x40) != 0) ? true : false;
 			}
 
 			if ((animation->flags & 0x480) != 0) {
@@ -344,27 +342,25 @@ static void GameLoop_PlayAnimation(void)
 
 				wsa = GFX_Screen_Get_ByIndex(SCREEN_2);
 
-				loc24 = GFX_Screen_GetSize_ByIndex(SCREEN_2) + GFX_Screen_GetSize_ByIndex(SCREEN_3);
-				loc20 = false;
+				wsaSize = GFX_Screen_GetSize_ByIndex(SCREEN_2) + GFX_Screen_GetSize_ByIndex(SCREEN_3);
+				wsaReservedDisplayFrame = false;
 			} else {
 				wsa = GFX_Screen_Get_ByIndex(SCREEN_1);
 
-				loc24 = GFX_Screen_GetSize_ByIndex(SCREEN_1) + GFX_Screen_GetSize_ByIndex(SCREEN_2) + GFX_Screen_GetSize_ByIndex(SCREEN_3);
+				wsaSize = GFX_Screen_GetSize_ByIndex(SCREEN_1) + GFX_Screen_GetSize_ByIndex(SCREEN_2) + GFX_Screen_GetSize_ByIndex(SCREEN_3);
 			}
 
 			snprintf(filenameBuffer, sizeof(filenameBuffer), "%s.WSA", animation->string);
-			wsa = WSA_LoadFile(filenameBuffer, wsa, loc24, loc20);
+			wsa = WSA_LoadFile(filenameBuffer, wsa, wsaSize, wsaReservedDisplayFrame);
 		}
 
-		locdi = 0;
+		addFrameCount = 0;
 		if ((animation->flags & 0x8) != 0) {
-			loc10 -= 45;
-			locdi++;
-		} else {
-			if ((animation->flags & 0x10) != 0) {
-				loc10 -= 15;
-				locdi++;
-			}
+			timeout -= 45;
+			addFrameCount++;
+		} else if ((animation->flags & 0x10) != 0) {
+			timeout -= 15;
+			addFrameCount++;
 		}
 
 		if ((animation->flags & 0x4) != 0) {
@@ -376,12 +372,12 @@ static void GameLoop_PlayAnimation(void)
 
 			GUI_SetPaletteAnimated(g_palette1, 45);
 
-			locdi++;
+			addFrameCount++;
 		} else {
 			if ((animation->flags & 0x480) != 0) {
 				GameLoop_PlaySubtitle(animationMode);
 				WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_1);
-				locdi++;
+				addFrameCount++;
 
 				if ((animation->flags & 0x480) == 0x80) {
 					GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_1, SCREEN_0, 1, false);
@@ -391,31 +387,31 @@ static void GameLoop_PlayAnimation(void)
 			}
 		}
 
-		loc1C = loc10 - g_timerGUI;
-		loc18 = 0;
-		loc04 = 1;
+		timeLeft = timeout - g_timerGUI;
+		timeLeftForFrame = 0;
+		frameCount = 1;
 
 		switch (mode) {
 			case 0:
-				loc04 = animation->frameCount - locdi;
-				loc18 = loc1C / loc04;
+				frameCount = animation->frameCount - addFrameCount;
+				timeLeftForFrame = timeLeft / frameCount;
 				break;
 
 			case 1:
-				loc04 = WSA_GetFrameCount(wsa);
-				loc18 = loc1C / animation->frameCount;
+				frameCount = WSA_GetFrameCount(wsa);
+				timeLeftForFrame = timeLeft / animation->frameCount;
 				break;
 
 			case 2:
-				loc04 = WSA_GetFrameCount(wsa) - locdi;
-				loc18 = loc1C / loc04;
-				loc10 -= loc18;
+				frameCount = WSA_GetFrameCount(wsa) - addFrameCount;
+				timeLeftForFrame = timeLeft / frameCount;
+				timeout -= timeLeftForFrame;
 				break;
 
 			case 3:
 				frame = animation->frameCount;
-				loc04 = 1;
-				loc18 = loc1C / 20;
+				frameCount = 1;
+				timeLeftForFrame = timeLeft / 20;
 				break;
 
 			default:
@@ -424,13 +420,13 @@ static void GameLoop_PlayAnimation(void)
 				exit(0);
 		}
 
-		while (loc10 > g_timerGUI) {
-			g_timerTimeout = loc18;
+		while (timeout > g_timerGUI) {
+			g_timerTimeout = timeLeftForFrame;
 
 			GameLoop_PlaySubtitle(animationMode);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
 
-			if (mode == 1 && frame == loc04) {
+			if (mode == 1 && frame == frameCount) {
 				frame = 0;
 			} else {
 				if (mode == 3) frame--;
@@ -444,7 +440,7 @@ static void GameLoop_PlayAnimation(void)
 			do {
 				GameLoop_PalettePart_Update(false);
 				sleepIdle();
-			} while (g_timerTimeout != 0 && loc10 > g_timerGUI);
+			} while (g_timerTimeout != 0 && timeout > g_timerGUI);
 		}
 
 		if (mode == 2) {
@@ -478,7 +474,7 @@ static void GameLoop_PlayAnimation(void)
 		animationMode++;
 		animation++;
 
-		while (loc14 > g_timerGUI) sleepIdle();
+		while (timeout2 > g_timerGUI) sleepIdle();
 	}
 }
 
@@ -541,11 +537,11 @@ void GameLoop_LevelEndAnimation(void)
 		default: return;
 	}
 
-	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, soundEffect);
+	GameLoop_PrepareAnimation(subtitle, 0xFFFF, soundEffect);
 
 	Music_Play(0x22);
 
-	GameLoop_PlayAnimation();
+	GameLoop_PlayAnimation(animation);
 
 	Driver_Music_FadeOut();
 
@@ -711,7 +707,7 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 				break;
 
 			case 3:
-				GFX_SetPalette(g_palette1 + 256 * 3 * counter);
+				if (counter < 8) GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter-- == 0) {
 					stage++;
@@ -720,7 +716,7 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 				break;
 
 			case 5:
-				GFX_SetPalette(g_palette1 + 256 * 3 * counter);
+				if (counter > 0) GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter++ >= 8) stage = 0;
 				break;
@@ -911,11 +907,11 @@ void GameLoop_GameEndAnimation(void)
 			break;
 	}
 
-	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, soundEffect);
+	GameLoop_PrepareAnimation(subtitle, 0xFFFF, soundEffect);
 
 	Music_Play(sound);
 
-	GameLoop_PlayAnimation();
+	GameLoop_PlayAnimation(animation);
 
 	Driver_Music_FadeOut();
 
@@ -954,17 +950,11 @@ static void Gameloop_Logos(void)
 	
 	WSA_Unload(wsa);
 
-	if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) Voice_LoadVoices(0xFFFF);
+	if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+	Voice_LoadVoices(0xFFFF);
 
 	for (; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
-
-		GUI_SetPaletteAnimated(g_palette2, 30);
-
-		GUI_ClearScreen(SCREEN_0);
-
-		GFX_Screen_SetActive(oldScreenID);
-		return;
+		if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 	}
 
 	GUI_SetPaletteAnimated(g_palette2, 60);
@@ -982,14 +972,7 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 60; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
-
-		GUI_SetPaletteAnimated(g_palette2, 30);
-
-		GUI_ClearScreen(SCREEN_0);
-
-		GFX_Screen_SetActive(oldScreenID);
-		return;
+		if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 	}
 
 	GUI_SetPaletteAnimated(g_palette2, 30);
@@ -1003,16 +986,10 @@ static void Gameloop_Logos(void)
 	GUI_SetPaletteAnimated(g_palette_998A, 30);
 
 	for (g_timerTimeout = 180; g_timerTimeout != 0; sleepIdle()) {
-		if (Input_Keyboard_NextKey() == 0 || !g_canSkipIntro) continue;
-
-		GUI_SetPaletteAnimated(g_palette2, 30);
-
-		GUI_ClearScreen(SCREEN_0);
-
-		GFX_Screen_SetActive(oldScreenID);
-		return;
+		if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 	}
 
+logos_exit:
 	GUI_SetPaletteAnimated(g_palette2, 30);
 
 	GUI_ClearScreen(SCREEN_0);
@@ -1036,9 +1013,10 @@ void GameLoop_GameIntroAnimation(void)
 
 		Music_Play(0x1B);
 
-		GameLoop_PrepareAnimation(animation, subtitle, 0x4A, soundEffect);
+		/* 0x4A = 74 = Intro feedback base index */
+		GameLoop_PrepareAnimation(subtitle, 0x4A, soundEffect);
 
-		GameLoop_PlayAnimation();
+		GameLoop_PlayAnimation(animation);
 
 		Driver_Music_FadeOut();
 

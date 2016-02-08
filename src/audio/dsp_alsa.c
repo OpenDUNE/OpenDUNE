@@ -10,7 +10,6 @@
 #include "dsp.h"
 
 static snd_pcm_t *s_dsp = NULL;
-static snd_pcm_hw_params_t *s_dspParams = NULL;
 static snd_async_handler_t *s_dspAsync = NULL;
 
 static bool s_init = false;
@@ -78,23 +77,41 @@ void DSP_Play(const uint8 *data)
 {
 	uint32 len;
 	uint32 freq;
+	snd_pcm_hw_params_t *dspParams = NULL;
 
 	DSP_Stop();
 
-	data += READ_LE_UINT16(data + 20);
+	data += READ_LE_UINT16(data + 20);	/* skip Create Voice File header */
 
+	/* first byte is Block Type :
+	 * 0x00: Terminator
+	 * 0x01: Sound data
+	 * 0x02: Sound data continuation
+	 * 0x03: Silence
+	 * 0x04: Marker
+	 * 0x05: Text
+	 * 0x06: Repeat start
+	 * 0x07: Repeat end
+	 * 0x08: Extra info
+	 * 0x09: Sound data (New format) */
 	if (*data != 1) return;
 
+	/* next 3 bytes are block size (not including the 1 block type and size 4 bytes) */
 	len = (READ_LE_UINT32(data) >> 8) - 2;
+	data += 4;
+	/* byte  0    frequency divisor
+	 * byte  1    codec id : 0 is "8bits unsigned PCM"
+	 * bytes 2..n audio data */
 
 	if (s_dataLen < len) {
 		s_data = realloc(s_data, len);
 		s_dataLen = len;
 	}
 
-	memcpy(s_data, data + 6, len);
+	memcpy(s_data, data + 2, len);
 
-	freq = 1000000 / (256 - data[4]);
+	freq = 1000000 / (256 - data[0]);
+	if (data[1] != 0) Warning("Unsupported VOC codec 0x%02x\n", (int)data[1]);
 
 	/* Open device */
 	if (snd_pcm_open(&s_dsp, "default", SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK) < 0) {
@@ -104,13 +121,14 @@ void DSP_Play(const uint8 *data)
 	}
 
 	/* Set parameters */
-	snd_pcm_hw_params_alloca(&s_dspParams);
-	snd_pcm_hw_params_any(s_dsp, s_dspParams);
-	snd_pcm_hw_params_set_access(s_dsp, s_dspParams, SND_PCM_ACCESS_RW_INTERLEAVED);
-	snd_pcm_hw_params_set_format(s_dsp, s_dspParams, SND_PCM_FORMAT_U8);
-	snd_pcm_hw_params_set_channels(s_dsp, s_dspParams, 1);
-	snd_pcm_hw_params_set_rate(s_dsp, s_dspParams, freq, 0);
-	if (snd_pcm_hw_params(s_dsp, s_dspParams) < 0) {
+	snd_pcm_hw_params_alloca(&dspParams);
+	assert(dspParams != NULL);
+	if (snd_pcm_hw_params_any(s_dsp, dspParams) < 0) Warning("snd_pcm_hw_params_any() failed\n");
+	snd_pcm_hw_params_set_access(s_dsp, dspParams, SND_PCM_ACCESS_RW_INTERLEAVED);
+	snd_pcm_hw_params_set_format(s_dsp, dspParams, SND_PCM_FORMAT_U8);
+	if (snd_pcm_hw_params_set_channels(s_dsp, dspParams, 1) < 0) Warning("snd_pcm_hw_params_set_channels() failed\n");
+	if (snd_pcm_hw_params_set_rate(s_dsp, dspParams, freq, 0) < 0) Warning("snd_pcm_hw_params_set_rate() failed\n");
+	if (snd_pcm_hw_params(s_dsp, dspParams) < 0) {
 		Error("Failed to set parameters for DSP\n");
 		snd_pcm_close(s_dsp);
 		s_dsp = NULL;
@@ -127,6 +145,7 @@ void DSP_Play(const uint8 *data)
 	} else {
 		/* Async callbacks not supported. Fallback on a more ugly way to detect end-of-stream */
 		s_bufferDone = snd_pcm_avail(s_dsp);
+		Warning("dsp_alsa: Async callbacks not supported. %d PCM byte available\n", (int)s_bufferDone);
 	}
 
 	/* Write as much as we can to start playback */

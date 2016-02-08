@@ -38,15 +38,15 @@ uint16 g_regionMinY;         /*!< Region - minimum value for Y position. */
 uint16 g_regionMaxX;         /*!< Region - maximum value for X position. */
 uint16 g_regionMaxY;         /*!< Region - maximum value for Y position. */
 
-uint8 g_var_7097;
+uint8 g_mouseDisabled;       /*!< Mouse disabled flag */
 uint8 g_mouseHiddenDepth;
 uint8 g_mouseFileID;
-bool g_var_701B;
 
-uint16 g_var_7013;
-uint16 g_var_7015;
-uint16 g_var_7017;
-uint16 g_var_7019;
+bool g_mouseNoRecordedValue; /*!< used in INPUT_MOUSE_MODE_PLAY */
+uint16 g_mouseInputValue;
+uint16 g_mouseRecordedTimer;
+uint16 g_mouseRecordedX;
+uint16 g_mouseRecordedY;
 
 uint8 g_mouseMode;
 uint16 g_inputFlags;
@@ -64,7 +64,7 @@ void Mouse_Init(void)
 	g_mouseRegionRight = SCREEN_WIDTH - 1;
 	g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
-	g_var_7097 = true;
+	g_mouseDisabled = 1;
 
 	Video_Mouse_SetPosition(g_mouseX, g_mouseY);
 }
@@ -76,7 +76,7 @@ void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft
 {
 	uint8 newButtonState = (mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0);
 
-	if (g_var_7097 == 0 && (g_mouseMode != INPUT_MOUSE_MODE_RECORD || g_fileOperation == 0)) {
+	if (g_mouseDisabled == 0 && (g_mouseMode != INPUT_MOUSE_MODE_RECORD || g_fileOperation == 0)) {
 		if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}
@@ -159,14 +159,14 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 				File_Close(g_mouseFileID);
 			}
 			g_mouseFileID = 0xFF;
-			g_var_701B = true;
+			g_mouseNoRecordedValue = true;
 			break;
 
 		case INPUT_MOUSE_MODE_RECORD:
 			if (g_mouseFileID != 0xFF) break;
 
-			File_Delete(filename);
-			File_Create(filename);
+			File_Delete_Personal(filename);
+			File_Create_Personal(filename);
 
 			Tools_RandomLCG_Seed(0x1234);
 			Tools_Random_Seed(0x12344321);
@@ -188,28 +188,29 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 				Tools_Random_Seed(0x12344321);
 			}
 
-			g_var_701B = true;
+			g_mouseNoRecordedValue = true;
 
-			File_Read(g_mouseFileID, &g_var_7013, 2);
-			if (File_Read(g_mouseFileID, &g_var_7015, 2) != 2) break;;
+			File_Read(g_mouseFileID, &g_mouseInputValue, 2);
+			if (File_Read(g_mouseFileID, &g_mouseRecordedTimer, 2) != 2) break;;
 
-			if ((g_var_7013 >= 0x41 && g_var_7013 <= 0x44) || g_var_7013 == 0x2D) {
-				File_Read(g_mouseFileID, &g_var_7017, 2);
-				if (File_Read(g_mouseFileID, &g_var_7019, 2) == 2) {
-					g_mouseX = g_var_7017;
-					g_mouseY = g_var_7019;
+			if ((g_mouseInputValue >= 0x41 && g_mouseInputValue <= 0x44) || g_mouseInputValue == 0x2D) {
+				/* 0x2D == '-' 0x41 == 'A' [...] 0x44 == 'D' */
+				File_Read(g_mouseFileID, &g_mouseRecordedX, 2);
+				if (File_Read(g_mouseFileID, &g_mouseRecordedY, 2) == 2) {
+					g_mouseX = g_mouseRecordedX;
+					g_mouseY = g_mouseRecordedY;
 					g_prevButtonState = 0;
 
 					GUI_Mouse_Hide_Safe();
 					GUI_Mouse_Show_Safe();
 
-					g_var_701B = false;
+					g_mouseNoRecordedValue = false;
 					break;
 				}
-				g_var_701B = true;
+				g_mouseNoRecordedValue = true;
 				break;
 			}
-			g_var_701B = false;
+			g_mouseNoRecordedValue = false;
 			break;
 	}
 

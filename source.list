@@ -15,7 +15,11 @@ audio/midi_win32.c
 			#if SDL
 				audio/dsp_sdl.c
 			#else
-				audio/dsp_none.c
+				#if SDL2
+					audio/dsp_sdl.c
+				#else
+					audio/dsp_none.c
+				#endif
 			#endif
 		#endif
 	#endif
@@ -70,7 +74,6 @@ os/endian.c
 	os/readdir_win32.c
 #else
 	os/error.c
-	os/thread_sdl.c
 	os/readdir.c
 #endif
 pool/house.c
@@ -122,8 +125,19 @@ unit.c
 #if WIN32
 	video/video_win32.c
 #else
-	video/video_sdl.c
+	#if SDL2
+		video/video_sdl2.c
+	#else
+		video/video_sdl.c
+	#endif
 #endif
+video/hqx_init.c
+video/hq2x_8b.c
+video/hq3x_8b.c
+video/hq4x_8b.c
+video/scalebit.c
+video/scale2x.c
+video/scale3x.c
 wsa.c
 
 # Header files
@@ -183,4 +197,9 @@ timer.h
 tools.h
 unit.h
 video/video.h
+video/hqx_common.h
+video/hqx.h
+video/scale2x.h
+video/scale3x.h
+video/scalebit.h
 wsa.h

@@ -21,6 +21,7 @@
 	#define strcasecmp _stricmp
 	#define strncasecmp _strnicmp
 
+	#if _MSC_VER < 1900
 	static int snprintf(char *str, size_t size, const char *format, ...)
 	{
 		va_list ap;
@@ -65,6 +66,8 @@
 		str[size - 1] = '\0';
 		return (int)size;
 	}
+	#endif /* _MSC_VER < 1900 */
+
 #elif !defined(__TINYC__)
 	#include <stdio.h>
 	#include <strings.h>

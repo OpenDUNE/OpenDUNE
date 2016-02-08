@@ -4,15 +4,23 @@
 #define SOUND_H
 
 /** Information about sound files. */
-typedef struct SoundData {
+typedef struct VoiceData {
 	const char *string; /*!< Pointer to a string. */
-	uint16 variable_04; /*!< ?? */
-} SoundData;
+	uint16 priority;    /*!< priority */
+} VoiceData;
+
+/** Information about sound files. */
+typedef struct MusicData {
+	const char *string; /*!< Pointer to a string. */
+	uint16 index;       /*!< index */
+} MusicData;
 
 /** Maximal number of spoken audio fragments in one message. */
 #define NUM_SPEECH_PARTS 5
 
-/** Audio and visual feedback about events and commands. */
+/** Audio and visual feedback about events and commands.
+ * in Intro, messageId is used as a flag (force drawing
+ * of message if messageId == 1) */
 typedef struct Feedback {
 	uint16 voiceId[NUM_SPEECH_PARTS]; /*!< English spoken text. */
 	uint16 messageId;                 /*!< Message to display in the viewport when audio is disabled. */
@@ -23,8 +31,8 @@ typedef struct Feedback {
 #define NUM_VOICES 131
 
 extern const uint16 g_table_voiceMapping[];
-extern const SoundData g_table_musics[];
-extern const SoundData g_table_voices[];
+extern const MusicData g_table_musics[];
+extern const VoiceData g_table_voices[];
 extern const Feedback g_feedback[];
 extern const uint16 g_translatedVoice[][NUM_SPEECH_PARTS];
 
@@ -37,6 +45,5 @@ extern void Voice_UnloadVoices(void);
 extern void Sound_StartSound(uint16 index);
 extern void Sound_Output_Feedback(uint16 index);
 extern bool Sound_StartSpeech(void);
-extern void *Sound_Unknown0823(const char *filename, uint32 *retFileSize);
 
 #endif /* SOUND_H */

@@ -294,7 +294,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	found = memchr(actions, unitAction, 4);
 	if (found == NULL) return true;
 
-	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, found - actions + 8), false);
+	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, (uint16)(found - actions + 8)), false);
 
 	return true;
 }
@@ -805,7 +805,7 @@ static uint16 GetSavegameCount(void)
 	uint16 i;
 
 	for (i = 0;; i++) {
-		if (!File_Exists(GenerateSavegameFilename(i))) return i;
+		if (!File_Exists_Personal(GenerateSavegameFilename(i))) return i;
 	}
 }
 
@@ -831,9 +831,8 @@ static void FillSavegameDesc(bool save)
 
 		filename = GenerateSavegameFilename(s_savegameIndexBase - i);
 
-		if (!File_Exists(filename)) continue;
-
-		fileId = ChunkFile_Open(filename);
+		fileId = ChunkFile_Open_Personal(filename);
+		if (fileId == FILE_INVALID) continue;
 		ChunkFile_Read(fileId, HTOBE32(CC_NAME), desc, 50);
 		ChunkFile_Close(fileId);
 		continue;
@@ -844,16 +843,15 @@ static void FillSavegameDesc(bool save)
 /**
  * Handles Click event for savegame button.
  *
- * @param key The index of the clicked button.
+ * @param index The index of the clicked button.
  * @return True if a game has been saved, False otherwise.
  */
-static bool GUI_Widget_Savegame_Click(uint16 key)
+static bool GUI_Widget_Savegame_Click(uint16 index)
 {
 	WindowDesc *desc = &g_savegameNameWindowDesc;
 	bool loop;
-	char *saveDesc = g_savegameDesc[key];
-	uint16 loc08;
-	uint16 loc0A;
+	char *saveDesc = g_savegameDesc[index];
+	bool widgetPaint;
 	bool ret;
 
 	if (*saveDesc == '[') *saveDesc = 0;
@@ -863,9 +861,9 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	GUI_Window_Create(desc);
 
 	ret = false;
-	loc08 = 1;
+	widgetPaint = true;
 
-	if (*saveDesc == '[') key = s_savegameCountOnDisk;
+	if (*saveDesc == '[') index = s_savegameCountOnDisk;
 
 	GFX_Screen_SetActive(SCREEN_0);
 
@@ -876,27 +874,28 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	GUI_Mouse_Show_Safe();
 
 	for (loop = true; loop; sleepIdle()) {
+		uint16 eventKey;
 		Widget *w = g_widgetLinkedListTail;
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 232, 235, 0x22);
 
-		loc0A = GUI_EditBox(saveDesc, 50, 15, g_widgetLinkedListTail, NULL, loc08);
-		loc08 = 2;
+		eventKey = GUI_EditBox(saveDesc, 50, 15, g_widgetLinkedListTail, NULL, widgetPaint);
+		widgetPaint = false;
 
-		if ((loc0A & 0x8000) == 0) continue;
+		if ((eventKey & 0x8000) == 0) continue;
 
-		GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(w, loc0A & 0x7FFF), false);
+		GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(w, eventKey & 0x7FFF), false);
 
-		switch (loc0A & 0x7FFF) {
-			case 0x1E:
+		switch (eventKey & 0x7FFF) {
+			case 0x1E:	/* RETURN / Save Button */
 				if (*saveDesc == 0) break;
 
-				SaveFile(GenerateSavegameFilename(s_savegameIndexBase - key), saveDesc);
+				SaveFile(GenerateSavegameFilename(s_savegameIndexBase - index), saveDesc);
 				loop = false;
 				ret = true;
 				break;
 
-			case 0x1F:
+			case 0x1F:	/* ESCAPE / Cancel Button */
 				loop = false;
 				ret = false;
 				FillSavegameDesc(true);
@@ -1042,7 +1041,7 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 
 		memset(data, 0, 128);
 
-		if (File_Exists("SAVEFAME.DAT")) File_Delete("SAVEFAME.DAT");
+		if (File_Exists_Personal("SAVEFAME.DAT")) File_Delete_Personal("SAVEFAME.DAT");
 
 		GUI_HallOfFame_DrawData(data, true);
 
@@ -1184,7 +1183,7 @@ static void GUI_FactoryWindow_FailScrollList(int16 step)
  */
 bool GUI_Production_Down_Click(Widget *w)
 {
-	bool locdi = false;
+	bool drawDetails = false;
 
 	if (g_factoryWindowSelected < 3 && (g_factoryWindowSelected + 1) < g_factoryWindowTotal) {
 		g_timerTimeout = 10;
@@ -1193,19 +1192,17 @@ bool GUI_Production_Down_Click(Widget *w)
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
-		locdi = true;
+		drawDetails = true;
 	} else {
 		if (g_factoryWindowBase + 4 < g_factoryWindowTotal) {
 			g_timerTimeout = 10;
 			g_factoryWindowBase++;
-			locdi = true;
+			drawDetails = true;
 
 			GUI_FactoryWindow_ScrollList(1);
 
 			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
-			locdi = false;
-
 			GUI_FactoryWindow_DrawDetails();
 
 			GUI_FactoryWindow_FailScrollList(1);
@@ -1216,7 +1213,7 @@ bool GUI_Production_Down_Click(Widget *w)
 		GUI_FactoryWindow_UpdateSelection(false);
 	}
 
-	if (locdi) GUI_FactoryWindow_DrawDetails();
+	if (drawDetails) GUI_FactoryWindow_DrawDetails();
 
 	GUI_Widget_MakeNormal(w, false);
 
@@ -1230,7 +1227,7 @@ bool GUI_Production_Down_Click(Widget *w)
  */
 bool GUI_Production_Up_Click(Widget *w)
 {
-	bool locdi = false;
+	bool drawDetails = false;
 
 	if (g_factoryWindowSelected != 0) {
 		g_timerTimeout = 10;
@@ -1239,19 +1236,17 @@ bool GUI_Production_Up_Click(Widget *w)
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
-		locdi = true;
+		drawDetails = true;
 	} else {
 		if (g_factoryWindowBase != 0) {
 			g_timerTimeout = 10;
 			g_factoryWindowBase--;
-			locdi = true;
+			drawDetails = true;
 
 			GUI_FactoryWindow_ScrollList(-1);
 
 			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
-			locdi = false;
-
 			GUI_FactoryWindow_DrawDetails();
 
 			GUI_FactoryWindow_FailScrollList(-1);
@@ -1262,7 +1257,7 @@ bool GUI_Production_Up_Click(Widget *w)
 		GUI_FactoryWindow_UpdateSelection(false);
 	}
 
-	if (locdi) GUI_FactoryWindow_DrawDetails();
+	if (drawDetails) GUI_FactoryWindow_DrawDetails();
 
 	GUI_Widget_MakeNormal(w, false);
 
@@ -1307,7 +1302,7 @@ static void GUI_Purchase_ShowInvoice(void)
 			oi = g_factoryWindowItems[i].objectInfo;
 			GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, y, 8, 0, 0x11);
 
-			GUI_DrawText_Monospace(textBuffer, 311 - strlen(textBuffer) * 6, y, 15, 0, 6);
+			GUI_DrawText_Monospace(textBuffer, 311 - (short)strlen(textBuffer) * 6, y, 15, 0, 6);
 
 			y += 8;
 		}
@@ -1320,7 +1315,7 @@ static void GUI_Purchase_ShowInvoice(void)
 
 	snprintf(textBuffer, sizeof(textBuffer), "%d", total);
 
-	x = 311 - strlen(textBuffer) * 6;
+	x = 311 - (short)strlen(textBuffer) * 6;
 
 	/* "Total Cost :" */
 	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(STR_TOTAL_COST_), x - 3, 152, 11, 0, 0x211);
