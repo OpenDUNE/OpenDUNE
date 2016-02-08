@@ -1626,7 +1626,7 @@ detect_asound() {
 }
 
 detect_pulseaudio() {
-	detect_library "$with_pulse" "pulseaudio" "libpulse.a" "pulse/" "pulseaudio.h"
+	detect_library "$with_pulse" "pulse" "libpulse.a" "pulse/" "pulseaudio.h"
 }
 
 _detect_sort() {
