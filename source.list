@@ -5,16 +5,24 @@ audio/driver.c
 audio/dsp_win32.c
 audio/midi_win32.c
 #else
-	#if ALSA
-#		audio/dsp_alsa.c
+# DSP
+	#if PULSE
 		audio/dsp_pulse.c
+	#else
+		#if ALSA
+			audio/dsp_alsa.c
+		#else
+			#if SDL
+				audio/dsp_sdl.c
+			#else
+				audio/dsp_none.c
+			#endif
+		#endif
+	#endif
+# MIDI
+	#if ALSA
 		audio/midi_alsa.c
 	#else
-		#if SDL
-			audio/dsp_sdl.c
-		#else
-			audio/dsp_none.c
-		#endif
 		#if OSX
 			audio/midi_osx.c
 		#else

@@ -37,6 +37,7 @@ set_default() {
 	with_osx_sysroot="1"
 	with_sdl="1"
 	with_asound="1"
+	with_pulse="1"
 	enable_builtin_depend="1"
 	with_makedepend="0"
 	with_sort="1"
@@ -69,6 +70,7 @@ set_default() {
 		with_osx_sysroot
 		with_sdl
 		with_asound
+		with_pulse
 		enable_builtin_depend
 		with_makedepend
 		with_sort
@@ -168,6 +170,10 @@ detect_params() {
 			--with-alsa)                  with_asound="2";;
 			--without-alsa)               with_asound="0";;
 			--with-alsa=*)                with_asound="$optarg";;
+
+			--with-pulse)                 with_pulse="2";;
+			--without-pulse)              with_pulse="0";;
+			--with-pulse=*)               with_pulse="$optarg";;
 
 			--disable-builtin-depend)     enable_builtin_depend="0";;
 			--enable-builtin-depend)      enable_builtin_depend="2";;
@@ -406,6 +412,7 @@ check_params() {
 
 	detect_sdl
 	detect_asound
+	detect_pulseaudio
 
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
 		log 1 "checking GDI video driver... found"
@@ -937,6 +944,11 @@ make_cflags_and_ldflags() {
 			LIBS="$LIBS -lasound"
 		fi
 		CFLAGS="$CFLAGS -DALSA"
+	fi
+
+	if [ "$with_pulse" != "0" ]; then
+		LIBS="$LIBS $(pkg-config --libs-only-l)"
+		CFLAGS="$CFLAGS $(pkg-config --cflags libpulse)"
 	fi
 
 	if [ "$enable_assert" = "0" ]; then
@@ -1548,6 +1560,10 @@ detect_asound() {
 	detect_library "$with_asound" "asound" "libasound.a" "alsa/" "asoundlib.h"
 }
 
+detect_pulseaudio() {
+	detect_library "$with_pulse" "pulseaudio" "libpulse.a" "pulse/" "pulseaudio.h"
+}
+
 _detect_sort() {
 	sort_test_in="d
 a
@@ -1858,6 +1874,7 @@ showhelp() {
 	echo "  --with-sort=sort               define a non-default location for sort"
 	echo "  --with-sdl[=sdl-config]        enables SDL video driver support"
 	echo "  --with-asound[=libasound.a]    enables ALSA support"
+	echo "  --with-pulse[=libpulse.a]      enables PulseAudio support"
 	echo "  --disable-builtin-depend       disable use of builtin deps finder"
 	echo "  --with-makedepend[=makedepend] enables makedepend support"
 	echo "  --with-ccache                  enables ccache support"
