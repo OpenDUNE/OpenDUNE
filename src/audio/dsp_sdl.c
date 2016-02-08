@@ -20,7 +20,12 @@ static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 {
 	VARIABLE_NOT_USED(userdata);
 
-	if (s_status == 0 || s_bufferLen == 0 || s_buffer == NULL) return;
+	if (s_status == 0 || s_bufferLen == 0 || s_buffer == NULL) {
+		/* no more sample to play : */
+		memset(stream, 0x80, len);	/* fill buffer with silence */
+		SDL_PauseAudio(1);	/* stop playback */
+		return;
+	}
 
 	if (len <= (int)s_bufferLen) {
 		memcpy(stream, s_buffer, len);
@@ -28,7 +33,9 @@ static void DSP_Callback(void *userdata, Uint8 *stream, int len)
 		s_buffer += len;
 	} else {
 		memcpy(stream, s_buffer, s_bufferLen);
+		memset(stream + s_bufferLen, 0x80, len - s_bufferLen);	/* fill buffer end with silence */
 		s_bufferLen = 0;
+		s_buffer = NULL;
 		s_status = 0;
 	}
 }
