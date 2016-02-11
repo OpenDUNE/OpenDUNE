@@ -37,6 +37,8 @@ static void *s_screen2 = NULL;
 static uint16 s_x;
 static uint16 s_y;
 
+static uint16 s_screenOffset = 0;
+
 static bool s_mouseTracking = false;
 
 static uint16 s_mousePosX = 0;
@@ -317,6 +319,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
+	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_screen_magnification = screen_magnification;
 	s_scale_filter = filter;
 
@@ -403,6 +406,7 @@ void Video_Uninit(void)
 void Video_Tick(void)
 {
 	MSG msg;
+	const uint8 * screen0;
 
 	if (!s_init) return;
 
@@ -437,15 +441,14 @@ void Video_Tick(void)
 		DispatchMessage(&msg);
 	}
 
+	screen0 = GFX_Screen_Get_ByIndex(SCREEN_0);
+	screen0 += s_screenOffset;
 	/* Do a quick compare to see if the screen changed at all */
-	if (memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
-		s_lock = false;
-		return;
+	if (memcmp(screen0, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
+		memcpy(s_screen, screen0, SCREEN_WIDTH * SCREEN_HEIGHT);
+		InvalidateRect(s_hwnd, NULL, TRUE);
 	}
 
-	memcpy(s_screen, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
-
-	InvalidateRect(s_hwnd, NULL, TRUE);
 	s_lock = false;
 }
 
@@ -498,4 +501,15 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 	s_mouseMaxX = maxX * s_screen_magnification;
 	s_mouseMinY = minY * s_screen_magnification;
 	s_mouseMaxY = maxY * s_screen_magnification;
+}
+
+/*
+ * change the screen offset, equivalent to changing the
+ * Start Address Register on a VGA card.
+ * VGA Hardware has 4 "maps" of 64kB.
+ * @param offset The address granularity is 4bytes
+ */
+void Video_SetOffset(uint16 offset)
+{
+	s_screenOffset = offset;
 }
