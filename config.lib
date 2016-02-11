@@ -24,7 +24,7 @@ set_default() {
 	config_log="config.log"
 	prefix_dir="/usr/local"
 	binary_dir="games"
-	doc_dir="share/games/doc/opendune"
+	doc_dir="share/doc/opendune"
 	data_dir="share/games/opendune"
 	install_dir="/"
 	binary_name="opendune"
