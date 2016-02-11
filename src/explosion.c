@@ -16,6 +16,9 @@
 #include "tile.h"
 #include "timer.h"
 #include "tools.h"
+#include "os/error.h"
+#include "os/sleep.h"
+#include "video/video.h"
 
 
 static Explosion g_explosions[EXPLOSION_MAX];               /*!< Explosions. */
@@ -120,10 +123,22 @@ static void Explosion_Func_PlayVoice(Explosion *e, uint16 voiceID)
  */
 static void Explosion_Func_ScreenShake(Explosion *e, uint16 parameter)
 {
+	int i;
+#ifdef _DEBUG
+	Debug("Explosion_Func_ScreenShake(%p, %d)\n", e, parameter);
+#else
 	VARIABLE_NOT_USED(e);
 	VARIABLE_NOT_USED(parameter);
+#endif
 
-	/* TODO -- Implement this function */
+	for(i = 0; i < 2; i++) {
+		sleepIdle();
+		sleepIdle();
+		Video_SetOffset(320);
+		sleepIdle();
+		sleepIdle();
+		Video_SetOffset(0);
+	}
 }
 
 /**

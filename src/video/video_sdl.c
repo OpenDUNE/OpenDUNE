@@ -54,6 +54,7 @@ static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
 static uint8 s_gfx_screen8[SCREEN_WIDTH * SCREEN_HEIGHT];
+static uint16 s_screenOffset = 0;
 
 /* translation from SDLKey (symbolic codes) to AT (or XT ?) keyboard scancodes
  * Dune 2 input code handle extended scancodes (prefixed with e0, we could generate them also) */
@@ -276,6 +277,7 @@ void Video_Uninit(void)
 static void Video_DrawScreen_Scale2x(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+	data += (s_screenOffset << 2);
 	scale(s_screen_magnification, s_gfx_surface->pixels, s_screen_magnification * SCREEN_WIDTH, data, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
@@ -284,6 +286,7 @@ static void Video_DrawScreen_Hqx(void)
 	uint8 *p;
 
 	p = GFX_Screen_Get_ByIndex(SCREEN_0);
+	p += (s_screenOffset << 2);
 
 	switch(s_screen_magnification) {
 	case 2:
@@ -310,6 +313,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	int x, y;
 	int i, j;
 
+	data += (s_screenOffset << 2);
 	switch(s_screen_magnification) {
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
@@ -564,4 +568,16 @@ void Video_SetPalette(void *palette, int from, int length)
 	}
 
 	s_video_lock = false;
+}
+
+/*
+ * change the screen offset, equivalent to changing the
+ * Start Address Register on a VGA card.
+ * VGA Hardware has 4 "maps" of 64kB.
+ * @param offset The address granularity is 4bytes
+ */
+void Video_SetOffset(uint16 offset)
+{
+	s_screenOffset = offset;
+	s_screen_needrepaint = true;
 }

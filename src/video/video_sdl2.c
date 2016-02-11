@@ -43,6 +43,8 @@ static uint16 s_mouseMaxX = 0;
 static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
+static uint16 s_screenOffset = 0;	/* VGA Start Address Register */
+
 /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
 static const uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
@@ -330,6 +332,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	int x, y;
 	uint32 * p;
 
+	gfx_screen8 += (s_screenOffset << 2);
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
 		return;
@@ -354,6 +357,8 @@ static void Video_DrawScreen_Scale2x(void)
 	int pitch;
 	int x, y;
 	uint32 * p;
+
+	data += (s_screenOffset << 2);
 
 	/* first use scale2x */
 	scale(s_screen_magnification, s_fullsize_buffer, s_screen_magnification * SCREEN_WIDTH,
@@ -385,6 +390,7 @@ static void Video_DrawScreen_Hqx(void)
 	int pitch;
 
 	src = GFX_Screen_Get_ByIndex(SCREEN_0);
+	src += (s_screenOffset << 2);
 
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
@@ -518,4 +524,15 @@ void Video_SetPalette(void *palette, int from, int length)
 	}
 
 	s_video_lock = false;
+}
+
+/*
+ * change the screen offset, equivalent to changing the
+ * Start Address Register on a VGA card.
+ * VGA Hardware has 4 "maps" of 64kB.
+ * @param offset The address granularity is 4bytes
+ */
+void Video_SetOffset(uint16 offset)
+{
+	s_screenOffset = offset;
 }
