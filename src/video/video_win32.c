@@ -442,7 +442,7 @@ void Video_Tick(void)
 	}
 
 	screen0 = GFX_Screen_Get_ByIndex(SCREEN_0);
-	screen0 += s_screenOffset;
+	screen0 += (s_screenOffset << 2);
 	/* Do a quick compare to see if the screen changed at all */
 	if (memcmp(screen0, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
 		memcpy(s_screen, screen0, SCREEN_WIDTH * SCREEN_HEIGHT);
