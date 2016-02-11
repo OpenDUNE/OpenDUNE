@@ -223,7 +223,7 @@ extern void    GUI_Widget_Draw(Widget *w);
 extern uint8   GUI_Widget_GetShortcut(uint8 c);
 extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID);
 extern Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, ScrollbarDrawProc *drawProc);
-extern Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, void *sprite1, void *sprite2, Widget *widget2, uint16 unknown1A);
+extern Widget *GUI_Widget_AllocateScrollBtn(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, void *sprite1, void *sprite2, Widget *widget2, bool isDown);
 extern void    GUI_Widget_MakeNormal(Widget *w, bool clickProc);
 extern void    GUI_Widget_MakeSelected(Widget *w, bool clickProc);
 extern Widget *GUI_Widget_Link(Widget *w1, Widget *w2);
@@ -238,7 +238,7 @@ extern void Widget_PaintCurrentWidget(void);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
-extern void GUI_Widget_Viewport_Draw(bool forceRedraw, bool arg08, bool drawToMainScreen);
+extern void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMainScreen);
 extern void GUI_Widget_Viewport_DrawTile(uint16 packed);
 extern void GUI_Widget_Viewport_RedrawMap(uint16 screenID);
 

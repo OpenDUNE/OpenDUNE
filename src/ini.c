@@ -30,7 +30,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 
 	sprintf(buffer, "[%s]", category);
 	for (s = buffer; *s != '\0'; s++) *s = toupper(*s);
-	catLength = strlen(buffer);
+	catLength = (uint16)strlen(buffer);
 
 	ret = source;
 
@@ -41,7 +41,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 		if (current == NULL) break;
 
 		if (strncasecmp(current, buffer, catLength) != 0) continue;
-		if (*(current - 1) != '\r' && *(current - 1) != '\n') continue;
+		if (current != source && *(current - 1) != '\r' && *(current - 1) != '\n') continue;
 
 		current += catLength;
 		while (isspace((uint8)*current)) current++;
@@ -58,11 +58,11 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 		if (end == NULL) end = current + strlen(current);
 
 		if (key != NULL) {
-			uint16 keyLength = strlen(key);
+			uint16 keyLength = (uint16)strlen(key);
 
 			ret = current;
 
-			while (true) {
+			while (current < end) {
 				char *value;
 				char *lineEnd;
 
@@ -94,7 +94,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 
 				/* Copy the value */
 				if (dest != NULL) {
-					uint16 len = lineEnd - current;
+					uint16 len = (uint16)(lineEnd - current);
 					memcpy(dest, current, len);
 					*(dest + len) = '\0';
 
@@ -105,7 +105,6 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 			}
 
 			/* Failed to find the key. Return anyway. */
-			if (dest != NULL) *dest = '\0';
 			return NULL;
 		}
 
@@ -120,7 +119,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 			lineEnd = strchr(current, '=');
 			if (lineEnd == NULL || lineEnd > end) break;
 
-			len = lineEnd - current;
+			len = (uint16)(lineEnd - current);
 			memcpy(dest, current, len);
 			*(dest + len) = '\0';
 
@@ -135,6 +134,7 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 		}
 
 		*dest++ = '\0';
+		/* end the list with a zero element */
 		*dest++ = '\0';
 
 		return ret;
@@ -169,7 +169,7 @@ void Ini_SetString(const char *category, const char *key, const char *value, cha
 
 	s = Ini_GetString(category, key, NULL, NULL, 0, source);
 	if (s != NULL) {
-		uint16 count = strcspn(s, "\r\n");
+		uint16 count = (uint16)strcspn(s, "\r\n");
 		if (count != 0) {
 			/* Drop first line if not empty */
 			size_t len = strlen(s + count + 1) + 1;

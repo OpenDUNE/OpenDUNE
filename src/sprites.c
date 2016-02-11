@@ -57,7 +57,7 @@ static bool s_iconLoaded = false;
  * @param index The index of the sprite to get.
  * @return The sprite.
  */
-static uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index)
+static const uint8 *Sprites_GetSprite(const uint8 *buffer, uint16 index)
 {
 	uint32 offset;
 
@@ -93,7 +93,7 @@ static void Sprites_Load(const char *filename)
 	g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
 
 	for (i = 0; i < count; i++) {
-		uint8 *src = Sprites_GetSprite(buffer, i);
+		const uint8 *src = Sprites_GetSprite(buffer, i);
 		uint8 *dst = NULL;
 
 		if (src != NULL) {
@@ -317,6 +317,7 @@ static uint32 Sprites_LoadCPSFile(const char *filename, Screen screenID, uint8 *
  */
 uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette)
 {
+#if 0
 	uint8 index;
 	uint32 header;
 
@@ -325,7 +326,7 @@ uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette)
 
 	File_Read(index, &header, 4);
 	File_Close(index);
-
+#endif
 	return Sprites_LoadCPSFile(filename, screenID, palette) / 8000;
 }
 
@@ -333,7 +334,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 {
 	uint16 size;
 
-	if (sprite == NULL || g_var_7097 != 0) return;
+	if (sprite == NULL || g_mouseDisabled != 0) return;
 
 	while (g_mouseLock != 0) sleepIdle();
 

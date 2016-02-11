@@ -15,6 +15,7 @@
 #endif /* _WIN32 */
 #include "types.h"
 #include "os/sleep.h"
+#include "os/error.h"
 
 #include "timer.h"
 
@@ -33,6 +34,7 @@ typedef struct TimerNode {
 	uint32 usec_left;
 	uint32 usec_delay;
 	void (*callback)(void);
+	bool callonce;
 } TimerNode;
 
 #if defined(_WIN32)
@@ -49,7 +51,7 @@ static int s_timerNodeSize  = 0;
 
 static uint32 s_timerLastTime;
 
-static const uint32 s_timerSpeed = 10000; /* Our timer runs at 100Hz */
+static const uint32 s_timerSpeed = 1000000 / 120; /* Our timer runs at 120Hz */
 
 
 static uint32 Timer_GetTime(void)
@@ -79,8 +81,6 @@ static void Timer_InterruptRun(int arg)
 	if (timerLock) return;
 	timerLock = true;
 
-	VARIABLE_NOT_USED(arg);
-
 	/* Calculate the time between calls */
 	new_time   = Timer_GetTime();
 	usec_delta = (new_time - s_timerLastTime) * 1000;
@@ -97,7 +97,14 @@ static void Timer_InterruptRun(int arg)
 			continue;
 		}
 
-		while (node->usec_left <= delta) {
+		if (node->callonce) {
+			if (node->usec_left <= delta) {
+				delta -= node->usec_left;
+				node->usec_left = node->usec_delay;
+				if(arg == 0) node->callback();
+				while (node->usec_left <= delta) delta -= node->usec_left;
+			}
+		} else while (node->usec_left <= delta) {
 			delta -= node->usec_left;
 			node->usec_left = node->usec_delay;
 			node->callback();
@@ -107,6 +114,39 @@ static void Timer_InterruptRun(int arg)
 
 	timerLock = false;
 }
+
+#if !defined(_WIN32)
+static volatile sig_atomic_t s_timer_count = 0;
+
+static void Timer_Handler(int sig)
+{
+	VARIABLE_NOT_USED(sig);
+	
+	/* indicate that Timer_InterruptRun() should be executed */
+	s_timer_count++;
+}
+
+void SleepAndProcessBackgroundTasks(void)
+{
+	while (s_timer_count == 0) {
+		pause();	/* wait for a signal to happen */
+		/* another signal can have been triggered,
+		 * ASLA sound is using SIGIO for triggering callbacks */
+	}
+	/* timer signal SIGALRM has been triggered */
+	if (s_timer_count > 1) {
+		Warning("s_timer_count = %d\n", (int)s_timer_count);
+	}
+	s_timer_count = 0;
+	Timer_InterruptRun(0);
+	if(s_timer_count > 0) {
+		/* one more iteration if SIGALRM has been triggered
+		 * during Timer_InterruptRun() */
+		s_timer_count = 0;
+		Timer_InterruptRun(1);	/* don't run "callonce" timers */
+	}
+}
+#endif /* _WIN32 */
 
 #if defined(_WIN32)
 void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
@@ -164,7 +204,7 @@ void Timer_Init(void)
 		struct sigaction timerSignal;
 
 		sigemptyset(&timerSignal.sa_mask);
-		timerSignal.sa_handler = Timer_InterruptRun;
+		timerSignal.sa_handler = Timer_Handler;
 		timerSignal.sa_flags   = 0;
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
@@ -192,7 +232,7 @@ void Timer_Uninit(void)
  * @param callback the callback for the timer.
  * @param usec_delay The interval of the timer.
  */
-void Timer_Add(void (*callback)(void), uint32 usec_delay)
+void Timer_Add(void (*callback)(void), uint32 usec_delay, bool callonce)
 {
 	TimerNode *node;
 	if (s_timerNodeCount == s_timerNodeSize) {
@@ -204,6 +244,7 @@ void Timer_Add(void (*callback)(void), uint32 usec_delay)
 	node->usec_left  = usec_delay;
 	node->usec_delay = usec_delay;
 	node->callback   = callback;
+	node->callonce   = callonce;
 }
 
 /**

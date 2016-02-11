@@ -21,6 +21,7 @@
 	#define strcasecmp _stricmp
 	#define strncasecmp _strnicmp
 
+	#if _MSC_VER < 1900
 	static int snprintf(char *str, size_t size, const char *format, ...)
 	{
 		va_list ap;
@@ -65,6 +66,8 @@
 		str[size - 1] = '\0';
 		return (int)size;
 	}
+	#endif /* _MSC_VER < 1900 */
+
 #elif !defined(__TINYC__)
 	#include <stdio.h>
 	#include <strings.h>
@@ -81,8 +84,6 @@
 		#if !defined(__APPLE__)
 			extern int snprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, ...) __THROW __attribute__ ((__format__ (__printf__, 3, 4)));
 			extern int vsnprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, va_list __arg) __THROW __attribute__ ((__format__ (__printf__, 3, 0)));
-		#else /* __APPLE__ */
-			extern int snprintf(char * __restrict, size_t, const char * __restrict, ...) __DARWIN_LDBL_COMPAT(snprintf);
 		#endif /* __APPLE__ */
 	#endif /* __GCC__ */
 	

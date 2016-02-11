@@ -19,6 +19,11 @@
 	#define msleep(x) usleep(x * 1000)
 #endif /* _WIN32 */
 
+#if defined(_WIN32)
 #define sleepIdle() msleep(1)
+#else /* _WIN32 */
+#include "../timer.h"
+#define sleepIdle SleepAndProcessBackgroundTasks
+#endif /* _WIN32 */
 
 #endif /* OS_SLEEP_H */

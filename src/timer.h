@@ -22,8 +22,12 @@ extern void Timer_Uninit(void);
 
 extern void Timer_Tick(void);
 
-extern void Timer_Add(void (*callback)(void), uint32 usec_delay);
+extern void Timer_Add(void (*callback)(void), uint32 usec_delay, bool callonce);
 extern void Timer_Change(void (*callback)(void), uint32 usec_delay);
 extern void Timer_Remove(void (*callback)(void));
 
-#endif /* OPENDUNE_H */
+#if !defined(_WIN32)
+extern void SleepAndProcessBackgroundTasks(void);
+#endif /* _WIN32 */
+
+#endif /* TIMER_H */

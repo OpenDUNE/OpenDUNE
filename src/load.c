@@ -137,7 +137,7 @@ bool LoadFile(char *filename)
 
 	Game_Init();
 
-	fp = fopendatadir(filename, "rb");
+	fp = fopendatadir(SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
 	if (fp == NULL) {
 		Error("Failed to open file '%s' for reading.\n", filename);
 

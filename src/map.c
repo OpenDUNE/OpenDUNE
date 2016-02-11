@@ -48,7 +48,7 @@ uint8 g_changedTilesMap[512];                               /*!< Bit array of ch
 static bool s_debugNoExplosionDamage = false;               /*!< When non-zero, explosions do no damage to their surrounding. */
 
 uint16 g_dirtyViewportCount = 0;
-uint16 g_var_3A08 = 0;
+bool g_selectionRectangleNeedRepaint = false;
 
 /**
  * Map definitions.
@@ -503,17 +503,10 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	}
 
 	if (Map_GetLandscapeType(positionPacked) == LST_WALL && hitpoints != 0) {
-		bool loc22 = false;
-
-		if (g_table_structureInfo[STRUCTURE_WALL].o.hitpoints <= hitpoints) loc22 = true;
-
-		if (!loc22) {
-			uint16 loc24 = hitpoints * 256 / g_table_structureInfo[STRUCTURE_WALL].o.hitpoints;
-
-			if (Tools_Random_256() <= loc24) loc22 = true;
+		if ((g_table_structureInfo[STRUCTURE_WALL].o.hitpoints <= hitpoints) ||
+		    (Tools_Random_256() <= (hitpoints * 256 / g_table_structureInfo[STRUCTURE_WALL].o.hitpoints))) {
+			Map_UpdateWall(positionPacked);
 		}
-
-		if (loc22) Map_UpdateWall(positionPacked);
 	}
 
 	Explosion_Start(type, position);
@@ -623,7 +616,7 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 			for (i = 0; i < 9; i++) {
 				curPacked = (packed + offsets[i]) & 0xFFF;
 				BitArray_Set(g_dirtyViewport, curPacked);
-				if (BitArray_Test(g_displayedViewport, curPacked)) g_var_3A08 = 1;
+				if (BitArray_Test(g_displayedViewport, curPacked)) g_selectionRectangleNeedRepaint = true;
 			}
 
 			BitArray_Set(g_dirtyMinimap, curPacked);

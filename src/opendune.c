@@ -14,6 +14,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#if defined(WITH_SDL) || defined(WITH_SDL2)
+#include <SDL.h>
+#endif /* WITH_SDL(2) */
 #include "types.h"
 #include "os/common.h"
 #include "os/error.h"
@@ -39,6 +42,7 @@
 #include "gui/widget.h"
 #include "house.h"
 #include "ini.h"
+#include "inifile.h"
 #include "input/input.h"
 #include "input/mouse.h"
 #include "map.h"
@@ -420,7 +424,7 @@ static uint16 GameLoop_HandleEvents(const char **strings)
 		key = Input_Wait() & 0x8FF;
 	}
 
-	if (g_var_7097 == 0) {
+	if (g_mouseDisabled == 0) {
 		uint16 y = g_mouseY;
 
 		if (GameLoop_IsInRange(g_mouseX, y, minX, minY, maxX, maxY)) {
@@ -666,12 +670,12 @@ static void GameLoop_GameIntroAnimationMenu(void)
 	static uint16 index = 0xFFFF;
 
 	if (index == 0xFFFF) {
-		hasSave = File_Exists("_save000.dat");
-		hasFame = File_Exists("SAVEFAME.DAT");
+		hasSave = File_Exists_Personal("_save000.dat");
+		hasFame = File_Exists_Personal("SAVEFAME.DAT");
 		index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
 	}
 
-	if (hasSave || File_Exists("ONETIME.DAT")) g_canSkipIntro = true;
+	if (hasSave || File_Exists_Personal("ONETIME.DAT")) g_canSkipIntro = true;
 
 	switch (stringID) {
 		case STR_REPLAY_INTRODUCTION:
@@ -693,7 +697,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 			memmove(g_palette1, g_palette_998A, 256 * 3);
 
 			if (!g_canSkipIntro) {
-				File_Create("ONETIME.DAT");
+				File_Create_Personal("ONETIME.DAT");
 				g_canSkipIntro = true;
 			}
 
@@ -719,7 +723,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 			GFX_SetPalette(g_palette2);
 
-			hasFame = File_Exists("SAVEFAME.DAT");
+			hasFame = File_Exists_Personal("SAVEFAME.DAT");
 			drawMenu = true;
 			break;
 
@@ -1119,23 +1123,12 @@ static void GameLoop_Main(void)
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 }
 
-static bool Unknown_25C4_000E(void)
+/**
+ * Initialize Timer, Video, Mouse, GFX, Fonts, Random number generator
+ * and current Widget
+ */
+static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 {
-	Timer_Init();
-
-	if (!Video_Init()) return false;
-
-	Mouse_Init();
-
-	/* Add the general tickers */
-	Timer_Add(Video_Tick, 1000000 / 60);
-	Timer_Add(Timer_Tick, 1000000 / 60);
-
-	g_var_7097 = -1;
-
-	GFX_Init();
-	GFX_ClearScreen();
-
 	if (!Font_Init()) {
 		Error(
 			"--------------------------\n"
@@ -1147,6 +1140,21 @@ static bool Unknown_25C4_000E(void)
 
 		return false;
 	}
+
+	Timer_Init();
+
+	if (!Video_Init(screen_magnification, filter)) return false;
+
+	Mouse_Init();
+
+	/* Add the general tickers */
+	Timer_Add(Timer_Tick, 1000000 / 60, false);
+	Timer_Add(Video_Tick, 1000000 / 60, true);
+
+	g_mouseDisabled = -1;
+
+	GFX_Init();
+	GFX_ClearScreen();
 
 	Font_Select(g_fontNew8p);
 
@@ -1163,13 +1171,16 @@ static bool Unknown_25C4_000E(void)
 	return true;
 }
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) && defined(SDL_MAJOR_VERSION) && (SDL_MAJOR_VERSION == 1)
 int SDL_main(int argc, char **argv)
 #else
 int main(int argc, char **argv)
 #endif /* __APPLE__ */
 {
 	bool commit_dune_cfg = false;
+	VideoScaleFilter scale_filter = FILTER_NEAREST_NEIGHBOR;
+	int scaling_factor = 2;
+	char filter_text[64];
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
 		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
@@ -1190,16 +1201,22 @@ int main(int argc, char **argv)
 	VARIABLE_NOT_USED(argc);
 	VARIABLE_NOT_USED(argv);
 
+	/* Load opendune.ini file */
+	Load_IniFile();
+
 	if (!File_Init()) {
-		Error("Cannot initialise files. Does %s directory exist ?\n", DATA_DIR);
 		exit(1);
 	}
 
-	/* Loading / writing config from/to dune.cfg */
+	/* Loading config from dune.cfg */
 	if (!Config_Read("dune.cfg", &g_config)) {
 		Config_Default(&g_config);
 		commit_dune_cfg = true;
 	}
+	/* reading config from opendune.ini which prevail over dune.cfg */
+	SetLanguage_From_IniFile(&g_config);
+
+	/* Writing config to dune.cfg */
 	if (commit_dune_cfg && !Config_Write("dune.cfg", &g_config)) {
 		Error("Error writing to dune.cfg file.\n");
 		exit(1);
@@ -1209,15 +1226,29 @@ int main(int argc, char **argv)
 
 	Drivers_All_Init();
 
-	if (!Unknown_25C4_000E()) exit(1);
+	scaling_factor = IniFile_GetInteger("scalefactor", 2);
+	if (IniFile_GetString("scalefilter", NULL, filter_text, sizeof(filter_text)) != NULL) {
+		if (strcasecmp(filter_text, "nearest") == 0) {
+			scale_filter = FILTER_NEAREST_NEIGHBOR;
+		} else if (strcasecmp(filter_text, "scale2x") == 0) {
+			scale_filter = FILTER_SCALE2X;
+		} else if (strcasecmp(filter_text, "hqx") == 0) {
+			scale_filter = FILTER_HQX;
+		} else {
+			Error("unrecognized scalefilter value '%s'\n", filter_text);
+		}
+	}
 
-	g_var_7097 = 0;
+	if (!OpenDune_Init(scaling_factor, scale_filter)) exit(1);
+
+	g_mouseDisabled = 0;
 
 	GameLoop_Main();
 
 	printf("%s\n", String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
 	PrepareEnd();
+	Free_IniFile();
 	exit(0);
 }
 

@@ -16,9 +16,11 @@
 
 #include "midi.h"
 
+#if defined(_WIN32)
 static Semaphore s_mpu_sem = NULL;
 static Thread s_mpu_thread = NULL;
 static uint32 s_mpu_usec = 0;
+#endif /* _WIN32 */
 
 typedef struct Controls {
 	uint8 volume;
@@ -127,7 +129,7 @@ static uint16 MPU_NoteOn(MSData *data)
 		duration <<= 7;
 	}
 
-	len = sound - data->sound;
+	len = (uint16)(sound - data->sound);
 
 	if ((s_mpu_lockStatus[chan] & 0x80) != 0) return len;
 
@@ -395,7 +397,7 @@ static uint16 MPU_1B48(MSData *data)
 		if ((v & 0x80) == 0) break;
 		len <<= 7;
 	}
-	len += sound - data->sound;
+	len += (uint16)(sound - data->sound);
 
 	switch (type) {
 		case 0x2F:
@@ -792,6 +794,7 @@ uint16 MPU_GetDataSize(void)
 	return sizeof(MSData);
 }
 
+#if defined(_WIN32)
 static ThreadStatus WINAPI MPU_ThreadProc(void *data)
 {
 	VARIABLE_NOT_USED(data);
@@ -803,6 +806,7 @@ static ThreadStatus WINAPI MPU_ThreadProc(void *data)
 	Semaphore_Unlock(s_mpu_sem);
 	return 0;
 }
+#endif /* _WIN32 */
 
 bool MPU_Init(void)
 {
@@ -810,6 +814,7 @@ bool MPU_Init(void)
 
 	if (!midi_init()) return false;
 
+#if defined(_WIN32)
 	s_mpu_sem = Semaphore_Create(0);
 	if (s_mpu_sem == NULL) {
 		Error("Failed to create semaphore\n");
@@ -822,6 +827,7 @@ bool MPU_Init(void)
 		Semaphore_Destroy(s_mpu_sem);
 		return false;
 	}
+#endif /* _WIN32 */
 
 	s_mpu_msdataSize = 0;
 	s_mpu_msdataCurrent = 0;
@@ -894,7 +900,9 @@ void MPU_Uninit(void)
 	midi_uninit();
 	s_mpuIgnore = false;
 
+#if defined(_WIN32)
 	Semaphore_Destroy(s_mpu_sem);
+#endif /* _WIN32 */
 }
 
 void MPU_ClearData(uint16 index)
@@ -939,6 +947,7 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
 	data->variable_0028 = 0;
 }
 
+#if defined(_WIN32)
 void MPU_StartThread(uint32 usec)
 {
 	s_mpu_usec = usec;
@@ -950,3 +959,4 @@ void MPU_StopThread(void)
 	Semaphore_Unlock(s_mpu_sem);
 	Thread_Wait(s_mpu_thread, NULL);
 }
+#endif /* _WIN32 */

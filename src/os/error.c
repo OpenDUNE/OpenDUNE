@@ -23,3 +23,13 @@ void Warning(const char *format, ...) {
 	vfprintf(stderr, format, ap);
 	va_end(ap);
 }
+
+#ifdef _DEBUG
+void Debug(const char *format, ...) {
+	va_list ap;
+
+	va_start(ap, format);
+	vfprintf(stdout, format, ap);
+	va_end(ap);
+}
+#endif

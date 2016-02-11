@@ -366,7 +366,7 @@ uint8 Structure_StringToType(const char *name)
  * @param index The new index of the Structure, or STRUCTURE_INDEX_INVALID to assign one.
  * @param typeID The type of the new Structure.
  * @param houseID The House of the new Structure.
- * @param var0C An unknown parameter.
+ * @param position The packed position where to place the Structure. If 0xFFFF, the Structure is not placed.
  * @return The new created Structure, or NULL if something failed.
  */
 Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position)

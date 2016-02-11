@@ -23,11 +23,12 @@ static EXCEPTION_POINTERS *s_ep;
 #define MAX_SYMBOL_LEN 512
 #define MAX_FRAMES     64
 
-/* printf format specification for 32/64-bit addresses. */
-#ifdef _M_AMD64
-#define PRINTF_PTR "0x%016IX"
+/* printf format specification for 32/64-bit addresses.
+ * AddrPC.Offset is a DWORD64 : according to MSDN, I64 prefix should be used */
+#if defined(_M_AMD64) || defined(_M_X64)
+#define PRINTF_PTR "0x%016I64X"
 #else
-#define PRINTF_PTR "0x%08X"
+#define PRINTF_PTR "0x%08I64X"
 #endif
 
 #if defined(_MSC_VER)
@@ -97,7 +98,7 @@ static void AppendDecodedStacktrace(char *buffer)
 
 			/* Initialize starting stack frame from context record. */
 			memset(&frame, 0, sizeof(frame));
-	#ifdef _M_AMD64
+	#if defined(_M_AMD64) || defined(_M_X64)
 			frame.AddrPC.Offset = s_ep->ContextRecord->Rip;
 			frame.AddrFrame.Offset = s_ep->ContextRecord->Rbp;
 			frame.AddrStack.Offset = s_ep->ContextRecord->Rsp;
@@ -125,7 +126,7 @@ static void AppendDecodedStacktrace(char *buffer)
 				DWORD64 offset;
 
 				if (!funcStackWalk64(
-	#ifdef _M_AMD64
+	#if defined(_M_AMD64) || defined(_M_X64)
 					IMAGE_FILE_MACHINE_AMD64,
 	#else
 					IMAGE_FILE_MACHINE_I386,
@@ -246,7 +247,7 @@ static LONG WINAPI ExceptionHandler(EXCEPTION_POINTERS *ep)
 	if (CrashLog_WriteCrashLog(s_crashlog)) _tcscat(s_crashText, _T("crash.log\n"));
 
 	if (s_safe_esp != NULL) {
-#ifdef _M_AMD64
+#if defined(_M_AMD64) || defined(_M_X64)
 		ep->ContextRecord->Rip = (DWORD64)ShowCrashlogWindow;
 		ep->ContextRecord->Rsp = (DWORD64)s_safe_esp;
 #else
@@ -268,7 +269,7 @@ static void CDECL CustomAbort(int signal)
 
 void CrashLog_Init(void)
 {
-#ifdef _M_AMD64
+#if defined(_M_AMD64) || defined(_M_X64)
 	CONTEXT ctx;
 	RtlCaptureContext(&ctx);
 
@@ -301,7 +302,7 @@ void CrashLog_LogError(char *buffer)
 	sprintf(buffer + strlen(buffer),
 			"Crash reason:\n"
 			" Exception: %.8X\n"
-#ifdef _M_AMD64
+#if defined(_M_AMD64) || defined(_M_X64)
 			" Location:  %.16IX\n"
 #else
 			" Location:  %.8X\n"
@@ -318,7 +319,7 @@ void CrashLog_LogRegisters(char *buffer)
 	int i;
 
 	strcat(buffer, "Registers:\n");
-#ifdef _M_AMD64
+#if defined(_M_AMD64) || defined(_M_X64)
 	sprintf(buffer + strlen(buffer),
 		" RAX: %.16I64X RBX: %.16I64X RCX: %.16I64X RDX: %.16I64X\n"
 		" RSI: %.16I64X RDI: %.16I64X RBP: %.16I64X RSP: %.16I64X\n"
@@ -363,7 +364,7 @@ void CrashLog_LogRegisters(char *buffer)
 #endif
 
 	strcat(buffer, "\n Bytes at instruction pointer:\n");
-#ifdef _M_AMD64
+#if defined(_M_AMD64) || defined(_M_X64)
 	b = (byte*)s_ep->ContextRecord->Rip;
 #else
 	b = (byte*)s_ep->ContextRecord->Eip;
@@ -385,7 +386,7 @@ void CrashLog_LogStacktrace(char *buffer)
 	int i, j;
 
 	strcat(buffer, "Stack trace:\n");
-#ifdef _M_AMD64
+#if defined(_M_AMD64) || defined(_M_X64)
 	b = (uint32*)s_ep->ContextRecord->Rsp;
 #else
 	b = (uint32*)s_ep->ContextRecord->Esp;
