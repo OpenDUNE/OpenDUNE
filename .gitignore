@@ -9,6 +9,7 @@ Makefile
 Makefile.am
 Makefile.bundle
 bin
+bundle
 !bin/data/put_dune2_here.txt
 !bin/data/dune.cfg
 projects/*
