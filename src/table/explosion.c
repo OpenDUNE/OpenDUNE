@@ -4,6 +4,7 @@
 
 #include "../explosion.h"
 
+/* EXPLOSION_IMPACT_SMALL */
 static const ExplosionCommandStruct s_explosion00[] = {
 	{ EXPLOSION_SET_SPRITE        ,  153 },
 	{ EXPLOSION_SET_TIMEOUT       ,    3 },
@@ -13,6 +14,7 @@ static const ExplosionCommandStruct s_explosion00[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_IMPACT_MEDIUM */
 static const ExplosionCommandStruct s_explosion01[] = {
 	{ EXPLOSION_SET_SPRITE        ,  154 },
 	{ EXPLOSION_BLOOM_EXPLOSION   ,    0 },
@@ -24,6 +26,7 @@ static const ExplosionCommandStruct s_explosion01[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_IMPACT_LARGE */
 static const ExplosionCommandStruct s_explosion02[] = {
 	{ EXPLOSION_SET_SPRITE        ,  183 },
 	{ EXPLOSION_PLAY_VOICE        ,   50 },
@@ -35,6 +38,7 @@ static const ExplosionCommandStruct s_explosion02[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_IMPACT_EXPLODE */
 static const ExplosionCommandStruct s_explosion03[] = {
 	{ EXPLOSION_SET_SPRITE        ,  183 },
 	{ EXPLOSION_PLAY_VOICE        ,   49 },
@@ -46,6 +50,7 @@ static const ExplosionCommandStruct s_explosion03[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_SABOTEUR_DEATH */
 static const ExplosionCommandStruct s_explosion04[] = {
 	{ EXPLOSION_SET_SPRITE        ,  203 },
 	{ EXPLOSION_PLAY_VOICE        ,   51 },
@@ -63,6 +68,7 @@ static const ExplosionCommandStruct s_explosion04[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_SABOTEUR_INFILTRATE */
 static const ExplosionCommandStruct s_explosion05[] = {
 	{ EXPLOSION_SET_RANDOM_TIMEOUT,   60 },
 	{ EXPLOSION_SET_SPRITE        ,  203 },
@@ -81,6 +87,7 @@ static const ExplosionCommandStruct s_explosion05[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_TANK_EXPLODE */
 static const ExplosionCommandStruct s_explosion06[] = {
 	{ EXPLOSION_SET_SPRITE        ,  198 },
 	{ EXPLOSION_PLAY_VOICE        ,   51 },
@@ -98,6 +105,7 @@ static const ExplosionCommandStruct s_explosion06[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_DEVIATOR_GAS */
 static const ExplosionCommandStruct s_explosion07[] = {
 	{ EXPLOSION_SET_SPRITE        ,  208 },
 	{ EXPLOSION_PLAY_VOICE        ,   39 },
@@ -113,6 +121,7 @@ static const ExplosionCommandStruct s_explosion07[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_SAND_BURST */
 static const ExplosionCommandStruct s_explosion08[] = {
 	{ EXPLOSION_SET_SPRITE        ,  156 },
 	{ EXPLOSION_PLAY_VOICE        ,   40 },
@@ -128,6 +137,7 @@ static const ExplosionCommandStruct s_explosion08[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_TANK_FLAMES */
 static const ExplosionCommandStruct s_explosion09[] = {
 	{ EXPLOSION_SET_SPRITE        ,  183 },
 	{ EXPLOSION_PLAY_VOICE        ,   41 },
@@ -170,6 +180,7 @@ static const ExplosionCommandStruct s_explosion09[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_WHEELED_VEHICLE */
 static const ExplosionCommandStruct s_explosion10[] = {
 	{ EXPLOSION_SET_SPRITE        ,  151 },
 	{ EXPLOSION_PLAY_VOICE        ,   49 },
@@ -181,6 +192,7 @@ static const ExplosionCommandStruct s_explosion10[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_DEATH_HAND */
 static const ExplosionCommandStruct s_explosion11[] = {
 	{ EXPLOSION_SET_RANDOM_TIMEOUT,   60 },
 	{ EXPLOSION_SET_SPRITE        ,  188 },
@@ -199,6 +211,7 @@ static const ExplosionCommandStruct s_explosion11[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_UNUSED_12 */
 static const ExplosionCommandStruct s_explosion12[] = {
 	{ EXPLOSION_SET_SPRITE        ,  213 },
 	{ EXPLOSION_SET_TIMEOUT       ,   15 },
@@ -213,6 +226,7 @@ static const ExplosionCommandStruct s_explosion12[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_SANDWORM_SWALLOW */
 static const ExplosionCommandStruct s_explosion13[] = {
 	{ EXPLOSION_SET_SPRITE        ,  218 },
 	{ EXPLOSION_SET_TIMEOUT       ,   15 },
@@ -227,6 +241,7 @@ static const ExplosionCommandStruct s_explosion13[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_STRUCTURE */
 static const ExplosionCommandStruct s_explosion14[] = {
 	{ EXPLOSION_SET_RANDOM_TIMEOUT,   60 },
 	{ EXPLOSION_SET_SPRITE        ,  188 },
@@ -245,6 +260,7 @@ static const ExplosionCommandStruct s_explosion14[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_SMOKE_PLUME */
 static const ExplosionCommandStruct s_explosion15[] = {
 	{ EXPLOSION_SET_SPRITE        ,  183 },
 	{ EXPLOSION_PLAY_VOICE        ,   49 },
@@ -303,6 +319,7 @@ static const ExplosionCommandStruct s_explosion15[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_ORNITHOPTER_CRASH */
 static const ExplosionCommandStruct s_explosion16[] = {
 	{ EXPLOSION_SET_SPRITE        ,  203 },
 	{ EXPLOSION_PLAY_VOICE        ,   49 },
@@ -315,6 +332,7 @@ static const ExplosionCommandStruct s_explosion16[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_CARRYALL_CRASH */
 static const ExplosionCommandStruct s_explosion17[] = {
 	{ EXPLOSION_SET_SPRITE        ,  203 },
 	{ EXPLOSION_PLAY_VOICE        ,   49 },
@@ -327,6 +345,7 @@ static const ExplosionCommandStruct s_explosion17[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_MINI_ROCKET */
 static const ExplosionCommandStruct s_explosion18[] = {
 	{ EXPLOSION_SET_SPRITE        ,  183 },
 	{ EXPLOSION_PLAY_VOICE        ,   54 },
@@ -337,6 +356,7 @@ static const ExplosionCommandStruct s_explosion18[] = {
 	{ EXPLOSION_STOP              ,    0 }
 };
 
+/* EXPLOSION_SPICE_BLOOM_TREMOR */
 static const ExplosionCommandStruct s_explosion19[] = {
 	{ EXPLOSION_SET_SPRITE        ,  156 },
 	{ EXPLOSION_PLAY_VOICE        ,   40 },
