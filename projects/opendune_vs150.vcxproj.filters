@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\src\audio\driver.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\audio\dsp.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\audio\midi.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\audio\mt32mpu.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\audio\sound.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\codec\format40.h">
+      <Filter>codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\codec\format80.h">
+      <Filter>codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\crashlog\crashlog.h">
+      <Filter>crashlog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\font.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\gui.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\mentat.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\security.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gui\widget.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\input\input.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\input\mouse.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\common.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\endian.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\error.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\file.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\math.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\readdir.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\sleep.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\thread.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\pool\house.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\pool\pool.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\pool\structure.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\pool\team.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\pool\unit.h">
+      <Filter>pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\saveload\saveload.h">
+      <Filter>saveload</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\script\script.h">
+      <Filter>script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\hqx.h">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\hqx_common.h">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\scale2x.h">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\scale3x.h">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\scalebit.h">
+      <Filter>video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\table\strings.h">
+      <Filter>table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\os\strings.h">
+      <Filter>os</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\table\unitinfo.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_sdl.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_sdl2.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_win32.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\string.h" />
+    <ClInclude Include="..\src\structure.h" />
+    <ClInclude Include="..\src\team.h" />
+    <ClInclude Include="..\src\tile.h" />
+    <ClInclude Include="..\src\timer.h" />
+    <ClInclude Include="..\src\tools.h" />
+    <ClInclude Include="..\src\unit.h" />
+    <ClInclude Include="..\src\wsa.h" />
+    <ClInclude Include="..\src\animation.h" />
+    <ClInclude Include="..\src\config.h" />
+    <ClInclude Include="..\src\cutscene.h" />
+    <ClInclude Include="..\src\explosion.h" />
+    <ClInclude Include="..\src\file.h" />
+    <ClInclude Include="..\src\gfx.h" />
+    <ClInclude Include="..\src\house.h" />
+    <ClInclude Include="..\src\ini.h" />
+    <ClInclude Include="..\src\inifile.h" />
+    <ClInclude Include="..\src\load.h" />
+    <ClInclude Include="..\src\map.h" />
+    <ClInclude Include="..\src\object.h" />
+    <ClInclude Include="..\src\opendune.h" />
+    <ClInclude Include="..\src\rev.h" />
+    <ClInclude Include="..\src\save.h" />
+    <ClInclude Include="..\src\scenario.h" />
+    <ClInclude Include="..\src\sprites.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\source.list" />
+    <None Include="..\src\rev.c.in" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\audio\driver.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_none.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_alsa.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_pulse.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_sdl.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_win32.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_alsa.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_none.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_osx.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_win32.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\mt32mpu.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\sound.c">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codec\format40.c">
+      <Filter>codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codec\format80.c">
+      <Filter>codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crashlog\crashlog_none.c">
+      <Filter>crashlog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crashlog\crashlog_win32.c">
+      <Filter>crashlog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crashlog\crashlog.c">
+      <Filter>crashlog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\editbox.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\font.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\gui.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\mentat.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\security.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\viewport.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\widget_click.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\widget_draw.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\widget.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\input\input.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\input\mouse.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\endian.c">
+      <Filter>os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\error.c">
+      <Filter>os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\error_win32.c">
+      <Filter>os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\readdir_win32.c">
+      <Filter>os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\readdir.c">
+      <Filter>os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\thread_win32.c">
+      <Filter>os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\os\thread_sdl.c">
+      <Filter>os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\pool\house.c">
+      <Filter>pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\pool\structure.c">
+      <Filter>pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\pool\team.c">
+      <Filter>pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\pool\unit.c">
+      <Filter>pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\house.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\map.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\info.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\saveload.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\scenario.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\scriptengine.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\team.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\unit.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\general.c">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\script.c">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\team.c">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\unit.c">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\structure.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\actioninfo.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\animation.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\explosion.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\houseinfo.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\houseanimation.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hqx_init.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq2x.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq2x_8b.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x_8b.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x_8b.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hqx.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\landscapeinfo.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\movementtype.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\object.c">
+      <Filter>saveload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\scale2x.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\scale3x.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\scalebit.c">
+      <Filter>video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\selectiontype.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\sound.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\structure.c">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\structureinfo.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\teamaction.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\tilediff.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\windowdesc.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\widget.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\table\widgetinfo.c">
+      <Filter>table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\string.c" />
+    <ClCompile Include="..\src\structure.c" />
+    <ClCompile Include="..\src\team.c" />
+    <ClCompile Include="..\src\tile.c" />
+    <ClCompile Include="..\src\timer.c" />
+    <ClCompile Include="..\src\tools.c" />
+    <ClCompile Include="..\src\unit.c" />
+    <ClCompile Include="..\src\wsa.c" />
+    <ClCompile Include="..\src\animation.c" />
+    <ClCompile Include="..\src\config.c" />
+    <ClCompile Include="..\src\cutscene.c" />
+    <ClCompile Include="..\src\explosion.c" />
+    <ClCompile Include="..\src\file.c" />
+    <ClCompile Include="..\src\gfx.c" />
+    <ClCompile Include="..\src\house.c" />
+    <ClCompile Include="..\src\ini.c" />
+    <ClCompile Include="..\src\inifile.c" />
+    <ClCompile Include="..\src\load.c" />
+    <ClCompile Include="..\src\map.c" />
+    <ClCompile Include="..\src\object.c" />
+    <ClCompile Include="..\src\opendune.c" />
+    <ClCompile Include="..\src\rev.c" />
+    <ClCompile Include="..\src\save.c" />
+    <ClCompile Include="..\src\scenario.c" />
+    <ClCompile Include="..\src\sprites.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="audio">
+      <UniqueIdentifier>{eaca1b44-0fb1-41f2-a419-6363c0000432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codec">
+      <UniqueIdentifier>{26c6999b-444d-4470-b401-b0676511f097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crashlog">
+      <UniqueIdentifier>{6ad0e670-ef26-4ce7-9f02-86279f5232b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{baa38c30-16ef-476e-abd2-1d8b5101d72e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{2690930a-2773-4895-9f52-1c5eaa10ccb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os">
+      <UniqueIdentifier>{d2ea6bd3-3286-4959-a58e-bc1f6f130930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pool">
+      <UniqueIdentifier>{f1e37be8-31e4-4eb0-b86f-18bbffe893a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="saveload">
+      <UniqueIdentifier>{ad9f394a-e3f7-4782-b0c7-ca5fc27aa5c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script">
+      <UniqueIdentifier>{4f72c3ae-a6da-44fb-aea6-c7e2e2e02c3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="table">
+      <UniqueIdentifier>{aca650e0-7eee-46c9-bacf-5bc74ae404a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video">
+      <UniqueIdentifier>{7d4da27e-f243-497b-9166-8979e5d1def9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\video\video.h">
+      <Filter>video</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
