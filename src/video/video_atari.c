@@ -20,21 +20,37 @@ extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
 
 static short s_savedmode = 0;
 
+/* mouse : */
+static int s_mouse_x = SCREEN_WIDTH/2;
+static int s_mouse_x_min = 0;
+static int s_mouse_x_max = SCREEN_WIDTH-1;
+static int s_mouse_y = SCREEN_HEIGHT/2;
+static int s_mouse_y_min = 0;
+static int s_mouse_y_max = SCREEN_HEIGHT-1;
+
 static void Mouse_Handler(char * ikbd_packet)
 {
 	/* The relative mouse position record is a three byte record of the form
-(regardless of keyboard mode):
+	(regardless of keyboard mode):
     %111110xy           ; mouse position record flag
                         ; where y is the right button state
                         ; and x is the left button state
     X                   ; delta x as twos complement integer
     Y                   ; delta y as twos complement integer
 	*/
-	static int x = 160;
-	static int y = 100;
-	x += (int)ikbd_packet[1];
-	y += (int)ikbd_packet[2];
-	Mouse_EventHandler(x, y,
+	s_mouse_x += (int)ikbd_packet[1];
+	s_mouse_y += (int)ikbd_packet[2];
+	if(s_mouse_x < s_mouse_x_min) {
+		s_mouse_x = s_mouse_x_min;
+	} else if(s_mouse_x > s_mouse_x_max) {
+		s_mouse_x = s_mouse_x_max;
+	}
+	if(s_mouse_y < s_mouse_y_min) {
+		s_mouse_y = s_mouse_y_min;
+	} else if(s_mouse_y > s_mouse_y_max) {
+		s_mouse_y = s_mouse_y_max;
+	}
+	Mouse_EventHandler(s_mouse_x, s_mouse_y,
 	                   ikbd_packet[0]&2 /*left*/, ikbd_packet[0]&1 /*right*/);
 }
 
@@ -49,9 +65,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	(void)Cconws("Video_Init()\r\n");
 	(void)Cursconf(0, 0);	/* switch cursor Off */
+	/* TODO : support TT 8bps video mode */
 	s_savedmode = VsetMode(VM_INQUIRE);	/* get current mode */
 	(void)VsetMode((s_savedmode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
 
+	/* install mouse handler */
 	memset(&mouseparam, 0, sizeof(mouseparam));
 	mouseparam.xmax = SCREEN_WIDTH - 1;
 	mouseparam.ymax = SCREEN_HEIGHT - 1;
@@ -126,14 +144,16 @@ void Video_SetPalette(void *palette, int from, int length)
  */
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	VARIABLE_NOT_USED(x);
-	VARIABLE_NOT_USED(y);
+	s_mouse_x = x;
+	s_mouse_y = y;
 }
 
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	VARIABLE_NOT_USED(minX); VARIABLE_NOT_USED(maxX);
-	VARIABLE_NOT_USED(minY); VARIABLE_NOT_USED(maxY);
+	s_mouse_x_min = minX;
+	s_mouse_x_max = maxX;
+	s_mouse_y_min = minY;
+	s_mouse_y_min = maxY;
 }
 
 /*
