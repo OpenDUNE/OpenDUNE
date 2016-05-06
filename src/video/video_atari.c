@@ -10,6 +10,7 @@
 #include "types.h"
 #include "video.h"
 #include "../gfx.h"
+#include "../input/input.h"
 #include "../input/mouse.h"
 
 /* ATARI IKBD doc : https://www.kernel.org/doc/Documentation/input/atarikbd.txt */
@@ -77,6 +78,21 @@ void Video_Tick(void)
 {
 	uint8 *screen = Physbase();
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+
+	/* handle keyboard input */
+	while(Cconis() != 0) {
+		uint8 scancode;
+		/*int32 in = Cnecin();*/	/* same as Cconin(); with no echo */
+		int32 in = Crawcin();
+		scancode = (in >> 16) & 0x7f;
+		/* TODO : scancode translation from ATARI to PC */
+		if(scancode != 0) {
+			Input_EventHandler(scancode);	/* keydown */
+			Input_EventHandler(scancode | 0x80);	/* keyup */
+		}
+	}
+
+	/* chunky to planar conversion */
 	c2p1x1_8_falcon(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
 	/*memcpy(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);*/
 }
