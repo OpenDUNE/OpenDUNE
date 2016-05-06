@@ -128,9 +128,16 @@ unit.c
 	#if SDL2
 		video/video_sdl2.c
 	#else
-		video/video_sdl.c
+		#if TOS
+			video/video_atari.c
+		#else
+			video/video_sdl.c
+		#endif
 	#endif
 #endif
+#if TOS
+video/c2p1x1_8.s
+#else
 video/hqx_init.c
 video/hq2x_8b.c
 video/hq3x_8b.c
@@ -138,6 +145,7 @@ video/hq4x_8b.c
 video/scalebit.c
 video/scale2x.c
 video/scale3x.c
+#endif
 wsa.c
 
 # Header files

@@ -25,7 +25,11 @@
 #define DUNE_DATA_DIR "."
 #endif
 
+#ifdef TOS
+#define DUNE2_DATA_PREFIX       "DATA\\"
+#else
 #define DUNE2_DATA_PREFIX       "data/"
+#endif
 
 static char g_dune_data_dir[1024] = DUNE_DATA_DIR;
 static char g_personal_data_dir[1024] = ".";
@@ -95,12 +99,21 @@ File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const
 	int j;
 	int i = 0;
 
+#ifdef TOS
+	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
+		/* Note: campaign specific data directory not implemented. */
+		i = snprintf(buf, len, "%s%s", DUNE2_DATA_PREFIX, filename);
+	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
+		i = snprintf(buf, len, "%s\\%s", g_personal_data_dir, filename);
+	}
+#else
 	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
 		/* Note: campaign specific data directory not implemented. */
 		i = snprintf(buf, len, "%s/%s%s", g_dune_data_dir, DUNE2_DATA_PREFIX, filename);
 	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
 		i = snprintf(buf, len, "%s/%s", g_personal_data_dir, filename);
 	}
+#endif
 	buf[len - 1] = '\0';
 
 	if (i > (int)len) {
@@ -497,7 +510,10 @@ bool File_Init(void)
 			PathAppend(buf, TEXT("OpenDUNE"));
 			strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
 		}
-#else /* _WIN32 */
+#elif defined(TOS)
+		(void)homedir;
+		strcpy(g_personal_data_dir, "SAVES");
+#else /* _WIN32 / TOS*/
 		/* ~/.config/opendune (Linux)  ~/Library/Application Support/OpenDUNE (Mac OS X) */
 		homedir = getenv("HOME");
 		if (homedir == NULL) {

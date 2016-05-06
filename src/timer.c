@@ -13,6 +13,11 @@
 	#endif /* !__USE_POSIX */
 	#include <signal.h>
 #endif /* _WIN32 */
+#ifdef TOS
+#include <mint/sysbind.h>
+#include <mint/osbind.h>
+#include <mint/ostruct.h>
+#endif /* TOS */
 #include "types.h"
 #include "os/sleep.h"
 #include "os/error.h"
@@ -115,7 +120,13 @@ static void Timer_InterruptRun(int arg)
 	timerLock = false;
 }
 
-#if !defined(_WIN32)
+#if defined(TOS)
+void SleepAndProcessBackgroundTasks(void)
+{
+	Timer_InterruptRun(0);
+}
+
+#elif !defined(_WIN32)
 static volatile sig_atomic_t s_timer_count = 0;
 
 static void Timer_Handler(int sig)
@@ -194,6 +205,13 @@ void Timer_Init(void)
 #if defined(_WIN32)
 	s_timerTime = s_timerSpeed / 1000;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &s_timerMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
+#elif defined(TOS)
+	(void)Cconws("Timer_Init()\r\n");
+	/* see http://toshyp.atari.org/en/004009.html#Xbtimer */
+	/* s_timerSpeed * 614400 / 10000 */
+#if 0
+	Xbtimer(0/* Timer A */, 1/* divider = 4 */, s_timerSpeed * 6144 / 10000, Timer_Handler);
+#endif
 #else
 	s_timerTime.it_value.tv_sec = 0;
 	s_timerTime.it_value.tv_usec = s_timerSpeed;

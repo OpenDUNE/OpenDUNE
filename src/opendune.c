@@ -9,6 +9,11 @@
 	#include <io.h>
 	#include <windows.h>
 #endif /* _WIN32 */
+#ifdef TOS
+#include <mint/sysbind.h>
+#include <mint/osbind.h>
+#include <mint/ostruct.h>
+#endif /* TOS */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1171,6 +1176,14 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 	return true;
 }
 
+#ifdef TOS
+void exit_handler(void)
+{
+	printf("Press any key to quit.\n");
+	(void)Cnecin();
+}
+#endif /* TOS */
+
 #if defined(__APPLE__) && defined(SDL_MAJOR_VERSION) && (SDL_MAJOR_VERSION == 1)
 int SDL_main(int argc, char **argv)
 #else
@@ -1195,6 +1208,11 @@ int main(int argc, char **argv)
 	if (err != NULL) _dup2(_fileno(err), _fileno(stderr));
 	if (out != NULL) _dup2(_fileno(out), _fileno(stdout));
 	FreeConsole();
+#endif
+#ifdef TOS
+	if(atexit(exit_handler) != 0) {
+		Error("atexit() failed\n");
+	}
 #endif
 	CrashLog_Init();
 

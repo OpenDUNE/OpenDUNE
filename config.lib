@@ -16,6 +16,7 @@ set_default() {
 	host=""
 	cc_build=""
 	cc_host=""
+	as_host=""
 	strip=""
 	lipo=""
 	awk="awk"
@@ -264,10 +265,10 @@ check_params() {
 
 	# Check if all params have valid values
 
-	# OS only allows DETECT, UNIX, OSX, FREEBSD, OPENBSD, MORPHOS, BEOS, HAIKU, SUNOS, CYGWIN, MINGW, OS2, DOS, and WINCE
-	if [ -z "`echo $os | egrep '^(DETECT|UNIX|OSX|FREEBSD|OPENBSD|NETBSD|HPUX|MORPHOS|BEOS|HAIKU|SUNOS|CYGWIN|MINGW|OS2|DOS|WINCE)$'`" ]; then
+	# OS only allows DETECT, UNIX, OSX, FREEBSD, OPENBSD, MORPHOS, BEOS, HAIKU, SUNOS, CYGWIN, MINGW, OS2, DOS, and WINCE, TOS
+	if [ -z "`echo $os | egrep '^(DETECT|UNIX|OSX|FREEBSD|OPENBSD|NETBSD|HPUX|MORPHOS|BEOS|HAIKU|SUNOS|CYGWIN|MINGW|OS2|DOS|WINCE|TOS)$'`" ]; then
 		log 1 "configure: error: invalid option --os=$os"
-		log 1 " Available options are: --os=[DETECT|UNIX|OSX|FREEBSD|OPENBSD|NETBSD|HPUX|MORPHOS|BEOS|HAIKU|SUNOS|CYGWIN|MINGW|OS2|DOS|WINCE]"
+		log 1 " Available options are: --os=[DETECT|UNIX|OSX|FREEBSD|OPENBSD|NETBSD|HPUX|MORPHOS|BEOS|HAIKU|SUNOS|CYGWIN|MINGW|OS2|DOS|WINCE|TOS]"
 		exit 1
 	fi
 	# cpu_type can be either 32 or 64
@@ -417,6 +418,12 @@ check_params() {
 		fi
 	fi
 
+	if [ "$os" = "TOS" ]; then
+		with_sdl2="0"
+		with_sdl="0"
+		with_asound="0"
+		with_pulse="0"
+	fi
 	detect_sdl2
 	detect_sdl
 	detect_asound
@@ -930,6 +937,14 @@ make_cflags_and_ldflags() {
 	# And others like Windows
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
 		CFLAGS="$CFLAGS -DWIN"
+	fi
+
+	if [ "$os" = "TOS" ]; then
+		CFLAGS="-m68030 $CFLAGS"
+		LDFLAGS="$LDFLAGS -Wl,--traditional-format"
+		as_host="vasmm68k_mot"
+		#asflags="-m68030 -Felf"
+		asflags="-m68030 -Faout"
 	fi
 
 	if [ -n "$sdl_config" ]; then
@@ -1724,10 +1739,12 @@ make_sed() {
 	SRC_REPLACE="
 		s@!!CC_HOST!!@$cc_host@g;
 		s@!!CC_BUILD!!@$cc_build@g;
+		s@!!AS_HOST!!@$as_host@g;
 		s@!!STRIP!!@$strip $strip_arg@g;
 		s@!!LIPO!!@$lipo@g;
 		s@!!CFLAGS!!@$T_CFLAGS@g;
 		s@!!CFLAGS_BUILD!!@$CFLAGS_BUILD@g;
+		s@!!ASFLAGS!!@$asflags@g;
 		s@!!LIBS!!@$LIBS@g;
 		s@!!LDFLAGS!!@$T_LDFLAGS@g;
 		s@!!LDFLAGS_BUILD!!@$LDFLAGS_BUILD@g;
@@ -1755,6 +1772,7 @@ make_sed() {
 		s@!!CONFIG_CACHE_SOURCE_LIST!!@config.cache.source.list@g;
 		s@!!CONFIG_CACHE_PWD!!@config.cache.pwd@g;
 		s@!!OBJS_C!!@$OBJS_C@g;
+		s@!!OBJS_S!!@$OBJS_S@g;
 		s@!!SRCS!!@$SRCS@g;
 		s@!!OS!!@$os@g;
 		s@!!CONFIGURE_FILES!!@$CONFIGURE_FILES@g;

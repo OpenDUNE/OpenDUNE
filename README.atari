@@ -1,0 +1,11 @@
+OpenDUNE runing on Atari Falcon :
+
+cross compiling under linux using cross mint :
+http://vincent.riviere.free.fr/soft/m68k-atari-mint/
+
+use :
+./configure --host=m68k-atari-mint --os=TOS
+
+you'll also need vasm (vasmm68k_mot)
+http://sun.hasenbraten.de/vasm/
+
