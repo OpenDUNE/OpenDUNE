@@ -48,7 +48,7 @@ bool Load_IniFile(void)
 		PathAppend(path, TEXT("OpenDUNE\\opendune.ini"));
 		f = fopen(path, "rb");
 	}
-#else  /* _WIN32 */
+#elif !defined(TOS)  /* _WIN32 */
 	char path[PATH_MAX];
 	char * homeDir;
 	homeDir = getenv("HOME");
@@ -60,7 +60,7 @@ bool Load_IniFile(void)
 #endif /* __APPLE__ */
 		f = fopen(path, "rb");
 	}
-#endif /* _WIN32 */
+#endif /* not TOS, not _WIN32 */
 	if (f == NULL) {
 		/* current directory */
 		f = fopen("opendune.ini", "rb");
