@@ -12,6 +12,7 @@
 #include "../gfx.h"
 #include "../input/input.h"
 #include "../input/mouse.h"
+#include "../os/error.h"
 
 /* ATARI IKBD doc : https://www.kernel.org/doc/Documentation/input/atarikbd.txt */
 
@@ -65,6 +66,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	(void)Cconws("Video_Init()\r\n");
 	(void)Cursconf(0, 0);	/* switch cursor Off */
+	g_consoleActive = false;
 	/* TODO : support TT 8bps video mode */
 	s_savedmode = VsetMode(VM_INQUIRE);	/* get current mode */
 	(void)VsetMode((s_savedmode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
@@ -87,6 +89,7 @@ void Video_Uninit(void)
 {
 	(void)VsetMode(s_savedmode);
 	(void)Cursconf(1, 0);	/* switch cursor On */
+	g_consoleActive = true;
 }
 
 /**

@@ -1210,6 +1210,13 @@ int main(int argc, char **argv)
 	FreeConsole();
 #endif
 #ifdef TOS
+	/* open log files and set buffering mode */
+	g_errlog = fopen("error.log", "w");
+	if(g_errlog != NULL) setvbuf(g_errlog, NULL, _IONBF, 0);
+#ifdef _DEBUG
+	g_outlog = fopen("output.log", "w");
+	if(g_outlog != NULL) setvbuf(g_outlog, NULL, _IOLBF, 0);
+#endif
 	if(atexit(exit_handler) != 0) {
 		Error("atexit() failed\n");
 	}
