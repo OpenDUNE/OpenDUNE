@@ -86,7 +86,7 @@ static void Detect_Machine(void)
 		default:
 			s_machine_type = MCH_OTHER;
 		}
-		Debug("Detect_Machine() _MCH cookie value : %08lx\n", machine_type);
+		Debug("_MCH cookie value : %08lx\n", machine_type);
 	} else {
 		/* Failed to get Cookie => Plain old ST ? */
 		s_machine_type = MCH_ST;
