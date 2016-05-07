@@ -68,6 +68,10 @@
 #include "unit.h"
 #include "video/video.h"
 
+#ifdef TOS
+#include "rev.h"
+#endif
+
 
 const char *window_caption = "OpenDUNE - Pre v0.8";
 
@@ -1210,6 +1214,12 @@ int main(int argc, char **argv)
 	FreeConsole();
 #endif
 #ifdef TOS
+	(void)Cconws(window_caption);
+	(void)Cconws("\r\nrevision:   ");
+	(void)Cconws(g_opendune_revision);
+	(void)Cconws("\r\nbuild date: ");
+	(void)Cconws(g_opendune_build_date);
+	(void)Cconws("\r\n");
 	/* open log files and set buffering mode */
 	g_errlog = fopen("error.log", "w");
 	if(g_errlog != NULL) setvbuf(g_errlog, NULL, _IONBF, 0);
