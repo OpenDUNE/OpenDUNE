@@ -1,24 +1,27 @@
 /** @file src/timer.c Timer routines. */
 
 #include <stdlib.h>
-#if !defined(_MSC_VER)
+#if !defined(_MSC_VER) && !defined(TOS)
 	#include <sys/time.h>
 #endif /* _MSC_VER */
 #if defined(_WIN32)
+	/* WIN32 */
 	#define _WIN32_WINNT 0x0500
 	#include <windows.h>
+#elif defined(TOS)
+	/* Atari TOS */
+	#include <mint/sysbind.h>
+	#include <mint/osbind.h>
+	#include <mint/ostruct.h>
+	#include <mint/sysvars.h>
 #else
+	/* Linux / Mac OS X / etc. */
 	#if !defined(__USE_POSIX)
 		#define __USE_POSIX
 	#endif /* !__USE_POSIX */
 	#include <signal.h>
-#endif /* _WIN32 */
-#ifdef TOS
-#include <mint/sysbind.h>
-#include <mint/osbind.h>
-#include <mint/ostruct.h>
-#include <mint/sysvars.h>
-#endif /* TOS */
+#endif
+
 #include "types.h"
 #include "os/sleep.h"
 #include "os/error.h"
@@ -47,7 +50,7 @@ typedef struct TimerNode {
 static HANDLE s_timerMainThread = NULL;
 static HANDLE s_timerThread = NULL;
 static int s_timerTime;
-#else
+#elif !defined(TOS)
 static struct itimerval s_timerTime;
 #endif /* _WIN32 */
 
@@ -174,6 +177,8 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 }
 #endif /* _WIN32 */
 
+#if !defined(TOS)
+
 /**
  * Suspend the timer interrupt handling.
  */
@@ -198,6 +203,8 @@ static void Timer_InterruptResume(void)
 	setitimer(ITIMER_REAL, &s_timerTime, NULL);
 #endif /* _WIN32 */
 }
+
+#endif /* !defined(TOS) */
 
 /**
  * Initialize the timer.
@@ -231,7 +238,9 @@ void Timer_Init(void)
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
 #endif /* _WIN32 */
+#if !defined(TOS)
 	Timer_InterruptResume();
+#endif /* !defined(TOS) */
 }
 
 /**
@@ -239,7 +248,9 @@ void Timer_Init(void)
  */
 void Timer_Uninit(void)
 {
+#if !defined(TOS)
 	Timer_InterruptSuspend();
+#endif /* !defined(TOS) */
 #if defined(_WIN32)
 	CloseHandle(s_timerMainThread);
 #endif /* _WIN32 */
