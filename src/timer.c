@@ -17,6 +17,7 @@
 #include <mint/sysbind.h>
 #include <mint/osbind.h>
 #include <mint/ostruct.h>
+#include <mint/sysvars.h>
 #endif /* TOS */
 #include "types.h"
 #include "os/sleep.h"
@@ -65,6 +66,9 @@ static uint32 Timer_GetTime(void)
 	DWORD t;
 	t = timeGetTime();
 	return t;
+#elif defined(TOS)
+	/* use the 200 HZ system timer which has a 5ms granularity */
+	return get_sysvar(_hz_200) * 5;
 #else
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
