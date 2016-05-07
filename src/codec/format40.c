@@ -19,7 +19,8 @@ void Format40_Decode(uint8 *dst, uint8 *src)
 		flag = *src++;
 
 		if (flag == 0) {
-			flag = *src++;
+			/* XOR with value */
+			flag = *src++;	/* count */
 			for (; flag > 0; flag--) {
 				*dst++ ^= *src;
 			}
@@ -29,6 +30,7 @@ void Format40_Decode(uint8 *dst, uint8 *src)
 		}
 
 		if ((flag & 0x80) == 0) {
+			/* XOR with string */
 			for (; flag > 0; flag--) {
 				*dst++ ^= *src++;
 			}
@@ -36,21 +38,25 @@ void Format40_Decode(uint8 *dst, uint8 *src)
 		}
 
 		if (flag != 0x80) {
+			/* skip bytes */
 			dst += flag & 0x7F;
 			continue;
 		}
 
+		/* last byte was 0x80 : read 16 bit value */
 		flag = *src++;
 		flag += (*src++) << 8;
 
 		if (flag == 0) break;
 
 		if ((flag & 0x8000) == 0) {
+			/* skip bytes */
 			dst += flag;
 			continue;
 		}
 
 		if ((flag & 0x4000) == 0) {
+			/* XOR with string */
 			flag &= 0x3FFF;
 			for (; flag > 0; flag--) {
 				*dst++ ^= *src++;
@@ -59,6 +65,7 @@ void Format40_Decode(uint8 *dst, uint8 *src)
 		}
 
 		{
+			/* XOR with value */
 			flag &= 0x3FFF;
 			for (; flag > 0; flag--) {
 				*dst++ ^= *src;
@@ -92,7 +99,8 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 		if (flag == 0) {
 			uint8 value;
 
-			flag = *src++;
+			/* XOR with value */
+			flag = *src++;	/* count */
 			value = *src++;
 			do {
 				*dst++ ^= value;
@@ -108,6 +116,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 		}
 
 		if (flag < 128) {
+			/* XOR with string */
 			do {
 				*dst++ ^= *src++;
 				length++;
@@ -122,6 +131,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 		}
 
 		if (flag > 128) {
+			/* skip bytes */
 			dst   += flag & 0x7F;
 			length += flag & 0x7F;
 			while (length >= width) {
@@ -132,12 +142,14 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 			continue;
 		}
 
+		/* last byte was 0x80 : read 16 bit value */
 		flag = *src | (src[1] << 8);
 		src += 2;
 
 		if (flag == 0) break;
 
 		if (flag < 0x8000) {
+			/* skip bytes */
 			dst   += flag;
 			length += flag;
 			while (length >= width) {
@@ -149,7 +161,8 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 		}
 
 		if ((flag & 0x4000) == 0) {
-			flag &= 0x3FFF;
+			/* XOR with string */
+			flag &= 0x3FFF;	/* count */
 			do {
 				*dst++ ^= *src++;
 				length++;
@@ -166,7 +179,8 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 		{
 			uint8 value;
 
-			flag &= 0x3FFF;
+			/* XOR with value */
+			flag &= 0x3FFF;	/* count */
 			value = *src++;
 			do {
 				*dst++ ^= value;
@@ -205,7 +219,8 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 		if (flag == 0) {
 			uint8 value;
 
-			flag  = *src++;
+			/* XOR with value */
+			flag  = *src++;	/* count */
 			value = *src++;
 			do {
 				*dst++ = value;
@@ -221,6 +236,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 		}
 
 		if (flag < 128) {
+			/* XOR with string */
 			do {
 				*dst++ = *src++;
 				length++;
@@ -235,6 +251,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 		}
 
 		if (flag > 128) {
+			/* skip bytes */
 			dst   += flag & 0x7F;
 			length += flag & 0x7F;
 			while (length >= width) {
@@ -245,12 +262,14 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 			continue;
 		}
 
+		/* last byte was 0x80 : read 16 bit value */
 		flag = *src | (src[1] << 8);
 		src += 2;
 
 		if (flag == 0) break;
 
 		if (flag < 0x8000) {
+			/* skip bytes */
 			dst   += flag;
 			length += flag;
 			while (length >= width) {
@@ -262,6 +281,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 		}
 
 		if ((flag & 0x4000) == 0) {
+			/* XOR with string */
 			flag &= 0x3FFF;
 			do {
 				*dst++ = *src++;
@@ -279,7 +299,8 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 		{
 			uint8 value;
 
-			flag &= 0x3FFF;
+			/* XOR with value */
+			flag &= 0x3FFF;	/* count */
 			value = *src++;
 			do {
 				*dst++ = value;
