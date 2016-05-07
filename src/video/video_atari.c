@@ -6,6 +6,7 @@
 #include <mint/osbind.h>
 #include <mint/ostruct.h>
 #include <mint/falcon.h>
+#include <mint/cookie.h>
 
 #include "types.h"
 #include "video.h"
@@ -21,6 +22,10 @@ extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
 
 static short s_savedmode = 0;
 
+static enum {
+	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_TT, MCH_FALCON, MCH_OTHER
+} s_machine_type = MCH_UNKNOWN;
+
 /* mouse : */
 static int s_mouse_x = SCREEN_WIDTH/2;
 static int s_mouse_x_min = 0;
@@ -29,6 +34,11 @@ static int s_mouse_y = SCREEN_HEIGHT/2;
 static int s_mouse_y_min = 0;
 static int s_mouse_y_max = SCREEN_HEIGHT-1;
 
+/**
+ * Mouse interrupt Handler
+ *
+ * Receive and process Mouse IKBD packets.
+ */
 static void Mouse_Handler(char * ikbd_packet)
 {
 	/* The relative mouse position record is a three byte record of the form
@@ -55,6 +65,35 @@ static void Mouse_Handler(char * ikbd_packet)
 	                   ikbd_packet[0]&2 /*left*/, ikbd_packet[0]&1 /*right*/);
 }
 
+static void Detect_Machine(void)
+{
+	long machine_type;
+	/* Get machine type with '_MCH' cookie */
+	if(Getcookie(C__MCH, &machine_type) == C_FOUND) {
+		switch(machine_type >> 16) {
+		case 0:
+			s_machine_type = MCH_ST;
+			break;
+		case 1:
+			s_machine_type = MCH_STE;
+			break;
+		case 2:
+			s_machine_type = MCH_TT;
+			break;
+		case 3:
+			s_machine_type = MCH_FALCON;
+			break;
+		default:
+			s_machine_type = MCH_OTHER;
+		}
+		Debug("Detect_Machine() _MCH cookie value : %08lx\n", machine_type);
+	} else {
+		/* Failed to get Cookie => Plain old ST ? */
+		s_machine_type = MCH_ST;
+		Warning("Failed to get _MCH cookie\n");
+	}
+}
+
 /**
  * Initialize the video driver.
  */
@@ -65,11 +104,22 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	VARIABLE_NOT_USED(screen_magnification);
 
 	(void)Cconws("Video_Init()\r\n");
+	if(s_machine_type == MCH_UNKNOWN) Detect_Machine();
+	if(s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+		Error("Only TT and Falcon 8bpp graphics supported.\n");
+		return false;
+	}
 	(void)Cursconf(0, 0);	/* switch cursor Off */
 	g_consoleActive = false;
-	/* TODO : support TT 8bps video mode */
-	s_savedmode = VsetMode(VM_INQUIRE);	/* get current mode */
-	(void)VsetMode((s_savedmode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
+	if(s_machine_type == MCH_FALCON) {
+		s_savedmode = VsetMode(VM_INQUIRE);	/* get current mode */
+		(void)VsetMode((s_savedmode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
+	} else if(s_machine_type == MCH_TT) {
+		/* TODO : support TT 8bps video mode */
+		Warning("TT Graphic setup not available yet.\nPlease start game in TT low.\n");
+	} else {
+		Error("Unsupported machine type.\n");
+	}
 
 	/* install mouse handler */
 	memset(&mouseparam, 0, sizeof(mouseparam));
@@ -126,18 +176,30 @@ void Video_Tick(void)
  */
 void Video_SetPalette(void *palette, int from, int length)
 {
-	uint8 *p = palette;
-	uint8 falconpal[256*4];
 	int i;
+	uint8 *p = palette;
 
-	for(i = 0; i < length; i++) {
-		falconpal[i*4+0] = 0;
-		falconpal[i*4+1] = *p++ << 2; /* R */
-		falconpal[i*4+2] = *p++ << 2; /* G */
-		falconpal[i*4+3] = *p++ << 2; /* B */
+	if(s_machine_type == MCH_FALCON) {
+		uint8 falconpal[256*4];
+
+		for(i = 0; i < length; i++) {
+			falconpal[i*4+0] = 0;
+			falconpal[i*4+1] = *p++ << 2; /* R */
+			falconpal[i*4+2] = *p++ << 2; /* G */
+			falconpal[i*4+3] = *p++ << 2; /* B */
+		}
+		VsetRGB(from, length, falconpal);
+	} else if(s_machine_type == MCH_TT) {
+		uint16 rgb12;
+
+		for(i = 0; i < length; i++) {
+			rgb12 = (p[0] >> 2) << 8 | (p[1] >> 2) << 4 | (p[2] >> 2);
+			p += 3;
+			(void)EsetColor(from + i, rgb12);
+		}
+	} else {
+		Error("don't know how to set palette on this machine.\n");
 	}
-
-	VsetRGB(from, length, falconpal);
 }
 
 /**
