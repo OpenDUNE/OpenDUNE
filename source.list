@@ -5,6 +5,11 @@ audio/driver.c
 audio/dsp_win32.c
 audio/midi_win32.c
 #else
+#if TOS
+audio/dsp_atari.c
+audio/atari_dma_sound.s
+audio/midi_none.c
+#else
 # DSP
 	#if PULSE
 		audio/dsp_pulse.c
@@ -33,6 +38,7 @@ audio/midi_win32.c
 			audio/midi_none.c
 		#endif
 	#endif
+#endif
 #endif
 audio/mt32mpu.c
 audio/sound.c
