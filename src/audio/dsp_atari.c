@@ -17,6 +17,7 @@ extern void stop_dma_sound(void);
  * (6258Hz is not available on falcon) */
 #define DMASOUND_FREQ 12517
 /*#define DMASOUND_FREQ 25033*/
+#define DMASOUND_BUFFER_SIZE	64*1024
 
 static uint8 *s_stRamBuffer;
 static uint32 s_stRamBufferSize;
@@ -39,7 +40,7 @@ void DSP_Uninit(void)
 bool DSP_Init(void) 
 {
 	/* allocate ST RAM buffer for audio */
-	s_stRamBufferSize = 50*1024;
+	s_stRamBufferSize = DMASOUND_BUFFER_SIZE;
 	s_stRamBuffer = (uint8 *)Mxalloc(s_stRamBufferSize, MX_STRAM);
 	if(s_stRamBuffer == NULL) {
 		Error("Failed to allocate %u bytes of ST RAM for DMA sound.\n",
