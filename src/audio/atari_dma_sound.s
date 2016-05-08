@@ -1,6 +1,8 @@
-	xdef	_set_dma_sound	; export symbol
+	xdef	_set_dma_sound	; export symbols
 	xdef	_stop_dma_sound
+	xdef	_get_dma_status
 
+	; 2 arguments on stack: void * buffer, long len
 _set_dma_sound:
 	movem.l	d5-d6,-(sp)
 	move.l	16(sp),d6	; len
@@ -17,6 +19,10 @@ _set_dma_sound:
 
 _stop_dma_sound:
 	clr.b    $FFFF8901.w;DMA OFF
+	rts
+
+_get_dma_status:
+	move.b	$FFFF8901.w,d0
 	rts
 
 setdmaaddrsub:	; set start/end address

@@ -10,7 +10,8 @@
 #include "dsp.h"
 
 extern void set_dma_sound(void * buffer, uint32 len);
-extern void stop_dma_sound(void);
+extern void stop_dma_sound(void);	/* needs to be called in supervisor mode */
+extern uint32 get_dma_status(void);	/* needs to be called in supervisor mode */
 
 /* STE/TT/Falcon DMA Sound is able to play at :
  * 50066Hz 25033Hz 12517Hz 6258Hz
@@ -132,5 +133,8 @@ void DSP_Play(const uint8 *data)
  */
 uint8 DSP_GetStatus(void)
 {
-	return 0;
+	uint8 status = (uint8)Supexec(get_dma_status);
+	Debug("DSP_GetStatus() status = %02x : %s\n",
+	      status, (status != 0) ? "Playing" : "Stopped");
+	return (status != 0) ? 2 : 0;
 }
