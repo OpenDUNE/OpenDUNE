@@ -946,11 +946,10 @@ make_cflags_and_ldflags() {
 	fi
 
 	if [ "$os" = "TOS" ]; then
-		CFLAGS="-m68030 $CFLAGS"
+		CFLAGS="-m68030 -msoft-float $CFLAGS"
 		LDFLAGS="$LDFLAGS -Wl,--traditional-format"
 		as_host="vasmm68k_mot"
-		#asflags="-m68030 -Felf"
-		asflags="-m68030 -Faout"
+		asflags="-m68030 -Faout -quiet"
 	fi
 
 	if [ -n "$sdl_config" ]; then
