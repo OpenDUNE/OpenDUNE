@@ -23,11 +23,13 @@ extern void uninstall_ikbd_handler(void);
 /* chunky to planar routine : */
 extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
 
-static short s_savedmode = 0;
+static short s_savedMode = 0;
 
 static enum {
 	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_TT, MCH_FALCON, MCH_OTHER
 } s_machine_type = MCH_UNKNOWN;
+
+static uint32 s_paletteBackup[256];
 
 /* mouse : */
 static int s_mouse_x = SCREEN_WIDTH/2;
@@ -115,11 +117,17 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	g_consoleActive = false;
 	/* TODO : save palette */
 	if(s_machine_type == MCH_FALCON) {
-		s_savedmode = VsetMode(VM_INQUIRE);	/* get current mode */
-		(void)VsetMode((s_savedmode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
+		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
+		(void)VsetMode((s_savedMode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
+		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
+#if 0
 		/* TODO : set TT 8bps video mode */
 		Warning("TT Graphic setup not available yet.\nPlease start game in TT low.\n");
+#endif
+		s_savedMode = EgetShift();
+		EsetShift(TT_LOW); /* set TT 8bps video mode */
+		EgetPalette(0, 256, s_paletteBackup);	/* backup palette */
 	} else {
 		Error("Unsupported machine type.\n");
 	}
@@ -134,7 +142,13 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
  */
 void Video_Uninit(void)
 {
-	(void)VsetMode(s_savedmode);
+	if(s_machine_type == MCH_FALCON) {
+		VsetRGB(0, 256, s_paletteBackup);
+		(void)VsetMode(s_savedMode);
+	} else if(s_machine_type == MCH_TT) {
+		EsetPalette(0, 256, s_paletteBackup);
+		(void)EsetShift(s_savedMode);
+	}
 	Supexec(uninstall_ikbd_handler);
 	(void)Cursconf(1, 0);	/* switch cursor On */
 	g_consoleActive = true;
@@ -164,7 +178,7 @@ void Video_SetPalette(void *palette, int from, int length)
 	uint8 *p = palette;
 
 	if(s_machine_type == MCH_FALCON) {
-		uint8 falconpal[256*4];
+		static uint8 falconpal[256*4];
 
 		for(i = 0; i < length; i++) {
 			falconpal[i*4+0] = 0;
@@ -174,13 +188,13 @@ void Video_SetPalette(void *palette, int from, int length)
 		}
 		VsetRGB(from, length, falconpal);
 	} else if(s_machine_type == MCH_TT) {
-		uint16 rgb12;
+		static uint16 rgb12[256];
 
 		for(i = 0; i < length; i++) {
-			rgb12 = (p[0] >> 2) << 8 | (p[1] >> 2) << 4 | (p[2] >> 2);
+			rgb12[i] = (p[0] >> 2) << 8 | (p[1] >> 2) << 4 | (p[2] >> 2);
 			p += 3;
-			(void)EsetColor(from + i, rgb12);
 		}
+		EsetPalette(from, length, rgb12);
 	} else {
 		Error("don't know how to set palette on this machine.\n");
 	}
