@@ -15,7 +15,10 @@
 #include "../input/mouse.h"
 #include "../os/error.h"
 
-/* ATARI IKBD doc : https://www.kernel.org/doc/Documentation/input/atarikbd.txt */
+/* ATARI IKBD doc : https://www.kernel.org/doc/Documentation/input/atarikbd.txt
+ * see  */
+extern void install_ikbd_handler(void);
+extern void uninstall_ikbd_handler(void);
 
 /* chunky to planar routine : */
 extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
@@ -39,7 +42,7 @@ static int s_mouse_y_max = SCREEN_HEIGHT-1;
  *
  * Receive and process Mouse IKBD packets.
  */
-static void Mouse_Handler(char * ikbd_packet)
+void Mouse_Handler(char * ikbd_packet)
 {
 	/* The relative mouse position record is a three byte record of the form
 	(regardless of keyboard mode):
@@ -99,7 +102,6 @@ static void Detect_Machine(void)
  */
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
-	_PARAM mouseparam;
 	VARIABLE_NOT_USED(filter);
 	VARIABLE_NOT_USED(screen_magnification);
 
@@ -111,24 +113,19 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 	(void)Cursconf(0, 0);	/* switch cursor Off */
 	g_consoleActive = false;
+	/* TODO : save palette */
 	if(s_machine_type == MCH_FALCON) {
 		s_savedmode = VsetMode(VM_INQUIRE);	/* get current mode */
 		(void)VsetMode((s_savedmode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
 	} else if(s_machine_type == MCH_TT) {
-		/* TODO : support TT 8bps video mode */
+		/* TODO : set TT 8bps video mode */
 		Warning("TT Graphic setup not available yet.\nPlease start game in TT low.\n");
 	} else {
 		Error("Unsupported machine type.\n");
 	}
 
-	/* install mouse handler */
-	memset(&mouseparam, 0, sizeof(mouseparam));
-	mouseparam.xmax = SCREEN_WIDTH - 1;
-	mouseparam.ymax = SCREEN_HEIGHT - 1;
-	mouseparam.xstart = SCREEN_WIDTH / 2;
-	mouseparam.ystart = SCREEN_HEIGHT / 2;
-	/* 1 = relative mode, 2 = absolute mode */
-	Initmouse(1, &mouseparam, Mouse_Handler);
+	/* install IKBD handler */
+	Supexec(install_ikbd_handler);
 	return true;
 }
 
@@ -138,34 +135,21 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 void Video_Uninit(void)
 {
 	(void)VsetMode(s_savedmode);
+	Supexec(uninstall_ikbd_handler);
 	(void)Cursconf(1, 0);	/* switch cursor On */
 	g_consoleActive = true;
 }
 
 /**
- * Runs every tick to handle video driver updates.
+ * Runs every tick to handle video updates.
  */
 void Video_Tick(void)
 {
 	uint8 *screen = Physbase();
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 
-	/* handle keyboard input */
-	while(Cconis() != 0) {
-		uint8 scancode;
-		/*int32 in = Cnecin();*/	/* same as Cconin(); with no echo */
-		int32 in = Crawcin();
-		scancode = (in >> 16) & 0x7f;
-		/* TODO : scancode translation from ATARI to PC */
-		if(scancode != 0) {
-			Input_EventHandler(scancode);	/* keydown */
-			Input_EventHandler(scancode | 0x80);	/* keyup */
-		}
-	}
-
 	/* chunky to planar conversion */
 	c2p1x1_8_falcon(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
-	/*memcpy(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);*/
 }
 
 /**

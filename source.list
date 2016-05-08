@@ -69,6 +69,9 @@ ini.c
 inifile.c
 input/input.c
 input/mouse.c
+#if TOS
+input/atari_ikbd.s
+#endif
 load.c
 map.c
 object.c
