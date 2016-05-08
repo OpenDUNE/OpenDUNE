@@ -24,7 +24,7 @@ static uint32 s_sampleDataLen;
 
 void DSP_Stop(void)
 {
-	/*stop_dma_sound()*/
+	Supexec(stop_dma_sound);
 }
 
 void DSP_Uninit(void)
@@ -92,7 +92,6 @@ void DSP_Play(const uint8 *data)
 {
 	uint32 len;
 	uint32 freq;
-	DSP_Stop();
 
 	/* skip Create Voice File header */
 	data += READ_LE_UINT16(data + 20);

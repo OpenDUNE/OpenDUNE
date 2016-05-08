@@ -45,8 +45,8 @@ setdma:
 	;  12517HZ (d0=1)
 	;  25033HZ (d0=2)
 	;  50066HZ (d0=3)
-	moveq.l	#2,d0
-	;ori.b	#$80,d0		; set stereo bit
+	moveq.l	#1,d0
+	ori.b	#$80,d0		; set Mono Flag
 	move.b	d0,$FFFF8921.w
 
 	move.b  #1,$FFFF8901.w     * Start playback, single pass mode - stops at end
