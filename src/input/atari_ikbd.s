@@ -1,3 +1,13 @@
+	; MC6850 ACIA interrupt handler code
+	; MC6850 registers :
+	; $FFFFFC00  Keyboard ACIA control (w) / status (r)
+	; $FFFFFC02  Keyboard ACIA data (r/w)
+	; $FFFFFC04  MIDI ACIA control (w) / status (r)
+	; $FFFFFC06  MIDI ACIA data (r/w)
+	; http://dev-docs.atariforge.org/files/MC6850.pdf
+	;
+	; https://www.kernel.org/doc/Documentation/input/atarikbd.txt
+
 	xdef	_install_ikbd_handler	;export symbol
 	xdef	_uninstall_ikbd_handler	;export symbol
 
@@ -10,15 +20,15 @@ _install_ikbd_handler:
 
 	; Save MFP registers used for ACIA interrupt
 	lea	$fffffa00.w,a0
-	btst	#6,$9(a0)
+	btst	#6,$9(a0)	; Interrupt enable B / ACIA interrupt
 	sne		ikbd_ierb
-	btst	#6,$15(a0)
+	btst	#6,$15(a0)	; Interrupt mask B / ACIA interrupt
 	sne		ikbd_imrb
 
 	move.l	$118.w,old_ikbd
 	move.l	#ikbd,$118.w
-	bset	#6,$fffffa09.w	; IERB
-	bset	#6,$fffffa15.w	; IMRB
+	bset	#6,$9(a0)	; Interrupt enable B / ACIA interrupt
+	bset	#6,$15(a0)	; Interrupt mask B / ACIA interrupt
 
 	; Set relative mouse motion mode
 	; needed because running a .tos or .ttp program
@@ -69,17 +79,28 @@ _uninstall_ikbd_handler:
 
 
 ; custom IKBD vector
+; note : same interrupt vector is used for MIDI ACIA.
+; we are ignoring what comes from it at the moment
 	EVEN
 	dc.b	"XBRA"
 	dc.b	"IKBD"
 old_ikbd:	ds.l	1
 
 ikbd:
-	btst	#0,$fffffc00.w	; IKBD or MIDI ?
-	beq.s	ikbd_return		; MIDI => out
+	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
+							; RDRF = Receive Data Register Full
+	beq.s	ikbd_return		; nothing to receive
 	move.l	d0,-(sp)	; save register
 
-	move.b	$fffffc02.w,d0
+	; special codes :
+	; $f6 : status report (should not happen)
+	; $f7 : absolute mouse position (should not happen)
+	; $f8-$fb : relative mouse position (OK)
+	; $fc : time-of-day (should not happen) 6 bytes following
+	; $fd : joystick both sticks (TODO ?)
+	; $fe : joystick 0 (TODO ?)
+	; $ff : joystick 1 (OK)
+	move.b	$fffffc02.w,d0		; read MC6850 Receive data register
 	cmp.b	#$ff,d0				; joystick 1 ?
 	beq.s	.joystick1_packet
 	cmp.b	#$f8,d0				; mouse ?
@@ -112,16 +133,18 @@ ikbd_return:
 
 	; 2nd byte mouse packet handler
 ikbd_mousex:
-	btst	#0,$fffffc00.w	; IKBD or MIDI ?
-	beq.s	ikbd_return
+	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
+							; RDRF = Receive Data Register Full
+	beq.s	ikbd_return		; nothing to receive
 	move.b	$fffffc02.w,ikbd_mouse_pktx
-	move.l	#ikbd_mousey,$118.w		; handler for next 3rd byte
+	move.l	#ikbd_mousey,$118.w		; handler for mouse 3rd byte
 	bra.s	ikbd_return
 
 	; 3nd byte mouse packet handler
 ikbd_mousey:
-	btst	#0,$fffffc00.w	; IKBD or MIDI ?
-	beq.s	ikbd_return
+	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
+							; RDRF = Receive Data Register Full
+	beq.s	ikbd_return		; nothing to receive
 	move.b	$fffffc02.w,ikbd_mouse_pkty
 	movem.l	d0-d1/a0-a1,-(sp)
 	pea		ikbd_mouse_pkt0
@@ -131,11 +154,13 @@ ikbd_mousey:
 	move.l	#ikbd,$118.w		; back to regular handler
 	bra.s	ikbd_return
 
+	; joystick 2nd byte handler
 ikbd_poll_joystick1:
-	btst	#0,$fffffc00.w	; IKBD or MIDI ?
-	beq.s	ikbd_return
+	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
+							; RDRF = Receive Data Register Full
+	beq.s	ikbd_return		; nothing to receive
 
-	btst.b	#0,$fffffc02.w	; consume joystick byte, do nothing with it
+	tst.b	$fffffc02.w	; consume joystick byte, do nothing with it
 
 	move.l	#ikbd,$118.w		; back to regular handler
 	bra.s	ikbd_return
