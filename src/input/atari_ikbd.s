@@ -89,7 +89,7 @@ old_ikbd:	ds.l	1
 ikbd:
 	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
 							; RDRF = Receive Data Register Full
-	beq.s	ikbd_return		; nothing to receive
+	beq.s	ikbd_callold	; nothing to receive might be MIDI ?
 	move.l	d0,-(sp)	; save register
 
 	; special codes :
@@ -131,11 +131,15 @@ ikbd_return:
 	rte					; return from interrupt
 
 
+ikbd_callold:				; call old routine, so MIDI or other can be
+	move.l	old_ikbd,-(sp)	; processed
+	rts
+
 	; 2nd byte mouse packet handler
 ikbd_mousex:
 	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
 							; RDRF = Receive Data Register Full
-	beq.s	ikbd_return		; nothing to receive
+	beq.s	ikbd_callold	; nothing to receive might be MIDI ?
 	move.b	$fffffc02.w,ikbd_mouse_pktx
 	move.l	#ikbd_mousey,$118.w		; handler for mouse 3rd byte
 	bra.s	ikbd_return
@@ -144,21 +148,21 @@ ikbd_mousex:
 ikbd_mousey:
 	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
 							; RDRF = Receive Data Register Full
-	beq.s	ikbd_return		; nothing to receive
+	beq.s	ikbd_callold	; nothing to receive might be MIDI ?
 	move.b	$fffffc02.w,ikbd_mouse_pkty
+	move.l	#ikbd,$118.w		; back to regular handler
 	movem.l	d0-d1/a0-a1,-(sp)
 	pea		ikbd_mouse_pkt0
 	jsr		_Mouse_Handler		; call higher level mouse handler
 	addq.l	#4,sp
 	movem.l	(sp)+,d0-d1/a0-a1
-	move.l	#ikbd,$118.w		; back to regular handler
 	bra.s	ikbd_return
 
 	; joystick 2nd byte handler
 ikbd_poll_joystick1:
 	btst	#0,$fffffc00.w	; test bit 0 of MC6850 Status register
 							; RDRF = Receive Data Register Full
-	beq.s	ikbd_return		; nothing to receive
+	beq.s	ikbd_callold	; nothing to receive might be MIDI ?
 
 	tst.b	$fffffc02.w	; consume joystick byte, do nothing with it
 
