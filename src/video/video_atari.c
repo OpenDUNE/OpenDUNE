@@ -225,6 +225,16 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 	s_mouse_x_max = maxX;
 	s_mouse_y_min = minY;
 	s_mouse_y_min = maxY;
+	if(s_mouse_x < s_mouse_x_min) {
+		s_mouse_x = s_mouse_x_min;
+	} else if(s_mouse_x > s_mouse_x_max) {
+		s_mouse_x = s_mouse_x_max;
+	}
+	if(s_mouse_y < s_mouse_y_min) {
+		s_mouse_y = s_mouse_y_min;
+	} else if(s_mouse_y > s_mouse_y_max) {
+		s_mouse_y = s_mouse_y_max;
+	}
 }
 
 /*
