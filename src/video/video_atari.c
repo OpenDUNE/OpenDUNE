@@ -41,6 +41,9 @@ static int s_mouse_x_max = SCREEN_WIDTH-1;
 static int s_mouse_y = SCREEN_HEIGHT/2;
 static int s_mouse_y_min = 0;
 static int s_mouse_y_max = SCREEN_HEIGHT-1;
+static bool s_mouse_left_btn = false;
+static bool s_mouse_right_btn = true;
+static volatile bool s_mouse_state_changed = false;
 
 /**
  * Mouse interrupt Handler
@@ -69,8 +72,13 @@ void Mouse_Handler(char * ikbd_packet)
 	} else if(s_mouse_y > s_mouse_y_max) {
 		s_mouse_y = s_mouse_y_max;
 	}
+#if 0
 	Mouse_EventHandler(s_mouse_x, s_mouse_y,
 	                   ikbd_packet[0]&2 /*left*/, ikbd_packet[0]&1 /*right*/);
+#endif
+	s_mouse_left_btn = ikbd_packet[0]&2;
+	s_mouse_right_btn = ikbd_packet[0]&1;
+	s_mouse_state_changed = true;
 }
 
 static void Detect_Machine(void)
@@ -124,10 +132,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		(void)VsetMode((s_savedMode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
 		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
-#if 0
-		/* TODO : set TT 8bps video mode */
-		Warning("TT Graphic setup not available yet.\nPlease start game in TT low.\n");
-#endif
+		/* set TT 8bps video mode */
 		s_savedMode = EgetShift();
 		EsetShift(TT_LOW); /* set TT 8bps video mode */
 		EgetPalette(0, 256, s_paletteBackup);	/* backup palette */
@@ -135,7 +140,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Unsupported machine type.\n");
 	}
 
-	/* install IKBD handler */
+	/* install IKBD handler for mouse and keyboard IRQ */
 	Supexec(install_ikbd_handler);
 	return true;
 }
@@ -164,6 +169,13 @@ void Video_Tick(void)
 {
 	uint8 *screen = Physbase();
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+
+	/* send mouse event */
+	if(s_mouse_state_changed) {
+		s_mouse_state_changed = true;
+		Mouse_EventHandler(s_mouse_x, s_mouse_y,
+		                   s_mouse_left_btn, s_mouse_right_btn);
+	}
 
 	data += (s_screenOffset << 2);
 	/* chunky to planar conversion */
