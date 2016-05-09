@@ -11,3 +11,11 @@ http://sun.hasenbraten.de/vasm/
 
 Discussion about the port on atari-forum.com :
 http://www.atari-forum.com/viewtopic.php?f=26&t=29873
+Precompiled versions :
+http://nanard.free.fr/opendune/
+
+MIDI music is sent to the ATARI MIDI Out port.
+320x200 (RGB) or 320x240 (VGA) 8bpp modes are used on Falcon.
+TT Low (320x480 8bpp) is used on TT.
+
+Thomas Bernard

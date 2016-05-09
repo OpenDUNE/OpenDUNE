@@ -33,6 +33,7 @@ Currently we official support the following platforms:
   - Linux
   - Mac OS X (Intel, i686 / x86_64, 10.4+)
   - Windows
+  - Atari TOS (68030+ CPU, TT and Falcon machines supported)
 
 
 Requirements
@@ -45,6 +46,7 @@ For Linux, you need to install LibSDL yourself. It is available in every
  package manager, and the chances are high it is already installed on your
  system.
 In order to use sounds and music on Linux, you need a working ALSA driver.
+Music is sent to MIDI Out port of Atari machines.
 
 
 Installation & Running
