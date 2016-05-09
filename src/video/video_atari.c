@@ -32,6 +32,8 @@ static enum {
 
 static uint32 s_paletteBackup[256];
 
+static uint16 s_screenOffset = 0;
+
 /* mouse : */
 static int s_mouse_x = SCREEN_WIDTH/2;
 static int s_mouse_x_min = 0;
@@ -163,6 +165,7 @@ void Video_Tick(void)
 	uint8 *screen = Physbase();
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 
+	data += (s_screenOffset << 2);
 	/* chunky to planar conversion */
 	if(s_machine_type == MCH_TT) {
 		c2p1x1_8_tt(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
@@ -232,6 +235,5 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
  */
 void Video_SetOffset(uint16 offset)
 {
-	/* TODO */
-	VARIABLE_NOT_USED(offset);
+	s_screenOffset = offset;
 }
