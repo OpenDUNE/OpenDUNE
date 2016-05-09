@@ -22,6 +22,7 @@ extern void uninstall_ikbd_handler(void);
 
 /* chunky to planar routine : */
 extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
+extern void c2p1x1_8_tt(void * planar, void * chunky, uint32 count);
 
 static short s_savedMode = 0;
 
@@ -115,7 +116,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 	(void)Cursconf(0, 0);	/* switch cursor Off */
 	g_consoleActive = false;
-	/* TODO : save palette */
+
 	if(s_machine_type == MCH_FALCON) {
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
 		(void)VsetMode((s_savedMode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
@@ -163,7 +164,11 @@ void Video_Tick(void)
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 
 	/* chunky to planar conversion */
-	c2p1x1_8_falcon(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
+	if(s_machine_type == MCH_TT) {
+		c2p1x1_8_tt(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
+	} else {
+		c2p1x1_8_falcon(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
+	}
 }
 
 /**
