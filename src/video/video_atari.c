@@ -227,12 +227,14 @@ void Video_SetPalette(void *palette, int from, int length)
  */
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
+	Debug("Video_Mouse_SetPosition(%hu, %hu)\n", x, y);
 	s_mouse_x = x;
 	s_mouse_y = y;
 }
 
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
+	Debug("Video_Mouse_SetRegion(%hu, %hu, %hu, %hu)\n", minX, maxX, minY, maxY);
 	s_mouse_x_min = minX;
 	s_mouse_x_max = maxX;
 	s_mouse_y_min = minY;
