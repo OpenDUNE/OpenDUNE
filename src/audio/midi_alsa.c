@@ -127,6 +127,10 @@ void midi_send(uint32 data)
 	snd_seq_ev_set_subs(&ev);
 	snd_seq_ev_set_direct(&ev);
 
+	/* TO BE FIXED for Big Endian machines */
+	/* http://www.alsa-project.org/alsa-doc/alsa-lib/group___m_i_d_i___event.html */
+	/* Any bytes that are not part of a valid MIDI message are silently
+	 * ignored, i.e., they are consumed without signaling an error. */
 	snd_midi_event_encode(s_midiCoder, (uint8 *)&data, sizeof(uint32), &ev);
 
 	snd_seq_event_output(s_midi, &ev);
