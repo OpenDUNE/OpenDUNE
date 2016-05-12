@@ -449,6 +449,51 @@ void Video_Uninit(void)
 	s_init = false;
 }
 
+#ifdef _DEBUG
+static void Video_Stats(const uint8 * screen)
+{
+	unsigned int i, j;
+	static uint16 freq[256];
+	unsigned int unused_colors;
+	static unsigned int last_unused_colors = 0;
+	uint16 rgb12pal[256];
+	uint8 similar_color[256];
+	unsigned int n_similar_colors;
+
+	memset(freq, 0, sizeof(freq));
+	for(i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
+		freq[screen[i]]++;
+	}
+
+	unused_colors = 0;
+	for(i = 0; i < 256; i++) {
+		if(freq[i] == 0) unused_colors++;
+	}
+	if(unused_colors != last_unused_colors) {
+		Debug("Unused colors : %u (used = %u)\n", unused_colors, 256 - unused_colors);
+		last_unused_colors = unused_colors;
+	}
+	n_similar_colors = 0;
+	for(i = 0; i < 256; i++) {
+		if(freq[i] == 0) rgb12pal[i] = 0xffff;
+		else {
+			rgb12pal[i] = ((rgb_palette[i] >> 4) & 0x00f) | ((rgb_palette[i] >> 8) & 0x0f0) | ((rgb_palette[i] >> 12) & 0xf00);
+			similar_color[i] = i;
+			for(j = 0; j < i; j++) {
+				if(freq[j] != 0 && rgb_palette[i] == rgb_palette[j]) {
+					similar_color[i] = j;
+					n_similar_colors++;
+					break;
+				}
+			}
+		}
+	}
+	if(n_similar_colors > 0) {
+		Debug("Similar colors = %u\n", n_similar_colors);
+	}
+}
+#endif	/* _DEBUG */
+
 void Video_Tick(void)
 {
 	MSG msg;
@@ -498,6 +543,9 @@ void Video_Tick(void)
 	/* Do a quick compare to see if the screen changed at all */
 	if (memcmp(screen0, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
 		memcpy(s_screen, screen0, SCREEN_WIDTH * SCREEN_HEIGHT);
+#ifdef _DEBUG
+		Video_Stats(screen0);
+#endif	/* _DEBUG */
 		InvalidateRect(s_hwnd, NULL, TRUE);
 	}
 
