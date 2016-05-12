@@ -66,14 +66,12 @@ void Format40_Decode(uint8 *dst, uint8 *src)
  * @param src Data source.
  * @param width Width of the rectangle.
  */
-void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
+void Format40_Decode_XorToScreen(uint8 *dst, uint8 *src, uint16 width)
 {
-	uint8 *dst;
 	uint16 length;
 	uint16 cmd;
 	uint16 count;
 
-	dst = base;
 	length = 0;
 
 	for (;;) {
@@ -86,8 +84,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
 			}
 			src++;
@@ -98,8 +95,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
 			}
 		} else if (cmd != 0x80) {
@@ -108,8 +104,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 			length += cmd & 0x7F;
 			while (length >= width) {
 				length -= width;
-				base += SCREEN_WIDTH;
-				dst = base + length;
+				dst += (SCREEN_WIDTH - width);
 			}
 		} else {
 			/* last byte was 0x80 : read 16 bit value */
@@ -124,8 +119,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 				length += cmd;
 				while (length >= width) {
 					length -= width;
-					base += SCREEN_WIDTH;
-					dst = base + length;
+					dst += (SCREEN_WIDTH - width);
 				}
 			} else if ((cmd & 0x4000) == 0) {
 				/* XOR with string */
@@ -134,8 +128,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 					length++;
 					if (length == width) {
 						length = 0;
-						base += SCREEN_WIDTH;
-						dst = base;
+						dst += (SCREEN_WIDTH - width);
 					}
 				}
 			} else {
@@ -145,8 +138,7 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
 					length++;
 					if (length == width) {
 						length = 0;
-						base += SCREEN_WIDTH;
-						dst = base;
+						dst += (SCREEN_WIDTH - width);
 					}
 				}
 				src++;
@@ -161,14 +153,12 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
  * @param src Data source.
  * @param width Width of the rectangle.
  */
-void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
+void Format40_Decode_ToScreen(uint8 *dst, uint8 *src, uint16 width)
 {
-	uint8 *dst;
 	uint16 length;
 	uint16 cmd;
 	uint16 count;
 
-	dst = base;
 	length = 0;
 
 	for (;;) {
@@ -181,8 +171,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
 			}
 			src++;
@@ -193,8 +182,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
 			}
 		} else if (cmd != 0x80) {
@@ -203,8 +191,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 			length += cmd & 0x7F;
 			while (length >= width) {
 				length -= width;
-				base += SCREEN_WIDTH;
-				dst = base + length;
+				dst += (SCREEN_WIDTH - width);
 			}
 		} else {
 			/* last byte was 0x80 : read 16 bit value */
@@ -219,8 +206,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 				length += cmd;
 				while (length >= width) {
 					length -= width;
-					base += SCREEN_WIDTH;
-					dst = base + length;
+					dst += (SCREEN_WIDTH - width);
 				}
 			} else if ((cmd & 0x4000) == 0) {
 				/* copy string */
@@ -229,8 +215,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 					length++;
 					if (length == width) {
 						length = 0;
-						base += SCREEN_WIDTH;
-						dst = base;
+						dst += (SCREEN_WIDTH - width);
 					}
 				}
 			} else {
@@ -240,8 +225,7 @@ void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
 					length++;
 					if (length == width) {
 						length = 0;
-						base += SCREEN_WIDTH;
-						dst = base;
+						dst += (SCREEN_WIDTH - width);
 					}
 				}
 				src++;
