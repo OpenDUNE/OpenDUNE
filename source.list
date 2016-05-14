@@ -83,7 +83,11 @@ os/endian.c
 	os/readdir_win32.c
 #else
 	os/error.c
-	os/readdir.c
+	#if TOS
+		os/readdir_atari.c
+	#else
+		os/readdir.c
+	#endif
 #endif
 pool/house.c
 pool/structure.c
