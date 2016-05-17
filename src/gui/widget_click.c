@@ -1000,8 +1000,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					key -= 0x1E;
 
 					if (!save) {
-						LoadFile(GenerateSavegameFilename(s_savegameIndexBase - key));
-						return true;
+						return LoadFile(GenerateSavegameFilename(s_savegameIndexBase - key));
 					}
 
 					if (GUI_Widget_Savegame_Click(key)) return true;
