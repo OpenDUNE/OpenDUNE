@@ -426,7 +426,15 @@ static uint16 MPU_1B48(MSData *data)
 			data->variable_004C = (sound[0] << 20) | (sound[1] << 12) | (sound[2] << 4);
 			break;
 
-		default: break;
+		default:
+			{
+				int i;
+				Warning("MPU_1B48() type=%02X len=%hu\n", (int)type, len);
+				Warning("  ignored data : ");
+				for(i = 0 ; i < len; i++) Warning(" %02X", data->sound[i]);
+				Warning("\n");
+			}
+			break;
 	}
 
 	return len;
