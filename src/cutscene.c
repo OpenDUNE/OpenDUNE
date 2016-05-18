@@ -550,11 +550,12 @@ void GameLoop_LevelEndAnimation(void)
 
 static void GameCredits_SwapScreen(uint16 top, uint16 height, Screen screenID, void *buffer)
 {
-	uint16 *b = (uint16 *)buffer;
-	uint16 *screen1 = (uint16 *)GFX_Screen_Get_ByIndex(screenID) + top * SCREEN_WIDTH / 2;
-	uint16 *screen2 = (uint16 *)GFX_Screen_Get_ByIndex(SCREEN_0) + top * SCREEN_WIDTH / 2;
+	uint16 *b = (uint16 *)buffer;	/* destination */
+	const uint16 *screen1 = (uint16 *)GFX_Screen_Get_ByIndex(screenID) + top * SCREEN_WIDTH / 2;	/* source */
+	uint16 *screen2 = (uint16 *)GFX_Screen_Get_ByIndex(SCREEN_0) + top * SCREEN_WIDTH / 2;	/* secondary destination */
 	uint16 count = height * SCREEN_WIDTH / 2;
 
+	/* TODO : rewrite this ! */
 	while (count-- != 0) {
 		if (*b++ != *screen1++) {
 			if (count == 0) return;
