@@ -40,6 +40,10 @@ endif
 ifeq ($(OPENDUNE), opendune.exe)
 	$(Q)unix2dos "$(BUNDLE_DIR)/README.txt" "$(BUNDLE_DIR)/COPYING" "$(BUNDLE_DIR)/enhancement.txt"
 endif
+ifeq ($(OS), TOS)
+	$(Q)cp "$(ROOT_DIR)/README.atari"         "$(BUNDLE_DIR)/"
+	$(Q)unix2dos "$(BUNDLE_DIR)/README.txt" "$(BUNDLE_DIR)/README.atari" "$(BUNDLE_DIR)/COPYING" "$(BUNDLE_DIR)/enhancement.txt"
+endif
 
 ### Packing the current bundle into several compressed file formats ###
 #
