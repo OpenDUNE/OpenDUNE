@@ -829,6 +829,7 @@ uint32 File_ReadBlockFile_Ex(enum SearchDirectory dir, const char *filename, voi
 	uint8 index;
 
 	index = File_Open_Ex(dir, filename, FILE_MODE_READ);
+	if (index == FILE_INVALID) return 0;
 	length = File_Read(index, buffer, length);
 	File_Close(index);
 	return length;
@@ -848,6 +849,7 @@ void *File_ReadWholeFile(const char *filename)
 	void *buffer;
 
 	index = File_Open(filename, FILE_MODE_READ);
+	if (index == FILE_INVALID) return NULL;
 	length = File_GetSize(index);
 
 	buffer = malloc(length + 1);
