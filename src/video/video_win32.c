@@ -36,6 +36,13 @@ static void *s_screen = NULL;
 static void *s_screen2 = NULL;
 static uint16 s_x;
 static uint16 s_y;
+static uint16 s_window_width = 0;
+static uint16 s_window_height = 0;
+
+static LONG s_adjustLeft;
+static LONG s_adjustTop;
+static LONG s_adjustRight;
+static LONG s_adjustBottom;
 
 static uint16 s_screenOffset = 0;
 
@@ -156,7 +163,8 @@ static uint16 MapKey(WPARAM vk)
  */
 static void Video_Mouse_Callback(void)
 {
-	Mouse_EventHandler(s_mousePosX / s_screen_magnification, s_mousePosY / s_screen_magnification, s_mouseButtonLeft, s_mouseButtonRight);
+	Mouse_EventHandler(s_mousePosX * SCREEN_WIDTH / s_window_width, s_mousePosY * SCREEN_HEIGHT / s_window_height,
+		               s_mouseButtonLeft, s_mouseButtonRight);
 }
 
 static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -213,11 +221,49 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 				break;
 			case FILTER_NEAREST_NEIGHBOR:
 			default:
-				StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+				/*StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);*/
+				StretchBlt(dc, 0, 0, s_window_width, s_window_height,
+					       dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
 			}
 			SelectObject(dc2, old_bmp);
 			DeleteDC(dc2);
 			EndPaint(hwnd, &ps);
+			return 0;
+		}
+
+		case WM_SIZING: {
+			LONG width, height;
+			RECT * rect = (RECT *)lParam;
+
+			width = rect->right - rect->left - s_adjustRight + s_adjustLeft;
+			height = rect->bottom - rect->top - s_adjustBottom + s_adjustTop;
+			if(width * SCREEN_HEIGHT != height * SCREEN_WIDTH) {
+				/* adjust window to keep aspect ratio ! */
+				switch(wParam) {
+				case WMSZ_TOPRIGHT:
+				case WMSZ_TOPLEFT:
+				case WMSZ_LEFT:
+					rect->top = rect->bottom + s_adjustTop - s_adjustBottom - (width * SCREEN_HEIGHT) / SCREEN_WIDTH;
+					break;
+				case WMSZ_BOTTOMLEFT:
+				case WMSZ_BOTTOMRIGHT:
+				case WMSZ_RIGHT:
+					rect->bottom = rect->top - s_adjustTop + s_adjustBottom + (width * SCREEN_HEIGHT) / SCREEN_WIDTH;
+					break;
+				case WMSZ_TOP:
+					rect->left = rect->right - s_adjustRight + s_adjustLeft - (height * SCREEN_WIDTH) / SCREEN_HEIGHT;
+					break;
+				case WMSZ_BOTTOM:
+					rect->right = rect->left + s_adjustRight - s_adjustLeft + (height * SCREEN_WIDTH) / SCREEN_HEIGHT;
+					break;
+				}
+			}
+			return 0;
+		}
+
+		case WM_SIZE: {
+			s_window_width = (uint16)(LOWORD(lParam));
+			s_window_height = (uint16)(HIWORD(lParam));
 			return 0;
 		}
 
@@ -418,12 +464,18 @@ void Video_Tick(void)
 		RECT r;
 
 		style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
+		/* allow window to be resized with NEAREST NEIGHBOR filter */
+		if(s_scale_filter == FILTER_NEAREST_NEIGHBOR) style |= WS_THICKFRAME;
 
 		r.left   = 0;
 		r.top    = 0;
 		r.right  = SCREEN_WIDTH * s_screen_magnification;
 		r.bottom = SCREEN_HEIGHT * s_screen_magnification;
 		AdjustWindowRect(&r, style, false);
+		s_adjustLeft = r.left;
+		s_adjustTop = r.top;
+		s_adjustRight = r.right - SCREEN_WIDTH * s_screen_magnification;
+		s_adjustBottom = r.bottom - SCREEN_HEIGHT * s_screen_magnification;
 
 		s_hwnd = CreateWindow(s_className, window_caption, style, CW_USEDEFAULT, CW_USEDEFAULT, r.right - r.left, r.bottom - r.top, NULL, NULL, GetModuleHandle(NULL), NULL);
 		if (s_hwnd == NULL) {

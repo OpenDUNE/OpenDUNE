@@ -617,8 +617,12 @@ uint8 File_Open_Ex(enum SearchDirectory dir, const char *filename, uint8 mode)
 	g_fileOperation--;
 
 	if (res == FILE_INVALID) {
-		Error("Unable to open file '%s'.\n", filename);
-		exit(1);
+		if(dir == SEARCHDIR_PERSONAL_DATA_DIR) {
+			Warning("Unable to open file '%s'.\n", filename);
+		} else {
+			Error("Unable to open file '%s'.\n", filename);
+			exit(1);
+		}
 	}
 
 	return res;
