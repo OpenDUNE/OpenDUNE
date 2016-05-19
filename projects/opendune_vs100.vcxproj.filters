@@ -216,6 +216,9 @@
     <ClCompile Include="..\src\audio\dsp_none.c">
       <Filter>src\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_pulse.c">
+      <Filter>src\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\audio\dsp_sdl.c">
       <Filter>src\audio</Filter>
     </ClCompile>

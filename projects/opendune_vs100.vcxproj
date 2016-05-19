@@ -192,6 +192,10 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_pulse.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src\audio\dsp_sdl.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
