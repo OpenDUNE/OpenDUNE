@@ -137,6 +137,23 @@ void midi_send(uint32 data)
 	snd_seq_drain_output(s_midi);
 }
 
+uint16 midi_send_string(const uint8 * data, uint16 len)
+{
+	snd_seq_event_t ev;
+
+	if (s_midi == NULL) return;
+
+	snd_seq_ev_clear(&ev);
+	snd_seq_ev_set_source(&ev, s_midiPort);
+	snd_seq_ev_set_subs(&ev);
+	snd_seq_ev_set_direct(&ev);
+
+	snd_midi_event_encode(s_midiCoder, data, len, &ev);
+
+	snd_seq_event_output(s_midi, &ev);
+	snd_seq_drain_output(s_midi);
+}
+
 void midi_reset(void)
 {
 	if (s_midi == NULL) return;
