@@ -17,6 +17,7 @@
 #include "../opendune.h"
 #include "../string.h"
 #include "../tile.h"
+#include "../timer.h"
 
 
 static void *g_voiceData[NUM_VOICES];            /*!< Preloaded Voices sound data */
@@ -100,6 +101,28 @@ void Music_Play(uint16 musicID)
 	}
 
 	Driver_Music_Play(g_table_musics[musicID].index, 0xFF);
+}
+
+/**
+ * Initialises the MT-32.
+ * @param index The index of the music to play.
+ */
+void Music_InitMT32(void)
+{
+	uint16 left = 0;
+
+	Driver_Music_LoadFile("DUNEINIT");
+
+	Driver_Music_Play(0, 0xFF);
+
+	GUI_DrawText(String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
+
+	while (Driver_Music_IsPlaying()) {
+		Timer_Sleep(60);
+
+		left += 6;
+		GUI_DrawText(".", left, 10, 15, 12);
+	}
 }
 
 /**

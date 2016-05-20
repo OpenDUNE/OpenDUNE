@@ -381,7 +381,7 @@ static void MPU_16B7(MSData *data)
 	}
 }
 
-static uint16 MPU_1B48(MSData *data)
+static uint16 MPU_XMIDIMeta(MSData *data)
 {
 	uint8 *sound;
 	uint8 type;
@@ -400,14 +400,14 @@ static uint16 MPU_1B48(MSData *data)
 	len += (uint16)(sound - data->sound);
 
 	switch (type) {
-		case 0x2F:
+		case 0x2F:	/* End of track */
 			MPU_16B7(data);
 
 			data->playing = 2;
 			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);
 			break;
 
-		case 0x58: {
+		case 0x58: {	/* time sig */
 			int8 mul;
 
 			data->variable_0042 = sound[0];
@@ -422,11 +422,19 @@ static uint16 MPU_1B48(MSData *data)
 			data->variable_0048 = data->variable_0044;
 		} break;
 
-		case 0x51:
+		case 0x51:	/* TEMPO meta-event */
 			data->variable_004C = (sound[0] << 20) | (sound[1] << 12) | (sound[2] << 4);
 			break;
 
-		default: break;
+		default:
+			{
+				int i;
+				Warning("MPU_1B48() type=%02X len=%hu\n", (int)type, len);
+				Warning("  ignored data : ");
+				for(i = 0 ; i < len; i++) Warning(" %02X", data->sound[i]);
+				Warning("\n");
+			}
+			break;
 	}
 
 	return len;
@@ -519,39 +527,65 @@ void MPU_Interrupt(void)
 					}
 
 					chan = status & 0xF;
-					status &= 0xF0;
 					data1 = data->sound[1];
 					data2 = data->sound[2];
 
-					if (status >= 0xF0) {
-						assert(chan == 0xF);
-						nb = MPU_1B48(data);
-					} else if (status >= 0xE0) {
+					switch(status & 0xF0) {
+					case 0xF0:	/* System */
+						if(chan == 0xF) {
+							/* 0xFF Meta event */
+							nb = MPU_XMIDIMeta(data);
+						} else if(chan == 0) {
+							/* System Exclusive */
+							static uint8 buffer[320];
+							int i;
+							/* decode XMID variable len */
+							i = 1;
+							nb = 0;
+							do {
+								nb = (nb << 7) | (data->sound[i] & 0x7F);
+							} while(data->sound[i++] & 0x80);
+							buffer[0] = status;
+							assert(nb < sizeof(buffer));
+							memcpy(buffer + 1, data->sound + i, nb);
+							midi_send_string(buffer, nb + 1);
+							nb += i;
+						} else {
+							Error("status = %02X\n", status);
+							nb = 1;
+						}
+						break;
+					case 0xE0:	/* Pitch Bend change */
 						s_mpu_pitchWheel[chan] = (data2 << 8) + data1;
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
-					} else if (status >= 0xD0) {
+						break;
+					case 0xD0:	/* Channel Pressure / aftertouch */
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
-					} else if (status >= 0xC0) {
+						break;
+					case 0xC0:	/* Program Change */
 						s_mpu_programs[chan] = data1;
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
-					} else if (status >= 0xB0) {
+						break;
+					case 0xB0:	/* Control Change */
 						MPU_Control(data, chan, data1, data2);
 						nb = 0x3;
-					} else if (status >= 0xA0) {
+						break;
+					case 0xA0:	/* Polyphonic key pressure / aftertouch */
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
-					} else {
+						break;
+					default:	/* 0x80 Note Off / 0x90 Note On */
 						nb = MPU_NoteOn(data);
 					}
 

@@ -240,7 +240,6 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 
 	if (filename == NULL) return;
 	if (g_driverVoice->index == 0xFFFF) return;
-	if (!File_Exists(filename)) return;
 
 	File_ReadBlockFile(filename, buffer, length);
 }

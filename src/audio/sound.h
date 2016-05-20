@@ -37,6 +37,7 @@ extern const Feedback g_feedback[];
 extern const uint16 g_translatedVoice[][NUM_SPEECH_PARTS];
 
 extern void Music_Play(uint16 musicID);
+extern void Music_InitMT32(void);
 extern void Voice_PlayAtTile(int16 voiceID, tile32 position);
 extern void Voice_Play(int16 voiceID);
 extern void Voice_LoadVoices(uint16 voiceSet);
