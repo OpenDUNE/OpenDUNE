@@ -381,7 +381,7 @@ static void MPU_16B7(MSData *data)
 	}
 }
 
-static uint16 MPU_1B48(MSData *data)
+static uint16 MPU_XMIDIMeta(MSData *data)
 {
 	uint8 *sound;
 	uint8 type;
@@ -400,14 +400,14 @@ static uint16 MPU_1B48(MSData *data)
 	len += (uint16)(sound - data->sound);
 
 	switch (type) {
-		case 0x2F:
+		case 0x2F:	/* End of track */
 			MPU_16B7(data);
 
 			data->playing = 2;
 			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);
 			break;
 
-		case 0x58: {
+		case 0x58: {	/* time sig */
 			int8 mul;
 
 			data->variable_0042 = sound[0];
@@ -422,7 +422,7 @@ static uint16 MPU_1B48(MSData *data)
 			data->variable_0048 = data->variable_0044;
 		} break;
 
-		case 0x51:
+		case 0x51:	/* TEMPO meta-event */
 			data->variable_004C = (sound[0] << 20) | (sound[1] << 12) | (sound[2] << 4);
 			break;
 
@@ -532,8 +532,13 @@ void MPU_Interrupt(void)
 
 					switch(status & 0xF0) {
 					case 0xF0:	/* System */
-						assert(chan == 0xF);
-						nb = MPU_1B48(data);
+						if(chan == 0xF) {
+							/* 0xFF Meta event */
+							nb = MPU_XMIDIMeta(data);
+						} else {
+							Error("status = %02X\n", status);
+							nb = 1;
+						}
 						break;
 					case 0xE0:	/* Pitch Bend change */
 						s_mpu_pitchWheel[chan] = (data2 << 8) + data1;
