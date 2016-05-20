@@ -535,6 +535,21 @@ void MPU_Interrupt(void)
 						if(chan == 0xF) {
 							/* 0xFF Meta event */
 							nb = MPU_XMIDIMeta(data);
+						} else if(chan == 0) {
+							/* System Exclusive */
+							static uint8 buffer[320];
+							int i;
+							/* decode XMID variable len */
+							i = 1;
+							nb = 0;
+							do {
+								nb = (nb << 7) | (data->sound[i] & 0x7F);
+							} while(data->sound[i++] & 0x80);
+							buffer[0] = status;
+							assert(nb < sizeof(buffer));
+							memcpy(buffer + 1, data->sound + i, nb);
+							midi_send_string(buffer, nb + 1);
+							nb += i;
 						} else {
 							Error("status = %02X\n", status);
 							nb = 1;

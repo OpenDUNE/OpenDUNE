@@ -66,6 +66,7 @@ Available options are :
 - savedir : directory for Dune personal data files (savegames)
 - scalefactor : 2 (default), 3, 4
 - scalefilter : nearest (default), scale2x, hqx
+- mt32init : 0(default)/1 send MT32 init
 
 
 Enhancement over Dune2
