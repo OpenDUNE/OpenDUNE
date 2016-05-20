@@ -141,7 +141,7 @@ uint16 midi_send_string(const uint8 * data, uint16 len)
 {
 	snd_seq_event_t ev;
 
-	if (s_midi == NULL) return;
+	if (s_midi == NULL) return len;
 
 	snd_seq_ev_clear(&ev);
 	snd_seq_ev_set_source(&ev, s_midiPort);
@@ -152,6 +152,7 @@ uint16 midi_send_string(const uint8 * data, uint16 len)
 
 	snd_seq_event_output(s_midi, &ev);
 	snd_seq_drain_output(s_midi);
+	return len;
 }
 
 void midi_reset(void)
