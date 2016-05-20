@@ -527,39 +527,45 @@ void MPU_Interrupt(void)
 					}
 
 					chan = status & 0xF;
-					status &= 0xF0;
 					data1 = data->sound[1];
 					data2 = data->sound[2];
 
-					if (status >= 0xF0) {
+					switch(status & 0xF0) {
+					case 0xF0:	/* System */
 						assert(chan == 0xF);
 						nb = MPU_1B48(data);
-					} else if (status >= 0xE0) {
+						break;
+					case 0xE0:	/* Pitch Bend change */
 						s_mpu_pitchWheel[chan] = (data2 << 8) + data1;
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
-					} else if (status >= 0xD0) {
+						break;
+					case 0xD0:	/* Channel Pressure / aftertouch */
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
-					} else if (status >= 0xC0) {
+						break;
+					case 0xC0:	/* Program Change */
 						s_mpu_programs[chan] = data1;
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
-					} else if (status >= 0xB0) {
+						break;
+					case 0xB0:	/* Control Change */
 						MPU_Control(data, chan, data1, data2);
 						nb = 0x3;
-					} else if (status >= 0xA0) {
+						break;
+					case 0xA0:	/* Polyphonic key pressure / aftertouch */
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
-					} else {
+						break;
+					default:	/* 0x80 Note Off / 0x90 Note On */
 						nb = MPU_NoteOn(data);
 					}
 
