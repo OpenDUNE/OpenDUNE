@@ -82,6 +82,15 @@ void midi_send(uint32 data)
 	}
 }
 
+uint16 midi_send_string(const uint8 * data, uint16 len)
+{
+	uint16 i;
+	for (i = 0; i < len; i++) {
+		Bconout(DEV_MIDI, data[i]);
+	}
+	return len;
+}
+
 void midi_reset(void)
 {
 }
