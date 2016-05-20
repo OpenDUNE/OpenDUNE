@@ -90,6 +90,13 @@ void midi_send(uint32 data)
 	result = MusicDeviceMIDIEvent(s_synthUnit, data & 0xff, (data >> 8) & 0xff, (data >> 16) & 0xff, 0);
 }
 
+uint16 midi_send_string(const uint8 * data, uint16 len)
+{
+	/* Ignoring system exclusive MIDI messages for not */
+	VARIABLE_NOT_USED(data);
+	return len;
+}
+
 void midi_reset(void)
 {
 	if (s_graph == 0) return;
