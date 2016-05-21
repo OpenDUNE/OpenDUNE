@@ -24,14 +24,14 @@ static uint32 s_mpu_usec = 0;
 
 typedef struct Controls {
 	uint8 volume;
-	uint8 variable_01;
-	uint8 variable_02;
-	uint8 variable_03;
+	uint8 modulation;
+	uint8 panpot;
+	uint8 expression;
 	uint8 sustain;
-	uint8 variable_05;
-	uint8 variable_06;
-	uint8 variable_07;
-	uint8 variable_08;
+	uint8 patch_bank_sel;
+	uint8 chan_lock;
+	uint8 chan_protect;
+	uint8 voice_protect;
 } Controls;
 
 typedef struct MSData {
@@ -236,107 +236,107 @@ static void MPU_289D(uint8 chan)
 	MPU_Send(0xB0 | chan, 123, 0);
 
 	if (s_mpu_controls[chan].volume != 0xFF)      MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);
-	if (s_mpu_controls[chan].variable_01 != 0xFF) MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].variable_01);
-	if (s_mpu_controls[chan].variable_02 != 0xFF) MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].variable_02);
-	if (s_mpu_controls[chan].variable_03 != 0xFF) MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].variable_03);
+	if (s_mpu_controls[chan].modulation != 0xFF)  MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].modulation);
+	if (s_mpu_controls[chan].panpot != 0xFF) MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].panpot);
+	if (s_mpu_controls[chan].expression != 0xFF) MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].expression);
 	if (s_mpu_controls[chan].sustain != 0xFF)     MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);
-	if (s_mpu_controls[chan].variable_05 != 0xFF) MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].variable_05);
-	if (s_mpu_controls[chan].variable_06 != 0xFF) MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].variable_06);
-	if (s_mpu_controls[chan].variable_07 != 0xFF) MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].variable_07);
-	if (s_mpu_controls[chan].variable_08 != 0xFF) MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].variable_08);
+	if (s_mpu_controls[chan].patch_bank_sel != 0xFF) MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].patch_bank_sel);
+	if (s_mpu_controls[chan].chan_lock != 0xFF) MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].chan_lock);
+	if (s_mpu_controls[chan].chan_protect != 0xFF) MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].chan_protect);
+	if (s_mpu_controls[chan].voice_protect != 0xFF) MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].voice_protect);
 
 	if (s_mpu_programs[chan] != 0xFF) MPU_Send(0xC0 | chan, s_mpu_programs[chan], 0);
 
 	if (s_mpu_pitchWheel[chan] != 0xFFFF) MPU_Send(0xE0 | chan, s_mpu_pitchWheel[chan] & 0xFF, s_mpu_pitchWheel[chan] >> 8);
 }
 
-static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
+/* XMIDI.ASM - XMIDI_control procedure */
+static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 {
-	switch (data1) {
-		case 1:
-			s_mpu_controls[chan].variable_01 = data2;
-			data->controls[chan].variable_01 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+	switch (control) {
+		case 1:	/* MODULATION */
+			s_mpu_controls[chan].modulation = value;
+			data->controls[chan].modulation = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 7: /* Channel Volume */
+		case 7: /* PART_VOLUME / Channel Volume */
 			if (data->variable_0024 == 100) break;
-			data2 = min(data->variable_0024 * data2 / 100, 127);
-			s_mpu_controls[chan].volume = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+			value = min(data->variable_0024 * value / 100, 127);
+			s_mpu_controls[chan].volume = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 10:
-			s_mpu_controls[chan].variable_02 = data2;
-			data->controls[chan].variable_02 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 10:	/* PANPOT */
+			s_mpu_controls[chan].panpot = value;
+			data->controls[chan].panpot = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 11:
-			s_mpu_controls[chan].variable_03 = data2;
-			data->controls[chan].variable_03 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 11:	/* EXPRESSION */
+			s_mpu_controls[chan].expression = value;
+			data->controls[chan].expression = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 64:
-			s_mpu_controls[chan].sustain = data2;
-			data->controls[chan].sustain = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 64:	/* SUSTAIN */
+			s_mpu_controls[chan].sustain = value;
+			data->controls[chan].sustain = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 110:
-			s_mpu_controls[chan].variable_06 = data2;
-			data->controls[chan].variable_06 = data2;
-			if (data2 < 64) {
+		case 110:	/* CHAN_LOCK */
+			s_mpu_controls[chan].chan_lock = value;
+			data->controls[chan].chan_lock = value;
+			if (value < 64) {
 				MPU_FlushChannel(chan);
 				MPU_289D(data->chanMaps[chan]);
 				data->chanMaps[chan] = chan;
-				break;
+			} else {
+				uint8 newChan = MPU_281A();
+				if (newChan == 0xFF) newChan = chan;
+
+				data->chanMaps[chan] = newChan;
 			}
-
-			data1 = MPU_281A();
-
-			if (data1 == 0xFF) data1 = chan;
-
-			data->chanMaps[chan] = data1;
 			break;
 
-		case 111:
-			s_mpu_controls[chan].variable_07 = data2;
-			data->controls[chan].variable_07 = data2;
-			if (data2 >= 64) s_mpu_lockStatus[chan] |= 0x40;
+		case 111:	/* CHAN_PROTECT */
+			s_mpu_controls[chan].chan_protect = value;
+			data->controls[chan].chan_protect = value;
+			if (value >= 64) s_mpu_lockStatus[chan] |= 0x40;
 			break;
 
-		case 112:
-			s_mpu_controls[chan].variable_08 = data2;
-			data->controls[chan].variable_08 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 112:	/* VOICE_PROTECT */
+			s_mpu_controls[chan].voice_protect = value;
+			data->controls[chan].voice_protect = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 114:
-			s_mpu_controls[chan].variable_05 = data2;
-			data->controls[chan].variable_05 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 114:	/* PATCH_BANK_SEL */
+			s_mpu_controls[chan].patch_bank_sel = value;
+			data->controls[chan].patch_bank_sel = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 115: assert(0); /* Not decompiled code */
+		case 115:	/* INDIRECT_C_PFX */
+			assert(0); /* Not decompiled code */
 
-		case 116: {
+		case 116: {	/* FOR_LOOP */
 			uint8 i;
 
 			for (i = 0; i < 4; i++) {
 				if (data->variable_0060[i] == 0xFFFF) {
-					data->variable_0060[i] = data2;
+					data->variable_0060[i] = value;
 					data->variable_0050[i] = data->sound;
 					break;
 				}
 			}
 		} break;
 
-		case 117: {
+		case 117: {	/* NEXT_LOOP */
 			uint8 i;
 
-			if (data2 < 64) break;
+			if (value < 64) break;
 
 			for (i = 0; i < 4; i++) {
 				if (data->variable_0060[3 - i] != 0xFFFF) {
@@ -350,10 +350,13 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 			}
 		} break;
 
-		case 118: case 119: assert(0); /* Not decompiled code */
+		case 118:	/* CLEAR_BEAT_BAR */
+		case 119:	/* CALLBACK_TRIG */
+			assert(0); /* Not decompiled code */
 
 		default:
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+			Debug("MPU_Control() %02X %02X %02X   control=%u\n", data->sound[0], control, value, control);
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 	}
 }
@@ -369,15 +372,15 @@ static void MPU_16B7(MSData *data)
 			MPU_Send(0xB0 | chan, 64, 0);
 		}
 
-		if (data->controls[chan].variable_06 != 0xFF && data->controls[chan].variable_06 >= 64) {
+		if (data->controls[chan].chan_lock != 0xFF && data->controls[chan].chan_lock >= 64) {
 			MPU_FlushChannel(chan);
 			MPU_289D(data->chanMaps[chan]);
 			data->chanMaps[chan] = chan;
 		}
 
-		if (data->controls[chan].variable_07 != 0xFF && data->controls[chan].variable_07 >= 64) s_mpu_lockStatus[chan] &= 0xBF;
+		if (data->controls[chan].chan_protect != 0xFF && data->controls[chan].chan_protect >= 64) s_mpu_lockStatus[chan] &= 0xBF;
 
-		if (data->controls[chan].variable_08 != 0xFF && data->controls[chan].variable_08 >= 64) MPU_Send(0xB0 | chan, 112, 0);
+		if (data->controls[chan].voice_protect != 0xFF && data->controls[chan].voice_protect >= 64) MPU_Send(0xB0 | chan, 112, 0);
 	}
 }
 
@@ -882,32 +885,32 @@ bool MPU_Init(void)
 		static const uint8 defaultPrograms[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
 		uint8 chan = i + 1;
 
-		s_mpu_controls[chan].volume      = 127;
-		s_mpu_controls[chan].variable_01 = 0;
-		s_mpu_controls[chan].variable_02 = 64;
-		s_mpu_controls[chan].variable_03 = 127;
-		s_mpu_controls[chan].sustain     = 0;
-		s_mpu_controls[chan].variable_05 = 0;
-		s_mpu_controls[chan].variable_06 = 0;
-		s_mpu_controls[chan].variable_07 = 0;
-		s_mpu_controls[chan].variable_08 = 0;
+		s_mpu_controls[chan].volume = 127;
+		s_mpu_controls[chan].modulation = 0;
+		s_mpu_controls[chan].panpot = 64;
+		s_mpu_controls[chan].expression = 127;
+		s_mpu_controls[chan].sustain = 0;
+		s_mpu_controls[chan].patch_bank_sel = 0;
+		s_mpu_controls[chan].chan_lock = 0;
+		s_mpu_controls[chan].chan_protect = 0;
+		s_mpu_controls[chan].voice_protect = 0;
 
-		MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);
-		MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].variable_01);
-		MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].variable_02);
-		MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].variable_03);
-		MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);
-		MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].variable_05);
-		MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].variable_06);
-		MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].variable_07);
-		MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].variable_08);
+		MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);        /* 7 = PART_VOLUME */
+		MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].modulation);    /* 1 = MODULATION */
+		MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].panpot);        /* 10 = PANPOT */
+		MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].expression);    /* 11 = EXPRESSION */
+		MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);       /* 64 = SUSTAIN */
+		MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].patch_bank_sel);/* 114 = PATCH_BANK_SEL */
+		MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].chan_lock);     /* 110 = CHAN_LOCK */
+		MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].chan_protect);  /* 111 = CHAN_PROTECT */
+		MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].voice_protect); /* 112 = VOICE_PROTECT */
 
 		s_mpu_pitchWheel[chan] = 0x4000;
-		MPU_Send(0xE0 | chan, 0x00, 0x40);
+		MPU_Send(0xE0 | chan, 0x00, 0x40);	/* 0xE0 : Pitch Bend change */
 
 		if (defaultPrograms[i] == 0xFF) continue;
 		s_mpu_programs[chan] = defaultPrograms[i];
-		MPU_Send(0xC0 | chan, 0, defaultPrograms[i]);
+		MPU_Send(0xC0 | chan, 0, defaultPrograms[i]);	/* 0xC0 : program change */
 	}
 
 	s_mpu_initialized = true;
