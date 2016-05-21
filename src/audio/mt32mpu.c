@@ -37,8 +37,8 @@ typedef struct Controls {
 typedef struct MSData {
 	uint8 *EVNT;                                            /*!< Pointer to EVNT position in sound file. */
 	uint8 *sound;                                           /*!< Pointer to current position in sound file. */
-	uint16 playing;                                         /*!< ?? 0, 1 or 2. 1 if a sound is playing. */
-	bool   delayedClear;                                    /*!< ?? */
+	uint16 playing;                                         /*!< 0 = SEQ_STOPPED, 1 = SEQ_PLAYING or 2 = SEQ_DONE. */
+	bool   delayedClear;                                    /*!< post_release */
 	int16  delay;                                           /*!< Delay before reading next command. */
 	uint16 noteOnCount;                                     /*!< Number of notes currently on. */
 	uint16 variable_0022;                                   /*!< ?? */
@@ -158,6 +158,9 @@ static uint16 MPU_NoteOn(MSData *data)
 	return len;
 }
 
+/**
+ * XMIDI.ASM - flush_channel_notes
+ */
 static void MPU_FlushChannel(uint8 channel)
 {
 	uint16 count;
@@ -226,6 +229,9 @@ static uint8 MPU_281A(void)
 	return chan;
 }
 
+/**
+ * XMIDI.ASM - release_channel
+ */
 static void MPU_289D(uint8 chan)
 {
 	if ((s_mpu_lockStatus[chan] & 0x80) == 0) return;
@@ -368,6 +374,9 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 	}
 }
 
+/**
+ * XMIDI.ASM - reset_sequence
+ */
 static void MPU_16B7(MSData *data)
 {
 	uint8 chan;
@@ -381,16 +390,19 @@ static void MPU_16B7(MSData *data)
 
 		if (data->controls[chan].chan_lock != 0xFF && data->controls[chan].chan_lock >= 64) {
 			MPU_FlushChannel(chan);
-			MPU_289D(data->chanMaps[chan]);
+			MPU_289D(data->chanMaps[chan]);	/* release_channel */
 			data->chanMaps[chan] = chan;
 		}
 
 		if (data->controls[chan].chan_protect != 0xFF && data->controls[chan].chan_protect >= 64) s_mpu_lockStatus[chan] &= 0xBF;
 
-		if (data->controls[chan].voice_protect != 0xFF && data->controls[chan].voice_protect >= 64) MPU_Send(0xB0 | chan, 112, 0);
+		if (data->controls[chan].voice_protect != 0xFF && data->controls[chan].voice_protect >= 64) MPU_Send(0xB0 | chan, 112, 0); /* 112 = VOICE_PROTECT */
 	}
 }
 
+/**
+ * XMIDI.ASM - XMIDI_meta
+ */
 static uint16 MPU_XMIDIMeta(MSData *data)
 {
 	uint8 *sound;
@@ -410,11 +422,11 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 	len += (uint16)(sound - data->sound);
 
 	switch (type) {
-		case 0x2F:	/* End of track */
-			MPU_16B7(data);
+		case 0x2F:	/* End of track / end sequence */
+			MPU_16B7(data);	/* reset_sequence */
 
-			data->playing = 2;
-			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);
+			data->playing = 2; /* 2 = SEQ_DONE */
+			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);	/* release-on-completion pending => release_seq */
 			break;
 
 		case 0x58: {	/* time sig */
@@ -439,7 +451,7 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 		default:
 			{
 				int i;
-				Warning("MPU_1B48() type=%02X len=%hu\n", (int)type, len);
+				Warning("MPU_XMIDIMeta() type=%02X len=%hu\n", (int)type, len);
 				Warning("  ignored data : ");
 				for(i = 0 ; i < len; i++) Warning(" %02X", data->sound[i]);
 				Warning("\n");
@@ -949,6 +961,9 @@ void MPU_Uninit(void)
 #endif /* _WIN32 */
 }
 
+/**
+ * XMIDI.ASM - release_seq
+ */
 void MPU_ClearData(uint16 index)
 {
 	MSData *data;
