@@ -42,10 +42,10 @@ typedef struct MSData {
 	int16  delay;                                           /*!< Delay before reading next command. */
 	uint16 noteOnCount;                                     /*!< Number of notes currently on. */
 	uint16 variable_0022;                                   /*!< ?? */
-	uint16 variable_0024;                                   /*!< ?? */
-	uint16 variable_0026;                                   /*!< ?? */
-	uint32 variable_0028;                                   /*!< ?? */
-	uint32 variable_002C;                                   /*!< ?? */
+	uint16 variable_0024;                                   /*!< Volume (percent) */
+	uint16 variable_0026;                                   /*!< Volume target */
+	uint32 variable_0028;                                   /*!< Volume accumulator */
+	uint32 variable_002C;                                   /*!< Volume increment per 100us period */
 	uint16 variable_0030;                                   /*!< ?? */
 	uint16 variable_0032;                                   /*!< ?? */
 	uint16 variable_0034;                                   /*!< ?? */
@@ -73,8 +73,8 @@ static uint16 s_mpu_msdataCurrent;
 static Controls s_mpu_controls[16];
 static uint8 s_mpu_programs[16];
 static uint16 s_mpu_pitchWheel[16];
-static uint8 s_mpu_noteOnCount[16];
-static uint8 s_mpu_lockStatus[16];
+static uint8 s_mpu_noteOnCount[16];	/* active notes */
+static uint8 s_mpu_lockStatus[16];	/* bit 7: locked, bit 6: lock-protected */
 static bool s_mpu_initialized;
 
 static bool s_mpuIgnore = false;
@@ -86,6 +86,9 @@ static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 	s_mpuIgnore = false;
 }
 
+/**
+ * XMIDI.ASM - XMIDI_volume
+ * Apply global volume to all channels */
 static void MPU_ApplyVolume(MSData *data)
 {
 	uint8 i;
@@ -96,13 +99,14 @@ static void MPU_ApplyVolume(MSData *data)
 		volume = data->controls[i].volume;
 		if (volume == 0xFF) continue;
 
+		/* get scaled volume value, maximum is 127 */
 		volume = min((volume * data->variable_0024) / 100, 127);
 
 		s_mpu_controls[i].volume = volume;
 
 		if ((s_mpu_lockStatus[i] & 0x80) != 0) continue;
 
-		MPU_Send(0xB0 | data->chanMaps[i], 7, volume);
+		MPU_Send(0xB0 | data->chanMaps[i], 7 /* PART_VOLUME */, volume);
 	}
 }
 
@@ -710,16 +714,16 @@ static void MPU_InitData(MSData *data)
 
 	data->delay = 0;
 	data->noteOnCount = 0;
-	data->variable_0024 = 0x5A;
-	data->variable_0026 = 0x5A;
+	data->variable_0024 = 0x5A;	/* 90% */
+	data->variable_0026 = 0x5A;	/* 90% */
 	data->variable_0030 = 0;
-	data->variable_0032 = 0x64;
-	data->variable_0034 = 0x64;
+	data->variable_0032 = 0x64; /* = 100 */
+	data->variable_0034 = 0x64;	/* = 100 */
 	data->variable_003E = 0;
 	data->variable_0040 = 0;
 	data->variable_0042 = 4;
-	data->variable_0044 = 0x208D5;
-	data->variable_0048 = 0x208D5;
+	data->variable_0044 = 0x208D5;	/* 133333 */
+	data->variable_0048 = 0x208D5;	/* 133333 */
 	data->variable_004C = 0x7A1200;
 }
 
@@ -962,18 +966,25 @@ void MPU_ClearData(uint16 index)
 	}
 }
 
-void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
+/**
+ * XMIDI.ASM - set_rel_volume
+ * Set relative volume
+ * @param volume Target volume (%) to reach
+ * @param time Time to reach target volume (in milliseconds)
+ */
+void MPU_SetVolume(uint16 index, uint16 volume, uint16 time)
 {
 	MSData *data;
-	uint16 diff;
+	int16 diff;
 
 	if (index == 0xFFFF) return;
 
 	data = s_mpu_msdata[index];
 
-	data->variable_0026 = volume;
+	data->variable_0026 = volume;	/* volume target */
 
-	if (arg0C == 0) {
+	if (time == 0) {
+		/* immediate */
 		data->variable_0024 = volume;
 		MPU_ApplyVolume(data);
 		return;
@@ -982,9 +993,9 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
 	diff = data->variable_0026 - data->variable_0024;
 	if (diff == 0) return;
 
-	data->variable_002C = 10 * arg0C / abs(diff);
+	data->variable_002C = 10 * (uint32)time / (uint16)abs(diff);	/* volume increment per 100us period */
 	if (data->variable_002C == 0) data->variable_002C = 1;
-	data->variable_0028 = 0;
+	data->variable_0028 = 0;	/* vol_accum */
 }
 
 #if defined(_WIN32)
