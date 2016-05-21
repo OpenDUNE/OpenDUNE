@@ -1,6 +1,9 @@
-OpenDUNE running on Atari Falcon and TT :
+To get OpenDUNE running on Atari Falcon and TT :
 
-cross compiling under linux using cross mint :
+
+* building
+
+cross compile using cross mint :
 http://vincent.riviere.free.fr/soft/m68k-atari-mint/
 
 use :
@@ -9,13 +12,30 @@ use :
 you'll also need vasm (vasmm68k_mot)
 http://sun.hasenbraten.de/vasm/
 
+
+* Precompiled versions
+
+http://nanard.free.fr/opendune/
+
 Discussion about the port on atari-forum.com :
 http://www.atari-forum.com/viewtopic.php?f=26&t=29873
-Precompiled versions :
-http://nanard.free.fr/opendune/
+
+
+* running
 
 MIDI music is sent to the ATARI MIDI Out port.
 320x200 (RGB) or 320x240 (VGA) 8bpp modes are used on Falcon.
 TT Low (320x480 8bpp) is used on TT.
+Keyboard and mouse input is managed with a custom IKBD interrupt
+handler.
+Digitized Sound and Voices are played using STE DMA Sound.
+Depending on your Falcon configuration, you may need to run
+FPATCH.PRG / FPATCH2.PRG before launching the game
+
+OPENDUNE.INI file should be located in the same directory as
+OPENDUNE.TOS.
+DOS Dune II  v1.07 original files should be in a DATA subdirectory,
+savegames and options will be stored in a SAVES subdirectory.
+
 
 Thomas Bernard
