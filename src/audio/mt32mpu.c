@@ -288,12 +288,15 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 		case 110:	/* CHAN_LOCK */
 			s_mpu_controls[chan].chan_lock = value;
 			data->controls[chan].chan_lock = value;
+			Debug("CHAN_LOCK : chan=%u %u %u\n", chan, control, value);
 			if (value < 64) {
+				/* unlock */
 				MPU_FlushChannel(chan);
-				MPU_289D(data->chanMaps[chan]);
+				MPU_289D(data->chanMaps[chan]);	/* release channel */
 				data->chanMaps[chan] = chan;
 			} else {
-				uint8 newChan = MPU_281A();
+				/* lock */
+				uint8 newChan = MPU_281A();	/* lock new channel and map to current channel in sequence */
 				if (newChan == 0xFF) newChan = chan;
 
 				data->chanMaps[chan] = newChan;
