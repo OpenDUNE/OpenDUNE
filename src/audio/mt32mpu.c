@@ -235,15 +235,15 @@ static void MPU_289D(uint8 chan)
 	/* All Notes Off */
 	MPU_Send(0xB0 | chan, 123, 0);
 
-	if (s_mpu_controls[chan].volume != 0xFF)      MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);
-	if (s_mpu_controls[chan].modulation != 0xFF)  MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].modulation);
-	if (s_mpu_controls[chan].panpot != 0xFF) MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].panpot);
-	if (s_mpu_controls[chan].expression != 0xFF) MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].expression);
-	if (s_mpu_controls[chan].sustain != 0xFF)     MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);
+	if (s_mpu_controls[chan].volume != 0xFF)         MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);
+	if (s_mpu_controls[chan].modulation != 0xFF)     MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].modulation);
+	if (s_mpu_controls[chan].panpot != 0xFF)         MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].panpot);
+	if (s_mpu_controls[chan].expression != 0xFF)     MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].expression);
+	if (s_mpu_controls[chan].sustain != 0xFF)        MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);
 	if (s_mpu_controls[chan].patch_bank_sel != 0xFF) MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].patch_bank_sel);
-	if (s_mpu_controls[chan].chan_lock != 0xFF) MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].chan_lock);
-	if (s_mpu_controls[chan].chan_protect != 0xFF) MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].chan_protect);
-	if (s_mpu_controls[chan].voice_protect != 0xFF) MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].voice_protect);
+	if (s_mpu_controls[chan].chan_lock != 0xFF)      MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].chan_lock);
+	if (s_mpu_controls[chan].chan_protect != 0xFF)   MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].chan_protect);
+	if (s_mpu_controls[chan].voice_protect != 0xFF)  MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].voice_protect);
 
 	if (s_mpu_programs[chan] != 0xFF) MPU_Send(0xC0 | chan, s_mpu_programs[chan], 0);
 
