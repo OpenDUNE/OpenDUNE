@@ -22,6 +22,10 @@ static Thread s_mpu_thread = NULL;
 static uint32 s_mpu_usec = 0;
 #endif /* _WIN32 */
 
+/* defines from AIL XMIDI.ASM : */
+#define NUM_CHANS 16
+#define MAX_NOTES 32
+
 typedef struct Controls {
 	uint8 volume;
 	uint8 modulation;
@@ -37,44 +41,44 @@ typedef struct Controls {
 typedef struct MSData {
 	uint8 *EVNT;                                            /*!< Pointer to EVNT position in sound file. */
 	uint8 *sound;                                           /*!< Pointer to current position in sound file. */
-	uint16 playing;                                         /*!< 0 = SEQ_STOPPED, 1 = SEQ_PLAYING or 2 = SEQ_DONE. */
+	uint16 playing;                                         /*!< status : 0 = SEQ_STOPPED, 1 = SEQ_PLAYING or 2 = SEQ_DONE. */
 	bool   delayedClear;                                    /*!< post_release */
-	int16  delay;                                           /*!< Delay before reading next command. */
-	uint16 noteOnCount;                                     /*!< Number of notes currently on. */
-	uint16 variable_0022;                                   /*!< ?? */
+	int16  delay;                                           /*!< Delay before reading next command. interval_cnt */
+	uint16 noteOnCount;                                     /*!< Number of notes currently on. note_count */
+	/*uint16 variable_0022;*/                               /*!< vol_error - unused */
 	uint16 variable_0024;                                   /*!< Volume (percent) */
 	uint16 variable_0026;                                   /*!< Volume target */
 	uint32 variable_0028;                                   /*!< Volume accumulator */
 	uint32 variable_002C;                                   /*!< Volume increment per 100us period */
-	uint16 variable_0030;                                   /*!< ?? */
-	uint16 variable_0032;                                   /*!< ?? */
-	uint16 variable_0034;                                   /*!< ?? */
-	uint32 variable_0036;                                   /*!< ?? */
-	uint32 variable_003A;                                   /*!< ?? */
-	uint16 variable_003E;                                   /*!< ?? */
-	uint16 variable_0040;                                   /*!< ?? */
-	uint16 variable_0042;                                   /*!< ?? */
-	uint32 variable_0044;                                   /*!< ?? */
-	uint32 variable_0048;                                   /*!< ?? */
-	uint32 variable_004C;                                   /*!< ?? */
-	uint8 *variable_0050[4];                                /*!< ?? */
-	uint16 variable_0060[4];                                /*!< ?? */
-	uint8  chanMaps[16];                                    /*!< ?? Channel mapping. */
-	Controls controls[16];                                  /*!< ?? */
-	uint8  noteOnChans[32];                                 /*!< ?? */
-	uint8  noteOnNotes[32];                                 /*!< ?? */
-	int32  noteOnDuration[32];                              /*!< ?? */
+	uint16 variable_0030;                                   /*!< tempo_error */
+	uint16 variable_0032;                                   /*!< tempo_percent */
+	uint16 variable_0034;                                   /*!< tempo_target */
+	uint32 variable_0036;                                   /*!< tempo_accum */
+	uint32 variable_003A;                                   /*!< tempo_period */
+	uint16 variable_003E;                                   /*!< beat_count */
+	uint16 variable_0040;                                   /*!< measure_count */
+	uint16 variable_0042;                                   /*!< time_numerator */
+	uint32 variable_0044;                                   /*!< time_fraction */
+	uint32 variable_0048;                                   /*!< beat_fraction */
+	uint32 variable_004C;                                   /*!< time_per_beat */
+	uint8 *variable_0050[4];                                /*!< FOR_loop_ptrs pointer to start of FOR loop */
+	uint16 variable_0060[4];                                /*!< FOR_loop_cnt */
+	uint8  chanMaps[NUM_CHANS];                             /*!< ?? Channel mapping. */
+	Controls controls[NUM_CHANS];                           /*!< ?? */
+	uint8  noteOnChans[MAX_NOTES];                          /*!< ?? */
+	uint8  noteOnNotes[MAX_NOTES];                          /*!< ?? */
+	int32  noteOnDuration[MAX_NOTES];                       /*!< ?? */
 } MSData;
 
 static MSData *s_mpu_msdata[8];
 static uint16 s_mpu_msdataSize;
 static uint16 s_mpu_msdataCurrent;
 
-static Controls s_mpu_controls[16];
-static uint8 s_mpu_programs[16];
-static uint16 s_mpu_pitchWheel[16];
-static uint8 s_mpu_noteOnCount[16];	/* active notes */
-static uint8 s_mpu_lockStatus[16];	/* bit 7: locked, bit 6: lock-protected */
+static Controls s_mpu_controls[NUM_CHANS];	/* global_controls */
+static uint8 s_mpu_programs[NUM_CHANS];		/* global_program */
+static uint16 s_mpu_pitchWheel[NUM_CHANS];	/* global_pitch */
+static uint8 s_mpu_noteOnCount[NUM_CHANS];	/* active_notes */
+static uint8 s_mpu_lockStatus[NUM_CHANS];	/* bit 7: locked, bit 6: lock-protected */
 static bool s_mpu_initialized;
 
 static bool s_mpuIgnore = false;
@@ -736,7 +740,7 @@ static void MPU_InitData(MSData *data)
 	data->variable_0042 = 4;
 	data->variable_0044 = 0x208D5;	/* 133333 */
 	data->variable_0048 = 0x208D5;	/* 133333 */
-	data->variable_004C = 0x7A1200;
+	data->variable_004C = 0x7A1200;	/* 8000000 */
 }
 
 uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
