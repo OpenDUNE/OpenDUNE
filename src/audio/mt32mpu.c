@@ -681,11 +681,11 @@ static void *MPU_FindSoundStart(uint8 *file, uint16 index)
 	index++;
 
 	while (true) {
-		header = BETOH32(*(uint32 *)(file + 0));
-		size   = BETOH32(*(uint32 *)(file + 4));
+		header = READ_BE_UINT32(file);
+		size   = READ_BE_UINT32(file + 4);
 
 		if (header != CC_CAT && header != CC_FORM) return NULL;
-		if (*(uint32 *)(file + 8) == BETOH32(CC_XMID)) break;
+		if (READ_BE_UINT32(file + 8) == CC_XMID) break;
 
 		file += 8;
 		file += size;
@@ -697,9 +697,9 @@ static void *MPU_FindSoundStart(uint8 *file, uint16 index)
 	file += 12;
 
 	while (true) {
-		size = BETOH32(*(uint32 *)(file + 4));
+		size = READ_BE_UINT32(file + 4);
 
-		if (*(uint32 *)(file + 8) == BETOH32(CC_XMID) && --index == 0) break;
+		if ((READ_BE_UINT32(file + 8) == CC_XMID) && --index == 0) break;
 
 		size = size + 8;
 		total -= size;
@@ -759,12 +759,12 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 	s_mpu_msdata[i] = data;
 	data->EVNT = NULL;
 
-	header = BETOH32(*(uint32 *)(file + 0));
+	header = READ_BE_UINT32(file);
 	size   = 12;
 	while (header != CC_EVNT) {
 		file += size;
-		header = BETOH32(*(uint32 *)(file + 0));
-		size   = BETOH32(*(uint32 *)(file + 4)) + 8;
+		header = READ_BE_UINT32(file);
+		size   = READ_BE_UINT32(file + 4) + 8;
 	}
 
 	data->EVNT = file;
