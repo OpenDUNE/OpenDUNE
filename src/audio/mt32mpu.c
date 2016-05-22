@@ -904,6 +904,8 @@ bool MPU_Init(void)
 		static const uint8 defaultPrograms[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
 		uint8 chan = i + 1;
 
+		/* default controller/program change
+		 * values for startup initialization */
 		s_mpu_controls[chan].volume = 127;
 		s_mpu_controls[chan].modulation = 0;
 		s_mpu_controls[chan].panpot = 64;
@@ -929,7 +931,7 @@ bool MPU_Init(void)
 
 		if (defaultPrograms[i] == 0xFF) continue;
 		s_mpu_programs[chan] = defaultPrograms[i];
-		MPU_Send(0xC0 | chan, 0, defaultPrograms[i]);	/* 0xC0 : program change */
+		MPU_Send(0xC0 | chan, defaultPrograms[i], 0);	/* 0xC0 : program change */
 	}
 
 	s_mpu_initialized = true;
