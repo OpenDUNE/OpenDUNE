@@ -1,13 +1,34 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <dirent.h>
 
 #ifndef MIN
 #define MIN(a,b) (((a)<=(b))?(a):(b))
 #endif
+
+static const char * outdir = NULL;
+
+static void buildOutPath(char * outpath, size_t outpath_len, const char * path)
+{
+	const char * filename;
+	char * ext;
+
+	filename = strrchr(path, '/');
+	if (filename) filename++;
+	else filename = path;
+	snprintf(outpath, outpath_len, "%s/%s",
+	         outdir ? outdir : ".", filename);
+	/* remove extension */
+	ext = strrchr(outpath, '.');
+	if (ext) *ext = '\0';
+	if (mkdir(outpath, 0777) < 0) perror("mkdir");
+}
+
 
 int extractFile(FILE * pak, const char * path, const char * filename, uint32_t position, uint32_t size)
 {
@@ -55,11 +76,19 @@ int extractPak(const char * path, uint32_t paksize)
 	uint32_t size;
 	char filename[256];
 	int i, n = 0;
+	char outpath[1024];
 
 	f = fopen(path, "rb");
 	if (f == NULL) {
 		return -1;
 	}
+	if (paksize == 0) {
+		fseek(f, 0, SEEK_END);
+		paksize = (uint32_t)ftell(f);
+		fseek(f, 0, SEEK_SET);
+	}
+	buildOutPath(outpath, sizeof(outpath), path);
+	printf("extracting %s to %s\n", path, outpath);
 	if (fread_le_uint32(&nextposition, f) < 0) {
 		fclose(f);
 		return -1;
@@ -82,22 +111,59 @@ int extractPak(const char * path, uint32_t paksize)
 			return -1;
 		}
 		size = (nextposition != 0) ? nextposition - position : paksize - position;
-		printf("%08x %s %" PRIu32 " bytes\n", position, filename, size);
-		extractFile(f, ".", filename, position, size);
+		printf("  %06x %-12s %" PRIu32 " bytes\n", position, filename, size);
+		extractFile(f, outpath, filename, position, size);
+		n++;
 	}
 	return n;
 }
 
+int extractPakInDir(const char * path)
+{
+	DIR * dir;
+	struct dirent * ent;
+	char * ext;
+	char filepath[1024];
+	int total = 0;
+
+	dir = opendir(path);
+	if (dir == NULL) {
+		perror("opendir");
+		return -1;
+	}
+	while((ent = readdir(dir)) != NULL) {
+		if (strcmp(ent->d_name, "..") == 0 || strcmp(ent->d_name, ".") == 0) continue;
+		ext = strrchr(ent->d_name, '.');
+		if (ext != NULL) {
+			if (strcasecmp(ext, ".PAK") == 0) {
+				snprintf(filepath, sizeof(filepath), "%s/%s", path, ent->d_name);
+				total += extractPak(filepath, 0);
+			}
+		}
+	}
+	closedir(dir);
+	return total;
+}
+
 int main(int argc, char * * argv)
 {
+	int i;
 	struct stat st;
-	const char * path;
+	const char * path = NULL;
 
-	if (argc < 2) {
-		fprintf(stderr, "Usage: %s <file|directory>\n", argv[0]);
+	for (i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "--outdir") == 0) {
+			if (++i < argc) outdir = argv[i];
+		} else {
+			path = argv[i];
+		}
+	}
+	if (path == NULL) {
+		fprintf(stderr, "Usage: %s [options] <file|directory>\n", argv[0]);
+		fprintf(stderr, "options:\n");
+		fprintf(stderr, "    --outdir path\n");
 		return 1;
 	}
-	path = argv[1];
 
 	if (stat(path, &st) < 0) {
 		perror("stat");
@@ -106,6 +172,7 @@ int main(int argc, char * * argv)
 	if (S_ISDIR(st.st_mode)) {
 		/* directory */
 		printf("%s is a directory\n", path);
+		extractPakInDir(path);
 	} else if (S_ISREG(st.st_mode)) {
 		/* regular file */
 		printf("%s is a file\n", path);
