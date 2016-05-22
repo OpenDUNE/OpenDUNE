@@ -12,7 +12,7 @@ extern uint16 MPU_GetDataSize(void);
 extern bool MPU_Init(void);
 extern void MPU_Uninit(void);
 extern void MPU_ClearData(uint16 index);
-extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C);
+extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 time);
 #if defined(_WIN32)
 extern void MPU_StartThread(uint32 usec);
 extern void MPU_StopThread(void);
