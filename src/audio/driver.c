@@ -6,6 +6,7 @@
 #include "types.h"
 #include "../os/math.h"
 #include "../os/strings.h"
+#include "../os/error.h"
 
 #include "driver.h"
 
@@ -298,20 +299,20 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 	if (sound->content == music->content) {
 		sound->content         = NULL;
-		sound->filename        = NULL;
+		sound->filename[0]     = '\0';
 		sound->contentMalloced = false;
 	} else {
 		Driver_UnloadFile(sound);
 	}
 
-	if (music->filename != NULL) {
+	if (music->filename[0] != '\0') {
 		char *filename;
 
 		filename = Drivers_GenerateFilename(musicName, sound);
 
-		if (strcasecmp(filename, music->filename) == 0) {
+		if (filename != NULL && strcasecmp(filename, music->filename) == 0) {
 			sound->content         = music->content;
-			sound->filename        = music->filename;
+			memcpy(sound->filename, music->filename, sizeof(music->filename));
 			sound->contentMalloced = music->contentMalloced;
 			return;
 		}
@@ -422,11 +423,12 @@ void Driver_LoadFile(const char *musicName, Driver *driver)
 
 	/* String length including terminating \0 */
 	len = strlen(filename) + 1;
-	driver->filename = malloc(len);
+	assert(len <= sizeof(driver->filename));
 	memcpy(driver->filename, filename, len);
 
 	driver->content = File_ReadWholeFile(filename);
 	driver->contentMalloced = true;
+	Debug("Driver_LoadFile(%s, %p): %s loaded\n", musicName, driver, filename);
 }
 
 void Driver_UnloadFile(Driver *driver)
@@ -435,9 +437,7 @@ void Driver_UnloadFile(Driver *driver)
 		free(driver->content);
 	}
 
-	free(driver->filename);
-
-	driver->filename        = NULL;
+	driver->filename[0]     = '\0';
 	driver->content         = NULL;
 	driver->contentMalloced = false;
 }
