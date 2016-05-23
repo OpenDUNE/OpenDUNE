@@ -202,6 +202,11 @@ static void MPU_FlushChannel(uint8 channel)
 	}
 }
 
+/**
+ * XMIDI.ASM - lock_channel
+ * find highest channel # w/lowest note activity
+ * return 0xFF if no channel available for locking
+ */
 static uint8 MPU_281A(void)
 {
 	uint8 i;
@@ -219,7 +224,7 @@ static uint8 MPU_281A(void)
 		if (chan != 0xFF) break;
 		if (flag == 0x80) return chan;
 
-		flag = 0x80;
+		flag = 0x80;	/* if no channels available for locking, ignore lock protection & try again */
 	}
 
 	/* Sustain Off */
