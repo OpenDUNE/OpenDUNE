@@ -97,7 +97,7 @@ static void MPU_ApplyVolume(MSData *data)
 {
 	uint8 i;
 
-	for (i = 0; i < 16; i++) {
+	for (i = 0; i < NUM_CHANS; i++) {
 		uint8 volume;
 
 		volume = data->controls[i].volume;
@@ -141,13 +141,13 @@ static uint16 MPU_NoteOn(MSData *data)
 
 	if ((s_mpu_lockStatus[chan] & 0x80) != 0) return len;
 
-	for (i = 0; i < 32; i++) {
+	for (i = 0; i < MAX_NOTES; i++) {
 		if (data->noteOnChans[i] == 0xFF) {
 			data->noteOnCount++;
 			break;
 		}
 	}
-	if (i == 32) i = 0;
+	if (i == MAX_NOTES) i = 0;
 
 	data->noteOnChans[i] = chan;
 	data->noteOnNotes[i] = note;
@@ -182,7 +182,7 @@ static void MPU_FlushChannel(uint8 channel)
 
 		if (data->noteOnCount == 0) continue;
 
-		for (i = 0; i < 32; i++) {
+		for (i = 0; i < MAX_NOTES; i++) {
 			uint8 chan;
 			uint8 note;
 
@@ -210,7 +210,7 @@ static uint8 MPU_281A(void)
 	uint8 min = 0xFF;
 
 	while (true) {
-		for (i = 0; i < 16; i++) {
+		for (i = 0; i < NUM_CHANS; i++) {
 			if ((s_mpu_lockStatus[15 - i] & flag) == 0 && s_mpu_noteOnCount[15 - i] < min) {
 				min = s_mpu_noteOnCount[15 - i];
 				chan = 15 - i;
@@ -385,7 +385,7 @@ static void MPU_16B7(MSData *data)
 {
 	uint8 chan;
 
-	for (chan = 0; chan < 16; chan++) {
+	for (chan = 0; chan < NUM_CHANS; chan++) {
 		if (data->controls[chan].sustain != 0xFF && data->controls[chan].sustain >= 64) {
 			s_mpu_controls[chan].sustain = 0;
 			/* Sustain Off */
@@ -455,8 +455,8 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 		default:
 			{
 				int i;
-				Warning("MPU_XMIDIMeta() type=%02X len=%hu\n", (int)type, len);
-				Warning("  ignored data : ");
+				Warning("MPU_XMIDIMeta() type=%02X len=%hu", (int)type, len);
+				Warning("  ignored data :");
 				for(i = 0 ; i < len; i++) Warning(" %02X", data->sound[i]);
 				Warning("\n");
 			}
@@ -721,7 +721,7 @@ static void MPU_InitData(MSData *data)
 
 	for (i = 0; i < 4; i++) data->variable_0060[i] = 0xFFFF;
 
-	for (i = 0; i < 16; i++) {
+	for (i = 0; i < NUM_CHANS; i++) {
 		data->chanMaps[i] = i;
 	}
 
@@ -803,7 +803,7 @@ static void MPU_StopAllNotes(MSData *data)
 {
 	uint8 i;
 
-	for (i = 0; i < 32; i++) {
+	for (i = 0; i < MAX_NOTES; i++) {
 		uint8 note;
 		uint8 chan;
 
