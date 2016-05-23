@@ -1,8 +1,11 @@
 CFLAGS=-Wall -O -Wextra
 
-all:	extractpak
+all:	extractpak amigaMXextract
 
 extractpak:	extractpak.o
 
-extractpak.o:	../src/tools/extractpak.c
+amigaMXextract:	amigaMXextract.o
+
+%.o:	../src/tools/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
+
