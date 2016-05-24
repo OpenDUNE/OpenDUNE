@@ -25,6 +25,9 @@ void Warning(const char *format, ...) {
 	va_start(ap, format);
 	vsnprintf(message, sizeof(message), format, ap);
 	vfprintf(stderr, format, ap);
+#ifdef _DEBUG
+	OutputDebugString(message);
+#endif
 	va_end(ap);
 }
 
