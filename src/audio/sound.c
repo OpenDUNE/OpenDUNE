@@ -66,7 +66,7 @@ static void Driver_Music_LoadFile(const char *musicName)
 		Driver_UnloadFile(music);
 	}
 
-	if (sound->filename[0] != NULL && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), sound->filename) == 0) {
+	if (sound->filename[0] != '\0' && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), sound->filename) == 0) {
 		g_driverMusic->content         = g_driverSound->content;
 		memcpy(g_driverMusic->filename, g_driverSound->filename, sizeof(g_driverMusic->filename));
 		g_driverMusic->contentMalloced = g_driverSound->contentMalloced;

@@ -86,7 +86,7 @@ static bool Drivers_Init(Driver *driver, const char *extension)
 
 	Driver_Init(driver->index);
 
-	memcpy(driver->extension, extension, 4);
+	strncpy(driver->extension, extension, 4);
 
 	return true;
 }
