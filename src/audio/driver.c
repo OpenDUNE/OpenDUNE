@@ -15,6 +15,7 @@
 #include "../config.h"
 #include "../file.h"
 #include "../timer.h"
+#include "../inifile.h"
 
 static bool s_driverInstalled[16];
 static bool s_driverLoaded[16];
@@ -108,7 +109,7 @@ static bool Drivers_SoundMusic_Init(bool enable)
 
 	if (!MPU_Init()) return false;
 
-	if (!Drivers_Init(sound, "C55")) return false;
+	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
 	memcpy(music, sound, sizeof(Driver));
 
 #if defined(_WIN32)

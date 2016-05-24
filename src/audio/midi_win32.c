@@ -13,7 +13,24 @@ static HMIDIOUT s_midi = NULL;
 
 bool midi_init(void)
 {
-	if (midiOutOpen(&s_midi, 0, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR) {
+	uint32 devID = 0;
+	uint32 i;
+	uint32 numDevs = midiOutGetNumDevs();
+
+	if (IniFile_GetInteger("mt32midi", 0) != 0) {
+		for (i = 0; i < numDevs; i++) {
+			MIDIOUTCAPS caps;
+			if (midiOutGetDevCaps(i, &caps, sizeof(caps)) == MMSYSERR_NOERROR) {
+				Debug("MidiOutdevice #%u: %04hx:%04hx v%u.%u voices=%hu notes=%hu channels=%04hx %s\n",
+					i, caps.wMid, caps.wPid, caps.vDriverVersion >> 8, caps.vDriverVersion & 0xff,
+					caps.wVoices, caps.wNotes, caps.wChannelMask,
+					caps.szPname);
+				if (strstr(caps.szPname, "MT-32") != NULL) devID = i;
+			}
+		}
+	}
+
+	if (midiOutOpen(&s_midi, devID, NULL, NULL, CALLBACK_NULL) != MMSYSERR_NOERROR) {
 		Error("Failed to initialize MIDI\n");
 		s_midi = NULL;
 		return false;
