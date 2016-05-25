@@ -1,12 +1,56 @@
 /* MXTX MaxTrax Amiga music format */
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
+
+#ifndef MIN
+#define MIN(a,b) (((a)<=(b))?(a):(b))
+#endif
+
+int saveVOCSample(const char * filename, FILE * input, uint32_t len, int freq)
+{
+	uint8_t buffer[64*1024];
+	FILE * output;
+	size_t i, n;
+
+	output = fopen(filename, "wb");
+	if (output == NULL) {
+		fprintf(stderr, "Failed to open %s for writting.\n", filename);
+		return -1;
+	}
+	fwrite("Creative Voice File\x1A", 1, 20, output);	/* signature */
+	fwrite("\x1A\x00\x0A\x01\x29\x11", 1, 6, output);	/* header */
+	fputc(0x01, output);	/* Sound data block */
+	fputc((len+2) & 0xff, output);	/* length */
+	fputc(((len+2) >> 8) & 0xff, output);	/* length */
+	fputc(((len+2) >> 16) & 0xff, output);	/* length */
+	fputc(freq & 0xff, output);	/* frequency divisor */
+	fputc(0x00, output);		/* 0x00 = 8 bits unsigned PCM */
+	while (len > 0) {
+		n = MIN(len, sizeof(buffer));
+		if (fread(buffer, 1, n, input) != n) {
+			fprintf(stderr, "saveSample() read error\n");
+			return -1;
+		}
+		for (i = 0; i < n; i++) {
+			buffer[i] ^= 0x80;	/* signed => unsigned 8bit PCM sample */
+		}
+		if (fwrite(buffer, 1, n, output) != n) {
+			fprintf(stderr, "saveSample() write error\n");
+			return -1;
+		}
+		len -= n;
+	}
+	fclose(output);
+	return 0;
+}
 
 int parseMX(const char * filename)
 {
+	char basename[256];
+	const char * p;
 	FILE * f;
 	unsigned char buffer[64];
-	uint32_t pos;
 	int i;
 	int count;
 	uint16_t flags;
@@ -15,6 +59,7 @@ int parseMX(const char * filename)
 	uint16_t samples_number;
 	uint16_t sample;
 	uint32_t line_count;
+	uint16_t tune;
 	uint16_t octaveCount;
 	uint16_t octave;
 	uint32_t attackLen;
@@ -23,13 +68,26 @@ int parseMX(const char * filename)
 	uint16_t releaseCount;
 
 	f = fopen(filename, "rb");
+	if (f == NULL) {
+		return -1;
+	}
+	p = strrchr(filename, '/');
+	if (p == NULL) p = filename;
+	else p++;
+	i = 0;
+	while(*p != '\0') {
+		basename[i] = (*p == '.') ? '_' : *p;
+		i++;
+		p++;
+	}
+	basename[i] = '\0';
 
 	fread(buffer, 1, 4, f);	/* signature */
-	printf("%.4s ", buffer);
 	if (memcmp(buffer, "MXTX", 4) != 0) {
 		fprintf(stderr, "not a MXTX file\n");
 		return -1;
 	}
+	printf("%.4s ", buffer);
 	fread(buffer, 1, 2, f);
 	count = buffer[0] << 8 | buffer[1];	/* tempo ??? */
 	printf("count=%d", count);
@@ -38,6 +96,7 @@ int parseMX(const char * filename)
 	printf(" flags=%04hx", flags);
 	if (flags & 0x8000) {
 		/* skip 256 bytes */
+		fseek(f, 256, SEEK_CUR);
 	}
 	fread(buffer, 1, 2, f);	/* offset 8 */
 	songs_number = buffer[0] << 8 | buffer[1];
@@ -46,7 +105,7 @@ int parseMX(const char * filename)
 		fread(buffer, 1, 4, f);
 		line_count = buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3];
 		printf("song #%2d: line_count=%u\n", song, line_count);
-		for (i = 0; i < line_count; i++) {
+		for (i = 0; i < (int)line_count; i++) {
 			fread(buffer, 1, 6, f);
 			printf("    line #%2d: %02X %02X %02X%02X %02X%02X\n", i,
 			       buffer[0], buffer[1], buffer[2], buffer[3],
@@ -68,6 +127,7 @@ int parseMX(const char * filename)
 		18	WORD	dsamp_ReleaseCount
 */
 		fread(buffer, 1, 20, f);
+		tune = buffer[2] << 8 | buffer[3];
 		octaveCount = buffer[6] << 8 | buffer[7];
 		attackLen = buffer[8] << 24 | buffer[9] << 16 | buffer[10] << 8 | buffer[11];
 		sustainLen = buffer[12] << 24 | buffer[13] << 16 | buffer[14] << 8 | buffer[15];
@@ -93,7 +153,21 @@ int parseMX(const char * filename)
 		       buffer[0], buffer[1], buffer[2], buffer[3]);
 		}
 		for (octave = 0; octave < octaveCount; octave++) {
+#if 0
 			fseek(f, (attackLen+sustainLen), SEEK_CUR);	/* skip sample data */
+#else
+			//int freq = 131;	/* 8 kHz */
+			int freq = 172;
+			/* VOC Sample rate = 1000000 / (256 - frequency divisor) */
+			char outfile[1024];
+			snprintf(outfile, sizeof(outfile), "%s_%02hx_%hd_%04hx.VOC",
+			         basename, sample, octave, tune);
+			if (saveVOCSample(outfile, f, (attackLen+sustainLen), freq) < 0) {
+				fclose(f);
+				return -1;
+			}
+			printf("%s saved.\n", outfile);
+#endif
 			attackLen *= 2;
 			sustainLen *= 2;
 		}
