@@ -26,3 +26,6 @@ projects/*
 !projects/*.vcxproj
 src/rev.c
 .DS_Store
+tools/*.o
+tools/amigaMXextract
+tools/extractpak
