@@ -1,5 +1,8 @@
 /** @file src/file.c %File access routines. */
 
+#ifdef OSX
+#include <CoreFoundation/CoreFoundation.h>
+#endif /* OSX */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -496,6 +499,9 @@ bool File_Init(void)
 {
 	char buf[1024];
 	char *homedir = NULL;
+#ifdef OSX
+	CFBundleRef mainBundle = CFBundleGetMainBundle();
+#endif /* OSX */
 
 	if (IniFile_GetString("savedir", NULL, buf, sizeof(buf)) != NULL) {
 		/* savedir is defined in opendune.ini */
@@ -533,6 +539,33 @@ bool File_Init(void)
 		return false;
 	}
 
+#ifdef OSX
+	/* get .app path */
+	if (mainBundle != NULL) {
+		CFURLRef bundleURL = CFBundleCopyBundleURL(mainBundle);
+		CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
+		if (resourcesURL != NULL && bundleURL != NULL) {
+			size_t len;
+			CFStringRef bundleDir = CFURLCopyFileSystemPath(bundleURL, kCFURLPOSIXPathStyle);
+			CFStringRef resourcesDir = CFURLCopyFileSystemPath(resourcesURL, kCFURLPOSIXPathStyle);
+
+			CFStringGetFileSystemRepresentation(bundleDir, g_dune_data_dir, sizeof(g_dune_data_dir));
+			CFStringGetFileSystemRepresentation(resourcesDir, buf, sizeof(buf));
+			Debug("bundleDir=%s\nresourcesDir=%s\n", g_dune_data_dir, buf);
+			if (buf[0] != '/') {
+				/* append relative Resources directory */
+				len = strlen(g_dune_data_dir);
+				g_dune_data_dir[len++] = '/';
+				strncpy(g_dune_data_dir + len, buf, sizeof(g_dune_data_dir) - len);
+			}
+			Debug("datadir set to : %s\n", g_dune_data_dir);
+			CFRelease(resourcesDir);
+			CFRelease(resourcesURL);
+			CFRelease(bundleDir);
+			CFRelease(bundleURL);
+		}
+	}
+#endif /* OSX */
 	if (IniFile_GetString("datadir", NULL, buf, sizeof(buf)) != NULL) {
 		/* datadir is defined in opendune.ini */
 		strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
