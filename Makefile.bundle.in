@@ -32,6 +32,7 @@ ifdef OSXAPP
 	$(Q)mkdir -p "$(BUNDLE_DIR)/$(OSXAPP)/Contents/Resources"
 	$(Q)echo "APPL????" >                                          "$(BUNDLE_DIR)/$(OSXAPP)/Contents/PkgInfo"
 	$(Q)$(ROOT_DIR)/os/macosx/plistgen.sh                          "$(BUNDLE_DIR)/$(OSXAPP)" "$(REV)"
+	$(Q)cp "$(ROOT_DIR)/os/macosx/opendune.icns"                   "$(BUNDLE_DIR)/$(OSXAPP)/Contents/Resources"
 endif
 	$(Q)cp "$(BIN_DIR)/$(OPENDUNE)"           "$(OPENDUNE_DIR)/"
 	$(Q)cp "$(ROOT_DIR)/README.txt"           "$(BUNDLE_DIR)/"

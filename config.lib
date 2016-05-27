@@ -524,6 +524,12 @@ check_params() {
 		log 1 "checking ccache... $ccache"
 	fi
 
+	if [ "$os" = "OSX" ] ; then
+		OSXAPP="OpenDUNE.app"
+	else
+		OSXAPP=""
+	fi
+
 	if [ -d "$ROOT_DIR/.svn" ] && [ -n "`svn help 2>/dev/null`" ]; then
 		log 1 "checking revision... svn detection"
 	elif [ -d "$ROOT_DIR/.git" ] && [ -n "`git help 2>/dev/null`" ]; then
