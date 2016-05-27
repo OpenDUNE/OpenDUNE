@@ -119,25 +119,18 @@ static uint16 MPU_NoteOn(MSData *data)
 	uint8 chan;
 	uint8 note;
 	uint8 velocity;
-	uint8 *sound;
 	uint16 len = 0;
 	uint32 duration = 0;
 	uint8 i;
 
-	sound = data->sound;
+	chan = data->sound[len++] & 0x0F;
+	note = data->sound[len++];
+	velocity = data->sound[len++];
 
-	chan = *sound++ & 0xF;
-	note = *sound++;
-	velocity = *sound++;
-
-	while (true) {
-		uint8 v = *sound++;
-		duration |= v & 0x7F;
-		if ((v & 0x80) == 0) break;
-		duration <<= 7;
-	}
-
-	len = (uint16)(sound - data->sound);
+	/* decode variable length duration */
+	do {
+		duration = (duration << 7) | (data->sound[len] & 0x7F);
+	} while (data->sound[len++] & 0x80);
 
 	if ((s_mpu_lockStatus[chan] & 0x80) != 0) return len;
 
@@ -414,21 +407,17 @@ static void MPU_16B7(MSData *data)
  */
 static uint16 MPU_XMIDIMeta(MSData *data)
 {
-	uint8 *sound;
 	uint8 type;
-	uint16 len = 0;
+	uint16 len;
+	uint16 data_len = 0;
 
-	sound = data->sound;
-	type = sound[1];
-	sound += 2;
+	type = data->sound[1];
+	len = 2;
 
-	while (true) {
-		uint8 v = *sound++;
-		len |= v & 0x7F;
-		if ((v & 0x80) == 0) break;
-		len <<= 7;
-	}
-	len += (uint16)(sound - data->sound);
+	/* decode variable length */
+	do {
+		data_len = (data_len << 7) | (data->sound[len] & 0x7F);
+	} while (data->sound[len++] & 0x80);
 
 	switch (type) {
 		case 0x2F:	/* End of track / end sequence */
@@ -441,8 +430,8 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 		case 0x58: {	/* time sig */
 			int8 mul;
 
-			data->variable_0042 = sound[0];
-			mul = (int8)sound[1] - 2;
+			data->variable_0042 = data->sound[len];
+			mul = (int8)data->sound[len+1] - 2;
 
 			if (mul < 0) {
 				data->variable_0044 = 133333 >> -mul;
@@ -454,7 +443,7 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 		} break;
 
 		case 0x51:	/* TEMPO meta-event */
-			data->variable_004C = (sound[0] << 20) | (sound[1] << 12) | (sound[2] << 4);
+			data->variable_004C = (data->sound[len] << 20) | (data->sound[len+1] << 12) | (data->sound[len+2] << 4);
 			break;
 
 		default:
@@ -462,13 +451,13 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 				int i;
 				Warning("MPU_XMIDIMeta() type=%02X len=%hu", (int)type, len);
 				Warning("  ignored data :");
-				for(i = 0 ; i < len; i++) Warning(" %02X", data->sound[i]);
+				for(i = 0 ; i < len + data_len; i++) Warning(" %02X", data->sound[i]);
 				Warning("\n");
 			}
 			break;
 	}
 
-	return len;
+	return len + data_len;
 }
 
 void MPU_Interrupt(void)
@@ -575,7 +564,7 @@ void MPU_Interrupt(void)
 							nb = 0;
 							do {
 								nb = (nb << 7) | (data->sound[i] & 0x7F);
-							} while(data->sound[i++] & 0x80);
+							} while (data->sound[i++] & 0x80);
 							buffer[0] = status;
 							assert(nb < sizeof(buffer));
 							memcpy(buffer + 1, data->sound + i, nb);
