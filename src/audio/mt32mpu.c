@@ -584,14 +584,14 @@ void MPU_Interrupt(void)
 						break;
 					case 0xD0:	/* Channel Pressure / aftertouch */
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
-							MPU_Send(status | data->chanMaps[chan], data1, data2);
+							MPU_Send(status | data->chanMaps[chan], data1, 0);
 						}
 						nb = 0x2;
 						break;
 					case 0xC0:	/* Program Change */
 						s_mpu_programs[chan] = data1;
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
-							MPU_Send(status | data->chanMaps[chan], data1, data2);
+							MPU_Send(status | data->chanMaps[chan], data1, 0);
 						}
 						nb = 0x2;
 						break;
