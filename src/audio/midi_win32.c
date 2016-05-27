@@ -7,6 +7,7 @@
 #include <assert.h>
 #include "types.h"
 #include "../os/error.h"
+#include "../inifile.h"
 #include "midi.h"
 
 static HMIDIOUT s_midi = NULL;
@@ -25,13 +26,15 @@ bool midi_init(void)
 					i, caps.wMid, caps.wPid, caps.vDriverVersion >> 8, caps.vDriverVersion & 0xff,
 					caps.wVoices, caps.wNotes, caps.wChannelMask,
 					caps.szPname);
+				/* select this device if its description contains "MT-32" */
 				if (strstr(caps.szPname, "MT-32") != NULL) devID = i;
 			}
 		}
 	}
 
-	if (midiOutOpen(&s_midi, devID, NULL, NULL, CALLBACK_NULL) != MMSYSERR_NOERROR) {
-		Error("Failed to initialize MIDI\n");
+	/* No callback to process messages related to the progress of the playback */
+	if (midiOutOpen(&s_midi, devID, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR) {
+		Error("Failed to initialize MIDI (Device ID=%u)\n", devID);
 		s_midi = NULL;
 		return false;
 	}
