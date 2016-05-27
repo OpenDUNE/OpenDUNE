@@ -82,7 +82,11 @@ os/endian.c
 	os/thread_win32.c
 	os/readdir_win32.c
 #else
-	os/error.c
+	#if OSX
+		os/error_osx.c
+	#else
+		os/error.c
+	#endif
 	#if TOS
 		os/readdir_atari.c
 	#else
