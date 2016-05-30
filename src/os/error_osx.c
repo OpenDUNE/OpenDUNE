@@ -15,7 +15,10 @@ void Error(const char *format, ...) {
 
 	va_start(ap, format);
 	vfprintf(stderr, format, ap);
-	message = CFStringCreateWithFormatAndArguments(NULL, NULL, formatStr, ap);
+	va_end(ap);
+
+	va_start(ap, format);
+	message = CFStringCreateWithFormatAndArguments(kCFAllocatorDefault, NULL, formatStr, ap);
 	va_end(ap);
 
 	/* CFUserNotificationDisplayNotice = no response
