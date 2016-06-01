@@ -213,6 +213,9 @@
     <ClCompile Include="..\src\audio\dsp_alsa.c">
       <Filter>src\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_atari.c">
+      <Filter>src\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\audio\dsp_none.c">
       <Filter>src\audio</Filter>
     </ClCompile>
@@ -229,6 +232,9 @@
       <Filter>src\audio</Filter>
     </ClInclude>
     <ClCompile Include="..\src\audio\midi_alsa.c">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_atari.c">
       <Filter>src\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\src\audio\midi_none.c">
@@ -345,6 +351,9 @@
     <ClInclude Include="..\src\os\error.h">
       <Filter>src\os</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\os\error_osx.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\os\error_win32.c">
       <Filter>src\os</Filter>
     </ClCompile>
@@ -360,6 +369,9 @@
     <ClInclude Include="..\src\os\readdir.h">
       <Filter>src\os</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\os\readdir_atari.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\os\readdir_win32.c">
       <Filter>src\os</Filter>
     </ClCompile>
@@ -558,6 +570,9 @@
     <ClInclude Include="..\src\video\video.h">
       <Filter>src\video</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\video\video_atari.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\video\video_sdl.c">
       <Filter>src\video</Filter>
     </ClCompile>
