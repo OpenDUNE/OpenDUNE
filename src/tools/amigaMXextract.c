@@ -7,6 +7,26 @@
 #define MIN(a,b) (((a)<=(b))?(a):(b))
 #endif
 
+static int tuneToVOCFreqDiv(int tune)
+{
+	int freq;
+	/* I dont know the formula but only some precalculated values */
+	switch(tune) {
+	case 29:
+		freq = 144;	/* 8889 Hz */
+		break;
+	case 73:
+		freq = 155;	/* 9879 Hz */
+		break;
+	case 213:
+		freq = 184;	/* 13855 Hz */
+		break;
+	default:
+		freq = 172;	/* 11905 Hz */
+	}
+	return freq;
+}
+
 int saveVOCSample(const char * filename, FILE * input, uint32_t len, int freq)
 {
 	uint8_t buffer[64*1024];
@@ -59,7 +79,7 @@ int parseMX(const char * filename)
 	uint16_t samples_number;
 	uint16_t sample;
 	uint32_t line_count;
-	uint16_t tune;
+	int16_t tune;
 	uint16_t octaveCount;
 	uint16_t octave;
 	uint32_t attackLen;
@@ -127,7 +147,7 @@ int parseMX(const char * filename)
 		18	WORD	dsamp_ReleaseCount
 */
 		fread(buffer, 1, 20, f);
-		tune = buffer[2] << 8 | buffer[3];
+		tune = (int16_t)(buffer[2] << 8 | buffer[3]);
 		octaveCount = buffer[6] << 8 | buffer[7];
 		attackLen = buffer[8] << 24 | buffer[9] << 16 | buffer[10] << 8 | buffer[11];
 		sustainLen = buffer[12] << 24 | buffer[13] << 16 | buffer[14] << 8 | buffer[15];
@@ -157,11 +177,12 @@ int parseMX(const char * filename)
 			fseek(f, (attackLen+sustainLen), SEEK_CUR);	/* skip sample data */
 #else
 			//int freq = 131;	/* 8 kHz */
-			int freq = 172;
+			//int freq = 172;
+			int freq = tuneToVOCFreqDiv(tune);
 			/* VOC Sample rate = 1000000 / (256 - frequency divisor) */
 			char outfile[1024];
 			snprintf(outfile, sizeof(outfile), "%s_%02hx_%hd_%04hx.VOC",
-			         basename, sample, octave, tune);
+			         basename, sample, octave, (uint16_t)tune);
 			if (saveVOCSample(outfile, f, (attackLen+sustainLen), freq) < 0) {
 				fclose(f);
 				return -1;
