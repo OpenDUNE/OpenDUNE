@@ -22,7 +22,6 @@ extern uint32 get_dma_status(void);	/* needs to be called in supervisor mode */
 
 static uint8 *s_stRamBuffer;
 static uint32 s_stRamBufferSize;
-static uint32 s_sampleDataLen;
 
 void DSP_Stop(void)
 {
@@ -32,10 +31,11 @@ void DSP_Stop(void)
 void DSP_Uninit(void)
 {
 	DSP_Stop();
-	Mfree(s_stRamBuffer);
-	s_stRamBuffer = NULL;
+	if (s_stRamBuffer != NULL) {
+		Mfree(s_stRamBuffer);
+		s_stRamBuffer = NULL;
+	}
 	s_stRamBufferSize = 0;
-	s_sampleDataLen = 0;
 }
 
 bool DSP_Init(void) 
@@ -94,6 +94,7 @@ void DSP_Play(const uint8 *data)
 {
 	uint32 len;
 	uint32 freq;
+	uint32 sampleLen;
 
 	/* skip Create Voice File header */
 	data += READ_LE_UINT16(data + 20);
@@ -121,10 +122,10 @@ void DSP_Play(const uint8 *data)
 	 * bytes 2..n audio data */
 	freq = 1000000 / (256 - data[0]);
 	if (data[1] != 0) Warning("Unsupported VOC codec 0x%02x\n", (int)data[1]);
-	s_sampleDataLen = DSP_ConvertAudio(freq, data + 2, len);
+	sampleLen = DSP_ConvertAudio(freq, data + 2, len);
 
-	if(s_sampleDataLen > 0) {
-		set_dma_sound(s_stRamBuffer, s_sampleDataLen);
+	if(sampleLen > 0) {
+		set_dma_sound(s_stRamBuffer, sampleLen);
 	}
 }
 
