@@ -13,58 +13,48 @@
  */
 void Format40_Decode(uint8 *dst, uint8 *src)
 {
-	while (true) {
-		uint16 flag;
+	uint16 cmd;
+	uint16 count;
 
-		flag = *src++;
+	for (;;) {
+		cmd = *src++;	/* 8 bit command code */
 
-		if (flag == 0) {
-			flag = *src++;
-			for (; flag > 0; flag--) {
+		if (cmd == 0) {
+			/* XOR with value */
+			for (count = *src++; count > 0; count--) {
 				*dst++ ^= *src;
 			}
 			src++;
-
-			continue;
-		}
-
-		if ((flag & 0x80) == 0) {
-			for (; flag > 0; flag--) {
+		} else if ((cmd & 0x80) == 0) {
+			/* XOR with string */
+			for (count = cmd; count > 0; count--) {
 				*dst++ ^= *src++;
 			}
-			continue;
-		}
+		} else if (cmd != 0x80) {
+			/* skip bytes */
+			dst += (cmd & 0x7F);
+		} else {
+			/* last byte was 0x80 : read 16 bit value */
+			cmd = *src++;
+			cmd += (*src++) << 8;
 
-		if (flag != 0x80) {
-			dst += flag & 0x7F;
-			continue;
-		}
+			if (cmd == 0) break;	/* 0x80 0x00 0x00 => exit code */
 
-		flag = *src++;
-		flag += (*src++) << 8;
-
-		if (flag == 0) break;
-
-		if ((flag & 0x8000) == 0) {
-			dst += flag;
-			continue;
-		}
-
-		if ((flag & 0x4000) == 0) {
-			flag &= 0x3FFF;
-			for (; flag > 0; flag--) {
-				*dst++ ^= *src++;
+			if ((cmd & 0x8000) == 0) {
+				/* skip bytes */
+				dst += cmd;
+			} else if ((cmd & 0x4000) == 0) {
+				/* XOR with string */
+				for (count = cmd & 0x3FFF; count > 0; count--) {
+					*dst++ ^= *src++;
+				}
+			} else {
+				/* XOR with value */
+				for (count = cmd & 0x3FFF; count > 0; count--) {
+					*dst++ ^= *src;
+				}
+				src++;
 			}
-			continue;
-		}
-
-		{
-			flag &= 0x3FFF;
-			for (; flag > 0; flag--) {
-				*dst++ ^= *src;
-			}
-			src++;
-			continue;
 		}
 	}
 }
@@ -76,109 +66,83 @@ void Format40_Decode(uint8 *dst, uint8 *src)
  * @param src Data source.
  * @param width Width of the rectangle.
  */
-void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
+void Format40_Decode_XorToScreen(uint8 *dst, uint8 *src, uint16 width)
 {
-	uint8 *dst;
 	uint16 length;
+	uint16 cmd;
+	uint16 count;
 
-	dst = base;
 	length = 0;
 
-	while (true) {
-		uint16 flag;
+	for (;;) {
+		cmd = *src++;	/* 8 bit command code */
 
-		flag = *src++;
-
-		if (flag == 0) {
-			uint8 value;
-
-			flag = *src++;
-			value = *src++;
-			do {
-				*dst++ ^= value;
+		if (cmd == 0) {
+			/* XOR with value */
+			for(count = *src++; count > 0; count--) {
+				*dst++ ^= *src;
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
-				flag--;
-			} while (flag != 0);
-			continue;
-		}
-
-		if (flag < 128) {
-			do {
+			}
+			src++;
+		} else if ((cmd & 0x80) == 0) {
+			/* XOR with string */
+			for(count = cmd; count > 0; count --) {
 				*dst++ ^= *src++;
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
-				flag--;
-			} while (flag != 0);
-			continue;
-		}
-
-		if (flag > 128) {
-			dst   += flag & 0x7F;
-			length += flag & 0x7F;
+			}
+		} else if (cmd != 0x80) {
+			/* skip bytes */
+			dst   += cmd & 0x7F;
+			length += cmd & 0x7F;
 			while (length >= width) {
 				length -= width;
-				base += SCREEN_WIDTH;
-				dst = base + length;
+				dst += (SCREEN_WIDTH - width);
 			}
-			continue;
-		}
+		} else {
+			/* last byte was 0x80 : read 16 bit value */
+			cmd = *src++;
+			cmd += (*src++) << 8;
 
-		flag = *src | (src[1] << 8);
-		src += 2;
+			if (cmd == 0) break;	/* 0x80 0x00 0x00 => exit code */
 
-		if (flag == 0) break;
-
-		if (flag < 0x8000) {
-			dst   += flag;
-			length += flag;
-			while (length >= width) {
-				length -= width;
-				base += SCREEN_WIDTH;
-				dst = base + length;
+			if ((cmd & 0x8000) == 0) {
+				/* skip bytes */
+				dst   += cmd;
+				length += cmd;
+				while (length >= width) {
+					length -= width;
+					dst += (SCREEN_WIDTH - width);
+				}
+			} else if ((cmd & 0x4000) == 0) {
+				/* XOR with string */
+				for(count = cmd & 0x3FFF; count > 0; count--) {
+					*dst++ ^= *src++;
+					length++;
+					if (length == width) {
+						length = 0;
+						dst += (SCREEN_WIDTH - width);
+					}
+				}
+			} else {
+				/* XOR with value */
+				for(count = cmd & 0x3FFF; count > 0; count--) {
+					*dst++ ^= *src;
+					length++;
+					if (length == width) {
+						length = 0;
+						dst += (SCREEN_WIDTH - width);
+					}
+				}
+				src++;
 			}
-			continue;
-		}
-
-		if ((flag & 0x4000) == 0) {
-			flag &= 0x3FFF;
-			do {
-				*dst++ ^= *src++;
-				length++;
-				if (length == width) {
-					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
-				}
-				flag--;
-			} while (flag != 0);
-			continue;
-		}
-
-		{
-			uint8 value;
-
-			flag &= 0x3FFF;
-			value = *src++;
-			do {
-				*dst++ ^= value;
-				length++;
-				if (length == width) {
-					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
-				}
-				flag--;
-			} while (flag != 0);
-			continue;
 		}
 	}
 }
@@ -189,109 +153,83 @@ void Format40_Decode_XorToScreen(uint8 *base, uint8 *src, uint16 width)
  * @param src Data source.
  * @param width Width of the rectangle.
  */
-void Format40_Decode_ToScreen(uint8 *base, uint8 *src, uint16 width)
+void Format40_Decode_ToScreen(uint8 *dst, uint8 *src, uint16 width)
 {
-	uint8 *dst;
 	uint16 length;
+	uint16 cmd;
+	uint16 count;
 
-	dst = base;
 	length = 0;
 
-	while (true) {
-		uint16 flag;
+	for (;;) {
+		cmd = *src++;	/* 8 bit command code */
 
-		flag = *src++;
-
-		if (flag == 0) {
-			uint8 value;
-
-			flag  = *src++;
-			value = *src++;
-			do {
-				*dst++ = value;
+		if (cmd == 0) {
+			/* fill with value */
+			for (count = *src++; count > 0; count--) {
+				*dst++ = *src;
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
-				flag--;
-			} while (flag != 0);
-			continue;
-		}
-
-		if (flag < 128) {
-			do {
+			}
+			src++;
+		} else if ((cmd & 0x80) == 0) {
+			/* copy string */
+			for (count = cmd & 0x7F; count > 0; count--) {
 				*dst++ = *src++;
 				length++;
 				if (length == width) {
 					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
+					dst += (SCREEN_WIDTH - width);
 				}
-				flag--;
-			} while (flag != 0);
-			continue;
-		}
-
-		if (flag > 128) {
-			dst   += flag & 0x7F;
-			length += flag & 0x7F;
+			}
+		} else if (cmd != 0x80) {
+			/* skip bytes */
+			dst   += cmd & 0x7F;
+			length += cmd & 0x7F;
 			while (length >= width) {
 				length -= width;
-				base += SCREEN_WIDTH;
-				dst = base + length;
+				dst += (SCREEN_WIDTH - width);
 			}
-			continue;
-		}
+		} else {
+			/* last byte was 0x80 : read 16 bit value */
+			cmd = *src++;
+			cmd += (*src++) << 8;
 
-		flag = *src | (src[1] << 8);
-		src += 2;
+			if (cmd == 0) break;	/* 0x80 0x00 0x00 => exit code */
 
-		if (flag == 0) break;
-
-		if (flag < 0x8000) {
-			dst   += flag;
-			length += flag;
-			while (length >= width) {
-				length -= width;
-				base += SCREEN_WIDTH;
-				dst = base + length;
+			if ((cmd & 0x8000) == 0) {
+				/* skip bytes */
+				dst   += cmd;
+				length += cmd;
+				while (length >= width) {
+					length -= width;
+					dst += (SCREEN_WIDTH - width);
+				}
+			} else if ((cmd & 0x4000) == 0) {
+				/* copy string */
+				for (count = cmd & 0x3FFF; count > 0; count--) {
+					*dst++ = *src++;
+					length++;
+					if (length == width) {
+						length = 0;
+						dst += (SCREEN_WIDTH - width);
+					}
+				}
+			} else {
+				/* fill with value */
+				for (count = cmd & 0x3FFF; count > 0; count--) {
+					*dst++ = *src;
+					length++;
+					if (length == width) {
+						length = 0;
+						dst += (SCREEN_WIDTH - width);
+					}
+				}
+				src++;
 			}
-			continue;
-		}
-
-		if ((flag & 0x4000) == 0) {
-			flag &= 0x3FFF;
-			do {
-				*dst++ = *src++;
-				length++;
-				if (length == width) {
-					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
-				}
-				flag--;
-			} while (flag != 0);
-			continue;
-		}
-
-		{
-			uint8 value;
-
-			flag &= 0x3FFF;
-			value = *src++;
-			do {
-				*dst++ = value;
-				length++;
-				if (length == width) {
-					length = 0;
-					base += SCREEN_WIDTH;
-					dst = base;
-				}
-				flag--;
-			} while (flag != 0);
-			continue;
 		}
 	}
 }

@@ -119,6 +119,7 @@ void midi_uninit(void)
 void midi_send(uint32 data)
 {
 	snd_seq_event_t ev;
+	int r;
 
 	if (s_midi == NULL) return;
 
@@ -127,10 +128,45 @@ void midi_send(uint32 data)
 	snd_seq_ev_set_subs(&ev);
 	snd_seq_ev_set_direct(&ev);
 
-	snd_midi_event_encode(s_midiCoder, (uint8 *)&data, sizeof(uint32), &ev);
+	r = snd_midi_event_encode_byte(s_midiCoder, data & 0xff, &ev);	/* status byte */
+	if (r < 0) {
+		Warning("snd_midi_event_encode_byte() failed to send status byte %02X. err=%d\n", data & 0xff, r);
+	} else if (r == 0) {
+		/* snd_midi_event_encode_byte() returns 0 when more bytes are required to complete the event */
+		r = snd_midi_event_encode_byte(s_midiCoder, (data >> 8) & 0xff, &ev);	/* 1st data byte */
+		if (r < 0) {
+			Warning("snd_midi_event_encode_byte() failed to send 1st data byte %02X. err=%d\n", (data >> 8) & 0xff, r);
+		} else if (r == 0) {
+			r = snd_midi_event_encode_byte(s_midiCoder, (data >> 16) & 0xff, &ev);	/* 2nd data byte */
+			if (r < 0) {
+				Warning("snd_midi_event_encode_byte() failed to send 2nd data byte %02X. err=%d\n", (data >> 16) & 0xff, r);
+			} else if (r == 0) {
+				Warning("midi_send() no more data byte to send : %02X %02X %02X\n",
+				         data & 0xff, (data >> 8) & 0xff, (data >> 16) & 0xff);
+			}
+		}
+	}
 
 	snd_seq_event_output(s_midi, &ev);
 	snd_seq_drain_output(s_midi);
+}
+
+uint16 midi_send_string(const uint8 * data, uint16 len)
+{
+	snd_seq_event_t ev;
+
+	if (s_midi == NULL) return len;
+
+	snd_seq_ev_clear(&ev);
+	snd_seq_ev_set_source(&ev, s_midiPort);
+	snd_seq_ev_set_subs(&ev);
+	snd_seq_ev_set_direct(&ev);
+
+	snd_midi_event_encode(s_midiCoder, data, len, &ev);
+
+	snd_seq_event_output(s_midi, &ev);
+	snd_seq_drain_output(s_midi);
+	return len;
 }
 
 void midi_reset(void)

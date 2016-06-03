@@ -9,7 +9,7 @@
  * Decode a memory fragment which is encoded with 'format80'.
  * @param dest The place the decoded fragment will be loaded.
  * @param source The encoded fragment.
- * @param destLength The length of the destionation buffer.
+ * @param destLength The length of the destination buffer.
  * @return The length of decoded data.
  */
 uint16 Format80_Decode(uint8 *dest, const uint8 *source, uint16 destLength)
@@ -18,42 +18,37 @@ uint16 Format80_Decode(uint8 *dest, const uint8 *source, uint16 destLength)
 	uint8 *end = dest + destLength;
 
 	while (dest != end) {
-		uint8 flag;
+		uint8 cmd;
 		uint16 size;
 		uint16 offset;
 
-		flag = *source++;
+		cmd = *source++;
 
-		/* Short move, relative */
-		if ((flag & 0x80) == 0) {
-			size = (flag >> 4) + 3;
+		if (cmd == 0x80) {
+			/* Exit */
+			break;
+
+		} else if ((cmd & 0x80) == 0) {
+			/* Short move, relative */
+			size = (cmd >> 4) + 3;
 			if (size > end - dest) size = (uint16)(end - dest);
 
-			offset = ((flag & 0xF) << 8) + (*source++);
+			offset = ((cmd & 0xF) << 8) + (*source++);
 
 			/* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
 			for (; size > 0; size--) { *dest = *(dest - offset); dest++; }
-			continue;
-		}
 
-		/* Exit */
-		if (flag == 0x80) break;
-
-		/* Long set */
-		if (flag == 0xFE) {
+		} else if (cmd == 0xFE) {
+			/* Long set */
 			size = *source++;
 			size += (*source++) << 8;
 			if (size > end - dest) size = (uint16)(end - dest);
 
 			memset(dest, (*source++), size);
 			dest += size;
-			continue;
-		}
 
-		/* Long move, absolute */
-		if (flag == 0xFF) {
-			uint8 *s;
-
+		} else if (cmd == 0xFF) {
+			/* Long move, absolute */
 			size = *source++;
 			size += (*source++) << 8;
 			if (size > end - dest) size = (uint16)(end - dest);
@@ -61,36 +56,27 @@ uint16 Format80_Decode(uint8 *dest, const uint8 *source, uint16 destLength)
 			offset = *source++;
 			offset += (*source++) << 8;
 
-			s = end - destLength + offset;
 			/* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
-			for (; size > 0; size--) *dest++ = *s++;
-			continue;
-		}
+			for (; size > 0; size--) *dest++ = start[offset++];
 
-		/* Short move, absolute */
-		if ((flag & 0x40) != 0) {
-			uint8 *s;
-
-			size = (flag & 0x3F) + 3;
+		} else if ((cmd & 0x40) != 0) {
+			/* Short move, absolute */
+			size = (cmd & 0x3F) + 3;
 			if (size > end - dest) size = (uint16)(end - dest);
 
 			offset = *source++;
 			offset += (*source++) << 8;
 
-			s = end - destLength + offset;
 			/* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
-			for (; size > 0; size--) *dest++ = *s++;
-			continue;
-		}
+			for (; size > 0; size--) *dest++ = start[offset++];
 
-		/* Short copy */
-		{
-			size = flag & 0x3F;
+		} else {
+			/* Short copy */
+			size = cmd & 0x3F;
 			if (size > end - dest) size = (uint16)(end - dest);
 
 			/* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
 			for (; size > 0; size--) *dest++ = *source++;
-			continue;
 		}
 	}
 

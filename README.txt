@@ -26,13 +26,14 @@ Our wiki is at:
 
 Supported Platforms
 -------------------
-OpenDUNE is written in ANSI C (C89), and only requires SDL to run. In result,
- OpenDUNE should run on all platforms supported by SDL.
-Currently we official support the following platforms:
+OpenDUNE is written in ANSI C (C89), and only requires SDL/SDL2 to run. In result,
+ OpenDUNE should run on all platforms supported by SDL or SDL2.
+Currently we officially support the following platforms:
 
   - Linux
-  - Mac OS X (Intel, i686 / x86_64, 10.4+)
-  - Windows
+  - Mac OS X (PowerPC or Intel i686 / x86_64, 10.4+)
+  - Windows (i686 / x86_64)
+  - Atari TOS (68030+ CPU, TT and Falcon machines supported)
 
 
 Requirements
@@ -45,6 +46,7 @@ For Linux, you need to install LibSDL yourself. It is available in every
  package manager, and the chances are high it is already installed on your
  system.
 In order to use sounds and music on Linux, you need a working ALSA driver.
+Music is sent to MIDI Out port of Atari machines.
 
 
 Installation & Running
@@ -66,6 +68,7 @@ Available options are :
 - savedir : directory for Dune personal data files (savegames)
 - scalefactor : 2 (default), 3, 4
 - scalefilter : nearest (default), scale2x, hqx
+- mt32midi : 0(default)/1 send MT32 init, use .XMI files
 
 
 Enhancement over Dune2

@@ -6,6 +6,7 @@
 #include "types.h"
 #include "../os/math.h"
 #include "../os/strings.h"
+#include "../os/error.h"
 
 #include "driver.h"
 
@@ -14,6 +15,7 @@
 #include "../config.h"
 #include "../file.h"
 #include "../timer.h"
+#include "../inifile.h"
 
 static bool s_driverInstalled[16];
 static bool s_driverLoaded[16];
@@ -85,7 +87,7 @@ static bool Drivers_Init(Driver *driver, const char *extension)
 
 	Driver_Init(driver->index);
 
-	memcpy(driver->extension, extension, 4);
+	strncpy(driver->extension, extension, 4);
 
 	return true;
 }
@@ -107,7 +109,7 @@ static bool Drivers_SoundMusic_Init(bool enable)
 
 	if (!MPU_Init()) return false;
 
-	if (!Drivers_Init(sound, "C55")) return false;
+	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
 	memcpy(music, sound, sizeof(Driver));
 
 #if defined(_WIN32)
@@ -240,7 +242,6 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 
 	if (filename == NULL) return;
 	if (g_driverVoice->index == 0xFFFF) return;
-	if (!File_Exists(filename)) return;
 
 	File_ReadBlockFile(filename, buffer, length);
 }
@@ -299,20 +300,20 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 	if (sound->content == music->content) {
 		sound->content         = NULL;
-		sound->filename        = NULL;
+		sound->filename[0]     = '\0';
 		sound->contentMalloced = false;
 	} else {
 		Driver_UnloadFile(sound);
 	}
 
-	if (music->filename != NULL) {
+	if (music->filename[0] != '\0') {
 		char *filename;
 
 		filename = Drivers_GenerateFilename(musicName, sound);
 
-		if (strcasecmp(filename, music->filename) == 0) {
+		if (filename != NULL && strcasecmp(filename, music->filename) == 0) {
 			sound->content         = music->content;
-			sound->filename        = music->filename;
+			memcpy(sound->filename, music->filename, sizeof(music->filename));
 			sound->contentMalloced = music->contentMalloced;
 			return;
 		}
@@ -423,11 +424,12 @@ void Driver_LoadFile(const char *musicName, Driver *driver)
 
 	/* String length including terminating \0 */
 	len = strlen(filename) + 1;
-	driver->filename = malloc(len);
+	assert(len <= sizeof(driver->filename));
 	memcpy(driver->filename, filename, len);
 
 	driver->content = File_ReadWholeFile(filename);
 	driver->contentMalloced = true;
+	Debug("Driver_LoadFile(%s, %p): %s loaded\n", musicName, driver, filename);
 }
 
 void Driver_UnloadFile(Driver *driver)
@@ -436,9 +438,7 @@ void Driver_UnloadFile(Driver *driver)
 		free(driver->content);
 	}
 
-	free(driver->filename);
-
-	driver->filename        = NULL;
+	driver->filename[0]     = '\0';
 	driver->content         = NULL;
 	driver->contentMalloced = false;
 }

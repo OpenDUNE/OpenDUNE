@@ -66,6 +66,8 @@ make_cflags_and_ldflags
 EXE=""
 if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "OS2" ] || [ "$os" = "DOS" ] || [ "$os" = "WINCE" ]; then
 	EXE=".exe"
+elif [ "$os" = "TOS" ]; then
+	EXE=".tos"
 fi
 
 OPENDUNE="opendune$EXE"
@@ -95,6 +97,7 @@ AWKCOMMAND='
 		if ($0 == "ALSA"        && "'$with_asound'" == "0")        { next; }
 		if ($0 == "PULSE"       && "'$with_pulse'" == "0")         { next; }
 		if ($0 == "OSX"         && "'$os'" != "OSX")               { next; }
+		if ($0 == "TOS"         && "'$os'" != "TOS")               { next; }
 		if ($0 == "WIN32"       && "'$os'" != "MINGW" &&
 		                 "'$os'" != "CYGWIN" && "'$os'" != "MSVC") { next; }
 
@@ -119,6 +122,7 @@ AWKCOMMAND='
 SRCS="`< $ROOT_DIR/source.list tr '\r' '\n' | $awk \"$AWKCOMMAND\" | $PIPE_SORT`"
 
 OBJS_C="`  echo \"$SRCS\" | $awk ' { ORS = \" \" } /\.c$/   { gsub(\".c$\",   \".o\", $0); print $0; }'`"
+OBJS_S="`  echo \"$SRCS\" | $awk ' { ORS = \" \" } /\.s$/   { gsub(\".s$\",   \".o\", $0); print $0; }'`"
 SRCS="`    echo \"$SRCS\" | $awk ' { ORS = \" \" } { print $0; }'`"
 
 # In makefiles, we always use -u for sort

@@ -17,6 +17,7 @@
 #include "../opendune.h"
 #include "../string.h"
 #include "../tile.h"
+#include "../timer.h"
 
 
 static void *g_voiceData[NUM_VOICES];            /*!< Preloaded Voices sound data */
@@ -59,15 +60,15 @@ static void Driver_Music_LoadFile(const char *musicName)
 
 	if (music->content == sound->content) {
 		music->content         = NULL;
-		music->filename        = NULL;
+		music->filename[0]     = '\0';
 		music->contentMalloced = false;
 	} else {
 		Driver_UnloadFile(music);
 	}
 
-	if (sound->filename != NULL && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), sound->filename) == 0) {
+	if (sound->filename[0] != '\0' && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), sound->filename) == 0) {
 		g_driverMusic->content         = g_driverSound->content;
-		g_driverMusic->filename        = g_driverSound->filename;
+		memcpy(g_driverMusic->filename, g_driverSound->filename, sizeof(g_driverMusic->filename));
 		g_driverMusic->contentMalloced = g_driverSound->contentMalloced;
 
 		return;
@@ -100,6 +101,28 @@ void Music_Play(uint16 musicID)
 	}
 
 	Driver_Music_Play(g_table_musics[musicID].index, 0xFF);
+}
+
+/**
+ * Initialises the MT-32.
+ * @param index The index of the music to play.
+ */
+void Music_InitMT32(void)
+{
+	uint16 left = 0;
+
+	Driver_Music_LoadFile("DUNEINIT");
+
+	Driver_Music_Play(0, 0xFF);
+
+	GUI_DrawText(String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
+
+	while (Driver_Music_IsPlaying()) {
+		Timer_Sleep(60);
+
+		left += 6;
+		GUI_DrawText(".", left, 10, 15, 12);
+	}
 }
 
 /**

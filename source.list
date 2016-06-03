@@ -5,6 +5,11 @@ audio/driver.c
 audio/dsp_win32.c
 audio/midi_win32.c
 #else
+#if TOS
+audio/dsp_atari.c
+audio/atari_dma_sound.s
+audio/midi_atari.c
+#else
 # DSP
 	#if PULSE
 		audio/dsp_pulse.c
@@ -33,6 +38,7 @@ audio/midi_win32.c
 			audio/midi_none.c
 		#endif
 	#endif
+#endif
 #endif
 audio/mt32mpu.c
 audio/sound.c
@@ -63,6 +69,9 @@ ini.c
 inifile.c
 input/input.c
 input/mouse.c
+#if TOS
+input/atari_ikbd.s
+#endif
 load.c
 map.c
 object.c
@@ -73,8 +82,16 @@ os/endian.c
 	os/thread_win32.c
 	os/readdir_win32.c
 #else
-	os/error.c
-	os/readdir.c
+	#if OSX
+		os/error_osx.c
+	#else
+		os/error.c
+	#endif
+	#if TOS
+		os/readdir_atari.c
+	#else
+		os/readdir.c
+	#endif
 #endif
 pool/house.c
 pool/structure.c
@@ -128,9 +145,16 @@ unit.c
 	#if SDL2
 		video/video_sdl2.c
 	#else
-		video/video_sdl.c
+		#if TOS
+			video/video_atari.c
+		#else
+			video/video_sdl.c
+		#endif
 	#endif
 #endif
+#if TOS
+video/c2p1x1_8.s
+#else
 video/hqx_init.c
 video/hq2x_8b.c
 video/hq3x_8b.c
@@ -138,6 +162,7 @@ video/hq4x_8b.c
 video/scalebit.c
 video/scale2x.c
 video/scale3x.c
+#endif
 wsa.c
 
 # Header files

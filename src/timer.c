@@ -1,18 +1,27 @@
 /** @file src/timer.c Timer routines. */
 
 #include <stdlib.h>
-#if !defined(_MSC_VER)
+#if !defined(_MSC_VER) && !defined(TOS)
 	#include <sys/time.h>
 #endif /* _MSC_VER */
 #if defined(_WIN32)
+	/* WIN32 */
 	#define _WIN32_WINNT 0x0500
 	#include <windows.h>
+#elif defined(TOS)
+	/* Atari TOS */
+	#include <mint/sysbind.h>
+	#include <mint/osbind.h>
+	#include <mint/ostruct.h>
+	#include <mint/sysvars.h>
 #else
+	/* Linux / Mac OS X / etc. */
 	#if !defined(__USE_POSIX)
 		#define __USE_POSIX
 	#endif /* !__USE_POSIX */
 	#include <signal.h>
-#endif /* _WIN32 */
+#endif
+
 #include "types.h"
 #include "os/sleep.h"
 #include "os/error.h"
@@ -41,7 +50,7 @@ typedef struct TimerNode {
 static HANDLE s_timerMainThread = NULL;
 static HANDLE s_timerThread = NULL;
 static int s_timerTime;
-#else
+#elif !defined(TOS)
 static struct itimerval s_timerTime;
 #endif /* _WIN32 */
 
@@ -60,6 +69,9 @@ static uint32 Timer_GetTime(void)
 	DWORD t;
 	t = timeGetTime();
 	return t;
+#elif defined(TOS)
+	/* use the 200 HZ system timer which has a 5ms granularity */
+	return get_sysvar(_hz_200) * 5;
 #else
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
@@ -115,7 +127,13 @@ static void Timer_InterruptRun(int arg)
 	timerLock = false;
 }
 
-#if !defined(_WIN32)
+#if defined(TOS)
+void SleepAndProcessBackgroundTasks(void)
+{
+	Timer_InterruptRun(0);
+}
+
+#elif !defined(_WIN32)
 static volatile sig_atomic_t s_timer_count = 0;
 
 static void Timer_Handler(int sig)
@@ -159,6 +177,8 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 }
 #endif /* _WIN32 */
 
+#if !defined(TOS)
+
 /**
  * Suspend the timer interrupt handling.
  */
@@ -184,6 +204,8 @@ static void Timer_InterruptResume(void)
 #endif /* _WIN32 */
 }
 
+#endif /* !defined(TOS) */
+
 /**
  * Initialize the timer.
  */
@@ -194,6 +216,13 @@ void Timer_Init(void)
 #if defined(_WIN32)
 	s_timerTime = s_timerSpeed / 1000;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &s_timerMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
+#elif defined(TOS)
+	(void)Cconws("Timer_Init()\r\n");
+	/* see http://toshyp.atari.org/en/004009.html#Xbtimer */
+	/* s_timerSpeed * 614400 / 10000 */
+#if 0
+	Xbtimer(0/* Timer A */, 1/* divider = 4 */, s_timerSpeed * 6144 / 10000, Timer_Handler);
+#endif
 #else
 	s_timerTime.it_value.tv_sec = 0;
 	s_timerTime.it_value.tv_usec = s_timerSpeed;
@@ -209,7 +238,9 @@ void Timer_Init(void)
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
 #endif /* _WIN32 */
+#if !defined(TOS)
 	Timer_InterruptResume();
+#endif /* !defined(TOS) */
 }
 
 /**
@@ -217,7 +248,9 @@ void Timer_Init(void)
  */
 void Timer_Uninit(void)
 {
+#if !defined(TOS)
 	Timer_InterruptSuspend();
+#endif /* !defined(TOS) */
 #if defined(_WIN32)
 	CloseHandle(s_timerMainThread);
 #endif /* _WIN32 */

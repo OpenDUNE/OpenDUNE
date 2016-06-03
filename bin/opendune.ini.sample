@@ -1,0 +1,17 @@
+; copy/rename this sample file to "opendune.ini" in the desired location
+; and edit it to suit your preferences.
+; Lines starting with a semi-colon ';' are comments
+[opendune]
+; supported languages are : english, french and german
+;language=french
+; directory where the Dune 2 data files are :
+;datadir=/usr/local/opendune
+; directory for save games :
+;savedir=/home/user/.config/opendune
+; "Zoom" factor (from 1 to 4)
+;scalefactor=2
+; Rescaling filter availables : nearest (default), scale2x, hqx
+;scalefilter=scale2x
+; set mt32midi=1 if you output music to a MT-32 device or compatible
+; default setting is for GeneralMidi music (Roland SC55)
+;mt32midi=1

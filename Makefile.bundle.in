@@ -32,13 +32,21 @@ ifdef OSXAPP
 	$(Q)mkdir -p "$(BUNDLE_DIR)/$(OSXAPP)/Contents/Resources"
 	$(Q)echo "APPL????" >                                          "$(BUNDLE_DIR)/$(OSXAPP)/Contents/PkgInfo"
 	$(Q)$(ROOT_DIR)/os/macosx/plistgen.sh                          "$(BUNDLE_DIR)/$(OSXAPP)" "$(REV)"
+	$(Q)cp "$(ROOT_DIR)/os/macosx/opendune.icns"                   "$(BUNDLE_DIR)/$(OSXAPP)/Contents/Resources"
 endif
 	$(Q)cp "$(BIN_DIR)/$(OPENDUNE)"           "$(OPENDUNE_DIR)/"
 	$(Q)cp "$(ROOT_DIR)/README.txt"           "$(BUNDLE_DIR)/"
 	$(Q)cp "$(ROOT_DIR)/COPYING"              "$(BUNDLE_DIR)/"
 	$(Q)cp "$(ROOT_DIR)/enhancement.txt"      "$(BUNDLE_DIR)/"
+	$(Q)cp "$(BIN_DIR)/opendune.ini.sample"  "$(BUNDLE_DIR)/"
 ifeq ($(OPENDUNE), opendune.exe)
 	$(Q)unix2dos "$(BUNDLE_DIR)/README.txt" "$(BUNDLE_DIR)/COPYING" "$(BUNDLE_DIR)/enhancement.txt"
+	$(Q)unix2dos "$(BUNDLE_DIR)/opendune.ini.sample"
+endif
+ifeq ($(OS), TOS)
+	$(Q)cp "$(ROOT_DIR)/README.atari"         "$(BUNDLE_DIR)/"
+	$(Q)unix2dos "$(BUNDLE_DIR)/README.txt" "$(BUNDLE_DIR)/README.atari" "$(BUNDLE_DIR)/COPYING" "$(BUNDLE_DIR)/enhancement.txt"
+	$(Q)unix2dos "$(BUNDLE_DIR)/opendune.ini.sample"
 endif
 
 ### Packing the current bundle into several compressed file formats ###

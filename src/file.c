@@ -1,5 +1,8 @@
 /** @file src/file.c %File access routines. */
 
+#ifdef OSX
+#include <CoreFoundation/CoreFoundation.h>
+#endif /* OSX */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,7 +28,11 @@
 #define DUNE_DATA_DIR "."
 #endif
 
+#ifdef TOS
+#define DUNE2_DATA_PREFIX       "DATA\\"
+#else
 #define DUNE2_DATA_PREFIX       "data/"
+#endif
 
 static char g_dune_data_dir[1024] = DUNE_DATA_DIR;
 static char g_personal_data_dir[1024] = ".";
@@ -95,12 +102,21 @@ File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const
 	int j;
 	int i = 0;
 
+#ifdef TOS
+	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
+		/* Note: campaign specific data directory not implemented. */
+		i = snprintf(buf, len, "%s%s", DUNE2_DATA_PREFIX, filename);
+	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
+		i = snprintf(buf, len, "%s\\%s", g_personal_data_dir, filename);
+	}
+#else
 	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
 		/* Note: campaign specific data directory not implemented. */
 		i = snprintf(buf, len, "%s/%s%s", g_dune_data_dir, DUNE2_DATA_PREFIX, filename);
 	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
 		i = snprintf(buf, len, "%s/%s", g_personal_data_dir, filename);
 	}
+#endif
 	buf[len - 1] = '\0';
 
 	if (i > (int)len) {
@@ -483,6 +499,9 @@ bool File_Init(void)
 {
 	char buf[1024];
 	char *homedir = NULL;
+#ifdef OSX
+	CFBundleRef mainBundle = CFBundleGetMainBundle();
+#endif /* OSX */
 
 	if (IniFile_GetString("savedir", NULL, buf, sizeof(buf)) != NULL) {
 		/* savedir is defined in opendune.ini */
@@ -497,7 +516,10 @@ bool File_Init(void)
 			PathAppend(buf, TEXT("OpenDUNE"));
 			strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
 		}
-#else /* _WIN32 */
+#elif defined(TOS)
+		(void)homedir;
+		strcpy(g_personal_data_dir, "SAVES");
+#else /* _WIN32 / TOS*/
 		/* ~/.config/opendune (Linux)  ~/Library/Application Support/OpenDUNE (Mac OS X) */
 		homedir = getenv("HOME");
 		if (homedir == NULL) {
@@ -517,6 +539,33 @@ bool File_Init(void)
 		return false;
 	}
 
+#ifdef OSX
+	/* get .app path */
+	if (mainBundle != NULL) {
+		CFURLRef bundleURL = CFBundleCopyBundleURL(mainBundle);
+		CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
+		if (resourcesURL != NULL && bundleURL != NULL) {
+			size_t len;
+			CFStringRef bundleDir = CFURLCopyFileSystemPath(bundleURL, kCFURLPOSIXPathStyle);
+			CFStringRef resourcesDir = CFURLCopyFileSystemPath(resourcesURL, kCFURLPOSIXPathStyle);
+
+			CFStringGetFileSystemRepresentation(bundleDir, g_dune_data_dir, sizeof(g_dune_data_dir));
+			CFStringGetFileSystemRepresentation(resourcesDir, buf, sizeof(buf));
+			Debug("bundleDir=%s\nresourcesDir=%s\n", g_dune_data_dir, buf);
+			if (buf[0] != '/') {
+				/* append relative Resources directory */
+				len = strlen(g_dune_data_dir);
+				g_dune_data_dir[len++] = '/';
+				strncpy(g_dune_data_dir + len, buf, sizeof(g_dune_data_dir) - len);
+			}
+			Debug("datadir set to : %s\n", g_dune_data_dir);
+			CFRelease(resourcesDir);
+			CFRelease(resourcesURL);
+			CFRelease(bundleDir);
+			CFRelease(bundleURL);
+		}
+	}
+#endif /* OSX */
 	if (IniFile_GetString("datadir", NULL, buf, sizeof(buf)) != NULL) {
 		/* datadir is defined in opendune.ini */
 		strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
@@ -601,8 +650,12 @@ uint8 File_Open_Ex(enum SearchDirectory dir, const char *filename, uint8 mode)
 	g_fileOperation--;
 
 	if (res == FILE_INVALID) {
-		Error("Unable to open file '%s'.\n", filename);
-		exit(1);
+		if(dir == SEARCHDIR_PERSONAL_DATA_DIR) {
+			Warning("Unable to open file '%s'.\n", filename);
+		} else {
+			Error("Unable to open file '%s'.\n", filename);
+			exit(1);
+		}
 	}
 
 	return res;
@@ -825,6 +878,7 @@ uint32 File_ReadBlockFile_Ex(enum SearchDirectory dir, const char *filename, voi
 	uint8 index;
 
 	index = File_Open_Ex(dir, filename, FILE_MODE_READ);
+	if (index == FILE_INVALID) return 0;
 	length = File_Read(index, buffer, length);
 	File_Close(index);
 	return length;
@@ -844,6 +898,7 @@ void *File_ReadWholeFile(const char *filename)
 	void *buffer;
 
 	index = File_Open(filename, FILE_MODE_READ);
+	if (index == FILE_INVALID) return NULL;
 	length = File_GetSize(index);
 
 	buffer = malloc(length + 1);

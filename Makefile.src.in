@@ -1,8 +1,10 @@
 CC_HOST        = !!CC_HOST!!
 CC_BUILD       = !!CC_BUILD!!
+AS_HOST        = !!AS_HOST!!
 STRIP          = !!STRIP!!
 CFLAGS         = !!CFLAGS!!
 CFLAGS_BUILD   = !!CFLAGS_BUILD!!
+ASFLAGS        = !!ASFLAGS!!
 LIBS           = !!LIBS!!
 LDFLAGS        = !!LDFLAGS!!
 LDFLAGS_BUILD  = !!LDFLAGS_BUILD!!
@@ -24,7 +26,8 @@ CONFIG_CACHE_SOURCE   = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_SOURCE!!
 CONFIG_CACHE_VERSION  = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_VERSION!!
 
 OBJS_C   := !!OBJS_C!!
-OBJS     := $(OBJS_C)
+OBJS_S   := !!OBJS_S!!
+OBJS     := $(OBJS_C) $(OBJS_S)
 SRCS     := !!SRCS!!
 
 # All C-files depend on those 3 files
@@ -76,7 +79,7 @@ RES := $(shell if [ "`cat $(CONFIG_CACHE_VERSION) 2>/dev/null`" != "$(REV) $(MOD
 ifndef MAKEDEPEND
 # The slow, but always correct, dep-check
 DEP_MASK := %.d
-DEPS     := $(OBJS:%.o=%.d)
+DEPS     := $(OBJS_C:%.o=%.d)
 
 # Only include the deps if we are compiling everything
 ifeq ($(filter %.o clean mrproper, $(MAKECMDGOALS)),)
@@ -174,6 +177,10 @@ endif
 $(OBJS_C): %.o: $(SRC_DIR)/%.c $(DEP_MASK) $(FILE_DEP)
 	$(E) '$(STAGE) Compiling $(<:$(SRC_DIR)/%.c=%.c)'
 	$(Q)$(CC_HOST) $(CFLAGS) -c -o $@ $<
+
+$(OBJS_S): %.o: $(SRC_DIR)/%.s
+	$(E) '$(STAGE) Assembling $(<:$(SRC_DIR)/%.s=%.s)'
+	$(Q)$(AS_HOST) $(ASFLAGS) -o $@ $<
 
 $(BIN_DIR)/$(OPENDUNE): $(OPENDUNE)
 	$(Q)cp $(OPENDUNE) $(BIN_DIR)/$(OPENDUNE)

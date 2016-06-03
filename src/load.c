@@ -140,10 +140,6 @@ bool LoadFile(char *filename)
 	fp = fopendatadir(SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
 	if (fp == NULL) {
 		Error("Failed to open file '%s' for reading.\n", filename);
-
-		/* TODO -- Load failures should not result in termination */
-		exit(0);
-
 		return false;
 	}
 
@@ -156,11 +152,7 @@ bool LoadFile(char *filename)
 	fclose(fp);
 
 	if (!res) {
-		Error("Error while loading savegame.\n");
-
-		/* TODO -- Load failures should not result in termination */
-		exit(0);
-
+		Error("Error while loading savegame '%s'.\n", filename);
 		return false;
 	}
 

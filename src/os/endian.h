@@ -50,4 +50,6 @@ extern uint32 endian_bswap32(uint32 x);
 #define READ_LE_UINT32(p) ((uint32)(p)[0] | ((uint32)(p)[1] << 8) | ((uint32)(p)[2] << 16) | ((uint32)(p)[3] << 24))
 #define WRITE_LE_UINT16(p, value) ((p)[0] = ((value) & 0xFF), (p)[1] = (((value) >> 8) & 0xFF))
 
+#define READ_BE_UINT32(p) (((uint32)(p)[0] << 24) | ((uint32)(p)[1] << 16) | ((uint32)(p)[2] << 8) | (uint32)(p)[3])
+
 #endif /* OS_ENDIAN_H */

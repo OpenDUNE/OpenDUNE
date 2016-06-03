@@ -3,6 +3,8 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
+#include "config.h"
+
 extern bool Load_IniFile(void);
 
 extern void Free_IniFile(void);
