@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C++ Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opendune", "opendune_vs120.vcxproj", "{57B146DD-077C-4261-962C-FF4D5F3A43BC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC} = {1A2B3C5E-1C23-41A5-9C9B-ACBA2AA75FEC}
