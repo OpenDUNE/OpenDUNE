@@ -43,6 +43,9 @@
     <Filter Include="src\video">
       <UniqueIdentifier>{6dc24dda-7351-4e54-0001-000000000012}</UniqueIdentifier>
     </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{d04d3498-8b2f-4a44-84c3-018dd28e927a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\multichar.h">
@@ -585,5 +588,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\source.list" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\os\win32\opendune.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

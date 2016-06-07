@@ -2,11 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
 !!FILTERS!!
+    <Filter Include="resource">
+      <UniqueIdentifier>{d04d3498-8b2f-4a44-84c3-018dd28e927a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
 !!FILES!!
   </ItemGroup>
   <ItemGroup>
     <None Include="..\source.list" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\os\win32\opendune.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

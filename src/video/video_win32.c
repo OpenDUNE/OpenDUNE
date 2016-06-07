@@ -380,7 +380,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
-	wc.hIcon = NULL;
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(100));
 	wc.hCursor = NULL;
 	wc.hbrBackground = 0;
 	wc.lpszMenuName = NULL;
