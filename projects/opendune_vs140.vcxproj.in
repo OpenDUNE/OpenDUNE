@@ -49,7 +49,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir>..\objs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>..\objs\$(Platform)\$(Configuration)\</IntDir>
     <LocalDebuggerWorkingDirectory>../bin</LocalDebuggerWorkingDirectory>
