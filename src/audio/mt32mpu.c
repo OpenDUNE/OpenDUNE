@@ -407,6 +407,9 @@ static void MPU_16B7(MSData *data)
  */
 static uint16 MPU_XMIDIMeta(MSData *data)
 {
+#ifdef _DEBUG
+	static const uint8 rates[] = {24, 25, 30, 30};
+#endif /* _DEBUG */
 	uint8 type;
 	uint16 len;
 	uint16 data_len = 0;
@@ -444,6 +447,22 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 
 		case 0x51:	/* TEMPO meta-event */
 			data->variable_004C = (data->sound[len] << 20) | (data->sound[len+1] << 12) | (data->sound[len+2] << 4);
+			break;
+
+		case 0x59:	/* 	Key signature : 1st byte = flats/sharps, 2nd byte = major(0)/minor(1) */
+			Debug("MPU_XMIDIMeta() IGNORING key signature : %02X %02X\n",
+			      data->sound[len], data->sound[len+1]);
+			break;
+
+		case 0x21:	/* Midi Port */
+			Debug("MPU_XMIDIMeta() IGNORING MIDI Port : %02X\n", data->sound[len]);
+			break;
+
+		case 0x54:	/* SMPTE Offset */
+			Debug("MPU_XMIDIMeta() IGNORING SMPTE Offset : %dfps %d:%02d:%02d %d.%03d\n",
+			      (int)rates[(data->sound[len] >> 5) & 3], (int)(data->sound[len] & 31),
+			      (int)data->sound[len+1], (int)data->sound[len+2],
+			      (int)data->sound[len+3], (int)data->sound[len+4]);
 			break;
 
 		default:
