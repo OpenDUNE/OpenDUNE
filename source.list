@@ -187,6 +187,7 @@ gui/security.h
 gui/widget.h
 house.h
 ini.h
+inifile.h
 input/input.h
 input/mouse.h
 load.h
