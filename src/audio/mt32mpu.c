@@ -465,6 +465,11 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 			      (int)data->sound[len+3], (int)data->sound[len+4]);
 			break;
 
+		case 0x06:	/* Marker (text) */
+			Debug("MPU_XMIDIMeta() IGNORING Marker '%.*s'\n",
+			      data_len, (const char *)(data->sound + len));
+			break;
+
 		default:
 			{
 				int i;
