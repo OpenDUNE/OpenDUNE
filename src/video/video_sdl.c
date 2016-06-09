@@ -230,6 +230,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
+	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 	if (filter == FILTER_HQX) {
@@ -315,6 +316,9 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 
 	data += (s_screenOffset << 2);
 	switch(s_screen_magnification) {
+	case 1:
+		memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
+		break;
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			gfx2 = gfx1 + SCREEN_WIDTH * 2;
