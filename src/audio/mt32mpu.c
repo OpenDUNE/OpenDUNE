@@ -46,23 +46,23 @@ typedef struct MSData {
 	int16  delay;                                           /*!< Delay before reading next command. interval_cnt */
 	uint16 noteOnCount;                                     /*!< Number of notes currently on. note_count */
 	/*uint16 variable_0022;*/                               /*!< vol_error - unused */
-	uint16 variable_0024;                                   /*!< Volume (percent) */
-	uint16 variable_0026;                                   /*!< Volume target */
-	uint32 variable_0028;                                   /*!< Volume accumulator */
-	uint32 variable_002C;                                   /*!< Volume increment per 100us period */
-	uint16 variable_0030;                                   /*!< tempo_error */
-	uint16 variable_0032;                                   /*!< tempo_percent */
-	uint16 variable_0034;                                   /*!< tempo_target */
-	uint32 variable_0036;                                   /*!< tempo_accum */
-	uint32 variable_003A;                                   /*!< tempo_period */
-	uint16 variable_003E;                                   /*!< beat_count */
-	uint16 variable_0040;                                   /*!< measure_count */
-	uint16 variable_0042;                                   /*!< time_numerator */
-	uint32 variable_0044;                                   /*!< time_fraction */
-	uint32 variable_0048;                                   /*!< beat_fraction */
-	uint32 variable_004C;                                   /*!< time_per_beat */
-	const uint8 *variable_0050[4];                          /*!< FOR_loop_ptrs pointer to start of FOR loop */
-	uint16 variable_0060[4];                                /*!< FOR_loop_cnt */
+	uint16 globalVolume;                                    /*!< Volume (percent) */
+	uint16 globalVolumeTarget;                              /*!< Volume target */
+	uint32 globalVolumeAcc;                                 /*!< Volume accumulator */
+	uint32 globalVolumeIncr;                                /*!< Volume increment per 100us period */
+	uint16 tempoError;                                      /*!< tempo_error */
+	uint16 tempoPercent;                                    /*!< tempo_percent */
+	uint16 tempoTarget;                                     /*!< tempo_target */
+	uint32 tempoAcc;                                        /*!< tempo_accum */
+	uint32 tempoPeriod;                                     /*!< tempo_period */
+	uint16 beatCount;                                       /*!< beat_count */
+	uint16 measureCount;                                    /*!< measure_count */
+	uint16 timeNumerator;                                   /*!< time_numerator */
+	uint32 timeFraction;                                    /*!< time_fraction */
+	uint32 beatFraction;                                    /*!< beat_fraction */
+	uint32 timePerBeat;                                     /*!< time_per_beat */
+	const uint8 *forLoopPtrs[4];                            /*!< FOR_loop_ptrs pointer to start of FOR loop */
+	uint16 forLoopCounters[4];                              /*!< FOR_loop_cnt */
 	uint8  chanMaps[NUM_CHANS];                             /*!< ?? Channel mapping. */
 	Controls controls[NUM_CHANS];                           /*!< ?? */
 	uint8  noteOnChans[MAX_NOTES];                          /*!< ?? */
@@ -104,7 +104,7 @@ static void MPU_ApplyVolume(MSData *data)
 		if (volume == 0xFF) continue;
 
 		/* get scaled volume value, maximum is 127 */
-		volume = min((volume * data->variable_0024) / 100, 127);
+		volume = min((volume * data->globalVolume) / 100, 127);
 
 		s_mpu_controls[i].volume = volume;
 
@@ -273,8 +273,8 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 			break;
 
 		case 7: /* PART_VOLUME / Channel Volume */
-			if (data->variable_0024 == 100) break;
-			value = min(data->variable_0024 * value / 100, 127);
+			if (data->globalVolume == 100) break;
+			value = min(data->globalVolume * value / 100, 127);
 			s_mpu_controls[chan].volume = value;
 			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
@@ -340,9 +340,9 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 			uint8 i;
 
 			for (i = 0; i < 4; i++) {
-				if (data->variable_0060[i] == 0xFFFF) {
-					data->variable_0060[i] = value;
-					data->variable_0050[i] = data->sound;
+				if (data->forLoopCounters[i] == 0xFFFF) {
+					data->forLoopCounters[i] = value;
+					data->forLoopPtrs[i] = data->sound;
 					break;
 				}
 			}
@@ -354,12 +354,12 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 			if (value < 64) break;
 
 			for (i = 0; i < 4; i++) {
-				if (data->variable_0060[3 - i] != 0xFFFF) {
-					if (data->variable_0060[3 - i] != 0 && --data->variable_0060[3 - i] == 0) {
-						data->variable_0060[3 - i] = 0xFFFF;
+				if (data->forLoopCounters[3 - i] != 0xFFFF) {
+					if (data->forLoopCounters[3 - i] != 0 && --data->forLoopCounters[3 - i] == 0) {
+						data->forLoopCounters[3 - i] = 0xFFFF;
 						break;
 					}
-					data->sound = data->variable_0050[3 - i];
+					data->sound = data->forLoopPtrs[3 - i];
 					break;
 				}
 			}
@@ -433,20 +433,20 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 		case 0x58: {	/* time sig */
 			int8 mul;
 
-			data->variable_0042 = data->sound[len];
+			data->timeNumerator = data->sound[len];
 			mul = (int8)data->sound[len+1] - 2;
 
 			if (mul < 0) {
-				data->variable_0044 = 133333 >> -mul;
+				data->timeFraction = 133333 >> -mul;
 			} else {
-				data->variable_0044 = 133333 << mul;
+				data->timeFraction = 133333 << mul;
 			}
 
-			data->variable_0048 = data->variable_0044;
+			data->beatFraction = data->timeFraction;
 		} break;
 
 		case 0x51:	/* TEMPO meta-event */
-			data->variable_004C = (data->sound[len] << 20) | (data->sound[len+1] << 12) | (data->sound[len+2] << 4);
+			data->timePerBeat = (data->sound[len] << 20) | (data->sound[len+1] << 12) | (data->sound[len+2] << 4);
 			break;
 
 		case 0x59:	/* 	Key signature : 1st byte = flats/sharps, 2nd byte = major(0)/minor(1) */
@@ -510,25 +510,25 @@ void MPU_Interrupt(void)
 
 		if (data->playing != 1) continue;
 
-		data->variable_0030 += data->variable_0032;
+		data->tempoError += data->tempoPercent;
 
-		while (data->variable_0030 >= 0x64) {
+		while (data->tempoError >= 0x64) {	/* 0x64 == 100 */
 			uint32 value;
 
-			data->variable_0030 -= 0x64;
+			data->tempoError -= 0x64;	/* 0x64 == 100 */
 
-			value = data->variable_0048;
-			value += data->variable_0044;
+			value = data->beatFraction;
+			value += data->timeFraction;
 
-			if ((int32)value >= (int32)data->variable_004C) {
-				value -= data->variable_004C;
-				if (++data->variable_003E >= data->variable_0042) {
-					data->variable_003E = 0x0;
-					data->variable_0040++;
+			if ((int32)value >= (int32)data->timePerBeat) {
+				value -= data->timePerBeat;
+				if (++data->beatCount >= data->timeNumerator) {
+					data->beatCount = 0x0;
+					data->measureCount++;
 				}
 			}
 
-			data->variable_0048 = value;
+			data->beatFraction = value;
 
 			/* Handle note length */
 			index = -1;
@@ -641,48 +641,48 @@ void MPU_Interrupt(void)
 
 		if (data->playing != 1) continue;
 
-		if (data->variable_0032 != data->variable_0034) {
+		if (data->tempoPercent != data->tempoTarget) {
 			uint32 v;
 			uint16 i;
 
-			v = data->variable_0036;
-			v += 0x53;
+			v = data->tempoAcc;
+			v += 0x53;	/* 0x53 = 83 = 10000 / 120 */
 			i = 0xFFFF;
 
 			do {
 				i++;
-				data->variable_0036 = v;
-				v -= data->variable_003A;
+				data->tempoAcc = v;
+				v -= data->tempoPeriod;
 			} while ((int32)v >= 0);
 
 			if (i != 0){
-				if (data->variable_0032 >= data->variable_0034) {
-					data->variable_0032 = max(data->variable_0032 - i, data->variable_0034);
+				if (data->tempoPercent >= data->tempoTarget) {
+					data->tempoPercent = max(data->tempoPercent - i, data->tempoTarget);
 				} else {
-					data->variable_0032 = min(data->variable_0032 + i, data->variable_0034);
+					data->tempoPercent = min(data->tempoPercent + i, data->tempoTarget);
 				}
 			}
 		}
 
-		if (data->variable_0024 != data->variable_0026) {
+		if (data->globalVolume != data->globalVolumeTarget) {
 			uint32 v;
 			uint16 i;
 
-			v = data->variable_0028;
-			v += 0x53;
+			v = data->globalVolumeAcc;
+			v += 0x53;	/* 0x53 = 83 = 10000 / 120 */
 			i = 0xFFFF;
 
 			do {
 				i++;
-				data->variable_0028 = v;
-				v -= data->variable_002C;
+				data->globalVolumeAcc = v;
+				v -= data->globalVolumeIncr;
 			} while ((int32)v >= 0);
 
 			if (i != 0){
-				if (data->variable_0024 >= data->variable_0026) {
-					data->variable_0024 = max(data->variable_0024 - i, data->variable_0026);
+				if (data->globalVolume >= data->globalVolumeTarget) {
+					data->globalVolume = max(data->globalVolume - i, data->globalVolumeTarget);
 				} else {
-					data->variable_0024 = min(data->variable_0024 + i, data->variable_0026);
+					data->globalVolume = min(data->globalVolume + i, data->globalVolumeTarget);
 				}
 				MPU_ApplyVolume(data);
 			}
@@ -737,7 +737,7 @@ static void MPU_InitData(MSData *data)
 {
 	uint8 i;
 
-	for (i = 0; i < 4; i++) data->variable_0060[i] = 0xFFFF;
+	for (i = 0; i < 4; i++) data->forLoopCounters[i] = 0xFFFF;
 
 	for (i = 0; i < NUM_CHANS; i++) {
 		data->chanMaps[i] = i;
@@ -748,17 +748,17 @@ static void MPU_InitData(MSData *data)
 
 	data->delay = 0;
 	data->noteOnCount = 0;
-	data->variable_0024 = 0x5A;	/* 90% */
-	data->variable_0026 = 0x5A;	/* 90% */
-	data->variable_0030 = 0;
-	data->variable_0032 = 0x64; /* = 100 */
-	data->variable_0034 = 0x64;	/* = 100 */
-	data->variable_003E = 0;
-	data->variable_0040 = 0;
-	data->variable_0042 = 4;
-	data->variable_0044 = 0x208D5;	/* 133333 */
-	data->variable_0048 = 0x208D5;	/* 133333 */
-	data->variable_004C = 0x7A1200;	/* 8000000 */
+	data->globalVolume = 0x5A;			/* 90% */
+	data->globalVolumeTarget = 0x5A;	/* 90% */
+	data->tempoError = 0;
+	data->tempoPercent = 0x64;	/* = 100 */
+	data->tempoTarget = 0x64;	/* = 100 */
+	data->beatCount = 0;
+	data->measureCount = 0;
+	data->timeNumerator = 4;
+	data->timeFraction = 0x208D5;	/* 133333 */
+	data->beatFraction = 0x208D5;	/* 133333 */
+	data->timePerBeat = 0x7A1200;	/* 8000000 */
 }
 
 uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
@@ -1020,21 +1020,21 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 time)
 
 	data = s_mpu_msdata[index];
 
-	data->variable_0026 = volume;	/* volume target */
+	data->globalVolumeTarget = volume;	/* volume target */
 
 	if (time == 0) {
 		/* immediate */
-		data->variable_0024 = volume;
+		data->globalVolume = volume;
 		MPU_ApplyVolume(data);
 		return;
 	}
 
-	diff = data->variable_0026 - data->variable_0024;
+	diff = data->globalVolumeTarget - data->globalVolume;
 	if (diff == 0) return;
 
-	data->variable_002C = 10 * (uint32)time / (uint16)abs(diff);	/* volume increment per 100us period */
-	if (data->variable_002C == 0) data->variable_002C = 1;
-	data->variable_0028 = 0;	/* vol_accum */
+	data->globalVolumeIncr = 10 * (uint32)time / (uint16)abs(diff);	/* volume increment per 100us period */
+	if (data->globalVolumeIncr == 0) data->globalVolumeIncr = 1;
+	data->globalVolumeAcc = 0;	/* vol_accum */
 }
 
 #if defined(_WIN32)
