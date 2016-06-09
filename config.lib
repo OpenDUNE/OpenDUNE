@@ -968,6 +968,7 @@ make_cflags_and_ldflags() {
 		else
 			LIBS="$LIBS `$sdl_config --libs`"
 		fi
+		LIBS="$LIBS -lSDL_image"
 	fi
 
 	if [ -n "$sdl2_config" ]; then

@@ -1,6 +1,7 @@
 /** @file src/video/video_sdl.c SDL video driver. */
 
 #include <SDL.h>
+#include <SDL_image.h>
 #if defined(__ALTIVEC__)
 #include <altivec.h>
 #endif /* __ALTIVEC__ */
@@ -26,6 +27,13 @@
 
 #include "scalebit.h"
 #include "hqx.h"
+
+/* Set DUNE_ICON_DIR at compile time.  e.g. */
+/* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */
+
+#ifndef DUNE_ICON_DIR
+#define DUNE_ICON_DIR "./"
+#endif
 
 static VideoScaleFilter s_scale_filter;
 
@@ -225,6 +233,8 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
  */
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
+	SDL_Surface * icon;
+
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
@@ -242,7 +252,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		return false;
 	}
 
-	SDL_WM_SetCaption(window_caption, "");
+	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
+	if (icon == NULL) icon = IMG_Load("../os/png_icon/opendune_32x32.png");
+	if (icon != NULL) {
+		SDL_WM_SetIcon(icon, NULL);
+		SDL_FreeSurface(icon);
+	}
+
+	SDL_WM_SetCaption(window_caption, "OpenDUNE");
 	if (filter == FILTER_HQX) {
 		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_SWSURFACE);
 	} else {
