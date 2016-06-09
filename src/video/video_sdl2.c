@@ -217,6 +217,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
+	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 	if (filter == FILTER_HQX) {
