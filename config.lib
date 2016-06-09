@@ -27,6 +27,7 @@ set_default() {
 	binary_dir="games"
 	doc_dir="share/doc/opendune"
 	data_dir="share/games/opendune"
+	icon_dir="share/icons/hicolor/32x32/apps"
 	install_dir="/"
 	binary_name="opendune"
 	enable_debug="0"
@@ -61,6 +62,7 @@ set_default() {
 		prefix_dir
 		binary_dir
 		data_dir
+		icon_dir
 		install_dir
 		binary_name
 		enable_debug
@@ -134,6 +136,9 @@ detect_params() {
 
 			--data-dir)                   prev_p="data_dir";;
 			--data-dir=*)                 data_dir="$optarg";;
+
+			--icon-dir)                   prev_p="icon_dir";;
+			--icon-dir=*)                 icon_dir="$optarg";;
 
 			--binary-name)                prev_p="binary_name";;
 			--binary-name=*)              binary_name="$optarg";;
@@ -1771,6 +1776,7 @@ make_sed() {
 		s@!!BINARY_DIR!!@$prefix_dir/$binary_dir@g;
 		s@!!DOC_DIR!!@$prefix_dir/$doc_dir@g;
 		s@!!DATA_DIR!!@$prefix_dir/$data_dir@g;
+		s@!!ICON_DIR!!@$prefix_dir/$icon_dir@g;
 		s@!!INSTALL_DIR!!@$install_dir@g;
 		s@!!BINARY_NAME!!@$binary_name@g;
 		s@!!DEPEND!!@$DEPEND@g;
@@ -1950,6 +1956,8 @@ showhelp() {
 	echo "  --data-dir=dir                 location of data files (.PAK files)."
 	echo "                                 Will be prefixed with the prefix-dir"
 	echo "                                 [share/games/opendune]"
+	echo "  --icon-dir=dir                 location of icon files."
+	echo "                                 Will be prefixed with the prefix-dir"
 	echo "  --install-dir=dir              specifies the root to install to."
 	echo "                                 Useful to install into jails [/]"
 	echo "  --binary-name                  the name used for the binary, icons,"
