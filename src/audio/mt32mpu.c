@@ -39,8 +39,8 @@ typedef struct Controls {
 } Controls;
 
 typedef struct MSData {
-	uint8 *EVNT;                                            /*!< Pointer to EVNT position in sound file. */
-	uint8 *sound;                                           /*!< Pointer to current position in sound file. */
+	const uint8 *EVNT;                                      /*!< Pointer to EVNT position in sound file. */
+	const uint8 *sound;                                     /*!< Pointer to current position in sound file. */
 	uint16 playing;                                         /*!< status : 0 = SEQ_STOPPED, 1 = SEQ_PLAYING or 2 = SEQ_DONE. */
 	bool   delayedClear;                                    /*!< post_release */
 	int16  delay;                                           /*!< Delay before reading next command. interval_cnt */
@@ -61,7 +61,7 @@ typedef struct MSData {
 	uint32 variable_0044;                                   /*!< time_fraction */
 	uint32 variable_0048;                                   /*!< beat_fraction */
 	uint32 variable_004C;                                   /*!< time_per_beat */
-	uint8 *variable_0050[4];                                /*!< FOR_loop_ptrs pointer to start of FOR loop */
+	const uint8 *variable_0050[4];                          /*!< FOR_loop_ptrs pointer to start of FOR loop */
 	uint16 variable_0060[4];                                /*!< FOR_loop_cnt */
 	uint8  chanMaps[NUM_CHANS];                             /*!< ?? Channel mapping. */
 	Controls controls[NUM_CHANS];                           /*!< ?? */
