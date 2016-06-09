@@ -200,7 +200,7 @@ static void MPU_FlushChannel(uint8 channel)
  * find highest channel # w/lowest note activity
  * return 0xFF if no channel available for locking
  */
-static uint8 MPU_281A(void)
+static uint8 MPU_LockChannel(void)
 {
 	uint8 i;
 	uint8 chan = 0xFF;
@@ -234,7 +234,7 @@ static uint8 MPU_281A(void)
 /**
  * XMIDI.ASM - release_channel
  */
-static void MPU_289D(uint8 chan)
+static void MPU_ReleaseChannel(uint8 chan)
 {
 	if ((s_mpu_lockStatus[chan] & 0x80) == 0) return;
 
@@ -304,11 +304,11 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 			if (value < 64) {
 				/* unlock */
 				MPU_FlushChannel(chan);
-				MPU_289D(data->chanMaps[chan]);	/* release channel */
+				MPU_ReleaseChannel(data->chanMaps[chan]);	/* release channel */
 				data->chanMaps[chan] = chan;
 			} else {
 				/* lock */
-				uint8 newChan = MPU_281A();	/* lock new channel and map to current channel in sequence */
+				uint8 newChan = MPU_LockChannel();	/* lock new channel and map to current channel in sequence */
 				if (newChan == 0xFF) newChan = chan;
 
 				data->chanMaps[chan] = newChan;
@@ -379,7 +379,7 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 /**
  * XMIDI.ASM - reset_sequence
  */
-static void MPU_16B7(MSData *data)
+static void MPU_ResetSequence(MSData *data)
 {
 	uint8 chan;
 
@@ -392,7 +392,7 @@ static void MPU_16B7(MSData *data)
 
 		if (data->controls[chan].chan_lock != 0xFF && data->controls[chan].chan_lock >= 64) {
 			MPU_FlushChannel(chan);
-			MPU_289D(data->chanMaps[chan]);	/* release_channel */
+			MPU_ReleaseChannel(data->chanMaps[chan]);	/* release_channel */
 			data->chanMaps[chan] = chan;
 		}
 
@@ -424,7 +424,7 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 
 	switch (type) {
 		case 0x2F:	/* End of track / end sequence */
-			MPU_16B7(data);	/* reset_sequence */
+			MPU_ResetSequence(data);	/* reset_sequence */
 
 			data->playing = 2; /* 2 = SEQ_DONE */
 			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);	/* release-on-completion pending => release_seq */
@@ -851,7 +851,7 @@ void MPU_Stop(uint16 index)
 	if (data->playing != 1) return;
 
 	MPU_StopAllNotes(data);
-	MPU_16B7(data);
+	MPU_ResetSequence(data);
 
 	data->playing = 0;
 }
