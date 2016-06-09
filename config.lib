@@ -970,10 +970,15 @@ make_cflags_and_ldflags() {
 		CFLAGS="$CFLAGS `$sdl_config --cflags | sed 's@-D_GNU_SOURCE[^ ]*@@'`"
 		if [ "$enable_static" != "0" ]; then
 			LIBS="$LIBS `$sdl_config --static-libs`"
+			if [ "$os" == "OSX" ] ; then
+				LIBS="$LIBS $(pkg-config SDL_image --libs-only-L | cut -c 3-)/libSDL_image.a"
+			else
+				LIBS="$LIBS -lSDL_image"
+			fi
 		else
 			LIBS="$LIBS `$sdl_config --libs`"
+			LIBS="$LIBS -lSDL_image"
 		fi
-		LIBS="$LIBS -lSDL_image"
 	fi
 
 	if [ -n "$sdl2_config" ]; then
