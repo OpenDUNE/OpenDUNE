@@ -22,6 +22,11 @@ static Thread s_mpu_thread = NULL;
 static uint32 s_mpu_usec = 0;
 #endif /* _WIN32 */
 
+/* Dune II is using AIL middleware for sound and music :
+ * AIL = IBM Audio Interface Library by John Miles
+ * Sources of AIL 2.03 are available on John Miles website :
+ * http://www.ke5fx.com/ or http://www.thegleam.com/ke5fx/ */
+
 /* defines from AIL XMIDI.ASM : */
 #define NUM_CHANS 16
 #define MAX_NOTES 32
