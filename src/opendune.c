@@ -73,7 +73,7 @@
 #endif
 
 
-const char *window_caption = "OpenDUNE - Pre v0.8";
+const char *window_caption = "OpenDUNE - v0.8";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 
