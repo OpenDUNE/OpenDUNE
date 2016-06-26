@@ -1,7 +1,9 @@
 /** @file src/video/video_sdl.c SDL video driver. */
 
 #include <SDL.h>
+#ifndef WITHOUT_SDLIMAGE
 #include <SDL_image.h>
+#endif /* WITHOUT_SDLIMAGE */
 #if defined(__ALTIVEC__)
 #include <altivec.h>
 #endif /* __ALTIVEC__ */
@@ -233,7 +235,9 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
  */
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
+#ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
+#endif /* WITHOUT_SDLIMAGE */
 
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
@@ -252,12 +256,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		return false;
 	}
 
+#ifndef WITHOUT_SDLIMAGE
 	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
 	if (icon == NULL) icon = IMG_Load("../os/png_icon/opendune_32x32.png");
 	if (icon != NULL) {
 		SDL_WM_SetIcon(icon, NULL);
 		SDL_FreeSurface(icon);
 	}
+#endif /* WITHOUT_SDLIMAGE */
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
 	if (filter == FILTER_HQX) {

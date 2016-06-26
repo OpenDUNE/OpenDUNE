@@ -39,6 +39,7 @@ set_default() {
 	enable_universal="0"
 	with_osx_sysroot="1"
 	with_sdl="1"
+	with_sdlimage="1"
 	with_sdl2="1"
 	with_asound="1"
 	with_pulse="1"
@@ -74,6 +75,7 @@ set_default() {
 		enable_universal
 		with_osx_sysroot
 		with_sdl
+		with_sdlimage
 		with_sdl2
 		with_asound
 		with_pulse
@@ -970,14 +972,21 @@ make_cflags_and_ldflags() {
 		CFLAGS="$CFLAGS `$sdl_config --cflags | sed 's@-D_GNU_SOURCE[^ ]*@@'`"
 		if [ "$enable_static" != "0" ]; then
 			LIBS="$LIBS `$sdl_config --static-libs`"
-			if [ "$os" == "OSX" ] ; then
-				LIBS="$LIBS $(pkg-config SDL_image --libs-only-L | cut -c 3- | tr -d ' ')/libSDL_image.a"
-			else
-				LIBS="$LIBS -lSDL_image"
+			if [ $with_sdlimage -gt 0 ]; then
+				if [ "$os" == "OSX" ] ; then
+					LIBS="$LIBS $(pkg-config SDL_image --libs-only-L | cut -c 3- | tr -d ' ')/libSDL_image.a"
+				else
+					LIBS="$LIBS -lSDL_image"
+				fi
 			fi
 		else
 			LIBS="$LIBS `$sdl_config --libs`"
-			LIBS="$LIBS -lSDL_image"
+			if [ $with_sdlimage -gt 0 ]; then
+				LIBS="$LIBS -lSDL_image"
+			fi
+		fi
+		if [ $with_sdlimage -eq 0 ]; then
+			CFLAGS="$CFLAGS -DWITHOUT_SDLIMAGE"
 		fi
 	fi
 
@@ -1468,7 +1477,15 @@ detect_sdl() {
 		return 0
 	fi
 
-	log 1 "checking SDL... found"
+	log 1 "checking SDL... found version $version"
+
+	if version=`pkg-config SDL_image --modversion 2>/dev/null`; then
+		log 1 "checking SDL_image... found version $version"
+		with_sdlimage="1"
+	else
+		log 1 "checking SDL_image... not found"
+		with_sdlimage="0"
+	fi
 }
 
 detect_sdl2() {
