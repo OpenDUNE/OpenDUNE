@@ -1,6 +1,7 @@
 /** @file src/video/video_sdl2.c SDL 2 video driver. */
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include "types.h"
 #include "../os/error.h"
 
@@ -14,6 +15,13 @@
 
 #include "scalebit.h"
 #include "hqx.h"
+
+/* Set DUNE_ICON_DIR at compile time.  e.g. */
+/* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */
+
+#ifndef DUNE_ICON_DIR
+#define DUNE_ICON_DIR "./"
+#endif
 
 static VideoScaleFilter s_scale_filter;
 
@@ -211,12 +219,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	int err;
 	int render_width;
 	int render_height;
+	SDL_Surface * icon;
 
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
+	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 	if (filter == FILTER_HQX) {
@@ -243,6 +253,13 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 
 	SDL_SetWindowTitle(s_window, window_caption);
+
+	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
+	if (icon == NULL) icon = IMG_Load("../os/png_icon/opendune_32x32.png");
+	if (icon != NULL) {
+		SDL_SetWindowIcon(s_window, icon);
+		SDL_FreeSurface(icon);
+	}
 
 	switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:

@@ -81,13 +81,13 @@ Sub get_files(dir, list)
 	Set reskip = New RegExp
 	reskip.Pattern = "\.svn"
 	reskip.Global = True
-	
+
 	If dir.Files.Count = 0 Then
 		path_name = Replace(dir, ROOT_DIR & "\", "") ' Remove root folder and add only folder name
 		path_name = Replace(path_name, "\", "/") ' Replace separators
 		list.Add path_name, "folder"
 	End If
-	
+
 	For Each file in dir.Files
 		path_name = Replace(file.path, ROOT_DIR & "\", "") ' Remove root folder
 		path_name = Replace(path_name, "\", "/") ' Replace separators
@@ -120,13 +120,13 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 	Dim res, file, line, deep, skip, first_filter, first_file, filter, subfilter, arr_previous, cltype, counter, index
 	Dim source_list, dir_filter, files_list, folder, full_file_path, main_folder, file_path
 	Dim filter_list, arr_path, i, arr_filter, excluded_list, tab, sublevel
-	
+
 	res = ""
 	Set source_list = CreateObject("Scripting.Dictionary")
-	
+
 	' Read the source.list and process it
 	Set file = FSO.OpenTextFile(sourcelist_file, 1, 0, 0)
-	
+
 	While Not file.AtEndOfStream
 		line = Replace(file.ReadLine, Chr(9), "") ' Remove tabs
 		'line = Replace(file.ReadLine, " ", "") ' Remove spaces
@@ -159,7 +159,7 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 					deep = deep + 1
 				Case "#"
 					'Do Nothing
-					
+
 				Case Else
 					If deep = skip Then
 						line = Replace(line, "/" ,"\")
@@ -174,30 +174,30 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 		End If
 	Wend
 	file.Close()
-	
-	
+
+
 	' pattern for folders to search from the root
 	Set dir_filter = New RegExp
 	dir_filter.Pattern = "src|include"
 	dir_filter.Global = True
 	Set files_list = CreateObject("Scripting.Dictionary")
-	
+
 	For Each folder in FSO.GetFolder(ROOT_DIR).SubFolders
 		If dir_filter.Test(folder.Name) Then
 			get_dir_files folder, files_list
 		End If
 	Next
-	
+
 	counter = -1
 	index = 0
 	tab = ""
 	Set filter_list = CreateObject("Scripting.Dictionary")
-	
+
 	' Compare files in source.list
 	For Each full_file_path In files_list
 		filter = ""
 		main_folder = Split(full_file_path, "/")(0)
-		
+
 		If files_list.Item(full_file_path) = "folder" Then
 			filter = full_file_path
 		Else
@@ -208,12 +208,12 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 			filter = Left(filter, Len(filter) - 1)
 		End If
 		filter = Replace(filter, "/" ,"\")
-		
+
 		file_path = Mid(full_file_path, InStr(full_file_path,"/") + 1, Len(full_file_path))
 		file_path = Replace(file_path, "/" ,"\")
-		
+
 		If source_list.Exists(file_path) Or dir_filter.Test(main_folder) Then
-			
+
 			arr_filter = Split(filter, "\")
 			If Not filter_list.Exists(filter) Then
 				'WScript.Echo "filter: " & filter
@@ -223,7 +223,7 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 				Else
 					counter = counter + 1
 				End If
-				
+
 				If first_filter <> 0 Then
 					If UBound(arr_previous) < UBound(arr_filter) Then
 						tab = tab & "	"
@@ -240,7 +240,7 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 					first_filter = 1
 				End If
 				arr_previous = arr_filter
-				
+
 				res = res & tab & _
 						"		<Filter" & vbCrLf & tab & _
 						"			Name=" & Chr(34) & subfilter & Chr(34) & vbCrLf & tab & _
@@ -249,15 +249,15 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 				"    <Filter Include="& Chr(34) & filter & Chr(34) & ">" & vbCrLf & _
 				"      <UniqueIdentifier>{6dc24dda-7351-4e54-" & String(4 - Len(CStr(counter)), "0") & counter & "-" & String(12 - Len(CStr(index)), "0") & index & "}</UniqueIdentifier>" & vbCrLf & _
 				"    </Filter>"
-				
+
 				'WScript.Echo "filters: " & filters
 				'WScript.Echo "res: " & res
-				
+
 				filter_list.Add filter, filter
 			End If
-			
+
 			If files_list.Item(full_file_path) = "file" Then
-				
+
 				If files_list.Exists(main_folder & "/rev.c") And files_list.Exists(main_folder & "/rev.c.in") Then
 					'WScript.Echo "removed: rev.c.in"
 					files_list.Remove(main_folder & "/rev.c.in")	' removed "rev.c.in" from list because already exists "rev.c"
@@ -274,7 +274,7 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 				"			<File" & vbCrLf & tab & _
 				"				RelativePath=" & Chr(34) & "..\" & main_folder & "\" & file_path & Chr(34) & vbCrLf & tab & _
 				"				>" & vbCrLf
-				
+
 				Select Case Split(file_path, ".")(1)
 					Case "c"
 						cltype = "ClCompile"
@@ -283,7 +283,7 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 					Case Else
 						cltype = "ClInclude"
 				End Select
-				
+
 				If Split(file_path, ".")(1) = "c" Then
 					res = res & tab & _
 					"				<FileConfiguration" & vbCrLf & tab & _
@@ -338,7 +338,7 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 					"						ObjectFile=" & Chr(34) & "$(IntDir)\" & filter & "\" & Chr(34) & vbCrLf & tab & _
 					"					/>" & vbCrLf & tab & _
 					"				</FileConfiguration>" & vbCrLf
-					
+
 					vcxproj = vcxproj & "    <" & cltype & " Include="& Chr(34) & "..\" & main_folder & "\" & file_path & Chr(34) & ">" & vbCrLf
 					If Not source_list.Item(file_path) = "included" Then
 						vcxproj = vcxproj & "      <ExcludedFromBuild>true</ExcludedFromBuild>" & vbCrLf
@@ -348,41 +348,41 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 				Else
 					vcxproj = vcxproj & "    <" & cltype & " Include="& Chr(34) & "..\" & main_folder & "\" & file_path & Chr(34) & " />"
 				End If
-				
+
 				res = res & tab & _
 				"			</File>" & vbCrLf
-				
+
 				files = files & _
 				"    <" & cltype & " Include="& Chr(34) & "..\" & main_folder & "\" & file_path & Chr(34) & ">" & vbCrLf & _
 				"      <Filter>" & filter & "</Filter>" & vbCrLf & _
 				"    </" & cltype & ">"
-				
+
 			End If
-			
+
 			' Adding filter/filename items that are not defined in source.list file, but they are into src folder.
-			If source_list.Item(file_path) = "" And main_folder <> "include" And files_list.Item(full_file_path) = "file" Then 
+			If source_list.Item(file_path) = "" And main_folder <> "include" And files_list.Item(full_file_path) = "file" Then
 				excluded_list = excluded_list & file_path & vbCrLf
 			End if
-			
+
 		Else
-			
+
 			WScript.Echo " !! ERROR !!" _
 			& vbCrLf & "" _
 			& vbCrLf & "The filter/filename '" & file_path & "' is not defined in source.list file, nor into src or include folders." _
 			& vbCrLf & "" _
 			& vbCrLf & " !! ERROR !!"
 			WScript.Quit(1)
-			
+
 		End If
 	Next
-	
-	While sublevel > 0 
+
+	While sublevel > 0
 		res = res & tab & "		</Filter>" & vbCrLf
 		tab = Replace(tab, "	", "", 1, 1)
 		sublevel = sublevel - 1
 	Wend
 	res = res & tab & "		</Filter>"
-	
+
 	If excluded_list <> "" Then
 		WScript.Echo " !! WARNING !!" _
 			& vbCrLf & "" _
@@ -390,7 +390,7 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 			& vbCrLf & excluded_list _
 			& vbCrLf & " !! WARNING !!"
 	End If
-	
+
 	load_main_data = res
 End Function
 

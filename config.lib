@@ -27,6 +27,7 @@ set_default() {
 	binary_dir="games"
 	doc_dir="share/doc/opendune"
 	data_dir="share/games/opendune"
+	icon_dir="share/icons/hicolor/32x32/apps"
 	install_dir="/"
 	binary_name="opendune"
 	enable_debug="0"
@@ -38,6 +39,7 @@ set_default() {
 	enable_universal="0"
 	with_osx_sysroot="1"
 	with_sdl="1"
+	with_sdlimage="1"
 	with_sdl2="1"
 	with_asound="1"
 	with_pulse="1"
@@ -61,6 +63,7 @@ set_default() {
 		prefix_dir
 		binary_dir
 		data_dir
+		icon_dir
 		install_dir
 		binary_name
 		enable_debug
@@ -72,6 +75,7 @@ set_default() {
 		enable_universal
 		with_osx_sysroot
 		with_sdl
+		with_sdlimage
 		with_sdl2
 		with_asound
 		with_pulse
@@ -134,6 +138,9 @@ detect_params() {
 
 			--data-dir)                   prev_p="data_dir";;
 			--data-dir=*)                 data_dir="$optarg";;
+
+			--icon-dir)                   prev_p="icon_dir";;
+			--icon-dir=*)                 icon_dir="$optarg";;
 
 			--binary-name)                prev_p="binary_name";;
 			--binary-name=*)              binary_name="$optarg";;
@@ -965,8 +972,21 @@ make_cflags_and_ldflags() {
 		CFLAGS="$CFLAGS `$sdl_config --cflags | sed 's@-D_GNU_SOURCE[^ ]*@@'`"
 		if [ "$enable_static" != "0" ]; then
 			LIBS="$LIBS `$sdl_config --static-libs`"
+			if [ $with_sdlimage -gt 0 ]; then
+				if [ "$os" == "OSX" ] ; then
+					LIBS="$LIBS $(pkg-config SDL_image --libs-only-L | cut -c 3- | tr -d ' ')/libSDL_image.a"
+				else
+					LIBS="$LIBS -lSDL_image"
+				fi
+			fi
 		else
 			LIBS="$LIBS `$sdl_config --libs`"
+			if [ $with_sdlimage -gt 0 ]; then
+				LIBS="$LIBS -lSDL_image"
+			fi
+		fi
+		if [ $with_sdlimage -eq 0 ]; then
+			CFLAGS="$CFLAGS -DWITHOUT_SDLIMAGE"
 		fi
 	fi
 
@@ -976,8 +996,14 @@ make_cflags_and_ldflags() {
 		CFLAGS="$CFLAGS `$sdl2_config --cflags | sed 's@-D_GNU_SOURCE[^ ]*@@'` -DSDL_FORCE_INLINE='static __inline'"
 		if [ "$enable_static" != "0" ]; then
 			LIBS="$LIBS `$sdl2_config --static-libs`"
+			if [ "$os" == "OSX" ] ; then
+				LIBS="$LIBS $(pkg-config SDL2_image --libs-only-L | cut -c 3- | tr -d ' ')/libSDL2_image.a"
+			else
+				LIBS="$LIBS -lSDL2_image"
+			fi
 		else
 			LIBS="$LIBS `$sdl2_config --libs`"
+			LIBS="$LIBS -lSDL2_image"
 		fi
 	fi
 
@@ -1451,7 +1477,15 @@ detect_sdl() {
 		return 0
 	fi
 
-	log 1 "checking SDL... found"
+	log 1 "checking SDL... found version $version"
+
+	if version=`pkg-config SDL_image --modversion 2>/dev/null`; then
+		log 1 "checking SDL_image... found version $version"
+		with_sdlimage="1"
+	else
+		log 1 "checking SDL_image... not found"
+		with_sdlimage="0"
+	fi
 }
 
 detect_sdl2() {
@@ -1770,6 +1804,7 @@ make_sed() {
 		s@!!BINARY_DIR!!@$prefix_dir/$binary_dir@g;
 		s@!!DOC_DIR!!@$prefix_dir/$doc_dir@g;
 		s@!!DATA_DIR!!@$prefix_dir/$data_dir@g;
+		s@!!ICON_DIR!!@$prefix_dir/$icon_dir@g;
 		s@!!INSTALL_DIR!!@$install_dir@g;
 		s@!!BINARY_NAME!!@$binary_name@g;
 		s@!!DEPEND!!@$DEPEND@g;
@@ -1949,6 +1984,8 @@ showhelp() {
 	echo "  --data-dir=dir                 location of data files (.PAK files)."
 	echo "                                 Will be prefixed with the prefix-dir"
 	echo "                                 [share/games/opendune]"
+	echo "  --icon-dir=dir                 location of icon files."
+	echo "                                 Will be prefixed with the prefix-dir"
 	echo "  --install-dir=dir              specifies the root to install to."
 	echo "                                 Useful to install into jails [/]"
 	echo "  --binary-name                  the name used for the binary, icons,"

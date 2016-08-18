@@ -121,7 +121,7 @@ static bool Save_Main(FILE *fp, char *description)
  * @param description The description of the savegame.
  * @return True if and only if all bytes were written successful.
  */
-bool SaveFile(char *filename, char *description)
+bool SaveGame_SaveFile(char *filename, char *description)
 {
 	FILE *fp;
 	bool res;

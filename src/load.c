@@ -128,7 +128,7 @@ static bool Load_Main(FILE *fp)
 	return true;
 }
 
-bool LoadFile(char *filename)
+bool SaveGame_LoadFile(char *filename)
 {
 	FILE *fp;
 	bool res;

@@ -39,6 +39,9 @@ endif
 	$(Q)cp "$(ROOT_DIR)/COPYING"              "$(BUNDLE_DIR)/"
 	$(Q)cp "$(ROOT_DIR)/enhancement.txt"      "$(BUNDLE_DIR)/"
 	$(Q)cp "$(BIN_DIR)/opendune.ini.sample"  "$(BUNDLE_DIR)/"
+ifeq ($(OS), UNIX)
+	$(Q)cp "$(ROOT_DIR)/os/png_icon/opendune_32x32.png" "$(BUNDLE_DIR)/$(BINARY_NAME).png"
+endif
 ifeq ($(OPENDUNE), opendune.exe)
 	$(Q)unix2dos "$(BUNDLE_DIR)/README.txt" "$(BUNDLE_DIR)/COPYING" "$(BUNDLE_DIR)/enhancement.txt"
 	$(Q)unix2dos "$(BUNDLE_DIR)/opendune.ini.sample"
@@ -135,5 +138,11 @@ endif
 ifndef DO_NOT_INSTALL_LICENSE
 	$(Q)install -d "$(INSTALL_DOC_DIR)"
 	$(Q)install -m 644 "$(BUNDLE_DIR)/COPYING" "$(INSTALL_DOC_DIR)"
+endif
+ifndef DO_NOT_INSTALL_ICON
+ifeq ($(OS), UNIX)
+	$(Q)install -d "$(INSTALL_ICON_DIR)"
+	$(Q)install -m 644 "$(BUNDLE_DIR)/$(BINARY_NAME).png" "$(INSTALL_ICON_DIR)"
+endif
 endif
 endif # OSXAPP
