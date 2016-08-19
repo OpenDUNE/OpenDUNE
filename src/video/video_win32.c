@@ -19,10 +19,10 @@
 #include "scalebit.h"
 #include "hqx.h"
 
-static VideoScaleFilter s_scale_filter;
+VideoScaleFilter g_scale_filter;
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
-static int s_screen_magnification;
+int g_screen_magnification;
 
 /** The palette used for HQX */
 static uint32 rgb_palette[256];
@@ -196,10 +196,10 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HBITMAP old_bmp;
 
 			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
-			if (s_scale_filter == FILTER_SCALE2X) {
-				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
-			} else if(s_scale_filter == FILTER_HQX) {
-				switch(s_screen_magnification) {
+			if (g_scale_filter == FILTER_SCALE2X) {
+				scale(g_screen_magnification, s_screen2, g_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+			} else if(g_scale_filter == FILTER_HQX) {
+				switch(g_screen_magnification) {
 				case 2:
 					hq2x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
@@ -214,14 +214,14 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			dc = BeginPaint(hwnd, &ps);
 			dc2 = CreateCompatibleDC(dc);
 			old_bmp = (HBITMAP)SelectObject(dc2, s_dib);
-			switch (s_scale_filter) {
+			switch (g_scale_filter) {
 			case FILTER_HQX:
 			case FILTER_SCALE2X:
-				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SRCCOPY);
+				BitBlt(dc, 0, 0, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification, dc2, 0, 0, SRCCOPY);
 				break;
 			case FILTER_NEAREST_NEIGHBOR:
 			default:
-				/*StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);*/
+				/*StretchBlt(dc, 0, 0, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);*/
 				StretchBlt(dc, 0, 0, s_window_width, s_window_height,
 					       dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
 			}
@@ -353,7 +353,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-bool Video_Init(int screen_magnification, VideoScaleFilter filter)
+bool Video_Init(void)
 {
 	WNDCLASS wc;
 	HINSTANCE hInstance;
@@ -361,15 +361,13 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	HDC dc;
 
 	if (s_init) return true;
-	if (screen_magnification <= 0 || screen_magnification > 4) {
-		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
+	if (g_screen_magnification <= 0 || g_screen_magnification > 4) {
+		Error("Incorrect screen magnification factor : %d\n", g_screen_magnification);
 		return false;
 	}
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
-	s_screen_magnification = screen_magnification;
-	s_scale_filter = filter;
+	if (g_screen_magnification == 1) g_scale_filter = FILTER_NEAREST_NEIGHBOR;
 
-	if (filter == FILTER_HQX) {
+	if (g_scale_filter == FILTER_HQX) {
 		hqxInit();
 	}
 
@@ -393,15 +391,15 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	bi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	memset(bi, 0, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	bi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	if (filter == FILTER_NEAREST_NEIGHBOR) {
+	if (g_scale_filter == FILTER_NEAREST_NEIGHBOR) {
 		bi->bmiHeader.biWidth = SCREEN_WIDTH;
 		bi->bmiHeader.biHeight = -SCREEN_HEIGHT;
 	} else {
-		bi->bmiHeader.biWidth = SCREEN_WIDTH * s_screen_magnification;
-		bi->bmiHeader.biHeight = -SCREEN_HEIGHT * s_screen_magnification;
+		bi->bmiHeader.biWidth = SCREEN_WIDTH * g_screen_magnification;
+		bi->bmiHeader.biHeight = -SCREEN_HEIGHT * g_screen_magnification;
 	}
 	bi->bmiHeader.biPlanes = 1;
-	if (filter == FILTER_HQX) {
+	if (g_scale_filter == FILTER_HQX) {
 		bi->bmiHeader.biBitCount = 32;
 	} else {
 		bi->bmiHeader.biBitCount = 8;
@@ -409,14 +407,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	bi->bmiHeader.biCompression = BI_RGB;
 
 	dc = GetDC(NULL);
-	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, (filter == FILTER_NEAREST_NEIGHBOR) ? &s_screen : &s_screen2, NULL, 0);
+	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, (g_scale_filter == FILTER_NEAREST_NEIGHBOR) ? &s_screen : &s_screen2, NULL, 0);
 	if (s_dib == NULL) {
 		Error("CreateDIBSection failed\n");
 		return false;
 	}
 	ReleaseDC(NULL, dc);
 
-	if (filter != FILTER_NEAREST_NEIGHBOR) {
+	if (g_scale_filter != FILTER_NEAREST_NEIGHBOR) {
 #ifdef _MSC_VER
 		/* we need aligned memory for rescale filter */
 		s_screen = _aligned_malloc(SCREEN_WIDTH * SCREEN_HEIGHT, 16);
@@ -433,7 +431,7 @@ void Video_Uninit(void)
 	if (!s_init) return;
 
 	DeleteObject(s_dib);
-	if (s_scale_filter != FILTER_NEAREST_NEIGHBOR) {
+	if (g_scale_filter != FILTER_NEAREST_NEIGHBOR) {
 #ifdef _MSC_VER
 		_aligned_free(s_screen);
 #else  /* _MSC_VER */
@@ -443,7 +441,7 @@ void Video_Uninit(void)
 	UnregisterClass(s_className, GetModuleHandle(NULL));
 	ShowCursor(TRUE);
 
-	if (s_scale_filter == FILTER_HQX) {
+	if (g_scale_filter == FILTER_HQX) {
 		hqxUnInit();
 	}
 	s_init = false;
@@ -465,17 +463,17 @@ void Video_Tick(void)
 
 		style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
 		/* allow window to be resized with NEAREST NEIGHBOR filter */
-		if(s_scale_filter == FILTER_NEAREST_NEIGHBOR) style |= WS_THICKFRAME;
+		if(g_scale_filter == FILTER_NEAREST_NEIGHBOR) style |= WS_THICKFRAME;
 
 		r.left   = 0;
 		r.top    = 0;
-		r.right  = SCREEN_WIDTH * s_screen_magnification;
-		r.bottom = SCREEN_HEIGHT * s_screen_magnification;
+		r.right  = SCREEN_WIDTH * g_screen_magnification;
+		r.bottom = SCREEN_HEIGHT * g_screen_magnification;
 		AdjustWindowRect(&r, style, false);
 		s_adjustLeft = r.left;
 		s_adjustTop = r.top;
-		s_adjustRight = r.right - SCREEN_WIDTH * s_screen_magnification;
-		s_adjustBottom = r.bottom - SCREEN_HEIGHT * s_screen_magnification;
+		s_adjustRight = r.right - SCREEN_WIDTH * g_screen_magnification;
+		s_adjustBottom = r.bottom - SCREEN_HEIGHT * g_screen_magnification;
 
 		s_hwnd = CreateWindow(s_className, window_caption, style, CW_USEDEFAULT, CW_USEDEFAULT, r.right - r.left, r.bottom - r.top, NULL, NULL, GetModuleHandle(NULL), NULL);
 		if (s_hwnd == NULL) {
@@ -509,7 +507,7 @@ void Video_SetPalette(void *palette, int from, int length)
 	uint8 *p = palette;
 	int i;
 
-	if (s_scale_filter == FILTER_HQX) {
+	if (g_scale_filter == FILTER_HQX) {
 		uint32 value;
 
 		for (i = from; i < from + length; i++) {
@@ -544,15 +542,15 @@ void Video_SetPalette(void *palette, int from, int length)
 
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SetCursorPos(s_x + x * s_screen_magnification, s_y + y * s_screen_magnification);
+	SetCursorPos(s_x + x * g_screen_magnification, s_y + y * g_screen_magnification);
 }
 
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX * s_screen_magnification;
-	s_mouseMaxX = maxX * s_screen_magnification;
-	s_mouseMinY = minY * s_screen_magnification;
-	s_mouseMaxY = maxY * s_screen_magnification;
+	s_mouseMinX = minX * g_screen_magnification;
+	s_mouseMaxX = maxX * g_screen_magnification;
+	s_mouseMinY = minY * g_screen_magnification;
+	s_mouseMaxY = maxY * g_screen_magnification;
 }
 
 /*

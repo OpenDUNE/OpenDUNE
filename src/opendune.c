@@ -1152,9 +1152,14 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 		return false;
 	}
 
+	g_screen_magnification = screen_magnification;
+	g_scale_filter = filter;
+
 	Timer_Init();
 
-	if (!Video_Init(screen_magnification, filter)) return false;
+#if !(defined(_WIN32) && (defined(WITH_SDL) || defined(WITH_SDL2)))
+	if (!Video_Init()) return false;
+#endif
 
 	Mouse_Init();
 

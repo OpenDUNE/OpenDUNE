@@ -23,10 +23,10 @@
 #define DUNE_ICON_DIR "./"
 #endif
 
-static VideoScaleFilter s_scale_filter;
+VideoScaleFilter g_scale_filter;
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
-static int s_screen_magnification;
+int g_screen_magnification;
 
 static uint8 * s_fullsize_buffer = NULL;
 
@@ -117,10 +117,10 @@ static const uint8 s_SDL_hikeymap[] = {
  */
 static void Video_Mouse_Callback(void)
 {
-	if (s_scale_filter == FILTER_NEAREST_NEIGHBOR) {
+	if (g_scale_filter == FILTER_NEAREST_NEIGHBOR) {
 		Mouse_EventHandler(s_mousePosX, s_mousePosY, s_mouseButtonLeft, s_mouseButtonRight);
 	} else {
-		Mouse_EventHandler(s_mousePosX / s_screen_magnification, s_mousePosY / s_screen_magnification,
+		Mouse_EventHandler(s_mousePosX / g_screen_magnification, s_mousePosY / g_screen_magnification,
 		                   s_mouseButtonLeft, s_mouseButtonRight);
 	}
 }
@@ -198,23 +198,23 @@ void Video_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	if (s_scale_filter == FILTER_NEAREST_NEIGHBOR) {
+	if (g_scale_filter == FILTER_NEAREST_NEIGHBOR) {
 		s_mouseMinX = minX;
 		s_mouseMaxX = maxX;
 		s_mouseMinY = minY;
 		s_mouseMaxY = maxY;
 	} else {
-		s_mouseMinX = minX * s_screen_magnification;
-		s_mouseMaxX = maxX * s_screen_magnification;
-		s_mouseMinY = minY * s_screen_magnification;
-		s_mouseMaxY = maxY * s_screen_magnification;
+		s_mouseMinX = minX * g_screen_magnification;
+		s_mouseMaxX = maxX * g_screen_magnification;
+		s_mouseMinY = minY * g_screen_magnification;
+		s_mouseMaxY = maxY * g_screen_magnification;
 	}
 }
 
 /**
  * Initialize the video driver.
  */
-bool Video_Init(int screen_magnification, VideoScaleFilter filter)
+bool Video_Init(void)
 {
 	int err;
 	int render_width;
@@ -222,14 +222,13 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_Surface * icon;
 
 	if (s_video_initialized) return true;
-	if (screen_magnification <= 0 || screen_magnification > 4) {
-		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
+	if (g_screen_magnification <= 0 || g_screen_magnification > 4) {
+		Error("Incorrect screen magnification factor : %d\n", g_screen_magnification);
 		return false;
 	}
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
-	s_scale_filter = filter;
-	s_screen_magnification = screen_magnification;
-	if (filter == FILTER_HQX) {
+	if (g_screen_magnification == 1) g_scale_filter = FILTER_NEAREST_NEIGHBOR;
+
+	if (g_scale_filter == FILTER_HQX) {
 		hqxInit();
 	}
 
@@ -241,8 +240,8 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 
 	err = SDL_CreateWindowAndRenderer(
-			SCREEN_WIDTH * s_screen_magnification,
-			SCREEN_HEIGHT * s_screen_magnification,
+			SCREEN_WIDTH * g_screen_magnification,
+			SCREEN_HEIGHT * g_screen_magnification,
 			0,
 			&s_window,
 			&s_renderer);
@@ -261,7 +260,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		SDL_FreeSurface(icon);
 	}
 
-	switch (s_scale_filter) {
+	switch (g_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		/* SDL2 take care of Nearest neighbor rescaling */
 		render_width = SCREEN_WIDTH;
@@ -270,10 +269,10 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	case FILTER_SCALE2X:
 	case FILTER_HQX:
 	default:
-		render_width = SCREEN_WIDTH * s_screen_magnification;
-		render_height = SCREEN_HEIGHT * s_screen_magnification;
+		render_width = SCREEN_WIDTH * g_screen_magnification;
+		render_height = SCREEN_HEIGHT * g_screen_magnification;
 	}
-	if (s_scale_filter == FILTER_SCALE2X) {
+	if (g_scale_filter == FILTER_SCALE2X) {
 		s_fullsize_buffer = malloc(render_width * render_height * sizeof(uint8));
 		if (s_fullsize_buffer == NULL) {
 			Error("Could not allocate %d bytes of memory\n", render_width * render_height * sizeof(uint8));
@@ -310,11 +309,11 @@ void Video_Uninit(void)
 {
 	s_video_initialized = false;
 
-	if (s_scale_filter == FILTER_HQX) {
+	if (g_scale_filter == FILTER_HQX) {
 		hqxUnInit();
 	}
 
-	if (s_scale_filter == FILTER_SCALE2X) {
+	if (g_scale_filter == FILTER_SCALE2X) {
 		free(s_fullsize_buffer);
 		s_fullsize_buffer = NULL;
 	}
@@ -378,7 +377,7 @@ static void Video_DrawScreen_Scale2x(void)
 	data += (s_screenOffset << 2);
 
 	/* first use scale2x */
-	scale(s_screen_magnification, s_fullsize_buffer, s_screen_magnification * SCREEN_WIDTH,
+	scale(g_screen_magnification, s_fullsize_buffer, g_screen_magnification * SCREEN_WIDTH,
 	      data, SCREEN_WIDTH, 1,
 	      SCREEN_WIDTH, SCREEN_HEIGHT);
 	/* then copy to texture with 8bit => 32bit pixel conversion */
@@ -387,9 +386,9 @@ static void Video_DrawScreen_Scale2x(void)
 		Error("Could not set lock texture: %s\n", SDL_GetError());
 		return;
 	}
-	for (y = 0; y < SCREEN_HEIGHT * s_screen_magnification; y++) {
+	for (y = 0; y < SCREEN_HEIGHT * g_screen_magnification; y++) {
 		p = (uint32 *)pixels;
-		for (x = 0; x < SCREEN_WIDTH * s_screen_magnification; x++) {
+		for (x = 0; x < SCREEN_WIDTH * g_screen_magnification; x++) {
 			*p++ = s_palette[*data++];
 		}
 		pixels += pitch;
@@ -413,7 +412,7 @@ static void Video_DrawScreen_Hqx(void)
 		Error("Could not set lock texture: %s\n", SDL_GetError());
 		return;
 	}
-	switch(s_screen_magnification) {
+	switch(g_screen_magnification) {
 	case 2:
 		hq2x_8to32_rb(src, SCREEN_WIDTH,
 		              pixels, pitch,
@@ -438,7 +437,7 @@ static void Video_DrawScreen_Hqx(void)
 
 static void Video_DrawScreen(void)
 {
-	switch(s_scale_filter) {
+	switch(g_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
 		break;

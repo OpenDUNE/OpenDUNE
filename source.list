@@ -79,7 +79,15 @@ opendune.c
 os/endian.c
 #if WIN32
 	os/error_win32.c
-	os/thread_win32.c
+	#if SDL
+		os/thread_sdl.c
+	#else
+		#if SDL2
+			os/thread_sdl.c
+		#else
+			os/thread_win32.c
+		#endif
+	#endif
 	os/readdir_win32.c
 #else
 	#if OSX
@@ -140,7 +148,15 @@ timer.c
 tools.c
 unit.c
 #if WIN32
-	video/video_win32.c
+	#if SDL
+		video/video_sdl.c
+	#else
+		#if SDL2
+			video/video_sdl2.c
+		#else
+			video/video_win32.c
+		#endif
+	#endif
 #else
 	#if SDL2
 		video/video_sdl2.c

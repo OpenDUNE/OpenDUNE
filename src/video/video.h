@@ -9,7 +9,11 @@ typedef enum VideoScaleFilter {
 	FILTER_HQX						/**<! see https://code.google.com/p/hqx/ */
 } VideoScaleFilter;
 
-extern bool Video_Init(int screen_magnification, VideoScaleFilter filter);
+extern VideoScaleFilter g_scale_filter;
+/** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
+extern int g_screen_magnification;
+
+extern bool Video_Init(void);
 extern void Video_Uninit(void);
 extern void Video_Tick(void);
 extern void Video_SetPalette(void *palette, int from, int length);

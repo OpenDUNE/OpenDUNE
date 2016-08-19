@@ -3,22 +3,24 @@
 #ifndef OS_THREAD_H
 #define OS_THREAD_H
 
-#if defined(_WIN32)
-	#include <windows.h>
-	typedef HANDLE Thread;
-	typedef HANDLE Semaphore;
-	typedef DWORD ThreadStatus;
-#else
-/* Thead is only used with Windows
-	#include <SDL.h>
-	#include <SDL_thread.h>
-	typedef SDL_Thread *Thread;
-	typedef SDL_sem *Semaphore;
-	typedef int ThreadStatus;
+#if defined(WITH_SDL) || defined(WITH_SDL2)
 
-	#define WINAPI
-*/
-#endif /* _WIN32 */
+#include <SDL.h>
+#include <SDL_thread.h>
+typedef SDL_Thread *Thread;
+typedef SDL_sem *Semaphore;
+typedef int ThreadStatus;
+
+#define WINAPI
+
+#else
+
+#include <windows.h>
+typedef HANDLE Thread;
+typedef HANDLE Semaphore;
+typedef DWORD ThreadStatus;
+
+#endif /* WITH_SDL(2) */
 
 #if defined(_WIN32)
 typedef ThreadStatus (WINAPI *ThreadProc)(void *);

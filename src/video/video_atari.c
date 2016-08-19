@@ -113,10 +113,10 @@ static void Detect_Machine(void)
 /**
  * Initialize the video driver.
  */
-bool Video_Init(int screen_magnification, VideoScaleFilter filter)
+bool Video_Init(void)
 {
-	VARIABLE_NOT_USED(filter);
-	VARIABLE_NOT_USED(screen_magnification);
+	//VARIABLE_NOT_USED(filter);
+	//VARIABLE_NOT_USED(screen_magnification);
 
 	(void)Cconws("Video_Init()\r\n");
 	if(s_machine_type == MCH_UNKNOWN) Detect_Machine();

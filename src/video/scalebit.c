@@ -55,7 +55,11 @@ static inline void stage_scale2x(void* dst0, void* dst1, const void* src0, const
 		 *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
 		 *      if __SSE2__ is defined (-msse2 with GCC)
 		 *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)   */
-		case 1 : scale2x_8_sse2(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
+#if defined(_WIN32) && !defined(_DEBUG) 
+		case 1: scale2x_8_def(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
+#else
+		case 1: scale2x_8_sse2(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
+#endif
 #if defined(__GNUC__)
 		case 2 : scale2x_16_mmx(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
 		case 4 : scale2x_32_mmx(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
