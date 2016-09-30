@@ -129,7 +129,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	if(s_machine_type == MCH_FALCON) {
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
-		(void)VsetMode((s_savedMode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
+		(void)VsetMode((s_savedMode & ~15) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));	/*  8 planes 256 colours + 40 columns + double line (if VGA) */
 		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
 		/* set TT 8bps video mode */
