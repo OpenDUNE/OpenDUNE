@@ -927,7 +927,11 @@ make_cflags_and_ldflags() {
 			# Only set the min version when not doing an universal build.
 			# Universal builds set the version elsewhere.
 			if [ "$cpu_type" = "64" ]; then
-				CFLAGS="$CFLAGS -mmacosx-version-min=10.5"
+				if [ -n "$sdl2_config" ]; then
+					CFLAGS="$CFLAGS -mmacosx-version-min=10.6"
+				else
+					CFLAGS="$CFLAGS -mmacosx-version-min=10.5"
+				fi
 			else
 				gcc_cpu=`$cc_host -dumpmachine`
 				if [ "`echo $gcc_cpu | cut -c 1-3`" = "ppc" -o "`echo $gcc_cpu | cut -c 1-7`" = "powerpc" ]; then
