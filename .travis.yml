@@ -30,7 +30,7 @@ compiler:
   - clang
 
 before_install:
-  - 'if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update > /dev/null && brew install sdl; fi'
+  - 'if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update > /dev/null ; fi'
   - 'if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$SDLVERSION" = "1" ] ; then brew install sdl sdl_image ; fi'
   - 'if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$SDLVERSION" = "2" ] ; then brew install sdl2 sdl2_image ; fi'
 
