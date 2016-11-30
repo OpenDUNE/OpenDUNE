@@ -10,8 +10,8 @@ addons:
     # packages list: https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
     - libsdl1.2-dev
     - libsdl-image1.2-dev
-    - libsdl2-dev
-    - libsdl2-image-dev
+#    - libsdl2-dev
+#    - libsdl2-image-dev
 
 # container-based builds
 sudo: false
@@ -19,6 +19,11 @@ sudo: false
 env:
   - 'SDLVERSION=1'
   - 'SDLVERSION=2'
+
+matrix:
+  exclude:
+    - os: linux
+      env: SDLVERSION=2
 
 compiler:
   - gcc
