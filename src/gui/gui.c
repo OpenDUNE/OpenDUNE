@@ -4550,7 +4550,7 @@ void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation)
 	uint8 data[256 * 3];
 	int i;
 
-	if (g_paletteActive == NULL || palette == NULL) return;
+	if (palette == NULL) return;
 
 	memcpy(data, g_paletteActive, 256 * 3);
 
