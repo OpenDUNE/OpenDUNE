@@ -1025,6 +1025,9 @@ make_cflags_and_ldflags() {
 			LIBS="$LIBS -lasound"
 		fi
 		CFLAGS="$CFLAGS -DALSA"
+                if [ "$os" = "FREEBSD" ]; then
+                        CFLAGS="$CFLAGS -Dinline=__inline__"
+                fi
 	fi
 
 	if [ "$with_pulse" != "0" ]; then
@@ -1198,24 +1201,24 @@ check_compiler() {
 }
 
 check_build() {
-	if [ "$os" = "FREEBSD" ]; then
-		# FreeBSD's C compiler does not support dump machine.
-		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CXX" "g++" "c++" "0" "-dumpmachine"
-	else
+           #	if [ "$os" = "FREEBSD" ]; then
+           #	# FreeBSD's C compiler does not support dump machine.
+           #	check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CXX" "g++" "c++" "0" "-dumpmachine"
+           #else
 		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CC" "gcc" "cc" "0" "-dumpmachine"
-	fi
+                #fi
 }
 
 check_host() {
 	# By default the host is the build
 	if [ -z "$host" ]; then host="$build"; fi
 
-	if [ "$os" = "FREEBSD" ]; then
-		# FreeBSD's C compiler does not support dump machine.
-		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CXX" "g++" "c++" "0" "-dumpmachine"
-	else
+           #	if [ "$os" = "FREEBSD" ]; then
+           #		# FreeBSD's C compiler does not support dump machine.
+           #		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CXX" "g++" "c++" "0" "-dumpmachine"
+           #	else
 		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CC" "gcc" "cc" "0" "-dumpmachine"
-	fi
+                #	fi
 }
 
 check_strip() {
