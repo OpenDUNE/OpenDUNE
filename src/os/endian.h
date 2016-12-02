@@ -8,7 +8,7 @@
 		#define __LITTLE_ENDIAN 1234
 	#endif /* __LITTLE_ENDIAN */
 	#define __BYTE_ORDER __LITTLE_ENDIAN
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__FreeBSD__)
 	#include <machine/endian.h>
 	#if !defined(__BYTE_ORDER)
 		#define __BYTE_ORDER BYTE_ORDER
