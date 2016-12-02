@@ -1,7 +1,9 @@
 /** @file src/audio/dsp_alsa.c ALSA implementation of the DSP. */
 
 #include <assert.h>
+#ifndef __FreeBSD__
 #include <alloca.h>
+#endif /* __FreeBSD__ */
 #include <alsa/asoundlib.h>
 #include "types.h"
 #include "../os/error.h"
