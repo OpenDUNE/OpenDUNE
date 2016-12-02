@@ -31,6 +31,7 @@ OpenDUNE is written in ANSI C (C89), and only requires SDL/SDL2 to run. In resul
 Currently we officially support the following platforms:
 
   - Linux
+  - FreeBSD
   - Mac OS X (PowerPC or Intel i686 / x86_64, 10.4+)
   - Windows (i686 / x86_64)
   - Atari TOS (68030+ CPU, TT and Falcon machines supported)
@@ -42,7 +43,7 @@ OpenDUNE doesn't require any library to run on Windows. For Mac OS X we make
  so-called static-compiled binaries, which means all libraries it depends on
  (mostly LibSDL) are already included in the binary, and no action is
  required on your part
-For Linux, you need to install LibSDL yourself. It is available in every
+For Linux/FreeBSD, you need to install LibSDL yourself. It is available in every
  package manager, and the chances are high it is already installed on your
  system.
 In order to use sounds and music on Linux, you need a working ALSA driver.
@@ -61,7 +62,7 @@ Start 'opendune'.
 Additional options may be specified using an opendune.ini file located
 in the data/ directory, in the current directory or in %APPDATA%\OpenDUNE
 (on Windows) or ~/Library/Application Support/OpenDUNE (on Mac OS X) or
-~/.config/opendune (on Linux). All options must be in an [opendune] section.
+~/.config/opendune (on Linux/FreeBSD). All options must be in an [opendune] section.
 Available options are :
 - language : english / french / german
 - datadir : directory where Dune data files are
