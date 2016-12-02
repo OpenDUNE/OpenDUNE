@@ -47,7 +47,11 @@ typedef uint32 uint32_t;
 #define trU   0x00000700
 #define trV   0x00000006
 
+#ifdef _MSC_VER
 #define inline __inline
+#else
+#define inline __inline__
+#endif
 
 /* RGB to YUV lookup table */
 extern uint32_t * RGBtoYUV;
