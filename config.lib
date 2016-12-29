@@ -354,6 +354,10 @@ check_params() {
 	# Show what we configured
 	if [ "$enable_debug" = "0" ]; then
 		log 1 "using debug level... no"
+		if [ $enable_assert -eq 1 ]; then
+			enable_assert=0
+			log 1 "disabling asserts"
+		fi
 	elif [ "$enable_profiling" != "0" ]; then
 		log 1 "using debug level... profiling (debug level $enable_debug)"
 	else
