@@ -176,10 +176,18 @@ static void Script_Error(const char *error, ...)
  * @param value The value to push.
  * @note Use SCRIPT_PUSH(position) to use; do not use this function directly.
  */
+#ifdef _DEBUG
 void Script_Stack_Push(ScriptEngine *script, uint16 value, const char *filename, int lineno)
+#else
+void Script_Stack_Push(ScriptEngine *script, uint16 value)
+#endif
 {
 	if (script->stackPointer == 0) {
+#ifdef _DEBUG
 		Script_Error("Stack Overflow at %s:%d", filename, lineno);
+#else
+		Script_Error("Stack Overflow");
+#endif
 		script->script = NULL;
 		return;
 	}
@@ -192,10 +200,18 @@ void Script_Stack_Push(ScriptEngine *script, uint16 value, const char *filename,
  * @return The value that was on the stack.
  * @note Use SCRIPT_POP(position) to use; do not use this function directly.
  */
+#ifdef _DEBUG
 uint16 Script_Stack_Pop(ScriptEngine *script, const char *filename, int lineno)
+#else
+uint16 Script_Stack_Pop(ScriptEngine *script)
+#endif
 {
 	if (script->stackPointer >= 15) {
+#ifdef _DEBUG
 		Script_Error("Stack Overflow at %s:%d", filename, lineno);
+#else
+		Script_Error("Stack Overflow");
+#endif
 		script->script = NULL;
 		return 0;
 	}
@@ -209,12 +225,20 @@ uint16 Script_Stack_Pop(ScriptEngine *script, const char *filename, int lineno)
  * @return The value that was on the stack.
  * @note Use SCRIPT_PEEK(position) to use; do not use this function directly.
  */
+#ifdef _DEBUG
 uint16 Script_Stack_Peek(ScriptEngine *script, int position, const char *filename, int lineno)
+#else
+uint16 Script_Stack_Peek(ScriptEngine *script, int position)
+#endif
 {
 	assert(position > 0);
 
 	if (script->stackPointer >= 16 - position) {
+#ifdef _DEBUG
 		Script_Error("Stack Overflow at %s:%d", filename, lineno);
+#else
+		Script_Error("Stack Overflow");
+#endif
 		script->script = NULL;
 		return 0;
 	}
@@ -360,7 +384,11 @@ bool Script_Run(ScriptEngine *script)
 
 		case SCRIPT_PUSH_LOCAL_VARIABLE: {
 			if (script->framePointer - parameter - 2 >= 15) {
+#ifdef _DEBUG
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+#else
+				Script_Error("Stack Overflow");
+#endif
 				script->script = NULL;
 				return false;
 			}
@@ -371,7 +399,11 @@ bool Script_Run(ScriptEngine *script)
 
 		case SCRIPT_PUSH_PARAMETER: {
 			if (script->framePointer + parameter - 1 >= 15) {
+#ifdef _DEBUG
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+#else
+				Script_Error("Stack Overflow");
+#endif
 				script->script = NULL;
 				return false;
 			}
@@ -405,7 +437,11 @@ bool Script_Run(ScriptEngine *script)
 
 		case SCRIPT_POP_LOCAL_VARIABLE: {
 			if (script->framePointer - parameter - 2 >= 15) {
+#ifdef _DEBUG
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+#else
+				Script_Error("Stack Overflow");
+#endif
 				script->script = NULL;
 				return false;
 			}
@@ -416,7 +452,11 @@ bool Script_Run(ScriptEngine *script)
 
 		case SCRIPT_POP_PARAMETER: {
 			if (script->framePointer + parameter - 1 >= 15) {
+#ifdef _DEBUG
 				Script_Error("Stack Overflow at %s:%d", __FILE__, __LINE__);
+#else
+				Script_Error("Stack Overflow");
+#endif
 				script->script = NULL;
 				return false;
 			}
