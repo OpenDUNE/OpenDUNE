@@ -702,8 +702,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 			Sound_Output_Feedback(0xFFFE);
 
-			File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
-			memmove(g_palette1, g_palette_998A, 256 * 3);
+			File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
 			if (!g_canSkipIntro) {
 				File_Create_Personal("ONETIME.DAT");
@@ -923,8 +922,10 @@ static void GameLoop_Main(void)
 	g_selectionType = SELECTIONTYPE_MENTAT;
 	g_selectionTypeNew = SELECTIONTYPE_MENTAT;
 
-	g_palette1 = calloc(1, 256 * 3);
-	g_palette2 = calloc(1, 256 * 3);
+	if (g_palette1) Warning("g_palette1\n");
+	else g_palette1 = calloc(1, 256 * 3);
+	if (g_palette2) Warning("g_palette2\n");
+	else g_palette2 = calloc(1, 256 * 3);
 
 	g_readBufferSize = 12000;
 	g_readBuffer = calloc(1, g_readBufferSize);
@@ -933,9 +934,7 @@ static void GameLoop_Main(void)
 
 	free(g_readBuffer); g_readBuffer = NULL;
 
-	File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
-
-	memmove(g_palette1, g_palette_998A, 256 * 3);
+	File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
 	GUI_ClearScreen(SCREEN_0);
 
@@ -1171,7 +1170,7 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int
 
 	g_palette_998A = calloc(256 * 3, sizeof(uint8));
 
-	memset(&g_palette_998A[45], 63, 3);
+	memset(&g_palette_998A[45], 63, 3);	/* Set color 15 to WHITE */
 
 	GFX_SetPalette(g_palette_998A);
 

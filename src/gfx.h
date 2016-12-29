@@ -3,6 +3,12 @@
 #ifndef GFX_H
 #define GFX_H
 
+extern uint8 g_paletteActive[256 * 3];
+extern uint8 *g_palette1;
+extern uint8 *g_palette2;
+extern uint8 *g_paletteMapping1;
+extern uint8 *g_paletteMapping2;
+
 enum {
 	SCREEN_WIDTH  = 320, /*!< Width of the screen in pixels. */
 	SCREEN_HEIGHT = 200  /*!< Height of the screen in pixels. */

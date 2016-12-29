@@ -14,6 +14,12 @@
 #include "video/video.h"
 #include "os/error.h"
 
+uint8 g_paletteActive[256 * 3];
+uint8 *g_palette1 = NULL;
+uint8 *g_palette2 = NULL;
+uint8 *g_paletteMapping1 = NULL;
+uint8 *g_paletteMapping2 = NULL;
+
 static uint16 s_spriteSpacing  = 0;
 static uint16 s_spriteHeight   = 0;
 static uint16 s_spriteWidth    = 0;
@@ -79,6 +85,9 @@ void GFX_Init(void)
 	uint8 *screenBuffers;
 	uint32 totalSize = 0;
 	int i;
+
+	/* init g_paletteActive with invalid values so first GFX_SetPalette() will be ok */
+	memset(g_paletteActive, 0xff, 3*256);
 
 	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);

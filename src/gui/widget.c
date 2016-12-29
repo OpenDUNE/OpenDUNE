@@ -18,12 +18,6 @@
 #include "../table/strings.h"
 
 
-uint8 g_paletteActive[256 * 3];
-uint8 *g_palette1 = NULL;
-uint8 *g_palette2 = NULL;
-uint8 *g_paletteMapping1 = NULL;
-uint8 *g_paletteMapping2 = NULL;
-
 Widget *g_widgetLinkedListHead = NULL;
 Widget *g_widgetLinkedListTail = NULL;
 Widget *g_widgetInvoiceTail = NULL;

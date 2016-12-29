@@ -187,12 +187,6 @@ extern WindowDesc g_yesNoWindowDesc;
 extern WindowDesc g_saveLoadWindowDesc;
 extern WindowDesc g_savegameNameWindowDesc;
 
-extern uint8 g_paletteActive[256 * 3];
-extern uint8 *g_palette1;
-extern uint8 *g_palette2;
-extern uint8 *g_paletteMapping1;
-extern uint8 *g_paletteMapping2;
-
 extern Widget *g_widgetLinkedListHead;
 extern Widget *g_widgetLinkedListTail;
 extern Widget *g_widgetInvoiceTail;
