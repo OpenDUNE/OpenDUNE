@@ -284,7 +284,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 	}
 
 	if (scrollInProgress) {
-		uint16 oldValue_07AE_0000;
+		uint16 oldWidgetId;
 		uint16 height;
 
 		if (buffer[0] != '\0') {
@@ -295,7 +295,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		}
 		if (displayTimer > g_timerGUI) return;
 
-		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
+		oldWidgetId = Widget_SetCurrentWidget(7);
 
 		if (g_textDisplayNeedsUpdate) {
 			Screen oldScreenID = GFX_Screen_SetActive(SCREEN_1);
@@ -321,7 +321,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		GUI_Screen_Copy(g_curWidgetXBase, textOffset, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, height, SCREEN_1, SCREEN_0);
 		GUI_Mouse_Show_InWidget();
 
-		Widget_SetCurrentWidget(oldValue_07AE_0000);
+		Widget_SetCurrentWidget(oldWidgetId);
 
 		if (textOffset != 0) {
 			if (line3Importance <= line2Importance) {
@@ -770,7 +770,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 	static char textBuffer[768];
 
 	va_list ap;
-	uint16 oldValue_07AE_0000;
+	uint16 oldWidgetId;
 	uint16 ret;
 	Screen oldScreenID;
 	uint8 *screenBackup = NULL;
@@ -785,7 +785,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	oldValue_07AE_0000 = Widget_SetCurrentWidget(1);
+	oldWidgetId = Widget_SetCurrentWidget(1);
 
 	g_widgetProperties[1].height = g_fontCurrent->height * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
@@ -841,7 +841,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 		GFX_CopyFromBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, screenBackup);
 	}
 
-	Widget_SetCurrentWidget(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldWidgetId);
 
 	if (screenBackup != NULL) {
 		free(screenBackup);
@@ -2037,7 +2037,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	static int16  creditsAnimationOffset = 0;     /* Offset of the credits for the animation of credits. */
 
 	Screen oldScreenID;
-	uint16 oldValue_07AE_0000;
+	uint16 oldWidgetId;
 	House *h;
 	char charCreditsOld[7];
 	char charCreditsNew[7];
@@ -2061,7 +2061,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
-	oldValue_07AE_0000 = Widget_SetCurrentWidget(4);
+	oldWidgetId = Widget_SetCurrentWidget(4);
 
 	creditsDiff = h->credits - creditsAnimation;
 	if (creditsDiff != 0) {
@@ -2133,7 +2133,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	GFX_Screen_SetActive(oldScreenID);
 
-	Widget_SetCurrentWidget(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldWidgetId);
 }
 
 /**
