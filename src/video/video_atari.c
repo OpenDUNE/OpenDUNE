@@ -10,6 +10,7 @@
 
 #include "types.h"
 #include "video.h"
+#include "video_fps.h"
 #include "../gfx.h"
 #include "../input/input.h"
 #include "../input/mouse.h"
@@ -24,6 +25,9 @@ extern void uninstall_ikbd_handler(void);
 extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
 extern void c2p1x1_8_tt(void * planar, void * chunky, uint32 count);
 
+/* switch FPS display */
+extern void Video_SwitchFPSDisplay(uint8 key);
+
 static short s_savedMode = 0;
 
 static enum {
@@ -33,6 +37,8 @@ static enum {
 static uint32 s_paletteBackup[256];
 
 static uint16 s_screenOffset = 0;
+
+static bool s_showFPS = false;
 
 /* mouse : */
 static int s_mouse_x = SCREEN_WIDTH/2;
@@ -162,6 +168,14 @@ void Video_Uninit(void)
 	g_consoleActive = true;
 }
 
+void Video_SwitchFPSDisplay(uint8 key)
+{
+	Debug("Video_SwitchFPSDisplay key=$%02x\n", key);
+	if(key & 0x80) {	/* key UP */
+		s_showFPS = !s_showFPS;
+	}
+}
+
 /**
  * Runs every tick to handle video updates.
  */
@@ -175,6 +189,10 @@ void Video_Tick(void)
 		s_mouse_state_changed = true;
 		Mouse_EventHandler(s_mouse_x, s_mouse_y,
 		                   s_mouse_left_btn, s_mouse_right_btn);
+	}
+
+	if (s_showFPS) {
+		Video_ShowFPS(data);
 	}
 
 	data += (s_screenOffset << 2);
