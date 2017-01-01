@@ -134,8 +134,15 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	g_consoleActive = false;
 
 	if(s_machine_type == MCH_FALCON) {
+		long saddr = Srealloc(SCREEN_HEIGHT*SCREEN_WIDTH);
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
-		(void)VsetMode((s_savedMode & ~15) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));	/*  8 planes 256 colours + 40 columns + double line (if VGA) */
+#if 0
+		(void)VsetMode((s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
+#else
+		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
+		Vsetscreen(saddr, saddr, 3,
+		           (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
+#endif
 		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
 		/* set TT 8bps video mode */
@@ -146,6 +153,8 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Unsupported machine type.\n");
 	}
 
+	Debug("old video mode = $%04hx\n", s_savedMode);
+	Debug("Physbase() = $%08x  Logbase() = $%08x\n", Physbase(), Logbase());
 	/* install IKBD handler for mouse and keyboard IRQ */
 	Supexec(install_ikbd_handler);
 	return true;
@@ -156,15 +165,21 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
  */
 void Video_Uninit(void)
 {
+	(void)Cursconf(1, 0);	/* switch cursor On */
 	if(s_machine_type == MCH_FALCON) {
+		long saddr;
 		VsetRGB(0, 256, s_paletteBackup);
+#if 0
 		(void)VsetMode(s_savedMode);
+#else
+		saddr = Srealloc(VgetSize(s_savedMode));
+		Vsetscreen(saddr, saddr, 3, s_savedMode);
+#endif
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
 		(void)EsetShift(s_savedMode);
 	}
 	Supexec(uninstall_ikbd_handler);
-	(void)Cursconf(1, 0);	/* switch cursor On */
 	g_consoleActive = true;
 }
 
