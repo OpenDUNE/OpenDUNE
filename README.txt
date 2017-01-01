@@ -73,6 +73,20 @@ Available options are :
 - framerate : maximum frame rate (60 FPS default)
 
 
+Ingame
+------
+The Game controls are the same as DUNE II. Usually, the first letter is a
+keybard shortcut, for example B for build, Q for quit, etc.
+F1 - open Mentat Screen
+F2 - open the option menu
+F3 - open the menu of the selected structure (construction yard/factory/etc.)
+
+A few key controls are added in OpenDUNE, available depending on the
+platform :
+F8 - Toggle FPS display
+CTRL-ENTER - Toggle full screen
+
+
 Enhancement over Dune2
 -----------------------
 See enhancement.txt.
@@ -104,4 +118,3 @@ Thanks To (in alphabetical order):
 
   Bug Reporters                        - Thank you all for all bug reports
   Westwood                             - For an amazing game
-
