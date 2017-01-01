@@ -4055,7 +4055,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
  * @param screenID The screen to do the remapping on.
  * @param remap The pointer to the remap palette.
  */
-void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, Screen screenID, uint8 *remap)
+void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, Screen screenID, const uint8 *remap)
 {
 	uint8 *screen = GFX_Screen_Get_ByIndex(screenID);
 

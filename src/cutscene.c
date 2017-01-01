@@ -803,7 +803,7 @@ static void GameLoop_GameCredits(void)
 	static const uint8 colours[] = {0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	uint16 i;
-	uint8 *memory;
+	uint8 remap[256];
 
 	GUI_Mouse_Hide_Safe();
 
@@ -823,25 +823,25 @@ static void GameLoop_GameCredits(void)
 
 	Music_Play(33);
 
-	memory = GFX_Screen_Get_ByIndex(SCREEN_2);
+	/*memory = GFX_Screen_Get_ByIndex(SCREEN_2);*/
 
 	for (i = 0; i < 256; i++) {
-		uint8 loc06;
-		uint8 loc04;
+		uint8 high, low;	/* high / low nibble */
 
-		memory[i] = i & 0xFF;
+		remap[i] = (uint8)i;
 
-		loc06 = i / 16;
-		loc04 = i % 16;
+		high = i >> 4;
+		low = i & 15;
 
-		if (loc06 == 9 && loc04 <= 6) {
-			memory[i] = (g_playerHouseID * 16) + loc04 + 144;
+		/* map colors 144-150 to the one of the player House */
+		if (high == 9 && low <= 6) {
+			remap[i] = ((g_playerHouseID + 9) << 4) + low;
 		}
 	}
 
 	Sprites_LoadImage("MAPPLAN.CPS", SCREEN_1, g_palette_998A);
 
-	GUI_Palette_RemapScreen(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, SCREEN_1, memory);
+	GUI_Palette_RemapScreen(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, SCREEN_1, remap);
 
 	GUI_Screen_FadeIn2(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, SCREEN_1, SCREEN_0, 1, false);
 
