@@ -20,8 +20,13 @@ static uint16 s_spriteWidth    = 0;
 static uint8  s_spriteMode     = 0;
 static uint8  s_spriteInfoSize = 0;
 
-static const uint16 s_screenBufferSize[5] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D, 0xA044 };
-static void *s_screenBuffer[5] = { NULL, NULL, NULL, NULL, NULL };
+/* SCREEN_0 = 320x200 = 64000 = 0xFA00   The main screen buffer, 0xA0000 Video RAM in DOS Dune 2
+ * SCREEN_1 = 64506 = 0xFBFA
+ * SCREEN_2 = 320x200 = 64000 = 0xFA00
+ * SCREEN_3 = 64781 = 0xFD0D    * NEVER ACTIVE * only used for game credits */
+#define GFX_SCREEN_BUFFER_COUNT 4
+static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
+static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
 
 Screen g_screenActiveID = SCREEN_0;
 
@@ -75,13 +80,13 @@ void GFX_Init(void)
 	uint32 totalSize = 0;
 	int i;
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);
 	}
 
 	screenBuffers = calloc(1, totalSize);
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = screenBuffers;
 
 		screenBuffers += GFX_Screen_GetSize_ByIndex(i * 2);
@@ -99,7 +104,7 @@ void GFX_Uninit(void)
 
 	free(s_screenBuffer[0]);
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = NULL;
 	}
 }
