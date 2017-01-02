@@ -52,7 +52,7 @@ struct Widget;
  * The parameter for a given DrawMode.
  */
 typedef union WidgetDrawParameter {
-	uint16 unknown;                                         /*!< Parameter for DRAW_MODE_UNKNOWN3. */
+	uint16 spriteID;                                        /*!< Parameter for DRAW_MODE_UNKNOWN3. */
 	void *sprite;                                           /*!< Parameter for DRAW_MODE_SPRITE. */
 	char *text;                                             /*!< Parameter for DRAW_MODE_TEXT. */
 	void (*proc)(struct Widget *);                          /*!< Parameter for DRAW_MODE_CUSTOM_PROC. */

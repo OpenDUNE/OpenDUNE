@@ -208,7 +208,7 @@ void GUI_Widget_Draw(Widget *w)
 		} break;
 
 		case DRAW_MODE_UNKNOWN3: {
-			GFX_DrawSprite(drawParam.unknown, positionLeft, positionTop, HOUSE_HARKONNEN);
+			GFX_DrawSprite(drawParam.spriteID, positionLeft, positionTop, HOUSE_HARKONNEN);
 		} break;
 
 		case DRAW_MODE_CUSTOM_PROC: {
@@ -595,9 +595,9 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 			break;
 
 		case 3:
-			drawMode           = DRAW_MODE_NONE;
-			drawParam1.unknown = 0;
-			drawParam2.unknown = 0;
+			drawMode            = DRAW_MODE_NONE;
+			drawParam1.spriteID = 0;
+			drawParam2.spriteID = 0;
 			break;
 
 		default:
