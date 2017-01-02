@@ -107,7 +107,7 @@ extern uint16 g_cursorDefaultSpriteID;
 extern bool g_structureHighHealth;
 extern bool g_var_37B8;
 
-extern void GUI_ClearScreen(Screen screenID);
+#define GUI_ClearScreen(screenID) GFX_ClearScreen(screenID)
 extern void GUI_DrawScreen(Screen screenID);
 extern void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
 extern void GUI_DrawInterfaceAndRadar(Screen screenID);

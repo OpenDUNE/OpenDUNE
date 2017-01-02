@@ -3355,19 +3355,6 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 }
 
 /**
- * Clear the screen.
- * @param screenID Which screen to clear.
- */
-void GUI_ClearScreen(Screen screenID)
-{
-	Screen oldScreenID = GFX_Screen_SetActive(screenID);
-
-	GFX_ClearScreen();
-
-	GFX_Screen_SetActive(oldScreenID);
-}
-
-/**
  * Draw a string to the screen using a fixed width for each char.
  *
  * @param string The string to draw.

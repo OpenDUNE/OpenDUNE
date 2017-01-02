@@ -1128,7 +1128,7 @@ static void GameLoop_Main(void)
 
 	GFX_Screen_SetActive(SCREEN_1);
 
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_1);
 
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 }
@@ -1164,7 +1164,7 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int
 	g_mouseDisabled = -1;
 
 	GFX_Init();
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_ACTIVE);
 
 	Font_Select(g_fontNew8p);
 

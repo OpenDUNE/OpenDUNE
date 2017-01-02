@@ -77,7 +77,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Subtitle *subtitle, u
 	s_palettePartCount        = 0;
 	s_paletteAnimationTimeout = 0;
 
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_ACTIVE);
 
 	File_ReadBlockFile("INTRO.PAL", g_palette1, 256 * 3);
 
@@ -881,7 +881,7 @@ static void GameLoop_GameCredits(void)
 
 	Driver_Music_FadeOut();
 
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_ACTIVE);
 }
 
 /**
@@ -945,7 +945,7 @@ static void Gameloop_Logos(void)
 	oldScreenID = GFX_Screen_SetActive(SCREEN_0);
 
 	GFX_SetPalette(g_palette2);
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_0);
 
 	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 256 * 3);
 
@@ -976,7 +976,7 @@ static void Gameloop_Logos(void)
 
 	GUI_SetPaletteAnimated(g_palette2, 60);
 
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_ACTIVE);
 
 	Sprites_LoadImage(String_GenerateFilename("AND"), SCREEN_1, g_palette_998A);
 

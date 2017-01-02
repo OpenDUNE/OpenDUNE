@@ -29,7 +29,7 @@ static uint8  s_spriteInfoSize = 0;
 /* SCREEN_0 = 320x200 = 64000 = 0xFA00   The main screen buffer, 0xA0000 Video RAM in DOS Dune 2
  * SCREEN_1 = 64506 = 0xFBFA
  * SCREEN_2 = 320x200 = 64000 = 0xFA00
- * SCREEN_3 = 64781 = 0xFD0D    * NEVER ACTIVE * only used for game credits */
+ * SCREEN_3 = 64781 = 0xFD0D    * NEVER ACTIVE * only used for game credits and intro */
 #define GFX_SCREEN_BUFFER_COUNT 4
 static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
 static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
@@ -52,7 +52,10 @@ void *GFX_Screen_GetActive(void)
  */
 uint16 GFX_Screen_GetSize_ByIndex(Screen screenID)
 {
-	return s_screenBufferSize[screenID >> 1];
+	if (screenID == SCREEN_ACTIVE)
+		screenID = g_screenActiveID;
+	assert(screenID >= 0 && screenID < GFX_SCREEN_BUFFER_COUNT);
+	return s_screenBufferSize[screenID];
 }
 
 /**
@@ -62,7 +65,10 @@ uint16 GFX_Screen_GetSize_ByIndex(Screen screenID)
  */
 void *GFX_Screen_Get_ByIndex(Screen screenID)
 {
-	return s_screenBuffer[screenID >> 1];
+	if (screenID == SCREEN_ACTIVE)
+		screenID = g_screenActiveID;
+	assert(screenID >= 0 && screenID < GFX_SCREEN_BUFFER_COUNT);
+	return s_screenBuffer[screenID];
 }
 
 /**
@@ -90,7 +96,7 @@ void GFX_Init(void)
 	memset(g_paletteActive, 0xff, 3*256);
 
 	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
-		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);
+		totalSize += GFX_Screen_GetSize_ByIndex(i);
 	}
 
 	screenBuffers = calloc(1, totalSize);
@@ -98,7 +104,7 @@ void GFX_Init(void)
 	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = screenBuffers;
 
-		screenBuffers += GFX_Screen_GetSize_ByIndex(i * 2);
+		screenBuffers += GFX_Screen_GetSize_ByIndex(i);
 	}
 
 	g_screenActiveID = SCREEN_0;
@@ -350,9 +356,9 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 /**
  * Clears the screen.
  */
-void GFX_ClearScreen(void)
+void GFX_ClearScreen(Screen screenID)
 {
-	memset(GFX_Screen_GetActive(), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+	memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
 /**
