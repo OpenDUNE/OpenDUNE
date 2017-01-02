@@ -545,33 +545,31 @@ void GameLoop_LevelEndAnimation(void)
 	GameLoop_FinishAnimation();
 }
 
-static void GameCredits_SwapScreen(uint16 top, uint16 height, Screen screenID, void *buffer)
+static void GameCredits_SwapScreen(uint16 top, uint16 height, Screen srcScreenID, Screen dstScreenID)
 {
-	uint16 *b = (uint16 *)buffer;	/* destination */
-	const uint16 *screen1 = (uint16 *)GFX_Screen_Get_ByIndex(screenID) + top * SCREEN_WIDTH / 2;	/* source */
-	uint16 *screen2 = (uint16 *)GFX_Screen_Get_ByIndex(SCREEN_0) + top * SCREEN_WIDTH / 2;	/* secondary destination */
-	uint16 count = height * SCREEN_WIDTH / 2;
+	uint16 *b = (uint16 *)GFX_Screen_Get_ByIndex(dstScreenID);	/* destination */
+	const uint16 *screen1 = (uint16 *)GFX_Screen_Get_ByIndex(srcScreenID) + top * SCREEN_WIDTH / 2;	/* source */
+	uint16 *screen2 = (uint16 *)GFX_Screen_Get_ByIndex(SCREEN_0) + top * SCREEN_WIDTH / 2;	/* secondary destination : Video RAM*/
+	uint16 count;
 
-	/* TODO : rewrite this ! */
-	while (count-- != 0) {
-		if (*b++ != *screen1++) {
-			if (count == 0) return;
-			b--;
-			screen1--;
-			*b++ = *screen1;
-			*screen2 = *screen1++;
+	for (count = height * SCREEN_WIDTH / 2; count > 0; count--) {
+		if (*b != *screen1) {
+			*b = *screen1;
+			*screen2 = *screen1;
 		}
+		b++;
+		screen1++;
 		screen2++;
 	}
 }
 
-static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen screenID, uint16 delay)
+static void GameCredits_Play(char *data, uint16 windowID, Screen spriteScreenID, Screen backScreenID, uint16 delay)
 {
-	uint16 loc02;
+	uint16 i;
 	uint16 stringCount = 0;
-	uint32 loc0C;
+	uint32 timetoWait;
 	uint16 spriteID = 514;
-	bool loc10 = false;
+	bool textEnd = false;
 	uint16 spriteX;
 	uint16 spriteY;
 	uint16 spritePos = 0;
@@ -608,28 +606,33 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 	positions[5].x = 0;
 	positions[5].y = spriteY;
 
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_0, memory);
-	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, memory, screenID);
+	/* initialize */
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_0, spriteScreenID);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, spriteScreenID, backScreenID);
 
-	GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, memory, GFX_Screen_Get_ByIndex(SCREEN_3));
+	GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, spriteScreenID, SCREEN_3);
 
 	GFX_Screen_SetActive(SCREEN_0);
-	loc0C = g_timerSleep;
+	timetoWait = g_timerSleep;
 
 	Input_History_Clear();
 
-	while (true) {
-		while (loc0C > g_timerSleep) sleepIdle();
+	while ((!textEnd || stage != 0) && (Input_Keyboard_NextKey() == 0)) {
 
-		loc0C = g_timerSleep + delay;
+		while (timetoWait > g_timerSleep) sleepIdle();
+
+		timetoWait = g_timerSleep + delay;
 
 		while ((g_curWidgetHeight / 6) + 2 > stringCount && *data != 0) {
-			char *text = data;
+			char *text;
 			uint16 y;
 
 			if (stringCount != 0) {
+				/* below or next to the previous string */
 				y = strings[stringCount - 1].y;
-				if (strings[stringCount - 1].separator != 5) y += strings[stringCount - 1].charHeight + strings[stringCount - 1].charHeight / 8;
+				if (strings[stringCount - 1].separator != 5) {
+					y += strings[stringCount - 1].charHeight + strings[stringCount - 1].charHeight / 8;
+				}
 			} else {
 				y = g_curWidgetHeight;
 			}
@@ -644,28 +647,33 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 			if (strings[stringCount].separator != 0) data++;
 			strings[stringCount].type = 0;
 
-			if (*text == 3 || *text == 4) strings[stringCount].type = *text++;
-
-			if (*text == 1) {
+			switch(*text) {
+			case 1:
 				text++;
 				Font_Select(g_fontNew6p);
-			} else if (*text == 2) {
+				break;
+			case 2:
 				text++;
 				Font_Select(g_fontNew8p);
+				break;
+			case 3:
+			case 4:
+				strings[stringCount].type = *text++;
+				break;
 			}
 
 			strings[stringCount].charHeight = g_fontCurrent->height;
 
 			switch (strings[stringCount].type) {
-				case 3:
+				case 3:		/* "xxx by:" text : on the left */
 					strings[stringCount].x = 157 - Font_GetStringWidth(text);
 					break;
 
-				case 4:
+				case 4:		/* names on the right */
 					strings[stringCount].x = 161;
 					break;
 
-				default:
+				default:	/* centered strings */
 					strings[stringCount].x = 1 + (SCREEN_WIDTH - Font_GetStringWidth(text)) / 2;
 					break;
 			}
@@ -677,34 +685,36 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 		}
 
 		switch (stage) {
-			case 0:
-				GUI_ClearScreen(memory);
+			case 0:	/* 0 : clear */
+				GUI_ClearScreen(spriteScreenID);
 
-				if (spriteID == 514) GUI_ClearScreen(screenID);
+				if (spriteID == 514) GUI_ClearScreen(backScreenID);
 
 				stage++;
 				counter = 2;
 				break;
 
-			case 1: case 4:
-				if (counter-- == 0) {
+			case 1: case 4:	/* 1, 4 : Wait */
+				if (counter == 0) {
 					counter = 0;
 					stage++;
+				} else {
+					counter--;
 				}
 				break;
 
-			case 2:
+			case 2:	/* 2 : display new picture */
 				if (spriteID == 525) spriteID = 514;
 
-				GUI_DrawSprite(memory, g_sprites[spriteID], positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
+				GUI_DrawSprite(spriteScreenID, g_sprites[spriteID], positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
 
 				counter = 8;
 				stage++;
 				spriteID++;
-				if (++spritePos > 5) spritePos = 0;;
+				if (++spritePos > 5) spritePos = 0;
 				break;
 
-			case 3:
+			case 3:	/* 3 : fade from black */
 				if (counter < 8) GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter-- == 0) {
@@ -713,7 +723,7 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 				}
 				break;
 
-			case 5:
+			case 5:	/* 5 : fade to black */
 				if (counter > 0) GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter++ >= 8) stage = 0;
@@ -722,47 +732,48 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 			default: break;
 		}
 
-		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, memory, screenID);
+		/* copy sprite (image) to back buffer */
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, spriteScreenID, backScreenID);
 
-		for (loc02 = 0; loc02 < stringCount; loc02++) {
-			if ((int16)strings[loc02].y < g_curWidgetHeight) {
-				GFX_Screen_SetActive(screenID);
+		/* draw all strings on back buffer and scroll them 1 pixel up */
+		for (i = 0; i < stringCount; i++) {
+			if ((int16)strings[i].y < g_curWidgetHeight) {
+				GFX_Screen_SetActive(backScreenID);
 
 				Font_Select(g_fontNew8p);
 
-				if (strings[loc02].charHeight != g_fontCurrent->height) Font_Select(g_fontNew6p);
+				if (strings[i].charHeight != g_fontCurrent->height) Font_Select(g_fontNew6p);
 
-				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_curWidgetYBase, 255, 0);
+				GUI_DrawText(strings[i].text, strings[i].x, strings[i].y + g_curWidgetYBase, 255, 0);
 
 				GFX_Screen_SetActive(SCREEN_0);
 			}
 
-			strings[loc02].y--;
+			strings[i].y--;
 		}
 
-		GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, screenID, GFX_Screen_Get_ByIndex(SCREEN_3));
+		/* display what we just draw on back buffer */
+		GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, backScreenID, SCREEN_3);
 
 		if ((int16)strings[0].y < -10) {
+			/* remove 1st string and shift the other */
 			strings[0].text += strlen(strings[0].text);
 			*strings[0].text = strings[0].separator;
 			stringCount--;
-			memcpy(&strings[0], &strings[1], stringCount * sizeof(*strings));
+			memmove(&strings[0], &strings[1], stringCount * sizeof(*strings));
 		}
 
 		if ((g_curWidgetHeight / 6 + 2) > stringCount) {
-			if (strings[stringCount - 1].y + strings[stringCount - 1].charHeight < g_curWidgetYBase + g_curWidgetHeight) loc10 = true;
+			if (strings[stringCount - 1].y + strings[stringCount - 1].charHeight < g_curWidgetYBase + g_curWidgetHeight) textEnd = true;
 		}
-
-		if (loc10 && stage == 0) break;
-
-		if (Input_Keyboard_NextKey() != 0) break;
 	}
 
+	/* fade to black */
 	GUI_SetPaletteAnimated(g_palette2, 120);
 
 	GUI_ClearScreen(SCREEN_0);
-	GUI_ClearScreen(memory);
-	GUI_ClearScreen(screenID);
+	GUI_ClearScreen(spriteScreenID);
+	GUI_ClearScreen(backScreenID);
 }
 
 static void GameCredits_LoadPalette(void)
