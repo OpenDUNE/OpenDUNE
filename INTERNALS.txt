@@ -1,0 +1,21 @@
+* Dune II palette
+-----------------
+
+
+The 256 color in game palette IBM.PAL is organized in 16 sub-palettes of
+16 colors.
+
+colors 231 to 238 are used by the option menu (and other Widgets)
+
+16 *9 = 144 :
+current house colors ?
+
+the 6 first colors of sub-palettes 8 to 14 are a shade of the house colors :
+
+ 8 (128-133) : ??? grey blue shade
+ 9 (144-149) : Current house / Harkonnen colors
+10 (160-165) : Atreides
+11 (176-181) : Ordos
+12 (192-197) : Fremen
+13 (208-213) : Sardaukar
+14 (224-229) : merecenary
