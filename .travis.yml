@@ -36,8 +36,6 @@ before_install:
 
 script:
   - 'cd $TRAVIS_BUILD_DIR'
-  - './configure'
+  - './configure --prefix-dir=${HOME}'
   - 'make -j3'
-
-after_success:
-  - 'INSTALLPREFIX="$HOME/$PROJECT" make install'
+  - 'if [ "$TRAVIS_OS_NAME" = "osx" ]; then make bundle_dmg ; else make install ; fi'
