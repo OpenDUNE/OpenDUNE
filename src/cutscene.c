@@ -53,9 +53,6 @@ static uint8                s_palettePartTarget[18];   /*!< Target palette part 
 static uint8                s_palettePartCurrent[18];  /*!< Current value of the palette part (6 colours, updated each call to #GameLoop_PalettePart_Update). */
 static uint8                s_palettePartChange[18];   /*!< Amount of change of each RGB colour of the palette part with each step. */
 
-static void *s_buffer_182E = NULL;
-static void *s_buffer_1832 = NULL;
-
 bool g_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
 static void GameLoop_PrepareAnimation(const HouseAnimation_Subtitle *subtitle, uint16 feedback_base_index, const HouseAnimation_SoundEffect *soundEffect)
@@ -614,7 +611,7 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_0, memory);
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, memory, screenID);
 
-	GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, memory, s_buffer_182E);
+	GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, memory, GFX_Screen_Get_ByIndex(SCREEN_3));
 
 	GFX_Screen_SetActive(SCREEN_0);
 	loc0C = g_timerSleep;
@@ -743,7 +740,7 @@ static void GameCredits_Play(char *data, uint16 windowID, Screen memory, Screen 
 			strings[loc02].y--;
 		}
 
-		GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, screenID, s_buffer_182E);
+		GameCredits_SwapScreen(g_curWidgetYBase, g_curWidgetHeight, screenID, GFX_Screen_Get_ByIndex(SCREEN_3));
 
 		if ((int16)strings[0].y < -10) {
 			strings[0].text += strlen(strings[0].text);
@@ -772,9 +769,6 @@ static void GameCredits_LoadPalette(void)
 {
 	uint16 i;
 	uint8 *p;
-
-	s_buffer_182E = GFX_Screen_Get_ByIndex(SCREEN_3);
-	s_buffer_1832 = (uint8 *)s_buffer_182E + SCREEN_WIDTH * g_curWidgetHeight;
 
 	if (g_palette1) Warning("g_palette1 already allocated\n");
 	else g_palette1 = malloc(256 * 3 * 10);
@@ -806,6 +800,7 @@ static void GameLoop_GameCredits(void)
 
 	uint16 i;
 	uint8 remap[256];
+	char *credits_buffer;
 
 	GUI_Mouse_Hide_Safe();
 
@@ -850,6 +845,9 @@ static void GameLoop_GameCredits(void)
 
 	GameCredits_LoadPalette();
 
+	credits_buffer = (char *)GFX_Screen_Get_ByIndex(SCREEN_3) + SCREEN_WIDTH * g_curWidgetHeight;
+	Debug("GameLoop_GameCredits() credit buffer is %d lines in SCREEN_3 buffer\n", g_curWidgetHeight);
+
 	GUI_Mouse_Hide_Safe();
 
 	GUI_InitColors(colours, 0, lengthof(colours) - 1);
@@ -859,9 +857,9 @@ static void GameLoop_GameCredits(void)
 	GFX_SetPalette(g_palette1);
 
 	for (;; sleepIdle()) {
-		File_ReadBlockFile(String_GenerateFilename("CREDITS"), s_buffer_1832, GFX_Screen_GetSize_ByIndex(SCREEN_3));
+		File_ReadBlockFile(String_GenerateFilename("CREDITS"), credits_buffer, GFX_Screen_GetSize_ByIndex(SCREEN_3));
 
-		GameCredits_Play(s_buffer_1832, 20, SCREEN_1, SCREEN_2, 6);
+		GameCredits_Play(credits_buffer, 20, SCREEN_1, SCREEN_2, 6);
 
 		if (Input_Keyboard_NextKey() != 0) break;
 
