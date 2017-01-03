@@ -22,11 +22,10 @@ typedef enum Screen {
 	SCREEN_ACTIVE = -1
 } Screen;
 
-extern Screen g_screenActiveID;
-
 extern void GFX_Init(void);
 extern void GFX_Uninit(void);
 extern Screen GFX_Screen_SetActive(Screen screenID);
+extern bool GFX_Screen_IsActive(Screen screenID);
 extern void *GFX_Screen_GetActive(void);
 extern uint16 GFX_Screen_GetSize_ByIndex(Screen screenID);
 extern void *GFX_Screen_Get_ByIndex(Screen screenID);

@@ -422,17 +422,17 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 		sprite = GUI_Widget_Viewport_Draw_GetSprite(g_table_unitInfo[u->o.type].groundSpriteID, Unit_GetHouseID(u));
 
-		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, 0x200 | 0xC000);
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, 0x200 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, 0x200 | 0xC000);
+		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, 0x200 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, 0x200 | 0xC000);
+		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, 0x200 | 0xC000);
 
 		if (u != g_unitSelected) continue;
 
 		if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-		GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
+		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, 0xC000);
 	}
 
 	if (g_unitSelected == NULL && (g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
@@ -531,7 +531,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) spriteFlags |= 0x100;
 			if (ui->o.flags.blurTile) spriteFlags |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
+			GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->spriteOffset >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -541,7 +541,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 						{0, -9}, { 9, -6}, { 14, 1}, { 7,  6}
 					};
 
-					GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite((u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
+					GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite((u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
 				}
 			}
 
@@ -587,19 +587,19 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 				spriteID += values_32A4[orientation][0];
 
-				GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, values_32A4[orientation][1] | 0xE000, s_paletteHouse);
+				GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, values_32A4[orientation][1] | 0xE000, s_paletteHouse);
 			}
 
 			if (u->o.flags.s.isSmoking) {
 				uint16 spriteID = 180 + (u->spriteOffset & 3);
 				if (spriteID == 183) spriteID = 181;
 
-				GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
+				GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], x, y - 14, 2, 0xC000);
 			}
 
 			if (u != g_unitSelected) continue;
 
-			GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, 0xC000);
 		}
 
 		g_dirtyUnitCount = 0;
@@ -621,7 +621,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 		if (!Map_IsPositionInViewport(e->position, &x, &y)) continue;
 
-		GUI_DrawSprite(g_screenActiveID, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, 0xC000, s_paletteHouse);
+		GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, 0xC000, s_paletteHouse);
 	}
 
 	if (g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
@@ -708,11 +708,11 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			sprite = GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (spriteFlags & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+			if (ui->o.flags.hasShadow) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x + 1, y + 3, 2, (spriteFlags & 0xDFFF) | 0x300, g_paletteMapping1, 1);
 
 			if (ui->o.flags.blurTile) spriteFlags |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, spriteFlags | 0x2000, s_paletteHouse);
+			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, spriteFlags | 0x2000, s_paletteHouse);
 		}
 
 		g_dirtyAirUnitCount = 0;
@@ -748,7 +748,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (update) Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 		if (init) {
-			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, g_screenActiveID, SCREEN_0);
+			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, SCREEN_ACTIVE, SCREEN_0);
 
 			GFX_Screen_SetActive(oldScreenID2);
 
@@ -780,14 +780,12 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 			if (g_dune2_enhanced) {
-				Screen oldScreenID2 = g_screenActiveID;
-
-				GFX_Screen_SetActive(SCREEN_0);
+				Screen oldScreenID2 = GFX_Screen_SetActive(SCREEN_0);
 				GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 0);
 				GFX_Screen_SetActive(oldScreenID2);
 			}
 
-			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, SCREEN_0);
+			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_ACTIVE, SCREEN_0);
 			GUI_Mouse_Show_InWidget();
 
 			g_viewport_fadein = false;
@@ -816,7 +814,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					init = true;
 				}
 
-				GUI_Screen_Copy(x, y, x, y, width, height, g_screenActiveID, SCREEN_0);
+				GUI_Screen_Copy(x, y, x, y, width, height, SCREEN_ACTIVE, SCREEN_0);
 			}
 
 			if (init) GUI_Mouse_Show_InWidget();
@@ -917,7 +915,7 @@ void GUI_Widget_Viewport_DrawTile(uint16 packed)
 	if (spriteID != 0xFFFF) {
 		x *= g_scenario.mapScale + 1;
 		y *= g_scenario.mapScale + 1;
-		GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], x, y, 3, 0x4000);
+		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], x, y, 3, 0x4000);
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}
@@ -939,7 +937,7 @@ void GUI_Widget_Viewport_RedrawMap(Screen screenID)
 
 	Map_UpdateMinimapPosition(g_minimapPosition, true);
 
-	if (screenID != 0) return;
+	if (screenID != SCREEN_0) return;
 
 	GFX_Screen_SetActive(oldScreenID);
 

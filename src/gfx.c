@@ -34,7 +34,7 @@ static uint8  s_spriteByteSize = 0;	/* size in byte of one sprite pixel data = s
 static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
 static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
 
-Screen g_screenActiveID = SCREEN_0;
+Screen s_screenActiveID = SCREEN_0;
 
 /**
  * Get the codesegment of the active screen buffer.
@@ -42,7 +42,7 @@ Screen g_screenActiveID = SCREEN_0;
  */
 void *GFX_Screen_GetActive(void)
 {
-	return GFX_Screen_Get_ByIndex(g_screenActiveID);
+	return GFX_Screen_Get_ByIndex(s_screenActiveID);
 }
 
 /**
@@ -53,7 +53,7 @@ void *GFX_Screen_GetActive(void)
 uint16 GFX_Screen_GetSize_ByIndex(Screen screenID)
 {
 	if (screenID == SCREEN_ACTIVE)
-		screenID = g_screenActiveID;
+		screenID = s_screenActiveID;
 	assert(screenID >= 0 && screenID < GFX_SCREEN_BUFFER_COUNT);
 	return s_screenBufferSize[screenID];
 }
@@ -66,7 +66,7 @@ uint16 GFX_Screen_GetSize_ByIndex(Screen screenID)
 void *GFX_Screen_Get_ByIndex(Screen screenID)
 {
 	if (screenID == SCREEN_ACTIVE)
-		screenID = g_screenActiveID;
+		screenID = s_screenActiveID;
 	assert(screenID >= 0 && screenID < GFX_SCREEN_BUFFER_COUNT);
 	return s_screenBuffer[screenID];
 }
@@ -78,9 +78,22 @@ void *GFX_Screen_Get_ByIndex(Screen screenID)
  */
 Screen GFX_Screen_SetActive(Screen screenID)
 {
-	Screen oldScreen = g_screenActiveID;
-	g_screenActiveID = screenID;
+	Screen oldScreen = s_screenActiveID;
+	if (screenID != SCREEN_ACTIVE) {
+		s_screenActiveID = screenID;
+	}
 	return oldScreen;
+}
+
+/**
+* Checks if the screen is active.
+* @param screenID The screen to check for being active
+* @return true or false.
+*/
+bool GFX_Screen_IsActive(Screen screenID)
+{
+	if (screenID == SCREEN_ACTIVE) return true;
+	return (screenID == s_screenActiveID);
 }
 
 /**
@@ -107,7 +120,7 @@ void GFX_Init(void)
 		screenBuffers += GFX_Screen_GetSize_ByIndex(i);
 	}
 
-	g_screenActiveID = SCREEN_0;
+	s_screenActiveID = SCREEN_0;
 }
 
 /**
