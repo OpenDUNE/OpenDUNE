@@ -926,9 +926,9 @@ void GUI_Widget_Viewport_DrawTile(uint16 packed)
 /**
  * Redraw the whole map.
  *
- * @param screenID To which screen we should draw the map. Can only be 0 or 2. Any non-zero is forced to 2.
+ * @param screenID To which screen we should draw the map. Can only be SCREEN_0 or SCREEN_1. Any non-zero is forced to SCREEN_1.
  */
-void GUI_Widget_Viewport_RedrawMap(uint16 screenID)
+void GUI_Widget_Viewport_RedrawMap(Screen screenID)
 {
 	Screen oldScreenID = SCREEN_1;
 	uint16 i;

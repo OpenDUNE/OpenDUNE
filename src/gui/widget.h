@@ -3,6 +3,8 @@
 #ifndef GUI_WIDGET_H
 #define GUI_WIDGET_H
 
+#include "../gfx.h"
+
 /**
  * Types of WidgetClick available in the game.
  */
@@ -234,7 +236,7 @@ extern void Widget_PaintCurrentWidget(void);
 extern bool GUI_Widget_Viewport_Click(Widget *w);
 extern void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMainScreen);
 extern void GUI_Widget_Viewport_DrawTile(uint16 packed);
-extern void GUI_Widget_Viewport_RedrawMap(uint16 screenID);
+extern void GUI_Widget_Viewport_RedrawMap(Screen screenID);
 
 /* widget_click.c */
 extern bool GUI_Widget_SpriteTextButton_Click(Widget *w);
