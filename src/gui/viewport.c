@@ -345,7 +345,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 	uint16 curPos;
 	bool updateDisplay;
 	Screen oldScreenID;
-	uint16 oldValue_07AE_0000;
+	uint16 oldWidgetID;
 	int16 minX[10];
 	int16 maxX[10];
 
@@ -358,7 +358,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
-	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
+	oldWidgetID = Widget_SetCurrentWidget(2);
 
 	if (g_dirtyViewportCount != 0 || forceRedraw) {
 		for (y = 0; y < 10; y++) {
@@ -825,7 +825,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 	GFX_Screen_SetActive(oldScreenID);
 
-	Widget_SetCurrentWidget(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldWidgetID);
 }
 
 /**
