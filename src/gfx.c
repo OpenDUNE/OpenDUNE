@@ -20,11 +20,11 @@ uint8 *g_palette2 = NULL;
 uint8 *g_paletteMapping1 = NULL;
 uint8 *g_paletteMapping2 = NULL;
 
-static uint16 s_spriteSpacing  = 0;
-static uint16 s_spriteHeight   = 0;
-static uint16 s_spriteWidth    = 0;
+static uint16 s_spriteSpacing  = 0;	/* bytes to skip between each line. == SCREEN_WIDTH - 2*s_spriteWidth */
+static uint16 s_spriteHeight   = 0;	/* "icon" sprites height (lines) */
+static uint16 s_spriteWidth    = 0;	/* "icon" sprites width in bytes. each bytes contains 2 pixels. 4 MSB = left, 4 LSB = right */
 static uint8  s_spriteMode     = 0;
-static uint8  s_spriteInfoSize = 0;
+static uint8  s_spriteByteSize = 0;	/* size in byte of one sprite pixel data = s_spriteHeight * s_spriteWidth / 2 */
 
 /* SCREEN_0 = 320x200 = 64000 = 0xFA00   The main screen buffer, 0xA0000 Video RAM in DOS Dune 2
  * SCREEN_1 = 64506 = 0xFBFA
@@ -134,10 +134,6 @@ void GFX_Uninit(void)
 void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 {
 	int i, j;
-	uint16 spacing;
-	uint16 height;
-	uint16 width;
-	uint8 *iconRTBL;
 	uint8 *iconRPAL;
 	uint8 *wptr;
 	uint8 *rptr;
@@ -145,8 +141,9 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	assert(houseID < HOUSE_MAX);
 
-	iconRTBL = g_iconRTBL + spriteID;
-	iconRPAL = g_iconRPAL + ((*iconRTBL) << 4);
+	if (s_spriteMode == 4) return;
+
+	iconRPAL = g_iconRPAL + (g_iconRTBL[spriteID] << 4);
 
 	for (i = 0; i < 16; i++) {
 		uint8 colour = *iconRPAL++;
@@ -160,18 +157,12 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 		palette[i] = colour;
 	}
 
-	if (s_spriteMode == 4) return;
-
 	wptr = GFX_Screen_GetActive();
 	wptr += y * SCREEN_WIDTH + x;
-	rptr = g_spriteInfo + ((spriteID * s_spriteInfoSize) << 4);
+	rptr = g_spritePixels + (spriteID * s_spriteByteSize);
 
-	spacing = s_spriteSpacing;
-	height  = s_spriteHeight;
-	width   = s_spriteWidth;
-
-	for (j = 0; j < height; j++) {
-		for (i = 0; i < width; i++) {
+	for (j = 0; j < s_spriteHeight; j++) {
+		for (i = 0; i < s_spriteWidth; i++) {
 			uint8 left  = (*rptr) >> 4;
 			uint8 right = (*rptr) & 0xF;
 			rptr++;
@@ -182,35 +173,35 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 			wptr++;
 		}
 
-		wptr += spacing;
+		wptr += s_spriteSpacing;
 	}
 }
 
 /**
  * Initialize sprite information.
  *
- * @param widthSize Value between 0 and 2, indicating the width of the sprite.
- * @param heightSize Value between 0 and 2, indicating the width of the sprite.
+ * @param widthSize Value between 0 and 2, indicating the width of the sprite. x8 to get actuel width of sprite
+ * @param heightSize Value between 0 and 2, indicating the width of the sprite. x8 to get actuel width of sprite
  */
 void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
 {
+	/* NOTE : shouldn't it be (heightSize < 3 && widthSize < 3) ??? */
 	if (widthSize == heightSize && widthSize < 3) {
 		s_spriteMode = widthSize & 2;
-		s_spriteInfoSize = (2 << widthSize);
 
 		s_spriteWidth   = widthSize << 2;
-		s_spriteHeight  = widthSize << 3;
+		s_spriteHeight  = heightSize << 3;
 		s_spriteSpacing = SCREEN_WIDTH - s_spriteHeight;
+		s_spriteByteSize = s_spriteWidth * s_spriteHeight;
 	} else {
+		/* NOTE : is it dead code ? */
+		/* default to 8x8 sprites */
 		s_spriteMode = 4;
-		s_spriteInfoSize = 2;
+		s_spriteByteSize = 8*4;
 
 		s_spriteWidth   = 4;
 		s_spriteHeight  = 8;
 		s_spriteSpacing = 312;
-
-		widthSize = 1;
-		heightSize = 1;
 	}
 }
 

@@ -50,9 +50,9 @@ typedef enum IconMapEntries {
 
 extern uint8 **g_sprites;
 extern uint8 *g_spriteBuffer;
-extern uint8 *g_iconRTBL;
-extern uint8 *g_iconRPAL;
-extern uint8 *g_spriteInfo;
+extern uint8 *g_iconRTBL;	/* table to give spriteID => palette index*/
+extern uint8 *g_iconRPAL;	/* palettes for "icons" sprites. Each palette is 16 colors (8bits index into the main palette) */
+extern uint8 *g_spritePixels;	/* 2 pixels per byte */
 extern uint16 *g_iconMap;
 
 extern uint8 *g_fileRgnclkCPS;

@@ -29,7 +29,7 @@ static uint16 s_spritesCount = 0;
 uint8 *g_spriteBuffer;
 uint8 *g_iconRTBL = NULL;
 uint8 *g_iconRPAL = NULL;
-uint8 *g_spriteInfo = NULL;
+uint8 *g_spritePixels = NULL;
 uint16 *g_iconMap = NULL;
 
 uint8 *g_fileRgnclkCPS = NULL;
@@ -183,6 +183,7 @@ static uint32 Sprites_Decode(uint8 *source, uint8 *dest)
 
 /**
  * Loads an ICN file.
+ * NOTE : should be called "tiles"
  *
  * @param filename The name of the file to load.
  * @param screenID The index of a memory block where to store loaded sprites.
@@ -191,7 +192,7 @@ static void Sprites_LoadICNFile(const char *filename)
 {
 	uint8  fileIndex;
 
-	uint32 spriteInfoLength;
+	uint32 spriteDataLength;
 	uint32 tableLength;
 	uint32 paletteLength;
 	int8   info[4];
@@ -199,7 +200,7 @@ static void Sprites_LoadICNFile(const char *filename)
 	fileIndex = ChunkFile_Open(filename);
 
 	/* Get the length of the chunks */
-	spriteInfoLength = ChunkFile_Seek(fileIndex, HTOBE32(CC_SSET));
+	spriteDataLength = ChunkFile_Seek(fileIndex, HTOBE32(CC_SSET));
 	tableLength      = ChunkFile_Seek(fileIndex, HTOBE32(CC_RTBL));
 	paletteLength    = ChunkFile_Seek(fileIndex, HTOBE32(CC_RPAL));
 
@@ -207,11 +208,12 @@ static void Sprites_LoadICNFile(const char *filename)
 	ChunkFile_Read(fileIndex, HTOBE32(CC_SINF), info, 4);
 	GFX_Init_SpriteInfo(info[0], info[1]);
 
-	/* Get the SpriteInfo chunk */
-	free(g_spriteInfo);
-	g_spriteInfo = calloc(1, spriteInfoLength);
-	ChunkFile_Read(fileIndex, HTOBE32(CC_SSET), g_spriteInfo, spriteInfoLength);
-	Sprites_Decode(g_spriteInfo, g_spriteInfo);
+	/* Get the SpritePixels chunk */
+	free(g_spritePixels);
+	g_spritePixels = calloc(1, spriteDataLength);
+	ChunkFile_Read(fileIndex, HTOBE32(CC_SSET), g_spritePixels, spriteDataLength);
+	spriteDataLength = Sprites_Decode(g_spritePixels, g_spritePixels);
+	/*g_spritePixels = realloc(g_spritePixels, spriteDataLength);*/
 
 	/* Get the Table chunk */
 	free(g_iconRTBL);
@@ -494,7 +496,7 @@ void Sprites_Uninit(void)
 	free(g_mouseSpriteBuffer); g_mouseSpriteBuffer = NULL;
 	free(g_mouseSprite); g_mouseSprite = NULL;
 
-	free(g_spriteInfo); g_spriteInfo = NULL;
+	free(g_spritePixels); g_spritePixels = NULL;
 	free(g_iconRTBL); g_iconRTBL = NULL;
 	free(g_iconRPAL); g_iconRPAL = NULL;
 
