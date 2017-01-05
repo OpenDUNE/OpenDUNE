@@ -7,6 +7,8 @@
 VERSIONS := $(shell AWK="$(AWK)" "$(ROOT_DIR)/findversion.sh")
 REV      := $(shell echo "$(VERSIONS)" | cut -f 1 -d'	')
 
+SETFILE := $(shell for f in /usr/bin/SetFile /Developer/Tools/SetFile /Developer/usr/bin/SetFile ` which SetFile ` ; do if [ -x "$$f" ] ; then echo "$$f" ; break ; fi ; done )
+
 # Make sure we have something in REV
 ifeq ($(REV),)
 REV := norev000
@@ -112,14 +114,17 @@ bundle_lha: bundle
 bundle_dmg: bundle
 	@echo '[BUNDLE] Creating $(BUNDLE_NAME).dmg'
 	$(eval TMP_DMG := $(shell mktemp -u -t opendunedmg).dmg)
-	$(Q)hdiutil create -srcfolder $(BUNDLE_DIR) -size 2m -ov -format UDRW -fs HFS+ -volname $(VOLUME_NAME) $(TMP_DMG)
-	$(Q)DEV_NAME=$$(hdiutil attach -readwrite -noverify -noautoopen "$(TMP_DMG)" | egrep '^/dev/' | sed 1q | awk '{print $$1}') && \
+	$(Q)hdiutil create -srcfolder $(BUNDLE_DIR) -size 4m -ov -format UDRW -fs HFS+ -volname $(VOLUME_NAME) $(TMP_DMG)
+	$(Q)DEV_NAME=$$(hdiutil attach -readwrite -noverify -noautoopen "$(TMP_DMG)" | grep '/Volumes/' | egrep '^/dev/' | sed 1q | awk '{print $$1}') && \
+	echo "$(TMP_DMG) mounted as $${DEV_NAME}" && \
 	cp "$(ROOT_DIR)/os/macosx/opendune.icns" $(MOUNT_DIR)/.VolumeIcon.icns && \
-	SetFile -c icnC $(MOUNT_DIR)/.VolumeIcon.icns && \
-	SetFile -a C $(MOUNT_DIR) && \
+	$(SETFILE) -c icnC $(MOUNT_DIR)/.VolumeIcon.icns && \
+	$(SETFILE) -a C $(MOUNT_DIR) && \
 	bless --folder $(MOUNT_DIR) --openfolder $(MOUNT_DIR) && \
 	hdiutil detach $$DEV_NAME
-	$(Q)hdiutil convert -ov -o $(BUNDLES_DIR)/$(BUNDLE_NAME).dmg -format UDZO -imagekey zlib-level=9 "$(TMP_DMG)"
+	$(Q)$(RM) $(BUNDLES_DIR)/$(BUNDLE_NAME).dmg
+	$(Q)mkdir -p $(BUNDLES_DIR)
+	$(Q)hdiutil convert $(TMP_DMG) -format UDZO -imagekey zlib-level=9 -o $(BUNDLES_DIR)/$(BUNDLE_NAME).dmg
 	$(Q)$(RM) "$(TMP_DMG)"
 
 bundle_exe: all
