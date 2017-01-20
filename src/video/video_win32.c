@@ -459,6 +459,7 @@ static void Video_Stats(const uint8 * screen)
 	uint16 rgb12pal[256];
 	uint8 similar_color[256];
 	unsigned int n_similar_colors;
+	static unsigned int last_n_similar_colors = 0;
 
 	memset(freq, 0, sizeof(freq));
 	for(i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
@@ -470,8 +471,17 @@ static void Video_Stats(const uint8 * screen)
 		if(freq[i] == 0) unused_colors++;
 	}
 	if(unused_colors != last_unused_colors) {
+		char tmp[20];
 		Debug("Unused colors : %u (used = %u)\n", unused_colors, 256 - unused_colors);
+		Debug("        0123456789ABCDEF\n");
 		last_unused_colors = unused_colors;
+		for(i = 0; i < 256 ; i++) {
+			tmp[i&15] = (freq[i] == 0)?' ':((freq[i] < 10)?'.':((freq[i] < 250)?'o':'O'));
+			if((i&15) == 15) {
+				tmp[16] = '\0';
+				Debug("%3d %02X |%s| %3d\n", i & 0xf0, i & 0xf0, tmp, i);
+			}
+		}
 	}
 	n_similar_colors = 0;
 	for(i = 0; i < 256; i++) {
@@ -488,8 +498,9 @@ static void Video_Stats(const uint8 * screen)
 			}
 		}
 	}
-	if(n_similar_colors > 0) {
+	if(n_similar_colors > 0 && n_similar_colors != last_n_similar_colors) {
 		Debug("Similar colors = %u\n", n_similar_colors);
+		last_n_similar_colors = n_similar_colors;
 	}
 }
 #endif	/* _DEBUG */
