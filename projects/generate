@@ -218,3 +218,7 @@ opendune=`echo "$opendune" | grep "^#1" | sed "s~#1~~g"`
 generate "$opendune" "opendune_vs90.vcproj"
 generate "$opendunevcxproj" "opendune_vs100.vcxproj"
 generate "$opendunefiles" "opendune_vs100.vcxproj.filters" "$opendunefilters"
+generate "$opendunevcxproj" "opendune_vs120.vcxproj"
+generate "$opendunefiles" "opendune_vs120.vcxproj.filters" "$opendunefilters"
+generate "$opendunevcxproj" "opendune_vs140.vcxproj"
+generate "$opendunefiles" "opendune_vs140.vcxproj.filters" "$opendunefilters"

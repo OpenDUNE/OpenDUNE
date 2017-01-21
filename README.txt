@@ -26,13 +26,15 @@ Our wiki is at:
 
 Supported Platforms
 -------------------
-OpenDUNE is written in ANSI C (C89), and only requires SDL to run. In result,
- OpenDUNE should run on all platforms supported by SDL.
-Currently we official support the following platforms:
+OpenDUNE is written in ANSI C (C89), and only requires SDL/SDL2 to run. In result,
+ OpenDUNE should run on all platforms supported by SDL or SDL2.
+Currently we officially support the following platforms:
 
   - Linux
-  - Mac OS X (Intel, i686 / x86_64, 10.4+)
-  - Windows
+  - FreeBSD
+  - Mac OS X (PowerPC or Intel i686 / x86_64, 10.4+)
+  - Windows (i686 / x86_64)
+  - Atari TOS (68030+ CPU, TT and Falcon machines supported)
 
 
 Requirements
@@ -41,10 +43,11 @@ OpenDUNE doesn't require any library to run on Windows. For Mac OS X we make
  so-called static-compiled binaries, which means all libraries it depends on
  (mostly LibSDL) are already included in the binary, and no action is
  required on your part
-For Linux, you need to install LibSDL yourself. It is available in every
+For Linux/FreeBSD, you need to install LibSDL yourself. It is available in every
  package manager, and the chances are high it is already installed on your
  system.
 In order to use sounds and music on Linux, you need a working ALSA driver.
+Music is sent to MIDI Out port of Atari machines.
 
 
 Installation & Running
@@ -59,13 +62,29 @@ Start 'opendune'.
 Additional options may be specified using an opendune.ini file located
 in the data/ directory, in the current directory or in %APPDATA%\OpenDUNE
 (on Windows) or ~/Library/Application Support/OpenDUNE (on Mac OS X) or
-~/.config/opendune (on Linux). All options must be in an [opendune] section.
+~/.config/opendune (on Linux/FreeBSD). All options must be in an [opendune] section.
 Available options are :
 - language : english / french / german
 - datadir : directory where Dune data files are
 - savedir : directory for Dune personal data files (savegames)
 - scalefactor : 2 (default), 3, 4
 - scalefilter : nearest (default), scale2x, hqx
+- mt32midi : 0(default)/1 send MT32 init, use .XMI files
+- framerate : maximum frame rate (60 FPS default)
+
+
+Ingame
+------
+The Game controls are the same as DUNE II. Usually, the first letter is a
+keybard shortcut, for example B for build, Q for quit, etc.
+F1 - open Mentat Screen
+F2 - open the option menu
+F3 - open the menu of the selected structure (construction yard/factory/etc.)
+
+A few key controls are added in OpenDUNE, available depending on the
+platform :
+F8 - Toggle FPS display
+CTRL-ENTER - Toggle full screen
 
 
 Enhancement over Dune2
@@ -99,4 +118,3 @@ Thanks To (in alphabetical order):
 
   Bug Reporters                        - Thank you all for all bug reports
   Westwood                             - For an amazing game
-

@@ -22,59 +22,68 @@ static Thread s_mpu_thread = NULL;
 static uint32 s_mpu_usec = 0;
 #endif /* _WIN32 */
 
+/* Dune II is using AIL middleware for sound and music :
+ * AIL = IBM Audio Interface Library by John Miles
+ * Sources of AIL 2.03 are available on John Miles website :
+ * http://www.ke5fx.com/ or http://www.thegleam.com/ke5fx/ */
+
+/* defines from AIL XMIDI.ASM : */
+#define NUM_CHANS 16
+#define MAX_NOTES 32
+
 typedef struct Controls {
 	uint8 volume;
-	uint8 variable_01;
-	uint8 variable_02;
-	uint8 variable_03;
+	uint8 modulation;
+	uint8 panpot;
+	uint8 expression;
 	uint8 sustain;
-	uint8 variable_05;
-	uint8 variable_06;
-	uint8 variable_07;
-	uint8 variable_08;
+	uint8 patch_bank_sel;
+	uint8 chan_lock;
+	uint8 chan_protect;
+	uint8 voice_protect;
 } Controls;
 
 typedef struct MSData {
-	uint8 *EVNT;                                            /*!< Pointer to EVNT position in sound file. */
-	uint8 *sound;                                           /*!< Pointer to current position in sound file. */
-	uint16 playing;                                         /*!< ?? 0, 1 or 2. 1 if a sound is playing. */
-	bool   delayedClear;                                    /*!< ?? */
-	int16  delay;                                           /*!< Delay before reading next command. */
-	uint16 noteOnCount;                                     /*!< Number of notes currently on. */
-	uint16 variable_0022;                                   /*!< ?? */
-	uint16 variable_0024;                                   /*!< ?? */
-	uint16 variable_0026;                                   /*!< ?? */
-	uint32 variable_0028;                                   /*!< ?? */
-	uint32 variable_002C;                                   /*!< ?? */
-	uint16 variable_0030;                                   /*!< ?? */
-	uint16 variable_0032;                                   /*!< ?? */
-	uint16 variable_0034;                                   /*!< ?? */
-	uint32 variable_0036;                                   /*!< ?? */
-	uint32 variable_003A;                                   /*!< ?? */
-	uint16 variable_003E;                                   /*!< ?? */
-	uint16 variable_0040;                                   /*!< ?? */
-	uint16 variable_0042;                                   /*!< ?? */
-	uint32 variable_0044;                                   /*!< ?? */
-	uint32 variable_0048;                                   /*!< ?? */
-	uint32 variable_004C;                                   /*!< ?? */
-	uint8 *variable_0050[4];                                /*!< ?? */
-	uint16 variable_0060[4];                                /*!< ?? */
-	uint8  chanMaps[16];                                    /*!< ?? Channel mapping. */
-	Controls controls[16];                                  /*!< ?? */
-	uint8  noteOnChans[32];                                 /*!< ?? */
-	uint8  noteOnNotes[32];                                 /*!< ?? */
-	int32  noteOnDuration[32];                              /*!< ?? */
+	const uint8 *EVNT;                                      /*!< Pointer to EVNT position in sound file. */
+	const uint8 *sound;                                     /*!< Pointer to current position in sound file. */
+	uint16 playing;                                         /*!< status : 0 = SEQ_STOPPED, 1 = SEQ_PLAYING or 2 = SEQ_DONE. */
+	bool   delayedClear;                                    /*!< post_release */
+	int16  delay;                                           /*!< Delay before reading next command. interval_cnt */
+	uint16 noteOnCount;                                     /*!< Number of notes currently on. note_count */
+	/*uint16 variable_0022;*/                               /*!< vol_error - unused */
+	uint16 globalVolume;                                    /*!< Volume (percent) */
+	uint16 globalVolumeTarget;                              /*!< Volume target */
+	uint32 globalVolumeAcc;                                 /*!< Volume accumulator */
+	uint32 globalVolumeIncr;                                /*!< Volume increment per 100us period */
+	uint16 tempoError;                                      /*!< tempo_error */
+	uint16 tempoPercent;                                    /*!< tempo_percent */
+	uint16 tempoTarget;                                     /*!< tempo_target */
+	uint32 tempoAcc;                                        /*!< tempo_accum */
+	uint32 tempoPeriod;                                     /*!< tempo_period */
+	uint16 beatCount;                                       /*!< beat_count */
+	uint16 measureCount;                                    /*!< measure_count */
+	uint16 timeNumerator;                                   /*!< time_numerator */
+	uint32 timeFraction;                                    /*!< time_fraction */
+	uint32 beatFraction;                                    /*!< beat_fraction */
+	uint32 timePerBeat;                                     /*!< time_per_beat */
+	const uint8 *forLoopPtrs[4];                            /*!< FOR_loop_ptrs pointer to start of FOR loop */
+	uint16 forLoopCounters[4];                              /*!< FOR_loop_cnt */
+	uint8  chanMaps[NUM_CHANS];                             /*!< ?? Channel mapping. */
+	Controls controls[NUM_CHANS];                           /*!< ?? */
+	uint8  noteOnChans[MAX_NOTES];                          /*!< ?? */
+	uint8  noteOnNotes[MAX_NOTES];                          /*!< ?? */
+	int32  noteOnDuration[MAX_NOTES];                       /*!< ?? */
 } MSData;
 
 static MSData *s_mpu_msdata[8];
 static uint16 s_mpu_msdataSize;
 static uint16 s_mpu_msdataCurrent;
 
-static Controls s_mpu_controls[16];
-static uint8 s_mpu_programs[16];
-static uint16 s_mpu_pitchWheel[16];
-static uint8 s_mpu_noteOnCount[16];
-static uint8 s_mpu_lockStatus[16];
+static Controls s_mpu_controls[NUM_CHANS];	/* global_controls */
+static uint8 s_mpu_programs[NUM_CHANS];		/* global_program */
+static uint16 s_mpu_pitchWheel[NUM_CHANS];	/* global_pitch */
+static uint8 s_mpu_noteOnCount[NUM_CHANS];	/* active_notes */
+static uint8 s_mpu_lockStatus[NUM_CHANS];	/* bit 7: locked, bit 6: lock-protected */
 static bool s_mpu_initialized;
 
 static bool s_mpuIgnore = false;
@@ -86,23 +95,27 @@ static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 	s_mpuIgnore = false;
 }
 
+/**
+ * XMIDI.ASM - XMIDI_volume
+ * Apply global volume to all channels */
 static void MPU_ApplyVolume(MSData *data)
 {
 	uint8 i;
 
-	for (i = 0; i < 16; i++) {
+	for (i = 0; i < NUM_CHANS; i++) {
 		uint8 volume;
 
 		volume = data->controls[i].volume;
 		if (volume == 0xFF) continue;
 
-		volume = min((volume * data->variable_0024) / 100, 127);
+		/* get scaled volume value, maximum is 127 */
+		volume = min((volume * data->globalVolume) / 100, 127);
 
 		s_mpu_controls[i].volume = volume;
 
 		if ((s_mpu_lockStatus[i] & 0x80) != 0) continue;
 
-		MPU_Send(0xB0 | data->chanMaps[i], 7, volume);
+		MPU_Send(0xB0 | data->chanMaps[i], 7 /* PART_VOLUME */, volume);
 	}
 }
 
@@ -111,35 +124,28 @@ static uint16 MPU_NoteOn(MSData *data)
 	uint8 chan;
 	uint8 note;
 	uint8 velocity;
-	uint8 *sound;
 	uint16 len = 0;
 	uint32 duration = 0;
 	uint8 i;
 
-	sound = data->sound;
+	chan = data->sound[len++] & 0x0F;
+	note = data->sound[len++];
+	velocity = data->sound[len++];
 
-	chan = *sound++ & 0xF;
-	note = *sound++;
-	velocity = *sound++;
-
-	while (true) {
-		uint8 v = *sound++;
-		duration |= v & 0x7F;
-		if ((v & 0x80) == 0) break;
-		duration <<= 7;
-	}
-
-	len = (uint16)(sound - data->sound);
+	/* decode variable length duration */
+	do {
+		duration = (duration << 7) | (data->sound[len] & 0x7F);
+	} while (data->sound[len++] & 0x80);
 
 	if ((s_mpu_lockStatus[chan] & 0x80) != 0) return len;
 
-	for (i = 0; i < 32; i++) {
+	for (i = 0; i < MAX_NOTES; i++) {
 		if (data->noteOnChans[i] == 0xFF) {
 			data->noteOnCount++;
 			break;
 		}
 	}
-	if (i == 32) i = 0;
+	if (i == MAX_NOTES) i = 0;
 
 	data->noteOnChans[i] = chan;
 	data->noteOnNotes[i] = note;
@@ -154,6 +160,9 @@ static uint16 MPU_NoteOn(MSData *data)
 	return len;
 }
 
+/**
+ * XMIDI.ASM - flush_channel_notes
+ */
 static void MPU_FlushChannel(uint8 channel)
 {
 	uint16 count;
@@ -171,7 +180,7 @@ static void MPU_FlushChannel(uint8 channel)
 
 		if (data->noteOnCount == 0) continue;
 
-		for (i = 0; i < 32; i++) {
+		for (i = 0; i < MAX_NOTES; i++) {
 			uint8 chan;
 			uint8 note;
 
@@ -191,7 +200,12 @@ static void MPU_FlushChannel(uint8 channel)
 	}
 }
 
-static uint8 MPU_281A(void)
+/**
+ * XMIDI.ASM - lock_channel
+ * find highest channel # w/lowest note activity
+ * return 0xFF if no channel available for locking
+ */
+static uint8 MPU_LockChannel(void)
 {
 	uint8 i;
 	uint8 chan = 0xFF;
@@ -199,7 +213,7 @@ static uint8 MPU_281A(void)
 	uint8 min = 0xFF;
 
 	while (true) {
-		for (i = 0; i < 16; i++) {
+		for (i = 0; i < NUM_CHANS; i++) {
 			if ((s_mpu_lockStatus[15 - i] & flag) == 0 && s_mpu_noteOnCount[15 - i] < min) {
 				min = s_mpu_noteOnCount[15 - i];
 				chan = 15 - i;
@@ -208,7 +222,7 @@ static uint8 MPU_281A(void)
 		if (chan != 0xFF) break;
 		if (flag == 0x80) return chan;
 
-		flag = 0x80;
+		flag = 0x80;	/* if no channels available for locking, ignore lock protection & try again */
 	}
 
 	/* Sustain Off */
@@ -222,7 +236,10 @@ static uint8 MPU_281A(void)
 	return chan;
 }
 
-static void MPU_289D(uint8 chan)
+/**
+ * XMIDI.ASM - release_channel
+ */
+static void MPU_ReleaseChannel(uint8 chan)
 {
 	if ((s_mpu_lockStatus[chan] & 0x80) == 0) return;
 
@@ -235,201 +252,241 @@ static void MPU_289D(uint8 chan)
 	/* All Notes Off */
 	MPU_Send(0xB0 | chan, 123, 0);
 
-	if (s_mpu_controls[chan].volume != 0xFF)      MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);
-	if (s_mpu_controls[chan].variable_01 != 0xFF) MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].variable_01);
-	if (s_mpu_controls[chan].variable_02 != 0xFF) MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].variable_02);
-	if (s_mpu_controls[chan].variable_03 != 0xFF) MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].variable_03);
-	if (s_mpu_controls[chan].sustain != 0xFF)     MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);
-	if (s_mpu_controls[chan].variable_05 != 0xFF) MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].variable_05);
-	if (s_mpu_controls[chan].variable_06 != 0xFF) MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].variable_06);
-	if (s_mpu_controls[chan].variable_07 != 0xFF) MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].variable_07);
-	if (s_mpu_controls[chan].variable_08 != 0xFF) MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].variable_08);
+	if (s_mpu_controls[chan].volume != 0xFF)         MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);
+	if (s_mpu_controls[chan].modulation != 0xFF)     MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].modulation);
+	if (s_mpu_controls[chan].panpot != 0xFF)         MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].panpot);
+	if (s_mpu_controls[chan].expression != 0xFF)     MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].expression);
+	if (s_mpu_controls[chan].sustain != 0xFF)        MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);
+	if (s_mpu_controls[chan].patch_bank_sel != 0xFF) MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].patch_bank_sel);
+	if (s_mpu_controls[chan].chan_lock != 0xFF)      MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].chan_lock);
+	if (s_mpu_controls[chan].chan_protect != 0xFF)   MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].chan_protect);
+	if (s_mpu_controls[chan].voice_protect != 0xFF)  MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].voice_protect);
 
 	if (s_mpu_programs[chan] != 0xFF) MPU_Send(0xC0 | chan, s_mpu_programs[chan], 0);
 
 	if (s_mpu_pitchWheel[chan] != 0xFFFF) MPU_Send(0xE0 | chan, s_mpu_pitchWheel[chan] & 0xFF, s_mpu_pitchWheel[chan] >> 8);
 }
 
-static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
+/* XMIDI.ASM - XMIDI_control procedure */
+static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 {
-	switch (data1) {
-		case 1:
-			s_mpu_controls[chan].variable_01 = data2;
-			data->controls[chan].variable_01 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+	switch (control) {
+		case 1:	/* MODULATION */
+			s_mpu_controls[chan].modulation = value;
+			data->controls[chan].modulation = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 7: /* Channel Volume */
-			if (data->variable_0024 == 100) break;
-			data2 = min(data->variable_0024 * data2 / 100, 127);
-			s_mpu_controls[chan].volume = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 7: /* PART_VOLUME / Channel Volume */
+			if (data->globalVolume == 100) break;
+			value = min(data->globalVolume * value / 100, 127);
+			s_mpu_controls[chan].volume = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 10:
-			s_mpu_controls[chan].variable_02 = data2;
-			data->controls[chan].variable_02 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 10:	/* PANPOT */
+			s_mpu_controls[chan].panpot = value;
+			data->controls[chan].panpot = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 11:
-			s_mpu_controls[chan].variable_03 = data2;
-			data->controls[chan].variable_03 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 11:	/* EXPRESSION */
+			s_mpu_controls[chan].expression = value;
+			data->controls[chan].expression = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 64:
-			s_mpu_controls[chan].sustain = data2;
-			data->controls[chan].sustain = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 64:	/* SUSTAIN */
+			s_mpu_controls[chan].sustain = value;
+			data->controls[chan].sustain = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 110:
-			s_mpu_controls[chan].variable_06 = data2;
-			data->controls[chan].variable_06 = data2;
-			if (data2 < 64) {
+		case 110:	/* CHAN_LOCK */
+			s_mpu_controls[chan].chan_lock = value;
+			data->controls[chan].chan_lock = value;
+			Debug("CHAN_LOCK : chan=%u %u %u\n", chan, control, value);
+			if (value < 64) {
+				/* unlock */
 				MPU_FlushChannel(chan);
-				MPU_289D(data->chanMaps[chan]);
+				MPU_ReleaseChannel(data->chanMaps[chan]);	/* release channel */
 				data->chanMaps[chan] = chan;
-				break;
+			} else {
+				/* lock */
+				uint8 newChan = MPU_LockChannel();	/* lock new channel and map to current channel in sequence */
+				if (newChan == 0xFF) newChan = chan;
+
+				data->chanMaps[chan] = newChan;
 			}
-
-			data1 = MPU_281A();
-
-			if (data1 == 0xFF) data1 = chan;
-
-			data->chanMaps[chan] = data1;
 			break;
 
-		case 111:
-			s_mpu_controls[chan].variable_07 = data2;
-			data->controls[chan].variable_07 = data2;
-			if (data2 >= 64) s_mpu_lockStatus[chan] |= 0x40;
+		case 111:	/* CHAN_PROTECT */
+			s_mpu_controls[chan].chan_protect = value;
+			data->controls[chan].chan_protect = value;
+			if (value >= 64) s_mpu_lockStatus[chan] |= 0x40;
 			break;
 
-		case 112:
-			s_mpu_controls[chan].variable_08 = data2;
-			data->controls[chan].variable_08 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 112:	/* VOICE_PROTECT */
+			s_mpu_controls[chan].voice_protect = value;
+			data->controls[chan].voice_protect = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 114:
-			s_mpu_controls[chan].variable_05 = data2;
-			data->controls[chan].variable_05 = data2;
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+		case 114:	/* PATCH_BANK_SEL */
+			s_mpu_controls[chan].patch_bank_sel = value;
+			data->controls[chan].patch_bank_sel = value;
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 
-		case 115: assert(0); /* Not decompiled code */
+		case 115:	/* INDIRECT_C_PFX */
+			assert(0); /* Not decompiled code */
 
-		case 116: {
+		case 116: {	/* FOR_LOOP */
 			uint8 i;
 
 			for (i = 0; i < 4; i++) {
-				if (data->variable_0060[i] == 0xFFFF) {
-					data->variable_0060[i] = data2;
-					data->variable_0050[i] = data->sound;
+				if (data->forLoopCounters[i] == 0xFFFF) {
+					data->forLoopCounters[i] = value;
+					data->forLoopPtrs[i] = data->sound;
 					break;
 				}
 			}
 		} break;
 
-		case 117: {
+		case 117: {	/* NEXT_LOOP */
 			uint8 i;
 
-			if (data2 < 64) break;
+			if (value < 64) break;
 
 			for (i = 0; i < 4; i++) {
-				if (data->variable_0060[3 - i] != 0xFFFF) {
-					if (data->variable_0060[3 - i] != 0 && --data->variable_0060[3 - i] == 0) {
-						data->variable_0060[3 - i] = 0xFFFF;
+				if (data->forLoopCounters[3 - i] != 0xFFFF) {
+					if (data->forLoopCounters[3 - i] != 0 && --data->forLoopCounters[3 - i] == 0) {
+						data->forLoopCounters[3 - i] = 0xFFFF;
 						break;
 					}
-					data->sound = data->variable_0050[3 - i];
+					data->sound = data->forLoopPtrs[3 - i];
 					break;
 				}
 			}
 		} break;
 
-		case 118: case 119: assert(0); /* Not decompiled code */
+		case 118:	/* CLEAR_BEAT_BAR */
+		case 119:	/* CALLBACK_TRIG */
+			assert(0); /* Not decompiled code */
 
 		default:
-			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+			Debug("MPU_Control() %02X %02X %02X   control=%u\n", data->sound[0], control, value, control);
+			if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], control, value);
 			break;
 	}
 }
 
-static void MPU_16B7(MSData *data)
+/**
+ * XMIDI.ASM - reset_sequence
+ */
+static void MPU_ResetSequence(MSData *data)
 {
 	uint8 chan;
 
-	for (chan = 0; chan < 16; chan++) {
+	for (chan = 0; chan < NUM_CHANS; chan++) {
 		if (data->controls[chan].sustain != 0xFF && data->controls[chan].sustain >= 64) {
 			s_mpu_controls[chan].sustain = 0;
 			/* Sustain Off */
 			MPU_Send(0xB0 | chan, 64, 0);
 		}
 
-		if (data->controls[chan].variable_06 != 0xFF && data->controls[chan].variable_06 >= 64) {
+		if (data->controls[chan].chan_lock != 0xFF && data->controls[chan].chan_lock >= 64) {
 			MPU_FlushChannel(chan);
-			MPU_289D(data->chanMaps[chan]);
+			MPU_ReleaseChannel(data->chanMaps[chan]);	/* release_channel */
 			data->chanMaps[chan] = chan;
 		}
 
-		if (data->controls[chan].variable_07 != 0xFF && data->controls[chan].variable_07 >= 64) s_mpu_lockStatus[chan] &= 0xBF;
+		if (data->controls[chan].chan_protect != 0xFF && data->controls[chan].chan_protect >= 64) s_mpu_lockStatus[chan] &= 0xBF;
 
-		if (data->controls[chan].variable_08 != 0xFF && data->controls[chan].variable_08 >= 64) MPU_Send(0xB0 | chan, 112, 0);
+		if (data->controls[chan].voice_protect != 0xFF && data->controls[chan].voice_protect >= 64) MPU_Send(0xB0 | chan, 112, 0); /* 112 = VOICE_PROTECT */
 	}
 }
 
-static uint16 MPU_1B48(MSData *data)
+/**
+ * XMIDI.ASM - XMIDI_meta
+ */
+static uint16 MPU_XMIDIMeta(MSData *data)
 {
-	uint8 *sound;
+#ifdef _DEBUG
+	static const uint8 rates[] = {24, 25, 30, 30};
+#endif /* _DEBUG */
 	uint8 type;
-	uint16 len = 0;
+	uint16 len;
+	uint16 data_len = 0;
 
-	sound = data->sound;
-	type = sound[1];
-	sound += 2;
+	type = data->sound[1];
+	len = 2;
 
-	while (true) {
-		uint8 v = *sound++;
-		len |= v & 0x7F;
-		if ((v & 0x80) == 0) break;
-		len <<= 7;
-	}
-	len += (uint16)(sound - data->sound);
+	/* decode variable length */
+	do {
+		data_len = (data_len << 7) | (data->sound[len] & 0x7F);
+	} while (data->sound[len++] & 0x80);
 
 	switch (type) {
-		case 0x2F:
-			MPU_16B7(data);
+		case 0x2F:	/* End of track / end sequence */
+			MPU_ResetSequence(data);	/* reset_sequence */
 
-			data->playing = 2;
-			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);
+			data->playing = 2; /* 2 = SEQ_DONE */
+			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);	/* release-on-completion pending => release_seq */
 			break;
 
-		case 0x58: {
+		case 0x58: {	/* time sig */
 			int8 mul;
 
-			data->variable_0042 = sound[0];
-			mul = (int8)sound[1] - 2;
+			data->timeNumerator = data->sound[len];
+			mul = (int8)data->sound[len+1] - 2;
 
 			if (mul < 0) {
-				data->variable_0044 = 133333 >> -mul;
+				data->timeFraction = 133333 >> -mul;
 			} else {
-				data->variable_0044 = 133333 << mul;
+				data->timeFraction = 133333 << mul;
 			}
 
-			data->variable_0048 = data->variable_0044;
+			data->beatFraction = data->timeFraction;
 		} break;
 
-		case 0x51:
-			data->variable_004C = (sound[0] << 20) | (sound[1] << 12) | (sound[2] << 4);
+		case 0x51:	/* TEMPO meta-event */
+			data->timePerBeat = (data->sound[len] << 20) | (data->sound[len+1] << 12) | (data->sound[len+2] << 4);
 			break;
 
-		default: break;
+		case 0x59:	/* 	Key signature : 1st byte = flats/sharps, 2nd byte = major(0)/minor(1) */
+			Debug("MPU_XMIDIMeta() IGNORING key signature : %02X %02X\n",
+			      data->sound[len], data->sound[len+1]);
+			break;
+
+		case 0x21:	/* Midi Port */
+			Debug("MPU_XMIDIMeta() IGNORING MIDI Port : %02X\n", data->sound[len]);
+			break;
+
+		case 0x54:	/* SMPTE Offset */
+			Debug("MPU_XMIDIMeta() IGNORING SMPTE Offset : %dfps %d:%02d:%02d %d.%03d\n",
+			      (int)rates[(data->sound[len] >> 5) & 3], (int)(data->sound[len] & 31),
+			      (int)data->sound[len+1], (int)data->sound[len+2],
+			      (int)data->sound[len+3], (int)data->sound[len+4]);
+			break;
+
+		case 0x06:	/* Marker (text) */
+			Debug("MPU_XMIDIMeta() IGNORING Marker '%.*s'\n",
+			      data_len, (const char *)(data->sound + len));
+			break;
+
+		default:
+			{
+				int i;
+				Warning("MPU_XMIDIMeta() type=%02X len=%hu", (int)type, len);
+				Warning("  ignored data :");
+				for(i = 0 ; i < len + data_len; i++) Warning(" %02X", data->sound[i]);
+				Warning("\n");
+			}
+			break;
 	}
 
-	return len;
+	return len + data_len;
 }
 
 void MPU_Interrupt(void)
@@ -458,25 +515,25 @@ void MPU_Interrupt(void)
 
 		if (data->playing != 1) continue;
 
-		data->variable_0030 += data->variable_0032;
+		data->tempoError += data->tempoPercent;
 
-		while (data->variable_0030 >= 0x64) {
+		while (data->tempoError >= 0x64) {	/* 0x64 == 100 */
 			uint32 value;
 
-			data->variable_0030 -= 0x64;
+			data->tempoError -= 0x64;	/* 0x64 == 100 */
 
-			value = data->variable_0048;
-			value += data->variable_0044;
+			value = data->beatFraction;
+			value += data->timeFraction;
 
-			if ((int32)value >= (int32)data->variable_004C) {
-				value -= data->variable_004C;
-				if (++data->variable_003E >= data->variable_0042) {
-					data->variable_003E = 0x0;
-					data->variable_0040++;
+			if ((int32)value >= (int32)data->timePerBeat) {
+				value -= data->timePerBeat;
+				if (++data->beatCount >= data->timeNumerator) {
+					data->beatCount = 0x0;
+					data->measureCount++;
 				}
 			}
 
-			data->variable_0048 = value;
+			data->beatFraction = value;
 
 			/* Handle note length */
 			index = -1;
@@ -519,39 +576,65 @@ void MPU_Interrupt(void)
 					}
 
 					chan = status & 0xF;
-					status &= 0xF0;
 					data1 = data->sound[1];
 					data2 = data->sound[2];
 
-					if (status >= 0xF0) {
-						assert(chan == 0xF);
-						nb = MPU_1B48(data);
-					} else if (status >= 0xE0) {
+					switch(status & 0xF0) {
+					case 0xF0:	/* System */
+						if(chan == 0xF) {
+							/* 0xFF Meta event */
+							nb = MPU_XMIDIMeta(data);
+						} else if(chan == 0) {
+							/* System Exclusive */
+							static uint8 buffer[320];
+							int i;
+							/* decode XMID variable len */
+							i = 1;
+							nb = 0;
+							do {
+								nb = (nb << 7) | (data->sound[i] & 0x7F);
+							} while (data->sound[i++] & 0x80);
+							buffer[0] = status;
+							assert(nb < sizeof(buffer));
+							memcpy(buffer + 1, data->sound + i, nb);
+							midi_send_string(buffer, nb + 1);
+							nb += i;
+						} else {
+							Error("status = %02X\n", status);
+							nb = 1;
+						}
+						break;
+					case 0xE0:	/* Pitch Bend change */
 						s_mpu_pitchWheel[chan] = (data2 << 8) + data1;
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
-					} else if (status >= 0xD0) {
+						break;
+					case 0xD0:	/* Channel Pressure / aftertouch */
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
-							MPU_Send(status | data->chanMaps[chan], data1, data2);
+							MPU_Send(status | data->chanMaps[chan], data1, 0);
 						}
 						nb = 0x2;
-					} else if (status >= 0xC0) {
+						break;
+					case 0xC0:	/* Program Change */
 						s_mpu_programs[chan] = data1;
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
-							MPU_Send(status | data->chanMaps[chan], data1, data2);
+							MPU_Send(status | data->chanMaps[chan], data1, 0);
 						}
 						nb = 0x2;
-					} else if (status >= 0xB0) {
+						break;
+					case 0xB0:	/* Control Change */
 						MPU_Control(data, chan, data1, data2);
 						nb = 0x3;
-					} else if (status >= 0xA0) {
+						break;
+					case 0xA0:	/* Polyphonic key pressure / aftertouch */
 						if ((s_mpu_lockStatus[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
-					} else {
+						break;
+					default:	/* 0x80 Note Off / 0x90 Note On */
 						nb = MPU_NoteOn(data);
 					}
 
@@ -563,48 +646,48 @@ void MPU_Interrupt(void)
 
 		if (data->playing != 1) continue;
 
-		if (data->variable_0032 != data->variable_0034) {
+		if (data->tempoPercent != data->tempoTarget) {
 			uint32 v;
 			uint16 i;
 
-			v = data->variable_0036;
-			v += 0x53;
+			v = data->tempoAcc;
+			v += 0x53;	/* 0x53 = 83 = 10000 / 120 */
 			i = 0xFFFF;
 
 			do {
 				i++;
-				data->variable_0036 = v;
-				v -= data->variable_003A;
+				data->tempoAcc = v;
+				v -= data->tempoPeriod;
 			} while ((int32)v >= 0);
 
 			if (i != 0){
-				if (data->variable_0032 >= data->variable_0034) {
-					data->variable_0032 = max(data->variable_0032 - i, data->variable_0034);
+				if (data->tempoPercent >= data->tempoTarget) {
+					data->tempoPercent = max(data->tempoPercent - i, data->tempoTarget);
 				} else {
-					data->variable_0032 = min(data->variable_0032 + i, data->variable_0034);
+					data->tempoPercent = min(data->tempoPercent + i, data->tempoTarget);
 				}
 			}
 		}
 
-		if (data->variable_0024 != data->variable_0026) {
+		if (data->globalVolume != data->globalVolumeTarget) {
 			uint32 v;
 			uint16 i;
 
-			v = data->variable_0028;
-			v += 0x53;
+			v = data->globalVolumeAcc;
+			v += 0x53;	/* 0x53 = 83 = 10000 / 120 */
 			i = 0xFFFF;
 
 			do {
 				i++;
-				data->variable_0028 = v;
-				v -= data->variable_002C;
+				data->globalVolumeAcc = v;
+				v -= data->globalVolumeIncr;
 			} while ((int32)v >= 0);
 
 			if (i != 0){
-				if (data->variable_0024 >= data->variable_0026) {
-					data->variable_0024 = max(data->variable_0024 - i, data->variable_0026);
+				if (data->globalVolume >= data->globalVolumeTarget) {
+					data->globalVolume = max(data->globalVolume - i, data->globalVolumeTarget);
 				} else {
-					data->variable_0024 = min(data->variable_0024 + i, data->variable_0026);
+					data->globalVolume = min(data->globalVolume + i, data->globalVolumeTarget);
 				}
 				MPU_ApplyVolume(data);
 			}
@@ -625,11 +708,11 @@ static void *MPU_FindSoundStart(uint8 *file, uint16 index)
 	index++;
 
 	while (true) {
-		header = BETOH32(*(uint32 *)(file + 0));
-		size   = BETOH32(*(uint32 *)(file + 4));
+		header = READ_BE_UINT32(file);
+		size   = READ_BE_UINT32(file + 4);
 
 		if (header != CC_CAT && header != CC_FORM) return NULL;
-		if (*(uint32 *)(file + 8) == BETOH32(CC_XMID)) break;
+		if (READ_BE_UINT32(file + 8) == CC_XMID) break;
 
 		file += 8;
 		file += size;
@@ -641,9 +724,9 @@ static void *MPU_FindSoundStart(uint8 *file, uint16 index)
 	file += 12;
 
 	while (true) {
-		size = BETOH32(*(uint32 *)(file + 4));
+		size = READ_BE_UINT32(file + 4);
 
-		if (*(uint32 *)(file + 8) == BETOH32(CC_XMID) && --index == 0) break;
+		if ((READ_BE_UINT32(file + 8) == CC_XMID) && --index == 0) break;
 
 		size = size + 8;
 		total -= size;
@@ -659,9 +742,9 @@ static void MPU_InitData(MSData *data)
 {
 	uint8 i;
 
-	for (i = 0; i < 4; i++) data->variable_0060[i] = 0xFFFF;
+	for (i = 0; i < 4; i++) data->forLoopCounters[i] = 0xFFFF;
 
-	for (i = 0; i < 16; i++) {
+	for (i = 0; i < NUM_CHANS; i++) {
 		data->chanMaps[i] = i;
 	}
 
@@ -670,17 +753,17 @@ static void MPU_InitData(MSData *data)
 
 	data->delay = 0;
 	data->noteOnCount = 0;
-	data->variable_0024 = 0x5A;
-	data->variable_0026 = 0x5A;
-	data->variable_0030 = 0;
-	data->variable_0032 = 0x64;
-	data->variable_0034 = 0x64;
-	data->variable_003E = 0;
-	data->variable_0040 = 0;
-	data->variable_0042 = 4;
-	data->variable_0044 = 0x208D5;
-	data->variable_0048 = 0x208D5;
-	data->variable_004C = 0x7A1200;
+	data->globalVolume = 0x5A;			/* 90% */
+	data->globalVolumeTarget = 0x5A;	/* 90% */
+	data->tempoError = 0;
+	data->tempoPercent = 0x64;	/* = 100 */
+	data->tempoTarget = 0x64;	/* = 100 */
+	data->beatCount = 0;
+	data->measureCount = 0;
+	data->timeNumerator = 4;
+	data->timeFraction = 0x208D5;	/* 133333 */
+	data->beatFraction = 0x208D5;	/* 133333 */
+	data->timePerBeat = 0x7A1200;	/* 8000000 */
 }
 
 uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
@@ -703,12 +786,12 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 	s_mpu_msdata[i] = data;
 	data->EVNT = NULL;
 
-	header = BETOH32(*(uint32 *)(file + 0));
+	header = READ_BE_UINT32(file);
 	size   = 12;
 	while (header != CC_EVNT) {
 		file += size;
-		header = BETOH32(*(uint32 *)(file + 0));
-		size   = BETOH32(*(uint32 *)(file + 4)) + 8;
+		header = READ_BE_UINT32(file);
+		size   = READ_BE_UINT32(file + 4) + 8;
 	}
 
 	data->EVNT = file;
@@ -743,7 +826,7 @@ static void MPU_StopAllNotes(MSData *data)
 {
 	uint8 i;
 
-	for (i = 0; i < 32; i++) {
+	for (i = 0; i < MAX_NOTES; i++) {
 		uint8 note;
 		uint8 chan;
 
@@ -773,7 +856,7 @@ void MPU_Stop(uint16 index)
 	if (data->playing != 1) return;
 
 	MPU_StopAllNotes(data);
-	MPU_16B7(data);
+	MPU_ResetSequence(data);
 
 	data->playing = 0;
 }
@@ -848,32 +931,34 @@ bool MPU_Init(void)
 		static const uint8 defaultPrograms[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
 		uint8 chan = i + 1;
 
-		s_mpu_controls[chan].volume      = 127;
-		s_mpu_controls[chan].variable_01 = 0;
-		s_mpu_controls[chan].variable_02 = 64;
-		s_mpu_controls[chan].variable_03 = 127;
-		s_mpu_controls[chan].sustain     = 0;
-		s_mpu_controls[chan].variable_05 = 0;
-		s_mpu_controls[chan].variable_06 = 0;
-		s_mpu_controls[chan].variable_07 = 0;
-		s_mpu_controls[chan].variable_08 = 0;
+		/* default controller/program change
+		 * values for startup initialization */
+		s_mpu_controls[chan].volume = 127;
+		s_mpu_controls[chan].modulation = 0;
+		s_mpu_controls[chan].panpot = 64;
+		s_mpu_controls[chan].expression = 127;
+		s_mpu_controls[chan].sustain = 0;
+		s_mpu_controls[chan].patch_bank_sel = 0;
+		s_mpu_controls[chan].chan_lock = 0;
+		s_mpu_controls[chan].chan_protect = 0;
+		s_mpu_controls[chan].voice_protect = 0;
 
-		MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);
-		MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].variable_01);
-		MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].variable_02);
-		MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].variable_03);
-		MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);
-		MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].variable_05);
-		MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].variable_06);
-		MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].variable_07);
-		MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].variable_08);
+		MPU_Send(0xB0 | chan,   7, s_mpu_controls[chan].volume);        /* 7 = PART_VOLUME */
+		MPU_Send(0xB0 | chan,   1, s_mpu_controls[chan].modulation);    /* 1 = MODULATION */
+		MPU_Send(0xB0 | chan,  10, s_mpu_controls[chan].panpot);        /* 10 = PANPOT */
+		MPU_Send(0xB0 | chan,  11, s_mpu_controls[chan].expression);    /* 11 = EXPRESSION */
+		MPU_Send(0xB0 | chan,  64, s_mpu_controls[chan].sustain);       /* 64 = SUSTAIN */
+		MPU_Send(0xB0 | chan, 114, s_mpu_controls[chan].patch_bank_sel);/* 114 = PATCH_BANK_SEL */
+		MPU_Send(0xB0 | chan, 110, s_mpu_controls[chan].chan_lock);     /* 110 = CHAN_LOCK */
+		MPU_Send(0xB0 | chan, 111, s_mpu_controls[chan].chan_protect);  /* 111 = CHAN_PROTECT */
+		MPU_Send(0xB0 | chan, 112, s_mpu_controls[chan].voice_protect); /* 112 = VOICE_PROTECT */
 
 		s_mpu_pitchWheel[chan] = 0x4000;
-		MPU_Send(0xE0 | chan, 0x00, 0x40);
+		MPU_Send(0xE0 | chan, 0x00, 0x40);	/* 0xE0 : Pitch Bend change */
 
 		if (defaultPrograms[i] == 0xFF) continue;
 		s_mpu_programs[chan] = defaultPrograms[i];
-		MPU_Send(0xC0 | chan, 0, defaultPrograms[i]);
+		MPU_Send(0xC0 | chan, defaultPrograms[i], 0);	/* 0xC0 : program change */
 	}
 
 	s_mpu_initialized = true;
@@ -905,6 +990,9 @@ void MPU_Uninit(void)
 #endif /* _WIN32 */
 }
 
+/**
+ * XMIDI.ASM - release_seq
+ */
 void MPU_ClearData(uint16 index)
 {
 	MSData *data;
@@ -922,29 +1010,36 @@ void MPU_ClearData(uint16 index)
 	}
 }
 
-void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
+/**
+ * XMIDI.ASM - set_rel_volume
+ * Set relative volume
+ * @param volume Target volume (%) to reach
+ * @param time Time to reach target volume (in milliseconds)
+ */
+void MPU_SetVolume(uint16 index, uint16 volume, uint16 time)
 {
 	MSData *data;
-	uint16 diff;
+	int16 diff;
 
 	if (index == 0xFFFF) return;
 
 	data = s_mpu_msdata[index];
 
-	data->variable_0026 = volume;
+	data->globalVolumeTarget = volume;	/* volume target */
 
-	if (arg0C == 0) {
-		data->variable_0024 = volume;
+	if (time == 0) {
+		/* immediate */
+		data->globalVolume = volume;
 		MPU_ApplyVolume(data);
 		return;
 	}
 
-	diff = data->variable_0026 - data->variable_0024;
+	diff = data->globalVolumeTarget - data->globalVolume;
 	if (diff == 0) return;
 
-	data->variable_002C = 10 * arg0C / abs(diff);
-	if (data->variable_002C == 0) data->variable_002C = 1;
-	data->variable_0028 = 0;
+	data->globalVolumeIncr = 10 * (uint32)time / (uint16)abs(diff);	/* volume increment per 100us period */
+	if (data->globalVolumeIncr == 0) data->globalVolumeIncr = 1;
+	data->globalVolumeAcc = 0;	/* vol_accum */
 }
 
 #if defined(_WIN32)

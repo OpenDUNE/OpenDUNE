@@ -10,8 +10,10 @@ Makefile.am
 Makefile.bundle
 bin
 bundle
+bundles
 !bin/data/put_dune2_here.txt
 !bin/data/dune.cfg
+!bin/opendune.ini.sample
 projects/*
 !projects/generate
 !projects/determineversion.vbs
@@ -22,3 +24,4 @@ projects/*
 !projects/*.vcproj.user
 !projects/*.vcxproj
 src/rev.c
+.DS_Store

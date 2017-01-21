@@ -890,7 +890,7 @@ static bool GUI_Widget_Savegame_Click(uint16 index)
 			case 0x1E:	/* RETURN / Save Button */
 				if (*saveDesc == 0) break;
 
-				SaveFile(GenerateSavegameFilename(s_savegameIndexBase - index), saveDesc);
+				SaveGame_SaveFile(GenerateSavegameFilename(s_savegameIndexBase - index), saveDesc);
 				loop = false;
 				ret = true;
 				break;
@@ -1000,8 +1000,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					key -= 0x1E;
 
 					if (!save) {
-						LoadFile(GenerateSavegameFilename(s_savegameIndexBase - key));
-						return true;
+						return SaveGame_LoadFile(GenerateSavegameFilename(s_savegameIndexBase - key));
 					}
 
 					if (GUI_Widget_Savegame_Click(key)) return true;

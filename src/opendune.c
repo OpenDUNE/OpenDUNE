@@ -9,6 +9,11 @@
 	#include <io.h>
 	#include <windows.h>
 #endif /* _WIN32 */
+#ifdef TOS
+#include <mint/sysbind.h>
+#include <mint/osbind.h>
+#include <mint/ostruct.h>
+#endif /* TOS */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,8 +68,12 @@
 #include "unit.h"
 #include "video/video.h"
 
+#ifdef TOS
+#include "rev.h"
+#endif
 
-const char *window_caption = "OpenDUNE - Pre v0.8";
+
+const char *window_caption = "OpenDUNE - Pre v0.9";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 
@@ -896,6 +905,8 @@ static void GameLoop_Main(void)
 	String_Init();
 	Sprites_Init();
 
+	if (IniFile_GetInteger("mt32midi", 0) != 0) Music_InitMT32();
+
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT | INPUT_FLAG_UNKNOWN_0010 | INPUT_FLAG_UNKNOWN_0200 |
 	                    INPUT_FLAG_UNKNOWN_2000);
 	Input_Flags_ClearBits(INPUT_FLAG_KEY_RELEASE | INPUT_FLAG_UNKNOWN_0400 | INPUT_FLAG_UNKNOWN_0100 |
@@ -1127,7 +1138,7 @@ static void GameLoop_Main(void)
  * Initialize Timer, Video, Mouse, GFX, Fonts, Random number generator
  * and current Widget
  */
-static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
+static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int frame_rate)
 {
 	if (!Font_Init()) {
 		Error(
@@ -1149,7 +1160,7 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 
 	/* Add the general tickers */
 	Timer_Add(Timer_Tick, 1000000 / 60, false);
-	Timer_Add(Video_Tick, 1000000 / 60, true);
+	Timer_Add(Video_Tick, 1000000 / frame_rate, true);
 
 	g_mouseDisabled = -1;
 
@@ -1171,6 +1182,14 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 	return true;
 }
 
+#ifdef TOS
+void exit_handler(void)
+{
+	printf("Press any key to quit.\n");
+	(void)Cnecin();
+}
+#endif /* TOS */
+
 #if defined(__APPLE__) && defined(SDL_MAJOR_VERSION) && (SDL_MAJOR_VERSION == 1)
 int SDL_main(int argc, char **argv)
 #else
@@ -1180,6 +1199,7 @@ int main(int argc, char **argv)
 	bool commit_dune_cfg = false;
 	VideoScaleFilter scale_filter = FILTER_NEAREST_NEIGHBOR;
 	int scaling_factor = 2;
+	int frame_rate = 60;
 	char filter_text[64];
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
@@ -1195,6 +1215,24 @@ int main(int argc, char **argv)
 	if (err != NULL) _dup2(_fileno(err), _fileno(stderr));
 	if (out != NULL) _dup2(_fileno(out), _fileno(stdout));
 	FreeConsole();
+#endif
+#ifdef TOS
+	(void)Cconws(window_caption);
+	(void)Cconws("\r\nrevision:   ");
+	(void)Cconws(g_opendune_revision);
+	(void)Cconws("\r\nbuild date: ");
+	(void)Cconws(g_opendune_build_date);
+	(void)Cconws("\r\n");
+	/* open log files and set buffering mode */
+	g_errlog = fopen("error.log", "w");
+	if(g_errlog != NULL) setvbuf(g_errlog, NULL, _IONBF, 0);
+#ifdef _DEBUG
+	g_outlog = fopen("output.log", "w");
+	if(g_outlog != NULL) setvbuf(g_outlog, NULL, _IOLBF, 0);
+#endif
+	if(atexit(exit_handler) != 0) {
+		Error("atexit() failed\n");
+	}
 #endif
 	CrashLog_Init();
 
@@ -1239,7 +1277,9 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (!OpenDune_Init(scaling_factor, scale_filter)) exit(1);
+	frame_rate = IniFile_GetInteger("framerate", 60);
+
+	if (!OpenDune_Init(scaling_factor, scale_filter, frame_rate)) exit(1);
 
 	g_mouseDisabled = 0;
 

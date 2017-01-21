@@ -18,6 +18,13 @@ void midi_send(uint32 data)
 	VARIABLE_NOT_USED(data);
 }
 
+uint16 midi_send_string(const uint8 * data, uint16 len)
+{
+	VARIABLE_NOT_USED(data);
+
+	return len;
+}
+
 void midi_reset(void)
 {
 }

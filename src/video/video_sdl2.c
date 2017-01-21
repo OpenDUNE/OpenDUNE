@@ -1,6 +1,7 @@
 /** @file src/video/video_sdl2.c SDL 2 video driver. */
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include "types.h"
 #include "../os/error.h"
 
@@ -12,8 +13,16 @@
 #include "../input/mouse.h"
 #include "../opendune.h"
 
+#include "video_fps.h"
 #include "scalebit.h"
 #include "hqx.h"
+
+/* Set DUNE_ICON_DIR at compile time.  e.g. */
+/* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */
+
+#ifndef DUNE_ICON_DIR
+#define DUNE_ICON_DIR "./"
+#endif
 
 static VideoScaleFilter s_scale_filter;
 
@@ -24,6 +33,8 @@ static uint8 * s_fullsize_buffer = NULL;
 
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
+
+static bool s_full_screen = false;
 
 static SDL_Window *s_window;
 static SDL_Renderer *s_renderer;
@@ -211,12 +222,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	int err;
 	int render_width;
 	int render_height;
+	SDL_Surface * icon;
 
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
+	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 	if (filter == FILTER_HQX) {
@@ -243,6 +256,13 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 
 	SDL_SetWindowTitle(s_window, window_caption);
+
+	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
+	if (icon == NULL) icon = IMG_Load("../os/png_icon/opendune_32x32.png");
+	if (icon != NULL) {
+		SDL_SetWindowIcon(s_window, icon);
+		SDL_FreeSurface(icon);
+	}
 
 	switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
@@ -442,12 +462,17 @@ static void Video_DrawScreen(void)
 void Video_Tick(void)
 {
 	SDL_Event event;
+	static bool s_showFPS = false;
 
 	if (!s_video_initialized) return;
 	if (g_fileOperation != 0) return;
 	if (s_video_lock) return;
 
 	s_video_lock = true;
+
+	if (s_showFPS) {
+		Video_ShowFPS(GFX_Screen_Get_ByIndex(SCREEN_0));
+	}
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;
@@ -479,6 +504,19 @@ void Video_Tick(void)
 			{
 				unsigned int sym = event.key.keysym.sym;
 				uint8 code = 0;
+				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
+					/* ALT-ENTER was pressed */
+					if (!keyup) continue;	/* ignore keydown */
+					if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : SDL_WINDOW_FULLSCREEN) < 0) {
+						Warning("Failed to toggle full screen : %s\n", SDL_GetError());
+					}
+					s_full_screen = !s_full_screen;
+					continue;
+				}
+				if (sym == SDLK_F8) {
+					if (keyup) s_showFPS = !s_showFPS;
+					continue;
+				}
 				if (sym >= SDLK_CAPSLOCK) {
 					sym -= SDLK_CAPSLOCK;
 					if (sym < sizeof(s_SDL_hikeymap)) code = s_SDL_hikeymap[sym];

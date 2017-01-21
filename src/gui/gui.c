@@ -448,12 +448,12 @@ static void GUI_DrawChar(unsigned char c, uint16 x, uint16 y)
  * @param fgColour The foreground colour of the text.
  * @param bgColour The background colour of the text.
  */
-void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour)
+void GUI_DrawText(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour)
 {
 	uint8 colours[2];
 	uint16 x;
 	uint16 y;
-	char *s;
+	const char *s;
 
 	if (g_fontCurrent == NULL) return;
 
@@ -4550,7 +4550,7 @@ void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation)
 	uint8 data[256 * 3];
 	int i;
 
-	if (g_paletteActive == NULL || palette == NULL) return;
+	if (palette == NULL) return;
 
 	memcpy(data, g_paletteActive, 256 * 3);
 

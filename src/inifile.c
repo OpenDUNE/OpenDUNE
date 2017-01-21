@@ -1,5 +1,8 @@
 /** @file src/inifile.c opendune.ini file handling */
 
+#ifdef OSX
+#include <CoreFoundation/CoreFoundation.h>
+#endif /* OSX */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,6 +42,7 @@ bool Load_IniFile(void)
 	      ~/.config/opendune (Linux)
 	   2) current directory
 	   3) data/ dir
+	   4) parent of bundle dir (Mac OS X)
 	*/
 #if defined(_WIN32)
 	TCHAR path[MAX_PATH];
@@ -48,7 +52,7 @@ bool Load_IniFile(void)
 		PathAppend(path, TEXT("OpenDUNE\\opendune.ini"));
 		f = fopen(path, "rb");
 	}
-#else  /* _WIN32 */
+#elif !defined(TOS)  /* _WIN32 */
 	char path[PATH_MAX];
 	char * homeDir;
 	homeDir = getenv("HOME");
@@ -60,7 +64,7 @@ bool Load_IniFile(void)
 #endif /* __APPLE__ */
 		f = fopen(path, "rb");
 	}
-#endif /* _WIN32 */
+#endif /* not TOS, not _WIN32 */
 	if (f == NULL) {
 		/* current directory */
 		f = fopen("opendune.ini", "rb");
@@ -68,6 +72,25 @@ bool Load_IniFile(void)
 	if (f == NULL) {
 		f = fopen("data/opendune.ini", "rb");
 	}
+#ifdef OSX
+	if (f == NULL) {
+		CFBundleRef mainBundle = CFBundleGetMainBundle();
+		if (mainBundle != NULL) {
+			CFURLRef bundleURL = CFBundleCopyBundleURL(mainBundle);
+			if (bundleURL != NULL) {
+				size_t len;
+				CFStringRef bundleDir = CFURLCopyFileSystemPath(bundleURL, kCFURLPOSIXPathStyle);
+				CFStringGetFileSystemRepresentation(bundleDir, path, sizeof(path));
+				len = strlen(path);
+				strncpy(path + len, "/../opendune.ini", sizeof(path) - len);
+				Debug("trying to open %s\n", path);
+				f = fopen(path, "rb");
+				CFRelease(bundleDir);
+				CFRelease(bundleURL);
+			}
+		}
+	}
+#endif /* OSX */
 	if (f == NULL) {
 		Warning("opendune.ini file not found.\n");
 		return false;

@@ -8,7 +8,7 @@
 		#define __LITTLE_ENDIAN 1234
 	#endif /* __LITTLE_ENDIAN */
 	#define __BYTE_ORDER __LITTLE_ENDIAN
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__FreeBSD__)
 	#include <machine/endian.h>
 	#if !defined(__BYTE_ORDER)
 		#define __BYTE_ORDER BYTE_ORDER
@@ -49,5 +49,7 @@ extern uint32 endian_bswap32(uint32 x);
 #define READ_LE_UINT16(p) ((uint16)(p)[0] | ((uint16)(p)[1] << 8))
 #define READ_LE_UINT32(p) ((uint32)(p)[0] | ((uint32)(p)[1] << 8) | ((uint32)(p)[2] << 16) | ((uint32)(p)[3] << 24))
 #define WRITE_LE_UINT16(p, value) ((p)[0] = ((value) & 0xFF), (p)[1] = (((value) >> 8) & 0xFF))
+
+#define READ_BE_UINT32(p) (((uint32)(p)[0] << 24) | ((uint32)(p)[1] << 16) | ((uint32)(p)[2] << 8) | (uint32)(p)[3])
 
 #endif /* OS_ENDIAN_H */

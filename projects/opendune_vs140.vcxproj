@@ -1,0 +1,534 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>opendune</ProjectName>
+    <ProjectGuid>{57B146DD-077C-4261-962C-FF4D5F3A43BC}</ProjectGuid>
+    <RootNamespace>opendune</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization Condition="'$(Configuration)'=='Release'">true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>..\objs\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\objs\$(Platform)\$(Configuration)\</IntDir>
+    <LocalDebuggerWorkingDirectory>../bin</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <Optimization Condition="'$(Configuration)'=='Debug'">Disabled</Optimization>
+      <Optimization Condition="'$(Configuration)'=='Release'">Full</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)'=='Release'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)'=='Release'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)'=='Release'">Size</FavorSizeOrSpeed>
+      <OmitFramePointers Condition="'$(Configuration)'=='Release'">true</OmitFramePointers>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild Condition="'$(Configuration)'=='Debug'">true</MinimalRebuild>
+      <BasicRuntimeChecks Condition="'$(Configuration)'=='Debug'">EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking Condition="'$(Configuration)'=='Release'">true</FunctionLevelLinking>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;comctl32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine Condition="'$(Platform)'=='Win32'">MachineX86</TargetMachine>
+      <TargetMachine Condition="'$(Platform)'=='x64'">MachineX64</TargetMachine>
+      <OptimizeReferences Condition="'$(Configuration)'=='Release'">true</OptimizeReferences>
+      <EnableCOMDATFolding Condition="'$(Configuration)'=='Release'">true</EnableCOMDATFolding>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ImageHasSafeExceptionHandlers Condition="'$(Configuration)'=='Debug'" />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\multichar.h" />
+    <ClInclude Include="..\include\types.h" />
+    <ClCompile Include="..\src\animation.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\animation.h" />
+    <ClCompile Include="..\src\config.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\config.h" />
+    <ClCompile Include="..\src\cutscene.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\cutscene.h" />
+    <ClCompile Include="..\src\explosion.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\explosion.h" />
+    <ClCompile Include="..\src\file.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\file.h" />
+    <ClCompile Include="..\src\gfx.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\gfx.h" />
+    <ClCompile Include="..\src\house.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\house.h" />
+    <ClCompile Include="..\src\ini.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\ini.h" />
+    <ClCompile Include="..\src\inifile.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\inifile.h" />
+    <ClCompile Include="..\src\load.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\load.h" />
+    <ClCompile Include="..\src\map.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\map.h" />
+    <ClCompile Include="..\src\object.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\object.h" />
+    <ClCompile Include="..\src\opendune.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\opendune.h" />
+    <ClCompile Include="..\src\rev.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\rev.h" />
+    <ClCompile Include="..\src\save.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\save.h" />
+    <ClCompile Include="..\src\scenario.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\scenario.h" />
+    <ClCompile Include="..\src\sprites.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\sprites.h" />
+    <ClCompile Include="..\src\string.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\string.h" />
+    <ClCompile Include="..\src\structure.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\structure.h" />
+    <ClCompile Include="..\src\team.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\team.h" />
+    <ClCompile Include="..\src\tile.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\tile.h" />
+    <ClCompile Include="..\src\timer.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\timer.h" />
+    <ClCompile Include="..\src\tools.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\tools.h" />
+    <ClCompile Include="..\src\unit.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\unit.h" />
+    <ClCompile Include="..\src\wsa.c">
+      <ObjectFileName>$(IntDir)src\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\wsa.h" />
+    <ClCompile Include="..\src\audio\driver.c">
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\audio\driver.h" />
+    <ClInclude Include="..\src\audio\dsp.h" />
+    <ClCompile Include="..\src\audio\dsp_alsa.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_atari.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_none.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_pulse.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_sdl.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_win32.c">
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\audio\midi.h" />
+    <ClCompile Include="..\src\audio\midi_alsa.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_atari.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_none.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_osx.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_win32.c">
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\mt32mpu.c">
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\audio\mt32mpu.h" />
+    <ClCompile Include="..\src\audio\sound.c">
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\audio\sound.h" />
+    <ClCompile Include="..\src\codec\format40.c">
+      <ObjectFileName>$(IntDir)src\codec\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\codec\format40.h" />
+    <ClCompile Include="..\src\codec\format80.c">
+      <ObjectFileName>$(IntDir)src\codec\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\codec\format80.h" />
+    <ClCompile Include="..\src\crashlog\crashlog.c">
+      <ObjectFileName>$(IntDir)src\crashlog\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\crashlog\crashlog.h" />
+    <ClCompile Include="..\src\crashlog\crashlog_none.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\crashlog\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\crashlog\crashlog_win32.c">
+      <ObjectFileName>$(IntDir)src\crashlog\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\editbox.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\font.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\gui\font.h" />
+    <ClCompile Include="..\src\gui\gui.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\gui\gui.h" />
+    <ClCompile Include="..\src\gui\mentat.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\gui\mentat.h" />
+    <ClCompile Include="..\src\gui\security.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\gui\security.h" />
+    <ClCompile Include="..\src\gui\viewport.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\widget.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\gui\widget.h" />
+    <ClCompile Include="..\src\gui\widget_click.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\gui\widget_draw.c">
+      <ObjectFileName>$(IntDir)src\gui\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\input\input.c">
+      <ObjectFileName>$(IntDir)src\input\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\input\input.h" />
+    <ClCompile Include="..\src\input\mouse.c">
+      <ObjectFileName>$(IntDir)src\input\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\input\mouse.h" />
+    <ClInclude Include="..\src\os\common.h" />
+    <ClCompile Include="..\src\os\endian.c">
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\os\endian.h" />
+    <ClCompile Include="..\src\os\error.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\os\error.h" />
+    <ClCompile Include="..\src\os\error_osx.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\os\error_win32.c">
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\os\file.h" />
+    <ClInclude Include="..\src\os\math.h" />
+    <ClCompile Include="..\src\os\readdir.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\os\readdir.h" />
+    <ClCompile Include="..\src\os\readdir_atari.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\os\readdir_win32.c">
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\os\sleep.h" />
+    <ClInclude Include="..\src\os\strings.h" />
+    <ClInclude Include="..\src\os\thread.h" />
+    <ClCompile Include="..\src\os\thread_sdl.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\os\thread_win32.c">
+      <ObjectFileName>$(IntDir)src\os\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\pool\house.c">
+      <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\pool\house.h" />
+    <ClInclude Include="..\src\pool\pool.h" />
+    <ClCompile Include="..\src\pool\structure.c">
+      <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\pool\structure.h" />
+    <ClCompile Include="..\src\pool\team.c">
+      <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\pool\team.h" />
+    <ClCompile Include="..\src\pool\unit.c">
+      <ObjectFileName>$(IntDir)src\pool\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\pool\unit.h" />
+    <ClCompile Include="..\src\saveload\house.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\info.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\map.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\object.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\saveload.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\saveload\saveload.h" />
+    <ClCompile Include="..\src\saveload\scenario.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\scriptengine.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\structure.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\team.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\saveload\unit.c">
+      <ObjectFileName>$(IntDir)src\saveload\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\script\general.c">
+      <ObjectFileName>$(IntDir)src\script\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\script\script.c">
+      <ObjectFileName>$(IntDir)src\script\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\script\script.h" />
+    <ClCompile Include="..\src\script\structure.c">
+      <ObjectFileName>$(IntDir)src\script\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\script\team.c">
+      <ObjectFileName>$(IntDir)src\script\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\script\unit.c">
+      <ObjectFileName>$(IntDir)src\script\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\actioninfo.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\animation.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\explosion.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\houseanimation.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\houseinfo.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\landscapeinfo.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\movementtype.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\selectiontype.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\sound.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\table\strings.h" />
+    <ClCompile Include="..\src\table\structureinfo.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\teamaction.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\tilediff.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\unitinfo.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\widget.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\widgetinfo.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\table\windowdesc.c">
+      <ObjectFileName>$(IntDir)src\table\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq2x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq2x_8b.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq3x_8b.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hq4x_8b.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\hqx.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\hqx.h" />
+    <ClInclude Include="..\src\video\hqx_common.h" />
+    <ClCompile Include="..\src\video\hqx_init.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\scale2x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale2x.h" />
+    <ClCompile Include="..\src\video\scale3x.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scale3x.h" />
+    <ClCompile Include="..\src\video\scalebit.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\scalebit.h" />
+    <ClInclude Include="..\src\video\video.h" />
+    <ClCompile Include="..\src\video\video_atari.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_fps.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="..\src\video\video_fps.h" />
+    <ClCompile Include="..\src\video\video_sdl.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_sdl2.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\video\video_win32.c">
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\source.list" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\os\win32\opendune.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

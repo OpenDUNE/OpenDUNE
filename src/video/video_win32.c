@@ -10,6 +10,7 @@
 #include "../os/error.h"
 
 #include "video.h"
+#include "video_fps.h"
 
 #include "../gfx.h"
 #include "../opendune.h"
@@ -57,6 +58,8 @@ static uint16 s_mouseMinX = 0;
 static uint16 s_mouseMaxX = 0;
 static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
+
+static bool s_showFPS = false;
 
 typedef struct VkMapping {
 	WPARAM  vk;
@@ -196,6 +199,9 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HBITMAP old_bmp;
 
 			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
+			if (s_showFPS) {
+				Video_ShowFPS(s_screen);
+			}
 			if (s_scale_filter == FILTER_SCALE2X) {
 				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 			} else if(s_scale_filter == FILTER_HQX) {
@@ -336,6 +342,11 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		case WM_KEYUP: {
 			uint16 scan;
 
+			if(wParam == VK_F8) {
+				if(keyup) s_showFPS = !s_showFPS;
+				return 0;
+			}
+
 			scan = MapKey(wParam);
 
 			if (scan == 0) {
@@ -380,7 +391,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
-	wc.hIcon = NULL;
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(100));
 	wc.hCursor = NULL;
 	wc.hbrBackground = 0;
 	wc.lpszMenuName = NULL;
