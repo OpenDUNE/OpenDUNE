@@ -20,6 +20,10 @@
 #include "scalebit.h"
 #include "hqx.h"
 
+#ifdef _DEBUG
+#define VIDEO_STATS
+#endif
+
 static VideoScaleFilter s_scale_filter;
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
@@ -460,7 +464,7 @@ void Video_Uninit(void)
 	s_init = false;
 }
 
-#ifdef _DEBUG
+#ifdef VIDEO_STATS
 static void Video_Stats(const uint8 * screen)
 {
 	unsigned int i, j;
@@ -514,7 +518,7 @@ static void Video_Stats(const uint8 * screen)
 		last_n_similar_colors = n_similar_colors;
 	}
 }
-#endif	/* _DEBUG */
+#endif	/* VIDEO_STATS */
 
 void Video_Tick(void)
 {
@@ -565,9 +569,9 @@ void Video_Tick(void)
 	/* Do a quick compare to see if the screen changed at all */
 	if (memcmp(screen0, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
 		memcpy(s_screen, screen0, SCREEN_WIDTH * SCREEN_HEIGHT);
-#ifdef _DEBUG
+#ifdef VIDEO_STATS
 		Video_Stats(screen0);
-#endif	/* _DEBUG */
+#endif	/* VIDEO_STATS */
 		InvalidateRect(s_hwnd, NULL, TRUE);
 	}
 
