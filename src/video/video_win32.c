@@ -44,6 +44,13 @@ static uint16 s_y;
 static uint16 s_window_width = 0;
 static uint16 s_window_height = 0;
 
+#ifdef VIDEO_STATS
+static const char *s_classNamePal = "OpenDUNEPal";
+static HWND s_hwnd_pal = NULL;
+static HBITMAP s_pal_dib = NULL;
+static void *s_pal_screen = NULL;
+#endif /* VIDEO_STATS */
+
 static LONG s_adjustLeft;
 static LONG s_adjustTop;
 static LONG s_adjustRight;
@@ -177,6 +184,31 @@ static void Video_Mouse_Callback(void)
 static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	bool keyup = true;
+
+#ifdef VIDEO_STATS
+	if(hwnd == s_hwnd_pal) {
+		switch (uMsg) {
+		case WM_PAINT: {
+			PAINTSTRUCT ps;
+			HDC dc;
+			HDC dc2;
+
+			dc = BeginPaint(hwnd, &ps);
+			dc2 = CreateCompatibleDC(dc);
+			/*old_bmp = */(HBITMAP)SelectObject(dc2, s_pal_dib);
+			StretchBlt(dc, 0, 0, 256, 256,
+					   dc2, 0, 0, 16, 16, SRCCOPY);
+			//SelectObject(dc2, old_bmp);
+			DeleteDC(dc2);
+
+			EndPaint(hwnd, &ps);
+			break;
+		}
+		default:
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		}
+	}
+#endif /* VIDEO_STATS */
 
 	switch (uMsg) {
 		case WM_CREATE: {
@@ -404,6 +436,22 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("RegisterClass failed\n");
 		return false;
 	}
+#ifdef VIDEO_STATS
+	wc.style = 0;
+	wc.lpfnWndProc = WindowProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInstance;
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(100));
+	wc.hCursor = NULL;
+	wc.hbrBackground = 0;
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = s_classNamePal;
+	if (!RegisterClass(&wc)) {
+		Error("RegisterClass failed\n");
+		return false;
+	}
+#endif /* VIDEO_STATS */
 
 	bi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	memset(bi, 0, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
@@ -429,6 +477,23 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("CreateDIBSection failed\n");
 		return false;
 	}
+#ifdef VIDEO_STATS
+	bi->bmiHeader.biWidth = 16;
+	bi->bmiHeader.biHeight = -16;
+	bi->bmiHeader.biPlanes = 1;
+	bi->bmiHeader.biBitCount = 8;
+	bi->bmiHeader.biCompression = BI_RGB;
+	s_pal_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, &s_pal_screen, NULL, 0);
+	if (s_pal_dib == NULL) {
+		Error("CreateDIBSection failed\n");
+	} else {
+		int i;
+		uint8 * data = (uint8 *)s_pal_screen;
+		for(i = 0; i < 256; i++) {
+			data[i] = i;
+		}
+	}
+#endif /* VIDEO_STATS */
 	ReleaseDC(NULL, dc);
 
 	if (filter != FILTER_NEAREST_NEIGHBOR) {
@@ -557,6 +622,21 @@ void Video_Tick(void)
 
 		Video_Mouse_SetPosition(g_mouseX, g_mouseY);
 		ShowWindow(s_hwnd, SW_SHOWNORMAL);
+
+#ifdef VIDEO_STATS
+		GetWindowRect(s_hwnd, &r);
+		style = WS_CAPTION;
+		r.left = r.right + 10;
+		r.top = r.top + 40;
+		r.right = r.left + 256;
+		r.bottom = r.top + 256;
+		AdjustWindowRect(&r, style, false);
+		s_hwnd_pal = CreateWindow(s_classNamePal, "palette", style, r.left, r.top, r.right - r.left, r.bottom - r.top, NULL, NULL, GetModuleHandle(NULL), NULL);
+		if (s_hwnd_pal == NULL) {
+			Error("CreateWindow failed\n");
+		}
+		ShowWindow(s_hwnd_pal, SW_SHOWNORMAL);
+#endif /* VIDEO_STATS */
 	}
 
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -612,6 +692,16 @@ void Video_SetPalette(void *palette, int from, int length)
 		SelectObject(dc2, old_bmp);
 		DeleteDC(dc2);
 		ReleaseDC(s_hwnd, dc);
+#ifdef VIDEO_STATS
+		dc = GetDC(s_hwnd_pal);
+		dc2 = CreateCompatibleDC(dc);
+		old_bmp = SelectObject(dc2, s_pal_dib);
+		SetDIBColorTable(dc2, from, length, rgb);
+		SelectObject(dc2, old_bmp);
+		DeleteDC(dc2);
+		ReleaseDC(s_hwnd_pal, dc);
+		InvalidateRect(s_hwnd_pal, NULL, TRUE);
+#endif	/* VIDEO_STATS */
 	}
 	InvalidateRect(s_hwnd, NULL, TRUE);
 }
