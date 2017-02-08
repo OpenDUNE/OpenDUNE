@@ -25,13 +25,11 @@
 /* #define DUNE_DATA_DIR "/usr/local/share/opendune" */
 
 #ifndef DUNE_DATA_DIR
-#define DUNE_DATA_DIR "."
-#endif
-
 #ifdef TOS
-#define DUNE2_DATA_PREFIX       "DATA\\"
+#define DUNE_DATA_DIR "DATA"
 #else
-#define DUNE2_DATA_PREFIX       "data/"
+#define DUNE_DATA_DIR "./data"
+#endif
 #endif
 
 static char g_dune_data_dir[1024] = DUNE_DATA_DIR;
@@ -105,14 +103,14 @@ File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const
 #ifdef TOS
 	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
 		/* Note: campaign specific data directory not implemented. */
-		i = snprintf(buf, len, "%s%s", DUNE2_DATA_PREFIX, filename);
+		i = snprintf(buf, len, "%s\\%s", g_dune_data_dir, filename);
 	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
 		i = snprintf(buf, len, "%s\\%s", g_personal_data_dir, filename);
 	}
 #else
 	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
 		/* Note: campaign specific data directory not implemented. */
-		i = snprintf(buf, len, "%s/%s%s", g_dune_data_dir, DUNE2_DATA_PREFIX, filename);
+		i = snprintf(buf, len, "%s/%s", g_dune_data_dir, filename);
 	} else if (dir == SEARCHDIR_PERSONAL_DATA_DIR) {
 		i = snprintf(buf, len, "%s/%s", g_personal_data_dir, filename);
 	}
@@ -555,8 +553,7 @@ bool File_Init(void)
 			if (buf[0] != '/') {
 				/* append relative Resources directory */
 				len = strlen(g_dune_data_dir);
-				g_dune_data_dir[len++] = '/';
-				strncpy(g_dune_data_dir + len, buf, sizeof(g_dune_data_dir) - len);
+				snprintf(g_dune_data_dir + len, sizeof(g_dune_data_dir) - len, "/%s/data", buf);
 			}
 			Debug("datadir set to : %s\n", g_dune_data_dir);
 			CFRelease(resourcesDir);
