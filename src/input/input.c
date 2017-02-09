@@ -404,7 +404,9 @@ void Input_HandleInput(uint16 input)
 
 	value = input & 0xFF;
 	if (value == 0x2D || value == 0x41 || value == 0x42) {
-
+		/* mouse buttons : 0x2D '-' : no change
+		                   0x41 'A' : change for 1st button
+						   0x42 'B' : change for 2nd button */
 		if (Input_History_Add(inputMouseX) != 0) {
 			s_historyTail = oldTail;
 			return;

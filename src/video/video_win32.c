@@ -120,14 +120,18 @@ static VkMapping s_keyMap[] = {
 	M('X',           0x002D),
 	M('Y',           0x0015),
 	M('Z',           0x002C),
+	M(VK_OEM_1,      0x001B),
 	M(VK_RETURN,     0x001C),
+	M(VK_CONTROL,    0x001D),
 	M(VK_OEM_3,      0x0029),
 	M(VK_OEM_5,      0x002B),
 	M(VK_OEM_COMMA,  0x0033),
 	M(VK_OEM_PERIOD, 0x0034),
 	M(VK_OEM_2,      0x0035),
 	M(VK_SHIFT,      0x0036),
+	M(VK_MENU,       0x0038),
 	M(VK_SPACE,      0x0039),
+	M(VK_CAPITAL,	 0x003A),
 	M(VK_F1,         0x003B),
 	M(VK_F2,         0x003C),
 	M(VK_F3,         0x003D),
@@ -140,6 +144,7 @@ static VkMapping s_keyMap[] = {
 	M(VK_F10,        0x0044),
 	M(VK_F11,        0x0057),
 	M(VK_F12,        0x0058),
+	M(VK_NUMPAD0,	 0x0052),
 	M(VK_NUMPAD1,    0x004F),
 	M(VK_NUMPAD2,    0x0050),
 	M(VK_NUMPAD3,    0x0051),
@@ -149,6 +154,11 @@ static VkMapping s_keyMap[] = {
 	M(VK_NUMPAD7,    0x0047),
 	M(VK_NUMPAD8,    0x0048),
 	M(VK_NUMPAD9,    0x0049),
+	M(VK_MULTIPLY,   0x0037),
+	M(VK_ADD,        0x004e),
+	M(VK_SUBTRACT,   0x004a),
+	M(VK_DECIMAL,    0x0053),
+	M(VK_DIVIDE,     0x0035),
 	M(VK_UP,         0x0048),
 	M(VK_DOWN,       0x0050),
 	M(VK_RIGHT,      0x004D),
@@ -157,7 +167,12 @@ static VkMapping s_keyMap[] = {
 	M(VK_HOME,       0x0047),
 	M(VK_END,        0x004F),
 	M(VK_PRIOR,      0x0049),
-	M(VK_NEXT,       0x0051)
+	M(VK_NEXT,       0x0051),
+	M(VK_OEM_102,	 0x0056),
+	M(VK_OEM_4,      0x000c),
+	M(VK_OEM_6,      0x001a),
+	M(VK_OEM_7,      0x0029),
+	M(VK_OEM_8,      0x0035)
 };
 #undef M
 
@@ -384,9 +399,10 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 
 			scan = MapKey(wParam);
+			// Real scancode is also ((lParam >> 16) & 0xff)
 
 			if (scan == 0) {
-				Warning("Unhandled key %X\n", wParam);
+				Warning("Unhandled key %X (='%c')  (scan = %x)\n", wParam, wParam >= 32 ? wParam : '.', (lParam >> 16) & 0xff);
 				return 0;
 			}
 			if ((scan >> 8) != 0) Input_EventHandler(scan >> 8);
