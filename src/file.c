@@ -554,6 +554,9 @@ bool File_Init(void)
 				/* append relative Resources directory */
 				len = strlen(g_dune_data_dir);
 				snprintf(g_dune_data_dir + len, sizeof(g_dune_data_dir) - len, "/%s/data", buf);
+			} else {
+				len = strlen(g_dune_data_dir);
+				snprintf(g_dune_data_dir + len, sizeof(g_dune_data_dir) - len, "/data");
 			}
 			Debug("datadir set to : %s\n", g_dune_data_dir);
 			CFRelease(resourcesDir);
