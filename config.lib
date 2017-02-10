@@ -1049,6 +1049,7 @@ make_cflags_and_ldflags() {
 
 	if [ "$with_munt" != "0" ]; then
 		LIBS="$LIBS -lmt32emu -lstdc++"
+		CFLAGS="$CFLAGS -DMUNT"
 	fi
 
 	if [ "$enable_assert" = "0" ]; then

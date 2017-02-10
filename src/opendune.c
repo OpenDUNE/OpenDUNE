@@ -904,7 +904,11 @@ static void GameLoop_Main(void)
 	String_Init();
 	Sprites_Init();
 
+#ifdef MUNT
+	if (IniFile_GetInteger("mt32midi", 1) != 0) Music_InitMT32();
+#else
 	if (IniFile_GetInteger("mt32midi", 0) != 0) Music_InitMT32();
+#endif
 
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT | INPUT_FLAG_UNKNOWN_0010 | INPUT_FLAG_UNKNOWN_0200 |
 	                    INPUT_FLAG_UNKNOWN_2000);

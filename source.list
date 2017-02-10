@@ -29,6 +29,9 @@ audio/midi_atari.c
 		#endif
 	#endif
 # MIDI
+	#if MUNT
+		audio/midi_munt.c
+	#else
 	#if ALSA
 		audio/midi_alsa.c
 	#else
@@ -37,6 +40,7 @@ audio/midi_atari.c
 		#else
 			audio/midi_none.c
 		#endif
+	#endif
 	#endif
 #endif
 #endif
