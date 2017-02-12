@@ -42,6 +42,7 @@ set_default() {
 	with_sdlimage="1"
 	with_sdl2="1"
 	with_asound="1"
+	with_oss="1"
 	with_pulse="1"
 	with_munt="1"
 	enable_builtin_depend="1"
@@ -79,6 +80,7 @@ set_default() {
 		with_sdlimage
 		with_sdl2
 		with_asound
+		with_oss
 		with_pulse
 		with_munt
 		enable_builtin_depend
@@ -187,6 +189,9 @@ detect_params() {
 			--with-alsa)                  with_asound="2";;
 			--without-alsa)               with_asound="0";;
 			--with-alsa=*)                with_asound="$optarg";;
+
+			--with-oss)                   with_oss="2";;
+			--without-oss)                with_oss="0";;
 
 			--with-pulse)                 with_pulse="2";;
 			--without-pulse)              with_pulse="0";;
@@ -439,8 +444,13 @@ check_params() {
 		with_sdl2="0"
 		with_sdl="0"
 		with_asound="0"
+		with_oss="0"
 		with_pulse="0"
 		with_munt="0"
+	fi
+	if [ "$os" = "FREEBSD" ] && [ "$with_oss" != "0" ] && [ "$with_asound" = "1" ] ; then
+		# prefers OSS to ALSA under FreeBSD
+		with_asound="0"
 	fi
 	detect_sdl2
 	detect_sdl
@@ -2037,6 +2047,7 @@ showhelp() {
 	echo "  --with-sdl[=sdl-config]        enables SDL video driver support"
 	echo "  --with-sdl2[=sdl2-config]      enables SDL2 video driver support"
 	echo "  --with-asound[=libasound.a]    enables ALSA support"
+	echo "  --with-oss                     enables Open Sound System"
 	echo "  --with-munt                    enables MUNT support"
 	echo "  --with-pulse[=libpulse.a]      enables PulseAudio support"
 	echo "  --disable-builtin-depend       disable use of builtin deps finder"

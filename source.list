@@ -17,6 +17,9 @@ audio/midi_atari.c
 		#if ALSA
 			audio/dsp_alsa.c
 		#else
+		#if OSS
+			audio/dsp_oss.c
+		#else
 			#if SDL
 				audio/dsp_sdl.c
 			#else
@@ -26,6 +29,7 @@ audio/midi_atari.c
 					audio/dsp_none.c
 				#endif
 			#endif
+		#endif
 		#endif
 	#endif
 # MIDI
