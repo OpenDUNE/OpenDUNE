@@ -455,6 +455,7 @@ check_params() {
 	detect_sdl2
 	detect_sdl
 	detect_asound
+	detect_oss
 	detect_pulseaudio
 	detect_munt
 
@@ -1719,6 +1720,10 @@ detect_library() {
 
 detect_asound() {
 	detect_library "$with_asound" "asound" "libasound.a" "alsa/" "asoundlib.h"
+}
+
+detect_oss() {
+	detect_library "$with_oss" "oss" "" "sys/" "soundcard.h"
 }
 
 detect_pulseaudio() {
