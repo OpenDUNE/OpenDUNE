@@ -29,6 +29,9 @@ static void munt_tick(void);
 static void show_lcd_message(void * instance_data, const char * message)
 {
 	(void)instance_data;
+#ifndef _DEBUG
+	(void)message;
+#endif
 	Debug("MT32 LCD Message : %s\n", message);
 }
 static void print_debug(void *instance_data, const char *fmt, va_list list)
