@@ -2037,6 +2037,7 @@ showhelp() {
 	echo "  --with-sdl[=sdl-config]        enables SDL video driver support"
 	echo "  --with-sdl2[=sdl2-config]      enables SDL2 video driver support"
 	echo "  --with-asound[=libasound.a]    enables ALSA support"
+	echo "  --with-munt                    enables MUNT support"
 	echo "  --with-pulse[=libpulse.a]      enables PulseAudio support"
 	echo "  --disable-builtin-depend       disable use of builtin deps finder"
 	echo "  --with-makedepend[=makedepend] enables makedepend support"

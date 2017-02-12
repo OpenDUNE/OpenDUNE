@@ -147,6 +147,10 @@ void midi_uninit(void)
 	s_context = NULL;
 	free(s_buffer);
 	s_buffer = NULL;
+	if(s_oss_fd >= 0) {
+		close(s_oss_fd);
+		s_oss_fd = -1;
+	}
 }
 
 /**
