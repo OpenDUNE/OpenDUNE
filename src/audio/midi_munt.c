@@ -2,17 +2,23 @@
 
 #include <mt32emu/mt32emu.h>
 #include <stdlib.h>
+#include <string.h>
 
+#ifdef PULSEAUDIO
+#define inline __inline
+#include <pulse/pulseaudio.h>
+
+#else
 /* OSS API */
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/soundcard.h>
 
-#include <string.h>
 #include <errno.h>
 
 #define AUDIO_DEVICE "/dev/dsp"
+#endif
 
 #include "types.h"
 #include "midi.h"
@@ -21,11 +27,24 @@
 #include "../os/strings.h"
 #include "../os/error.h"
 
-#define MUNT_RENDER_RATE 50
+#ifdef PULSEAUDIO
+#include "dsp.h"
+extern pa_context* DSP_PulseAudio_GetContext(void);
 
+static pa_stream * s_stream = NULL;
+
+static void munt_stream_overflow_cb(pa_stream *p, void *userdata);
+static void munt_stream_underflow_cb(pa_stream *p, void *userdata);
+static void munt_stream_write_cb(pa_stream *p, size_t nbytes, void *userdata);
+static void munt_stream_state_cb(pa_stream *p, void *userdata);
+#else
+/* OSS */
 static int s_oss_fd = -1;
 
 static void munt_tick(void);
+#endif
+
+#define MUNT_RENDER_RATE 50
 
 static void show_lcd_message(void * instance_data, const char * message)
 {
@@ -92,6 +111,9 @@ static int16 * s_buffer = NULL;
 
 bool midi_init(void)
 {
+#ifdef PULSEAUDIO
+	pa_sample_spec sample_spec;
+#endif
 	char rompath[1024];
 	char romfile[1024];
 	int i;
@@ -116,6 +138,29 @@ bool midi_init(void)
 
 	s_sample_rate = mt32emu_get_actual_stereo_output_samplerate(s_context);
 	Debug("munt output samplerate = %uHz\n", s_sample_rate);
+#ifdef PULSEAUDIO
+	if(!DSP_Init()) {
+		Error("Munt is compiled for PulseAudio : PulseAudio init failed\n");
+		return false;
+	}
+	sample_spec.format = PA_SAMPLE_S16NE;
+	sample_spec.rate = s_sample_rate;
+	sample_spec.channels = 2;
+	Debug("munt output sample size = %u\n", (unsigned)pa_sample_size(&sample_spec));
+	s_stream = pa_stream_new(DSP_PulseAudio_GetContext(), "DuneMT32", &sample_spec, NULL);
+	if(s_stream == NULL) {
+		Error("pa_stream_new() failed\n");
+		return false;
+	}
+	pa_stream_set_state_callback(s_stream, munt_stream_state_cb, NULL);
+	pa_stream_set_underflow_callback(s_stream, munt_stream_underflow_cb, NULL);
+	pa_stream_set_overflow_callback(s_stream, munt_stream_overflow_cb, NULL);
+	pa_stream_set_write_callback(s_stream, munt_stream_write_cb, NULL);
+	if (pa_stream_connect_playback(s_stream, NULL, NULL, PA_STREAM_NOFLAGS/*|PA_STREAM_START_CORKED */ /*PA_STREAM_START_UNMUTED*/, NULL, NULL) < 0) {
+		Error("pa_stream_connect_playback() failed\n");
+		return false;
+	}
+#else
 	s_oss_fd = open(AUDIO_DEVICE, O_WRONLY);
 	if(s_oss_fd < 0) {
 		Error("open(%s) : %s\n", AUDIO_DEVICE, strerror(errno));
@@ -140,21 +185,30 @@ bool midi_init(void)
 	}
 	s_buffer = malloc(s_sample_rate * 4 / MUNT_RENDER_RATE);
 	Timer_Add(munt_tick, 1000000 / MUNT_RENDER_RATE, false);
+#endif
 	return true;
 }
 
 void midi_uninit(void)
 {
+#ifdef PULSEAUDIO
+	pa_stream_disconnect(s_stream);
+	pa_stream_unref(s_stream);
+	s_stream = NULL;
+#else
 	Timer_Remove(munt_tick);
+#endif
 	mt32emu_close_synth(s_context);
 	mt32emu_free_context(s_context);
 	s_context = NULL;
 	free(s_buffer);
 	s_buffer = NULL;
+#ifndef PULSEAUDIO
 	if(s_oss_fd >= 0) {
 		close(s_oss_fd);
 		s_oss_fd = -1;
 	}
+#endif
 }
 
 /**
@@ -185,6 +239,75 @@ void midi_reset(void)
 {
 }
 
+#ifdef PULSEAUDIO
+static void munt_stream_overflow_cb(pa_stream *p, void *userdata)
+{
+	VARIABLE_NOT_USED(userdata);
+	VARIABLE_NOT_USED(p);
+
+	Debug("munt_stream_overflow_cb()\n");
+}
+
+static void munt_stream_underflow_cb(pa_stream *p, void *userdata)
+{
+	void * data = NULL;
+	size_t nbytes = 32000;
+	VARIABLE_NOT_USED(userdata);
+
+	pa_stream_begin_write(p, &data, &nbytes);
+	memset(data, 0, nbytes);
+	Debug("munt_stream_underflow_cb() writing %u blank samples\n", nbytes / 4);
+	if(pa_stream_write(p, data, nbytes, NULL, 0, PA_SEEK_RELATIVE) < 0) {
+		Warning("munt_stream_underflow_cb() pa_stream_write() failed\n");
+	}
+}
+
+static void munt_stream_write_cb(pa_stream *p, size_t nbytes, void *userdata)
+{
+	unsigned nsamples;
+	void * data = NULL;
+	VARIABLE_NOT_USED(userdata);
+
+	/*Debug("munt_stream_write_cb() nbytes=%u\n", (unsigned)nbytes);*/
+	if(s_context != NULL) {
+		nbytes = nbytes & ~3;
+		pa_stream_begin_write(p, &data, &nbytes);
+		/*Debug("munt_stream_write_cb() data=%p nbytes=%u\n", data, (unsigned)nbytes);*/
+		nsamples = nbytes / 4;
+		mt32emu_render_bit16s(s_context, data, nsamples);
+		if(pa_stream_write(p, data, nsamples * 4, NULL, 0, PA_SEEK_RELATIVE) < 0) {
+			Warning("munt_stream_write_cb() pa_stream_write() failed\n");
+		}
+	}
+}
+
+static void munt_stream_state_cb(pa_stream *p, void *userdata)
+{
+	pa_stream_state_t state = pa_stream_get_state(p);
+	VARIABLE_NOT_USED(userdata);
+
+	Debug("munt_stream_state_cb() state = %d\n", (int)state);
+	switch(state) {
+	case PA_STREAM_READY:
+		Debug("  PA_STREAM_READY\n");
+		break;
+	case PA_STREAM_FAILED:
+		Warning("  PA_STREAM_FAILED\n");
+		break;
+	case PA_STREAM_TERMINATED:
+		Debug("  PA_STREAM_TERMINATED\n");
+		break;
+	case PA_STREAM_UNCONNECTED:
+		Debug("  PA_STREAM_UNCONNECTED\n");
+		break;
+	case PA_STREAM_CREATING:
+		Debug("  PA_STREAM_CREATING\n");
+		break;
+	}
+}
+
+#else
+/* OSS */
 static void munt_tick(void)
 {
 	ssize_t n;
@@ -200,3 +323,4 @@ static void munt_tick(void)
 		}
 	}
 }
+#endif

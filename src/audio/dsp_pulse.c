@@ -26,6 +26,13 @@ static void DSP_PulseAudio_Tick(void)
 	pa_mainloop_iterate(s_mainloop, 0, &retval);	/* non blocking */
 }
 
+#ifdef MUNT
+pa_context * DSP_PulseAudio_GetContext(void)
+{
+	return s_context;
+}
+#endif
+
 #if 0
 static void DSP_context_state_cb(pa_context *c, void *userdata)
 {
@@ -134,6 +141,10 @@ bool DSP_Init(void)
 	pa_context_state_t state;
 	pa_sample_spec sample_spec;
 
+	if(s_context != NULL)
+		return true;
+
+	Debug("DSP_Init() PulseAudio version %s\n", pa_get_library_version());
 	s_mainloop = pa_mainloop_new();
 	if (s_mainloop == NULL) {
 		Error("PulseAudio pa_mainloop_new() failed\n");
