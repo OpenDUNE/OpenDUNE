@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/ioctl.h>
 #include <sys/soundcard.h>
 #include "types.h"
 #include "../timer.h"
