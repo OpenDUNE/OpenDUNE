@@ -423,13 +423,13 @@ static void GUI_Widget_Undraw(Widget *w, uint8 colour)
 	width = w->width;
 	height = w->height;
 
-	if (g_screenActiveID == SCREEN_0) {
+	if (GFX_Screen_IsActive(SCREEN_0)) {
 		GUI_Mouse_Hide_InRegion(offsetX, offsetY, offsetX + width, offsetY + height);
 	}
 
 	GUI_DrawFilledRectangle(offsetX, offsetY, offsetX + width, offsetY + height, colour);
 
-	if (g_screenActiveID == SCREEN_0) {
+	if (GFX_Screen_IsActive(SCREEN_0)) {
 		GUI_Mouse_Show_InRegion();
 	}
 }
@@ -628,15 +628,15 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 	GUI_Window_RestoreScreen(desc);
 }
 
+/* shade everything except colors 231 to 238 */
 static void ShadeScreen(void)
 {
 	uint16 i;
 
 	memmove(g_palette_998A, g_palette1, 256 * 3);
 
-	for (i = 0; i < 256 * 3; i++) g_palette1[i] = g_palette1[i] / 2;
-
-	for (i = 0; i < 8; i++) memmove(g_palette1 + ((231 + i) * 3), &g_palette_998A[(231 + i) * 3], 3);
+	for (i = 0; i < 231 * 3; i++) g_palette1[i] = g_palette1[i] / 2;
+	for (i = 239 * 3; i < 256 * 3; i++) g_palette1[i] = g_palette1[i] / 2;
 
 	GFX_SetPalette(g_palette_998A);
 }

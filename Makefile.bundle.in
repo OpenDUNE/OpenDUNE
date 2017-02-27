@@ -7,6 +7,8 @@
 VERSIONS := $(shell AWK="$(AWK)" "$(ROOT_DIR)/findversion.sh")
 REV      := $(shell echo "$(VERSIONS)" | cut -f 1 -d'	')
 
+SETFILE := $(shell for f in /usr/bin/SetFile /Developer/Tools/SetFile /Developer/usr/bin/SetFile ` which SetFile ` ; do if [ -x "$$f" ] ; then echo "$$f" ; break ; fi ; done )
+
 # Make sure we have something in REV
 ifeq ($(REV),)
 REV := norev000
@@ -14,6 +16,11 @@ endif
 
 ifndef BUNDLE_NAME
 BUNDLE_NAME = opendune-custom-$(REV)-$(OS)
+endif
+
+ifndef VOLUME_NAME
+VOLUME_NAME = "OpenDUNE $(REV)"
+MOUNT_DIR = /Volumes/$(VOLUME_NAME)
 endif
 
 # An OSX application bundle needs the data files, lang files and OpenDUNE executable in a different location.
@@ -106,10 +113,19 @@ bundle_lha: bundle
 
 bundle_dmg: bundle
 	@echo '[BUNDLE] Creating $(BUNDLE_NAME).dmg'
-	$(Q)mkdir -p "$(BUNDLES_DIR)/OpenDUNE $(REV)"
-	$(Q)cp -R "$(BUNDLE_DIR)/" "$(BUNDLES_DIR)/OpenDUNE $(REV)"
-	$(Q)hdiutil create -ov -format UDZO -srcfolder "$(BUNDLES_DIR)/OpenDUNE $(REV)" "$(BUNDLES_DIR)/$(BUNDLE_NAME).dmg"
-	$(Q)rm -fr "$(BUNDLES_DIR)/OpenDUNE $(REV)"
+	$(eval TMP_DMG := $(shell mktemp -u -t opendunedmg).dmg)
+	$(Q)hdiutil create -srcfolder $(BUNDLE_DIR) -size 4m -ov -format UDRW -fs HFS+ -volname $(VOLUME_NAME) $(TMP_DMG)
+	$(Q)DEV_NAME=$$(hdiutil attach -readwrite -noverify -noautoopen "$(TMP_DMG)" | grep '/Volumes/' | egrep '^/dev/' | sed 1q | awk '{print $$1}') && \
+	echo "$(TMP_DMG) mounted as $${DEV_NAME}" && \
+	cp "$(ROOT_DIR)/os/macosx/opendune.icns" $(MOUNT_DIR)/.VolumeIcon.icns && \
+	$(SETFILE) -c icnC $(MOUNT_DIR)/.VolumeIcon.icns && \
+	$(SETFILE) -a C $(MOUNT_DIR) && \
+	bless --folder $(MOUNT_DIR) --openfolder $(MOUNT_DIR) && \
+	hdiutil detach $$DEV_NAME
+	$(Q)$(RM) $(BUNDLES_DIR)/$(BUNDLE_NAME).dmg
+	$(Q)mkdir -p $(BUNDLES_DIR)
+	$(Q)hdiutil convert $(TMP_DMG) -format UDZO -imagekey zlib-level=9 -o $(BUNDLES_DIR)/$(BUNDLE_NAME).dmg
+	$(Q)$(RM) "$(TMP_DMG)"
 
 bundle_exe: all
 	@echo '[BUNDLE] Creating $(BUNDLE_NAME).exe'

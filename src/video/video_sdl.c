@@ -27,6 +27,7 @@
 #include "../input/mouse.h"
 #include "../opendune.h"
 
+#include "video_fps.h"
 #include "scalebit.h"
 #include "hqx.h"
 
@@ -252,9 +253,17 @@ bool Video_Init(void)
 		Error("Incorrect screen magnification factor : %d\n", g_screen_magnification);
 		return false;
 	}
+<<<<<<< HEAD
 	if (g_screen_magnification == 1) g_scale_filter = FILTER_NEAREST_NEIGHBOR;
 
 	if (g_scale_filter == FILTER_HQX) {
+=======
+	/* no filter if scale factor is 1 */
+	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
+	s_scale_filter = filter;
+	s_screen_magnification = screen_magnification;
+	if (filter == FILTER_HQX) {
+>>>>>>> upstream/master
 		hqxInit();
 	}
 
@@ -278,12 +287,19 @@ bool Video_Init(void)
 #endif /* WITHOUT_SDLIMAGE */
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
+<<<<<<< HEAD
 	if (g_scale_filter == FILTER_HQX) {
 		s_surfaceFlags = SDL_SWSURFACE;
 		s_bpp = 32;
 	} else {
 		s_surfaceFlags = SDL_SWSURFACE | SDL_HWPALETTE;
 		s_bpp = 8;
+=======
+	if (filter == FILTER_HQX) {
+		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_HWSURFACE | SDL_HWACCEL);
+	} else {
+		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_HWSURFACE | SDL_HWACCEL | SDL_HWPALETTE);
+>>>>>>> upstream/master
 	}
 	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification, s_bpp, s_surfaceFlags);
 	if (s_gfx_surface == NULL) {
@@ -355,11 +371,17 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	data += (s_screenOffset << 2);
 	switch(g_screen_magnification) {
 	case 1:
-		memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
+		if (s_gfx_surface->pitch == SCREEN_WIDTH) {
+			memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
+		} else for (y = 0; y < SCREEN_HEIGHT; y++) {
+			memcpy(gfx1, data, SCREEN_WIDTH);
+			data += SCREEN_WIDTH;
+			gfx1 += s_gfx_surface->pitch;
+		}
 		break;
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
-			gfx2 = gfx1 + SCREEN_WIDTH * 2;
+			gfx2 = gfx1 + s_gfx_surface->pitch;
 #if defined(__x86_64__)
 			/* SSE2 code */
 			for (x = SCREEN_WIDTH / 16; x > 0; x--) {
@@ -420,8 +442,8 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		break;
 	case 3:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
-			gfx2 = gfx1 + SCREEN_WIDTH * 3;
-			gfx3 = gfx2 + SCREEN_WIDTH * 3;
+			gfx2 = gfx1 + s_gfx_surface->pitch;
+			gfx3 = gfx2 + s_gfx_surface->pitch;
 			for (x = 0; x < SCREEN_WIDTH; x++) {
 				uint8 value = *data++;
 				*gfx1++ = value;
@@ -441,15 +463,25 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		/* The non-optimized works-for-every-magnification method */
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			for (x = 0; x < SCREEN_WIDTH; x++) {
+<<<<<<< HEAD
 				for (i = 0; i < g_screen_magnification; i++) {
 					for (j = 0; j < g_screen_magnification; j++) {
 						*(gfx1 + SCREEN_WIDTH * g_screen_magnification * j) = *data;
+=======
+				for (i = 0; i < s_screen_magnification; i++) {
+					for (j = 0; j < s_screen_magnification; j++) {
+						*(gfx1 + s_gfx_surface->pitch * j) = *data;
+>>>>>>> upstream/master
 					}
 					gfx1++;
 				}
 				data++;
 			}
+<<<<<<< HEAD
 			gfx1 += SCREEN_WIDTH * g_screen_magnification * (g_screen_magnification - 1);
+=======
+			gfx1 += s_gfx_surface->pitch * (s_screen_magnification - 1);
+>>>>>>> upstream/master
 		}
 	}
 }
@@ -460,7 +492,12 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
  */
 static void Video_DrawScreen(void)
 {
+<<<<<<< HEAD
 	switch(g_scale_filter) {
+=======
+	SDL_LockSurface(s_gfx_surface);
+	switch(s_scale_filter) {
+>>>>>>> upstream/master
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
 		break;
@@ -473,6 +510,7 @@ static void Video_DrawScreen(void)
 	default:
 		Error("Unsupported scale filter\n");
 	}
+	SDL_UnlockSurface(s_gfx_surface);
 }
 
 #if defined(_WIN32) && defined(WITH_SDL)
@@ -591,6 +629,7 @@ static void Video_Key_Checks(SDL_keysym keysym)
 void Video_Tick(void)
 {
 	SDL_Event event;
+	static bool s_showFPS = false;
 
 #if defined(_WIN32) && defined(WITH_SDL)
 	if (!s_video_initialized) Video_Init();
@@ -603,6 +642,7 @@ void Video_Tick(void)
 	if (s_video_lock) return;
 	s_video_lock = true;
 
+<<<<<<< HEAD
 #if defined(_WIN32) && defined(WITH_SDL)
 	if (!g_running && s_fullscreen) {
 		if (g_scale_filter == FILTER_HQX) {
@@ -614,6 +654,11 @@ void Video_Tick(void)
 		Video_Resize();
 	}
 #endif
+=======
+	if (s_showFPS) {
+		Video_ShowFPS(GFX_Screen_Get_ByIndex(SCREEN_0));
+	}
+>>>>>>> upstream/master
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;
@@ -661,7 +706,14 @@ void Video_Tick(void)
 					}
 					continue;
 				}
+<<<<<<< HEAD
 #endif
+=======
+				if (sym == SDLK_F8 && !keyup) {
+					s_showFPS = !s_showFPS;
+					continue;
+				}
+>>>>>>> upstream/master
 				/* Mac keyboard scancodes are very different from what
 				 * they are on a PC : we need a translation table. */
 #if defined(__APPLE__)

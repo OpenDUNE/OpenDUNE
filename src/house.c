@@ -421,7 +421,7 @@ bool House_UpdateRadarState(House *h)
 
 	GUI_Mouse_Show_Safe();
 
-	GUI_Widget_Viewport_RedrawMap(0);
+	GUI_Widget_Viewport_RedrawMap(SCREEN_0);
 
 	return activate;
 }

@@ -2,7 +2,9 @@
  *  find an output port which understands MIDI. If that fails, it suggests using
  *  Timidity++ for that job. */
 
+#ifndef __FreeBSD__
 #include <alloca.h>
+#endif /* __FreeBSD__ */
 #include <alsa/asoundlib.h>
 #include "types.h"
 #include "../os/error.h"

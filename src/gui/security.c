@@ -6,6 +6,7 @@
 #include "types.h"
 #include "../os/strings.h"
 #include "../os/sleep.h"
+#include "../os/error.h"
 
 #include "security.h"
 #include "../file.h"
@@ -156,6 +157,7 @@ bool GUI_Security_Show(void)
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
+		Debug("Answer : %s\n", String_Get_ByIndex(questionIndex + 2));
 		GUI_EditBox(buffer, sizeof(buffer) - 1, 9, NULL, &GUI_Mentat_Tick, false);
 
 		GUI_Security_UndrawText();

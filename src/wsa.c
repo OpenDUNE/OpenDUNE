@@ -342,9 +342,10 @@ void WSA_Unload(void *wsa)
  * @param width The width of the image.
  * @param height The height of the image.
  * @param windowID The windowID.
+ * @param screenID the screen to write to
  * @param src The source for the frame.
  */
-static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 windowID, uint8 *src)
+static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 windowID, uint8 *src, Screen screenID)
 {
 	int16 left;
 	int16 right;
@@ -354,7 +355,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 	int16 skipAfter;
 	uint8 *dst;
 
-	dst = GFX_Screen_GetActive();
+	dst = GFX_Screen_Get_ByIndex(screenID);
 
 	left   = g_widgetProperties[windowID].xBase << 3;
 	right  = left + (g_widgetProperties[windowID].width << 3);
@@ -483,11 +484,7 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, Scr
 	header->frameCurrent = frameNext;
 
 	if (header->flags.displayInBuffer) {
-		Screen oldScreenID = GFX_Screen_SetActive(screenID);
-
-		WSA_DrawFrame(posX, posY, header->width, header->height, 0, dst);
-
-		GFX_Screen_SetActive(oldScreenID);
+		WSA_DrawFrame(posX, posY, header->width, header->height, 0, dst, screenID);
 	}
 
 	return true;

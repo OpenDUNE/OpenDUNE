@@ -109,7 +109,11 @@ static bool Drivers_SoundMusic_Init(bool enable)
 
 	if (!MPU_Init()) return false;
 
+#ifdef MUNT
+	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 1) != 0) ? "XMI" : "C55")) return false;
+#else
 	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
+#endif
 	memcpy(music, sound, sizeof(Driver));
 
 #if defined(_WIN32)

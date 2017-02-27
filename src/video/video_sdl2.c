@@ -13,6 +13,7 @@
 #include "../input/mouse.h"
 #include "../opendune.h"
 
+#include "video_fps.h"
 #include "scalebit.h"
 #include "hqx.h"
 
@@ -32,6 +33,8 @@ static uint8 * s_fullsize_buffer = NULL;
 
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
+
+static bool s_full_screen = false;
 
 static SDL_Window *s_window;
 static SDL_Renderer *s_renderer;
@@ -458,12 +461,17 @@ static void Video_DrawScreen(void)
 void Video_Tick(void)
 {
 	SDL_Event event;
+	static bool s_showFPS = false;
 
 	if (!s_video_initialized) return;
 	if (g_fileOperation != 0) return;
 	if (s_video_lock) return;
 
 	s_video_lock = true;
+
+	if (s_showFPS) {
+		Video_ShowFPS(GFX_Screen_Get_ByIndex(SCREEN_0));
+	}
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;
@@ -495,6 +503,19 @@ void Video_Tick(void)
 			{
 				unsigned int sym = event.key.keysym.sym;
 				uint8 code = 0;
+				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
+					/* ALT-ENTER was pressed */
+					if (!keyup) continue;	/* ignore keydown */
+					if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : SDL_WINDOW_FULLSCREEN) < 0) {
+						Warning("Failed to toggle full screen : %s\n", SDL_GetError());
+					}
+					s_full_screen = !s_full_screen;
+					continue;
+				}
+				if (sym == SDLK_F8) {
+					if (keyup) s_showFPS = !s_showFPS;
+					continue;
+				}
 				if (sym >= SDLK_CAPSLOCK) {
 					sym -= SDLK_CAPSLOCK;
 					if (sym < sizeof(s_SDL_hikeymap)) code = s_SDL_hikeymap[sym];

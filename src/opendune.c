@@ -73,7 +73,7 @@
 #endif
 
 
-const char *window_caption = "OpenDUNE - v0.8";
+const char *window_caption = "OpenDUNE - Pre v0.9";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 
@@ -702,8 +702,7 @@ static void GameLoop_GameIntroAnimationMenu(void)
 
 			Sound_Output_Feedback(0xFFFE);
 
-			File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
-			memmove(g_palette1, g_palette_998A, 256 * 3);
+			File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
 			if (!g_canSkipIntro) {
 				File_Create_Personal("ONETIME.DAT");
@@ -905,7 +904,11 @@ static void GameLoop_Main(void)
 	String_Init();
 	Sprites_Init();
 
+#ifdef MUNT
+	if (IniFile_GetInteger("mt32midi", 1) != 0) Music_InitMT32();
+#else
 	if (IniFile_GetInteger("mt32midi", 0) != 0) Music_InitMT32();
+#endif
 
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT | INPUT_FLAG_UNKNOWN_0010 | INPUT_FLAG_UNKNOWN_0200 |
 	                    INPUT_FLAG_UNKNOWN_2000);
@@ -923,8 +926,10 @@ static void GameLoop_Main(void)
 	g_selectionType = SELECTIONTYPE_MENTAT;
 	g_selectionTypeNew = SELECTIONTYPE_MENTAT;
 
-	g_palette1 = calloc(1, 256 * 3);
-	g_palette2 = calloc(1, 256 * 3);
+	if (g_palette1) Warning("g_palette1\n");
+	else g_palette1 = calloc(1, 256 * 3);
+	if (g_palette2) Warning("g_palette2\n");
+	else g_palette2 = calloc(1, 256 * 3);
 
 	g_readBufferSize = 12000;
 	g_readBuffer = calloc(1, g_readBufferSize);
@@ -933,9 +938,7 @@ static void GameLoop_Main(void)
 
 	free(g_readBuffer); g_readBuffer = NULL;
 
-	File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
-
-	memmove(g_palette1, g_palette_998A, 256 * 3);
+	File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
 	GUI_ClearScreen(SCREEN_0);
 
@@ -1129,7 +1132,7 @@ static void GameLoop_Main(void)
 
 	GFX_Screen_SetActive(SCREEN_1);
 
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_1);
 
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 }
@@ -1138,7 +1141,7 @@ static void GameLoop_Main(void)
  * Initialize Timer, Video, Mouse, GFX, Fonts, Random number generator
  * and current Widget
  */
-static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
+static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int frame_rate)
 {
 	if (!Font_Init()) {
 		Error(
@@ -1165,18 +1168,18 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter)
 
 	/* Add the general tickers */
 	Timer_Add(Timer_Tick, 1000000 / 60, false);
-	Timer_Add(Video_Tick, 1000000 / 60, true);
+	Timer_Add(Video_Tick, 1000000 / frame_rate, true);
 
 	g_mouseDisabled = -1;
 
 	GFX_Init();
-	GFX_ClearScreen();
+	GFX_ClearScreen(SCREEN_ACTIVE);
 
 	Font_Select(g_fontNew8p);
 
 	g_palette_998A = calloc(256 * 3, sizeof(uint8));
 
-	memset(&g_palette_998A[45], 63, 3);
+	memset(&g_palette_998A[45], 63, 3);	/* Set color 15 to WHITE */
 
 	GFX_SetPalette(g_palette_998A);
 
@@ -1204,6 +1207,7 @@ int main(int argc, char **argv)
 	bool commit_dune_cfg = false;
 	VideoScaleFilter scale_filter = FILTER_NEAREST_NEIGHBOR;
 	int scaling_factor = 2;
+	int frame_rate = 60;
 	char filter_text[64];
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
@@ -1281,7 +1285,9 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (!OpenDune_Init(scaling_factor, scale_filter)) exit(1);
+	frame_rate = IniFile_GetInteger("framerate", 60);
+
+	if (!OpenDune_Init(scaling_factor, scale_filter, frame_rate)) exit(1);
 
 	g_mouseDisabled = 0;
 

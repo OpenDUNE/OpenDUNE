@@ -284,7 +284,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 	}
 
 	if (scrollInProgress) {
-		uint16 oldValue_07AE_0000;
+		uint16 oldWidgetId;
 		uint16 height;
 
 		if (buffer[0] != '\0') {
@@ -295,7 +295,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		}
 		if (displayTimer > g_timerGUI) return;
 
-		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
+		oldWidgetId = Widget_SetCurrentWidget(7);
 
 		if (g_textDisplayNeedsUpdate) {
 			Screen oldScreenID = GFX_Screen_SetActive(SCREEN_1);
@@ -321,7 +321,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		GUI_Screen_Copy(g_curWidgetXBase, textOffset, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, height, SCREEN_1, SCREEN_0);
 		GUI_Mouse_Show_InWidget();
 
-		Widget_SetCurrentWidget(oldValue_07AE_0000);
+		Widget_SetCurrentWidget(oldWidgetId);
 
 		if (textOffset != 0) {
 			if (line3Importance <= line2Importance) {
@@ -770,7 +770,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 	static char textBuffer[768];
 
 	va_list ap;
-	uint16 oldValue_07AE_0000;
+	uint16 oldWidgetId;
 	uint16 ret;
 	Screen oldScreenID;
 	uint8 *screenBackup = NULL;
@@ -785,7 +785,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	oldValue_07AE_0000 = Widget_SetCurrentWidget(1);
+	oldWidgetId = Widget_SetCurrentWidget(1);
 
 	g_widgetProperties[1].height = g_fontCurrent->height * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
@@ -800,7 +800,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 	GUI_Widget_DrawBorder(1, 1, 1);
 
 	if (spriteID != 0xFFFF) {
-		GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], 7, 8, 1, 0x4000);
+		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], 7, 8, 1, 0x4000);
 		GUI_Widget_SetProperties(1, g_curWidgetXBase + 5, g_curWidgetYBase + 8, g_curWidgetWidth - 7, g_curWidgetHeight - 16);
 	} else {
 		GUI_Widget_SetProperties(1, g_curWidgetXBase + 1, g_curWidgetYBase + 8, g_curWidgetWidth - 2, g_curWidgetHeight - 16);
@@ -841,7 +841,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 		GFX_CopyFromBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, screenBackup);
 	}
 
-	Widget_SetCurrentWidget(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldWidgetId);
 
 	if (screenBackup != NULL) {
 		free(screenBackup);
@@ -1948,7 +1948,7 @@ void GUI_DrawProgressbar(uint16 current, uint16 max)
 
 /**
  * Draw the interface (borders etc etc) and radar on the screen.
- * @param screenID The screen to draw the radar on.
+ * @param screenID The screen to draw the radar on. if SCREEN_0, SCREEN_1 is used as back buffer
  */
 void GUI_DrawInterfaceAndRadar(Screen screenID)
 {
@@ -1968,9 +1968,9 @@ void GUI_DrawInterfaceAndRadar(Screen screenID)
 
 	g_textDisplayNeedsUpdate = true;
 
-	GUI_Widget_Viewport_RedrawMap(g_screenActiveID);
+	GUI_Widget_Viewport_RedrawMap(SCREEN_ACTIVE);
 
-	GUI_DrawScreen(g_screenActiveID);
+	GUI_DrawScreen(SCREEN_ACTIVE);
 
 	GUI_Widget_ActionPanel_Draw(true);
 
@@ -2007,7 +2007,7 @@ void GUI_DrawInterfaceAndRadar(Screen screenID)
 		Unit_UpdateMap(1, u);
 	}
 
-	if (screenID == 0) {
+	if (screenID == SCREEN_0) {
 		GFX_Screen_SetActive(SCREEN_0);
 
 		GUI_Mouse_Hide_Safe();
@@ -2037,7 +2037,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	static int16  creditsAnimationOffset = 0;     /* Offset of the credits for the animation of credits. */
 
 	Screen oldScreenID;
-	uint16 oldValue_07AE_0000;
+	uint16 oldWidgetId;
 	House *h;
 	char charCreditsOld[7];
 	char charCreditsNew[7];
@@ -2061,7 +2061,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	oldScreenID = GFX_Screen_SetActive(SCREEN_1);
 
-	oldValue_07AE_0000 = Widget_SetCurrentWidget(4);
+	oldWidgetId = Widget_SetCurrentWidget(4);
 
 	creditsDiff = h->credits - creditsAnimation;
 	if (creditsDiff != 0) {
@@ -2100,7 +2100,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		creditsNew += 1;
 	}
 
-	GUI_DrawSprite(g_screenActiveID, g_sprites[12], 0, 0, 4, 0x4000);
+	GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[12], 0, 0, 4, 0x4000);
 
 	g_playerCredits = creditsOld;
 
@@ -2114,26 +2114,26 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		spriteID = (charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34;
 
 		if (charCreditsOld[i] != charCreditsNew[i]) {
-			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset - creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, offset - creditsAnimationOffset, 4, 0x4000);
 			if (creditsAnimationOffset == 0) continue;
 
 			spriteID = (charCreditsNew[i] == ' ') ? 13 : charCreditsNew[i] - 34;
 
-			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset + 8 - creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, offset + 8 - creditsAnimationOffset, 4, 0x4000);
 		} else {
-			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, 1, 4, 0x4000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, 1, 4, 0x4000);
 		}
 	}
 
-	if (oldScreenID != g_screenActiveID) {
+	if (!GFX_Screen_IsActive(oldScreenID)) {
 		GUI_Mouse_Hide_InWidget(5);
-		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase - 40, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, oldScreenID);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase - 40, g_curWidgetWidth, g_curWidgetHeight, SCREEN_ACTIVE, oldScreenID);
 		GUI_Mouse_Show_InWidget();
 	}
 
 	GFX_Screen_SetActive(oldScreenID);
 
-	Widget_SetCurrentWidget(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldWidgetId);
 }
 
 /**
@@ -3355,19 +3355,6 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 }
 
 /**
- * Clear the screen.
- * @param screenID Which screen to clear.
- */
-void GUI_ClearScreen(Screen screenID)
-{
-	Screen oldScreenID = GFX_Screen_SetActive(screenID);
-
-	GFX_ClearScreen();
-
-	GFX_Screen_SetActive(oldScreenID);
-}
-
-/**
  * Draw a string to the screen using a fixed width for each char.
  *
  * @param string The string to draw.
@@ -3426,7 +3413,7 @@ void GUI_FactoryWindow_DrawDetails(void)
 		uint16 i;
 		uint16 j;
 
-		GUI_DrawSprite(g_screenActiveID, g_sprites[64], x, y, 0, 0);
+		GUI_DrawSprite(SCREEN_1, g_sprites[64], x, y, 0, 0);
 		x++;
 		y++;
 
@@ -3436,7 +3423,7 @@ void GUI_FactoryWindow_DrawDetails(void)
 
 		for (j = 0; j < g_table_structure_layoutSize[si->layout].height; j++) {
 			for (i = 0; i < g_table_structure_layoutSize[si->layout].width; i++) {
-				GUI_DrawSprite(g_screenActiveID, sprite, x + i * width, y + j * width, 0, 0);
+				GUI_DrawSprite(SCREEN_1, sprite, x + i * width, y + j * width, 0, 0);
 			}
 		}
 	}
@@ -3515,7 +3502,7 @@ void GUI_FactoryWindow_UpdateDetails(void)
 	if (oi->available == -1) return;
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, SCREEN_1, g_screenActiveID);
+	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, SCREEN_1, SCREEN_ACTIVE);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -4055,7 +4042,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
  * @param screenID The screen to do the remapping on.
  * @param remap The pointer to the remap palette.
  */
-void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, Screen screenID, uint8 *remap)
+void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, Screen screenID, const uint8 *remap)
 {
 	uint8 *screen = GFX_Screen_Get_ByIndex(screenID);
 
@@ -4451,7 +4438,7 @@ void GUI_DrawScreen(Screen screenID)
 
 	oldScreenID = GFX_Screen_SetActive(screenID);
 
-	if (screenID != SCREEN_0) g_viewport_forceRedraw = true;
+	if (!GFX_Screen_IsActive(SCREEN_0)) g_viewport_forceRedraw = true;
 
 	Explosion_Tick();
 	Animation_Tick();
@@ -4521,7 +4508,7 @@ void GUI_DrawScreen(Screen screenID)
 		}
 	}
 
-	GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, hasScrolled, screenID != SCREEN_0);
+	GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, hasScrolled, !GFX_Screen_IsActive(SCREEN_0));
 
 	g_viewport_forceRedraw = false;
 
@@ -4550,7 +4537,7 @@ void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation)
 	uint8 data[256 * 3];
 	int i;
 
-	if (g_paletteActive == NULL || palette == NULL) return;
+	if (palette == NULL) return;
 
 	memcpy(data, g_paletteActive, 256 * 3);
 

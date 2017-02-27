@@ -10,6 +10,7 @@
 #include "../os/error.h"
 
 #include "video.h"
+#include "video_fps.h"
 
 #include "../gfx.h"
 #include "../opendune.h"
@@ -19,7 +20,15 @@
 #include "scalebit.h"
 #include "hqx.h"
 
+<<<<<<< HEAD
 VideoScaleFilter g_scale_filter;
+=======
+#ifdef _DEBUG
+#define VIDEO_STATS
+#endif
+
+static VideoScaleFilter s_scale_filter;
+>>>>>>> upstream/master
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 int g_screen_magnification;
@@ -39,6 +48,13 @@ static uint16 s_y;
 static uint16 s_window_width = 0;
 static uint16 s_window_height = 0;
 
+#ifdef VIDEO_STATS
+static const char *s_classNamePal = "OpenDUNEPal";
+static HWND s_hwnd_pal = NULL;
+static HBITMAP s_pal_dib = NULL;
+static void *s_pal_screen = NULL;
+#endif /* VIDEO_STATS */
+
 static LONG s_adjustLeft;
 static LONG s_adjustTop;
 static LONG s_adjustRight;
@@ -57,6 +73,8 @@ static uint16 s_mouseMinX = 0;
 static uint16 s_mouseMaxX = 0;
 static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
+
+static bool s_showFPS = false;
 
 typedef struct VkMapping {
 	WPARAM  vk;
@@ -106,14 +124,18 @@ static VkMapping s_keyMap[] = {
 	M('X',           0x002D),
 	M('Y',           0x0015),
 	M('Z',           0x002C),
+	M(VK_OEM_1,      0x001B),
 	M(VK_RETURN,     0x001C),
+	M(VK_CONTROL,    0x001D),
 	M(VK_OEM_3,      0x0029),
 	M(VK_OEM_5,      0x002B),
 	M(VK_OEM_COMMA,  0x0033),
 	M(VK_OEM_PERIOD, 0x0034),
 	M(VK_OEM_2,      0x0035),
 	M(VK_SHIFT,      0x0036),
+	M(VK_MENU,       0x0038),
 	M(VK_SPACE,      0x0039),
+	M(VK_CAPITAL,	 0x003A),
 	M(VK_F1,         0x003B),
 	M(VK_F2,         0x003C),
 	M(VK_F3,         0x003D),
@@ -126,6 +148,7 @@ static VkMapping s_keyMap[] = {
 	M(VK_F10,        0x0044),
 	M(VK_F11,        0x0057),
 	M(VK_F12,        0x0058),
+	M(VK_NUMPAD0,	 0x0052),
 	M(VK_NUMPAD1,    0x004F),
 	M(VK_NUMPAD2,    0x0050),
 	M(VK_NUMPAD3,    0x0051),
@@ -135,6 +158,11 @@ static VkMapping s_keyMap[] = {
 	M(VK_NUMPAD7,    0x0047),
 	M(VK_NUMPAD8,    0x0048),
 	M(VK_NUMPAD9,    0x0049),
+	M(VK_MULTIPLY,   0x0037),
+	M(VK_ADD,        0x004e),
+	M(VK_SUBTRACT,   0x004a),
+	M(VK_DECIMAL,    0x0053),
+	M(VK_DIVIDE,     0x0035),
 	M(VK_UP,         0x0048),
 	M(VK_DOWN,       0x0050),
 	M(VK_RIGHT,      0x004D),
@@ -143,7 +171,12 @@ static VkMapping s_keyMap[] = {
 	M(VK_HOME,       0x0047),
 	M(VK_END,        0x004F),
 	M(VK_PRIOR,      0x0049),
-	M(VK_NEXT,       0x0051)
+	M(VK_NEXT,       0x0051),
+	M(VK_OEM_102,	 0x0056),
+	M(VK_OEM_4,      0x000c),
+	M(VK_OEM_6,      0x001a),
+	M(VK_OEM_7,      0x0029),
+	M(VK_OEM_8,      0x0035)
 };
 #undef M
 
@@ -171,6 +204,31 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 {
 	bool keyup = true;
 
+#ifdef VIDEO_STATS
+	if(hwnd == s_hwnd_pal) {
+		switch (uMsg) {
+		case WM_PAINT: {
+			PAINTSTRUCT ps;
+			HDC dc;
+			HDC dc2;
+
+			dc = BeginPaint(hwnd, &ps);
+			dc2 = CreateCompatibleDC(dc);
+			/*old_bmp = */(HBITMAP)SelectObject(dc2, s_pal_dib);
+			StretchBlt(dc, 0, 0, 256, 256,
+					   dc2, 0, 0, 16, 16, SRCCOPY);
+			//SelectObject(dc2, old_bmp);
+			DeleteDC(dc2);
+
+			EndPaint(hwnd, &ps);
+			break;
+		}
+		default:
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		}
+	}
+#endif /* VIDEO_STATS */
+
 	switch (uMsg) {
 		case WM_CREATE: {
 			CREATESTRUCT *cs = (CREATESTRUCT*)lParam;
@@ -196,10 +254,20 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HBITMAP old_bmp;
 
 			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
+<<<<<<< HEAD
 			if (g_scale_filter == FILTER_SCALE2X) {
 				scale(g_screen_magnification, s_screen2, g_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 			} else if(g_scale_filter == FILTER_HQX) {
 				switch(g_screen_magnification) {
+=======
+			if (s_showFPS) {
+				Video_ShowFPS(s_screen);
+			}
+			if (s_scale_filter == FILTER_SCALE2X) {
+				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+			} else if(s_scale_filter == FILTER_HQX) {
+				switch(s_screen_magnification) {
+>>>>>>> upstream/master
 				case 2:
 					hq2x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
@@ -336,10 +404,16 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		case WM_KEYUP: {
 			uint16 scan;
 
+			if(wParam == VK_F8) {
+				if(keyup) s_showFPS = !s_showFPS;
+				return 0;
+			}
+
 			scan = MapKey(wParam);
+			// Real scancode is also ((lParam >> 16) & 0xff)
 
 			if (scan == 0) {
-				Warning("Unhandled key %X\n", wParam);
+				Warning("Unhandled key %X (='%c')  (scan = %x)\n", wParam, wParam >= 32 ? wParam : '.', (lParam >> 16) & 0xff);
 				return 0;
 			}
 			if ((scan >> 8) != 0) Input_EventHandler(scan >> 8);
@@ -387,6 +461,22 @@ bool Video_Init(void)
 		Error("RegisterClass failed\n");
 		return false;
 	}
+#ifdef VIDEO_STATS
+	wc.style = 0;
+	wc.lpfnWndProc = WindowProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInstance;
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(100));
+	wc.hCursor = NULL;
+	wc.hbrBackground = 0;
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = s_classNamePal;
+	if (!RegisterClass(&wc)) {
+		Error("RegisterClass failed\n");
+		return false;
+	}
+#endif /* VIDEO_STATS */
 
 	bi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
 	memset(bi, 0, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
@@ -412,6 +502,23 @@ bool Video_Init(void)
 		Error("CreateDIBSection failed\n");
 		return false;
 	}
+#ifdef VIDEO_STATS
+	bi->bmiHeader.biWidth = 16;
+	bi->bmiHeader.biHeight = -16;
+	bi->bmiHeader.biPlanes = 1;
+	bi->bmiHeader.biBitCount = 8;
+	bi->bmiHeader.biCompression = BI_RGB;
+	s_pal_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, &s_pal_screen, NULL, 0);
+	if (s_pal_dib == NULL) {
+		Error("CreateDIBSection failed\n");
+	} else {
+		int i;
+		uint8 * data = (uint8 *)s_pal_screen;
+		for(i = 0; i < 256; i++) {
+			data[i] = i;
+		}
+	}
+#endif /* VIDEO_STATS */
 	ReleaseDC(NULL, dc);
 
 	if (g_scale_filter != FILTER_NEAREST_NEIGHBOR) {
@@ -446,6 +553,62 @@ void Video_Uninit(void)
 	}
 	s_init = false;
 }
+
+#ifdef VIDEO_STATS
+static void Video_Stats(const uint8 * screen)
+{
+	unsigned int i, j;
+	static uint16 freq[256];
+	unsigned int unused_colors;
+	static unsigned int last_unused_colors = 0;
+	uint16 rgb12pal[256];
+	uint8 similar_color[256];
+	unsigned int n_similar_colors;
+	static unsigned int last_n_similar_colors = 0;
+
+	memset(freq, 0, sizeof(freq));
+	for(i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
+		freq[screen[i]]++;
+	}
+
+	unused_colors = 0;
+	for(i = 0; i < 256; i++) {
+		if(freq[i] == 0) unused_colors++;
+	}
+	if(unused_colors != last_unused_colors) {
+		char tmp[20];
+		Debug("Unused colors : %u (used = %u)\n", unused_colors, 256 - unused_colors);
+		Debug("        0123456789ABCDEF\n");
+		last_unused_colors = unused_colors;
+		for(i = 0; i < 256 ; i++) {
+			tmp[i&15] = (freq[i] == 0)?' ':((freq[i] < 10)?'.':((freq[i] < 250)?'o':'O'));
+			if((i&15) == 15) {
+				tmp[16] = '\0';
+				Debug("%3d %02X |%s| %3d\n", i & 0xf0, i & 0xf0, tmp, i);
+			}
+		}
+	}
+	n_similar_colors = 0;
+	for(i = 0; i < 256; i++) {
+		if(freq[i] == 0) rgb12pal[i] = 0xffff;
+		else {
+			rgb12pal[i] = ((rgb_palette[i] >> 4) & 0x00f) | ((rgb_palette[i] >> 8) & 0x0f0) | ((rgb_palette[i] >> 12) & 0xf00);
+			similar_color[i] = i;
+			for(j = 0; j < i; j++) {
+				if(freq[j] != 0 && rgb_palette[i] == rgb_palette[j]) {
+					similar_color[i] = j;
+					n_similar_colors++;
+					break;
+				}
+			}
+		}
+	}
+	if(n_similar_colors > 0 && n_similar_colors != last_n_similar_colors) {
+		Debug("Similar colors = %u\n", n_similar_colors);
+		last_n_similar_colors = n_similar_colors;
+	}
+}
+#endif	/* VIDEO_STATS */
 
 void Video_Tick(void)
 {
@@ -484,6 +647,21 @@ void Video_Tick(void)
 
 		Video_Mouse_SetPosition(g_mouseX, g_mouseY);
 		ShowWindow(s_hwnd, SW_SHOWNORMAL);
+
+#ifdef VIDEO_STATS
+		GetWindowRect(s_hwnd, &r);
+		style = WS_CAPTION;
+		r.left = r.right + 10;
+		r.top = r.top + 40;
+		r.right = r.left + 256;
+		r.bottom = r.top + 256;
+		AdjustWindowRect(&r, style, false);
+		s_hwnd_pal = CreateWindow(s_classNamePal, "palette", style, r.left, r.top, r.right - r.left, r.bottom - r.top, NULL, NULL, GetModuleHandle(NULL), NULL);
+		if (s_hwnd_pal == NULL) {
+			Error("CreateWindow failed\n");
+		}
+		ShowWindow(s_hwnd_pal, SW_SHOWNORMAL);
+#endif /* VIDEO_STATS */
 	}
 
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -496,6 +674,9 @@ void Video_Tick(void)
 	/* Do a quick compare to see if the screen changed at all */
 	if (memcmp(screen0, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
 		memcpy(s_screen, screen0, SCREEN_WIDTH * SCREEN_HEIGHT);
+#ifdef VIDEO_STATS
+		Video_Stats(screen0);
+#endif	/* VIDEO_STATS */
 		InvalidateRect(s_hwnd, NULL, TRUE);
 	}
 
@@ -536,6 +717,16 @@ void Video_SetPalette(void *palette, int from, int length)
 		SelectObject(dc2, old_bmp);
 		DeleteDC(dc2);
 		ReleaseDC(s_hwnd, dc);
+#ifdef VIDEO_STATS
+		dc = GetDC(s_hwnd_pal);
+		dc2 = CreateCompatibleDC(dc);
+		old_bmp = SelectObject(dc2, s_pal_dib);
+		SetDIBColorTable(dc2, from, length, rgb);
+		SelectObject(dc2, old_bmp);
+		DeleteDC(dc2);
+		ReleaseDC(s_hwnd_pal, dc);
+		InvalidateRect(s_hwnd_pal, NULL, TRUE);
+#endif	/* VIDEO_STATS */
 	}
 	InvalidateRect(s_hwnd, NULL, TRUE);
 }

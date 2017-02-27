@@ -14,16 +14,27 @@
 #include "video/video.h"
 #include "os/error.h"
 
-static uint16 s_spriteSpacing  = 0;
-static uint16 s_spriteHeight   = 0;
-static uint16 s_spriteWidth    = 0;
+uint8 g_paletteActive[256 * 3];
+uint8 *g_palette1 = NULL;
+uint8 *g_palette2 = NULL;
+uint8 *g_paletteMapping1 = NULL;
+uint8 *g_paletteMapping2 = NULL;
+
+static uint16 s_spriteSpacing  = 0;	/* bytes to skip between each line. == SCREEN_WIDTH - 2*s_spriteWidth */
+static uint16 s_spriteHeight   = 0;	/* "icon" sprites height (lines) */
+static uint16 s_spriteWidth    = 0;	/* "icon" sprites width in bytes. each bytes contains 2 pixels. 4 MSB = left, 4 LSB = right */
 static uint8  s_spriteMode     = 0;
-static uint8  s_spriteInfoSize = 0;
+static uint8  s_spriteByteSize = 0;	/* size in byte of one sprite pixel data = s_spriteHeight * s_spriteWidth / 2 */
 
-static const uint16 s_screenBufferSize[5] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D, 0xA044 };
-static void *s_screenBuffer[5] = { NULL, NULL, NULL, NULL, NULL };
+/* SCREEN_0 = 320x200 = 64000 = 0xFA00   The main screen buffer, 0xA0000 Video RAM in DOS Dune 2
+ * SCREEN_1 = 64506 = 0xFBFA
+ * SCREEN_2 = 320x200 = 64000 = 0xFA00
+ * SCREEN_3 = 64781 = 0xFD0D    * NEVER ACTIVE * only used for game credits and intro */
+#define GFX_SCREEN_BUFFER_COUNT 4
+static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
+static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
 
-Screen g_screenActiveID = SCREEN_0;
+Screen s_screenActiveID = SCREEN_0;
 
 /**
  * Get the codesegment of the active screen buffer.
@@ -31,7 +42,7 @@ Screen g_screenActiveID = SCREEN_0;
  */
 void *GFX_Screen_GetActive(void)
 {
-	return GFX_Screen_Get_ByIndex(g_screenActiveID);
+	return GFX_Screen_Get_ByIndex(s_screenActiveID);
 }
 
 /**
@@ -41,7 +52,10 @@ void *GFX_Screen_GetActive(void)
  */
 uint16 GFX_Screen_GetSize_ByIndex(Screen screenID)
 {
-	return s_screenBufferSize[screenID >> 1];
+	if (screenID == SCREEN_ACTIVE)
+		screenID = s_screenActiveID;
+	assert(screenID >= 0 && screenID < GFX_SCREEN_BUFFER_COUNT);
+	return s_screenBufferSize[screenID];
 }
 
 /**
@@ -51,7 +65,10 @@ uint16 GFX_Screen_GetSize_ByIndex(Screen screenID)
  */
 void *GFX_Screen_Get_ByIndex(Screen screenID)
 {
-	return s_screenBuffer[screenID >> 1];
+	if (screenID == SCREEN_ACTIVE)
+		screenID = s_screenActiveID;
+	assert(screenID >= 0 && screenID < GFX_SCREEN_BUFFER_COUNT);
+	return s_screenBuffer[screenID];
 }
 
 /**
@@ -61,9 +78,22 @@ void *GFX_Screen_Get_ByIndex(Screen screenID)
  */
 Screen GFX_Screen_SetActive(Screen screenID)
 {
-	Screen oldScreen = g_screenActiveID;
-	g_screenActiveID = screenID;
+	Screen oldScreen = s_screenActiveID;
+	if (screenID != SCREEN_ACTIVE) {
+		s_screenActiveID = screenID;
+	}
 	return oldScreen;
+}
+
+/**
+* Checks if the screen is active.
+* @param screenID The screen to check for being active
+* @return true or false.
+*/
+bool GFX_Screen_IsActive(Screen screenID)
+{
+	if (screenID == SCREEN_ACTIVE) return true;
+	return (screenID == s_screenActiveID);
 }
 
 /**
@@ -75,19 +105,22 @@ void GFX_Init(void)
 	uint32 totalSize = 0;
 	int i;
 
-	for (i = 0; i < 5; i++) {
-		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);
+	/* init g_paletteActive with invalid values so first GFX_SetPalette() will be ok */
+	memset(g_paletteActive, 0xff, 3*256);
+
+	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
+		totalSize += GFX_Screen_GetSize_ByIndex(i);
 	}
 
 	screenBuffers = calloc(1, totalSize);
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = screenBuffers;
 
-		screenBuffers += GFX_Screen_GetSize_ByIndex(i * 2);
+		screenBuffers += GFX_Screen_GetSize_ByIndex(i);
 	}
 
-	g_screenActiveID = SCREEN_0;
+	s_screenActiveID = SCREEN_0;
 }
 
 /**
@@ -99,7 +132,7 @@ void GFX_Uninit(void)
 
 	free(s_screenBuffer[0]);
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = NULL;
 	}
 }
@@ -114,10 +147,6 @@ void GFX_Uninit(void)
 void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 {
 	int i, j;
-	uint16 spacing;
-	uint16 height;
-	uint16 width;
-	uint8 *iconRTBL;
 	uint8 *iconRPAL;
 	uint8 *wptr;
 	uint8 *rptr;
@@ -125,8 +154,9 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	assert(houseID < HOUSE_MAX);
 
-	iconRTBL = g_iconRTBL + spriteID;
-	iconRPAL = g_iconRPAL + ((*iconRTBL) << 4);
+	if (s_spriteMode == 4) return;
+
+	iconRPAL = g_iconRPAL + (g_iconRTBL[spriteID] << 4);
 
 	for (i = 0; i < 16; i++) {
 		uint8 colour = *iconRPAL++;
@@ -140,18 +170,12 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 		palette[i] = colour;
 	}
 
-	if (s_spriteMode == 4) return;
-
 	wptr = GFX_Screen_GetActive();
 	wptr += y * SCREEN_WIDTH + x;
-	rptr = g_spriteInfo + ((spriteID * s_spriteInfoSize) << 4);
+	rptr = g_spritePixels + (spriteID * s_spriteByteSize);
 
-	spacing = s_spriteSpacing;
-	height  = s_spriteHeight;
-	width   = s_spriteWidth;
-
-	for (j = 0; j < height; j++) {
-		for (i = 0; i < width; i++) {
+	for (j = 0; j < s_spriteHeight; j++) {
+		for (i = 0; i < s_spriteWidth; i++) {
 			uint8 left  = (*rptr) >> 4;
 			uint8 right = (*rptr) & 0xF;
 			rptr++;
@@ -162,35 +186,35 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 			wptr++;
 		}
 
-		wptr += spacing;
+		wptr += s_spriteSpacing;
 	}
 }
 
 /**
  * Initialize sprite information.
  *
- * @param widthSize Value between 0 and 2, indicating the width of the sprite.
- * @param heightSize Value between 0 and 2, indicating the width of the sprite.
+ * @param widthSize Value between 0 and 2, indicating the width of the sprite. x8 to get actuel width of sprite
+ * @param heightSize Value between 0 and 2, indicating the width of the sprite. x8 to get actuel width of sprite
  */
 void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
 {
+	/* NOTE : shouldn't it be (heightSize < 3 && widthSize < 3) ??? */
 	if (widthSize == heightSize && widthSize < 3) {
 		s_spriteMode = widthSize & 2;
-		s_spriteInfoSize = (2 << widthSize);
 
 		s_spriteWidth   = widthSize << 2;
-		s_spriteHeight  = widthSize << 3;
+		s_spriteHeight  = heightSize << 3;
 		s_spriteSpacing = SCREEN_WIDTH - s_spriteHeight;
+		s_spriteByteSize = s_spriteWidth * s_spriteHeight;
 	} else {
+		/* NOTE : is it dead code ? */
+		/* default to 8x8 sprites */
 		s_spriteMode = 4;
-		s_spriteInfoSize = 2;
+		s_spriteByteSize = 8*4;
 
 		s_spriteWidth   = 4;
 		s_spriteHeight  = 8;
 		s_spriteSpacing = 312;
-
-		widthSize = 1;
-		heightSize = 1;
 	}
 }
 
@@ -336,9 +360,9 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 /**
  * Clears the screen.
  */
-void GFX_ClearScreen(void)
+void GFX_ClearScreen(Screen screenID)
 {
-	memset(GFX_Screen_GetActive(), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+	memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
 /**

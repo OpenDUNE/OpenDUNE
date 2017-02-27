@@ -1,0 +1,51 @@
+* Dune II palette
+-----------------
+
+
+The 256 color in game palette IBM.PAL is organized in 16 sub-palettes of
+16 colors.
+
+first sub-palette (colors 0-15) is nearly the "CGA" palette :
+  0 : #000000 black
+  1 : #aa00aa magenta
+  2 : #00aaaa cyan
+  3 : #00aa00 green
+  4 : #55ff55 bright green
+  5 : #ffff55 bright yellow
+  6 : #ff5555 bright red
+  7 : #aa5500 Brown
+  8 : #aa0000 Red
+  9 : #55ffff bright cyan
+ 10 : #5151ff bright blue (close to CGA bright blue #5555ff)
+ 11 : #0000aa blue
+ 12 : #000000 black (duplicate)
+ 13 : #555555 dark gray
+ 14 : #aaaaaa bright gray / white
+ 15 : #ffffff bright white
+  the only missing CGA color is bright magenta #ff55ff
+
+16 *9 = 144 :
+current house colors ?
+
+the 6 first colors of sub-palettes 8 to 14 are a shade of the house colors :
+
+ 8 (128-133) : ??? grey blue shade
+ 9 (144-149) : Current house / Harkonnen colors
+10 (160-165) : Atreides
+11 (176-181) : Ordos
+12 (192-197) : Fremen
+13 (208-213) : Sardaukar
+14 (224-229) : merecenary
+
+color 223 = Windtrap cycling color
+
+colors 231 to 238 are used by the option menu (and other Widgets)
+
+color 239 : highlighted text in structure menu : PLACE IT / REPAIR etc.
+          is alterning white / red
+
+colors 251,252,253,254 are cycling in arrows in the mission selection
+          screen.
+
+color 255 = unit/structure selection (palette cycling) on the map
+            and also in factories/construction yard menu

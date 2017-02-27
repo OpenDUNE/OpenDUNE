@@ -3,6 +3,8 @@
 #ifndef GUI_WIDGET_H
 #define GUI_WIDGET_H
 
+#include "../gfx.h"
+
 /**
  * Types of WidgetClick available in the game.
  */
@@ -52,7 +54,7 @@ struct Widget;
  * The parameter for a given DrawMode.
  */
 typedef union WidgetDrawParameter {
-	uint16 unknown;                                         /*!< Parameter for DRAW_MODE_UNKNOWN3. */
+	uint16 spriteID;                                        /*!< Parameter for DRAW_MODE_UNKNOWN3. */
 	void *sprite;                                           /*!< Parameter for DRAW_MODE_SPRITE. */
 	char *text;                                             /*!< Parameter for DRAW_MODE_TEXT. */
 	void (*proc)(struct Widget *);                          /*!< Parameter for DRAW_MODE_CUSTOM_PROC. */
@@ -187,12 +189,6 @@ extern WindowDesc g_yesNoWindowDesc;
 extern WindowDesc g_saveLoadWindowDesc;
 extern WindowDesc g_savegameNameWindowDesc;
 
-extern uint8 g_paletteActive[256 * 3];
-extern uint8 *g_palette1;
-extern uint8 *g_palette2;
-extern uint8 *g_paletteMapping1;
-extern uint8 *g_paletteMapping2;
-
 extern Widget *g_widgetLinkedListHead;
 extern Widget *g_widgetLinkedListTail;
 extern Widget *g_widgetInvoiceTail;
@@ -240,7 +236,7 @@ extern void Widget_PaintCurrentWidget(void);
 extern bool GUI_Widget_Viewport_Click(Widget *w);
 extern void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMainScreen);
 extern void GUI_Widget_Viewport_DrawTile(uint16 packed);
-extern void GUI_Widget_Viewport_RedrawMap(uint16 screenID);
+extern void GUI_Widget_Viewport_RedrawMap(Screen screenID);
 
 /* widget_click.c */
 extern bool GUI_Widget_SpriteTextButton_Click(Widget *w);

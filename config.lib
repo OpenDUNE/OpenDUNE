@@ -42,7 +42,9 @@ set_default() {
 	with_sdlimage="1"
 	with_sdl2="1"
 	with_asound="1"
+	with_oss="1"
 	with_pulse="1"
+	with_munt="1"
 	enable_builtin_depend="1"
 	with_makedepend="0"
 	with_sort="1"
@@ -78,7 +80,9 @@ set_default() {
 		with_sdlimage
 		with_sdl2
 		with_asound
+		with_oss
 		with_pulse
+		with_munt
 		enable_builtin_depend
 		with_makedepend
 		with_sort
@@ -186,9 +190,16 @@ detect_params() {
 			--without-alsa)               with_asound="0";;
 			--with-alsa=*)                with_asound="$optarg";;
 
+			--with-oss)                   with_oss="2";;
+			--without-oss)                with_oss="0";;
+
 			--with-pulse)                 with_pulse="2";;
 			--without-pulse)              with_pulse="0";;
 			--with-pulse=*)               with_pulse="$optarg";;
+
+			--with-munt)                  with_munt="2";;
+			--without-munt)               with_munt="0";;
+			--with-munt=*)                with_munt="$optarg";;
 
 			--disable-builtin-depend)     enable_builtin_depend="0";;
 			--enable-builtin-depend)      enable_builtin_depend="2";;
@@ -354,6 +365,10 @@ check_params() {
 	# Show what we configured
 	if [ "$enable_debug" = "0" ]; then
 		log 1 "using debug level... no"
+		if [ $enable_assert -eq 1 ]; then
+			enable_assert=0
+			log 1 "disabling asserts"
+		fi
 	elif [ "$enable_profiling" != "0" ]; then
 		log 1 "using debug level... profiling (debug level $enable_debug)"
 	else
@@ -429,12 +444,20 @@ check_params() {
 		with_sdl2="0"
 		with_sdl="0"
 		with_asound="0"
+		with_oss="0"
 		with_pulse="0"
+		with_munt="0"
+	fi
+	if [ "$os" = "FREEBSD" ] && [ "$with_oss" != "0" ] && [ "$with_asound" = "1" ] ; then
+		# prefers OSS to ALSA under FreeBSD
+		with_asound="0"
 	fi
 	detect_sdl2
 	detect_sdl
 	detect_asound
+	detect_oss
 	detect_pulseaudio
+	detect_munt
 
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
 		log 1 "checking GDI video driver... found"
@@ -927,7 +950,11 @@ make_cflags_and_ldflags() {
 			# Only set the min version when not doing an universal build.
 			# Universal builds set the version elsewhere.
 			if [ "$cpu_type" = "64" ]; then
-				CFLAGS="$CFLAGS -mmacosx-version-min=10.5"
+				if [ -n "$sdl2_config" ]; then
+					CFLAGS="$CFLAGS -mmacosx-version-min=10.6"
+				else
+					CFLAGS="$CFLAGS -mmacosx-version-min=10.5"
+				fi
 			else
 				gcc_cpu=`$cc_host -dumpmachine`
 				if [ "`echo $gcc_cpu | cut -c 1-3`" = "ppc" -o "`echo $gcc_cpu | cut -c 1-7`" = "powerpc" ]; then
@@ -1021,11 +1048,19 @@ make_cflags_and_ldflags() {
 			LIBS="$LIBS -lasound"
 		fi
 		CFLAGS="$CFLAGS -DALSA"
+                if [ "$os" = "FREEBSD" ]; then
+                        CFLAGS="$CFLAGS -Dinline=__inline__"
+                fi
 	fi
 
 	if [ "$with_pulse" != "0" ]; then
 		LIBS="$LIBS $(pkg-config --libs-only-l libpulse)"
-		CFLAGS="$CFLAGS $(pkg-config --cflags libpulse)"
+		CFLAGS="$CFLAGS $(pkg-config --cflags libpulse) -DPULSEAUDIO"
+	fi
+
+	if [ "$with_munt" != "0" ]; then
+		LIBS="$LIBS -lmt32emu -lstdc++"
+		CFLAGS="$CFLAGS -DMUNT"
 	fi
 
 	if [ "$enable_assert" = "0" ]; then
@@ -1194,24 +1229,24 @@ check_compiler() {
 }
 
 check_build() {
-	if [ "$os" = "FREEBSD" ]; then
-		# FreeBSD's C compiler does not support dump machine.
-		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CXX" "g++" "c++" "0" "-dumpmachine"
-	else
+           #	if [ "$os" = "FREEBSD" ]; then
+           #	# FreeBSD's C compiler does not support dump machine.
+           #	check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CXX" "g++" "c++" "0" "-dumpmachine"
+           #else
 		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CC" "gcc" "cc" "0" "-dumpmachine"
-	fi
+                #fi
 }
 
 check_host() {
 	# By default the host is the build
 	if [ -z "$host" ]; then host="$build"; fi
 
-	if [ "$os" = "FREEBSD" ]; then
-		# FreeBSD's C compiler does not support dump machine.
-		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CXX" "g++" "c++" "0" "-dumpmachine"
-	else
+           #	if [ "$os" = "FREEBSD" ]; then
+           #		# FreeBSD's C compiler does not support dump machine.
+           #		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CXX" "g++" "c++" "0" "-dumpmachine"
+           #	else
 		check_compiler "host system type" "cc_host" "$host" "$cc_host" "$CC" "gcc" "cc" "0" "-dumpmachine"
-	fi
+                #	fi
 }
 
 check_strip() {
@@ -1687,8 +1722,16 @@ detect_asound() {
 	detect_library "$with_asound" "asound" "libasound.a" "alsa/" "asoundlib.h"
 }
 
+detect_oss() {
+	detect_library "$with_oss" "oss" "" "sys/" "soundcard.h"
+}
+
 detect_pulseaudio() {
 	detect_library "$with_pulse" "pulse" "libpulse.a" "pulse/" "pulseaudio.h"
+}
+
+detect_munt() {
+	detect_library "$with_munt" "munt" "libmt32emu.a" "mt32emu/" "mt32emu.h"
 }
 
 _detect_sort() {
@@ -2009,6 +2052,8 @@ showhelp() {
 	echo "  --with-sdl[=sdl-config]        enables SDL video driver support"
 	echo "  --with-sdl2[=sdl2-config]      enables SDL2 video driver support"
 	echo "  --with-asound[=libasound.a]    enables ALSA support"
+	echo "  --with-oss                     enables Open Sound System"
+	echo "  --with-munt                    enables MUNT support"
 	echo "  --with-pulse[=libpulse.a]      enables PulseAudio support"
 	echo "  --disable-builtin-depend       disable use of builtin deps finder"
 	echo "  --with-makedepend[=makedepend] enables makedepend support"

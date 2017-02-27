@@ -10,6 +10,7 @@
 
 #include "types.h"
 #include "video.h"
+#include "video_fps.h"
 #include "../gfx.h"
 #include "../input/input.h"
 #include "../input/mouse.h"
@@ -24,6 +25,9 @@ extern void uninstall_ikbd_handler(void);
 extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
 extern void c2p1x1_8_tt(void * planar, void * chunky, uint32 count);
 
+/* switch FPS display */
+extern void Video_SwitchFPSDisplay(uint8 key);
+
 static short s_savedMode = 0;
 
 static enum {
@@ -33,6 +37,8 @@ static enum {
 static uint32 s_paletteBackup[256];
 
 static uint16 s_screenOffset = 0;
+
+static bool s_showFPS = false;
 
 /* mouse : */
 static int s_mouse_x = SCREEN_WIDTH/2;
@@ -128,8 +134,15 @@ bool Video_Init(void)
 	g_consoleActive = false;
 
 	if(s_machine_type == MCH_FALCON) {
+		long saddr = Srealloc(SCREEN_HEIGHT*SCREEN_WIDTH);
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
-		(void)VsetMode((s_savedMode & ~15)  | BPS8 | COL40);	/*  8 planes 256 colours + 40 columns */
+#if 0
+		(void)VsetMode((s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
+#else
+		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
+		Vsetscreen(saddr, saddr, 3,
+		           (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
+#endif
 		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
 		/* set TT 8bps video mode */
@@ -140,6 +153,8 @@ bool Video_Init(void)
 		Error("Unsupported machine type.\n");
 	}
 
+	Debug("old video mode = $%04hx\n", s_savedMode);
+	Debug("Physbase() = $%08x  Logbase() = $%08x\n", Physbase(), Logbase());
 	/* install IKBD handler for mouse and keyboard IRQ */
 	Supexec(install_ikbd_handler);
 	return true;
@@ -150,16 +165,30 @@ bool Video_Init(void)
  */
 void Video_Uninit(void)
 {
+	(void)Cursconf(1, 0);	/* switch cursor On */
 	if(s_machine_type == MCH_FALCON) {
+		long saddr;
 		VsetRGB(0, 256, s_paletteBackup);
+#if 0
 		(void)VsetMode(s_savedMode);
+#else
+		saddr = Srealloc(VgetSize(s_savedMode));
+		Vsetscreen(saddr, saddr, 3, s_savedMode);
+#endif
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
 		(void)EsetShift(s_savedMode);
 	}
 	Supexec(uninstall_ikbd_handler);
-	(void)Cursconf(1, 0);	/* switch cursor On */
 	g_consoleActive = true;
+}
+
+void Video_SwitchFPSDisplay(uint8 key)
+{
+	Debug("Video_SwitchFPSDisplay key=$%02x\n", key);
+	if(key & 0x80) {	/* key UP */
+		s_showFPS = !s_showFPS;
+	}
 }
 
 /**
@@ -175,6 +204,10 @@ void Video_Tick(void)
 		s_mouse_state_changed = true;
 		Mouse_EventHandler(s_mouse_x, s_mouse_y,
 		                   s_mouse_left_btn, s_mouse_right_btn);
+	}
+
+	if (s_showFPS) {
+		Video_ShowFPS(data);
 	}
 
 	data += (s_screenOffset << 2);

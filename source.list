@@ -17,6 +17,9 @@ audio/midi_atari.c
 		#if ALSA
 			audio/dsp_alsa.c
 		#else
+		#if OSS
+			audio/dsp_oss.c
+		#else
 			#if SDL
 				audio/dsp_sdl.c
 			#else
@@ -27,8 +30,12 @@ audio/midi_atari.c
 				#endif
 			#endif
 		#endif
+		#endif
 	#endif
 # MIDI
+	#if MUNT
+		audio/midi_munt.c
+	#else
 	#if ALSA
 		audio/midi_alsa.c
 	#else
@@ -37,6 +44,7 @@ audio/midi_atari.c
 		#else
 			audio/midi_none.c
 		#endif
+	#endif
 	#endif
 #endif
 #endif
@@ -168,6 +176,7 @@ unit.c
 		#endif
 	#endif
 #endif
+video/video_fps.c
 #if TOS
 video/c2p1x1_8.s
 #else
@@ -239,6 +248,7 @@ timer.h
 tools.h
 unit.h
 video/video.h
+video/video_fps.h
 video/hqx_common.h
 video/hqx.h
 video/scale2x.h

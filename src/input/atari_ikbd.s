@@ -120,7 +120,15 @@ ikbd:
 	andi.l	#$ff,d0
 	movem.l	d1/a0-a1,-(sp)
 	move.l	d0,-(sp)
+	move.w	d0,d1
+	bclr	#7,d1
+	cmp.b	#$42,d1		; F8 key to switch FPS display
+	bne.s	.inputhandler
+	jsr _Video_SwitchFPSDisplay
+	bra .done
+.inputhandler
 	jsr	_Input_EventHandler		; call higher level Keyboard input handler
+.done
 	addq.l	#4,sp
 	movem.l	(sp)+,d1/a0-a1
 
