@@ -1515,5 +1515,7 @@ void PrepareEnd(void)
 	File_Uninit();
 	Timer_Uninit();
 	GFX_Uninit();
+#if !(defined(_WIN32) && (defined(WITH_SDL2)))
 	Video_Uninit();
+#endif
 }

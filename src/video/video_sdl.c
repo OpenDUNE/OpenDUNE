@@ -186,6 +186,9 @@ static void Video_Mouse_Move(uint16 x, uint16 y)
 	if (s_mouseMinY != 0 && ry < s_mouseMinY) ry = s_mouseMinY;
 	if (s_mouseMaxY != 0 && ry > s_mouseMaxY) ry = s_mouseMaxY;
 
+	if (ry > SCREEN_HEIGHT * g_screen_magnification - 1) ry = SCREEN_HEIGHT * g_screen_magnification - 1;
+	if (rx > SCREEN_WIDTH * g_screen_magnification - 1) rx = SCREEN_WIDTH * g_screen_magnification - 1;
+
 	/* If we moved, send the signal back to the window to correct for it */
 	if (x != rx || y != ry) {
 		SDL_WarpMouse(rx, ry);
@@ -253,17 +256,9 @@ bool Video_Init(void)
 		Error("Incorrect screen magnification factor : %d\n", g_screen_magnification);
 		return false;
 	}
-<<<<<<< HEAD
 	if (g_screen_magnification == 1) g_scale_filter = FILTER_NEAREST_NEIGHBOR;
 
 	if (g_scale_filter == FILTER_HQX) {
-=======
-	/* no filter if scale factor is 1 */
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
-	s_scale_filter = filter;
-	s_screen_magnification = screen_magnification;
-	if (filter == FILTER_HQX) {
->>>>>>> upstream/master
 		hqxInit();
 	}
 
@@ -287,19 +282,12 @@ bool Video_Init(void)
 #endif /* WITHOUT_SDLIMAGE */
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
-<<<<<<< HEAD
 	if (g_scale_filter == FILTER_HQX) {
-		s_surfaceFlags = SDL_SWSURFACE;
+		s_surfaceFlags = SDL_SWSURFACE | SDL_HWACCEL;
 		s_bpp = 32;
 	} else {
-		s_surfaceFlags = SDL_SWSURFACE | SDL_HWPALETTE;
+		s_surfaceFlags = SDL_SWSURFACE | SDL_HWACCEL | SDL_HWPALETTE;
 		s_bpp = 8;
-=======
-	if (filter == FILTER_HQX) {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_HWSURFACE | SDL_HWACCEL);
-	} else {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_HWSURFACE | SDL_HWACCEL | SDL_HWPALETTE);
->>>>>>> upstream/master
 	}
 	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification, s_bpp, s_surfaceFlags);
 	if (s_gfx_surface == NULL) {
@@ -463,25 +451,15 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		/* The non-optimized works-for-every-magnification method */
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			for (x = 0; x < SCREEN_WIDTH; x++) {
-<<<<<<< HEAD
 				for (i = 0; i < g_screen_magnification; i++) {
 					for (j = 0; j < g_screen_magnification; j++) {
-						*(gfx1 + SCREEN_WIDTH * g_screen_magnification * j) = *data;
-=======
-				for (i = 0; i < s_screen_magnification; i++) {
-					for (j = 0; j < s_screen_magnification; j++) {
 						*(gfx1 + s_gfx_surface->pitch * j) = *data;
->>>>>>> upstream/master
 					}
 					gfx1++;
 				}
 				data++;
 			}
-<<<<<<< HEAD
-			gfx1 += SCREEN_WIDTH * g_screen_magnification * (g_screen_magnification - 1);
-=======
-			gfx1 += s_gfx_surface->pitch * (s_screen_magnification - 1);
->>>>>>> upstream/master
+			gfx1 += s_gfx_surface->pitch * (g_screen_magnification - 1);
 		}
 	}
 }
@@ -492,12 +470,8 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
  */
 static void Video_DrawScreen(void)
 {
-<<<<<<< HEAD
-	switch(g_scale_filter) {
-=======
 	SDL_LockSurface(s_gfx_surface);
-	switch(s_scale_filter) {
->>>>>>> upstream/master
+	switch (g_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
 		break;
@@ -642,7 +616,6 @@ void Video_Tick(void)
 	if (s_video_lock) return;
 	s_video_lock = true;
 
-<<<<<<< HEAD
 #if defined(_WIN32) && defined(WITH_SDL)
 	if (!g_running && s_fullscreen) {
 		if (g_scale_filter == FILTER_HQX) {
@@ -654,11 +627,9 @@ void Video_Tick(void)
 		Video_Resize();
 	}
 #endif
-=======
 	if (s_showFPS) {
 		Video_ShowFPS(GFX_Screen_Get_ByIndex(SCREEN_0));
 	}
->>>>>>> upstream/master
 
 	while (SDL_PollEvent(&event)) {
 		uint8 keyup = 1;
@@ -706,14 +677,11 @@ void Video_Tick(void)
 					}
 					continue;
 				}
-<<<<<<< HEAD
 #endif
-=======
 				if (sym == SDLK_F8 && !keyup) {
 					s_showFPS = !s_showFPS;
 					continue;
 				}
->>>>>>> upstream/master
 				/* Mac keyboard scancodes are very different from what
 				 * they are on a PC : we need a translation table. */
 #if defined(__APPLE__)
@@ -749,10 +717,11 @@ void Video_Tick(void)
 	}
 
 	/* Do a quick compare to see if the screen changed at all */
-	/*if (!s_screen_needrepaint && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
+	if (g_scale_filter == FILTER_HQX && !s_screen_needrepaint && 
+		memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
 		s_video_lock = false;
 		return;
-	}*/
+	}
 	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
 
 	Video_DrawScreen();

@@ -1,5 +1,8 @@
 /** @file src/video/video_sdl2.c SDL 2 video driver. */
 
+#if defined(_WIN32)
+#include <stdio.h>
+#endif
 #include <SDL.h>
 #include <SDL_image.h>
 #include "types.h"
@@ -34,7 +37,9 @@ static uint8 * s_fullsize_buffer = NULL;
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
 
-static bool s_full_screen = false;
+static bool s_fullscreen = false;
+static int s_prev_magnification;
+static int s_tmp_magnification;
 
 static SDL_Window *s_window;
 static SDL_Renderer *s_renderer;
@@ -153,6 +158,9 @@ static void Video_Mouse_Move(uint16 x, uint16 y)
 	if (s_mouseMaxX != 0 && rx > s_mouseMaxX) rx = s_mouseMaxX;
 	if (s_mouseMinY != 0 && ry < s_mouseMinY) ry = s_mouseMinY;
 	if (s_mouseMaxY != 0 && ry > s_mouseMaxY) ry = s_mouseMaxY;
+
+	if (ry > SCREEN_HEIGHT * g_screen_magnification - 1) ry = SCREEN_HEIGHT * g_screen_magnification - 1;
+	if (rx > SCREEN_WIDTH * g_screen_magnification - 1) rx = SCREEN_WIDTH * g_screen_magnification - 1;
 
 	/* If we moved, send the signal back to the window to correct for it */
 	if (x != rx || y != ry) {
@@ -274,6 +282,7 @@ bool Video_Init(void)
 	default:
 		render_width = SCREEN_WIDTH * g_screen_magnification;
 		render_height = SCREEN_HEIGHT * g_screen_magnification;
+		s_tmp_magnification = g_screen_magnification;
 	}
 	if (g_scale_filter == FILTER_SCALE2X) {
 		s_fullsize_buffer = malloc(render_width * render_height * sizeof(uint8));
@@ -282,12 +291,12 @@ bool Video_Init(void)
 			return false;
 		}
 	}
-	err = SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
+	/*err = SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
 
 	if (err != 0) {
 		Error("Could not set logical size: %s\n", SDL_GetError());
 		return false;
-	}
+	}*/
 
 	s_texture = SDL_CreateTexture(s_renderer,
 			SDL_PIXELFORMAT_ARGB8888,
@@ -364,7 +373,25 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		pixels += pitch;
 	}
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+
+	SDL_Rect Src, Dest;
+	Src.w = SCREEN_WIDTH;
+	Src.h = SCREEN_HEIGHT;
+	Src.x = 0;
+	Src.y = 0;
+	Dest.w = SCREEN_WIDTH * g_screen_magnification;
+	Dest.h = SCREEN_HEIGHT * g_screen_magnification;
+	if (!s_fullscreen) {
+		Dest.x = 0;
+		Dest.y = 0;
+	} else {
+		SDL_DisplayMode current;
+		SDL_GetCurrentDisplayMode(0, &current);
+		Dest.x = (current.w - Dest.w) / 2;
+		Dest.y = (current.h - Dest.h) / 2;
+	}
+
+	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dest)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -378,6 +405,29 @@ static void Video_DrawScreen_Scale2x(void)
 	uint32 * p;
 
 	data += (s_screenOffset << 2);
+
+	int render_width = SCREEN_WIDTH * g_screen_magnification;
+	int render_height = SCREEN_HEIGHT * g_screen_magnification;
+	if (g_screen_magnification != s_tmp_magnification) {
+		s_tmp_magnification = g_screen_magnification;
+		s_fullsize_buffer = realloc(s_fullsize_buffer, render_width * render_height * sizeof(uint8));
+		if (s_fullsize_buffer == NULL) {
+			Error("Could not allocate %d bytes of memory\n", render_width * render_height * sizeof(uint8));
+			return;
+		}
+		if (s_texture) {
+			SDL_DestroyTexture(s_texture);
+			s_texture = NULL;
+		}
+		s_texture = SDL_CreateTexture(s_renderer,
+			SDL_PIXELFORMAT_ARGB8888,
+			SDL_TEXTUREACCESS_STREAMING,
+			render_width, render_height);
+		if (!s_texture) {
+			Error("Could not create texture: %s\n", SDL_GetError());
+			return;
+		}
+	}
 
 	/* first use scale2x */
 	scale(g_screen_magnification, s_fullsize_buffer, g_screen_magnification * SCREEN_WIDTH,
@@ -397,7 +447,25 @@ static void Video_DrawScreen_Scale2x(void)
 		pixels += pitch;
 	}
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+
+	SDL_Rect Src, Dest;
+	Src.w = SCREEN_WIDTH * g_screen_magnification;
+	Src.h = SCREEN_HEIGHT * g_screen_magnification;
+	Src.x = 0;
+	Src.y = 0;
+	Dest.w = SCREEN_WIDTH * g_screen_magnification;
+	Dest.h = SCREEN_HEIGHT * g_screen_magnification;
+	if (!s_fullscreen) {
+		Dest.x = 0;
+		Dest.y = 0;
+	} else {
+		SDL_DisplayMode current;
+		SDL_GetCurrentDisplayMode(0, &current);
+		Dest.x = (current.w - Dest.w) / 2;
+		Dest.y = (current.h - Dest.h) / 2;
+	}
+
+	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dest)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -410,6 +478,24 @@ static void Video_DrawScreen_Hqx(void)
 
 	src = GFX_Screen_Get_ByIndex(SCREEN_0);
 	src += (s_screenOffset << 2);
+
+	int render_width = SCREEN_WIDTH * g_screen_magnification;
+	int render_height = SCREEN_HEIGHT * g_screen_magnification;
+	if (g_screen_magnification != s_tmp_magnification) {
+		s_tmp_magnification = g_screen_magnification;
+		if (s_texture) {
+			SDL_DestroyTexture(s_texture);
+			s_texture = NULL;
+		}
+		s_texture = SDL_CreateTexture(s_renderer,
+			SDL_PIXELFORMAT_ARGB8888,
+			SDL_TEXTUREACCESS_STREAMING,
+			render_width, render_height);
+		if (!s_texture) {
+			Error("Could not create texture: %s\n", SDL_GetError());
+			return;
+		}
+	}
 
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
@@ -433,7 +519,25 @@ static void Video_DrawScreen_Hqx(void)
 		break;
 	}
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+
+	SDL_Rect Src, Dest;
+	Src.w = SCREEN_WIDTH * g_screen_magnification;
+	Src.h = SCREEN_HEIGHT * g_screen_magnification;
+	Src.x = 0;
+	Src.y = 0;
+	Dest.w = SCREEN_WIDTH * g_screen_magnification;
+	Dest.h = SCREEN_HEIGHT * g_screen_magnification;
+	if (!s_fullscreen) {
+		Dest.x = 0;
+		Dest.y = 0;
+	} else {
+		SDL_DisplayMode current;
+		SDL_GetCurrentDisplayMode(0, &current);
+		Dest.x = (current.w - Dest.w) / 2;
+		Dest.y = (current.h - Dest.h) / 2;
+	}
+
+	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dest)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -456,6 +560,122 @@ static void Video_DrawScreen(void)
 }
 
 /**
+ * Check if Window can be resized
+ * @param new_magnification The new magnification to check.
+ */
+bool Video_CanResize(int32 new_magnification)
+{
+	SDL_DisplayMode current;
+	SDL_GetCurrentDisplayMode(0, &current);
+
+	if ((SCREEN_WIDTH  * new_magnification >= current.w || SCREEN_HEIGHT * new_magnification >= current.h) ||
+		new_magnification <= 0) return false;
+
+	return true;
+}
+
+/**
+ * Toggle the Fullscreen mode on Win32.
+ */
+void Video_ToggleFullscreen(void)
+{
+	if (s_fullscreen) {
+		g_screen_magnification = s_prev_magnification;
+		if (SDL_SetWindowFullscreen(s_window, 0) < 0) {
+			Warning("Failed to toggle full screen : %s\n", SDL_GetError());
+		}
+		//SDL_SetWindowFullscreen(s_window, 0);
+		SDL_SetWindowSize(s_window, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification);
+		SDL_SetWindowPosition(s_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		s_fullscreen = false;
+	} else {
+		s_prev_magnification = g_screen_magnification;
+		while (Video_CanResize(g_screen_magnification + 1)) {
+			if (g_scale_filter != FILTER_NEAREST_NEIGHBOR && (g_screen_magnification + 1) > 4) {
+				g_screen_magnification = s_prev_magnification;
+				return;
+			}
+			++g_screen_magnification;
+		}
+		SDL_SetWindowSize(s_window, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification);
+		SDL_SetWindowPosition(s_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		if (SDL_SetWindowFullscreen(s_window, SDL_WINDOW_FULLSCREEN_DESKTOP) < 0) {
+			Warning("Failed to toggle full screen : %s\n", SDL_GetError());
+		}
+		//SDL_SetWindowFullscreen(s_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		s_fullscreen = true;
+	}
+}
+
+/**
+ * Resize Window stretching the images.
+ * @param scancode The SDL scancode taken on SDL_KEYUP event type.
+ */
+void Video_Key_Checks(SDL_Keysym keysym)
+{
+	uint32 typecode;
+	typedef enum
+	{
+		KEY_CODE = 0,
+		SCAN_CODE = 1,
+		EXIT = 2
+	} keytype;
+
+	keytype type = KEY_CODE;
+	while (type != EXIT) {
+		if (type == KEY_CODE) {
+			typecode = keysym.sym;
+		}
+		else {
+			typecode = keysym.scancode;
+		}
+		switch (typecode) {
+			case SDLK_F11:
+			case SDL_SCANCODE_F11: {
+				Video_ToggleFullscreen();
+				return;
+			} break;
+
+			case SDLK_PLUS:
+			case SDLK_EQUALS:
+			case SDL_SCANCODE_EQUALS: {
+				if (s_fullscreen) return;
+
+				if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification < 4)) {
+					if (!Video_CanResize(g_screen_magnification + 1)) {
+						Video_ToggleFullscreen();
+						return;
+					}
+					++g_screen_magnification;
+					SDL_SetWindowSize(s_window, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification);
+					SDL_SetWindowPosition(s_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+					return;
+				}
+			} break;
+
+			case SDLK_MINUS: {
+				if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification > 2)) {
+					if (s_fullscreen) {
+						SDL_SetWindowFullscreen(s_window, 0);
+						SDL_SetWindowSize(s_window, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification);
+						SDL_SetWindowPosition(s_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+						s_fullscreen = false;
+						return;
+					}
+					if (!Video_CanResize(g_screen_magnification - 1)) return;
+
+					--g_screen_magnification;
+					SDL_SetWindowSize(s_window, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification);
+					SDL_SetWindowPosition(s_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+					return;
+				}
+			} break;
+		}
+		++type;
+	}
+}
+
+/**
  * Runs every tick to handle video driver updates.
  */
 void Video_Tick(void)
@@ -463,7 +683,11 @@ void Video_Tick(void)
 	SDL_Event event;
 	static bool s_showFPS = false;
 
+#if defined(_WIN32) && defined(WITH_SDL2)
+	if (!s_video_initialized) Video_Init();
+#else
 	if (!s_video_initialized) return;
+#endif
 	if (g_fileOperation != 0) return;
 	if (s_video_lock) return;
 
@@ -499,19 +723,17 @@ void Video_Tick(void)
 			case SDL_KEYDOWN:
 				keyup = 0;
 				/* Fall Through */
-			case SDL_KEYUP:
-			{
-				unsigned int sym = event.key.keysym.sym;
-				uint8 code = 0;
-				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
-					/* ALT-ENTER was pressed */
-					if (!keyup) continue;	/* ignore keydown */
-					if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : SDL_WINDOW_FULLSCREEN) < 0) {
-						Warning("Failed to toggle full screen : %s\n", SDL_GetError());
-					}
-					s_full_screen = !s_full_screen;
+			case SDL_KEYUP: {
+				SDL_Keysym keysym = event.key.keysym;
+				if (!keyup && keysym.sym == SDLK_RETURN && (keysym.mod & KMOD_ALT)) {
+					Video_ToggleFullscreen();
 					continue;
 				}
+				if (!keyup) Video_Key_Checks(keysym);
+
+				unsigned int sym = event.key.keysym.sym;
+				uint8 code = 0;
+
 				if (sym == SDLK_F8) {
 					if (keyup) s_showFPS = !s_showFPS;
 					continue;
