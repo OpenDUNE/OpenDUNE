@@ -250,20 +250,14 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HBITMAP old_bmp;
 
 			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
-<<<<<<< HEAD
+
+			if (s_showFPS) {
+				Video_ShowFPS(s_screen);
+			}
 			if (g_scale_filter == FILTER_SCALE2X) {
 				scale(g_screen_magnification, s_screen2, g_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 			} else if(g_scale_filter == FILTER_HQX) {
 				switch(g_screen_magnification) {
-=======
-			if (s_showFPS) {
-				Video_ShowFPS(s_screen);
-			}
-			if (s_scale_filter == FILTER_SCALE2X) {
-				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
-			} else if(s_scale_filter == FILTER_HQX) {
-				switch(s_screen_magnification) {
->>>>>>> upstream/master
 				case 2:
 					hq2x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
