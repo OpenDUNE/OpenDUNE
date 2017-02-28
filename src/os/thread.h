@@ -4,12 +4,22 @@
 #define OS_THREAD_H
 
 #if defined(_WIN32)
+#if defined(WITH_SDL) || defined(WITH_SDL2)
+	#include <SDL.h>
+	#include <SDL_thread.h>
+	typedef SDL_Thread *Thread;
+	typedef SDL_sem *Semaphore;
+	typedef int ThreadStatus;
+
+	#define WINAPI
+#else
 	#include <windows.h>
 	typedef HANDLE Thread;
 	typedef HANDLE Semaphore;
 	typedef DWORD ThreadStatus;
+#endif
 #else
-/* Thead is only used with Windows
+/* Thread is only used with Windows
 	#include <SDL.h>
 	#include <SDL_thread.h>
 	typedef SDL_Thread *Thread;

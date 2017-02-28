@@ -298,8 +298,19 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 {
 	g_mouseLock = 0x1;
 
+#if defined(_WIN32) && defined(WITH_SDL2)
+	if (g_scale_filter == FILTER_NEAREST_NEIGHBOR) {
+		g_mouseX = mouseX / g_screen_magnification;
+		g_mouseY = mouseY / g_screen_magnification;
+	} else {
+		g_mouseX = mouseX;
+		g_mouseY = mouseY;
+	}
+#else
 	g_mouseX = mouseX;
 	g_mouseY = mouseY;
+#endif
+
 	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseMode != INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
 		Input_HandleInput(Mouse_CheckButtons(newButtonState));
 	}
