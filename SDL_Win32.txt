@@ -1,0 +1,35 @@
+Using SDL on Windows Systems
+============================
+By default OpenDUNE on Windows uses WinAPI, so it doesn't require any
+ other library to run on Windows.
+However, it is possible using SDL libraries to improve the experience
+ of gameplaying, being able to toggle fullscreen or zooming in/out the
+ window size.
+
+
+Compiling SDL 1.2
+-----------------
+After setting up SDL 1.2 libraries, to successfully compile on MSVC,
+ going to Project Properties (All Configurations):
+- on C/C++=>Preprocessor, set WITH_SDL into Preprocessor Definitions
+- on Linker=>System, set /SUBSYSTEM:WINDOWS or /SUBSYSTEM:CONSOLE
+   (to define entry point on main for SDL)
+- on Linker=>Command Line, set /FORCE:MULTIPLE on Additional Options
+   (to avoid 'multiple definitions' problems)
+
+
+Compiling SDL 2.0
+-----------------
+After setting up SDL 2.0 libraries, to successfully compile on MSVC,
+ going to Project Properties (All Configurations):
+- on C/C++=>Preprocessor, set WITH_SDL2 into Preprocessor Definitions
+- on Linker=>System, set /SUBSYSTEM:WINDOWS or /SUBSYSTEM:CONSOLE
+  (to define entry point on main for SDL)
+
+
+Additional Features
+-------------------
+While playing OpenDUNE, you can press F11 (or Alt+Enter) to toggle
+ fullscreen, or press +/- keys to zoom in/out window size, maintaining
+ original ratio resolution.
+
