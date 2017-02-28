@@ -20,15 +20,11 @@
 #include "scalebit.h"
 #include "hqx.h"
 
-<<<<<<< HEAD
-VideoScaleFilter g_scale_filter;
-=======
 #ifdef _DEBUG
 #define VIDEO_STATS
 #endif
 
-static VideoScaleFilter s_scale_filter;
->>>>>>> upstream/master
+VideoScaleFilter g_scale_filter;
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 int g_screen_magnification;
