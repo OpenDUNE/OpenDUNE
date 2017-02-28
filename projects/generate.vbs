@@ -39,7 +39,7 @@ Sub safety_check(sourcelist_file)
 
 	' Define regexp
 	Set regexp = New RegExp
-	regexp.Pattern = "#|audio/dsp_sdl.c"
+	regexp.Pattern = "#|audio/dsp_sdl.c|os/thread_sdl.c|video/video_sdl"
 	regexp.Global = True
 
 	' We use a dictionary to check duplicates
