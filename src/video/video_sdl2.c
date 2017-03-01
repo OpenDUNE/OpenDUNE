@@ -373,27 +373,6 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		pixels += pitch;
 	}
 	SDL_UnlockTexture(s_texture);
-
-	SDL_Rect Src, Dest;
-	Src.w = SCREEN_WIDTH;
-	Src.h = SCREEN_HEIGHT;
-	Src.x = 0;
-	Src.y = 0;
-	Dest.w = SCREEN_WIDTH * g_screen_magnification;
-	Dest.h = SCREEN_HEIGHT * g_screen_magnification;
-	if (!s_fullscreen) {
-		Dest.x = 0;
-		Dest.y = 0;
-	} else {
-		SDL_DisplayMode current;
-		SDL_GetCurrentDisplayMode(0, &current);
-		Dest.x = (current.w - Dest.w) / 2;
-		Dest.y = (current.h - Dest.h) / 2;
-	}
-
-	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dest)) {
-		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
-	}
 }
 
 static void Video_DrawScreen_Scale2x(void)
@@ -447,27 +426,6 @@ static void Video_DrawScreen_Scale2x(void)
 		pixels += pitch;
 	}
 	SDL_UnlockTexture(s_texture);
-
-	SDL_Rect Src, Dest;
-	Src.w = SCREEN_WIDTH * g_screen_magnification;
-	Src.h = SCREEN_HEIGHT * g_screen_magnification;
-	Src.x = 0;
-	Src.y = 0;
-	Dest.w = SCREEN_WIDTH * g_screen_magnification;
-	Dest.h = SCREEN_HEIGHT * g_screen_magnification;
-	if (!s_fullscreen) {
-		Dest.x = 0;
-		Dest.y = 0;
-	} else {
-		SDL_DisplayMode current;
-		SDL_GetCurrentDisplayMode(0, &current);
-		Dest.x = (current.w - Dest.w) / 2;
-		Dest.y = (current.h - Dest.h) / 2;
-	}
-
-	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dest)) {
-		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
-	}
 }
 
 static void Video_DrawScreen_Hqx(void)
@@ -519,6 +477,23 @@ static void Video_DrawScreen_Hqx(void)
 		break;
 	}
 	SDL_UnlockTexture(s_texture);
+}
+
+static void Video_DrawScreen(void)
+{
+	switch(g_scale_filter) {
+	case FILTER_NEAREST_NEIGHBOR:
+		Video_DrawScreen_Nearest_Neighbor();
+		break;
+	case FILTER_SCALE2X:
+		Video_DrawScreen_Scale2x();
+		break;
+	case FILTER_HQX:
+		Video_DrawScreen_Hqx();
+		break;
+	default:
+		Error("Unsupported scale filter\n");
+	}
 
 	SDL_Rect Src, Dest;
 	Src.w = SCREEN_WIDTH * g_screen_magnification;
@@ -539,23 +514,6 @@ static void Video_DrawScreen_Hqx(void)
 
 	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dest)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
-	}
-}
-
-static void Video_DrawScreen(void)
-{
-	switch(g_scale_filter) {
-	case FILTER_NEAREST_NEIGHBOR:
-		Video_DrawScreen_Nearest_Neighbor();
-		break;
-	case FILTER_SCALE2X:
-		Video_DrawScreen_Scale2x();
-		break;
-	case FILTER_HQX:
-		Video_DrawScreen_Hqx();
-		break;
-	default:
-		Error("Unsupported scale filter\n");
 	}
 }
 
