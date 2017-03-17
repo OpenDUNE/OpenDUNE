@@ -298,7 +298,7 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 {
 	g_mouseLock = 0x1;
 
-#if defined(_WIN32) && defined(WITH_SDL2)
+#if defined(WITH_SDL2)
 	if (g_scale_filter == FILTER_NEAREST_NEIGHBOR) {
 		g_mouseX = mouseX / g_screen_magnification;
 		g_mouseY = mouseY / g_screen_magnification;

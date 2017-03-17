@@ -38,12 +38,11 @@
 #define DUNE_ICON_DIR "./"
 #endif
 
-#if defined(_WIN32) && defined(WITH_SDL)
 static bool s_fullscreen = false;
 static int s_prev_magnification;
 static int s_desktop_width;
 static int s_desktop_height;
-#endif /* _WIN32 */
+
 static int s_bpp;
 static int s_surfaceFlags;
 VideoScaleFilter g_scale_filter;
@@ -247,8 +246,9 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
  */
 bool Video_Init(void)
 {
+	const SDL_VideoInfo *info;
 #ifndef WITHOUT_SDLIMAGE
-	SDL_Surface * icon;
+	SDL_Surface *icon;
 #endif /* WITHOUT_SDLIMAGE */
 
 	if (s_video_initialized) return true;
@@ -266,11 +266,10 @@ bool Video_Init(void)
 		Error("Could not initialize SDL: %s\n", SDL_GetError());
 		return false;
 	}
-#if defined(_WIN32) && defined(WITH_SDL)
-	SDL_VideoInfo* info = SDL_GetVideoInfo();
+
+	info = SDL_GetVideoInfo();
 	s_desktop_width = info->current_w;
 	s_desktop_height = info->current_h;
-#endif
 
 #ifndef WITHOUT_SDLIMAGE
 	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
@@ -487,7 +486,7 @@ static void Video_DrawScreen(void)
 	SDL_UnlockSurface(s_gfx_surface);
 }
 
-#if defined(_WIN32) && defined(WITH_SDL)
+
 /**
 * Check if Window can be resized
 * @param new_magnification The new magnification to check.
@@ -506,8 +505,10 @@ static bool Video_CanResize(int32 new_magnification)
 static void Video_Resize(void)
 {
 	SDL_Color colors[256];
+	int i;
+
 	if (g_scale_filter != FILTER_HQX) {
-		for (int i = 0; i < 256; i++) {
+		for (i = 0; i < 256; i++) {
 			colors[i].r = s_gfx_surface->format->palette->colors[i].r;
 			colors[i].g = s_gfx_surface->format->palette->colors[i].g;
 			colors[i].b = s_gfx_surface->format->palette->colors[i].b;
@@ -518,7 +519,6 @@ static void Video_Resize(void)
 	if (s_gfx_surface == NULL) {
 		Warning("Failed to toggle full screen\n");
 	} else if (g_scale_filter != FILTER_HQX) {
-		//SDL_SetPalette(s_gfx_surface, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
 		if (!SDL_SetPalette(s_gfx_surface, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256)) Warning("SDL_SetPalette() failed while resizing\n");
 	}
 }
@@ -528,6 +528,10 @@ static void Video_Resize(void)
 */
 static void Video_ToggleFullscreen(void)
 {
+	if (SDL_WM_ToggleFullScreen(s_gfx_surface)) {
+		return;
+	}
+	
 	if (!s_fullscreen) {
 		s_prev_magnification = g_screen_magnification;
 		g_screen_magnification = 2;
@@ -558,44 +562,45 @@ static void Video_ToggleFullscreen(void)
 static void Video_Key_Checks(SDL_keysym keysym)
 {
 	switch (keysym.sym) {
-	case SDLK_F11: {
-		Video_ToggleFullscreen();
-	} break;
+		case SDLK_F11: {
+			Video_ToggleFullscreen();
+		} break;
 
-	case SDLK_EQUALS:
-	case SDLK_PLUS: {
-		if (s_fullscreen) return;
+		case SDLK_EQUALS:
+		case SDLK_PLUS: {
+			if (s_fullscreen) return;
 
-		if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification < 4)) {
-			if (!Video_CanResize(g_screen_magnification + 1)) {
+			if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification < 4)) {
+				if (!Video_CanResize(g_screen_magnification + 1)) {
+					Video_ToggleFullscreen();
+					return;
+				}
+				++g_screen_magnification;
+				Video_Resize();
+			}
+		} break;
+
+		case SDLK_MINUS: {
+
+			if (s_fullscreen) {
 				Video_ToggleFullscreen();
+				s_fullscreen = false;
 				return;
 			}
-			++g_screen_magnification;
-			Video_Resize();
-		}
-	} break;
 
-	case SDLK_MINUS: {
-
-		if (s_fullscreen) {
-			Video_ToggleFullscreen();
-			//Video_Resize();
-			s_fullscreen = false;
-			return;
-		}
-
-		if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification > 2)) {
+			if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification > 2)) {
 			
-			if (!Video_CanResize(g_screen_magnification - 1)) return;
+				if (!Video_CanResize(g_screen_magnification - 1)) return;
 
-			--g_screen_magnification;
-			Video_Resize();
-		}
-	} break;
+				--g_screen_magnification;
+				Video_Resize();
+			}
+		} break;
+		
+		default: break;
 	}
 }
-#endif
+
 
 /**
  * Runs every tick to handle video driver updates.
@@ -607,9 +612,9 @@ void Video_Tick(void)
 
 #if defined(_WIN32) && defined(WITH_SDL)
 	if (!s_video_initialized) Video_Init();
-#else
+#else /* defined(_WIN32) && defined(WITH_SDL) */
 	if (!s_video_initialized) return;
-#endif
+#endif /* defined(_WIN32) && defined(WITH_SDL) */
 
 	if (g_fileOperation != 0) return;
 
@@ -626,7 +631,7 @@ void Video_Tick(void)
 		g_screen_magnification = s_prev_magnification;
 		Video_Resize();
 	}
-#endif
+#endif /* defined(_WIN32) && defined(WITH_SDL) */
 	if (s_showFPS) {
 		Video_ShowFPS(GFX_Screen_Get_ByIndex(SCREEN_0));
 	}
@@ -661,23 +666,14 @@ void Video_Tick(void)
 			{
 				uint8 scancode;	/* AT keyboard scancode */
 				SDLKey sym = event.key.keysym.sym;	/* SDLKey symbolic code */
-#if defined(_WIN32)
 				SDL_keysym keysym = event.key.keysym;
+				
 				if (!keyup && keysym.sym == SDLK_RETURN && (keysym.mod & KMOD_ALT)) {
-					Video_ToggleFullscreen();
+					Video_ToggleFullscreen();	/* Try for SDL_WM_ToggleFullScreen, otherwise SDL_SetVideoMode */
 					continue;
 				}
-				if (!keyup) Video_Key_Checks(keysym);
-#else
-				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
-					/* ALT-ENTER was pressed */
-					if (!keyup) continue; /* ignore keydown */
-					if (!SDL_WM_ToggleFullScreen(s_gfx_surface)) {
-						Warning("Failed to toggle full screen\n");
-					}
-					continue;
-				}
-#endif
+				if (!keyup) Video_Key_Checks(keysym);	/* Checks for +/- zoom in/out keys or F11 toggle fullscreen */
+				
 				if (sym == SDLK_F8 && !keyup) {
 					s_showFPS = !s_showFPS;
 					continue;

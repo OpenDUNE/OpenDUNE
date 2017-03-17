@@ -383,10 +383,10 @@ static void Video_DrawScreen_Scale2x(void)
 	int x, y;
 	uint32 * p;
 
-	data += (s_screenOffset << 2);
-
 	int render_width = SCREEN_WIDTH * g_screen_magnification;
 	int render_height = SCREEN_HEIGHT * g_screen_magnification;
+	data += (s_screenOffset << 2);
+
 	if (g_screen_magnification != s_tmp_magnification) {
 		s_tmp_magnification = g_screen_magnification;
 		s_fullsize_buffer = realloc(s_fullsize_buffer, render_width * render_height * sizeof(uint8));
@@ -434,11 +434,11 @@ static void Video_DrawScreen_Hqx(void)
 	uint32 *pixels;
 	int pitch;
 
+	int render_width = SCREEN_WIDTH * g_screen_magnification;
+	int render_height = SCREEN_HEIGHT * g_screen_magnification;
 	src = GFX_Screen_Get_ByIndex(SCREEN_0);
 	src += (s_screenOffset << 2);
 
-	int render_width = SCREEN_WIDTH * g_screen_magnification;
-	int render_height = SCREEN_HEIGHT * g_screen_magnification;
 	if (g_screen_magnification != s_tmp_magnification) {
 		s_tmp_magnification = g_screen_magnification;
 		if (s_texture) {
@@ -481,6 +481,8 @@ static void Video_DrawScreen_Hqx(void)
 
 static void Video_DrawScreen(void)
 {
+	SDL_Rect Src, Dst;
+
 	switch(g_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
@@ -495,24 +497,23 @@ static void Video_DrawScreen(void)
 		Error("Unsupported scale filter\n");
 	}
 
-	SDL_Rect Src, Dest;
 	Src.w = SCREEN_WIDTH * g_screen_magnification;
 	Src.h = SCREEN_HEIGHT * g_screen_magnification;
 	Src.x = 0;
 	Src.y = 0;
-	Dest.w = SCREEN_WIDTH * g_screen_magnification;
-	Dest.h = SCREEN_HEIGHT * g_screen_magnification;
+	Dst.w = SCREEN_WIDTH * g_screen_magnification;
+	Dst.h = SCREEN_HEIGHT * g_screen_magnification;
 	if (!s_fullscreen) {
-		Dest.x = 0;
-		Dest.y = 0;
+		Dst.x = 0;
+		Dst.y = 0;
 	} else {
 		SDL_DisplayMode current;
 		SDL_GetCurrentDisplayMode(0, &current);
-		Dest.x = (current.w - Dest.w) / 2;
-		Dest.y = (current.h - Dest.h) / 2;
+		Dst.x = (current.w - Dst.w) / 2;
+		Dst.y = (current.h - Dst.h) / 2;
 	}
 
-	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dest)) {
+	if (SDL_RenderCopy(s_renderer, s_texture, &Src, &Dst)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -542,7 +543,6 @@ void Video_ToggleFullscreen(void)
 		if (SDL_SetWindowFullscreen(s_window, 0) < 0) {
 			Warning("Failed to toggle full screen : %s\n", SDL_GetError());
 		}
-		//SDL_SetWindowFullscreen(s_window, 0);
 		SDL_SetWindowSize(s_window, SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification);
 		SDL_SetWindowPosition(s_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 		s_fullscreen = false;
@@ -560,7 +560,6 @@ void Video_ToggleFullscreen(void)
 		if (SDL_SetWindowFullscreen(s_window, SDL_WINDOW_FULLSCREEN_DESKTOP) < 0) {
 			Warning("Failed to toggle full screen : %s\n", SDL_GetError());
 		}
-		//SDL_SetWindowFullscreen(s_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 		s_fullscreen = true;
 	}
 }
@@ -583,8 +582,7 @@ void Video_Key_Checks(SDL_Keysym keysym)
 	while (type != EXIT) {
 		if (type == KEY_CODE) {
 			typecode = keysym.sym;
-		}
-		else {
+		} else {
 			typecode = keysym.scancode;
 		}
 		switch (typecode) {
@@ -682,15 +680,15 @@ void Video_Tick(void)
 				keyup = 0;
 				/* Fall Through */
 			case SDL_KEYUP: {
+				unsigned int sym = event.key.keysym.sym;
+				uint8 code = 0;
 				SDL_Keysym keysym = event.key.keysym;
+
 				if (!keyup && keysym.sym == SDLK_RETURN && (keysym.mod & KMOD_ALT)) {
 					Video_ToggleFullscreen();
 					continue;
 				}
 				if (!keyup) Video_Key_Checks(keysym);
-
-				unsigned int sym = event.key.keysym.sym;
-				uint8 code = 0;
 
 				if (sym == SDLK_F8) {
 					if (keyup) s_showFPS = !s_showFPS;
