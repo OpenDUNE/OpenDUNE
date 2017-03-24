@@ -187,6 +187,37 @@ static uint16 MapKey(WPARAM vk)
 	return 0x0000;
 }
 
+static void Video_ToggleFullscreen(void)
+{
+	static bool s_FullScreen = false;
+	int width, height;
+	long style;
+	static RECT s_pos_backup = { 0 };
+
+	if(s_hwnd == NULL) return;
+
+	style = GetWindowLong(s_hwnd, GWL_STYLE);
+	if(s_FullScreen) {
+		style &= ~WS_POPUP;
+		style |= WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
+		/* allow window to be resized with NEAREST NEIGHBOR filter */
+		if(s_scale_filter == FILTER_NEAREST_NEIGHBOR) style |= WS_THICKFRAME;
+		SetWindowLong(s_hwnd, GWL_STYLE, style); /*Now set it*/
+		SetWindowPos(s_hwnd, HWND_TOPMOST, s_pos_backup.left, s_pos_backup.top, s_pos_backup.right - s_pos_backup.left, s_pos_backup.bottom - s_pos_backup.top, SWP_FRAMECHANGED);
+		s_FullScreen = false;
+	} else {
+		GetWindowRect(s_hwnd, &s_pos_backup);
+		style &= ~WS_OVERLAPPEDWINDOW;  /*Out with the old*/
+		style |= WS_POPUP;              /*In with the new*/
+		SetWindowLong(s_hwnd, GWL_STYLE, style); /*Now set it*/
+
+		width = GetSystemMetrics(SM_CXSCREEN);
+		height = GetSystemMetrics(SM_CYSCREEN);
+		SetWindowPos(s_hwnd, HWND_TOPMOST,0, 0, width, height, SWP_FRAMECHANGED);
+		s_FullScreen = true;
+	}
+}
+
 /**
  * Callback wrapper for mouse actions.
  */
@@ -387,6 +418,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			Video_Mouse_Callback();
 			return 0;
 
+		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 			keyup = false;
 			/* Fall Through */
@@ -396,10 +428,13 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			if(wParam == VK_F8) {
 				if(keyup) s_showFPS = !s_showFPS;
 				return 0;
+			} else if (wParam == VK_F11 || (wParam == VK_RETURN && (HIWORD(lParam) & KF_ALTDOWN))) {
+				if(!keyup) Video_ToggleFullscreen();
+				return 0;
 			}
 
 			scan = MapKey(wParam);
-			// Real scancode is also ((lParam >> 16) & 0xff)
+			/* Real scancode is also ((lParam >> 16) & 0xff) */
 
 			if (scan == 0) {
 				Warning("Unhandled key %X (='%c')  (scan = %x)\n", wParam, wParam >= 32 ? wParam : '.', (lParam >> 16) & 0xff);
