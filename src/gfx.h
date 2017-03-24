@@ -43,4 +43,12 @@ extern uint16 GFX_GetSize(int16 width, int16 height);
 extern void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 height, uint8 *buffer);
 extern void GFX_CopyToBuffer(int16 left, int16 top, uint16 width, uint16 height, uint8 *buffer);
 
+#define GFX_STORE_DIRTY_AREA
+
+#ifdef GFX_STORE_DIRTY_AREA
+void GFX_Screen_SetDirty(Screen screenID, uint16 left, uint16 top, uint16 right, uint16 bottom);
+#else
+#define GFX_Screen_SetDirty(screenID, left, top, right, bottom)
+#endif /* GFX_STORE_DIRTY_AREA */
+
 #endif /* GFX_H */

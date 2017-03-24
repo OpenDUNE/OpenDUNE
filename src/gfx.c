@@ -33,6 +33,11 @@ static uint8  s_spriteByteSize = 0;	/* size in byte of one sprite pixel data = s
 #define GFX_SCREEN_BUFFER_COUNT 4
 static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
 static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
+#ifdef GFX_STORE_DIRTY_AREA
+static bool s_screen0_is_dirty = false;
+struct dirty_area { uint16 left; uint16 top; uint16 right; uint16 bottom; };
+static struct dirty_area s_screen0_dirty_area = { 0, 0, 0, 0 };
+#endif
 
 static Screen s_screenActiveID = SCREEN_0;
 
@@ -95,6 +100,15 @@ bool GFX_Screen_IsActive(Screen screenID)
 	if (screenID == SCREEN_ACTIVE) return true;
 	return (screenID == s_screenActiveID);
 }
+
+#ifdef GFX_STORE_DIRTY_AREA
+void GFX_Screen_SetDirty(Screen screenID, uint16 left, uint16 top, uint16 right, uint16 bottom)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return;
+	s_screen0_is_dirty = true;
+}
+#endif /* GFX_STORE_DIRTY_AREA */
 
 /**
  * Initialize the GFX system.
@@ -337,10 +351,12 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	if ((yDst + height) > SCREEN_HEIGHT) {
 		height = SCREEN_HEIGHT - 1 - yDst;
 	}
-	if (height < 0) return;
+	if (height <= 0) return;
 
 	if (yDst >= SCREEN_HEIGHT) return;
 	if (yDst < 0) yDst = 0;
+
+	if (width <= 0 || width > SCREEN_WIDTH) return;
 
 	src = GFX_Screen_Get_ByIndex(screenSrc);
 	dst = GFX_Screen_Get_ByIndex(screenDst);
@@ -348,7 +364,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
 
-	if (width < 1 || width > SCREEN_WIDTH) return;
+	GFX_Screen_SetDirty(screenDst, xDst, yDst, xDst + width, yDst + height);
 
 	while (height-- != 0) {
 		memmove(dst, src, width);
