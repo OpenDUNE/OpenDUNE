@@ -605,6 +605,7 @@ void Video_Tick(void)
 {
 	MSG msg;
 	const uint8 * screen0;
+	static int s_unchanged = 0;
 
 	if (!s_init) return;
 
@@ -669,6 +670,12 @@ void Video_Tick(void)
 		Video_Stats(screen0);
 #endif	/* VIDEO_STATS */
 		InvalidateRect(s_hwnd, NULL, TRUE);
+		if(s_unchanged > 0) {
+			Debug("Video_Tick() : SCREEN_0 unchanged %d times\n", s_unchanged);
+			s_unchanged = 0;
+		}
+	} else {
+		s_unchanged++;
 	}
 
 	s_lock = false;
