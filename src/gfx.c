@@ -34,7 +34,7 @@ static uint8  s_spriteByteSize = 0;	/* size in byte of one sprite pixel data = s
 static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
 static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
 
-Screen s_screenActiveID = SCREEN_0;
+static Screen s_screenActiveID = SCREEN_0;
 
 /**
  * Get the codesegment of the active screen buffer.

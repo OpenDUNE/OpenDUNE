@@ -1246,7 +1246,7 @@ int main(int argc, char **argv)
 	Load_IniFile();
 
 	if (!File_Init()) {
-		exit(1);
+		return 1;
 	}
 
 	/* Loading config from dune.cfg */
@@ -1260,7 +1260,7 @@ int main(int argc, char **argv)
 	/* Writing config to dune.cfg */
 	if (commit_dune_cfg && !Config_Write("dune.cfg", &g_config)) {
 		Error("Error writing to dune.cfg file.\n");
-		exit(1);
+		return 1;
 	}
 
 	Input_Init();
@@ -1292,7 +1292,8 @@ int main(int argc, char **argv)
 
 	PrepareEnd();
 	Free_IniFile();
-	exit(0);
+
+	return 0;
 }
 
 /**

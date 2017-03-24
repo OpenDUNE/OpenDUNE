@@ -89,7 +89,7 @@ static const RankScore _rankScores[] = {
 	{282, 1800}  /* "Emperor" */
 };
 
-static uint8 g_colours[16];
+static uint8 g_colours[16];		/*!< Colors used for drawing chars */
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 uint8 *g_palette_998A = NULL;
 uint8 g_remap[256];
