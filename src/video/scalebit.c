@@ -50,7 +50,7 @@
 static inline void stage_scale2x(void* dst0, void* dst1, const void* src0, const void* src1, const void* src2, unsigned pixel, unsigned pixel_per_row)
 {
 	switch (pixel) {
-#if defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2) && defined(WITH_SSE2))
+#if defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2))
 		/* use SSE2 code :
 		 *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
 		 *      if __SSE2__ is defined (-msse2 with GCC)
