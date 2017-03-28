@@ -164,7 +164,7 @@ uint8 Tile_GetPackedY(uint16 packed)
  */
 bool Tile_IsOutOfMap(uint16 packed)
 {
-	return (packed & 0xF000) != 0;
+	return (packed & ~0xFFF) != 0;
 }
 
 /**
