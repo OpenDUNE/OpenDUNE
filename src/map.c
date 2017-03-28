@@ -1377,9 +1377,7 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
  */
 static void Map_AddSpiceOnTile(uint16 packed)
 {
-	Tile *t;
-
-	t = &g_map[packed];
+	Tile *t = &g_map[packed];
 
 	switch (t->groundSpriteID) {
 		case LST_SPICE:
@@ -1413,7 +1411,6 @@ static void Map_AddSpiceOnTile(uint16 packed)
 
 		default:
 			if (g_table_landscapeInfo[t->groundSpriteID].canBecomeSpice) t->groundSpriteID = LST_SPICE;
-			return;
 	}
 }
 
