@@ -1,7 +1,9 @@
 /** @file src/video/video_sdl2.c SDL 2 video driver. */
 
 #include <SDL.h>
+#ifndef WITHOUT_SDLIMAGE
 #include <SDL_image.h>
+#endif /* WITHOUT_SDLIMAGE */
 #include "types.h"
 #include "../os/error.h"
 
@@ -222,7 +224,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	int err;
 	int render_width;
 	int render_height;
+#ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
+#endif /* WITHOUT_SDLIMAGE */
 
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
@@ -257,12 +261,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	SDL_SetWindowTitle(s_window, window_caption);
 
+#ifndef WITHOUT_SDLIMAGE
 	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
 	if (icon == NULL) icon = IMG_Load("../os/png_icon/opendune_32x32.png");
 	if (icon != NULL) {
 		SDL_SetWindowIcon(s_window, icon);
 		SDL_FreeSurface(icon);
 	}
+#endif /* WITHOUT_SDLIMAGE */
 
 	switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
