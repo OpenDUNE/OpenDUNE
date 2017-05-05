@@ -519,9 +519,9 @@ void Video_Tick(void)
 			{
 				uint8 scancode;	/* AT keyboard scancode */
 				SDLKey sym = event.key.keysym.sym;	/* SDLKey symbolic code */
-				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
-					/* ALT-ENTER was pressed */
-					if (!keyup) continue; /* ignore keydown */
+				if ((sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) || sym == SDLK_F11) {
+					/* ALT-ENTER or F11 was pressed */
+					if (keyup) continue; /* ignore key-up */
 					if (!SDL_WM_ToggleFullScreen(s_gfx_surface)) {
 						Warning("Failed to toggle full screen\n");
 					}

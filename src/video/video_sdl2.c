@@ -510,9 +510,9 @@ void Video_Tick(void)
 			{
 				unsigned int sym = event.key.keysym.sym;
 				uint8 code = 0;
-				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
+				if ((sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) || sym == SDLK_F11) {
 					/* ALT-ENTER was pressed */
-					if (!keyup) continue;	/* ignore keydown */
+					if (keyup) continue;	/* ignore key-up */
 					if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : SDL_WINDOW_FULLSCREEN) < 0) {
 						Warning("Failed to toggle full screen : %s\n", SDL_GetError());
 					}
