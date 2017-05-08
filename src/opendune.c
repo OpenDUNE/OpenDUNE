@@ -21,6 +21,9 @@
 #include <time.h>
 #if defined(WITH_SDL) || defined(WITH_SDL2)
 #include <SDL.h>
+#ifdef _WIN32
+#undef main
+#endif
 #endif /* WITH_SDL(2) */
 #include "types.h"
 #include "os/common.h"
@@ -1155,9 +1158,14 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int
 		return false;
 	}
 
+	g_screen_magnification = screen_magnification;
+	g_scale_filter = filter;
+
 	Timer_Init();
 
-	if (!Video_Init(screen_magnification, filter)) return false;
+#if !(defined(_WIN32) && (defined(WITH_SDL) || defined(WITH_SDL2)))
+	if (!Video_Init()) return false;
+#endif
 
 	Mouse_Init();
 
@@ -1510,5 +1518,7 @@ void PrepareEnd(void)
 	File_Uninit();
 	Timer_Uninit();
 	GFX_Uninit();
+#if !(defined(_WIN32) && (defined(WITH_SDL2)))
 	Video_Uninit();
+#endif
 }

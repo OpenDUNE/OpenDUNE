@@ -38,10 +38,17 @@
 #define DUNE_ICON_DIR "./"
 #endif
 
-static VideoScaleFilter s_scale_filter;
+static bool s_fullscreen = false;
+static int s_prev_magnification;
+static int s_desktop_width;
+static int s_desktop_height;
+
+static int s_bpp;
+static int s_surfaceFlags;
+VideoScaleFilter g_scale_filter;
 
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
-static int s_screen_magnification;
+int g_screen_magnification;
 
 /** The palette used for HQX */
 static uint32 rgb_palette[256];
@@ -149,7 +156,7 @@ static const SDLKey sdlkey_map[] = {
  */
 static void Video_Mouse_Callback(void)
 {
-	Mouse_EventHandler(s_mousePosX / s_screen_magnification, s_mousePosY / s_screen_magnification, s_mouseButtonLeft, s_mouseButtonRight);
+	Mouse_EventHandler(s_mousePosX / g_screen_magnification, s_mousePosY / g_screen_magnification, s_mouseButtonLeft, s_mouseButtonRight);
 }
 
 /**
@@ -177,6 +184,9 @@ static void Video_Mouse_Move(uint16 x, uint16 y)
 	if (s_mouseMaxX != 0 && rx > s_mouseMaxX) rx = s_mouseMaxX;
 	if (s_mouseMinY != 0 && ry < s_mouseMinY) ry = s_mouseMinY;
 	if (s_mouseMaxY != 0 && ry > s_mouseMaxY) ry = s_mouseMaxY;
+
+	if (ry > SCREEN_HEIGHT * g_screen_magnification - 1) ry = SCREEN_HEIGHT * g_screen_magnification - 1;
+	if (rx > SCREEN_WIDTH * g_screen_magnification - 1) rx = SCREEN_WIDTH * g_screen_magnification - 1;
 
 	/* If we moved, send the signal back to the window to correct for it */
 	if (x != rx || y != ry) {
@@ -213,7 +223,7 @@ static void Video_Mouse_Button(bool left, bool down)
  */
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SDL_WarpMouse(x * s_screen_magnification, y * s_screen_magnification);
+	SDL_WarpMouse(x * g_screen_magnification, y * g_screen_magnification);
 }
 
 /**
@@ -225,31 +235,30 @@ void Video_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 {
-	s_mouseMinX = minX * s_screen_magnification;
-	s_mouseMaxX = maxX * s_screen_magnification;
-	s_mouseMinY = minY * s_screen_magnification;
-	s_mouseMaxY = maxY * s_screen_magnification;
+	s_mouseMinX = minX * g_screen_magnification;
+	s_mouseMaxX = maxX * g_screen_magnification;
+	s_mouseMinY = minY * g_screen_magnification;
+	s_mouseMaxY = maxY * g_screen_magnification;
 }
 
 /**
  * Initialize the video driver.
  */
-bool Video_Init(int screen_magnification, VideoScaleFilter filter)
+bool Video_Init(void)
 {
+	const SDL_VideoInfo *info;
 #ifndef WITHOUT_SDLIMAGE
-	SDL_Surface * icon;
+	SDL_Surface *icon;
 #endif /* WITHOUT_SDLIMAGE */
 
 	if (s_video_initialized) return true;
-	if (screen_magnification <= 0 || screen_magnification > 4) {
-		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
+	if (g_screen_magnification <= 0 || g_screen_magnification > 4) {
+		Error("Incorrect screen magnification factor : %d\n", g_screen_magnification);
 		return false;
 	}
-	/* no filter if scale factor is 1 */
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
-	s_scale_filter = filter;
-	s_screen_magnification = screen_magnification;
-	if (filter == FILTER_HQX) {
+	if (g_screen_magnification == 1) g_scale_filter = FILTER_NEAREST_NEIGHBOR;
+
+	if (g_scale_filter == FILTER_HQX) {
 		hqxInit();
 	}
 
@@ -257,6 +266,10 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Could not initialize SDL: %s\n", SDL_GetError());
 		return false;
 	}
+
+	info = SDL_GetVideoInfo();
+	s_desktop_width = info->current_w;
+	s_desktop_height = info->current_h;
 
 #ifndef WITHOUT_SDLIMAGE
 	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
@@ -268,11 +281,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 #endif /* WITHOUT_SDLIMAGE */
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
-	if (filter == FILTER_HQX) {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_HWSURFACE | SDL_HWACCEL);
+	if (g_scale_filter == FILTER_HQX) {
+		s_surfaceFlags = SDL_SWSURFACE | SDL_HWACCEL;
+		s_bpp = 32;
 	} else {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_HWSURFACE | SDL_HWACCEL | SDL_HWPALETTE);
+		s_surfaceFlags = SDL_SWSURFACE | SDL_HWACCEL | SDL_HWPALETTE;
+		s_bpp = 8;
 	}
+	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification, s_bpp, s_surfaceFlags);
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;
@@ -281,7 +297,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-	memset(s_gfx_surface->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification);
+	memset(s_gfx_surface->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * g_screen_magnification * g_screen_magnification);
 
 	s_video_initialized = true;
 
@@ -294,7 +310,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 void Video_Uninit(void)
 {
 	s_video_initialized = false;
-	if (s_scale_filter == FILTER_HQX) {
+	if (g_scale_filter == FILTER_HQX) {
 		hqxUnInit();
 	}
 	SDL_Quit();
@@ -304,7 +320,7 @@ static void Video_DrawScreen_Scale2x(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	data += (s_screenOffset << 2);
-	scale(s_screen_magnification, s_gfx_surface->pixels, s_screen_magnification * SCREEN_WIDTH, data, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+	scale(g_screen_magnification, s_gfx_surface->pixels, g_screen_magnification * SCREEN_WIDTH, data, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 static void Video_DrawScreen_Hqx(void)
@@ -314,7 +330,7 @@ static void Video_DrawScreen_Hqx(void)
 	p = GFX_Screen_Get_ByIndex(SCREEN_0);
 	p += (s_screenOffset << 2);
 
-	switch(s_screen_magnification) {
+	switch(g_screen_magnification) {
 	case 2:
 		hq2x_8to32(p, s_gfx_surface->pixels,
 		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
@@ -340,7 +356,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	int i, j;
 
 	data += (s_screenOffset << 2);
-	switch(s_screen_magnification) {
+	switch(g_screen_magnification) {
 	case 1:
 		if (s_gfx_surface->pitch == SCREEN_WIDTH) {
 			memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
@@ -434,15 +450,15 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		/* The non-optimized works-for-every-magnification method */
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			for (x = 0; x < SCREEN_WIDTH; x++) {
-				for (i = 0; i < s_screen_magnification; i++) {
-					for (j = 0; j < s_screen_magnification; j++) {
+				for (i = 0; i < g_screen_magnification; i++) {
+					for (j = 0; j < g_screen_magnification; j++) {
 						*(gfx1 + s_gfx_surface->pitch * j) = *data;
 					}
 					gfx1++;
 				}
 				data++;
 			}
-			gfx1 += s_gfx_surface->pitch * (s_screen_magnification - 1);
+			gfx1 += s_gfx_surface->pitch * (g_screen_magnification - 1);
 		}
 	}
 }
@@ -454,7 +470,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 static void Video_DrawScreen(void)
 {
 	SDL_LockSurface(s_gfx_surface);
-	switch(s_scale_filter) {
+	switch (g_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
 		break;
@@ -470,6 +486,122 @@ static void Video_DrawScreen(void)
 	SDL_UnlockSurface(s_gfx_surface);
 }
 
+
+/**
+* Check if Window can be resized
+* @param new_magnification The new magnification to check.
+*/
+static bool Video_CanResize(int32 new_magnification)
+{
+	if ((SCREEN_WIDTH  * new_magnification >= s_desktop_width || SCREEN_HEIGHT * new_magnification >= s_desktop_height) ||
+		new_magnification <= 0) return false;
+
+	return true;
+}
+
+/**
+* Resize SDL_SetVideoMode on Win32.
+*/
+static void Video_Resize(void)
+{
+	SDL_Color colors[256];
+	int i;
+
+	if (g_scale_filter != FILTER_HQX) {
+		for (i = 0; i < 256; i++) {
+			colors[i].r = s_gfx_surface->format->palette->colors[i].r;
+			colors[i].g = s_gfx_surface->format->palette->colors[i].g;
+			colors[i].b = s_gfx_surface->format->palette->colors[i].b;
+		}
+	}
+
+	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * g_screen_magnification, SCREEN_HEIGHT * g_screen_magnification, s_bpp, s_surfaceFlags);
+	if (s_gfx_surface == NULL) {
+		Warning("Failed to toggle full screen\n");
+	} else if (g_scale_filter != FILTER_HQX) {
+		if (!SDL_SetPalette(s_gfx_surface, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256)) Warning("SDL_SetPalette() failed while resizing\n");
+	}
+}
+
+/**
+* Toggle the Fullscreen mode on Win32.
+*/
+static void Video_ToggleFullscreen(void)
+{
+	if (SDL_WM_ToggleFullScreen(s_gfx_surface)) {
+		return;
+	}
+	
+	if (!s_fullscreen) {
+		s_prev_magnification = g_screen_magnification;
+		g_screen_magnification = 2;
+		
+		s_surfaceFlags |= SDL_FULLSCREEN;
+		s_fullscreen = true;
+	} else {
+		if (g_scale_filter == FILTER_HQX) {
+			s_surfaceFlags = SDL_SWSURFACE;
+		} else {
+			s_surfaceFlags = SDL_SWSURFACE | SDL_HWPALETTE;
+		}
+		g_screen_magnification = s_prev_magnification;
+		s_fullscreen = false;
+	}
+
+	if (!Video_CanResize(g_screen_magnification)) {
+		Warning("Cannot Toggle Fullscreen\n");
+	} else {
+		Video_Resize();
+	}
+}
+
+/**
+* Resize Window stretching the images.
+* @param scancode The SDL keysym taken on SDL_KEYUP event type.
+*/
+static void Video_Key_Checks(SDL_keysym keysym)
+{
+	switch (keysym.sym) {
+		case SDLK_F11: {
+			Video_ToggleFullscreen();
+		} break;
+
+		case SDLK_EQUALS:
+		case SDLK_PLUS: {
+			if (s_fullscreen) return;
+
+			if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification < 4)) {
+				if (!Video_CanResize(g_screen_magnification + 1)) {
+					Video_ToggleFullscreen();
+					return;
+				}
+				++g_screen_magnification;
+				Video_Resize();
+			}
+		} break;
+
+		case SDLK_MINUS: {
+
+			if (s_fullscreen) {
+				Video_ToggleFullscreen();
+				s_fullscreen = false;
+				return;
+			}
+
+			if (g_scale_filter == FILTER_NEAREST_NEIGHBOR || (g_scale_filter != FILTER_NEAREST_NEIGHBOR && g_screen_magnification > 2)) {
+			
+				if (!Video_CanResize(g_screen_magnification - 1)) return;
+
+				--g_screen_magnification;
+				Video_Resize();
+			}
+		} break;
+		
+		default: break;
+	}
+}
+
+
 /**
  * Runs every tick to handle video driver updates.
  */
@@ -478,13 +610,28 @@ void Video_Tick(void)
 	SDL_Event event;
 	static bool s_showFPS = false;
 
+#if defined(_WIN32) && defined(WITH_SDL)
+	if (!s_video_initialized) Video_Init();
+#else /* defined(_WIN32) && defined(WITH_SDL) */
 	if (!s_video_initialized) return;
+#endif /* defined(_WIN32) && defined(WITH_SDL) */
 
 	if (g_fileOperation != 0) return;
 
 	if (s_video_lock) return;
 	s_video_lock = true;
 
+#if defined(_WIN32) && defined(WITH_SDL)
+	if (!g_running && s_fullscreen) {
+		if (g_scale_filter == FILTER_HQX) {
+			s_surfaceFlags = SDL_SWSURFACE;
+		} else {
+			s_surfaceFlags = SDL_SWSURFACE | SDL_HWPALETTE;
+		}
+		g_screen_magnification = s_prev_magnification;
+		Video_Resize();
+	}
+#endif /* defined(_WIN32) && defined(WITH_SDL) */
 	if (s_showFPS) {
 		Video_ShowFPS(GFX_Screen_Get_ByIndex(SCREEN_0));
 	}
@@ -519,14 +666,14 @@ void Video_Tick(void)
 			{
 				uint8 scancode;	/* AT keyboard scancode */
 				SDLKey sym = event.key.keysym.sym;	/* SDLKey symbolic code */
-				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
-					/* ALT-ENTER was pressed */
-					if (!keyup) continue; /* ignore keydown */
-					if (!SDL_WM_ToggleFullScreen(s_gfx_surface)) {
-						Warning("Failed to toggle full screen\n");
-					}
+				SDL_keysym keysym = event.key.keysym;
+				
+				if (!keyup && keysym.sym == SDLK_RETURN && (keysym.mod & KMOD_ALT)) {
+					Video_ToggleFullscreen();	/* Try for SDL_WM_ToggleFullScreen, otherwise SDL_SetVideoMode */
 					continue;
 				}
+				if (!keyup) Video_Key_Checks(keysym);	/* Checks for +/- zoom in/out keys or F11 toggle fullscreen */
+				
 				if (sym == SDLK_F8 && !keyup) {
 					s_showFPS = !s_showFPS;
 					continue;
@@ -566,7 +713,8 @@ void Video_Tick(void)
 	}
 
 	/* Do a quick compare to see if the screen changed at all */
-	if (!s_screen_needrepaint && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
+	if (g_scale_filter == FILTER_HQX && !s_screen_needrepaint && 
+		memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
 		s_video_lock = false;
 		return;
 	}
@@ -594,7 +742,7 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	s_video_lock = true;
 
-	if (s_scale_filter == FILTER_HQX) {
+	if (g_scale_filter == FILTER_HQX) {
 		uint32 value;
 		for (i = from; i < from + length; i++) {
 			value = (((*p++) & 0x3F) * 0x41000) & 0xff0000;

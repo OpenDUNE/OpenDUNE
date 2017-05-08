@@ -39,7 +39,7 @@ Sub safety_check(sourcelist_file)
 
 	' Define regexp
 	Set regexp = New RegExp
-	regexp.Pattern = "#|audio/dsp_sdl.c"
+	regexp.Pattern = "#|audio/dsp_sdl.c|os/thread_sdl.c|video/video_sdl"
 	regexp.Global = True
 
 	' We use a dictionary to check duplicates
@@ -163,7 +163,11 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 				Case Else
 					If deep = skip Then
 						line = Replace(line, "/" ,"\")
-						source_list.Add line, "included"
+						If source_list.Exists(line) Then
+							source_list.Item(line) = "included"
+						Else
+							source_list.Add line, "included"
+						End If
 					Else
 						line = Replace(line, "/" ,"\")
 						If Not source_list.Exists(line) Then
