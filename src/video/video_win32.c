@@ -399,7 +399,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 
 			scan = MapKey(wParam);
-			// Real scancode is also ((lParam >> 16) & 0xff)
+			/* Real scancode is also ((lParam >> 16) & 0xff) */
 
 			if (scan == 0) {
 				Warning("Unhandled key %X (='%c')  (scan = %x)\n", wParam, wParam >= 32 ? wParam : '.', (lParam >> 16) & 0xff);

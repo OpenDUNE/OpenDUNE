@@ -8,6 +8,10 @@
 	#define unlink _unlink
 	#include <ShlObj.h>
 	#include <Shlwapi.h>
+#elif defined(_WIN32)
+	#include <io.h>
+	#include <ShlObj.h>
+	#include <Shlwapi.h>
 #else /* _MSC_VER */
 	#include <unistd.h>
 #endif /* _MSC_VER */
