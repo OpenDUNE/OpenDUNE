@@ -419,6 +419,15 @@ Sub generate(data, dest, data2)
 	' Everything above the !!FILES!! marker
 	line = srcfile.ReadLine()
 	While line <> "!!FILES!!"
+		If line = "!!CPPDEFS!!" Then
+			If graph_config = "SDL" Or graph_config = "SDL2" Then
+				line = "      <PreprocessorDefinitions>WITH_"
+				line = line & graph_config
+				line = line & ";%(PreprocessorDefinitions)</PreprocessorDefinitions>"
+			Else
+				line = ""
+			End If
+		End If
 		If len(line) > 0 Then destfile.WriteLine(line)
 		line = srcfile.ReadLine()
 	Wend
