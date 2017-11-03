@@ -133,8 +133,13 @@ void SleepAndProcessBackgroundTasks(void)
 	Timer_InterruptRun(0);
 }
 
-#elif !defined(_WIN32)
+#elif !defined(_WIN32) || defined(WITH_SDL) || defined(WITH_SDL2)
+#if defined(_WIN32)
+static volatile int s_timer_count = 0;
+#else
+/* POSIX */
 static volatile sig_atomic_t s_timer_count = 0;
+#endif
 
 static void Timer_Handler(int sig)
 {
@@ -147,9 +152,14 @@ static void Timer_Handler(int sig)
 void SleepAndProcessBackgroundTasks(void)
 {
 	while (s_timer_count == 0) {
+#if defined(_WIN32)
+		Sleep(2); /* TODO : use a semaphore */
+#else
+		/* POSIX */
 		pause();	/* wait for a signal to happen */
 		/* another signal can have been triggered,
-		 * ASLA sound is using SIGIO for triggering callbacks */
+		 * ALSA sound is using SIGIO for triggering callbacks */
+#endif
 	}
 	/* timer signal SIGALRM has been triggered */
 	if (s_timer_count > 1) {
@@ -172,7 +182,11 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 	VARIABLE_NOT_USED(TimerOrWaitFired);
 
 	SuspendThread(s_timerMainThread);
+#if defined(WITH_SDL) || defined(WITH_SDL2)
+	s_timer_count++;
+#else
 	Timer_InterruptRun(0);
+#endif /* defined(WITH_SDL) || defined(WITH_SDL2) */
 	ResumeThread(s_timerMainThread);
 }
 #endif /* _WIN32 */
