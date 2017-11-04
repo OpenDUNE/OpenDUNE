@@ -925,7 +925,6 @@ static void GameLoop_Main(void)
 	g_campaignID = 0;
 	g_scenarioID = 1;
 	g_playerHouseID = HOUSE_INVALID;
-	g_debugScenario = false;
 	g_selectionType = SELECTIONTYPE_MENTAT;
 	g_selectionTypeNew = SELECTIONTYPE_MENTAT;
 
