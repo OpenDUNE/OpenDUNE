@@ -78,6 +78,21 @@ Available options are :
 - mt32rompath : directory containing CM32L_CONTROL.ROM/CM32L_PCM.ROM files
                 for Munt MT32 emulator.
 
+debug options (for developpers) :
+- dune2_enhanced : 0 = game acts like the original Dune II, including bugs
+                   1(default) = enable OpenDUNE enhancements
+- debug_game : 0(default) = normal game behavior
+               1 = The player can control the AI
+- debug_scenario : 0(defaut) = normal game behavior
+                   1 = The player can review the scenario. There is no fog.
+                       The game is not running. The player can click on tiles.
+- debug_skip_dialogs : 0(default) = normal game behavior
+                       1 = skip all instros and go immediately to house select.
+- debug_log_game : game record / replay
+                   0(default) = off
+                   1 = record game to 'dune.log'
+                   2 = playback game stored in 'dune.log'
+
 
 Ingame
 ------

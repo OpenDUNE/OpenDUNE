@@ -1248,6 +1248,20 @@ int main(int argc, char **argv)
 	/* Load opendune.ini file */
 	Load_IniFile();
 
+	/* set globals according to opendune.ini */
+	g_dune2_enhanced = (IniFile_GetInteger("dune2_enhanced", 1) != 0) ? true : false;
+	g_debugGame = (IniFile_GetInteger("debug_game", 0) != 0) ? true : false;
+	g_debugScenario = (IniFile_GetInteger("debug_scenario", 0) != 0) ? true : false;
+	g_debugSkipDialogs = (IniFile_GetInteger("debug_skip_dialogs", 0) != 0) ? true : false;
+	s_enableLog = (uint8)IniFile_GetInteger("debug_log_game", 0);
+
+	Debug("Globals :\n");
+	Debug("  g_dune2_enhanced = %d\n", (int)g_dune2_enhanced);
+	Debug("  g_debugGame = %d\n", (int)g_debugGame);
+	Debug("  g_debugScenario = %d\n", (int)g_debugScenario);
+	Debug("  g_debugSkipDialogs = %d\n", (int)g_debugSkipDialogs);
+	Debug("  s_enableLog = %d\n", (int)s_enableLog);
+
 	if (!File_Init()) {
 		exit(1);
 	}
