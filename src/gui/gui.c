@@ -11,6 +11,7 @@
 #include "../os/sleep.h"
 #include "../os/strings.h"
 #include "../os/endian.h"
+#include "../os/error.h"
 
 #include "gui.h"
 
@@ -1730,7 +1731,10 @@ uint8 GUI_PickHouse(void)
 
 		GUI_SetPaletteAnimated(palette, 15);
 
-		if (g_debugSkipDialogs || g_debugScenario) break;
+		if (g_debugSkipDialogs || g_debugScenario) {
+			Debug("Skipping House selection confirmation.\n");
+			break;
+		}
 
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_YES)[0]), 168, 168, 373, 0));
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_NO)[0]), 240, 168, 375, 0));

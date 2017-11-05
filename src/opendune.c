@@ -984,15 +984,6 @@ static void GameLoop_Main(void)
 
 	GUI_Mouse_Show_Safe();
 
-	if (g_debugSkipDialogs) {
-		Music_Play(0);
-
-		free(g_readBuffer);
-		g_readBufferSize = (g_enableVoices == 0) ? 12000 : 20000;
-		g_readBuffer = calloc(1, g_readBufferSize);
-		g_gameMode = GM_NORMAL;
-	}
-
 	for (;; sleepIdle()) {
 		if (g_gameMode == GM_MENU) {
 			GameLoop_GameIntroAnimationMenu();
@@ -1049,7 +1040,11 @@ static void GameLoop_Main(void)
 			GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
 			Game_LoadScenario(g_playerHouseID, g_scenarioID);
-			if (!g_debugScenario && !g_debugSkipDialogs) GUI_Mentat_ShowBriefing();
+			if (!g_debugScenario && !g_debugSkipDialogs) {
+				GUI_Mentat_ShowBriefing();
+			} else {
+				Debug("Skipping GUI_Mentat_ShowBriefing()\n");
+			}
 
 			g_gameMode = GM_NORMAL;
 
