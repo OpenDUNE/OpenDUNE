@@ -74,6 +74,7 @@ Available options are :
 - scalefactor : 2 (default), 3, 4
 - scalefilter : nearest (default), scale2x, hqx
 - framerate : maximum frame rate (60 FPS default)
+- fullscreen : 0(default)/1 starts the game in full screen mode if possible
 - mt32midi : 0(default)/1 send MT32 init, use .XMI files
 - mt32rompath : directory containing CM32L_CONTROL.ROM/CM32L_PCM.ROM files
                 for Munt MT32 emulator.

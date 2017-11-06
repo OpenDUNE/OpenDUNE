@@ -26,6 +26,7 @@
 #include "../input/input.h"
 #include "../input/mouse.h"
 #include "../opendune.h"
+#include "../inifile.h"
 
 #include "video_fps.h"
 #include "scalebit.h"
@@ -236,6 +237,8 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
  */
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
+	uint32 video_flags;
+	int bpp;
 #ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
@@ -268,11 +271,18 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 #endif /* WITHOUT_SDLIMAGE */
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
-	if (filter == FILTER_HQX) {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_HWSURFACE | SDL_HWACCEL);
-	} else {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_HWSURFACE | SDL_HWACCEL | SDL_HWPALETTE);
+
+	video_flags = SDL_HWSURFACE | SDL_HWACCEL;
+	if (IniFile_GetInteger("fullscreen", 0) != 0) {
+		video_flags |= SDL_FULLSCREEN;
 	}
+	if (filter == FILTER_HQX) {
+		bpp = 32;
+	} else {
+		bpp = 8;
+		video_flags |= SDL_HWPALETTE;
+	}
+	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, bpp, video_flags);
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;

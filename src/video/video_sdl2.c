@@ -14,6 +14,7 @@
 #include "../input/input.h"
 #include "../input/mouse.h"
 #include "../opendune.h"
+#include "../inifile.h"
 
 #include "video_fps.h"
 #include "scalebit.h"
@@ -227,6 +228,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 #ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
+	uint32 window_flags = 0;
 
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
@@ -247,10 +249,15 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		return false;
 	}
 
+	if (IniFile_GetInteger("fullscreen", 0) != 0) {
+		window_flags |= SDL_WINDOW_FULLSCREEN;
+		s_full_screen = true;
+	}
+
 	err = SDL_CreateWindowAndRenderer(
 			SCREEN_WIDTH * s_screen_magnification,
 			SCREEN_HEIGHT * s_screen_magnification,
-			0,
+			window_flags,
 			&s_window,
 			&s_renderer);
 
