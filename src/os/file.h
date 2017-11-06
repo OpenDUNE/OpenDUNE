@@ -3,17 +3,15 @@
 #ifndef OS_FILE_H
 #define OS_FILE_H
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 	#include <io.h>
-	#define unlink _unlink
-	#include <ShlObj.h>
-	#include <Shlwapi.h>
-#elif defined(_WIN32)
-	#include <io.h>
-	#include <ShlObj.h>
-	#include <Shlwapi.h>
-#else /* _MSC_VER */
+	#if defined(_MSC_VER)
+		#define unlink _unlink
+	#endif /* _MSC_VER */
+	#include <shlobj.h>
+	#include <shlwapi.h>
+#else /* _WIN32 */
 	#include <unistd.h>
-#endif /* _MSC_VER */
+#endif /* _WIN32 */
 
 #endif /* OS_FILE_H */

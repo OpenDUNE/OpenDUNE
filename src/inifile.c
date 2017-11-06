@@ -11,8 +11,8 @@
 #include "os/strings.h"
 #include "os/error.h"
 #if defined(_WIN32)
-#include <Shlwapi.h>
-#include <Shlobj.h>
+#include <shlwapi.h>
+#include <shlobj.h>
 #else  /* _WIN32 */
 #include <limits.h>
 #ifndef PATH_MAX

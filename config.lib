@@ -984,7 +984,7 @@ make_cflags_and_ldflags() {
 	# And others like Windows
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
 		CFLAGS="$CFLAGS -DWIN"
-		LIBS="$LIBS -lShlwapi"
+		LIBS="$LIBS -lshlwapi"
 	fi
 
 	if [ "$os" = "TOS" ]; then
