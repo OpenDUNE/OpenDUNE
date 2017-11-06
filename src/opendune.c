@@ -1203,7 +1203,10 @@ int main(int argc, char **argv)
 	char filter_text[64];
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
+	#if 0 /* NOTE : disabled because it generates warnings when cross compiling
+	       * for MinGW32 under linux */
 		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
+	#endif
 	#endif
 	FILE *err = fopen("error.log", "w");
 	FILE *out = fopen("output.log", "w");
