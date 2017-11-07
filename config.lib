@@ -730,6 +730,10 @@ make_compiler_cflags() {
 	else
 		# Enable some things only for certain GCC versions
 		cc_version=`$1 -dumpversion | cut -c 1,3`
+		if [ $(echo -n "$cc_version" | wc -c) -eq 1 ] ; then
+			# add a 0 if the version had only one digit
+			cc_version="${cc_version}0"
+		fi
 
 		if [ $cc_version -lt 33 ]; then
 			log 1 "configure: error: gcc older than 3.3 can't compile OpenDUNE because of its poor template support"
