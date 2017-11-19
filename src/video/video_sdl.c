@@ -239,6 +239,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	uint32 video_flags;
 	int bpp;
+#ifdef _DEBUG
+	int prefered_bpp;
+#endif /* _DEBUG */
 #ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
@@ -300,6 +303,10 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		bpp = 8;
 		video_flags |= SDL_HWPALETTE;
 	}
+#ifdef _DEBUG
+	prefered_bpp = SDL_VideoModeOK(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, bpp, video_flags);
+	Debug("SDL_VideoModeOK() : requested bpp = %d, prefered bpp = %d\n", bpp, prefered_bpp);
+#endif /* _DEBUG */
 	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, bpp, video_flags);
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
