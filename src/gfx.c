@@ -395,10 +395,14 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 
 	GFX_Screen_SetDirty(screenDst, xDst, yDst, xDst + width, yDst + height);
 
-	while (height-- != 0) {
-		memmove(dst, src, width);
-		dst += SCREEN_WIDTH;
-		src += SCREEN_WIDTH;
+	if (width == SCREEN_WIDTH) {
+		memmove(dst, src, height * SCREEN_WIDTH);
+	} else {
+		while (height-- != 0) {
+			memmove(dst, src, width);
+			dst += SCREEN_WIDTH;
+			src += SCREEN_WIDTH;
+		}
 	}
 }
 
