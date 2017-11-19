@@ -210,12 +210,33 @@ void Video_Tick(void)
 		Video_ShowFPS(data);
 	}
 
-	data += (s_screenOffset << 2);
-	/* chunky to planar conversion */
-	if(s_machine_type == MCH_TT) {
-		c2p1x1_8_tt(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
-	} else {
-		c2p1x1_8_falcon(screen, data, SCREEN_HEIGHT*SCREEN_WIDTH);
+	if (GFX_Screen_IsDirty(SCREEN_0)) {
+		struct dirty_area * area;
+		int height = SCREEN_HEIGHT;
+
+		area = GFX_Screen_GetDirtyArea(SCREEN_0);
+		if (area != NULL) {
+			if (area->top >= area->bottom) {
+				Warning("GFX_Screen_GetDirtyArea: (%hu, %hu) - (%hu, %hu)\n", area->left, area->top, area->right, area->bottom);
+				return;
+			}
+			data += area->top * SCREEN_WIDTH;
+			screen += area->top * SCREEN_WIDTH;
+			if (area->bottom > SCREEN_HEIGHT) {
+				Warning("GFX_Screen_GetDirtyArea: (%hu, %hu) - (%hu, %hu)\n", area->left, area->top, area->right, area->bottom);
+				area->bottom = SCREEN_HEIGHT;
+			}
+			height = area->bottom - area->top;
+		}
+
+		data += (s_screenOffset << 2);
+		/* chunky to planar conversion */
+		if(s_machine_type == MCH_TT) {
+			c2p1x1_8_tt(screen, data, height*SCREEN_WIDTH);
+		} else {
+			c2p1x1_8_falcon(screen, data, height*SCREEN_WIDTH);
+		}
+		GFX_Screen_SetClean(SCREEN_0);
 	}
 }
 
