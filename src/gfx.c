@@ -503,7 +503,7 @@ void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 height, uint
 	screen = GFX_Screen_Get_ByIndex(SCREEN_0);
 	screen += top * SCREEN_WIDTH + left;
 
-	GFX_Screen_SetDirty(SCREEN_0, top, left, top + width, left + height);
+	GFX_Screen_SetDirty(SCREEN_0, left, top, left + width, top + height);
 
 	while (height-- != 0) {
 		memcpy(screen, buffer, width);
