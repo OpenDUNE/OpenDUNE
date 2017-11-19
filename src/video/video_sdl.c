@@ -269,8 +269,6 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
-	/* no filter if scale factor is 1 */
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 	if (filter == FILTER_HQX) {
@@ -380,15 +378,6 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 
 	data += (s_screenOffset << 2);
 	switch(s_screen_magnification) {
-	case 1:
-		if (s_gfx_surface->pitch == SCREEN_WIDTH) {
-			memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
-		} else for (y = 0; y < SCREEN_HEIGHT; y++) {
-			memcpy(gfx1, data, SCREEN_WIDTH);
-			data += SCREEN_WIDTH;
-			gfx1 += s_gfx_surface->pitch;
-		}
-		break;
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			gfx2 = gfx1 + s_gfx_surface->pitch;
@@ -493,7 +482,33 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 static void Video_DrawScreen(void)
 {
 	SDL_LockSurface(s_gfx_surface);
-	switch(s_scale_filter) {
+	if (s_screen_magnification == 1) {
+		uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+		if (s_gfx_surface->format->BitsPerPixel == 8) {
+			uint8 *gfx = s_gfx_surface->pixels;
+			if (s_gfx_surface->pitch == SCREEN_WIDTH) {
+				memcpy(gfx, data, SCREEN_WIDTH * SCREEN_HEIGHT);
+			} else {
+				int y;
+				for (y = 0; y < SCREEN_HEIGHT; y++) {
+					memcpy(gfx, data, SCREEN_WIDTH);
+					data += SCREEN_WIDTH;
+					gfx += s_gfx_surface->pitch;
+				}
+			}
+		} else {
+			uint32 *gfx = s_gfx_surface->pixels;
+			int x, y;
+			for (y = 0; y < SCREEN_HEIGHT; y++) {
+				for (x = 0; x < SCREEN_WIDTH; x++) {
+					*gfx = rgb_palette[*data];
+					data++;
+					gfx++;
+				}
+				gfx += (s_gfx_surface->pitch / 4 - SCREEN_WIDTH);
+			}
+		}
+	} else switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
 		break;
