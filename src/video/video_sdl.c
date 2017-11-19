@@ -66,9 +66,11 @@ static uint16 s_mouseMaxY = 0;
 static uint8 s_gfx_screen8[SCREEN_WIDTH * SCREEN_HEIGHT];
 static uint16 s_screenOffset = 0;
 
-/* translation from SDLKey (symbolic codes) to AT (or XT ?) keyboard scancodes
- * Dune 2 input code handle extended scancodes (prefixed with e0, we could generate them also) */
+/* translation from SDLKey (symbolic codes) to AT Set 1 (or XT) keyboard scancodes
+ * Scancodes with MSB set are prefixed with E0. ie 0x80|0x1D generates E0 1D.
+ * Dune 2 input code handle extended scancodes (prefixed with e0) */
 /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
+/* also see http://www.quadibloc.com/comp/scan.htm */
 static const uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x01,    0,    0,    0,    0, /*  0x10 -  0x1F */
@@ -86,10 +88,10 @@ static const uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xD0 -  0xDF */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xE0 -  0xEF */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xF0 -  0xFF */
-        0x52, 0x4F, 0x50, 0x51, 0x4B, 0x4C, 0x4D, 0x47, 0x48, 0x49, 0x53, 0x62, 0x37, 0x4A, 0x4E, 0x6C, /* 0x100 - 0x10F */
-           0, 0x48, 0x50, 0x4D, 0x4B, 0x52, 0x47, 0x4F, 0x49, 0x51, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, /* 0x110 - 0x11F */
-        0x41, 0x42, 0x43, 0x44, 0x57, 0x58,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x36, /* 0x120 - 0x12F */
-        0x36,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /* 0x130 - 0x13F */
+        0x52, 0x4F, 0x50, 0x51, 0x4B, 0x4C, 0x4D, 0x47, 0x48, 0x49, 0x53, 0x62, 0x37, 0x4A, 0x4E, 0x80|0x1C, /* 0x100 - 0x10F */
+           0, 0x80|0x48, 0x80|0x50, 0x80|0x4D, 0x80|0x4B, 0x80|0x52, 0x80|0x47, 0x80|0x4F, 0x80|0x49, 0x80|0x51, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, /* 0x110 - 0x11F */
+        0x41, 0x42, 0x43, 0x44, 0x57, 0x58,    0,    0,    0,    0,    0,    0, 0x45, 0x3A, 0x46, 0x36, /* 0x120 - 0x12F */
+        0x2A, 0x80|0x1D, 0x1D, 0x80|0x38, 0x38, 0x80|0x5C, 0x80|0x5B,    0,    0,    0,    0,    0,    0,    0,    0,    0, /* 0x130 - 0x13F */
 };
 
 
@@ -598,7 +600,7 @@ void Video_Tick(void)
 					/* scancode 0 : retrieve from sym */
 					if (sym >= sizeof(s_SDL_keymap)) continue;
 					if (s_SDL_keymap[sym] == 0) {
-						Warning("Unhandled key %X \"%s\"\n", sym, SDL_GetKeyName(sym));
+						Warning("Unhandled key 0x%02X \"%s\"\n", sym, SDL_GetKeyName(sym));
 						continue;
 					}
 					scancode = s_SDL_keymap[sym];
@@ -611,6 +613,10 @@ void Video_Tick(void)
 #endif /* !defined(_WIN32) && !defined(__APPLE__) */
 				}
 #endif /* defined(__APPLE__) */
+				if (scancode & 0x80) {
+					Video_Key_Callback(0xe0);
+					scancode &= 0x7f;
+				}
 				Video_Key_Callback(scancode | (keyup ? 0x80 : 0x0));
 			} break;
 		}
