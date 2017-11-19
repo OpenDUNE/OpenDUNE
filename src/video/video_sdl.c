@@ -631,7 +631,7 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	s_video_lock = true;
 
-	if (s_scale_filter == FILTER_HQX) {
+	if (s_gfx_surface->format->BitsPerPixel != 8) {
 		uint32 value;
 		for (i = from; i < from + length; i++) {
 			value = (((*p++) & 0x3F) * 0x41000) & 0xff0000;
