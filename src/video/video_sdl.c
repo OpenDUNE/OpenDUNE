@@ -53,8 +53,6 @@ static SDL_Surface *s_gfx_surface = NULL;
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
 
-static uint8 s_keyBufferLatest = 0;
-
 static uint16 s_mousePosX = 0;
 static uint16 s_mousePosY = 0;
 static bool s_mouseButtonLeft  = false;
@@ -158,7 +156,6 @@ static void Video_Mouse_Callback(void)
  */
 static void Video_Key_Callback(uint8 key)
 {
-	s_keyBufferLatest = key;
 	Input_EventHandler(key);
 }
 
