@@ -35,7 +35,6 @@ static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFB
 static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
 #ifdef GFX_STORE_DIRTY_AREA
 static bool s_screen0_is_dirty = false;
-struct dirty_area { uint16 left; uint16 top; uint16 right; uint16 bottom; };
 static struct dirty_area s_screen0_dirty_area = { 0, 0, 0, 0 };
 #endif
 
@@ -107,7 +106,37 @@ void GFX_Screen_SetDirty(Screen screenID, uint16 left, uint16 top, uint16 right,
 	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
 	if(screenID != SCREEN_0) return;
 	s_screen0_is_dirty = true;
+	if (left < s_screen0_dirty_area.left) s_screen0_dirty_area.left = left;
+	if (top < s_screen0_dirty_area.top) s_screen0_dirty_area.top = top;
+	if (right > s_screen0_dirty_area.right) s_screen0_dirty_area.right = right;
+	if (bottom > s_screen0_dirty_area.bottom) s_screen0_dirty_area.bottom = bottom;
 }
+
+void GFX_Screen_SetClean(Screen screenID)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return;
+	s_screen0_is_dirty = false;
+	s_screen0_dirty_area.left = 0xffff;
+	s_screen0_dirty_area.top = 0xffff;
+	s_screen0_dirty_area.right = 0;
+	s_screen0_dirty_area.bottom = 0;
+}
+
+bool GFX_Screen_IsDirty(Screen screenID)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return true;
+	return s_screen0_is_dirty;
+}
+
+struct dirty_area * GFX_Screen_GetDirtyArea(Screen screenID)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return NULL;
+	return &s_screen0_dirty_area;
+}
+
 #endif /* GFX_STORE_DIRTY_AREA */
 
 /**
