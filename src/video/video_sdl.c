@@ -353,15 +353,15 @@ static void Video_DrawScreen_Hqx(void)
 
 	switch(s_screen_magnification) {
 	case 2:
-		hq2x_8to32(p, s_gfx_surface->pixels,
+		hq2x_8to32_rb(p, SCREEN_WIDTH, s_gfx_surface->pixels, s_gfx_surface->pitch,
 		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	case 3:
-		hq3x_8to32(p, s_gfx_surface->pixels,
+		hq3x_8to32_rb(p, SCREEN_WIDTH, s_gfx_surface->pixels, s_gfx_surface->pitch,
 		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	case 4:
-		hq4x_8to32(p, s_gfx_surface->pixels,
+		hq4x_8to32_rb(p, SCREEN_WIDTH, s_gfx_surface->pixels, s_gfx_surface->pitch,
 		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	}
