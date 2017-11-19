@@ -63,7 +63,9 @@ static uint16 s_mouseMaxX = 0;
 static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
+#ifdef _DEBUG
 static uint8 s_gfx_screen8[SCREEN_WIDTH * SCREEN_HEIGHT];
+#endif /* _DEBUG */
 static uint16 s_screenOffset = 0;
 
 /* translation from SDLKey (symbolic codes) to AT Set 1 (or XT) keyboard scancodes
@@ -620,23 +622,33 @@ void Video_Tick(void)
 				if (scancode & 0x80) {
 					Video_Key_Callback(0xe0);
 					scancode &= 0x7f;
+					Debug("extended scancode E0 %02X\n", scancode | (keyup ? 0x80 : 0x0));
 				}
 				Video_Key_Callback(scancode | (keyup ? 0x80 : 0x0));
 			} break;
 		}
 	}
 
-	/* Do a quick compare to see if the screen changed at all */
-	if (!s_screen_needrepaint && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
-		s_video_lock = false;
-		return;
+#ifdef _DEBUG
+	if (!GFX_Screen_IsDirty(SCREEN_0) && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
+		Warning("**** SCREEN0 DIRTY NOT DETECTED ! ****\n");
 	}
 	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
+#endif /* _DEBUG */
 
-	Video_DrawScreen();
+	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
+		struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 
-	SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
-	s_screen_needrepaint = false;
+		if (area && (area->left != 0 || area->top != 0 || area->right != SCREEN_WIDTH)) {
+			Debug("Dirty area (%hu, %hu) - (%hu, %hu)\n", area->left, area->top, area->right, area->bottom);
+		}
+		Video_DrawScreen();
+
+		SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
+
+		GFX_Screen_SetClean(SCREEN_0);
+		s_screen_needrepaint = false;
+	}
 
 	s_video_lock = false;
 }
