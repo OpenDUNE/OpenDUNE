@@ -243,6 +243,24 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
 
+#ifdef _DEBUG
+	const SDL_VideoInfo * info;
+
+	info = SDL_GetVideoInfo();
+	if (info != NULL) {
+		if (info->vfmt) {
+			Debug("Prefered : %dbpp (%d bytes per pixel)\n", (int)info->vfmt->BitsPerPixel, (int)info->vfmt->BytesPerPixel);
+			Debug(" colorkey=0X%08x alpha=0x%02x\n", info->vfmt->colorkey, (int)info->vfmt->alpha);
+		}
+		Debug(" hw_available=%d wm_available=%d   video_mem=%luKB\n", info->hw_available, info->wm_available, info->video_mem);
+		Debug(" blit_hw=%d blit_hw_CC=%d nlit_hw_A=%d\n", info->blit_hw, info->blit_hw_CC, info->blit_hw_A);
+		Debug(" blit_sw=%d blit_sw_CC=%d nlit_sw_A=%d\n", info->blit_sw, info->blit_sw_CC, info->blit_sw_A);
+		Debug(" blit_fill=%d\n", info->blit_fill);
+	} else {
+		Warning("SDL_GetVideoInfo() returned NULL\n");
+	}
+#endif /* _DEBUG */
+
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
