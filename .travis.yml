@@ -12,8 +12,8 @@ addons:
     - dos2unix
     - libsdl1.2-dev
     - libsdl-image1.2-dev
-#    - libsdl2-dev
-#    - libsdl2-image-dev
+    - libsdl2-dev
+    - libsdl2-image-dev
 
 # container-based builds
 sudo: false
@@ -28,8 +28,6 @@ matrix:
     - os: linux
       env: CROSS=mingw
       compiler: clang
-    - os: linux
-      env: SDLVERSION=2
     - os: osx
       env: CROSS=mingw
 
@@ -45,7 +43,7 @@ before_install:
 
 script:
   - 'cd $TRAVIS_BUILD_DIR'
-  - 'if [ "$CROSS" = "mingw" ] ; then ./configure --prefix-dir=${HOME} --os=MINGW --without-asound --without-oss --without-munt --without-sdl --without-sdl2 --without-pulse ; else ./configure --prefix-dir=${HOME} ; fi'
+  - 'if [ "$CROSS" = "mingw" ] ; then ./configure --prefix-dir=${HOME} --os=MINGW --without-asound --without-oss --without-munt --without-sdl --without-sdl2 --without-pulse ; elif [ "$SDLVERSION" = "1" ] ; then ./configure --prefix-dir=${HOME} --without-sdl2 ; else ./configure --prefix-dir=${HOME} ; fi'
   - 'make -j3'
   - 'make bundle_zip'
   - 'if [ "$TRAVIS_OS_NAME" = "osx" ]; then make bundle_dmg ; fi'
