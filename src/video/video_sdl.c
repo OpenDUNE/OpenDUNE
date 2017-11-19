@@ -291,7 +291,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-	memset(s_gfx_surface->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification);
+	SDL_LockSurface(s_gfx_surface);
+	memset(s_gfx_surface->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification * s_gfx_surface->format->BytesPerPixel);
+	SDL_UnlockSurface(s_gfx_surface);
 
 	s_video_initialized = true;
 
