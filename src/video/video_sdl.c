@@ -238,7 +238,7 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	uint32 video_flags;
-	int bpp;
+	int width, height, bpp;
 #ifdef _DEBUG
 	int prefered_bpp;
 #endif /* _DEBUG */
@@ -293,6 +293,8 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
 
+	width = SCREEN_WIDTH * s_screen_magnification;
+	height = SCREEN_HEIGHT * s_screen_magnification;
 	video_flags = SDL_HWSURFACE | SDL_HWACCEL;
 	if (IniFile_GetInteger("fullscreen", 0) != 0) {
 		video_flags |= SDL_FULLSCREEN;
@@ -304,10 +306,10 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		video_flags |= SDL_HWPALETTE;
 	}
 #ifdef _DEBUG
-	prefered_bpp = SDL_VideoModeOK(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, bpp, video_flags);
-	Debug("SDL_VideoModeOK() : requested bpp = %d, prefered bpp = %d\n", bpp, prefered_bpp);
+	prefered_bpp = SDL_VideoModeOK(width, height, bpp, video_flags);
+	Debug("SDL_VideoModeOK(%d, %d, %d, 0x%08x) : prefered bpp = %d\n", width, height, bpp, video_flags, prefered_bpp);
 #endif /* _DEBUG */
-	s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, bpp, video_flags);
+	s_gfx_surface = SDL_SetVideoMode(width, height, bpp, video_flags);
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;
@@ -317,7 +319,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 	SDL_LockSurface(s_gfx_surface);
-	memset(s_gfx_surface->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification * s_gfx_surface->format->BytesPerPixel);
+	memset(s_gfx_surface->pixels, 0, width * height * s_gfx_surface->format->BytesPerPixel);
 	SDL_UnlockSurface(s_gfx_surface);
 
 	s_video_initialized = true;
