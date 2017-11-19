@@ -408,6 +408,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 void GFX_ClearScreen(Screen screenID)
 {
 	memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+	GFX_Screen_SetDirty(screenID, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 /**
@@ -417,6 +418,7 @@ void GFX_ClearScreen(Screen screenID)
 void GFX_ClearBlock(Screen index)
 {
 	memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
+	GFX_Screen_SetDirty(index, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 /**
@@ -496,6 +498,8 @@ void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 height, uint
 
 	screen = GFX_Screen_Get_ByIndex(SCREEN_0);
 	screen += top * SCREEN_WIDTH + left;
+
+	GFX_Screen_SetDirty(SCREEN_0, top, left, top + width, left + height);
 
 	while (height-- != 0) {
 		memcpy(screen, buffer, width);

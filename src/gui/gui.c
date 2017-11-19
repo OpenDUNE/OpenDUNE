@@ -408,6 +408,7 @@ static void GUI_DrawChar(unsigned char c, uint16 x, uint16 y)
 	if (x >= SCREEN_WIDTH || (x + fc->width) > SCREEN_WIDTH) return;
 	if (y >= SCREEN_HEIGHT || (y + g_fontCurrent->height) > SCREEN_HEIGHT) return;
 
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, x, y, x + fc->width, y + g_fontCurrent->height);
 	x += y * SCREEN_WIDTH;
 	remainingWidth = SCREEN_WIDTH - fc->width;
 
@@ -1148,6 +1149,12 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	}
 
 	assert((flags & 0xFF) < 4);
+
+	GFX_Screen_SetDirty(screenID,
+	                    (g_widgetProperties[windowID].xBase << 3) + posX,
+	                    g_widgetProperties[windowID].yBase + posY,
+	                    (g_widgetProperties[windowID].xBase << 3) + posX + spriteWidth,
+	                    g_widgetProperties[windowID].yBase + posY + spriteHeight);
 
 	do {
 		/* drawing loop */
@@ -3756,6 +3763,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, Screen scre
 
 			GFX_PutPixel(curX, curY, colour);
 		}
+		GFX_Screen_SetDirty(screenDst, x, y, x + width, y + height);
 
 		Timer_Sleep(delay);
 	}
