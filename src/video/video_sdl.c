@@ -239,15 +239,35 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	uint32 video_flags;
 	int width, height, bpp;
 #ifdef _DEBUG
+	const SDL_VideoInfo * info;
 	int prefered_bpp;
 #endif /* _DEBUG */
 #ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
 
-#ifdef _DEBUG
-	const SDL_VideoInfo * info;
+	if (s_video_initialized) return true;
+	if (screen_magnification <= 0 || screen_magnification > 4) {
+		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
+		return false;
+	}
+	s_scale_filter = filter;
+	s_screen_magnification = screen_magnification;
+	if (filter == FILTER_HQX) {
+		hqxInit();
+	}
 
+	/* Note from https://www.libsdl.org/release/SDL-1.2.15/docs/html/video.html :
+	 * If you use both sound and video in your application, you need to call
+	 * SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO) before opening the sound
+	 * device, otherwise under Win32 DirectX, you won't be able to set
+	 * full-screen display modes. */
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		Error("Could not initialize SDL: %s\n", SDL_GetError());
+		return false;
+	}
+
+#ifdef _DEBUG
 	info = SDL_GetVideoInfo();
 	if (info != NULL) {
 		if (info->vfmt) {
@@ -262,22 +282,6 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Warning("SDL_GetVideoInfo() returned NULL\n");
 	}
 #endif /* _DEBUG */
-
-	if (s_video_initialized) return true;
-	if (screen_magnification <= 0 || screen_magnification > 4) {
-		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
-		return false;
-	}
-	s_scale_filter = filter;
-	s_screen_magnification = screen_magnification;
-	if (filter == FILTER_HQX) {
-		hqxInit();
-	}
-
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		Error("Could not initialize SDL: %s\n", SDL_GetError());
-		return false;
-	}
 
 #ifndef WITHOUT_SDLIMAGE
 	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
