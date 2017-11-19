@@ -26,6 +26,7 @@
 #include "../input/input.h"
 #include "../input/mouse.h"
 #include "../opendune.h"
+#include "../inifile.h"
 
 #include "video_fps.h"
 #include "scalebit.h"
@@ -52,8 +53,6 @@ static SDL_Surface *s_gfx_surface = NULL;
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
 
-static uint8 s_keyBufferLatest = 0;
-
 static uint16 s_mousePosX = 0;
 static uint16 s_mousePosY = 0;
 static bool s_mouseButtonLeft  = false;
@@ -67,9 +66,11 @@ static uint16 s_mouseMaxY = 0;
 static uint8 s_gfx_screen8[SCREEN_WIDTH * SCREEN_HEIGHT];
 static uint16 s_screenOffset = 0;
 
-/* translation from SDLKey (symbolic codes) to AT (or XT ?) keyboard scancodes
- * Dune 2 input code handle extended scancodes (prefixed with e0, we could generate them also) */
+/* translation from SDLKey (symbolic codes) to AT Set 1 (or XT) keyboard scancodes
+ * Scancodes with MSB set are prefixed with E0. ie 0x80|0x1D generates E0 1D.
+ * Dune 2 input code handle extended scancodes (prefixed with e0) */
 /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
+/* also see http://www.quadibloc.com/comp/scan.htm */
 static const uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x01,    0,    0,    0,    0, /*  0x10 -  0x1F */
@@ -87,10 +88,10 @@ static const uint8 s_SDL_keymap[] = {
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xD0 -  0xDF */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xE0 -  0xEF */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /*  0xF0 -  0xFF */
-        0x52, 0x4F, 0x50, 0x51, 0x4B, 0x4C, 0x4D, 0x47, 0x48, 0x49, 0x53, 0x62, 0x37, 0x4A, 0x4E, 0x6C, /* 0x100 - 0x10F */
-           0, 0x48, 0x50, 0x4D, 0x4B, 0x52, 0x47, 0x4F, 0x49, 0x51, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, /* 0x110 - 0x11F */
-        0x41, 0x42, 0x43, 0x44, 0x57, 0x58,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x36, /* 0x120 - 0x12F */
-        0x36,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, /* 0x130 - 0x13F */
+        0x52, 0x4F, 0x50, 0x51, 0x4B, 0x4C, 0x4D, 0x47, 0x48, 0x49, 0x53, 0x62, 0x37, 0x4A, 0x4E, 0x80|0x1C, /* 0x100 - 0x10F */
+           0, 0x80|0x48, 0x80|0x50, 0x80|0x4D, 0x80|0x4B, 0x80|0x52, 0x80|0x47, 0x80|0x4F, 0x80|0x49, 0x80|0x51, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, /* 0x110 - 0x11F */
+        0x41, 0x42, 0x43, 0x44, 0x57, 0x58,    0,    0,    0,    0,    0,    0, 0x45, 0x3A, 0x46, 0x36, /* 0x120 - 0x12F */
+        0x2A, 0x80|0x1D, 0x1D, 0x80|0x38, 0x38, 0x80|0x5C, 0x80|0x5B,    0,    0,    0,    0,    0,    0,    0,    0,    0, /* 0x130 - 0x13F */
 };
 
 
@@ -157,7 +158,6 @@ static void Video_Mouse_Callback(void)
  */
 static void Video_Key_Callback(uint8 key)
 {
-	s_keyBufferLatest = key;
 	Input_EventHandler(key);
 }
 
@@ -236,6 +236,12 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
  */
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
+	uint32 video_flags;
+	int width, height, bpp;
+#ifdef _DEBUG
+	const SDL_VideoInfo * info;
+	int prefered_bpp;
+#endif /* _DEBUG */
 #ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
@@ -245,18 +251,37 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
-	/* no filter if scale factor is 1 */
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 	if (filter == FILTER_HQX) {
 		hqxInit();
 	}
 
+	/* Note from https://www.libsdl.org/release/SDL-1.2.15/docs/html/video.html :
+	 * If you use both sound and video in your application, you need to call
+	 * SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO) before opening the sound
+	 * device, otherwise under Win32 DirectX, you won't be able to set
+	 * full-screen display modes. */
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		Error("Could not initialize SDL: %s\n", SDL_GetError());
 		return false;
 	}
+
+#ifdef _DEBUG
+	info = SDL_GetVideoInfo();
+	if (info != NULL) {
+		if (info->vfmt) {
+			Debug("Prefered : %dbpp (%d bytes per pixel)\n", (int)info->vfmt->BitsPerPixel, (int)info->vfmt->BytesPerPixel);
+			Debug(" colorkey=0X%08x alpha=0x%02x\n", info->vfmt->colorkey, (int)info->vfmt->alpha);
+		}
+		Debug(" hw_available=%d wm_available=%d   video_mem=%luKB\n", info->hw_available, info->wm_available, info->video_mem);
+		Debug(" blit_hw=%d blit_hw_CC=%d nlit_hw_A=%d\n", info->blit_hw, info->blit_hw_CC, info->blit_hw_A);
+		Debug(" blit_sw=%d blit_sw_CC=%d nlit_sw_A=%d\n", info->blit_sw, info->blit_sw_CC, info->blit_sw_A);
+		Debug(" blit_fill=%d\n", info->blit_fill);
+	} else {
+		Warning("SDL_GetVideoInfo() returned NULL\n");
+	}
+#endif /* _DEBUG */
 
 #ifndef WITHOUT_SDLIMAGE
 	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
@@ -268,11 +293,24 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 #endif /* WITHOUT_SDLIMAGE */
 
 	SDL_WM_SetCaption(window_caption, "OpenDUNE");
-	if (filter == FILTER_HQX) {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 32, SDL_HWSURFACE | SDL_HWACCEL);
-	} else {
-		s_gfx_surface = SDL_SetVideoMode(SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, 8, SDL_HWSURFACE | SDL_HWACCEL | SDL_HWPALETTE);
+
+	width = SCREEN_WIDTH * s_screen_magnification;
+	height = SCREEN_HEIGHT * s_screen_magnification;
+	video_flags = SDL_HWSURFACE | SDL_HWACCEL;
+	if (IniFile_GetInteger("fullscreen", 0) != 0) {
+		video_flags |= SDL_FULLSCREEN;
 	}
+	if (filter == FILTER_HQX) {
+		bpp = 32;
+	} else {
+		bpp = 8;
+		video_flags |= SDL_HWPALETTE;
+	}
+#ifdef _DEBUG
+	prefered_bpp = SDL_VideoModeOK(width, height, bpp, video_flags);
+	Debug("SDL_VideoModeOK(%d, %d, %d, 0x%08x) : prefered bpp = %d\n", width, height, bpp, video_flags, prefered_bpp);
+#endif /* _DEBUG */
+	s_gfx_surface = SDL_SetVideoMode(width, height, bpp, video_flags);
 	if (s_gfx_surface == NULL) {
 		Error("Could not set resolution: %s\n", SDL_GetError());
 		return false;
@@ -281,7 +319,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-	memset(s_gfx_surface->pixels, 0, SCREEN_WIDTH * SCREEN_HEIGHT * s_screen_magnification * s_screen_magnification);
+	SDL_LockSurface(s_gfx_surface);
+	memset(s_gfx_surface->pixels, 0, width * height * s_gfx_surface->format->BytesPerPixel);
+	SDL_UnlockSurface(s_gfx_surface);
 
 	s_video_initialized = true;
 
@@ -316,15 +356,15 @@ static void Video_DrawScreen_Hqx(void)
 
 	switch(s_screen_magnification) {
 	case 2:
-		hq2x_8to32(p, s_gfx_surface->pixels,
+		hq2x_8to32_rb(p, SCREEN_WIDTH, s_gfx_surface->pixels, s_gfx_surface->pitch,
 		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	case 3:
-		hq3x_8to32(p, s_gfx_surface->pixels,
+		hq3x_8to32_rb(p, SCREEN_WIDTH, s_gfx_surface->pixels, s_gfx_surface->pitch,
 		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	case 4:
-		hq4x_8to32(p, s_gfx_surface->pixels,
+		hq4x_8to32_rb(p, SCREEN_WIDTH, s_gfx_surface->pixels, s_gfx_surface->pitch,
 		           SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 		break;
 	}
@@ -341,15 +381,6 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 
 	data += (s_screenOffset << 2);
 	switch(s_screen_magnification) {
-	case 1:
-		if (s_gfx_surface->pitch == SCREEN_WIDTH) {
-			memcpy(gfx1, data, SCREEN_WIDTH * SCREEN_HEIGHT);
-		} else for (y = 0; y < SCREEN_HEIGHT; y++) {
-			memcpy(gfx1, data, SCREEN_WIDTH);
-			data += SCREEN_WIDTH;
-			gfx1 += s_gfx_surface->pitch;
-		}
-		break;
 	case 2:
 		for (y = 0; y < SCREEN_HEIGHT; y++) {
 			gfx2 = gfx1 + s_gfx_surface->pitch;
@@ -454,7 +485,33 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 static void Video_DrawScreen(void)
 {
 	SDL_LockSurface(s_gfx_surface);
-	switch(s_scale_filter) {
+	if (s_screen_magnification == 1) {
+		uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+		if (s_gfx_surface->format->BitsPerPixel == 8) {
+			uint8 *gfx = s_gfx_surface->pixels;
+			if (s_gfx_surface->pitch == SCREEN_WIDTH) {
+				memcpy(gfx, data, SCREEN_WIDTH * SCREEN_HEIGHT);
+			} else {
+				int y;
+				for (y = 0; y < SCREEN_HEIGHT; y++) {
+					memcpy(gfx, data, SCREEN_WIDTH);
+					data += SCREEN_WIDTH;
+					gfx += s_gfx_surface->pitch;
+				}
+			}
+		} else {
+			uint32 *gfx = s_gfx_surface->pixels;
+			int x, y;
+			for (y = 0; y < SCREEN_HEIGHT; y++) {
+				for (x = 0; x < SCREEN_WIDTH; x++) {
+					*gfx = rgb_palette[*data];
+					data++;
+					gfx++;
+				}
+				gfx += (s_gfx_surface->pitch / 4 - SCREEN_WIDTH);
+			}
+		}
+	} else switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
 		break;
@@ -519,9 +576,9 @@ void Video_Tick(void)
 			{
 				uint8 scancode;	/* AT keyboard scancode */
 				SDLKey sym = event.key.keysym.sym;	/* SDLKey symbolic code */
-				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
-					/* ALT-ENTER was pressed */
-					if (!keyup) continue; /* ignore keydown */
+				if ((sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) || sym == SDLK_F11) {
+					/* ALT-ENTER or F11 was pressed */
+					if (keyup) continue; /* ignore key-up */
 					if (!SDL_WM_ToggleFullScreen(s_gfx_surface)) {
 						Warning("Failed to toggle full screen\n");
 					}
@@ -547,7 +604,7 @@ void Video_Tick(void)
 					/* scancode 0 : retrieve from sym */
 					if (sym >= sizeof(s_SDL_keymap)) continue;
 					if (s_SDL_keymap[sym] == 0) {
-						Warning("Unhandled key %X \"%s\"\n", sym, SDL_GetKeyName(sym));
+						Warning("Unhandled key 0x%02X \"%s\"\n", sym, SDL_GetKeyName(sym));
 						continue;
 					}
 					scancode = s_SDL_keymap[sym];
@@ -560,6 +617,10 @@ void Video_Tick(void)
 #endif /* !defined(_WIN32) && !defined(__APPLE__) */
 				}
 #endif /* defined(__APPLE__) */
+				if (scancode & 0x80) {
+					Video_Key_Callback(0xe0);
+					scancode &= 0x7f;
+				}
 				Video_Key_Callback(scancode | (keyup ? 0x80 : 0x0));
 			} break;
 		}
@@ -594,7 +655,7 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	s_video_lock = true;
 
-	if (s_scale_filter == FILTER_HQX) {
+	if (s_gfx_surface->format->BitsPerPixel != 8) {
 		uint32 value;
 		for (i = from; i < from + length; i++) {
 			value = (((*p++) & 0x3F) * 0x41000) & 0xff0000;

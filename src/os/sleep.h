@@ -19,7 +19,7 @@
 	#define msleep(x) usleep(x * 1000)
 #endif /* _WIN32 */
 
-#if defined(_WIN32)
+#if defined(_WIN32) && !defined(WITH_SDL) && !defined(WITH_SDL2)
 #define sleepIdle() msleep(1)
 #else /* _WIN32 */
 #include "../timer.h"

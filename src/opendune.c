@@ -21,6 +21,9 @@
 #include <time.h>
 #if defined(WITH_SDL) || defined(WITH_SDL2)
 #include <SDL.h>
+#ifdef _WIN32
+#undef main
+#endif
 #endif /* WITH_SDL(2) */
 #include "types.h"
 #include "os/common.h"
@@ -922,7 +925,6 @@ static void GameLoop_Main(void)
 	g_campaignID = 0;
 	g_scenarioID = 1;
 	g_playerHouseID = HOUSE_INVALID;
-	g_debugScenario = false;
 	g_selectionType = SELECTIONTYPE_MENTAT;
 	g_selectionTypeNew = SELECTIONTYPE_MENTAT;
 
@@ -982,15 +984,6 @@ static void GameLoop_Main(void)
 
 	GUI_Mouse_Show_Safe();
 
-	if (g_debugSkipDialogs) {
-		Music_Play(0);
-
-		free(g_readBuffer);
-		g_readBufferSize = (g_enableVoices == 0) ? 12000 : 20000;
-		g_readBuffer = calloc(1, g_readBufferSize);
-		g_gameMode = GM_NORMAL;
-	}
-
 	for (;; sleepIdle()) {
 		if (g_gameMode == GM_MENU) {
 			GameLoop_GameIntroAnimationMenu();
@@ -1047,7 +1040,11 @@ static void GameLoop_Main(void)
 			GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
 
 			Game_LoadScenario(g_playerHouseID, g_scenarioID);
-			if (!g_debugScenario && !g_debugSkipDialogs) GUI_Mentat_ShowBriefing();
+			if (!g_debugScenario && !g_debugSkipDialogs) {
+				GUI_Mentat_ShowBriefing();
+			} else {
+				Debug("Skipping GUI_Mentat_ShowBriefing()\n");
+			}
 
 			g_gameMode = GM_NORMAL;
 
@@ -1206,7 +1203,10 @@ int main(int argc, char **argv)
 	char filter_text[64];
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
+	#if 0 /* NOTE : disabled because it generates warnings when cross compiling
+	       * for MinGW32 under linux */
 		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
+	#endif
 	#endif
 	FILE *err = fopen("error.log", "w");
 	FILE *out = fopen("output.log", "w");
@@ -1244,6 +1244,20 @@ int main(int argc, char **argv)
 
 	/* Load opendune.ini file */
 	Load_IniFile();
+
+	/* set globals according to opendune.ini */
+	g_dune2_enhanced = (IniFile_GetInteger("dune2_enhanced", 1) != 0) ? true : false;
+	g_debugGame = (IniFile_GetInteger("debug_game", 0) != 0) ? true : false;
+	g_debugScenario = (IniFile_GetInteger("debug_scenario", 0) != 0) ? true : false;
+	g_debugSkipDialogs = (IniFile_GetInteger("debug_skip_dialogs", 0) != 0) ? true : false;
+	s_enableLog = (uint8)IniFile_GetInteger("debug_log_game", 0);
+
+	Debug("Globals :\n");
+	Debug("  g_dune2_enhanced = %d\n", (int)g_dune2_enhanced);
+	Debug("  g_debugGame = %d\n", (int)g_debugGame);
+	Debug("  g_debugScenario = %d\n", (int)g_debugScenario);
+	Debug("  g_debugSkipDialogs = %d\n", (int)g_debugSkipDialogs);
+	Debug("  s_enableLog = %d\n", (int)s_enableLog);
 
 	if (!File_Init()) {
 		return 1;

@@ -5,6 +5,7 @@
 #include "types.h"
 #include "../os/common.h"
 #include "../os/sleep.h"
+#include "../os/error.h"
 
 #include "input.h"
 
@@ -237,7 +238,11 @@ static void Input_ReadInputFromFile(void)
 
 	if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL || g_mouseMode != INPUT_MOUSE_MODE_PLAY) return;
 
-	File_Read(g_mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
+	if (File_Read(g_mouseFileID, mouseBuffer, 4) != 4) {
+		Warning("Input_ReadInputFromFile(): File_Read() error.\n");
+		return;
+	}
+	Debug("  time=%hu value=0x%04hx\n", mouseBuffer[1], mouseBuffer[0]);
 
 	g_mouseRecordedTimer = mouseBuffer[1];
 	value = g_mouseInputValue = mouseBuffer[0];
@@ -263,7 +268,11 @@ static void Input_ReadInputFromFile(void)
 		}
 	}
 
-	File_Read(g_mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
+	if (File_Read(g_mouseFileID, mouseBuffer, 4) != 4) {
+		Warning("Input_ReadInputFromFile(): File_Read() error.\n");
+		return;
+	}
+	Debug("  mouseX=%hu mouseY=%hu\n", mouseBuffer[0], mouseBuffer[1]);
 
 	g_mouseX = g_mouseRecordedX = mouseBuffer[0];
 	value = g_mouseY = g_mouseRecordedY = mouseBuffer[1];
@@ -311,7 +320,7 @@ void Input_HandleInput(uint16 input)
 
 	uint16 inputMouseX;
 	uint16 inputMouseY;
-	uint16 tempBuffer[2];
+	uint16 tempBuffer[4];
 	uint16 flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
 	flags       = g_inputFlags;
@@ -407,17 +416,14 @@ void Input_HandleInput(uint16 input)
 		/* mouse buttons : 0x2D '-' : no change
 		                   0x41 'A' : change for 1st button
 						   0x42 'B' : change for 2nd button */
-		if (Input_History_Add(inputMouseX) != 0) {
+		if ((Input_History_Add(inputMouseX) != 0) || (Input_History_Add(inputMouseY) != 0)) {
 			s_historyTail = oldTail;
 			return;
 		}
-		saveSize += 2;
 
-		if (Input_History_Add(inputMouseY) != 0) {
-			s_historyTail = oldTail;
-			return;
-		}
-		saveSize += 2;
+		tempBuffer[2] = inputMouseX;
+		tempBuffer[3] = inputMouseY;
+		saveSize += 4;
 	}
 
 	bit_value = 1;

@@ -318,7 +318,7 @@ static void munt_tick(void)
 			if(n < 0) {
 				Warning("munt_tick() write() : %s\n", strerror(errno));
 			} else if(n != (s_sample_rate * 4) / MUNT_RENDER_RATE) {
-				Warning("write() returned %lu\n", (unsigned long)n);
+				Warning("write(%lu) returned %lu\n", (unsigned long)((s_sample_rate * 4) / MUNT_RENDER_RATE), (unsigned long)n);
 			}
 		}
 	}

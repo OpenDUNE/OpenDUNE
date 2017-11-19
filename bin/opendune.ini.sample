@@ -12,6 +12,17 @@
 ;scalefactor=2
 ; Rescaling filter availables : nearest (default), scale2x, hqx
 ;scalefilter=scale2x
+; Start OpenDUNE fullscreen if possible
+;fullscreen=1
 ; set mt32midi=1 if you output music to a MT-32 device or compatible
 ; default setting is for GeneralMidi music (Roland SC55)
 ;mt32midi=1
+; Path to MT32 ROMs (needed when built with munt library)
+;mt32rompath=/home/user/mt32roms
+
+; DEBUG options :
+;dune2_enhanced=0
+;debug_game=1
+;debug_scenario=1
+;debug_skip_dialogs=1
+;debug_log_game=1

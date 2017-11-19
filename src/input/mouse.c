@@ -5,6 +5,7 @@
 #include "types.h"
 #include "../os/math.h"
 #include "../os/sleep.h"
+#include "../os/error.h"
 
 #include "mouse.h"
 
@@ -65,6 +66,7 @@ void Mouse_Init(void)
 	g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
 	g_mouseDisabled = 1;
+	g_mouseFileID = FILE_INVALID;
 
 	Video_Mouse_SetPosition(g_mouseX, g_mouseY);
 }
@@ -154,16 +156,16 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 
 		case INPUT_MOUSE_MODE_NORMAL:
 			g_mouseMode = mouseMode;
-			if (g_mouseFileID != 0xFF) {
+			if (g_mouseFileID != FILE_INVALID) {
 				Input_Flags_ClearBits(INPUT_FLAG_KEY_RELEASE);
 				File_Close(g_mouseFileID);
+				g_mouseFileID = FILE_INVALID;
 			}
-			g_mouseFileID = 0xFF;
 			g_mouseNoRecordedValue = true;
 			break;
 
 		case INPUT_MOUSE_MODE_RECORD:
-			if (g_mouseFileID != 0xFF) break;
+			if (g_mouseFileID != FILE_INVALID) break;
 
 			File_Delete_Personal(filename);
 			File_Create_Personal(filename);
@@ -171,7 +173,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			Tools_RandomLCG_Seed(0x1234);
 			Tools_Random_Seed(0x12344321);
 
-			g_mouseFileID = File_Open(filename, FILE_MODE_READ_WRITE);
+			g_mouseFileID = File_Open_Personal(filename, FILE_MODE_READ_WRITE);
 
 			g_mouseMode = mouseMode;
 
@@ -181,8 +183,12 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			break;
 
 		case INPUT_MOUSE_MODE_PLAY:
-			if (g_mouseFileID == 0xFF) {
-				g_mouseFileID = File_Open(filename, FILE_MODE_READ);
+			if (g_mouseFileID == FILE_INVALID) {
+				g_mouseFileID = File_Open_Personal(filename, FILE_MODE_READ);
+				if (g_mouseFileID == FILE_INVALID) {
+					Error("Cannot open '%s', replay log is impossible.\n", filename);
+					return;
+				}
 
 				Tools_RandomLCG_Seed(0x1234);
 				Tools_Random_Seed(0x12344321);

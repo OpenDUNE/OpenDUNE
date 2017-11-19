@@ -207,6 +207,10 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_oss.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src\audio\dsp_pulse.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
@@ -224,6 +228,10 @@
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\src\audio\midi_atari.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_munt.c">
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\audio\</ObjectFileName>
     </ClCompile>

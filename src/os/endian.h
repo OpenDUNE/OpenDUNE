@@ -7,6 +7,9 @@
 	#if !defined(__LITTLE_ENDIAN)
 		#define __LITTLE_ENDIAN 1234
 	#endif /* __LITTLE_ENDIAN */
+	#if !defined(__BIG_ENDIAN)
+		#define __BIG_ENDIAN 4321
+	#endif /* __BIG_ENDIAN */
 	#define __BYTE_ORDER __LITTLE_ENDIAN
 #elif defined(__APPLE__) || defined(__FreeBSD__)
 	#include <machine/endian.h>

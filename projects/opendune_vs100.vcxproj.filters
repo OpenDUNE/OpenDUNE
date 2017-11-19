@@ -222,6 +222,9 @@
     <ClCompile Include="..\src\audio\dsp_none.c">
       <Filter>src\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\audio\dsp_oss.c">
+      <Filter>src\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\audio\dsp_pulse.c">
       <Filter>src\audio</Filter>
     </ClCompile>
@@ -238,6 +241,9 @@
       <Filter>src\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\src\audio\midi_atari.c">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\audio\midi_munt.c">
       <Filter>src\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\src\audio\midi_none.c">

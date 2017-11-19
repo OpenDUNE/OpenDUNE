@@ -74,9 +74,12 @@
 	#include <stdarg.h>
 
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
+	#if 0 /* NOTE : disabled because it generates warnings when cross compiling
+	       * for MinGW32 under linux */
 		int __cdecl __MINGW_NOTHROW strcasecmp (const char *, const char *);
 		int __cdecl __MINGW_NOTHROW strncasecmp (const char *, const char *, size_t);
 		char* __cdecl __MINGW_NOTHROW strdup (const char*) __MINGW_ATTRIB_MALLOC;
+	#endif
 	#endif /* __MINGW32__ && __STRICT_ANSI__ */
 
 	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(snprintf)

@@ -148,7 +148,15 @@ timer.c
 tools.c
 unit.c
 #if WIN32
-	video/video_win32.c
+	#if SDL
+		video/video_sdl.c
+	#else
+		#if SDL2
+			video/video_sdl2.c
+		#else
+			video/video_win32.c
+		#endif
+	#endif
 #else
 	#if SDL2
 		video/video_sdl2.c

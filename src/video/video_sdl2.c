@@ -1,7 +1,9 @@
 /** @file src/video/video_sdl2.c SDL 2 video driver. */
 
 #include <SDL.h>
+#ifndef WITHOUT_SDLIMAGE
 #include <SDL_image.h>
+#endif /* WITHOUT_SDLIMAGE */
 #include "types.h"
 #include "../os/error.h"
 
@@ -12,6 +14,7 @@
 #include "../input/input.h"
 #include "../input/mouse.h"
 #include "../opendune.h"
+#include "../inifile.h"
 
 #include "video_fps.h"
 #include "scalebit.h"
@@ -222,7 +225,10 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	int err;
 	int render_width;
 	int render_height;
+#ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
+#endif /* WITHOUT_SDLIMAGE */
+	uint32 window_flags = 0;
 
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
@@ -243,10 +249,15 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		return false;
 	}
 
+	if (IniFile_GetInteger("fullscreen", 0) != 0) {
+		window_flags |= SDL_WINDOW_FULLSCREEN;
+		s_full_screen = true;
+	}
+
 	err = SDL_CreateWindowAndRenderer(
 			SCREEN_WIDTH * s_screen_magnification,
 			SCREEN_HEIGHT * s_screen_magnification,
-			0,
+			window_flags,
 			&s_window,
 			&s_renderer);
 
@@ -257,12 +268,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	SDL_SetWindowTitle(s_window, window_caption);
 
+#ifndef WITHOUT_SDLIMAGE
 	icon = IMG_Load(DUNE_ICON_DIR "opendune.png");
 	if (icon == NULL) icon = IMG_Load("../os/png_icon/opendune_32x32.png");
 	if (icon != NULL) {
 		SDL_SetWindowIcon(s_window, icon);
 		SDL_FreeSurface(icon);
 	}
+#endif /* WITHOUT_SDLIMAGE */
 
 	switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
@@ -504,9 +517,9 @@ void Video_Tick(void)
 			{
 				unsigned int sym = event.key.keysym.sym;
 				uint8 code = 0;
-				if (sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) {
+				if ((sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT)) || sym == SDLK_F11) {
 					/* ALT-ENTER was pressed */
-					if (!keyup) continue;	/* ignore keydown */
+					if (keyup) continue;	/* ignore key-up */
 					if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : SDL_WINDOW_FULLSCREEN) < 0) {
 						Warning("Failed to toggle full screen : %s\n", SDL_GetError());
 					}

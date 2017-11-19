@@ -3,6 +3,8 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include <stdio.h>
+
 enum {
 	FILE_MODE_READ       = 0x01,
 	FILE_MODE_WRITE      = 0x02,

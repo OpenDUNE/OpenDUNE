@@ -49,7 +49,9 @@ For Linux/FreeBSD, you need to install LibSDL yourself. It is available in every
 In order to use sounds and music on Linux, you need a working ALSA driver.
 Music is sent to MIDI Out port of Atari machines.
 It is also possible to build with Munt MT32 emulator http://munt.sourceforge.net/
-to have MT32 music.
+to have MT32 music : Windows users should just install the mt32emu_win32drv and
+the right MIDI device will be selected when mt32midi option in opendune.ini
+is on. Linux/FreeBSD users should install munt on their system and rebuild.
 
 
 Installation & Running
@@ -74,9 +76,25 @@ Available options are :
 - scalefactor : 2 (default), 3, 4
 - scalefilter : nearest (default), scale2x, hqx
 - framerate : maximum frame rate (60 FPS default)
+- fullscreen : 0(default)/1 starts the game in full screen mode if possible
 - mt32midi : 0(default)/1 send MT32 init, use .XMI files
 - mt32rompath : directory containing CM32L_CONTROL.ROM/CM32L_PCM.ROM files
                 for Munt MT32 emulator.
+
+debug options (for developpers) :
+- dune2_enhanced : 0 = game acts like the original Dune II, including bugs
+                   1(default) = enable OpenDUNE enhancements
+- debug_game : 0(default) = normal game behavior
+               1 = The player can control the AI
+- debug_scenario : 0(defaut) = normal game behavior
+                   1 = The player can review the scenario. There is no fog.
+                       The game is not running. The player can click on tiles.
+- debug_skip_dialogs : 0(default) = normal game behavior
+                       1 = skip all intros and go immediately to house select.
+- debug_log_game : game record / replay
+                   0(default) = off
+                   1 = record game to 'dune.log'
+                   2 = playback game stored in 'dune.log'
 
 
 Ingame
@@ -90,7 +108,7 @@ F3 - open the menu of the selected structure (construction yard/factory/etc.)
 A few key controls are added in OpenDUNE, available depending on the
 platform :
 F8 - Toggle FPS display
-CTRL-ENTER - Toggle full screen
+CTRL-ENTER or F11 - Toggle full screen
 
 
 Enhancement over Dune2

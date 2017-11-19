@@ -1612,6 +1612,10 @@ void scale2x_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_u
  * e1 = B if (B == D) && !(B == H) && !(D == F)
  * e2 = B if (B == F) && !(B == H) && !(D == F)
  */
+#if defined(_MSC_VER) && _MSC_VER >= 1800
+/* work around a bug in MSVC 12 optimizer in Release compiling mode. */
+#pragma optimize("", off)
+#endif
 static inline void scale2x_8_sse2_border(scale2x_uint8* dst, const scale2x_uint8* src0, const scale2x_uint8* src1, const scale2x_uint8* src2, unsigned count)
 {
 	__m128i B, D, E, F, H, e1, e2;
@@ -1693,6 +1697,9 @@ static inline void scale2x_8_sse2_border(scale2x_uint8* dst, const scale2x_uint8
 	*((__m128i *)dst) = _mm_unpackhi_epi8(e1, e2);
 	dst += 16;
 }
+#if defined(_MSC_VER) && _MSC_VER >= 1800
+#pragma optimize("", on)
+#endif
 
 /**
  * Scale by a factor of 2 a row of pixels of 8 bits.

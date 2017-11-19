@@ -8,6 +8,7 @@
 #include "../os/endian.h"
 #include "../os/sleep.h"
 #include "../os/strings.h"
+#include "../os/error.h"
 
 #include "mentat.h"
 
@@ -86,7 +87,10 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 {
 	Widget *w1, *w2;
 
-	if (g_debugSkipDialogs) return;
+	if (g_debugSkipDialogs) {
+		Debug("Skipping Mentat dialog...\n");
+		return;
+	}
 
 	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_PROCEED)[0]), 168, 168, 379, 0);
 	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(STR_REPEAT)[0]), 240, 168, 381, 0);
