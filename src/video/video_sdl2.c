@@ -44,6 +44,7 @@ static SDL_Renderer *s_renderer;
 static SDL_Texture *s_texture;
 
 static uint32 s_palette[256];
+static bool s_screen_needrepaint = false;
 
 static uint8 s_keyBufferLatest = 0;
 
@@ -467,6 +468,7 @@ static void Video_DrawScreen(void)
 	default:
 		Error("Unsupported scale filter\n");
 	}
+	s_screen_needrepaint = false;
 }
 
 /**
@@ -574,6 +576,7 @@ void Video_SetPalette(void *palette, int from, int length)
 		p += 3;
 	}
 
+	s_screen_needrepaint = true;
 	s_video_lock = false;
 }
 
