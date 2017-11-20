@@ -360,25 +360,48 @@ void Video_Uninit(void)
 static void Video_DrawScreen_Nearest_Neighbor(void)
 {
 	const uint8 *gfx_screen8 = GFX_Screen_Get_ByIndex(SCREEN_0);
+	struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 	uint8 * pixels;
 	int pitch;
 	int x, y;
 	uint32 * p;
+	SDL_Rect rect;
+	SDL_Rect * prect = NULL;
 
 	gfx_screen8 += (s_screenOffset << 2);
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
 		return;
 	}
-	for (y = 0; y < SCREEN_HEIGHT; y++) {
-		p = (uint32 *)pixels;
-		for (x = 0; x < SCREEN_WIDTH; x++) {
-			*p++ = s_palette[*gfx_screen8++];
+	if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
+		rect.x = area->left;
+		rect.y = area->top;
+		rect.w = area->right - area->left;
+		rect.h = area->bottom - area->top;
+		prect = &rect;
+		pixels += pitch * area->top;
+		gfx_screen8 += SCREEN_WIDTH * area->top + area->left;
+		for (y = area->top; y < area->bottom; y++) {
+			p = (uint32 *)pixels;
+			p += area->left;
+			for (x = area->left; x < area->right; x++) {
+				*p++ = s_palette[*gfx_screen8++];
+			}
+			gfx_screen8 += (SCREEN_WIDTH - rect.w);
+			pixels += pitch;
 		}
-		pixels += pitch;
+		Debug("Dirty area : (%d,%d)-(%d,%d)\n", area->left, area->top, area->right, area->bottom);
+	} else {
+		for (y = 0; y < SCREEN_HEIGHT; y++) {
+			p = (uint32 *)pixels;
+			for (x = 0; x < SCREEN_WIDTH; x++) {
+				*p++ = s_palette[*gfx_screen8++];
+			}
+			pixels += pitch;
+		}
 	}
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+	if (SDL_RenderCopy(s_renderer, s_texture, prect, prect)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -454,6 +477,8 @@ static void Video_DrawScreen_Hqx(void)
 
 static void Video_DrawScreen(void)
 {
+	if (!GFX_Screen_IsDirty(SCREEN_0) && !s_screen_needrepaint) return;
+
 	if (s_screen_magnification == 1) {
 		Video_DrawScreen_Nearest_Neighbor();
 	} else switch (s_scale_filter) {
@@ -469,6 +494,7 @@ static void Video_DrawScreen(void)
 	default:
 		Error("Unsupported scale filter\n");
 	}
+	GFX_Screen_SetClean(SCREEN_0);
 	s_screen_needrepaint = false;
 }
 
