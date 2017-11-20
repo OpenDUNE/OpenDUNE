@@ -639,12 +639,13 @@ void Video_Tick(void)
 	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
 		struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 
-		if (area && (area->left != 0 || area->top != 0 || area->right != SCREEN_WIDTH)) {
-			Debug("Dirty area (%hu, %hu) - (%hu, %hu)\n", area->left, area->top, area->right, area->bottom);
-		}
 		Video_DrawScreen();
 
-		SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
+		if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
+			SDL_UpdateRect(s_gfx_surface, area->left, area->top, area->right - area->left, area->bottom - area->top);
+		} else {
+			SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
+		}
 
 		GFX_Screen_SetClean(SCREEN_0);
 		s_screen_needrepaint = false;
