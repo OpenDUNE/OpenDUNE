@@ -213,6 +213,8 @@ void Video_Tick(void)
 	if (GFX_Screen_IsDirty(SCREEN_0)) {
 		struct dirty_area * area;
 		int height = SCREEN_HEIGHT;
+		int width = SCREEN_WIDTH;
+		int left = 0;
 
 		area = GFX_Screen_GetDirtyArea(SCREEN_0);
 		if (area != NULL) {
@@ -222,19 +224,38 @@ void Video_Tick(void)
 			}
 			data += area->top * SCREEN_WIDTH;
 			screen += area->top * SCREEN_WIDTH;
+			if(s_machine_type == MCH_TT) screen += area->top * SCREEN_WIDTH;
 			if (area->bottom > SCREEN_HEIGHT) {
 				Warning("GFX_Screen_GetDirtyArea: (%hu, %hu) - (%hu, %hu)\n", area->left, area->top, area->right, area->bottom);
 				area->bottom = SCREEN_HEIGHT;
 			}
 			height = area->bottom - area->top;
+			left = area->left & ~0xf;
+			width = ((area->right + 0xf) & ~0xf) - left;
+			if (width >= (SCREEN_WIDTH - 32)) {
+				left = 0;
+				width = SCREEN_WIDTH;
+			}
 		}
 
 		data += (s_screenOffset << 2);
 		/* chunky to planar conversion */
 		if(s_machine_type == MCH_TT) {
+			/* c2p1x1_8_tt is only able to convert full lines */
 			c2p1x1_8_tt(screen, data, height*SCREEN_WIDTH);
 		} else {
-			c2p1x1_8_falcon(screen, data, height*SCREEN_WIDTH);
+			if (width == SCREEN_WIDTH) {
+				c2p1x1_8_falcon(screen, data, height*SCREEN_WIDTH);
+			} else {
+				screen += left;
+				data += left;
+				while(height > 0) {
+					c2p1x1_8_falcon(screen, data, width);
+					screen += SCREEN_WIDTH;
+					data += SCREEN_WIDTH;
+					height--;
+				}
+			}
 		}
 		GFX_Screen_SetClean(SCREEN_0);
 	}
