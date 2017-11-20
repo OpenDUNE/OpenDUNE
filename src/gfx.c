@@ -332,6 +332,8 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 	if (width < 0 || width >= SCREEN_WIDTH) return;
 	if (height < 0 || height >= SCREEN_HEIGHT) return;
 
+	GFX_Screen_SetDirty(screenDst, xDst, yDst, xDst + width, yDst + height);
+
 	src = GFX_Screen_Get_ByIndex(screenSrc);
 	dst = GFX_Screen_Get_ByIndex(screenDst);
 

@@ -182,6 +182,8 @@ void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom
 	GUI_DrawLine(left, bottom, right, bottom, colour);
 	GUI_DrawLine(left, top, left, bottom, colour);
 	GUI_DrawLine(right, top, right, bottom, colour);
+
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, right+1, bottom+1);
 }
 
 /**
@@ -220,11 +222,14 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 	width = right - left + 1;
 	height = bottom - top + 1;
 	for (y = 0; y < height; y++) {
+		/* TODO : use memset() */
 		for (x = 0; x < width; x++) {
 			*screen++ = colour;
 		}
 		screen += SCREEN_WIDTH - width;
 	}
+
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, right + 1, bottom + 1);
 }
 
 /**
@@ -1152,9 +1157,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	GFX_Screen_SetDirty(screenID,
 	                    (g_widgetProperties[windowID].xBase << 3) + posX,
-	                    g_widgetProperties[windowID].yBase + posY,
-	                    (g_widgetProperties[windowID].xBase << 3) + posX + spriteWidth,
-	                    g_widgetProperties[windowID].yBase + posY + spriteHeight);
+	                    posY,
+	                    (g_widgetProperties[windowID].xBase << 3) + posX + pixelCountPerRow,
+	                    posY + spriteHeight);
 
 	do {
 		/* drawing loop */
@@ -1865,6 +1870,8 @@ void GUI_Palette_CreateMapping(const uint8 *palette, uint8 *colours, uint8 refer
 void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16 colourSchemaIndex, bool fill)
 {
 	uint16 *colourSchema;
+
+	if (!fill) GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, left + width, top + height);
 
 	width  -= 1;
 	height -= 1;
