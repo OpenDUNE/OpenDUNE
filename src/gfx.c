@@ -151,17 +151,20 @@ void GFX_Init(void)
 	/* init g_paletteActive with invalid values so first GFX_SetPalette() will be ok */
 	memset(g_paletteActive, 0xff, 3*256);
 
-	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
+	for (i = 1; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		totalSize += GFX_Screen_GetSize_ByIndex(i);
 	}
 
 	screenBuffers = calloc(1, totalSize);
 
-	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
+	for (i = 1; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = screenBuffers;
 
 		screenBuffers += GFX_Screen_GetSize_ByIndex(i);
 	}
+
+	/* special case for SCREEN_0 which is the MCGA frame buffer */
+	s_screenBuffer[0] = Video_GetFrameBuffer(GFX_Screen_GetSize_ByIndex(0));
 
 	s_screenActiveID = SCREEN_0;
 }
@@ -173,7 +176,7 @@ void GFX_Uninit(void)
 {
 	int i;
 
-	free(s_screenBuffer[0]);
+	free(s_screenBuffer[1]);
 
 	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = NULL;

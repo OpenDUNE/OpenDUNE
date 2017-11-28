@@ -639,8 +639,9 @@ static void Video_Stats(const uint8 * screen)
 void Video_Tick(void)
 {
 	MSG msg;
-	const uint8 * screen0;
+#ifdef _DEBUG
 	static int s_unchanged = 0;
+#endif
 
 	if (!s_init) return;
 
@@ -696,21 +697,36 @@ void Video_Tick(void)
 		DispatchMessage(&msg);
 	}
 
-	screen0 = GFX_Screen_Get_ByIndex(SCREEN_0);
-	screen0 += (s_screenOffset << 2);
-	/* Do a quick compare to see if the screen changed at all */
-	if (memcmp(screen0, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
-		memcpy(s_screen, screen0, SCREEN_WIDTH * SCREEN_HEIGHT);
+	if (GFX_Screen_IsDirty(SCREEN_0)) {
+		PRECT prect = NULL;
+		RECT rect;
+		struct dirty_area * area;
+		area = GFX_Screen_GetDirtyArea(SCREEN_0);
+
+		if (area != NULL) {
+			double factor_x = (double)s_window_width / (double)SCREEN_WIDTH;
+			double factor_y = (double)s_window_height / (double)SCREEN_HEIGHT;
+			rect.left = (LONG)((double)area->left * factor_x);
+			rect.top = (LONG)((double)area->top * factor_y);
+			rect.right = (LONG)((double)area->right * factor_x);
+			rect.bottom = (LONG)((double)area->bottom * factor_y);
+			prect = &rect;
+		}
 #ifdef VIDEO_STATS
 		Video_Stats(screen0);
 #endif	/* VIDEO_STATS */
-		InvalidateRect(s_hwnd, NULL, TRUE);
+		InvalidateRect(s_hwnd, prect, TRUE);
+#ifdef _DEBUG
 		if(s_unchanged > 0) {
 			Debug("Video_Tick() : SCREEN_0 unchanged %d times\n", s_unchanged);
 			s_unchanged = 0;
 		}
+#endif /* _DEBUG */
+		GFX_Screen_SetClean(SCREEN_0);
 	} else {
+#ifdef _DEBUG
 		s_unchanged++;
+#endif /* _DEBUG */
 	}
 
 	s_lock = false;
@@ -786,4 +802,9 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+}
+
+void * Video_GetFrameBuffer(uint16 size)
+{
+	return s_screen;
 }
