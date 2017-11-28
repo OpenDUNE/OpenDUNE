@@ -279,15 +279,31 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HDC dc;
 			HDC dc2;
 			HBITMAP old_bmp;
+			RECT rect;
 
-			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
+			if (!GetUpdateRect(hwnd, &rect, FALSE)) return 0;
 			if (s_showFPS) {
 				Video_ShowFPS(s_screen);
 			}
 			if (s_scale_filter == FILTER_SCALE2X) {
-				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+				if (s_screen_magnification == 1) memcpy(s_screen2, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT);
+				else scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 			} else if(s_scale_filter == FILTER_HQX) {
 				switch(s_screen_magnification) {
+				case 1:
+					{
+						int x, y;
+						PUCHAR src;
+						PULONG dst;
+						for (y = rect.top; y < rect.bottom; y++) {
+							src = (PUCHAR)s_screen + (y * SCREEN_WIDTH);
+							dst = (PULONG)s_screen2 + (y * SCREEN_WIDTH);
+							for (x = rect.left; x < rect.right; x++) {
+								*dst++ = rgb_palette[*src++];
+							}
+						}
+					}
+					break;
 				case 2:
 					hq2x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
@@ -463,7 +479,6 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_screen_magnification = screen_magnification;
 	s_scale_filter = filter;
 
