@@ -50,6 +50,8 @@ static bool s_screen_needrepaint = false;
 
 static SDL_Surface *s_gfx_surface = NULL;
 
+static uint8 * s_framebuffer = NULL;
+
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
 
@@ -259,6 +261,12 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		hqxInit();
 	}
 
+	s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+	if (s_framebuffer == NULL) {
+		Error("Could not allocate %d bytes\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+		return false;
+	}
+
 	/* Note from https://www.libsdl.org/release/SDL-1.2.15/docs/html/video.html :
 	 * If you use both sound and video in your application, you need to call
 	 * SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO) before opening the sound
@@ -340,6 +348,9 @@ void Video_Uninit(void)
 		hqxUnInit();
 	}
 	SDL_Quit();
+
+	free(s_framebuffer);
+	s_framebuffer = NULL;
 }
 
 static void Video_DrawScreen_Scale2x(void)
@@ -701,4 +712,10 @@ void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
 	s_screen_needrepaint = true;
+}
+
+void * Video_GetFrameBuffer(uint16 size)
+{
+	(void)size;
+	return s_framebuffer;
 }

@@ -1,6 +1,7 @@
 /* ATARI Falcon / TT Video Driver */
 
 #include <string.h>
+#include <stdlib.h>
 
 #include <mint/sysbind.h>
 #include <mint/osbind.h>
@@ -27,6 +28,11 @@ extern void c2p1x1_8_tt(void * planar, void * chunky, uint32 count);
 
 /* switch FPS display */
 extern void Video_SwitchFPSDisplay(uint8 key);
+
+/* Chunky buffer. What a shame that the TT030 and Falcon030 have no
+ * chunky 256 colors mode, that would spare us expensive chunky to planar
+ * conversion. */
+static uint8 * s_framebuffer = NULL;
 
 static short s_savedMode = 0;
 
@@ -124,6 +130,12 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	VARIABLE_NOT_USED(filter);
 	VARIABLE_NOT_USED(screen_magnification);
 
+	s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+	if (s_framebuffer == NULL) {
+		Error("Failed to allocate %d bytes.\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+		return false;
+	}
+
 	(void)Cconws("Video_Init()\r\n");
 	if(s_machine_type == MCH_UNKNOWN) Detect_Machine();
 	if(s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
@@ -181,6 +193,8 @@ void Video_Uninit(void)
 	}
 	Supexec(uninstall_ikbd_handler);
 	g_consoleActive = true;
+	free(s_framebuffer);
+	s_framebuffer = NULL;
 }
 
 void Video_SwitchFPSDisplay(uint8 key)
@@ -335,4 +349,10 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+}
+
+void * Video_GetFrameBuffer(uint16 size)
+{
+	(void)size;
+	return s_framebuffer;
 }

@@ -33,6 +33,7 @@ static VideoScaleFilter s_scale_filter;
 static int s_screen_magnification;
 
 static uint8 * s_fullsize_buffer = NULL;
+static uint8 * s_framebuffer = NULL;
 
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
@@ -289,6 +290,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		render_width = SCREEN_WIDTH * s_screen_magnification;
 		render_height = SCREEN_HEIGHT * s_screen_magnification;
 	}
+	s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
+	if (s_framebuffer == NULL) {
+		Error("Could not allocate %d bytes of memory\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
+		return false;
+	}
 	if (s_scale_filter == FILTER_SCALE2X) {
 		s_fullsize_buffer = malloc(render_width * render_height * sizeof(uint8));
 		if (s_fullsize_buffer == NULL) {
@@ -329,6 +335,9 @@ void Video_Uninit(void)
 	if (s_scale_filter == FILTER_HQX) {
 		hqxUnInit();
 	}
+
+	free(s_framebuffer);
+	s_framebuffer = NULL;
 
 	if (s_scale_filter == FILTER_SCALE2X) {
 		free(s_fullsize_buffer);
@@ -616,4 +625,10 @@ void Video_SetPalette(void *palette, int from, int length)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+}
+
+void * Video_GetFrameBuffer(uint16 size)
+{
+	(void)size;
+	return s_framebuffer;
 }
