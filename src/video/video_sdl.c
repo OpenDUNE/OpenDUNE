@@ -642,7 +642,8 @@ void Video_Tick(void)
 		Video_DrawScreen();
 
 		if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
-			SDL_UpdateRect(s_gfx_surface, area->left, area->top, area->right - area->left, area->bottom - area->top);
+			SDL_UpdateRect(s_gfx_surface, area->left * s_screen_magnification, area->top * s_screen_magnification,
+			                              (area->right - area->left) * s_screen_magnification, (area->bottom - area->top) * s_screen_magnification);
 		} else {
 			SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
 		}
