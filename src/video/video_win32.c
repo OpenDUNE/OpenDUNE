@@ -321,13 +321,27 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			switch (s_scale_filter) {
 			case FILTER_HQX:
 			case FILTER_SCALE2X:
-				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SRCCOPY);
+				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification,
+					   dc2, 0, s_screen_magnification * s_screenOffset / (SCREEN_WIDTH / 4),
+					   SRCCOPY);
 				break;
 			case FILTER_NEAREST_NEIGHBOR:
 			default:
 				/*StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);*/
-				StretchBlt(dc, 0, 0, s_window_width, s_window_height,
-					       dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+				if (s_screen_magnification * SCREEN_WIDTH != s_window_width) {
+					StretchBlt(dc, 0, 0, s_window_width, s_window_height,
+							   dc2, 0, s_screenOffset / (SCREEN_WIDTH / 4), SCREEN_WIDTH, SCREEN_HEIGHT,
+							   SRCCOPY);
+				} else {
+					double factor_x = (double)SCREEN_WIDTH / (double)s_window_width;
+					double factor_y = (double)SCREEN_HEIGHT / (double)s_window_height;
+					Debug("WM_PAINT StretchBlt (%d,%d,%d,%d) (%d,%d,%d,%d)\n", rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
+						  (int)(rect.left * factor_x), (int)(rect.top * factor_y), (int)(factor_x * (rect.right - rect.left)), (int)(factor_y * (rect.bottom - rect.top)));
+					/* doesn't work well when factor is non integer */
+					StretchBlt(dc, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
+							   dc2, (int)(rect.left * factor_x), (int)(rect.top * factor_y) + s_screenOffset / (SCREEN_WIDTH / 4), (int)(factor_x * (rect.right - rect.left)), (int)(factor_y * (rect.bottom - rect.top)),
+							   SRCCOPY);
+				}
 			}
 			SelectObject(dc2, old_bmp);
 			DeleteDC(dc2);
@@ -817,6 +831,7 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+	InvalidateRect(s_hwnd, NULL, TRUE);
 }
 
 void * Video_GetFrameBuffer(uint16 size)
