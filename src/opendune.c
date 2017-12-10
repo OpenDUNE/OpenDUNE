@@ -613,7 +613,7 @@ static void ReadProfileIni(const char *filename)
 		}
 
 		for (locsi = 0; locsi < STRUCTURE_MAX; locsi++) {
-			ObjectInfo *oi = &g_table_unitInfo[locsi].o;
+			ObjectInfo *oi = &g_table_structureInfo[locsi].o;
 
 			sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
 				15 - (int)strlen(oi->name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
