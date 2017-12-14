@@ -43,6 +43,7 @@ static enum {
 static uint32 s_paletteBackup[256];
 
 static uint16 s_screenOffset = 0;
+static bool s_screen_needrepaint = false;
 
 static bool s_showFPS = false;
 
@@ -215,7 +216,7 @@ void Video_SwitchFPSDisplay(uint8 key)
  */
 void Video_Tick(void)
 {
-	uint8 *screen = Physbase();
+	uint8 *screen = Logbase();
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 
 	/* send mouse event */
@@ -229,14 +230,14 @@ void Video_Tick(void)
 		Video_ShowFPS(data);
 	}
 
-	if (GFX_Screen_IsDirty(SCREEN_0)) {
+	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
 		struct dirty_area * area;
 		int height = SCREEN_HEIGHT;
 		int width = SCREEN_WIDTH;
 		int left = 0;
 
 		area = GFX_Screen_GetDirtyArea(SCREEN_0);
-		if (area != NULL) {
+		if (!s_screen_needrepaint && area != NULL) {
 			if (area->top >= area->bottom) {
 				Warning("GFX_Screen_GetDirtyArea: (%hu, %hu) - (%hu, %hu)\n", area->left, area->top, area->right, area->bottom);
 				return;
@@ -257,9 +258,9 @@ void Video_Tick(void)
 			}
 		}
 
-		data += (s_screenOffset << 2);
 		/* chunky to planar conversion */
 		if(s_machine_type == MCH_TT) {
+			data += (s_screenOffset << 2);
 			/* c2p1x1_8_tt is only able to convert full lines */
 			c2p1x1_8_tt(screen, data, height*SCREEN_WIDTH);
 		} else {
@@ -277,6 +278,7 @@ void Video_Tick(void)
 			}
 		}
 		GFX_Screen_SetClean(SCREEN_0);
+		s_screen_needrepaint = false;
 	}
 }
 
@@ -353,7 +355,14 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
  */
 void Video_SetOffset(uint16 offset)
 {
-	s_screenOffset = offset;
+	if(s_machine_type == MCH_FALCON) {
+		/* Change Physbase(), but not Logbase() */
+		Vsetscreen(-1, Logbase() + (4 * offset), -1, -1);
+		Vsync();
+	} else {
+		s_screenOffset = offset;
+		s_screen_needrepaint = true;	/* force repaint */
+	}
 }
 
 void * Video_GetFrameBuffer(uint16 size)
