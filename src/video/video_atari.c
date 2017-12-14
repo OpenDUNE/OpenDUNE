@@ -166,7 +166,8 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		EsetShift(TT_LOW); /* set TT 8bps video mode */
 		EgetPalette(0, 256, s_paletteBackup);	/* backup palette */
 	} else {
-		Error("Unsupported machine type.\n");
+		Error("Unsupported machine type.\nPlease contact us if you know how to initialize a 256 color mode on your machine.\n");
+		return false;
 	}
 
 	Debug("old video mode = $%04hx\n", s_savedMode);
