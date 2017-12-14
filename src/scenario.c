@@ -261,6 +261,11 @@ static void Scenario_Load_Structure(const char *key, char *settings)
 	hitpoints = atoi(settings);
 	/* ENHANCEMENT -- Dune2 ignores the % hitpoints read from the scenario */
 	if (!g_dune2_enhanced) hitpoints = 256;
+	else if(hitpoints > 256) hitpoints = 256;
+	/* this is pointless to have more than 100% hitpoint, however ONE scenario
+	 * file has such "bug" : SCENH006.INI
+	 * ID001=Ordos,Const Yard,8421,936
+	 * ID000=Ordos,Light Fctry,14058,1064     */
 
 	/* Fourth value is the position of the structure */
 	settings = split + 1;
