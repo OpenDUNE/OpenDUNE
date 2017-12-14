@@ -221,7 +221,7 @@ void Video_Tick(void)
 
 	/* send mouse event */
 	if(s_mouse_state_changed) {
-		s_mouse_state_changed = true;
+		s_mouse_state_changed = false;
 		Mouse_EventHandler(s_mouse_x, s_mouse_y,
 		                   s_mouse_left_btn, s_mouse_right_btn);
 	}
