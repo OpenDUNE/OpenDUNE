@@ -146,14 +146,18 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	g_consoleActive = false;
 
 	if(s_machine_type == MCH_FALCON) {
-		long saddr = Srealloc(SCREEN_HEIGHT*SCREEN_WIDTH);
+		short newMode;
+		long vSize, saddr;
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
+		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
+		newMode = (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0);
+		vSize = VgetSize(newMode);
+		Debug("allocate %ld + %d bytes for mode $%04x\n", vSize, 4*SCREEN_WIDTH, (int)newMode);
+		saddr = Srealloc(vSize + 4*SCREEN_WIDTH);	/* allocate 4 lines more for explosions */
 #if 0
 		(void)VsetMode((s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
 #else
-		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
-		Vsetscreen(saddr, saddr, 3,
-		           (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
+		Vsetscreen(saddr, saddr, 3, newMode);
 #endif
 		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
