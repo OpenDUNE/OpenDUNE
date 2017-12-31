@@ -261,12 +261,6 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		hqxInit();
 	}
 
-	s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
-	if (s_framebuffer == NULL) {
-		Error("Could not allocate %d bytes\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
-		return false;
-	}
-
 	/* Note from https://www.libsdl.org/release/SDL-1.2.15/docs/html/video.html :
 	 * If you use both sound and video in your application, you need to call
 	 * SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO) before opening the sound
@@ -332,6 +326,17 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_LockSurface(s_gfx_surface);
 	memset(s_gfx_surface->pixels, 0, width * height * s_gfx_surface->format->BytesPerPixel);
 	SDL_UnlockSurface(s_gfx_surface);
+
+	if((SDL_MUSTLOCK(s_gfx_surface) == 0) && (screen_magnification == 1)
+	   && (s_gfx_surface->pitch == SCREEN_WIDTH) && (s_gfx_surface->format->BitsPerPixel == 8)) {
+		Debug("Using direct access to SDL surface\n");
+	} else {
+		s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+		if (s_framebuffer == NULL) {
+			Error("Could not allocate %d bytes\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+			return false;
+		}
+	}
 
 	s_video_initialized = true;
 
@@ -650,7 +655,8 @@ void Video_Tick(void)
 	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
 		struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 
-		Video_DrawScreen();
+		/* Do not call Video_DrawScreen() if the game is allowed to draw directly into the SDL Surface */
+		if (s_framebuffer != NULL) Video_DrawScreen();
 
 		if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
 			SDL_UpdateRect(s_gfx_surface, area->left * s_screen_magnification, area->top * s_screen_magnification,
@@ -717,5 +723,9 @@ void Video_SetOffset(uint16 offset)
 void * Video_GetFrameBuffer(uint16 size)
 {
 	(void)size;
-	return s_framebuffer;
+	if(!s_video_initialized) return NULL;
+	/* return either our private 320x204 8bit frame buffer or directly the
+	 * SDL Surface if the Surface doesn't need any locking or rescaling */
+	if(s_framebuffer != NULL) return s_framebuffer;
+	else return s_gfx_surface->pixels;
 }
