@@ -348,14 +348,16 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
  */
 void Video_Uninit(void)
 {
-	s_video_initialized = false;
-	if (s_scale_filter == FILTER_HQX) {
-		hqxUnInit();
-	}
-	SDL_Quit();
+	if (s_video_initialized) {
+		s_video_initialized = false;
+		if (s_scale_filter == FILTER_HQX) {
+			hqxUnInit();
+		}
+		SDL_Quit();
 
-	free(s_framebuffer);
-	s_framebuffer = NULL;
+		free(s_framebuffer);
+		s_framebuffer = NULL;
+	}
 }
 
 static void Video_DrawScreen_Scale2x(void)
@@ -680,7 +682,6 @@ void Video_Tick(void)
  */
 void Video_SetPalette(void *palette, int from, int length)
 {
-	SDL_Color paletteRGB[256];
 	uint8 *p = palette;
 	int i;
 
@@ -695,6 +696,7 @@ void Video_SetPalette(void *palette, int from, int length)
 		}
 		s_screen_needrepaint = true;
 	} else {
+		SDL_Color paletteRGB[256];
 		/* convert from 6bit to 8bit per component */
 		for (i = 0; i < length; i++) {
 			paletteRGB[i].r = (((*p++) & 0x3F) * 0x41) >> 4;
