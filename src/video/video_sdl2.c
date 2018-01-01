@@ -625,6 +625,7 @@ void Video_SetPalette(void *palette, int from, int length)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+	s_screen_needrepaint = true;
 }
 
 void * Video_GetFrameBuffer(uint16 size)
