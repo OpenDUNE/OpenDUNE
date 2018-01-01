@@ -20,9 +20,19 @@
 #include "scalebit.h"
 #include "hqx.h"
 
+#ifndef MIN
+#ifdef __min
+#define MIN __min
+#else
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#endif
+#endif
+
 #ifdef _DEBUG
 #define VIDEO_STATS
 #endif
+
+static bool Video_AllocateDib(void);
 
 static VideoScaleFilter s_scale_filter;
 
@@ -43,6 +53,9 @@ static uint16 s_x;
 static uint16 s_y;
 static uint16 s_window_width = 0;
 static uint16 s_window_height = 0;
+
+static uint16 s_window_x_offset = 0;
+static uint16 s_window_y_offset = 0;
 
 #ifdef VIDEO_STATS
 static const char *s_classNamePal = "OpenDUNEPal";
@@ -193,6 +206,7 @@ static void Video_ToggleFullscreen(void)
 	int width, height;
 	long style;
 	static RECT s_pos_backup = { 0 };
+	static int s_screen_magnification_backup = 0;
 
 	if(s_hwnd == NULL) return;
 
@@ -203,9 +217,16 @@ static void Video_ToggleFullscreen(void)
 		/* allow window to be resized with NEAREST NEIGHBOR filter */
 		if(s_scale_filter == FILTER_NEAREST_NEIGHBOR) style |= WS_THICKFRAME;
 		SetWindowLong(s_hwnd, GWL_STYLE, style); /*Now set it*/
-		SetWindowPos(s_hwnd, HWND_TOPMOST, s_pos_backup.left, s_pos_backup.top, s_pos_backup.right - s_pos_backup.left, s_pos_backup.bottom - s_pos_backup.top, SWP_FRAMECHANGED);
+		SetWindowPos(s_hwnd, HWND_TOPMOST, s_pos_backup.left, s_pos_backup.top, s_pos_backup.right - s_pos_backup.left, s_pos_backup.bottom - s_pos_backup.top, SWP_FRAMECHANGED | SWP_NOCOPYBITS);
 		s_FullScreen = false;
+		s_screen_magnification = s_screen_magnification_backup;
+		if(s_scale_filter != FILTER_NEAREST_NEIGHBOR) {
+			Video_AllocateDib();
+		}
+		s_window_x_offset = 0;
+		s_window_y_offset = 0;
 	} else {
+		s_screen_magnification_backup = s_screen_magnification;
 		GetWindowRect(s_hwnd, &s_pos_backup);
 		style &= ~WS_OVERLAPPEDWINDOW;  /*Out with the old*/
 		style |= WS_POPUP;              /*In with the new*/
@@ -213,7 +234,15 @@ static void Video_ToggleFullscreen(void)
 
 		width = GetSystemMetrics(SM_CXSCREEN);
 		height = GetSystemMetrics(SM_CYSCREEN);
-		SetWindowPos(s_hwnd, HWND_TOPMOST,0, 0, width, height, SWP_FRAMECHANGED);
+		if(s_scale_filter != FILTER_NEAREST_NEIGHBOR) {
+			s_screen_magnification = MIN(4, MIN(width / SCREEN_WIDTH, height / SCREEN_HEIGHT));
+			Video_AllocateDib();
+			s_window_x_offset = (width - s_screen_magnification * SCREEN_WIDTH) / 2;
+			/*width = s_screen_magnification * SCREEN_WIDTH;*/
+			s_window_y_offset = (height - s_screen_magnification * SCREEN_HEIGHT) / 2;
+			/*height = s_screen_magnification * SCREEN_HEIGHT;*/
+		}
+		SetWindowPos(s_hwnd, HWND_TOPMOST, 0, 0, width, height, SWP_FRAMECHANGED | SWP_NOCOPYBITS);
 		s_FullScreen = true;
 	}
 }
@@ -321,7 +350,7 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			switch (s_scale_filter) {
 			case FILTER_HQX:
 			case FILTER_SCALE2X:
-				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification,
+				BitBlt(dc, s_window_x_offset, s_window_y_offset, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification,
 					   dc2, 0, s_screen_magnification * s_screenOffset / (SCREEN_WIDTH / 4),
 					   SRCCOPY);
 				break;
@@ -481,12 +510,66 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
+static bool Video_AllocateDib(void)
+{
+	BITMAPINFO *bi;
+	HDC dc;
+
+	if (s_dib != NULL) {
+		DeleteObject(s_dib);
+		s_dib = NULL;
+		if (s_scale_filter == FILTER_NEAREST_NEIGHBOR) s_screen = NULL;
+		else s_screen2 = NULL;
+	}
+	bi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
+	memset(bi, 0, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
+	bi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	if (s_scale_filter == FILTER_NEAREST_NEIGHBOR) {
+		bi->bmiHeader.biWidth = SCREEN_WIDTH;
+		bi->bmiHeader.biHeight = -SCREEN_HEIGHT;
+	} else {
+		bi->bmiHeader.biWidth = SCREEN_WIDTH * s_screen_magnification;
+		bi->bmiHeader.biHeight = -SCREEN_HEIGHT * s_screen_magnification;
+	}
+	bi->bmiHeader.biPlanes = 1;
+	if (s_scale_filter == FILTER_HQX) {
+		bi->bmiHeader.biBitCount = 32;
+	} else {
+		bi->bmiHeader.biBitCount = 8;
+	}
+	bi->bmiHeader.biCompression = BI_RGB;
+
+	dc = GetDC(NULL);
+	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, (s_scale_filter == FILTER_NEAREST_NEIGHBOR) ? &s_screen : &s_screen2, NULL, 0);
+	if (s_dib == NULL) {
+		Error("CreateDIBSection failed\n");
+		return false;
+	}
+#ifdef VIDEO_STATS
+	bi->bmiHeader.biWidth = 16;
+	bi->bmiHeader.biHeight = -16;
+	bi->bmiHeader.biPlanes = 1;
+	bi->bmiHeader.biBitCount = 8;
+	bi->bmiHeader.biCompression = BI_RGB;
+	s_pal_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, &s_pal_screen, NULL, 0);
+	if (s_pal_dib == NULL) {
+		Error("CreateDIBSection failed\n");
+	} else {
+		int i;
+		uint8 * data = (uint8 *)s_pal_screen;
+		for(i = 0; i < 256; i++) {
+			data[i] = i;
+		}
+	}
+#endif /* VIDEO_STATS */
+	ReleaseDC(NULL, dc);
+	return true;
+}
+
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	WNDCLASS wc;
 	HINSTANCE hInstance;
-	BITMAPINFO *bi;
-	HDC dc;
 
 	if (s_init) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
@@ -533,48 +616,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 #endif /* VIDEO_STATS */
 
-	bi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
-	memset(bi, 0, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 256);
-	bi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	if (filter == FILTER_NEAREST_NEIGHBOR) {
-		bi->bmiHeader.biWidth = SCREEN_WIDTH;
-		bi->bmiHeader.biHeight = -SCREEN_HEIGHT;
-	} else {
-		bi->bmiHeader.biWidth = SCREEN_WIDTH * s_screen_magnification;
-		bi->bmiHeader.biHeight = -SCREEN_HEIGHT * s_screen_magnification;
-	}
-	bi->bmiHeader.biPlanes = 1;
-	if (filter == FILTER_HQX) {
-		bi->bmiHeader.biBitCount = 32;
-	} else {
-		bi->bmiHeader.biBitCount = 8;
-	}
-	bi->bmiHeader.biCompression = BI_RGB;
-
-	dc = GetDC(NULL);
-	s_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, (filter == FILTER_NEAREST_NEIGHBOR) ? &s_screen : &s_screen2, NULL, 0);
-	if (s_dib == NULL) {
-		Error("CreateDIBSection failed\n");
-		return false;
-	}
-#ifdef VIDEO_STATS
-	bi->bmiHeader.biWidth = 16;
-	bi->bmiHeader.biHeight = -16;
-	bi->bmiHeader.biPlanes = 1;
-	bi->bmiHeader.biBitCount = 8;
-	bi->bmiHeader.biCompression = BI_RGB;
-	s_pal_dib = CreateDIBSection(dc, bi, DIB_RGB_COLORS, &s_pal_screen, NULL, 0);
-	if (s_pal_dib == NULL) {
-		Error("CreateDIBSection failed\n");
-	} else {
-		int i;
-		uint8 * data = (uint8 *)s_pal_screen;
-		for(i = 0; i < 256; i++) {
-			data[i] = i;
-		}
-	}
-#endif /* VIDEO_STATS */
-	ReleaseDC(NULL, dc);
+	if (!Video_AllocateDib()) return false;
 
 	if (filter != FILTER_NEAREST_NEIGHBOR) {
 #ifdef _MSC_VER
@@ -592,13 +634,19 @@ void Video_Uninit(void)
 {
 	if (!s_init) return;
 
-	DeleteObject(s_dib);
+	if (s_dib != NULL) {
+		DeleteObject(s_dib);
+		s_dib = NULL;
+		if (s_scale_filter == FILTER_NEAREST_NEIGHBOR) s_screen = NULL;
+		else s_screen2 = NULL;
+	}
 	if (s_scale_filter != FILTER_NEAREST_NEIGHBOR) {
 #ifdef _MSC_VER
 		_aligned_free(s_screen);
 #else  /* _MSC_VER */
 		free(s_screen);
 #endif /* _MSC_VER */
+		s_screen = NULL;
 	}
 	UnregisterClass(s_className, GetModuleHandle(NULL));
 	ShowCursor(TRUE);
