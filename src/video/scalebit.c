@@ -424,14 +424,19 @@ static void scale4x(void* void_dst, unsigned dst_slice, const void* void_src, un
 
 	mid_slice = 2 * pixel * width; /* required space for 1 row buffer */
 
-	mid_slice = (mid_slice + 0x7) & ~0x7; /* align to 8 bytes */
+	mid_slice = (mid_slice + 0xf) & ~0xf; /* align to 16 bytes */
 
 #ifdef HAVE_ALLOCA
 	mid = alloca(6 * mid_slice); /* allocate space for 6 row buffers */
 
 	assert(mid != 0); /* alloca should never fails */
 #else
+#ifdef _MSC_VER
+	/* we need aligned memory for SSE2 */
+	mid = _aligned_malloc(6 * mid_slice, 16); /* allocate space for 6 row buffers */
+#else  /* _MSC_VER */
 	mid = malloc(6 * mid_slice); /* allocate space for 6 row buffers */
+#endif /* _MSC_VER */
 
 	if (!mid)
 		return;
@@ -440,7 +445,11 @@ static void scale4x(void* void_dst, unsigned dst_slice, const void* void_src, un
 	scale4x_buf(void_dst, dst_slice, mid, mid_slice, void_src, src_slice, pixel, width, height);
 
 #ifndef HAVE_ALLOCA
+#ifdef _MSC_VER
+	_aligned_free(mid);
+#else  /* _MSC_VER */
 	free(mid);
+#endif /* _MSC_VER */
 #endif
 }
 
