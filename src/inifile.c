@@ -52,7 +52,7 @@ bool Load_IniFile(void)
 		PathAppend(path, TEXT("OpenDUNE\\opendune.ini"));
 		f = fopen(path, "rb");
 	}
-#elif !defined(TOS)  /* _WIN32 */
+#elif !defined(TOS) && !defined(DOS)  /* _WIN32 */
 	char path[PATH_MAX];
 	char * homeDir;
 	homeDir = getenv("HOME");

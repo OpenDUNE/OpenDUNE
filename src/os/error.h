@@ -3,7 +3,7 @@
 #ifndef OS_ERROR_H
 #define OS_ERROR_H
 
-#ifdef TOS
+#if defined(TOS) || defined(DOS)
 #include <stdio.h>
 #endif
 
@@ -15,7 +15,7 @@ extern void Debug(const char *format, ...);
 #define Debug(...)
 #endif
 
-#ifdef TOS
+#if defined(TOS) || defined(DOS)
 extern bool g_consoleActive;
 extern FILE * g_errlog;
 #ifdef _DEBUG

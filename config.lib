@@ -740,7 +740,7 @@ make_compiler_cflags() {
 			exit 1
 		fi
 
-		if [ "$os" != "TOS" ] && [ $cc_version -lt 70 ] ; then
+		if [ "$os" != "TOS" ] && [ "$os" != "DOS" ] && [ $cc_version -lt 70 ] ; then
 			flags="$flags -ansi -pedantic"
 		fi
 		flags="$flags -fno-common"
