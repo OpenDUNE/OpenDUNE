@@ -152,6 +152,8 @@ Function load_main_data(sourcelist_file, ByRef vcxproj, ByRef filters, ByRef fil
 						(line = "PULSE" And sound_config = "PULSE") Or _
 						(line = "ALSA" And sound_config = "ALSA") Or _
 						(line = "WIN32" And (os = "MSVC" Or os = "MINGW" Or os = "CYGWIN") ) Or _
+						(line = "TOS" And os = "TOS") _
+						(line = "DOS" And os = "DOS") _
 						(line = "OSX" And os = "OSX") _
 					) Then
 						skip = skip + 1
