@@ -50,20 +50,11 @@
 static inline void stage_scale2x(void* dst0, void* dst1, const void* src0, const void* src1, const void* src2, unsigned pixel, unsigned pixel_per_row)
 {
 	switch (pixel) {
-#if defined(__x86_64__) || defined(_M_X64) || defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP == 2))
-		/* use SSE2 code :
-		 *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
-		 *      if __SSE2__ is defined (-msse2 with GCC)
-		 *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)   */
+#if defined(USE_SCALE2X_SSE2)
 		case 1 : scale2x_8_sse2(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
-#if defined(__GNUC__)
-		case 2 : scale2x_16_mmx(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
-		case 4 : scale2x_32_mmx(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
-#else /* defined(__GNUC__) */
-		case 2 : scale2x_16_def(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
-		case 4 : scale2x_32_def(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
-#endif /* defined(__GNUC__) */
-#elif defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+		case 2 : scale2x_16_sse2(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
+		case 4 : scale2x_32_sse2(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
+#elif defined(USE_SCALE2X_MMX)
 		case 1 : scale2x_8_mmx(SSDST(8,0), SSDST(8,1), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
 		case 2 : scale2x_16_mmx(SSDST(16,0), SSDST(16,1), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
 		case 4 : scale2x_32_mmx(SSDST(32,0), SSDST(32,1), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
@@ -85,7 +76,11 @@ static inline void stage_scale2x(void* dst0, void* dst1, const void* src0, const
 static inline void stage_scale2x3(void* dst0, void* dst1, void* dst2, const void* src0, const void* src1, const void* src2, unsigned pixel, unsigned pixel_per_row)
 {
 	switch (pixel) {
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(USE_SCALE2X_SSE2)
+		case 1 : scale2x3_8_sse2(SSDST(8,0), SSDST(8,1), SSDST(8,2), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
+		case 2 : scale2x3_16_sse2(SSDST(16,0), SSDST(16,1), SSDST(16,2), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
+		case 4 : scale2x3_32_sse2(SSDST(32,0), SSDST(32,1), SSDST(32,2), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
+#elif defined(USE_SCALE2X_MMX)
 		case 1 : scale2x3_8_mmx(SSDST(8,0), SSDST(8,1), SSDST(8,2), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
 		case 2 : scale2x3_16_mmx(SSDST(16,0), SSDST(16,1), SSDST(16,2), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
 		case 4 : scale2x3_32_mmx(SSDST(32,0), SSDST(32,1), SSDST(32,2), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
@@ -103,7 +98,11 @@ static inline void stage_scale2x3(void* dst0, void* dst1, void* dst2, const void
 static inline void stage_scale2x4(void* dst0, void* dst1, void* dst2, void* dst3, const void* src0, const void* src1, const void* src2, unsigned pixel, unsigned pixel_per_row)
 {
 	switch (pixel) {
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(USE_SCALE2X_SSE2)
+		case 1 : scale2x4_8_sse2(SSDST(8,0), SSDST(8,1), SSDST(8,2), SSDST(8,3), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
+		case 2 : scale2x4_16_sse2(SSDST(16,0), SSDST(16,1), SSDST(16,2), SSDST(16,3), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
+		case 4 : scale2x4_32_sse2(SSDST(32,0), SSDST(32,1), SSDST(32,2), SSDST(32,3), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
+#elif defined(USE_SCALE2X_MMX)
 		case 1 : scale2x4_8_mmx(SSDST(8,0), SSDST(8,1), SSDST(8,2), SSDST(8,3), SSSRC(8,0), SSSRC(8,1), SSSRC(8,2), pixel_per_row); break;
 		case 2 : scale2x4_16_mmx(SSDST(16,0), SSDST(16,1), SSDST(16,2), SSDST(16,3), SSSRC(16,0), SSSRC(16,1), SSSRC(16,2), pixel_per_row); break;
 		case 4 : scale2x4_32_mmx(SSDST(32,0), SSDST(32,1), SSDST(32,2), SSDST(32,3), SSSRC(32,0), SSSRC(32,1), SSSRC(32,2), pixel_per_row); break;
@@ -180,7 +179,7 @@ static void scale2x(void* void_dst, unsigned dst_slice, const void* void_src, un
 
 	stage_scale2x(SCDST(0), SCDST(1), SCSRC(0), SCSRC(1), SCSRC(1), pixel, width);
 
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(USE_SCALE2X_MMX)
 	scale2x_mmx_emms();
 #endif
 }
@@ -225,7 +224,7 @@ static void scale2x3(void* void_dst, unsigned dst_slice, const void* void_src, u
 
 	stage_scale2x3(SCDST(0), SCDST(1), SCDST(2), SCSRC(0), SCSRC(1), SCSRC(1), pixel, width);
 
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(USE_SCALE2X_MMX)
 	scale2x_mmx_emms();
 #endif
 }
@@ -270,7 +269,7 @@ static void scale2x4(void* void_dst, unsigned dst_slice, const void* void_src, u
 
 	stage_scale2x4(SCDST(0), SCDST(1), SCDST(2), SCDST(3), SCSRC(0), SCSRC(1), SCSRC(1), pixel, width);
 
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(USE_SCALE2X_MMX)
 	scale2x_mmx_emms();
 #endif
 }
@@ -396,7 +395,7 @@ static void scale4x_buf(void* void_dst, unsigned dst_slice, void* void_mid, unsi
 
 	stage_scale4x(SCDST(0), SCDST(1), SCDST(2), SCDST(3), SCMID(3), SCMID(4), SCMID(5), SCMID(5), pixel, width);
 
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(USE_SCALE2X_MMX)
 	scale2x_mmx_emms();
 #endif
 }
