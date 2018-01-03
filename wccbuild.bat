@@ -3,3 +3,4 @@
 @COPY Makefile.wc OBJS\MAKEFILE
 @CD OBJS
 @WMAKE
+@CD ..

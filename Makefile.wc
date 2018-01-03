@@ -34,13 +34,13 @@ all:	precopy ..\bin\opendune.exe
 
 precopy:	.symbolic
 	CD ..\src\pool
-	FOR %F IN ($(pool_src)) DO COPY /Y %F p%F
+	@FOR %F IN ($(pool_src)) DO COPY /Y %F p%F
 	CD ..\saveload
-	FOR %F IN ($(save_src)) DO COPY /Y %F sl%F
+	@FOR %F IN ($(save_src)) DO COPY /Y %F sl%F
 	CD ..\script
-	FOR %F IN ($(script_src)) DO COPY /Y %F s%F
+	@FOR %F IN ($(script_src)) DO COPY /Y %F s%F
 	CD ..\table
-	FOR %F IN ($(table_src)) DO COPY /Y %F t%F
+	@FOR %F IN ($(table_src)) DO COPY /Y %F t%F
 	CD ..\..\objs
 
 .c:	..\src\;..\src\audio\;..\src\crashlog\;..\src\codec\;..\src\gui\;..\src\input\;..\src\os\;..\src\pool\;..\src\saveload\;..\src\script\;..\src\table\;..\src\video\
@@ -49,7 +49,7 @@ precopy:	.symbolic
 # $[* : without file extension
 
 .c.obj:
-	wcc386 $(coptions) $[*
+	wcc386 $(coptions) $<
 
 ..\bin\opendune.exe:	opendune.exe
 	copy $< $@
@@ -62,3 +62,12 @@ opendune.exe:	$(all_objs)
 	FOR %F IN ($<) DO %write opendune.lnk FILE   %F
 	%write opendune.lnk LIBRARY clib3r.lib
 	wlink $(link_options) @opendune.lnk
+	CD ..\src\pool
+	@FOR %F IN ($(pool_src)) DO DEL p%F
+	CD ..\saveload
+	@FOR %F IN ($(save_src)) DO DEL sl%F
+	CD ..\script
+	@FOR %F IN ($(script_src)) DO DEL s%F
+	CD ..\table
+	@FOR %F IN ($(table_src)) DO DEL t%F
+	CD ..\..\objs
