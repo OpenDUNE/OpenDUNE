@@ -26,3 +26,7 @@ configure  eol=lf
 config.lib eol=lf
 Makefile*  eol=lf
 *.sh       eol=lf
+
+# DOS
+Makefile.wc eol=crlf
+*.bat       eol=crlf

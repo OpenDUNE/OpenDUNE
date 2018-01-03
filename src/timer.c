@@ -1,7 +1,7 @@
 /** @file src/timer.c Timer routines. */
 
 #include <stdlib.h>
-#if !defined(_MSC_VER) && !defined(TOS)
+#if !defined(_MSC_VER) && !defined(TOS) && !defined(__WATCOMC__)
 	#include <sys/time.h>
 #endif /* _MSC_VER */
 #if defined(_WIN32)
@@ -14,6 +14,8 @@
 	#include <mint/osbind.h>
 	#include <mint/ostruct.h>
 	#include <mint/sysvars.h>
+#elif defined(__WATCOMC__)
+	#include <time.h>
 #else
 	/* Linux / Mac OS X / etc. */
 	#if !defined(__USE_POSIX)
@@ -50,7 +52,7 @@ typedef struct TimerNode {
 static HANDLE s_timerMainThread = NULL;
 static HANDLE s_timerThread = NULL;
 static int s_timerTime;
-#elif !defined(TOS)
+#elif !defined(TOS) && !defined(DOS)
 static struct itimerval s_timerTime;
 #endif /* _WIN32 */
 
@@ -72,6 +74,8 @@ uint32 Timer_GetTime(void)
 #elif defined(TOS)
 	/* use the 200 HZ system timer which has a 5ms granularity */
 	return get_sysvar(_hz_200) * 5;
+#elif defined(__WATCOMC__)
+	return clock() * 1000 / CLOCKS_PER_SEC;
 #else
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
@@ -127,7 +131,7 @@ static void Timer_InterruptRun(int arg)
 	timerLock = false;
 }
 
-#if defined(TOS)
+#if defined(TOS) || defined(DOS)
 void SleepAndProcessBackgroundTasks(void)
 {
 	Timer_InterruptRun(0);
@@ -191,7 +195,7 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 }
 #endif /* _WIN32 */
 
-#if !defined(TOS)
+#if !defined(TOS) && !defined(DOS)
 
 /**
  * Suspend the timer interrupt handling.
@@ -237,6 +241,8 @@ void Timer_Init(void)
 #if 0
 	Xbtimer(0/* Timer A */, 1/* divider = 4 */, s_timerSpeed * 6144 / 10000, Timer_Handler);
 #endif
+#elif defined(DOS)
+	/* */
 #else
 	s_timerTime.it_value.tv_sec = 0;
 	s_timerTime.it_value.tv_usec = s_timerSpeed;
@@ -252,9 +258,9 @@ void Timer_Init(void)
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
 #endif /* _WIN32 */
-#if !defined(TOS)
+#if !defined(TOS) && !defined(DOS)
 	Timer_InterruptResume();
-#endif /* !defined(TOS) */
+#endif /* !defined(TOS) && !defined(DOS) */
 }
 
 /**
@@ -262,9 +268,9 @@ void Timer_Init(void)
  */
 void Timer_Uninit(void)
 {
-#if !defined(TOS)
+#if !defined(TOS) && !defined(DOS)
 	Timer_InterruptSuspend();
-#endif /* !defined(TOS) */
+#endif /* !defined(TOS) && !defined(DOS) */
 #if defined(_WIN32)
 	CloseHandle(s_timerMainThread);
 #endif /* _WIN32 */

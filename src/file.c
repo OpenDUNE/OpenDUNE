@@ -7,6 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#ifdef __WATCOMC__
+#include <dos.h>
+#include <direct.h>
+#endif /* __WATCOMC__ */
 #include "multichar.h"
 #include "types.h"
 #include "os/endian.h"
@@ -473,7 +477,12 @@ static bool File_MakeDirectory(char *dir)
 			*s = '\0';
 
 		if (stat(dir, &st) < 0) {
+#ifdef __WATCOMC__
+			success = (_mkdir(dir) == 0);
+#else
 			success = (mkdir(dir, S_IRWXU) == 0);
+#endif
+
 		} else {
 			success = S_ISDIR(st.st_mode);
 		}

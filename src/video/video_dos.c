@@ -1,8 +1,15 @@
 /** @file src/video/video_dos.c IBM PC VGA video driver */
 
+#if defined(__DJGPP__)
 #include <dpmi.h>
 #include <pc.h>
 #include <sys/nearptr.h>
+#endif /* __DJGPP__ */
+#if defined(__WATCOMC__)
+#include <i86.h>
+#include <conio.h>
+#define outportb outp
+#endif /* __WATCOMC__ */
 
 #include "types.h"
 #include "video.h"
@@ -21,29 +28,49 @@ static bool s_mouse_right_btn = true;
 
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
+#if defined(__DJGPP__)
 	__dpmi_regs r;
+#elif defined(__WATCOMC__)
+	union REGS r;
+#endif /* __WATCOMC__ */
 	(void)screen_magnification;
 	(void)filter;
 
+#if defined(__DJGPP__)
 	/* enable access to 1st MB of memory */
 	if (__djgpp_nearptr_enable() == 0) {
 		Error("__djgpp_nearptr_enable() failed, cannot access VGA memory.\n");
 		return false;
 	}
+#endif /* __DJGPP__ */
 
 	g_consoleActive = false;
+#if defined(__DJGPP__)
 	r.x.ax = 0x13;	/* MCGA 13h mode */
 	__dpmi_int(0x10, &r);
+#elif defined(__WATCOMC__)
+	r.w.ax = 0x13;
+	int386(0x10, &r, &r);
+#endif
 	return true;
 }
 
 void Video_Uninit(void)
 {
+#if defined(__DJGPP__)
 	__dpmi_regs r;
+#elif defined(__WATCOMC__)
+	union REGS r;
+#endif /* __WATCOMC__ */
 
+#if defined(__DJGPP__)
 	__djgpp_nearptr_disable();
 	r.x.ax = 0x03;	/* text mode */
 	__dpmi_int(0x10, &r);
+#elif defined(__WATCOMC__)
+	r.w.ax = 0x03;
+	int386(0x10, &r, &r);
+#endif
 	g_consoleActive = true;
 	return;
 }
@@ -93,5 +120,9 @@ void * Video_GetFrameBuffer(uint16 size)
 	(void)size;
 
 	/* VGA frame buffer */
+#if defined(__DJGPP__)
 	return (void *)(0x000a0000 + __djgpp_conventional_base);
+#else
+	return (void *)(0x000a0000);
+#endif
 }

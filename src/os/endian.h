@@ -22,6 +22,10 @@
 	#if !defined(__BIG_ENDIAN)
 		#define __BIG_ENDIAN BIG_ENDIAN
 	#endif
+#elif defined(__WATCOMC__)
+	#define __LITTLE_ENDIAN 1234
+	#define __BIG_ENDIAN 4321
+	#define __BYTE_ORDER __LITTLE_ENDIAN
 #else
 	#include <endian.h>
 #endif /* _WIN32 */

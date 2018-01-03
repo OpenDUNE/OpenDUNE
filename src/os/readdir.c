@@ -3,7 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __WATCOMC__
+#include <direct.h>
+#else
 #include <dirent.h>
+#endif
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "types.h"
