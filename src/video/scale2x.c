@@ -1642,10 +1642,12 @@ static inline void scale2x_8_sse2_border(scale2x_uint8* dst, const scale2x_uint8
 	assert(count % 16 == 0);
 
 	/* all memory must be aligned */
+#if 0
 	assert(scale2x_align_ptr(dst) == dst);
 	assert(scale2x_align_ptr(src0) == src0);
 	assert(scale2x_align_ptr(src1) == src1);
 	assert(scale2x_align_ptr(src2) == src2);
+#endif
 
 	/* first run */
 	B = s0[0];
@@ -1728,10 +1730,12 @@ static inline void scale2x_16_sse2_border(scale2x_uint16* dst, const scale2x_uin
 	assert(count % 8 == 0);
 
 	/* all memory must be aligned */
+#if 0
 	assert(scale2x_align_ptr(dst) == dst);
 	assert(scale2x_align_ptr(src0) == src0);
 	assert(scale2x_align_ptr(src1) == src1);
 	assert(scale2x_align_ptr(src2) == src2);
+#endif
 
 	/* first run */
 	B = s0[0];
@@ -1814,10 +1818,12 @@ static inline void scale2x_32_sse2_border(scale2x_uint32* dst, const scale2x_uin
 	assert(count % 4 == 0);
 
 	/* memory must be aligned */
+#if 0
 	assert(scale2x_align_ptr(dst) == dst);
 	assert(scale2x_align_ptr(src0) == src0);
 	assert(scale2x_align_ptr(src1) == src1);
 	assert(scale2x_align_ptr(src2) == src2);
+#endif
 
 	/* first run */
 	B = s0[0];
