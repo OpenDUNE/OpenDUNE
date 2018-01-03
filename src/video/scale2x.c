@@ -50,11 +50,15 @@
 /* Scale2x C implementation */
 
 /**
- * Define the macro USE_SCALE_RANDOMWRITE to enable
- * an optimized version which writes memory in random order.
- * This version is a little faster if you write in system memory.
- * But it's a lot slower if you write in video memory.
- * So, enable it only if you are sure to never write directly in video memory.
+ * Define the macro USE_SCALE_RANDOMWRITE to enable an optimized version that
+ * writes memory in random order.
+ *
+ * This version can operate at double speed if you write in system memory.
+ * But it's a lot slower if you write in video memory, becasue it writes
+ * memory in two different locations at the same time, messing up with the
+ * video memory write combining.
+ *
+ * Enable it only if you are sure to never write directly in video memory.
  */
 /* #define USE_SCALE_RANDOMWRITE */
 
