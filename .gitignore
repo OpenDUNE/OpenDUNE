@@ -8,6 +8,7 @@ config.pwd
 Makefile
 Makefile.am
 Makefile.bundle
+!tools/Makefile
 bin
 bundle
 bundles
@@ -25,3 +26,6 @@ projects/*
 !projects/*.vcxproj
 src/rev.c
 .DS_Store
+tools/*.o
+tools/amigaMXextract
+tools/extractpak
