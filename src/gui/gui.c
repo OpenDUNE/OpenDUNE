@@ -90,7 +90,7 @@ static const RankScore _rankScores[] = {
 	{282, 1800}  /* "Emperor" */
 };
 
-static uint8 g_colours[16];
+static uint8 g_colours[16];		/*!< Colors used for drawing chars */
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 uint8 *g_palette_998A = NULL;
 uint8 g_remap[256];
@@ -182,6 +182,8 @@ void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom
 	GUI_DrawLine(left, bottom, right, bottom, colour);
 	GUI_DrawLine(left, top, left, bottom, colour);
 	GUI_DrawLine(right, top, right, bottom, colour);
+
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, right+1, bottom+1);
 }
 
 /**
@@ -220,11 +222,14 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 	width = right - left + 1;
 	height = bottom - top + 1;
 	for (y = 0; y < height; y++) {
+		/* TODO : use memset() */
 		for (x = 0; x < width; x++) {
 			*screen++ = colour;
 		}
 		screen += SCREEN_WIDTH - width;
 	}
+
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, right + 1, bottom + 1);
 }
 
 /**
@@ -408,6 +413,7 @@ static void GUI_DrawChar(unsigned char c, uint16 x, uint16 y)
 	if (x >= SCREEN_WIDTH || (x + fc->width) > SCREEN_WIDTH) return;
 	if (y >= SCREEN_HEIGHT || (y + g_fontCurrent->height) > SCREEN_HEIGHT) return;
 
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, x, y, x + fc->width, y + g_fontCurrent->height);
 	x += y * SCREEN_WIDTH;
 	remainingWidth = SCREEN_WIDTH - fc->width;
 
@@ -1149,6 +1155,12 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	assert((flags & 0xFF) < 4);
 
+	GFX_Screen_SetDirty(screenID,
+	                    (g_widgetProperties[windowID].xBase << 3) + posX,
+	                    posY,
+	                    (g_widgetProperties[windowID].xBase << 3) + posX + pixelCountPerRow,
+	                    posY + spriteHeight);
+
 	do {
 		/* drawing loop */
 		if ((Ycounter & 0xFF00) == 0) {
@@ -1858,6 +1870,8 @@ void GUI_Palette_CreateMapping(const uint8 *palette, uint8 *colours, uint8 refer
 void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16 colourSchemaIndex, bool fill)
 {
 	uint16 *colourSchema;
+
+	if (!fill) GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, left + width, top + height);
 
 	width  -= 1;
 	height -= 1;
@@ -3756,6 +3770,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, Screen scre
 
 			GFX_PutPixel(curX, curY, colour);
 		}
+		GFX_Screen_SetDirty(screenDst, x, y, x + width, y + height);
 
 		Timer_Sleep(delay);
 	}

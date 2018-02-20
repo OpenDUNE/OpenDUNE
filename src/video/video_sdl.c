@@ -50,6 +50,8 @@ static bool s_screen_needrepaint = false;
 
 static SDL_Surface *s_gfx_surface = NULL;
 
+static uint8 * s_framebuffer = NULL;
+
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
 
@@ -63,7 +65,9 @@ static uint16 s_mouseMaxX = 0;
 static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
+#ifdef _DEBUG
 static uint8 s_gfx_screen8[SCREEN_WIDTH * SCREEN_HEIGHT];
+#endif /* _DEBUG */
 static uint16 s_screenOffset = 0;
 
 /* translation from SDLKey (symbolic codes) to AT Set 1 (or XT) keyboard scancodes
@@ -323,6 +327,17 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	memset(s_gfx_surface->pixels, 0, width * height * s_gfx_surface->format->BytesPerPixel);
 	SDL_UnlockSurface(s_gfx_surface);
 
+	if((SDL_MUSTLOCK(s_gfx_surface) == 0) && (screen_magnification == 1)
+	   && (s_gfx_surface->pitch == SCREEN_WIDTH) && (s_gfx_surface->format->BitsPerPixel == 8)) {
+		Debug("Using direct access to SDL surface\n");
+	} else {
+		s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+		if (s_framebuffer == NULL) {
+			Error("Could not allocate %d bytes\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
+			return false;
+		}
+	}
+
 	s_video_initialized = true;
 
 	return true;
@@ -333,11 +348,16 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
  */
 void Video_Uninit(void)
 {
-	s_video_initialized = false;
-	if (s_scale_filter == FILTER_HQX) {
-		hqxUnInit();
+	if (s_video_initialized) {
+		s_video_initialized = false;
+		if (s_scale_filter == FILTER_HQX) {
+			hqxUnInit();
+		}
+		SDL_Quit();
+
+		free(s_framebuffer);
+		s_framebuffer = NULL;
 	}
-	SDL_Quit();
 }
 
 static void Video_DrawScreen_Scale2x(void)
@@ -620,23 +640,36 @@ void Video_Tick(void)
 				if (scancode & 0x80) {
 					Video_Key_Callback(0xe0);
 					scancode &= 0x7f;
+					Debug("extended scancode E0 %02X\n", scancode | (keyup ? 0x80 : 0x0));
 				}
 				Video_Key_Callback(scancode | (keyup ? 0x80 : 0x0));
 			} break;
 		}
 	}
 
-	/* Do a quick compare to see if the screen changed at all */
-	if (!s_screen_needrepaint && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) == 0) {
-		s_video_lock = false;
-		return;
+#ifdef _DEBUG
+	if (!GFX_Screen_IsDirty(SCREEN_0) && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
+		Warning("**** SCREEN0 DIRTY NOT DETECTED ! ****\n");
 	}
 	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
+#endif /* _DEBUG */
 
-	Video_DrawScreen();
+	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
+		struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 
-	SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
-	s_screen_needrepaint = false;
+		/* Do not call Video_DrawScreen() if the game is allowed to draw directly into the SDL Surface */
+		if (s_framebuffer != NULL) Video_DrawScreen();
+
+		if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
+			SDL_UpdateRect(s_gfx_surface, area->left * s_screen_magnification, area->top * s_screen_magnification,
+			                              (area->right - area->left) * s_screen_magnification, (area->bottom - area->top) * s_screen_magnification);
+		} else {
+			SDL_UpdateRect(s_gfx_surface, 0, 0, 0, 0);
+		}
+
+		GFX_Screen_SetClean(SCREEN_0);
+		s_screen_needrepaint = false;
+	}
 
 	s_video_lock = false;
 }
@@ -649,7 +682,6 @@ void Video_Tick(void)
  */
 void Video_SetPalette(void *palette, int from, int length)
 {
-	SDL_Color paletteRGB[256];
 	uint8 *p = palette;
 	int i;
 
@@ -664,6 +696,7 @@ void Video_SetPalette(void *palette, int from, int length)
 		}
 		s_screen_needrepaint = true;
 	} else {
+		SDL_Color paletteRGB[256];
 		/* convert from 6bit to 8bit per component */
 		for (i = 0; i < length; i++) {
 			paletteRGB[i].r = (((*p++) & 0x3F) * 0x41) >> 4;
@@ -687,4 +720,14 @@ void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
 	s_screen_needrepaint = true;
+}
+
+void * Video_GetFrameBuffer(uint16 size)
+{
+	(void)size;
+	if(!s_video_initialized) return NULL;
+	/* return either our private 320x204 8bit frame buffer or directly the
+	 * SDL Surface if the Surface doesn't need any locking or rescaling */
+	if(s_framebuffer != NULL) return s_framebuffer;
+	else return s_gfx_surface->pixels;
 }

@@ -279,15 +279,31 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			HDC dc;
 			HDC dc2;
 			HBITMAP old_bmp;
+			RECT rect;
 
-			if (!GetUpdateRect(hwnd, NULL, FALSE)) return 0;
+			if (!GetUpdateRect(hwnd, &rect, FALSE)) return 0;
 			if (s_showFPS) {
 				Video_ShowFPS(s_screen);
 			}
 			if (s_scale_filter == FILTER_SCALE2X) {
-				scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+				if (s_screen_magnification == 1) memcpy(s_screen2, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT);
+				else scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
 			} else if(s_scale_filter == FILTER_HQX) {
 				switch(s_screen_magnification) {
+				case 1:
+					{
+						int x, y;
+						PUCHAR src;
+						PULONG dst;
+						for (y = rect.top; y < rect.bottom; y++) {
+							src = (PUCHAR)s_screen + (y * SCREEN_WIDTH);
+							dst = (PULONG)s_screen2 + (y * SCREEN_WIDTH);
+							for (x = rect.left; x < rect.right; x++) {
+								*dst++ = rgb_palette[*src++];
+							}
+						}
+					}
+					break;
 				case 2:
 					hq2x_8to32(s_screen, s_screen2, SCREEN_WIDTH, SCREEN_HEIGHT, rgb_palette);
 					break;
@@ -305,13 +321,27 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			switch (s_scale_filter) {
 			case FILTER_HQX:
 			case FILTER_SCALE2X:
-				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SRCCOPY);
+				BitBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification,
+					   dc2, 0, s_screen_magnification * s_screenOffset / (SCREEN_WIDTH / 4),
+					   SRCCOPY);
 				break;
 			case FILTER_NEAREST_NEIGHBOR:
 			default:
 				/*StretchBlt(dc, 0, 0, SCREEN_WIDTH * s_screen_magnification, SCREEN_HEIGHT * s_screen_magnification, dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);*/
-				StretchBlt(dc, 0, 0, s_window_width, s_window_height,
-					       dc2, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SRCCOPY);
+				if (s_screen_magnification * SCREEN_WIDTH != s_window_width) {
+					StretchBlt(dc, 0, 0, s_window_width, s_window_height,
+							   dc2, 0, s_screenOffset / (SCREEN_WIDTH / 4), SCREEN_WIDTH, SCREEN_HEIGHT,
+							   SRCCOPY);
+				} else {
+					double factor_x = (double)SCREEN_WIDTH / (double)s_window_width;
+					double factor_y = (double)SCREEN_HEIGHT / (double)s_window_height;
+					Debug("WM_PAINT StretchBlt (%d,%d,%d,%d) (%d,%d,%d,%d)\n", rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
+						  (int)(rect.left * factor_x), (int)(rect.top * factor_y), (int)(factor_x * (rect.right - rect.left)), (int)(factor_y * (rect.bottom - rect.top)));
+					/* doesn't work well when factor is non integer */
+					StretchBlt(dc, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
+							   dc2, (int)(rect.left * factor_x), (int)(rect.top * factor_y) + s_screenOffset / (SCREEN_WIDTH / 4), (int)(factor_x * (rect.right - rect.left)), (int)(factor_y * (rect.bottom - rect.top)),
+							   SRCCOPY);
+				}
 			}
 			SelectObject(dc2, old_bmp);
 			DeleteDC(dc2);
@@ -463,7 +493,6 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_screen_magnification = screen_magnification;
 	s_scale_filter = filter;
 
@@ -639,7 +668,9 @@ static void Video_Stats(const uint8 * screen)
 void Video_Tick(void)
 {
 	MSG msg;
-	const uint8 * screen0;
+#ifdef _DEBUG
+	static int s_unchanged = 0;
+#endif
 
 	if (!s_init) return;
 
@@ -695,15 +726,36 @@ void Video_Tick(void)
 		DispatchMessage(&msg);
 	}
 
-	screen0 = GFX_Screen_Get_ByIndex(SCREEN_0);
-	screen0 += (s_screenOffset << 2);
-	/* Do a quick compare to see if the screen changed at all */
-	if (memcmp(screen0, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
-		memcpy(s_screen, screen0, SCREEN_WIDTH * SCREEN_HEIGHT);
+	if (GFX_Screen_IsDirty(SCREEN_0)) {
+		PRECT prect = NULL;
+		RECT rect;
+		struct dirty_area * area;
+		area = GFX_Screen_GetDirtyArea(SCREEN_0);
+
+		if (area != NULL) {
+			double factor_x = (double)s_window_width / (double)SCREEN_WIDTH;
+			double factor_y = (double)s_window_height / (double)SCREEN_HEIGHT;
+			rect.left = (LONG)((double)area->left * factor_x);
+			rect.top = (LONG)((double)area->top * factor_y);
+			rect.right = (LONG)((double)area->right * factor_x);
+			rect.bottom = (LONG)((double)area->bottom * factor_y);
+			prect = &rect;
+		}
 #ifdef VIDEO_STATS
 		Video_Stats(screen0);
 #endif	/* VIDEO_STATS */
-		InvalidateRect(s_hwnd, NULL, TRUE);
+		InvalidateRect(s_hwnd, prect, TRUE);
+#ifdef _DEBUG
+		if(s_unchanged > 0) {
+			Debug("Video_Tick() : SCREEN_0 unchanged %d times\n", s_unchanged);
+			s_unchanged = 0;
+		}
+#endif /* _DEBUG */
+		GFX_Screen_SetClean(SCREEN_0);
+	} else {
+#ifdef _DEBUG
+		s_unchanged++;
+#endif /* _DEBUG */
 	}
 
 	s_lock = false;
@@ -779,4 +831,10 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+	InvalidateRect(s_hwnd, NULL, TRUE);
+}
+
+void * Video_GetFrameBuffer(uint16 size)
+{
+	return s_screen;
 }

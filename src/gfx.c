@@ -33,8 +33,12 @@ static uint8  s_spriteByteSize = 0;	/* size in byte of one sprite pixel data = s
 #define GFX_SCREEN_BUFFER_COUNT 4
 static const uint16 s_screenBufferSize[GFX_SCREEN_BUFFER_COUNT] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
 static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL };
+#ifdef GFX_STORE_DIRTY_AREA
+static bool s_screen0_is_dirty = false;
+static struct dirty_area s_screen0_dirty_area = { 0, 0, 0, 0 };
+#endif
 
-Screen s_screenActiveID = SCREEN_0;
+static Screen s_screenActiveID = SCREEN_0;
 
 /**
  * Get the codesegment of the active screen buffer.
@@ -96,6 +100,45 @@ bool GFX_Screen_IsActive(Screen screenID)
 	return (screenID == s_screenActiveID);
 }
 
+#ifdef GFX_STORE_DIRTY_AREA
+void GFX_Screen_SetDirty(Screen screenID, uint16 left, uint16 top, uint16 right, uint16 bottom)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return;
+	s_screen0_is_dirty = true;
+	if (left < s_screen0_dirty_area.left) s_screen0_dirty_area.left = left;
+	if (top < s_screen0_dirty_area.top) s_screen0_dirty_area.top = top;
+	if (right > s_screen0_dirty_area.right) s_screen0_dirty_area.right = right;
+	if (bottom > s_screen0_dirty_area.bottom) s_screen0_dirty_area.bottom = bottom;
+}
+
+void GFX_Screen_SetClean(Screen screenID)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return;
+	s_screen0_is_dirty = false;
+	s_screen0_dirty_area.left = 0xffff;
+	s_screen0_dirty_area.top = 0xffff;
+	s_screen0_dirty_area.right = 0;
+	s_screen0_dirty_area.bottom = 0;
+}
+
+bool GFX_Screen_IsDirty(Screen screenID)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return true;
+	return s_screen0_is_dirty;
+}
+
+struct dirty_area * GFX_Screen_GetDirtyArea(Screen screenID)
+{
+	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
+	if(screenID != SCREEN_0) return NULL;
+	return &s_screen0_dirty_area;
+}
+
+#endif /* GFX_STORE_DIRTY_AREA */
+
 /**
  * Initialize the GFX system.
  */
@@ -108,17 +151,20 @@ void GFX_Init(void)
 	/* init g_paletteActive with invalid values so first GFX_SetPalette() will be ok */
 	memset(g_paletteActive, 0xff, 3*256);
 
-	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
+	for (i = 1; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		totalSize += GFX_Screen_GetSize_ByIndex(i);
 	}
 
 	screenBuffers = calloc(1, totalSize);
 
-	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
+	for (i = 1; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = screenBuffers;
 
 		screenBuffers += GFX_Screen_GetSize_ByIndex(i);
 	}
+
+	/* special case for SCREEN_0 which is the MCGA frame buffer */
+	s_screenBuffer[0] = Video_GetFrameBuffer(GFX_Screen_GetSize_ByIndex(0));
 
 	s_screenActiveID = SCREEN_0;
 }
@@ -130,7 +176,7 @@ void GFX_Uninit(void)
 {
 	int i;
 
-	free(s_screenBuffer[0]);
+	free(s_screenBuffer[1]);
 
 	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = NULL;
@@ -289,6 +335,8 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 	if (width < 0 || width >= SCREEN_WIDTH) return;
 	if (height < 0 || height >= SCREEN_HEIGHT) return;
 
+	GFX_Screen_SetDirty(screenDst, xDst, yDst, xDst + width, yDst + height);
+
 	src = GFX_Screen_Get_ByIndex(screenSrc);
 	dst = GFX_Screen_Get_ByIndex(screenDst);
 
@@ -337,10 +385,12 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	if ((yDst + height) > SCREEN_HEIGHT) {
 		height = SCREEN_HEIGHT - 1 - yDst;
 	}
-	if (height < 0) return;
+	if (height <= 0) return;
 
 	if (yDst >= SCREEN_HEIGHT) return;
 	if (yDst < 0) yDst = 0;
+
+	if (width <= 0 || width > SCREEN_WIDTH) return;
 
 	src = GFX_Screen_Get_ByIndex(screenSrc);
 	dst = GFX_Screen_Get_ByIndex(screenDst);
@@ -348,12 +398,16 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
 
-	if (width < 1 || width > SCREEN_WIDTH) return;
+	GFX_Screen_SetDirty(screenDst, xDst, yDst, xDst + width, yDst + height);
 
-	while (height-- != 0) {
-		memmove(dst, src, width);
-		dst += SCREEN_WIDTH;
-		src += SCREEN_WIDTH;
+	if (width == SCREEN_WIDTH) {
+		memmove(dst, src, height * SCREEN_WIDTH);
+	} else {
+		while (height-- != 0) {
+			memmove(dst, src, width);
+			dst += SCREEN_WIDTH;
+			src += SCREEN_WIDTH;
+		}
 	}
 }
 
@@ -363,6 +417,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 void GFX_ClearScreen(Screen screenID)
 {
 	memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+	GFX_Screen_SetDirty(screenID, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 /**
@@ -372,6 +427,7 @@ void GFX_ClearScreen(Screen screenID)
 void GFX_ClearBlock(Screen index)
 {
 	memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
+	GFX_Screen_SetDirty(index, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 /**
@@ -451,6 +507,8 @@ void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 height, uint
 
 	screen = GFX_Screen_Get_ByIndex(SCREEN_0);
 	screen += top * SCREEN_WIDTH + left;
+
+	GFX_Screen_SetDirty(SCREEN_0, left, top, left + width, top + height);
 
 	while (height-- != 0) {
 		memcpy(screen, buffer, width);

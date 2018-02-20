@@ -37,6 +37,8 @@ the 6 first colors of sub-palettes 8 to 14 are a shade of the house colors :
 13 (208-213) : Sardaukar
 14 (224-229) : merecenary
 
+colors 215 to 220 are used for text in intro (red gradient)
+
 color 223 = Windtrap cycling color
 
 colors 231 to 238 are used by the option menu (and other Widgets)

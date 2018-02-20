@@ -33,6 +33,7 @@ static VideoScaleFilter s_scale_filter;
 static int s_screen_magnification;
 
 static uint8 * s_fullsize_buffer = NULL;
+static uint8 * s_framebuffer = NULL;
 
 static bool s_video_initialized = false;
 static bool s_video_lock = false;
@@ -44,6 +45,7 @@ static SDL_Renderer *s_renderer;
 static SDL_Texture *s_texture;
 
 static uint32 s_palette[256];
+static bool s_screen_needrepaint = false;
 
 static uint8 s_keyBufferLatest = 0;
 
@@ -235,7 +237,6 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Incorrect screen magnification factor : %d\n", screen_magnification);
 		return false;
 	}
-	if (screen_magnification == 1) filter = FILTER_NEAREST_NEIGHBOR;
 	s_scale_filter = filter;
 	s_screen_magnification = screen_magnification;
 	if (filter == FILTER_HQX) {
@@ -289,6 +290,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		render_width = SCREEN_WIDTH * s_screen_magnification;
 		render_height = SCREEN_HEIGHT * s_screen_magnification;
 	}
+	s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
+	if (s_framebuffer == NULL) {
+		Error("Could not allocate %d bytes of memory\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
+		return false;
+	}
 	if (s_scale_filter == FILTER_SCALE2X) {
 		s_fullsize_buffer = malloc(render_width * render_height * sizeof(uint8));
 		if (s_fullsize_buffer == NULL) {
@@ -330,6 +336,9 @@ void Video_Uninit(void)
 		hqxUnInit();
 	}
 
+	free(s_framebuffer);
+	s_framebuffer = NULL;
+
 	if (s_scale_filter == FILTER_SCALE2X) {
 		free(s_fullsize_buffer);
 		s_fullsize_buffer = NULL;
@@ -360,25 +369,48 @@ void Video_Uninit(void)
 static void Video_DrawScreen_Nearest_Neighbor(void)
 {
 	const uint8 *gfx_screen8 = GFX_Screen_Get_ByIndex(SCREEN_0);
+	struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 	uint8 * pixels;
 	int pitch;
 	int x, y;
 	uint32 * p;
+	SDL_Rect rect;
+	SDL_Rect * prect = NULL;
 
 	gfx_screen8 += (s_screenOffset << 2);
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
 		return;
 	}
-	for (y = 0; y < SCREEN_HEIGHT; y++) {
-		p = (uint32 *)pixels;
-		for (x = 0; x < SCREEN_WIDTH; x++) {
-			*p++ = s_palette[*gfx_screen8++];
+	if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
+		rect.x = area->left;
+		rect.y = area->top;
+		rect.w = area->right - area->left;
+		rect.h = area->bottom - area->top;
+		prect = &rect;
+		pixels += pitch * area->top;
+		gfx_screen8 += SCREEN_WIDTH * area->top + area->left;
+		for (y = area->top; y < area->bottom; y++) {
+			p = (uint32 *)pixels;
+			p += area->left;
+			for (x = area->left; x < area->right; x++) {
+				*p++ = s_palette[*gfx_screen8++];
+			}
+			gfx_screen8 += (SCREEN_WIDTH - rect.w);
+			pixels += pitch;
 		}
-		pixels += pitch;
+		Debug("Dirty area : (%d,%d)-(%d,%d)\n", area->left, area->top, area->right, area->bottom);
+	} else {
+		for (y = 0; y < SCREEN_HEIGHT; y++) {
+			p = (uint32 *)pixels;
+			for (x = 0; x < SCREEN_WIDTH; x++) {
+				*p++ = s_palette[*gfx_screen8++];
+			}
+			pixels += pitch;
+		}
 	}
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+	if (SDL_RenderCopy(s_renderer, s_texture, prect, prect)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -454,7 +486,11 @@ static void Video_DrawScreen_Hqx(void)
 
 static void Video_DrawScreen(void)
 {
-	switch(s_scale_filter) {
+	if (!GFX_Screen_IsDirty(SCREEN_0) && !s_screen_needrepaint) return;
+
+	if (s_screen_magnification == 1) {
+		Video_DrawScreen_Nearest_Neighbor();
+	} else switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
 		Video_DrawScreen_Nearest_Neighbor();
 		break;
@@ -467,6 +503,8 @@ static void Video_DrawScreen(void)
 	default:
 		Error("Unsupported scale filter\n");
 	}
+	GFX_Screen_SetClean(SCREEN_0);
+	s_screen_needrepaint = false;
 }
 
 /**
@@ -574,6 +612,7 @@ void Video_SetPalette(void *palette, int from, int length)
 		p += 3;
 	}
 
+	s_screen_needrepaint = true;
 	s_video_lock = false;
 }
 
@@ -586,4 +625,11 @@ void Video_SetPalette(void *palette, int from, int length)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+	s_screen_needrepaint = true;
+}
+
+void * Video_GetFrameBuffer(uint16 size)
+{
+	(void)size;
+	return s_framebuffer;
 }
