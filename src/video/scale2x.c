@@ -23,9 +23,28 @@
  * http://www.scale2x.it/
  */
 
+#include "scale2x.h"
+
+#include <assert.h>
+
 #ifdef __ALTIVEC__
 #include <altivec.h>
 #endif
+
+#if defined(USE_SCALE2X_SSE2)
+/**
+ * SSE2 code :
+ *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
+ *      if __SSE2__ is defined (-msse2 with GCC)
+ *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)
+ *
+ * Include SSE2 intrinsics.
+ *
+ * A nice reference is available at:
+ * https://software.intel.com/sites/landingpage/IntrinsicsGuide/
+ */
+#include <emmintrin.h>
+#endif /* defined(USE_SCALE2X_SSE2) */
 
 #ifdef _MSC_VER
 #define inline __inline
@@ -34,10 +53,6 @@
 #define inline __inline__
 #define restrict __restrict__
 #endif /* _MSC_VER */
-
-#include "scale2x.h"
-
-#include <assert.h>
 
 /***************************************************************************/
 /* Scale2x C implementation */
@@ -1598,19 +1613,6 @@ void scale2x_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_u
 #endif /* __ALTIVEC__ */
 
 #if defined(USE_SCALE2X_SSE2)
-/**
- * SSE2 code :
- *      if generating x86_64 code (all 64bits x86 CPUs support SSE2)
- *      if __SSE2__ is defined (-msse2 with GCC)
- *      if _M_IX86_FP == 2 (/arch:SSE2 with MS Visual C++)
- *
- * Include SSE2 intrinsics.
- *
- * A nice reference is available at:
- * https://software.intel.com/sites/landingpage/IntrinsicsGuide/
- */
-#include <emmintrin.h>
-
 /*
  * a = B if (B == D) && !(B == H) && !(D == F)
  * b = B if (B == F) && !(B == H) && !(D == F)

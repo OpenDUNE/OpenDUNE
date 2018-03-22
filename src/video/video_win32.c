@@ -742,7 +742,7 @@ void Video_Tick(void)
 			prect = &rect;
 		}
 #ifdef VIDEO_STATS
-		Video_Stats(screen0);
+		Video_Stats((uint8 *)s_screen);
 #endif	/* VIDEO_STATS */
 		InvalidateRect(s_hwnd, prect, TRUE);
 #ifdef _DEBUG
