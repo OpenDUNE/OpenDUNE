@@ -1,0 +1,73 @@
+# /mf : Flat memory model
+# /5r : pentium register calling convention
+# /s  : remove stack overflow checks
+# /ox : optimize
+# /wx : warnings maximums
+# /q  : quiet
+coptions   = /5r /s /ox /wx /q /bt=DOS4G /dDOS /i=..\include
+link_options	=
+
+objs = animation.obj config.obj cutscene.obj explosion.obj file.obj gfx.obj house.obj ini.obj inifile.obj load.obj map.obj object.obj opendune.obj rev.obj save.obj scenario.obj sprites.obj string.obj structure.obj team.obj tile.obj timer.obj tools.obj unit.obj wsa.obj
+audio_objs = driver.obj dsp_none.obj midi_none.obj mt32mpu.obj sound.obj crashlog_none.obj
+misc_objs = format40.obj format80.obj input.obj mouse.obj
+gui_objs = editbox.obj font.obj gui.obj mentat.obj security.obj viewport.obj widget.obj widget_click.obj widget_draw.obj
+os_objs = video_dos.obj endian.obj error.obj readdir.obj
+# readdir.obj
+pool_src = $(p)house.c $(p)structure.c $(p)team.c $(p)unit.c
+save_src = $(p)house.c $(p)info.c $(p)map.c $(p)object.c $(p)scenario.c $(p)structure.c $(p)team.c $(p)unit.c
+script_src = $(p)structure.c $(p)team.c $(p)unit.c
+table_src = $(p)animation.c $(p)explosion.c $(p)sound.c $(p)widget.c
+p = p
+pool_objs = $+ $(pool_src:.c=.obj) $-
+p = sl
+save_objs = $+ $(save_src:.c=.obj) $- saveload.obj scriptengine.obj
+p = s
+script_objs = $+ $(script_src:.c=.obj) $- general.obj script.obj
+p = t
+table_objs = $+ $(table_src:.c=.obj) $- actioninfo.obj houseanimation.obj houseinfo.obj landscapeinfo.obj movementtype.obj selectiontype.obj structureinfo.obj teamaction.obj tilediff.obj unitinfo.obj widgetinfo.obj windowdesc.obj
+p =
+
+all_objs = $(objs) $(audio_objs) $(misc_objs) $(gui_objs) $(os_objs) $(pool_objs) $(save_objs) $(script_objs) $(table_objs)
+
+
+all:	precopy ..\bin\opendune.exe
+
+precopy:	.symbolic
+	CD ..\src\pool
+	@FOR %F IN ($(pool_src)) DO COPY /Y %F p%F
+	CD ..\saveload
+	@FOR %F IN ($(save_src)) DO COPY /Y %F sl%F
+	CD ..\script
+	@FOR %F IN ($(script_src)) DO COPY /Y %F s%F
+	CD ..\table
+	@FOR %F IN ($(table_src)) DO COPY /Y %F t%F
+	CD ..\..\objs
+
+.c:	..\src\;..\src\audio\;..\src\crashlog\;..\src\codec\;..\src\gui\;..\src\input\;..\src\os\;..\src\pool\;..\src\saveload\;..\src\script\;..\src\table\;..\src\video\
+
+# $<  : prerequesites
+# $[* : without file extension
+
+.c.obj:
+	wcc386 $(coptions) $<
+
+..\bin\opendune.exe:	opendune.exe
+	copy $< $@
+
+opendune.exe:	$(all_objs)
+	%write opendune.lnk NAME   $@
+	%write opendune.lnk SYSTEM DOS4G
+	%write opendune.lnk OPTION MAP
+	#%write opendune.lnk FILE   {$<}
+	FOR %F IN ($<) DO %write opendune.lnk FILE   %F
+	%write opendune.lnk LIBRARY clib3r.lib
+	wlink $(link_options) @opendune.lnk
+	CD ..\src\pool
+	@FOR %F IN ($(pool_src)) DO DEL p%F
+	CD ..\saveload
+	@FOR %F IN ($(save_src)) DO DEL sl%F
+	CD ..\script
+	@FOR %F IN ($(script_src)) DO DEL s%F
+	CD ..\table
+	@FOR %F IN ($(table_src)) DO DEL t%F
+	CD ..\..\objs

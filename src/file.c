@@ -7,6 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#ifdef __WATCOMC__
+#include <dos.h>
+#include <direct.h>
+#endif /* __WATCOMC__ */
 #include "multichar.h"
 #include "types.h"
 #include "os/endian.h"
@@ -25,7 +29,7 @@
 /* #define DUNE_DATA_DIR "/usr/local/share/opendune" */
 
 #ifndef DUNE_DATA_DIR
-#ifdef TOS
+#if defined(TOS) || defined(DOS)
 #define DUNE_DATA_DIR "DATA"
 #else
 #define DUNE_DATA_DIR "./data"
@@ -100,7 +104,7 @@ File_MakeCompleteFilename(char *buf, size_t len, enum SearchDirectory dir, const
 	int j;
 	int i = 0;
 
-#ifdef TOS
+#if defined(TOS) || defined(DOS)
 	if (dir == SEARCHDIR_GLOBAL_DATA_DIR || dir == SEARCHDIR_CAMPAIGN_DIR) {
 		/* Note: campaign specific data directory not implemented. */
 		i = snprintf(buf, len, "%s\\%s", g_dune_data_dir, filename);
@@ -473,7 +477,12 @@ static bool File_MakeDirectory(char *dir)
 			*s = '\0';
 
 		if (stat(dir, &st) < 0) {
+#ifdef __WATCOMC__
+			success = (_mkdir(dir) == 0);
+#else
 			success = (mkdir(dir, S_IRWXU) == 0);
+#endif
+
 		} else {
 			success = S_ISDIR(st.st_mode);
 		}
@@ -514,10 +523,10 @@ bool File_Init(void)
 			PathAppend(buf, TEXT("OpenDUNE"));
 			strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
 		}
-#elif defined(TOS)
+#elif defined(TOS) || defined(DOS)
 		(void)homedir;
 		strcpy(g_personal_data_dir, "SAVES");
-#else /* _WIN32 / TOS*/
+#else /* _WIN32 / TOS / DOS */
 		/* ~/.config/opendune (Linux)  ~/Library/Application Support/OpenDUNE (Mac OS X) */
 		homedir = getenv("HOME");
 		if (homedir == NULL) {

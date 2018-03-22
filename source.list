@@ -164,7 +164,11 @@ unit.c
 		#if TOS
 			video/video_atari.c
 		#else
-			video/video_sdl.c
+			#if DOS
+				video/video_dos.c
+			#else
+				video/video_sdl.c
+			#endif
 		#endif
 	#endif
 #endif
