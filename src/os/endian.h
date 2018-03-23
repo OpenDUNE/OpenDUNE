@@ -11,7 +11,7 @@
 		#define __BIG_ENDIAN 4321
 	#endif /* __BIG_ENDIAN */
 	#define __BYTE_ORDER __LITTLE_ENDIAN
-#elif defined(__APPLE__) || defined(__FreeBSD__)
+#elif defined(__APPLE__) || defined(__FreeBSD__) || defined(__DJGPP__)
 	#include <machine/endian.h>
 	#if !defined(__BYTE_ORDER)
 		#define __BYTE_ORDER BYTE_ORDER
@@ -22,6 +22,10 @@
 	#if !defined(__BIG_ENDIAN)
 		#define __BIG_ENDIAN BIG_ENDIAN
 	#endif
+#elif defined(__WATCOMC__)
+	#define __LITTLE_ENDIAN 1234
+	#define __BIG_ENDIAN 4321
+	#define __BYTE_ORDER __LITTLE_ENDIAN
 #else
 	#include <endian.h>
 #endif /* _WIN32 */

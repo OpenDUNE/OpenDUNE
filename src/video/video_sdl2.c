@@ -32,7 +32,6 @@ static VideoScaleFilter s_scale_filter;
 /** The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 static int s_screen_magnification;
 
-static uint8 * s_fullsize_buffer = NULL;
 static uint8 * s_framebuffer = NULL;
 
 static bool s_video_initialized = false;
@@ -295,13 +294,6 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		Error("Could not allocate %d bytes of memory\n", SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
 		return false;
 	}
-	if (s_scale_filter == FILTER_SCALE2X) {
-		s_fullsize_buffer = malloc(render_width * render_height * sizeof(uint8));
-		if (s_fullsize_buffer == NULL) {
-			Error("Could not allocate %d bytes of memory\n", render_width * render_height * sizeof(uint8));
-			return false;
-		}
-	}
 	err = SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
 
 	if (err != 0) {
@@ -338,11 +330,6 @@ void Video_Uninit(void)
 
 	free(s_framebuffer);
 	s_framebuffer = NULL;
-
-	if (s_scale_filter == FILTER_SCALE2X) {
-		free(s_fullsize_buffer);
-		s_fullsize_buffer = NULL;
-	}
 
 	if (s_texture) {
 		SDL_DestroyTexture(s_texture);
@@ -418,30 +405,49 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 static void Video_DrawScreen_Scale2x(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+	struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 	uint8 * pixels;
 	int pitch;
-	int x, y;
 	uint32 * p;
+	static uint32 truecolorbuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 
 	data += (s_screenOffset << 2);
 
-	/* first use scale2x */
-	scale(s_screen_magnification, s_fullsize_buffer, s_screen_magnification * SCREEN_WIDTH,
-	      data, SCREEN_WIDTH, 1,
-	      SCREEN_WIDTH, SCREEN_HEIGHT);
-	/* then copy to texture with 8bit => 32bit pixel conversion */
-	data = s_fullsize_buffer;
+	/* first do 8bit => 32bit pixel conversion */
+	if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
+		int x, y;
+#if 0
+		rect.x = area->left;
+		rect.y = area->top;
+		rect.w = area->right - area->left;
+		rect.h = area->bottom - area->top;
+		prect = &rect;
+#endif
+		p = truecolorbuffer + SCREEN_WIDTH * area->top + area->left;
+		data += SCREEN_WIDTH * area->top + area->left;
+		for (y = area->top; y < area->bottom; y++) {
+			for (x = area->left; x < area->right; x++) {
+				*p++ = s_palette[*data++];
+			}
+			data += (SCREEN_WIDTH - area->right + area->left);
+			p += (SCREEN_WIDTH - area->right + area->left);
+		}
+		Debug("Dirty area : (%d,%d)-(%d,%d)\n", area->left, area->top, area->right, area->bottom);
+	} else {
+		int i;
+		p = truecolorbuffer;
+		for (i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
+			*p++ = s_palette[*data++];
+		}
+	}
+	/* then call scale2x */
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
 		return;
 	}
-	for (y = 0; y < SCREEN_HEIGHT * s_screen_magnification; y++) {
-		p = (uint32 *)pixels;
-		for (x = 0; x < SCREEN_WIDTH * s_screen_magnification; x++) {
-			*p++ = s_palette[*data++];
-		}
-		pixels += pitch;
-	}
+	scale(s_screen_magnification, pixels, pitch,
+	      truecolorbuffer, SCREEN_WIDTH * 4, 4,
+	      SCREEN_WIDTH, SCREEN_HEIGHT);
 	SDL_UnlockTexture(s_texture);
 	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
@@ -625,6 +631,7 @@ void Video_SetPalette(void *palette, int from, int length)
 void Video_SetOffset(uint16 offset)
 {
 	s_screenOffset = offset;
+	s_screen_needrepaint = true;
 }
 
 void * Video_GetFrameBuffer(uint16 size)

@@ -503,6 +503,10 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
       <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src\video\video_dos.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+      <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src\video\video_fps.c">
       <ObjectFileName>$(IntDir)src\video\</ObjectFileName>
     </ClCompile>

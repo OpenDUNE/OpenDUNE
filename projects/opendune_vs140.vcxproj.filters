@@ -582,6 +582,9 @@
     <ClCompile Include="..\src\video\video_atari.c">
       <Filter>src\video</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\video\video_dos.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\video\video_fps.c">
       <Filter>src\video</Filter>
     </ClCompile>

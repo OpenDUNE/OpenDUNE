@@ -8,11 +8,11 @@ typedef enum TimerType {
 	TIMER_GAME = 2                                          /*!< The identifier for Game timer. */
 } TimerType;
 
-extern uint32 g_timerGUI;
-extern uint32 g_timerGame;
-extern uint32 g_timerInput;
-extern uint32 g_timerSleep;
-extern uint32 g_timerTimeout;
+extern volatile uint32 g_timerGUI;
+extern volatile uint32 g_timerGame;
+extern volatile uint32 g_timerInput;
+extern volatile uint32 g_timerSleep;
+extern volatile uint32 g_timerTimeout;
 
 extern uint32 Timer_GetTime(void);
 

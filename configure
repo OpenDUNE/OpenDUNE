@@ -100,6 +100,7 @@ AWKCOMMAND='
 		if ($0 == "PULSE"       && "'$with_pulse'" == "0")         { next; }
 		if ($0 == "OSX"         && "'$os'" != "OSX")               { next; }
 		if ($0 == "TOS"         && "'$os'" != "TOS")               { next; }
+		if ($0 == "DOS"         && "'$os'" != "DOS")               { next; }
 		if ($0 == "WIN32"       && "'$os'" != "MINGW" &&
 		                 "'$os'" != "CYGWIN" && "'$os'" != "MSVC") { next; }
 
