@@ -520,8 +520,21 @@ static bool Video_AllocateDib(void)
 {
 	BITMAPINFO *bi;
 	HDC dc;
+	bool has_palette_backup = false;
+	RGBQUAD palette_backup[256];
 
 	if (s_dib != NULL) {
+		if (s_scale_filter != FILTER_HQX) {
+			HDC dc2;
+			HBITMAP old_bmp;
+			dc = GetDC(s_hwnd);
+			dc2 = CreateCompatibleDC(dc);
+			old_bmp = SelectObject(dc2, s_dib);
+			if (GetDIBColorTable(dc2, 0, 256, palette_backup) == 256) has_palette_backup = true;
+			SelectObject(dc2, old_bmp);
+			DeleteDC(dc2);
+			ReleaseDC(s_hwnd, dc);
+		}
 		DeleteObject(s_dib);
 		s_dib = NULL;
 		if (s_scale_filter == FILTER_NEAREST_NEIGHBOR) s_screen = NULL;
@@ -550,6 +563,15 @@ static bool Video_AllocateDib(void)
 	if (s_dib == NULL) {
 		Error("CreateDIBSection failed\n");
 		return false;
+	}
+	if (has_palette_backup) {
+		HDC dc2;
+		HBITMAP old_bmp;
+		dc2 = CreateCompatibleDC(dc);
+		old_bmp = SelectObject(dc2, s_dib);
+		SetDIBColorTable(dc2, 0, 256, palette_backup);
+		SelectObject(dc2, old_bmp);
+		DeleteDC(dc2);
 	}
 #ifdef VIDEO_STATS
 	bi->bmiHeader.biWidth = 16;
