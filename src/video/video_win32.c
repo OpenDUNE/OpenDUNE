@@ -84,6 +84,7 @@ static uint16 s_mouseMinY = 0;
 static uint16 s_mouseMaxY = 0;
 
 static bool s_showFPS = false;
+static bool s_clearWindowBackground = false;
 
 typedef struct VkMapping {
 	WPARAM  vk;
@@ -242,6 +243,7 @@ static void Video_ToggleFullscreen(void)
 			s_window_y_offset = (height - s_screen_magnification * SCREEN_HEIGHT) / 2;
 			/*height = s_screen_magnification * SCREEN_HEIGHT;*/
 		}
+		s_clearWindowBackground = true;
 		SetWindowPos(s_hwnd, HWND_TOPMOST, 0, 0, width, height, SWP_FRAMECHANGED | SWP_NOCOPYBITS);
 		s_FullScreen = true;
 	}
@@ -345,6 +347,10 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 				}
 			}
 			dc = BeginPaint(hwnd, &ps);
+			if (s_clearWindowBackground && rect.left == 0 && rect.top == 0) {
+				FillRect(dc, &rect, GetSysColorBrush(COLOR_BACKGROUND));
+				s_clearWindowBackground = false;
+			}
 			dc2 = CreateCompatibleDC(dc);
 			old_bmp = (HBITMAP)SelectObject(dc2, s_dib);
 			switch (s_scale_filter) {
