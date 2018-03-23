@@ -912,5 +912,6 @@ void Video_SetOffset(uint16 offset)
 
 void * Video_GetFrameBuffer(uint16 size)
 {
+	(void)size;
 	return s_screen;
 }
