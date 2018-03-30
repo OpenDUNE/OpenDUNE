@@ -3566,6 +3566,7 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 	if (paletteColour < 0 || paletteColour > 63) {
 		paletteChange = -paletteChange;
 		paletteColour += paletteChange;
+		return;
 	}
 
 	switch (g_playerHouseID) {
