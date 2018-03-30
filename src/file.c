@@ -39,6 +39,13 @@
 static char g_dune_data_dir[1024] = DUNE_DATA_DIR;
 static char g_personal_data_dir[1024] = ".";
 
+/* In order to avoid to open/close the same .PAK file multiple time
+ * in a row, we cache the last opened PAK file.
+ * DUNE II code is very conservative about file access, and only open
+ * one file at once. */
+static FILE * s_currentPakFp = NULL;
+static const FileInfo *s_currentPakInfo = NULL;
+
 static FileInfo *FileInfo_Find_ByName(const char *filename, FileInfo **pakInfo);
 
 
@@ -149,6 +156,7 @@ FILE *fopendatadir(enum SearchDirectory dir, const char *name, const char *mode)
 	FileInfo *fileInfo;
 	const char *filename;
 
+	Debug("fopendatadir(%d, %s, %s)\n", dir, name, mode);
 	if(dir != SEARCHDIR_PERSONAL_DATA_DIR) {
 		fileInfo = FileInfo_Find_ByName(name, NULL);
 		if (fileInfo != NULL) {
@@ -179,6 +187,7 @@ typedef struct File {
 	uint32 size;
 	uint32 start;
 	uint32 position;
+	const FileInfo * pakInfo;
 } File;
 
 static File s_file[FILE_MAX];
@@ -275,7 +284,12 @@ static uint8 _File_Open(enum SearchDirectory dir, const char *filename, uint8 mo
 			fseek(s_file[fileIndex].fp, 0, SEEK_SET);
 		} else {
 			/* file is found in PAK */
-			s_file[fileIndex].fp = fopendatadir(dir, pakInfo->filename, "rb");
+			if (pakInfo != s_currentPakInfo) {
+				if (s_currentPakFp != NULL) fclose(s_currentPakFp);
+				s_currentPakFp = fopendatadir(dir, pakInfo->filename, "rb");
+				s_currentPakInfo = pakInfo;
+			}
+			s_file[fileIndex].fp = s_currentPakFp;
 			if (s_file[fileIndex].fp == NULL) return FILE_INVALID;
 
 			s_file[fileIndex].start    = fileInfo->filePosition;
@@ -285,6 +299,7 @@ static uint8 _File_Open(enum SearchDirectory dir, const char *filename, uint8 mo
 			/* Go to the start of the file now */
 			fseek(s_file[fileIndex].fp, s_file[fileIndex].start, SEEK_SET);
 		}
+		s_file[fileIndex].pakInfo = pakInfo;
 		return fileIndex;
 	}
 
@@ -294,6 +309,7 @@ static uint8 _File_Open(enum SearchDirectory dir, const char *filename, uint8 mo
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
 		s_file[fileIndex].size     = 0;
+		s_file[fileIndex].pakInfo  = NULL;
 
 		/* We can only check the size of the file if we are reading (or appending) */
 		if ((mode & FILE_MODE_READ) != 0) {
@@ -594,6 +610,9 @@ bool File_Init(void)
  */
 void File_Uninit(void)
 {
+	if (s_currentPakFp != NULL) fclose(s_currentPakFp);
+	s_currentPakFp = NULL;
+	s_currentPakInfo = NULL;
 	while (s_files_in_root != NULL) {
 		FileInfoLinkedElem *e = s_files_in_root;
 		s_files_in_root = e->next;
@@ -679,6 +698,11 @@ void File_Close(uint8 index)
 {
 	if (index >= FILE_MAX) return;
 	if (s_file[index].fp == NULL) return;
+
+	if (s_file[index].pakInfo != NULL) {
+		s_file[index].fp = NULL;	/* do not close PAK file */
+		return;
+	}
 
 	g_fileOperation++;
 
