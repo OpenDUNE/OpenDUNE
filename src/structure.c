@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
+#include "os/error.h"
 #include "os/math.h"
 #include "os/strings.h"
 
@@ -1493,13 +1494,13 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			if (s->o.type == STRUCTURE_STARPORT) {
 				uint8 linkedID = 0xFF;
-				int16 loc60[UNIT_MAX];
+				int16 availableUnits[UNIT_MAX];
 				Unit *u;
-				bool loop = true;
+				bool loop;
 
-				memset(loc60, 0, UNIT_MAX * 2);
+				memset(availableUnits, 0, sizeof(availableUnits));
 
-				while (loop) {
+				do {
 					uint8 i;
 
 					loop = false;
@@ -1509,32 +1510,23 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						if (unitsAtStarport == 0) {
 							g_table_unitInfo[i].o.available = 0;
-							continue;
-						}
-
-						if (unitsAtStarport < 0) {
+						} else if (unitsAtStarport < 0) {
 							g_table_unitInfo[i].o.available = -1;
-							continue;
+						} else if (unitsAtStarport > availableUnits[i]) {
+							g_validateStrictIfZero++;
+							u = Unit_Allocate(UNIT_INDEX_INVALID, i, s->o.houseID);
+							g_validateStrictIfZero--;
+
+							if (u != NULL) {
+								loop = true;
+								u->o.linkedID = linkedID;
+								linkedID = u->o.index & 0xFF;
+								availableUnits[i]++;
+								g_table_unitInfo[i].o.available = (int8)availableUnits[i];
+							} else if (availableUnits[i] == 0) g_table_unitInfo[i].o.available = -1;
 						}
-
-						if (loc60[i] >= unitsAtStarport) continue;
-
-						g_validateStrictIfZero++;
-						u = Unit_Allocate(UNIT_INDEX_INVALID, i, s->o.houseID);
-						g_validateStrictIfZero--;
-
-						if (u != NULL) {
-							loop = true;
-							u->o.linkedID = linkedID;
-							linkedID = u->o.index & 0xFF;
-							loc60[i]++;
-							g_table_unitInfo[i].o.available = (int8)loc60[i];
-							continue;
-						}
-
-						if (loc60[i] == 0) g_table_unitInfo[i].o.available = -1;
 					}
-				}
+				} while (loop);
 
 				while (linkedID != 0xFF) {
 					u = Unit_Get_ByIndex(linkedID);
