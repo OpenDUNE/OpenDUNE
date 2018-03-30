@@ -687,7 +687,9 @@ static void GameLoop_GameIntroAnimationMenu(void)
 		index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
 	}
 
-	if (hasSave || File_Exists_Personal("ONETIME.DAT")) g_canSkipIntro = true;
+	if (!g_canSkipIntro) {
+		if (hasSave) g_canSkipIntro = true;
+	}
 
 	switch (stringID) {
 		case STR_REPLAY_INTRODUCTION:
@@ -984,6 +986,8 @@ static void GameLoop_Main(void)
 
 	GUI_Mouse_Show_Safe();
 
+	g_canSkipIntro = File_Exists_Personal("ONETIME.DAT");
+
 	for (;; sleepIdle()) {
 		if (g_gameMode == GM_MENU) {
 			GameLoop_GameIntroAnimationMenu();
@@ -992,8 +996,6 @@ static void GameLoop_Main(void)
 			if (g_gameMode == GM_MENU) continue;
 
 			GUI_Mouse_Hide_Safe();
-
-			g_canSkipIntro = false;
 
 			GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 12);
 
