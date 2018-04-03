@@ -79,6 +79,7 @@
 const char *window_caption = "OpenDUNE - Pre v0.9";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
+bool g_starPortEnforceUnitLimit = false;	/*!< If true, one cannot circumvent unit cap using starport */
 
 uint32 g_hintsShown1 = 0;          /*!< A bit-array to indicate which hints has been show already (0-31). */
 uint32 g_hintsShown2 = 0;          /*!< A bit-array to indicate which hints has been show already (32-63). */
@@ -1262,6 +1263,7 @@ int main(int argc, char **argv)
 	g_debugScenario = (IniFile_GetInteger("debug_scenario", 0) != 0) ? true : false;
 	g_debugSkipDialogs = (IniFile_GetInteger("debug_skip_dialogs", 0) != 0) ? true : false;
 	s_enableLog = (uint8)IniFile_GetInteger("debug_log_game", 0);
+	g_starPortEnforceUnitLimit = (IniFile_GetInteger("startport_unit_cap", 0) != 0) ? true : false;
 
 	Debug("Globals :\n");
 	Debug("  g_dune2_enhanced = %d\n", (int)g_dune2_enhanced);
@@ -1269,6 +1271,7 @@ int main(int argc, char **argv)
 	Debug("  g_debugScenario = %d\n", (int)g_debugScenario);
 	Debug("  g_debugSkipDialogs = %d\n", (int)g_debugSkipDialogs);
 	Debug("  s_enableLog = %d\n", (int)s_enableLog);
+	Debug("  g_starPortEnforceUnitLimit = %d\n", (int)g_starPortEnforceUnitLimit);
 
 	if (!File_Init()) {
 		return 1;

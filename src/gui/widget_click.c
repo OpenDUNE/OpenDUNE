@@ -12,6 +12,7 @@
 
 #include "gui.h"
 #include "widget.h"
+#include "../os/error.h"
 #include "../audio/driver.h"
 #include "../audio/sound.h"
 #include "../config.h"
@@ -1404,19 +1405,22 @@ bool GUI_Production_BuildThis_Click(Widget *w)
  */
 bool GUI_Purchase_Plus_Click(Widget *w)
 {
-	FactoryWindowItem *item;
-	ObjectInfo *oi;
+	FactoryWindowItem *item = GUI_FactoryWindow_GetItem(g_factoryWindowSelected);
+	ObjectInfo *oi = item->objectInfo;
 	House *h = g_playerHouse;
+	bool canCreateMore = true;
+	uint16 type = item->objectType;
 
 	GUI_Widget_MakeNormal(w, false);
 
-	item = GUI_FactoryWindow_GetItem(g_factoryWindowSelected);
-	oi = item->objectInfo;
+	if (g_table_unitInfo[type].movementType != MOVEMENT_WINGER && g_table_unitInfo[type].movementType != MOVEMENT_SLITHER) {
+		if (g_starPortEnforceUnitLimit && h->unitCount >= h->unitCountMax) canCreateMore = false;
+	}
 
-	if (item->amount < oi->available && item->credits <= h->credits) {
+	if (item->amount < oi->available && item->credits <= h->credits && canCreateMore) {
 		item->amount++;
 
-		GUI_FactoryWindow_UpdateDetails();
+		GUI_FactoryWindow_UpdateDetails(item);
 
 		g_factoryWindowOrdered++;
 
@@ -1445,7 +1449,7 @@ bool GUI_Purchase_Minus_Click(Widget *w)
 	if (item->amount != 0) {
 		item->amount--;
 
-		GUI_FactoryWindow_UpdateDetails();
+		GUI_FactoryWindow_UpdateDetails(item);
 
 		g_factoryWindowOrdered--;
 

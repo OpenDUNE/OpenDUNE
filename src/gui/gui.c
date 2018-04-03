@@ -3467,8 +3467,10 @@ void GUI_FactoryWindow_DrawDetails(void)
 			GUI_Screen_Copy(16, 99, 16, 160, 23, 9, SCREEN_1, SCREEN_1);
 			GUI_Screen_Copy(16, 99, 16, 169, 23, 9, SCREEN_1, SCREEN_1);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_OUT_OF_STOCK), 220, 169, 6, 0, 0x132);
+			GUI_Screen_Copy(16, 99, 16, 178, 23, 9, SCREEN_1, SCREEN_1);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_UNABLE_TO_CREATE_MORE), 220, 178, 6, 0, 0x132);
 
-			GUI_FactoryWindow_UpdateDetails();
+			GUI_FactoryWindow_UpdateDetails(item);
 		}
 	}
 
@@ -3514,15 +3516,23 @@ void GUI_FactoryWindow_DrawCaption(const char *caption)
 	GFX_Screen_SetActive(oldScreenID);
 }
 
-void GUI_FactoryWindow_UpdateDetails(void)
+void GUI_FactoryWindow_UpdateDetails(const FactoryWindowItem *item)
 {
-	FactoryWindowItem *item = GUI_FactoryWindow_GetItem(g_factoryWindowSelected);
-	ObjectInfo *oi = item->objectInfo;
+	int16 y;
+	const ObjectInfo *oi = item->objectInfo;
+	uint16 type = item->objectType;
 
+	/* check the available units and unit count limit */
 	if (oi->available == -1) return;
 
+	y = 160;
+	if (oi->available <= item->amount) y = 169;
+	else if (g_starPortEnforceUnitLimit && g_table_unitInfo[type].movementType != MOVEMENT_WINGER && g_table_unitInfo[type].movementType != MOVEMENT_SLITHER) {
+		House *h = g_playerHouse;
+		if (h->unitCount >= h->unitCountMax) y = 178;
+	}
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, SCREEN_1, SCREEN_ACTIVE);
+	GUI_Screen_Copy(16, y, 16, 99, 23, 9, SCREEN_1, SCREEN_ACTIVE);
 	GUI_Mouse_Show_Safe();
 }
 

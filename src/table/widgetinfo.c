@@ -8,6 +8,7 @@
 
 extern bool GUI_Widget_Mentat_Click(Widget *w);
 
+/* TODO : const */
 WidgetInfo g_table_gameWidgetInfo[19] = {
 	{ /* 0 */
 		/* index       */ 1,
