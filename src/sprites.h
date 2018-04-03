@@ -49,7 +49,6 @@ typedef enum IconMapEntries {
 } IconMapEntries;
 
 extern uint8 **g_sprites;
-extern uint8 *g_spriteBuffer;
 extern uint8 *g_iconRTBL;	/* table to give spriteID => palette index*/
 extern uint8 *g_iconRPAL;	/* palettes for "icons" sprites. Each palette is 16 colors (8bits index into the main palette) */
 extern uint8 *g_spritePixels;	/* 2 pixels per byte */
@@ -76,7 +75,7 @@ extern uint16 Sprites_GetType(uint8 *sprite);
 extern void Sprites_LoadTiles(void);
 extern void Sprites_UnloadTiles(void);
 extern uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette);
-extern void Sprites_SetMouseSprite(uint16 x, uint16 y, uint8 *sprite);
+extern void Sprites_SetMouseSprite(uint16 x, uint16 y, const uint8 *sprite);
 extern void Sprites_CPS_LoadRegionClick(void);
 extern bool Sprite_IsUnveiled(uint16 spriteID);
 

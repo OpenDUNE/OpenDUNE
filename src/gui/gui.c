@@ -904,6 +904,7 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * @param ... The extra args, flags dependant.
  *
  * flags :
+ * 0x0001 ? (void)
  * 0x0002 reverse Y ? (void)
  * 0x0004 zoom ? (int zoom_factor_x, int zoomRatioY) UNUSED ?
  * 0x0100 Remap (uint8* remap, int remapCount)
@@ -956,6 +957,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	int16  distX;
 	const uint8 *houseColors = NULL;
 	uint16 spriteDecodedLength; /* if encoded with Format80 */
+	uint8 spriteBuffer[20000];	/* for sprites encoded with Format80 : maximum size for credits images is 19841, elsewere it is 3456 */
 
 	uint8 *buf = NULL;
 	uint8 *b = NULL;
@@ -1042,9 +1044,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	}
 
 	if ((spriteFlags & 0x2) == 0) {
-		Format80_Decode(g_spriteBuffer, sprite, spriteDecodedLength);
+		Format80_Decode(spriteBuffer, sprite, spriteDecodedLength);
 
-		sprite = g_spriteBuffer;
+		sprite = spriteBuffer;
 	}
 
 	if ((flags & 0x2) == 0) {
@@ -2781,7 +2783,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	memcpy(backup, g_palette1 + 255 * 3, 3);
 
-	g_factoryWindowConstructionYard = isConstructionYard;
+	g_factoryWindowConstructionYard = isConstructionYard; /* always same value as g_factoryWindowConstructionYard */
 	g_factoryWindowStarport = isStarPort;
 	g_factoryWindowUpgradeCost = upgradeCost;
 	g_factoryWindowOrdered = 0;
