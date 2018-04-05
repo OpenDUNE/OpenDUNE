@@ -26,6 +26,13 @@
 #ifndef __SCALEBIT_H
 #define __SCALEBIT_H
 
+#define SCALE2X_OPTION_DEFAULT	0
+#define SCALE2X_OPTION_NO_SSE2	0x001
+#define SCALE2X_OPTION_NO_ALTIVEC	0x002
+#define SCALE2X_OPTION_NO_NEON	0x004
+#define SCALE2X_OPTION_NO_VECT	(SCALE2X_OPTION_NO_SSE2|SCALE2X_OPTION_NO_ALTIVEC|SCALE2X_OPTION_NO_NEON)
+
+unsigned int scale_set_options(unsigned int options);
 int scale_precondition(unsigned scale, unsigned pixel, unsigned width, unsigned height);
 void scale(unsigned scale, void* void_dst, unsigned dst_slice, const void* void_src, unsigned src_slice, unsigned pixel, unsigned width, unsigned height);
 

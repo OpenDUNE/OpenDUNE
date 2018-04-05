@@ -15,12 +15,14 @@
  */
 
 /*
- * This file contains a C and MMX implementation of the Scale2x effect.
+ * This file contains a C and SSE2 implementation of the Scale2x effect.
  *
  * You can find an high level description of the effect at :
  *
  * http://www.scale2x.it/
  */
+
+#include "scale3x.h"
 
 #include <assert.h>
 
@@ -31,8 +33,6 @@
 #define inline __inline__
 #define restrict __restrict__
 #endif /* _MSC_VER */
-
-#include "scale3x.h"
 
 /***************************************************************************/
 /* Scale3x C implementation */
