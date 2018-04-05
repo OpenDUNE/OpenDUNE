@@ -14,23 +14,6 @@
 
 
 /**
- * Make a tile32 from an X- and Y-position.
- *
- * @param x The X-position.
- * @param y The Y-position.
- * @return A tile32 at the top-left corner of the X- and Y-position.
- */
-tile32 Tile_MakeXY(uint16 x, uint16 y)
-{
-	tile32 tile;
-
-	tile.x = x << 8;
-	tile.y = y << 8;
-
-	return tile;
-}
-
-/**
  * Unpacks a 12 bits packed tile to a 32 bits tile struct.
  *
  * @param packed The uint16 containing the 12 bits packed tile information.
@@ -134,13 +117,16 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 	uint16 x, y;
 	int16 i, j;
 
+	/* TODO this code could be simplified */
 	packed = Tile_PackTile(tile);
 
 	if (!Map_IsValidPosition(packed)) return;
 
+	/* setting tile from its packed position equals removing the
+	 * non integer part */
 	x = Tile_GetPackedX(packed);
 	y = Tile_GetPackedY(packed);
-	tile = Tile_MakeXY(x, y);
+	Tile_MakeXY(tile, x, y);
 
 	for (i = -radius; i <= radius; i++) {
 		for (j = -radius; j <= radius; j++) {
@@ -150,7 +136,7 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 			if ((y + j) < 0 || (y + j) >= 64) continue;
 
 			packed = Tile_PackXY(x + i, y + j);
-			t = Tile_MakeXY(x + i, y + j);
+			Tile_MakeXY(t, x + i, y + j);
 
 			if (Tile_GetDistanceRoundedUp(tile, t) > radius) continue;
 

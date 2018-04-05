@@ -161,7 +161,7 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 	averageX /= count;
 	averageY /= count;
 
-	t->position = Tile_MakeXY(averageX, averageY);
+	Tile_MakeXY(t->position, averageX, averageY);
 
 	find.houseID = t->houseID;
 	find.index   = 0xFFFF;
