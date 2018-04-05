@@ -14,17 +14,6 @@
 
 
 /**
- * Check whether a tile is valid.
- *
- * @param tile The tile32 to check for validity.
- * @return True if valid, false if not.
- */
-bool Tile_IsValid(tile32 tile)
-{
-	return (tile.x & 0xc000) == 0 && (tile.y & 0xc000) == 0;
-}
-
-/**
  * Make a tile32 from an X- and Y-position.
  *
  * @param x The X-position.
@@ -42,84 +31,6 @@ tile32 Tile_MakeXY(uint16 x, uint16 y)
 }
 
 /**
- * Returns the X-position of the tile.
- *
- * @param tile The tile32 to get the X-position from.
- * @return The X-position of the tile.
- */
-uint8 Tile_GetPosX(tile32 tile)
-{
-	return (tile.x >> 8) & 0x3f;
-}
-
-/**
- * Returns the Y-position of the tile.
- *
- * @param tile The tile32 to get the Y-position from.
- * @return The Y-position of the tile.
- */
-uint8 Tile_GetPosY(tile32 tile)
-{
-	return (tile.y >> 8) & 0x3f;
-}
-
-/**
- * Returns the tile as an uint32 value.
- *
- * @param tile The tile32 to retrieve the data from.
- * @return The uint32 representation of the tile32.
- */
-uint32 Tile_GetXY(tile32 tile)
-{
-	return ((uint32)tile.x | ((uint32)tile.y << 16));
-}
-
-/**
- * Returns the X-position of the tile.
- *
- * @param tile The tile32 to get the X-position from.
- * @return The X-position of the tile.
- */
-uint16 Tile_GetX(tile32 tile)
-{
-	return tile.x;
-}
-
-/**
- * Returns the Y-position of the tile.
- *
- * @param tile The tile32 to get the Y-position from.
- * @return The Y-position of the tile.
- */
-uint16 Tile_GetY(tile32 tile)
-{
-	return tile.y;
-}
-
-/**
- * Packs a 32 bits tile struct into a 12 bits packed tile.
- *
- * @param tile The tile32 to get it's Y-position from.
- * @return The tile packed into 12 bits.
- */
-uint16 Tile_PackTile(tile32 tile)
-{
-	return (Tile_GetPosY(tile) << 6) | Tile_GetPosX(tile);
-}
-
-/**
- * Packs an x and y coordinate into a 12 bits packed tile.
- *
- * @param x The X-coordinate from.
- * @param x The Y-coordinate from.
- * @return The coordinates packed into 12 bits.
- */
-uint16 Tile_PackXY(uint16 x, uint16 y)
-{
-	return (y << 6) | x;
-}
-
-/**
  * Unpacks a 12 bits packed tile to a 32 bits tile struct.
  *
  * @param packed The uint16 containing the 12 bits packed tile information.
@@ -133,38 +44,6 @@ tile32 Tile_UnpackTile(uint16 packed)
 	tile.y = (((packed >> 6) & 0x3F) << 8) | 0x80;
 
 	return tile;
-}
-
-/**
- * Unpacks a 12 bits packed tile and retrieves the X-position.
- *
- * @param packed The uint16 containing the 12 bits packed tile.
- * @return The unpacked X-position.
- */
-uint8 Tile_GetPackedX(uint16 packed)
-{
-	return (packed >> 0) & 0x3F;
-}
-
-/**
- * Unpacks a 12 bits packed tile and retrieves the Y-position.
- *
- * @param packed The uint16 containing the 12 bits packed tile.
- * @return The unpacked Y-position.
- */
-uint8 Tile_GetPackedY(uint16 packed)
-{
-	return (packed >> 6) & 0x3F;
-}
-
-/**
- * Check if a packed tile is out of map. Useful after additional or substraction.
- * @param packed The packed tile to check.
- * @return True if and only if the tile is out of map.
- */
-bool Tile_IsOutOfMap(uint16 packed)
-{
-	return (packed & 0xF000) != 0;
 }
 
 /**
