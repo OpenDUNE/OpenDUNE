@@ -58,7 +58,19 @@
 /*extern uint8 Tile_GetPosY(tile32 tile);*/
 #define Tile_GetPosY(tile) (((tile).y >> 8) & 0x3f)
 
-extern tile32 Tile_MakeXY(uint16 x, uint16 y);
+/**
+ * Make a tile32 from an X- and Y-position.
+ *
+ * @param x The X-position.
+ * @param y The Y-position.
+ * @return A tile32 at the top-left corner of the X- and Y-position.
+ */
+/*extern tile32 Tile_MakeXY(uint16 x, uint16 y);*/
+#define Tile_MakeXY(tile, X, Y) \
+	{ \
+		(tile).x = (X) << 8; \
+		(tile).y = (Y) << 8; \
+	}
 
 /**
  * Packs a 32 bits tile struct into a 12 bits packed tile.
