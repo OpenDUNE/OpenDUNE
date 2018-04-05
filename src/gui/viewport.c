@@ -5,6 +5,7 @@
 #include "types.h"
 #include "../os/common.h"
 #include "../os/math.h"
+#include "../os/error.h"
 
 #include "gui.h"
 #include "widget.h"
@@ -748,6 +749,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (update) Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 		if (init) {
+			/* MiniMap */
 			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, SCREEN_ACTIVE, SCREEN_0);
 
 			GFX_Screen_SetActive(oldScreenID2);
@@ -831,7 +833,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
  *
  * @param packed The tile to draw.
  */
-void GUI_Widget_Viewport_DrawTile(uint16 packed)
+bool GUI_Widget_Viewport_DrawTile(uint16 packed)
 {
 	uint16 x;
 	uint16 y;
@@ -843,14 +845,11 @@ void GUI_Widget_Viewport_DrawTile(uint16 packed)
 	colour = 12;
 	spriteID = 0xFFFF;
 
-	if (Tile_IsOutOfMap(packed) || !Map_IsValidPosition(packed)) return;
-
-	x = Tile_GetPackedX(packed);
-	y = Tile_GetPackedY(packed);
+	if (Tile_IsOutOfMap(packed) || !Map_IsValidPosition(packed)) return false;
 
 	mapScale = g_scenario.mapScale + 1;
 
-	if (mapScale == 0 || BitArray_Test(g_displayedMinimap, packed)) return;
+	if (mapScale == 0 || BitArray_Test(g_displayedMinimap, packed)) return false;
 
 	t = &g_map[packed];
 
@@ -909,6 +908,9 @@ void GUI_Widget_Viewport_DrawTile(uint16 packed)
 		}
 	}
 
+	x = Tile_GetPackedX(packed);
+	y = Tile_GetPackedY(packed);
+
 	x -= g_mapInfos[g_scenario.mapScale].minX;
 	y -= g_mapInfos[g_scenario.mapScale].minY;
 
@@ -919,6 +921,7 @@ void GUI_Widget_Viewport_DrawTile(uint16 packed)
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}
+	return true;
 }
 
 /**
