@@ -839,7 +839,6 @@ bool GUI_Widget_Viewport_DrawTile(uint16 packed)
 	uint16 y;
 	uint16 colour;
 	uint16 spriteID;
-	Tile *t;
 	uint16 mapScale;
 
 	colour = 12;
@@ -851,9 +850,7 @@ bool GUI_Widget_Viewport_DrawTile(uint16 packed)
 
 	if (mapScale == 0 || BitArray_Test(g_displayedMinimap, packed)) return false;
 
-	t = &g_map[packed];
-
-	if ((t->isUnveiled && g_playerHouse->flags.radarActivated) || g_debugScenario) {
+	if ((g_map[packed].isUnveiled && g_playerHouse->flags.radarActivated) || g_debugScenario) {
 		uint16 type = Map_GetLandscapeType(packed);
 		Unit *u;
 
@@ -865,9 +862,9 @@ bool GUI_Widget_Viewport_DrawTile(uint16 packed)
 
 		if (g_table_landscapeInfo[type].radarColour == 0xFFFF) {
 			if (mapScale > 1) {
-				spriteID = mapScale + t->houseID * 2 + 29;
+				spriteID = mapScale + g_map[packed].houseID * 2 + 29;
 			} else {
-				colour = g_table_houseInfo[t->houseID].minimapColor;
+				colour = g_table_houseInfo[g_map[packed].houseID].minimapColor;
 			}
 		}
 
