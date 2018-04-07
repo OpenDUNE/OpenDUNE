@@ -967,8 +967,7 @@ uint32 File_ReadFile(const char *filename, void *buf)
 	uint32 length;
 
 	index = File_Open(filename, FILE_MODE_READ);
-	length = File_Seek(index, 0, 2);
-	File_Seek(index, 0, 0);
+	length = File_GetSize(index);
 	File_Read(index, buf, length);
 	File_Close(index);
 
