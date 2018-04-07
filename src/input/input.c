@@ -329,7 +329,6 @@ void Input_HandleInput(uint16 input)
 
 	if (g_mouseMode == INPUT_MOUSE_MODE_RECORD) {
 		saveSize = 4;
-		if (g_fileOperation != 0) return;
 	}
 
 	if (input == 0) return;

@@ -575,8 +575,6 @@ void Video_Tick(void)
 
 	if (!s_video_initialized) return;
 
-	if (g_fileOperation != 0) return;
-
 	if (s_video_lock) return;
 	s_video_lock = true;
 

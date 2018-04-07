@@ -35,8 +35,6 @@ typedef struct FileInfo {
 	} flags;                                                /*!< General flags of the FileInfo. */
 } FileInfo;
 
-extern uint16 g_fileOperation;
-
 extern bool File_Init(void);
 extern void File_Uninit(void);
 extern bool File_Exists_Ex(enum SearchDirectory dir, const char *filename, uint32 *fileSize);

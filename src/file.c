@@ -213,8 +213,6 @@ typedef struct PakFileInfoLinkedElem {
 
 static PakFileInfoLinkedElem *s_files_in_pak = NULL;
 
-uint16 g_fileOperation = 0; /*!< If non-zero, input (keyboard + mouse), video is not updated, .. Basically, any operation that might trigger a free() in the signal handler, which can collide with malloc() of file operations. */
-
 /**
  * Find the FileInfo for the given filename.
  *
@@ -638,8 +636,6 @@ bool File_Exists_Ex(enum SearchDirectory dir, const char *filename, uint32 *file
 {
 	bool exists = false;
 
-	g_fileOperation++;
-
 	if(dir != SEARCHDIR_PERSONAL_DATA_DIR) {
 		FileInfo *fileInfo;
 		fileInfo = FileInfo_Find_ByName(filename, NULL);
@@ -657,8 +653,6 @@ bool File_Exists_Ex(enum SearchDirectory dir, const char *filename, uint32 *file
 		}
 	}
 
-	g_fileOperation--;
-
 	return exists;
 }
 
@@ -673,9 +667,7 @@ uint8 File_Open_Ex(enum SearchDirectory dir, const char *filename, uint8 mode)
 {
 	uint8 res;
 
-	g_fileOperation++;
 	res = _File_Open(dir, filename, mode);
-	g_fileOperation--;
 
 	if (res == FILE_INVALID) {
 		if(dir == SEARCHDIR_PERSONAL_DATA_DIR) {
@@ -704,12 +696,8 @@ void File_Close(uint8 index)
 		return;
 	}
 
-	g_fileOperation++;
-
 	fclose(s_file[index].fp);
 	s_file[index].fp = NULL;
-
-	g_fileOperation--;
 }
 
 /**
@@ -729,14 +717,12 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 
 	if (length > s_file[index].size - s_file[index].position) length = s_file[index].size - s_file[index].position;
 
-	g_fileOperation++;
 	if (fread(buffer, length, 1, s_file[index].fp) != 1) {
 		Error("Read error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-	g_fileOperation--;
 
 	s_file[index].position += length;
 	return length;
@@ -781,14 +767,12 @@ uint32 File_Write(uint8 index, void *buffer, uint32 length)
 	if (index >= FILE_MAX) return 0;
 	if (s_file[index].fp == NULL) return 0;
 
-	g_fileOperation++;
 	if (fwrite(buffer, length, 1, s_file[index].fp) != 1) {
 		Error("Write error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-	g_fileOperation--;
 
 	s_file[index].position += length;
 	if (s_file[index].position > s_file[index].size) s_file[index].size = s_file[index].position;
@@ -823,7 +807,6 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 	if (s_file[index].fp == NULL) return 0;
 	if (mode > 2) { File_Close(index); return 0; }
 
-	g_fileOperation++;
 	switch (mode) {
 		case 0:
 			fseek(s_file[index].fp, s_file[index].start + position, SEEK_SET);
@@ -838,7 +821,6 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 			s_file[index].position = s_file[index].size - position;
 			break;
 	}
-	g_fileOperation--;
 
 	return s_file[index].position;
 }
@@ -868,13 +850,11 @@ void File_Delete_Personal(const char *filename)
 
 	File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filename, CONVERT_TO_LOWERCASE);
 
-	g_fileOperation++;
 	if (unlink(filenameComplete) < 0) {
 		/* try with the upper case file name */
 		File_MakeCompleteFilename(filenameComplete, sizeof(filenameComplete), SEARCHDIR_PERSONAL_DATA_DIR, filename, CONVERT_TO_UPPERCASE);
 		unlink(filenameComplete);
 	}
-	g_fileOperation--;
 }
 
 /**
@@ -886,16 +866,8 @@ void File_Create_Personal(const char *filename)
 {
 	uint8 index;
 
-	g_fileOperation++;
-
 	index = _File_Open(SEARCHDIR_PERSONAL_DATA_DIR, filename, FILE_MODE_WRITE);
-	if (index == FILE_INVALID) {
-		g_fileOperation--;
-		return;
-	}
-	File_Close(index);
-
-	g_fileOperation--;
+	if (index != FILE_INVALID) File_Close(index);
 }
 
 /**

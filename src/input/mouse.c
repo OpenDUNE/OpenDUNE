@@ -78,7 +78,7 @@ void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft
 {
 	uint8 newButtonState = (mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0);
 
-	if (g_mouseDisabled == 0 && (g_mouseMode != INPUT_MOUSE_MODE_RECORD || g_fileOperation == 0)) {
+	if (g_mouseDisabled == 0) {
 		if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}
