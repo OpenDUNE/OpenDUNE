@@ -727,6 +727,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 	if (g_changedTilesCount != 0) {
 		bool init = false;
 		bool update = false;
+		uint16 minY = 0xffff;
+		uint16 maxY = 0;
 		Screen oldScreenID2 = SCREEN_1;
 
 		for (i = 0; i < g_changedTilesCount; i++) {
@@ -741,7 +743,13 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 				GUI_Mouse_Hide_InWidget(3);
 			}
 
-			GUI_Widget_Viewport_DrawTile(curPos);
+			if (GUI_Widget_Viewport_DrawTile(curPos))
+			{
+				y = Tile_GetPackedY(curPos) - g_mapInfos[g_scenario.mapScale].minY; /* +136 */
+				y *= (g_scenario.mapScale + 1);
+				if (y > maxY) maxY = y;
+				if (y < minY) minY = y;
+			}
 
 			if (!update && BitArray_Test(g_displayedMinimap, curPos)) update = true;
 		}
@@ -749,8 +757,12 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (update) Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 		if (init) {
-			/* MiniMap */
-			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, SCREEN_ACTIVE, SCREEN_0);
+			if (hasScrolled) {	/* force copy of the whole map (could be of the white rectangle) */
+				minY = 0;
+				maxY = 63 - g_scenario.mapScale;
+			}
+			/* MiniMap : redraw only line that changed */
+			if (minY < maxY) GUI_Screen_Copy(32, 136 + minY, 32, 136 + minY, 8, maxY + 1 + g_scenario.mapScale - minY, SCREEN_ACTIVE, SCREEN_0);
 
 			GFX_Screen_SetActive(oldScreenID2);
 
