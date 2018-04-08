@@ -390,7 +390,7 @@ static void Video_DrawScreen_Hqx(void)
 	}
 }
 
-static void Video_DrawScreen_Nearest_Neighbor(void)
+static void Video_DrawScreen_Nearest_Neighbor(const struct dirty_area * area)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	uint8 *gfx1 = s_gfx_surface->pixels;
@@ -398,11 +398,22 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	uint8 *gfx3;
 	int x, y;
 	int i, j;
+	int min_y, max_y;
 
 	data += (s_screenOffset << 2);
+	if (area != NULL) {
+		min_y = area->top;
+		max_y = area->bottom;
+		data += (min_y * SCREEN_WIDTH);
+		gfx1 += min_y * SCREEN_WIDTH * s_screen_magnification  * s_screen_magnification;
+	} else {
+		min_y = 0;
+		max_y = SCREEN_HEIGHT;
+	}
+
 	switch(s_screen_magnification) {
 	case 2:
-		for (y = 0; y < SCREEN_HEIGHT; y++) {
+		for (y = min_y; y < max_y; y++) {
 			gfx2 = gfx1 + s_gfx_surface->pitch;
 #if defined(__x86_64__)
 			/* SSE2 code */
@@ -438,10 +449,9 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 			for (x = SCREEN_WIDTH / 16; x > 0; x--) {
 				vector unsigned char m0;
 				vector unsigned char m1;
-				m0 = *((vector unsigned char *)data);
-				m1 = m0;
+				m1 = *((vector unsigned char *)data);
 				data += 16;
-				m0 = vec_mergeh(m0, m0);
+				m0 = vec_mergeh(m1, m1);
 				m1 = vec_mergel(m1, m1);
 				((vector unsigned char *)gfx1)[0] = m0;
 				((vector unsigned char *)gfx1)[1] = m1;
@@ -463,7 +473,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		}
 		break;
 	case 3:
-		for (y = 0; y < SCREEN_HEIGHT; y++) {
+		for (y = min_y; y < max_y; y++) {
 			gfx2 = gfx1 + s_gfx_surface->pitch;
 			gfx3 = gfx2 + s_gfx_surface->pitch;
 			for (x = 0; x < SCREEN_WIDTH; x++) {
@@ -483,7 +493,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		break;
 	default:
 		/* The non-optimized works-for-every-magnification method */
-		for (y = 0; y < SCREEN_HEIGHT; y++) {
+		for (y = min_y; y < max_y; y++) {
 			for (x = 0; x < SCREEN_WIDTH; x++) {
 				for (i = 0; i < s_screen_magnification; i++) {
 					for (j = 0; j < s_screen_magnification; j++) {
@@ -502,7 +512,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
  * Because we rarely want to draw in 320x200, this function copies from the
  *  320x200 buffer to the real screen, scaling where needed.
  */
-static void Video_DrawScreen(void)
+static void Video_DrawScreen(const struct dirty_area * area)
 {
 	SDL_LockSurface(s_gfx_surface);
 	if (s_screen_magnification == 1) {
@@ -533,7 +543,7 @@ static void Video_DrawScreen(void)
 		}
 	} else switch (s_scale_filter) {
 	case FILTER_NEAREST_NEIGHBOR:
-		Video_DrawScreen_Nearest_Neighbor();
+		Video_DrawScreen_Nearest_Neighbor(area);
 		break;
 	case FILTER_SCALE2X:
 		Video_DrawScreen_Scale2x();
@@ -648,17 +658,19 @@ void Video_Tick(void)
 	}
 
 #ifdef _DEBUG
-	if (!GFX_Screen_IsDirty(SCREEN_0) && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
-		Warning("**** SCREEN0 DIRTY NOT DETECTED ! ****\n");
+	if (!s_showFPS) {
+		if (!GFX_Screen_IsDirty(SCREEN_0) && memcmp(GFX_Screen_Get_ByIndex(SCREEN_0), s_gfx_screen8, SCREEN_WIDTH * SCREEN_HEIGHT) != 0) {
+			Warning("**** SCREEN0 DIRTY NOT DETECTED ! ****\n");
+		}
+		memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
 	}
-	memcpy(s_gfx_screen8, GFX_Screen_Get_ByIndex(SCREEN_0), SCREEN_WIDTH * SCREEN_HEIGHT);
 #endif /* _DEBUG */
 
 	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
 		struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
 
 		/* Do not call Video_DrawScreen() if the game is allowed to draw directly into the SDL Surface */
-		if (s_framebuffer != NULL) Video_DrawScreen();
+		if (s_framebuffer != NULL) Video_DrawScreen(area);
 
 		if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
 			SDL_UpdateRect(s_gfx_surface, area->left * s_screen_magnification, area->top * s_screen_magnification,
