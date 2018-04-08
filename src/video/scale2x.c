@@ -1160,7 +1160,7 @@ void scale2x4_32_sse2(scale2x_uint32* dst0, scale2x_uint32* dst1, scale2x_uint32
  * e1 = B if (B == D) && !(B == H) && !(D == F)
  * e2 = B if (B == F) && !(B == H) && !(D == F)
  */
-static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_uint8* src0, const scale2x_uint8* src1, const scale2x_uint8* src2, unsigned count)
+static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const vector unsigned char* src0, const vector unsigned char* src1, const vector unsigned char* src2, unsigned count)
 {
 	vector unsigned char B, D, E, F, H, e1, e2;
 	vector unsigned char previousE, nextE;
@@ -1172,15 +1172,12 @@ static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_ui
 	assert(count % 16 == 0);
 
 	/* first run */
-	B = *((vector unsigned char *)src0);
-	E = *((vector unsigned char *)src1);
-	H = *((vector unsigned char *)src2);
-	src0 += 16;
-	src1 += 16;
-	src2 += 16;
-	nextE = *((const vector unsigned char *)src1);
+	B = *src0++;
+	E = *src1++;
+	H = *src2++;
+	nextE = *src1++;
 	D = vec_perm(E, E, perm_first);
-	F = vec_perm(E, nextE, vec_lvsl(1, src1));
+	F = vec_perm(E, nextE, vec_lvsl(1, (const scale2x_uint8*)src1));
 
 	BDeq = vec_cmpeq(B, D);
 	BFeq = vec_cmpeq(B, F);
@@ -1199,15 +1196,12 @@ static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_ui
 
 	/* middle */
 	for (count -= 32; count > 0; count -= 16) {
-		B = *((vector unsigned char *)src0);
+		B = *src0++;
 		E = nextE;
-		H = *((vector unsigned char *)src2);
-		src0 += 16;
-		src1 += 16;
-		src2 += 16;
-		nextE = *((const vector unsigned char *)src1);
-		D = vec_perm(previousE, E, vec_lvsl(15, src1));
-		F = vec_perm(E, nextE, vec_lvsl(1, src1));
+		H = *src2++;
+		nextE = *src1++;
+		D = vec_perm(previousE, E, vec_lvsl(15, (const scale2x_uint8*)src1));
+		F = vec_perm(E, nextE, vec_lvsl(1, (const scale2x_uint8*)src1));
 
 		BDeq = vec_cmpeq(B, D);
 		BFeq = vec_cmpeq(B, F);
@@ -1226,14 +1220,11 @@ static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_ui
 	}
 
 	/* last run */
-	B = *((vector unsigned char *)src0);
+	B = *src0;
 	E = nextE;
-	H = *((vector unsigned char *)src2);
-	D = vec_perm(previousE, E, vec_lvsl(15, src1));
+	H = *src2;
+	D = vec_perm(previousE, E, vec_lvsl(15, (const scale2x_uint8*)src1));
 	F = vec_perm(E, E, perm_last);
-	src0 += 16;
-	src1 += 16;
-	src2 += 16;
 
 	BDeq = vec_cmpeq(B, D);
 	BFeq = vec_cmpeq(B, F);
@@ -1249,7 +1240,7 @@ static inline void scale2x_8_altivec_border(scale2x_uint8* dst, const scale2x_ui
 	dst += 16;
 }
 
-static inline void scale2x_16_altivec_border(scale2x_uint16* dst, const scale2x_uint16* src0, const scale2x_uint16* src1, const scale2x_uint16* src2, unsigned count)
+static inline void scale2x_16_altivec_border(scale2x_uint16* dst, const vector unsigned short* src0, const vector unsigned short* src1, const vector unsigned short* src2, unsigned count)
 {
 	vector unsigned short B, D, E, F, H, e1, e2;
 	vector __bool short BDeq, BFeq, BHeq, DFeq;
@@ -1260,14 +1251,11 @@ static inline void scale2x_16_altivec_border(scale2x_uint16* dst, const scale2x_
 	assert(count % 8 == 0);
 
 	/* first run */
-	B = *((vector unsigned short *)src0);
-	E = *((vector unsigned short *)src1);
-	H = *((vector unsigned short *)src2);
+	B = *src0++;
+	E = *src1++;
+	H = *src2++;
 	D = vec_perm(E, E, perm_first);
-	F = vec_perm(E, *(((vector unsigned short *)src1)+1), vec_lvsl(2, src1));
-	src0 += 8;
-	src1 += 8;
-	src2 += 8;
+	F = vec_perm(E, *src1, vec_lvsl(2, (const scale2x_uint16*)src1));
 
 	BDeq = vec_cmpeq(B, D);
 	BFeq = vec_cmpeq(B, F);
@@ -1284,14 +1272,11 @@ static inline void scale2x_16_altivec_border(scale2x_uint16* dst, const scale2x_
 
 	/* middle */
 	for (count -= 16; count > 0; count -= 8) {
-		B = *((vector unsigned short *)src0);
-		E = *((vector unsigned short *)src1);
-		H = *((vector unsigned short *)src2);
-		D = vec_perm(*(((vector unsigned short *)src1)-1), E, vec_lvsl(14, src1));
-		F = vec_perm(E, *(((vector unsigned short *)src1)+1), vec_lvsl(2, src1));
-		src0 += 8;
-		src1 += 8;
-		src2 += 8;
+		B = *src0++;
+		E = *src1++;
+		H = *src2++;
+		D = vec_perm(src1[-2], E, vec_lvsl(14, (const scale2x_uint16*)src1));
+		F = vec_perm(E, *src1, vec_lvsl(2, (const scale2x_uint16*)src1));
 
 		BDeq = vec_cmpeq(B, D);
 		BFeq = vec_cmpeq(B, F);
@@ -1308,14 +1293,11 @@ static inline void scale2x_16_altivec_border(scale2x_uint16* dst, const scale2x_
 	}
 
 	/* last run */
-	B = *((vector unsigned short *)src0);
-	E = *((vector unsigned short *)src1);
-	H = *((vector unsigned short *)src2);
-	D = vec_perm(*(((vector unsigned short *)src1)-1), E, vec_lvsl(14, src1));
+	B = *src0;
+	E = *src1;
+	H = *src2;
+	D = vec_perm(src1[-1], E, vec_lvsl(14, (const scale2x_uint16*)src1));
 	F = vec_perm(E, E, perm_last);
-	src0 += 8;
-	src1 += 8;
-	src2 += 8;
 
 	BDeq = vec_cmpeq(B, D);
 	BFeq = vec_cmpeq(B, F);
@@ -1331,7 +1313,7 @@ static inline void scale2x_16_altivec_border(scale2x_uint16* dst, const scale2x_
 	dst += 8;
 }
 
-static inline void scale2x_32_altivec_border(scale2x_uint32* dst, const scale2x_uint32* src0, const scale2x_uint32* src1, const scale2x_uint32* src2, unsigned count)
+static inline void scale2x_32_altivec_border(scale2x_uint32* dst, const vector unsigned int* src0, const vector unsigned int* src1, const vector unsigned int* src2, unsigned count)
 {
 	vector unsigned int B, D, E, F, H, e1, e2;
 	vector __bool int BDeq, BFeq, BHeq, DFeq;
@@ -1342,14 +1324,11 @@ static inline void scale2x_32_altivec_border(scale2x_uint32* dst, const scale2x_
 	assert(count % 4 == 0);
 
 	/* first run */
-	B = *((vector unsigned int *)src0);
-	E = *((vector unsigned int *)src1);
-	H = *((vector unsigned int *)src2);
+	B = *src0++;
+	E = *src1++;
+	H = *src2++;
 	D = vec_perm(E, E, perm_first);
-	F = vec_perm(E, *(((vector unsigned int *)src1)+1), vec_lvsl(4, src1));
-	src0 += 4;
-	src1 += 4;
-	src2 += 4;
+	F = vec_perm(E, *src1, vec_lvsl(4, (const scale2x_uint32*)src1));
 
 	BDeq = vec_cmpeq(B, D);
 	BFeq = vec_cmpeq(B, F);
@@ -1366,14 +1345,11 @@ static inline void scale2x_32_altivec_border(scale2x_uint32* dst, const scale2x_
 
 	/* middle */
 	for (count -= 8; count > 0; count -= 4) {
-		B = *((vector unsigned int *)src0);
-		E = *((vector unsigned int *)src1);
-		H = *((vector unsigned int *)src2);
-		D = vec_perm(*(((vector unsigned int *)src1)-1), E, vec_lvsl(12, src1));
-		F = vec_perm(E, *(((vector unsigned int *)src1)+1), vec_lvsl(4, src1));
-		src0 += 4;
-		src1 += 4;
-		src2 += 4;
+		B = *src0++;
+		E = *src1++;
+		H = *src2++;
+		D = vec_perm(src1[-2], E, vec_lvsl(12, (const scale2x_uint32*)src1));
+		F = vec_perm(E, *src1, vec_lvsl(4, (const scale2x_uint32*)src1));
 
 		BDeq = vec_cmpeq(B, D);
 		BFeq = vec_cmpeq(B, F);
@@ -1390,14 +1366,11 @@ static inline void scale2x_32_altivec_border(scale2x_uint32* dst, const scale2x_
 	}
 
 	/* last run */
-	B = *((vector unsigned int *)src0);
-	E = *((vector unsigned int *)src1);
-	H = *((vector unsigned int *)src2);
-	D = vec_perm(*(((vector unsigned int *)src1)-1), E, vec_lvsl(12, src1));
+	B = *src0;
+	E = *src1;
+	H = *src2;
+	D = vec_perm(src1[-1], E, vec_lvsl(12, (const scale2x_uint32*)src1));
 	F = vec_perm(E, E, perm_last);
-	src0 += 4;
-	src1 += 4;
-	src2 += 4;
 
 	BDeq = vec_cmpeq(B, D);
 	BFeq = vec_cmpeq(B, F);
@@ -1437,8 +1410,8 @@ void scale2x_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, const scale2x_u
 	if (count % 16 != 0 || count < 32) {
 		scale2x_8_def(dst0, dst1, src0, src1, src2, count);
 	} else {
-		scale2x_8_altivec_border(dst0, src0, src1, src2, count);
-		scale2x_8_altivec_border(dst1, src2, src1, src0, count);
+		scale2x_8_altivec_border(dst0, (const vector unsigned char*)src0, (const vector unsigned char*)src1, (const vector unsigned char*)src2, count);
+		scale2x_8_altivec_border(dst1, (const vector unsigned char*)src2, (const vector unsigned char*)src1, (const vector unsigned char*)src0, count);
 	}
 }
 
@@ -1447,9 +1420,9 @@ void scale2x3_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, scale2x_uint8*
 	if (count % 16 != 0 || count < 32) {
 		scale2x3_8_def(dst0, dst1, dst2, src0, src1, src2, count);
 	} else {
-		scale2x_8_altivec_border(dst0, src0, src1, src2, count);
+		scale2x_8_altivec_border(dst0, (const vector unsigned char*)src0, (const vector unsigned char*)src1, (const vector unsigned char*)src2, count);
 		scale2x_8_def_center(dst1, src0, src1, src2, count);
-		scale2x_8_altivec_border(dst2, src2, src1, src0, count);
+		scale2x_8_altivec_border(dst2, (const vector unsigned char*)src2, (const vector unsigned char*)src1, (const vector unsigned char*)src0, count);
 	}
 }
 
@@ -1458,10 +1431,10 @@ void scale2x4_8_altivec(scale2x_uint8* dst0, scale2x_uint8* dst1, scale2x_uint8*
 	if (count % 16 != 0 || count < 32) {
 		scale2x4_8_def(dst0, dst1, dst2, dst3, src0, src1, src2, count);
 	} else {
-		scale2x_8_altivec_border(dst0, src0, src1, src2, count);
+		scale2x_8_altivec_border(dst0, (const vector unsigned char*)src0, (const vector unsigned char*)src1, (const vector unsigned char*)src2, count);
 		scale2x_8_def_center(dst1, src0, src1, src2, count);
 		scale2x_8_def_center(dst2, src0, src1, src2, count);
-		scale2x_8_altivec_border(dst3, src2, src1, src0, count);
+		scale2x_8_altivec_border(dst3, (const vector unsigned char*)src2, (const vector unsigned char*)src1, (const vector unsigned char*)src0, count);
 	}
 }
 
@@ -1481,8 +1454,8 @@ void scale2x_16_altivec(scale2x_uint16* dst0, scale2x_uint16* dst1, const scale2
 	if (count % 8 != 0 || count < 16) {
 		scale2x_16_def(dst0, dst1, src0, src1, src2, count);
 	} else {
-		scale2x_16_altivec_border(dst0, src0, src1, src2, count);
-		scale2x_16_altivec_border(dst1, src2, src1, src0, count);
+		scale2x_16_altivec_border(dst0, (const vector unsigned short*)src0, (const vector unsigned short*)src1, (const vector unsigned short*)src2, count);
+		scale2x_16_altivec_border(dst1, (const vector unsigned short*)src2, (const vector unsigned short*)src1, (const vector unsigned short*)src0, count);
 	}
 }
 
@@ -1491,9 +1464,9 @@ void scale2x3_16_altivec(scale2x_uint16* dst0, scale2x_uint16* dst1, scale2x_uin
 	if (count % 8 != 0 || count < 16) {
 		scale2x3_16_def(dst0, dst1, dst2, src0, src1, src2, count);
 	} else {
-		scale2x_16_altivec_border(dst0, src0, src1, src2, count);
+		scale2x_16_altivec_border(dst0, (const vector unsigned short*)src0, (const vector unsigned short*)src1, (const vector unsigned short*)src2, count);
 		scale2x_16_def_center(dst1, src0, src1, src2, count);
-		scale2x_16_altivec_border(dst2, src2, src1, src0, count);
+		scale2x_16_altivec_border(dst2, (const vector unsigned short*)src2, (const vector unsigned short*)src1, (const vector unsigned short*)src0, count);
 	}
 }
 
@@ -1502,10 +1475,10 @@ void scale2x4_16_altivec(scale2x_uint16* dst0, scale2x_uint16* dst1, scale2x_uin
 	if (count % 8 != 0 || count < 16) {
 		scale2x4_16_def(dst0, dst1, dst2, dst3, src0, src1, src2, count);
 	} else {
-		scale2x_16_altivec_border(dst0, src0, src1, src2, count);
+		scale2x_16_altivec_border(dst0, (const vector unsigned short*)src0, (const vector unsigned short*)src1, (const vector unsigned short*)src2, count);
 		scale2x_16_def_center(dst1, src0, src1, src2, count);
 		scale2x_16_def_center(dst2, src0, src1, src2, count);
-		scale2x_16_altivec_border(dst3, src2, src1, src0, count);
+		scale2x_16_altivec_border(dst3, (const vector unsigned short*)src2, (const vector unsigned short*)src1, (const vector unsigned short*)src0, count);
 	}
 }
 
@@ -1525,8 +1498,8 @@ void scale2x_32_altivec(scale2x_uint32* dst0, scale2x_uint32* dst1, const scale2
 	if (count % 4 != 0 || count < 8) {
 		scale2x_32_def(dst0, dst1, src0, src1, src2, count);
 	} else {
-		scale2x_32_altivec_border(dst0, src0, src1, src2, count);
-		scale2x_32_altivec_border(dst1, src2, src1, src0, count);
+		scale2x_32_altivec_border(dst0, (const vector unsigned int*)src0, (const vector unsigned int*)src1, (const vector unsigned int*)src2, count);
+		scale2x_32_altivec_border(dst1, (const vector unsigned int*)src2, (const vector unsigned int*)src1, (const vector unsigned int*)src0, count);
 	}
 }
 
@@ -1535,9 +1508,9 @@ void scale2x3_32_altivec(scale2x_uint32* dst0, scale2x_uint32* dst1, scale2x_uin
 	if (count % 4 != 0 || count < 8) {
 		scale2x3_32_def(dst0, dst1, dst2, src0, src1, src2, count);
 	} else {
-		scale2x_32_altivec_border(dst0, src0, src1, src2, count);
+		scale2x_32_altivec_border(dst0, (const vector unsigned int*)src0, (const vector unsigned int*)src1, (const vector unsigned int*)src2, count);
 		scale2x_32_def_center(dst1, src0, src1, src2, count);
-		scale2x_32_altivec_border(dst2, src2, src1, src0, count);
+		scale2x_32_altivec_border(dst2, (const vector unsigned int*)src2, (const vector unsigned int*)src1, (const vector unsigned int*)src0, count);
 	}
 }
 
@@ -1546,10 +1519,10 @@ void scale2x4_32_altivec(scale2x_uint32* dst0, scale2x_uint32* dst1, scale2x_uin
 	if (count % 4 != 0 || count < 8) {
 		scale2x4_32_def(dst0, dst1, dst2, dst3, src0, src1, src2, count);
 	} else {
-		scale2x_32_altivec_border(dst0, src0, src1, src2, count);
+		scale2x_32_altivec_border(dst0, (const vector unsigned int*)src0, (const vector unsigned int*)src1, (const vector unsigned int*)src2, count);
 		scale2x_32_def_center(dst1, src0, src1, src2, count);
 		scale2x_32_def_center(dst2, src0, src1, src2, count);
-		scale2x_32_altivec_border(dst3, src2, src1, src0, count);
+		scale2x_32_altivec_border(dst3, (const vector unsigned int*)src2, (const vector unsigned int*)src1, (const vector unsigned int*)src0, count);
 	}
 }
 
