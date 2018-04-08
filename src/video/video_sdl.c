@@ -360,11 +360,19 @@ void Video_Uninit(void)
 	}
 }
 
-static void Video_DrawScreen_Scale2x(void)
+static void Video_DrawScreen_Scale2x(const struct dirty_area * area)
 {
+	unsigned top, bottom;
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	data += (s_screenOffset << 2);
-	scale(s_screen_magnification, s_gfx_surface->pixels, s_screen_magnification * SCREEN_WIDTH, data, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (area != NULL) {
+		top = area->top;
+		bottom = area->bottom;
+	} else {
+		top = 0;
+		bottom = SCREEN_HEIGHT;
+	}
+	scale_part(s_screen_magnification, s_gfx_surface->pixels, s_screen_magnification * SCREEN_WIDTH, data, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT, top, bottom);
 }
 
 static void Video_DrawScreen_Hqx(void)
@@ -546,7 +554,7 @@ static void Video_DrawScreen(const struct dirty_area * area)
 		Video_DrawScreen_Nearest_Neighbor(area);
 		break;
 	case FILTER_SCALE2X:
-		Video_DrawScreen_Scale2x();
+		Video_DrawScreen_Scale2x(area);
 		break;
 	case FILTER_HQX:
 		Video_DrawScreen_Hqx();

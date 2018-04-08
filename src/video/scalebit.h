@@ -34,7 +34,7 @@
 
 unsigned int scale_set_options(unsigned int options);
 int scale_precondition(unsigned scale, unsigned pixel, unsigned width, unsigned height);
-void scale(unsigned scale, void* void_dst, unsigned dst_slice, const void* void_src, unsigned src_slice, unsigned pixel, unsigned width, unsigned height);
+#define scale(scale, void_dst, dst_slice, void_src, src_slice, pixel, width, height) scale_part(scale, void_dst, dst_slice, void_src, src_slice, pixel, width, height, 0, height)
+void scale_part(unsigned scale, void* void_dst, unsigned dst_slice, const void* void_src, unsigned src_slice, unsigned pixel, unsigned width, unsigned height, unsigned top, unsigned bottom);
 
 #endif
-
