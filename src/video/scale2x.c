@@ -29,6 +29,16 @@
 
 #include "scale2x.h"
 
+#ifdef USE_SCALE2X_SSE2
+/**
+ * Include SSE2 intrinsics.
+ *
+ * A nice reference is available at:
+ * https://software.intel.com/sites/landingpage/IntrinsicsGuide/
+ */
+#include <emmintrin.h>
+#endif
+
 #include <assert.h>
 
 #ifdef _MSC_VER
@@ -702,14 +712,6 @@ void scale2x4_32_def(scale2x_uint32* dst0, scale2x_uint32* dst1, scale2x_uint32*
  *
  *      ab (dst)
  */
-
-/**
- * Include SSE2 intrinsics.
- *
- * A nice reference is available at:
- * https://software.intel.com/sites/landingpage/IntrinsicsGuide/
- */
-#include <emmintrin.h>
 
 /**
  * SCALE2X_SEL(A, B, cond) = cond ? A : B;
