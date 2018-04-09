@@ -317,8 +317,15 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 				Video_ShowFPS(s_screen);
 			}
 			if (s_scale_filter == FILTER_SCALE2X) {
-				if (s_screen_magnification == 1) memcpy(s_screen2, s_screen, SCREEN_WIDTH * SCREEN_HEIGHT);
-				else scale(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH, s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT);
+				if (s_screen_magnification == 1) {
+					memcpy((char *)s_screen2 + rect.top * SCREEN_WIDTH,
+					      (const char *)s_screen + rect.top * SCREEN_WIDTH,
+					      SCREEN_WIDTH * (rect.bottom - rect.top));
+				} else {
+					scale_part(s_screen_magnification, s_screen2, s_screen_magnification * SCREEN_WIDTH,
+					            s_screen, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT,
+					            rect.top / s_screen_magnification, (rect.bottom + s_screen_magnification - 1) / s_screen_magnification);
+				}
 			} else if(s_scale_filter == FILTER_HQX) {
 				switch(s_screen_magnification) {
 				case 1:
