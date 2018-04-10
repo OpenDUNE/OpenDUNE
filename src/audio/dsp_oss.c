@@ -115,7 +115,11 @@ void DSP_Play(const uint8 *data)
 	/*Debug("Real sample rate = %d\n", freq);*/
 
 	n = write(s_oss_fd, data + 2, len);
-	Debug("write() returned %d (len=%d)\n", (int)n, (int)len);
+#ifdef _DEBUG
+	if((int)n != (int)len) {
+		Debug("write() returned %d (len=%d)\n", (int)n, (int)len);
+	}
+#endif
 	if(n < 0) {
 		if(errno == EWOULDBLOCK || errno == EAGAIN || errno == EINTR) {
 			s_data_to_play = data + 2;
@@ -150,7 +154,11 @@ static void oss_tick(void)
 	ssize_t n;
 	if(s_oss_fd >= 0 && s_bytes_to_play > 0) {
 		n = write(s_oss_fd, s_data_to_play, s_bytes_to_play);
-		/*Debug("  write() returned %d (len=%d)\n", (int)n, (int)s_bytes_to_play);*/
+#ifdef _DEBUG
+		if((int)n != (int)s_bytes_to_play) {
+			Debug("  write() returned %d (len=%d)\n", (int)n, (int)s_bytes_to_play);
+		}
+#endif
 		if(n < 0) {
 			Error("oss_tick() write() : %s\n", strerror(errno));
 		} else {

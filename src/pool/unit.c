@@ -9,6 +9,7 @@
 
 #include "pool.h"
 #include "house.h"
+#include "../os/error.h"
 #include "../house.h"
 #include "../opendune.h"
 #include "../unit.h"

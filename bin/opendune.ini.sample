@@ -20,8 +20,10 @@
 ; Path to MT32 ROMs (needed when built with munt library)
 ;mt32rompath=/home/user/mt32roms
 
-; DEBUG options :
+; Game behaviour options :
 ;dune2_enhanced=0
+;startport_unit_cap=1
+; DEBUG options :
 ;debug_game=1
 ;debug_scenario=1
 ;debug_skip_dialogs=1

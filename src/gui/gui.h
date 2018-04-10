@@ -152,7 +152,7 @@ extern void GUI_FactoryWindow_B495_0F30(void);
 extern struct FactoryWindowItem *GUI_FactoryWindow_GetItem(int16 offset);
 extern void GUI_FactoryWindow_DrawDetails(void);
 extern void GUI_FactoryWindow_DrawCaption(const char *caption);
-extern void GUI_FactoryWindow_UpdateDetails(void);
+extern void GUI_FactoryWindow_UpdateDetails(const FactoryWindowItem *item);
 extern void GUI_FactoryWindow_UpdateSelection(bool selectionChanged);
 extern void GUI_FactoryWindow_PrepareScrollList(void);
 extern void GUI_Mouse_Show(void);

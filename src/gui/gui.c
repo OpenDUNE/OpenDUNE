@@ -904,6 +904,7 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * @param ... The extra args, flags dependant.
  *
  * flags :
+ * 0x0001 ? (void)
  * 0x0002 reverse Y ? (void)
  * 0x0004 zoom ? (int zoom_factor_x, int zoomRatioY) UNUSED ?
  * 0x0100 Remap (uint8* remap, int remapCount)
@@ -956,6 +957,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	int16  distX;
 	const uint8 *houseColors = NULL;
 	uint16 spriteDecodedLength; /* if encoded with Format80 */
+	uint8 spriteBuffer[20000];	/* for sprites encoded with Format80 : maximum size for credits images is 19841, elsewere it is 3456 */
 
 	uint8 *buf = NULL;
 	uint8 *b = NULL;
@@ -1042,9 +1044,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	}
 
 	if ((spriteFlags & 0x2) == 0) {
-		Format80_Decode(g_spriteBuffer, sprite, spriteDecodedLength);
+		Format80_Decode(spriteBuffer, sprite, spriteDecodedLength);
 
-		sprite = g_spriteBuffer;
+		sprite = spriteBuffer;
 	}
 
 	if ((flags & 0x2) == 0) {
@@ -2781,7 +2783,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	memcpy(backup, g_palette1 + 255 * 3, 3);
 
-	g_factoryWindowConstructionYard = isConstructionYard;
+	g_factoryWindowConstructionYard = isConstructionYard; /* always same value as g_factoryWindowConstructionYard */
 	g_factoryWindowStarport = isStarPort;
 	g_factoryWindowUpgradeCost = upgradeCost;
 	g_factoryWindowOrdered = 0;
@@ -3465,8 +3467,10 @@ void GUI_FactoryWindow_DrawDetails(void)
 			GUI_Screen_Copy(16, 99, 16, 160, 23, 9, SCREEN_1, SCREEN_1);
 			GUI_Screen_Copy(16, 99, 16, 169, 23, 9, SCREEN_1, SCREEN_1);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_OUT_OF_STOCK), 220, 169, 6, 0, 0x132);
+			GUI_Screen_Copy(16, 99, 16, 178, 23, 9, SCREEN_1, SCREEN_1);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(STR_UNABLE_TO_CREATE_MORE), 220, 178, 6, 0, 0x132);
 
-			GUI_FactoryWindow_UpdateDetails();
+			GUI_FactoryWindow_UpdateDetails(item);
 		}
 	}
 
@@ -3512,15 +3516,23 @@ void GUI_FactoryWindow_DrawCaption(const char *caption)
 	GFX_Screen_SetActive(oldScreenID);
 }
 
-void GUI_FactoryWindow_UpdateDetails(void)
+void GUI_FactoryWindow_UpdateDetails(const FactoryWindowItem *item)
 {
-	FactoryWindowItem *item = GUI_FactoryWindow_GetItem(g_factoryWindowSelected);
-	ObjectInfo *oi = item->objectInfo;
+	int16 y;
+	const ObjectInfo *oi = item->objectInfo;
+	uint16 type = item->objectType;
 
+	/* check the available units and unit count limit */
 	if (oi->available == -1) return;
 
+	y = 160;
+	if (oi->available <= item->amount) y = 169;
+	else if (g_starPortEnforceUnitLimit && g_table_unitInfo[type].movementType != MOVEMENT_WINGER && g_table_unitInfo[type].movementType != MOVEMENT_SLITHER) {
+		House *h = g_playerHouse;
+		if (h->unitCount >= h->unitCountMax) y = 178;
+	}
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, SCREEN_1, SCREEN_ACTIVE);
+	GUI_Screen_Copy(16, y, 16, 99, 23, 9, SCREEN_1, SCREEN_ACTIVE);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -3566,6 +3578,7 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 	if (paletteColour < 0 || paletteColour > 63) {
 		paletteChange = -paletteChange;
 		paletteColour += paletteChange;
+		return;
 	}
 
 	switch (g_playerHouseID) {

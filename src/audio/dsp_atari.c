@@ -82,9 +82,9 @@ static uint32 DSP_ConvertAudio(uint32 freq, const uint8 * src, uint32 len)
 	w = s_stRamBuffer;
 	for (i = 1, j = 0; i <= len; i++) {
 		sample = (*src++) ^ 0x80;	/* unsigned to signed conversion */
-		while (j < i * DMASOUND_FREQ / freq) {
+		while (j < i * DMASOUND_FREQ) {
 			*w++ = sample;
-			j++;
+			j += freq;
 		}
 	}
 	return newlen;

@@ -9,6 +9,7 @@
 #include "os/endian.h"
 #include "os/sleep.h"
 #include "os/strings.h"
+#include "os/error.h"
 
 #include "sprites.h"
 
@@ -26,7 +27,6 @@
 
 uint8 **g_sprites = NULL;
 static uint16 s_spritesCount = 0;
-uint8 *g_spriteBuffer;
 uint8 *g_iconRTBL = NULL;
 uint8 *g_iconRPAL = NULL;
 uint8 *g_spritePixels = NULL;
@@ -92,12 +92,17 @@ static void Sprites_Load(const char *filename)
 	s_spritesCount += count;
 	g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
 
+	/* TODO : It should be possible to decode sprites when loading
+	 * it will simplify the code byt take a few KB of memory */
 	for (i = 0; i < count; i++) {
 		const uint8 *src = Sprites_GetSprite(buffer, i);
 		uint8 *dst = NULL;
 
+		Debug("Sprites %-12s %3d : 0x%04x %2dx%2d %2d %5d %5d\n", filename, i,
+		      READ_LE_UINT16(src)/*Flags*/, READ_LE_UINT16(src+3)/*Width*/, src[2], /* height */
+		      src[5] /* height */, READ_LE_UINT16(src+6) /* packed size */, READ_LE_UINT16(src+8) /* decoded size */);
 		if (src != NULL) {
-			uint16 size = READ_LE_UINT16(src + 6);
+			uint16 size = READ_LE_UINT16(src + 6);	/* "packed" size */
 			dst = (uint8 *)malloc(size);
 			memcpy(dst, src, size);
 		}
@@ -332,7 +337,7 @@ uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette)
 	return Sprites_LoadCPSFile(filename, screenID, palette) / 8000;
 }
 
-void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
+void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, const uint8 *sprite)
 {
 	uint16 size;
 
@@ -363,7 +368,6 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 		memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6) * 2);
 	} else {
 		uint8 *dst = (uint8 *)g_mouseSprite;
-		uint8 *buf = g_spriteBuffer;
 		uint16 flags = READ_LE_UINT16(sprite) | 0x2;
 
 		dst[0] = sprite[0] | 0x2;
@@ -387,9 +391,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 			sprite += 16;
 		}
 
-		Format80_Decode(buf, sprite, size);
-
-		memcpy(dst, buf, size);
+		Format80_Decode(dst, sprite, size);
 	}
 
 	g_mouseSpriteHotspotX = hotSpotX;
@@ -454,7 +456,6 @@ bool Sprite_IsUnveiled(uint16 spriteID)
 
 void Sprites_Init(void)
 {
-	g_spriteBuffer = calloc(1, 20000);
 	Sprites_Load("MOUSE.SHP");                       /*   0 -   6 */
 	Sprites_Load(String_GenerateFilename("BTTN"));   /*   7 -  11 */
 	Sprites_Load("SHAPES.SHP");                      /*  12 - 110 */
@@ -490,8 +491,6 @@ void Sprites_Uninit(void)
 
 	for (i = 0; i < s_spritesCount; i++) free(g_sprites[i]);
 	free(g_sprites); g_sprites = NULL;
-
-	free(g_spriteBuffer); g_spriteBuffer = NULL;
 
 	free(g_mouseSpriteBuffer); g_mouseSpriteBuffer = NULL;
 	free(g_mouseSprite); g_mouseSprite = NULL;
