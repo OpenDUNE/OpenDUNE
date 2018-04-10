@@ -72,7 +72,7 @@ def decode_format80(data):
 			i += size
 	return dest
 
-def decode_sprite_data(data):
+def decode_sprite_data(data, palette):
 	# RLE 00 nn = nn transparent pixels (00)
 	dest = ''
 	i = 0
@@ -81,21 +81,23 @@ def decode_sprite_data(data):
 			dest += data[i] * ord(data[i+1])
 			i += 2
 		else:
-			dest += data[i]
+			dest += data[i] if palette is None else palette[ord(data[i])]
 			i += 1
 	return dest
 	
 def decode_sprite(data):
+	palette = None
 	(flags, height, width, height2, datalen, decodedlen) = unpack_from('<HBHBHH', data)
 	print '0x%04x %02dx%02d %02d %d %d' % (flags, width, height, height2, datalen, decodedlen)
 	offset = 10
-	if (flags & 0x1) != 0:	# house colors
+	if (flags & 0x1) != 0:	# local 16 color palette
+		palette = data[offset:offset+16]
 		offset += 16
 	if (flags & 0x2) == 0:
 		sprite_data = decode_format80(data[offset:])
 	else:
 		sprite_data = data[offset:]
-	pixels = decode_sprite_data(sprite_data)
+	pixels = decode_sprite_data(sprite_data, palette)
 	print 'decodedlen =', len(sprite_data), 'pixels =', len(pixels)
 	for line in map(lambda s : s.encode('hex'), split_string(pixels, width)):
 		print line
