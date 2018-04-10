@@ -406,23 +406,32 @@ static void Video_DrawScreen_Scale2x(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
 	struct dirty_area * area = GFX_Screen_GetDirtyArea(SCREEN_0);
+	unsigned top, bottom;
 	uint8 * pixels;
 	int pitch;
 	uint32 * p;
 	static uint32 truecolorbuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
+	SDL_Rect rect, rectlock;
+	SDL_Rect * prect = NULL;
+	SDL_Rect * prectlock = NULL;
 
 	data += (s_screenOffset << 2);
 
 	/* first do 8bit => 32bit pixel conversion */
 	if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
 		int x, y;
-#if 0
-		rect.x = area->left;
-		rect.y = area->top;
-		rect.w = area->right - area->left;
-		rect.h = area->bottom - area->top;
+		rect.x = area->left * s_screen_magnification;
+		rect.y = area->top * s_screen_magnification;
+		rect.w = (area->right - area->left) * s_screen_magnification;
+		rect.h = (area->bottom - area->top) * s_screen_magnification;
 		prect = &rect;
-#endif
+		rectlock.x = 0;
+		rectlock.y = rect.y;
+		rectlock.w = SCREEN_WIDTH * s_screen_magnification;
+		rectlock.h = rect.h;
+		prectlock = &rectlock;
+		top = area->top;
+		bottom = area->bottom;
 		p = truecolorbuffer + SCREEN_WIDTH * area->top + area->left;
 		data += SCREEN_WIDTH * area->top + area->left;
 		for (y = area->top; y < area->bottom; y++) {
@@ -439,17 +448,22 @@ static void Video_DrawScreen_Scale2x(void)
 		for (i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
 			*p++ = s_palette[*data++];
 		}
+		top = 0;
+		bottom = SCREEN_HEIGHT;
 	}
 	/* then call scale2x */
-	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
+	if (SDL_LockTexture(s_texture, prectlock, (void **)&pixels, &pitch) != 0) {
 		Error("Could not set lock texture: %s\n", SDL_GetError());
 		return;
 	}
-	scale(s_screen_magnification, pixels, pitch,
-	      truecolorbuffer, SCREEN_WIDTH * 4, 4,
-	      SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (prectlock != NULL) {
+		pixels -= rectlock.y * pitch;
+	}
+	scale_part(s_screen_magnification, pixels, pitch,
+	           truecolorbuffer, SCREEN_WIDTH * 4, 4,
+	           SCREEN_WIDTH, SCREEN_HEIGHT, top, bottom);
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+	if (SDL_RenderCopy(s_renderer, s_texture, prect, prect)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
