@@ -15,6 +15,12 @@ def load_palette(filename):
 	with open(filename, 'rb') as pal_file:
 		palette = ''.join(map(lambda c: chr((ord(c) << 2) + (ord(c) >> 6)), list(pal_file.read())))
 
+def xor_strings(s1, s2):
+	dest = ''
+	for i in range(min(len(s1),len(s2))):
+		dest += chr(ord(s1[i]) ^ ord(s2[i]))
+	return dest
+
 def extract_wsa(filename):
 	with open(filename, 'rb') as wsa_file:
 		wsa = wsa_file.read()
@@ -32,9 +38,12 @@ def extract_wsa(filename):
 		print ' ', map(lambda e : len(e), datablocks)
 		pictures = map(decode_format40, datablocks)
 		print ' ', map(lambda e : len(e), pictures)
+		pixels = chr(0) * (width * height)
 		for i in range(len(pictures)):
 			pbm_filename = '%s_%02d.pbm' % (filename, i)
-			save_pbm(pbm_filename, width, height, pictures[i], palette)
+			if len(pictures[i]) > 0:
+				pixels = xor_strings(pixels, pictures[i])
+				save_pbm(pbm_filename, width, height, pixels, palette)
 
 if len(sys.argv) <= 1:
 	print "usage : %s [-p palette.PAL] file.WSA" % sys.argv[0]
