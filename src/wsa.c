@@ -212,15 +212,15 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	fileheader.width = File_Read_LE16(fileno);
 	fileheader.height = File_Read_LE16(fileno);
 	fileheader.requiredBufferSize = File_Read_LE16(fileno);
-	fileheader.isSpecial = File_Read_LE16(fileno);
-	fileheader.animationOffsetStart = File_Read_LE32(fileno);
-	fileheader.animationOffsetEnd = File_Read_LE32(fileno);
+	fileheader.isSpecial = File_Read_LE16(fileno);	/* has palette */
+	fileheader.animationOffsetStart = File_Read_LE32(fileno);	/* Offset of 1st frame */
+	fileheader.animationOffsetEnd = File_Read_LE32(fileno);		/* Offset of 2nd frame (end of 1st frame) */
 
 	lengthSpecial = 0;
 	if (fileheader.isSpecial) {
 		flags.isSpecial = true;
 
-		lengthSpecial = 0x300;
+		lengthSpecial = 0x300;	/* length of a 256 color RGB palette */
 	}
 
 	lengthFileContent = File_Seek(fileno, 0, 2);
