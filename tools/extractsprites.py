@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # vim: tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 #
-# Format to extract sprites from SHP 
+# extract sprites from SHP files (Westwood studios games)
 
 from struct import *
 import sys
+from westwood_codecs import *
+from save_pictures import *
 
 palette = None
 
@@ -14,63 +16,6 @@ def load_palette(filename):
 	global palette
 	with open(filename, 'rb') as pal_file:
 		palette = ''.join(map(lambda c: chr((ord(c) << 2) + (ord(c) >> 6)), list(pal_file.read())))
-
-def save_pbm(filename, width, height, pixels):
-	if (width & 1) != 0:
-		pixels = ''.join([line + chr(0) for line in split_string(pixels, width)])
-	with open(filename, 'wb') as pbm_file:
-		bmhd_chunk = 'BMHD' + pack('>LHHHHBBBBHBBHH', 20, width, height, 0, 0, 8, 2, 0, 0, 0, 10, 10, width, height);
-		cmap_chunk = '' if not palette else 'CMAP' + pack('>L', len(palette)) + palette
-		body_chunk = 'BODY' + pack('>L', len(pixels)) + pixels
-
-		size = 4 + len(body_chunk) + len(bmhd_chunk) + len(cmap_chunk)
-		form = 'FORM' + pack('>L', size) + 'PBM ' + bmhd_chunk + cmap_chunk + body_chunk
-		pbm_file.write(form)
-		print filename, "written"
-
-def decode_format80(data):
-	dest = ''
-	i = 0
-	while i < len(data) and ord(data[i]) != 0x80:
-		cmd = ord(data[i])
-		i += 1
-		if cmd == 254:	# 1111 1110 SS SS : long set
-			size = ord(data[i]) + (ord(data[i+1]) << 8)
-			#print cmd, 'long set', size, data[i+2].encode('hex')
-			dest += (data[i+2] * size)
-			i += 3
-		elif cmd == 255:	# 1111 1111 SS SS OO OO : long absolute move
-			size = ord(data[i]) + (ord(data[i+1]) << 8)
-			offset = ord(data[i+2]) + (ord(data[i+3]) << 8)
-			#print cmd, 'long absolute move', offset, size
-			while size > 0:
-				dest += dest[offset]
-				offset += 1
-				size -= 1
-			i += 4
-		elif (cmd & 128) == 0:	# 0sss oooo OO : short relative move
-			size = (cmd >> 4) + 3
-			offset = ((cmd & 15) << 8) + ord(data[i])
-			i += 1
-			#print cmd, 'short relative move', offset, size
-			while size > 0:
-				dest += dest[-offset]
-				size -= 1
-		elif (cmd & 64) != 0:	# 11ss ssss OO OO : short absolute move
-			size = (cmd & 63) + 3
-			offset = ord(data[i]) + (ord(data[i+1]) << 8)
-			#print cmd, 'short absolute move', offset, size
-			while size > 0:
-				dest += dest[offset]
-				offset += 1
-				size -= 1
-			i += 2
-		else:	# 10ss ssss : short copy
-			size = cmd & 63
-			#print cmd, 'short copy', size
-			dest += data[i:i+size]
-			i += size
-	return dest
 
 def decode_sprite_data(data, palette):
 	# RLE 00 nn = nn transparent pixels (00)
@@ -121,7 +66,7 @@ def extract_shp(filename):
 				offsets.append(offset)
 		for i in range(count):
 			#print '   ', i, offsets[i]
-			save_pbm(*("%s_%03d.pbm" % (filename, i),) + decode_sprite(shp[offsets[i]:offsets[i+1]]))
+			save_pbm(*("%s_%03d.pbm" % (filename, i),) + decode_sprite(shp[offsets[i]:offsets[i+1]]) + (palette,))
 
 if len(sys.argv) <= 1:
 	print "usage : %s [-p palette.PAL] file.shp" % sys.argv[0]

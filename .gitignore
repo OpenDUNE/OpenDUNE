@@ -27,5 +27,6 @@ projects/*
 src/rev.c
 .DS_Store
 tools/*.o
+tools/*.pyc
 tools/amigaMXextract
 tools/extractpak
