@@ -47,6 +47,7 @@ For Linux/FreeBSD, you need to install LibSDL yourself. It is available in every
  package manager, and the chances are high it is already installed on your
  system.
 In order to use sounds and music on Linux, you need a working ALSA driver.
+OpenDUNE also supports OSS and PulseAudio for digitized sound output.
 Music is sent to MIDI Out port of Atari machines.
 It is also possible to build with Munt MT32 emulator http://munt.sourceforge.net/
 to have MT32 music : Windows users should just install the mt32emu_win32drv and
