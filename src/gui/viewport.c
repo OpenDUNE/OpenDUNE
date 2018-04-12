@@ -390,15 +390,16 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 				left = x << 4;
 
 				if (!g_debugScenario && g_veiledSpriteID == t->overlaySpriteID) {
+					/* draw a black rectangle */
 					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
 					continue;
 				}
 
 				GFX_DrawSprite(t->groundSpriteID, left, top, t->houseID);
 
-				if (t->overlaySpriteID == 0 || g_debugScenario) continue;
-
-				GFX_DrawSprite(t->overlaySpriteID, left, top, t->houseID);
+				if (t->overlaySpriteID != 0 && !g_debugScenario) {
+					GFX_DrawSprite(t->overlaySpriteID, left, top, t->houseID);
+				}
 			}
 		}
 		g_dirtyViewportCount = 0;

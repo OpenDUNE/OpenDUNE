@@ -193,27 +193,29 @@ void GFX_Uninit(void)
 void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 {
 	int i, j;
-	uint8 *iconRPAL;
+	uint8 *icon_palette;
 	uint8 *wptr;
 	uint8 *rptr;
-	uint8 palette[16];
+	uint8 local_palette[16];
 
 	assert(houseID < HOUSE_MAX);
 
 	if (s_spriteMode == 4) return;
 
-	iconRPAL = g_iconRPAL + (g_iconRTBL[spriteID] << 4);
+	icon_palette = g_iconRPAL + (g_iconRTBL[spriteID] << 4);
 
-	for (i = 0; i < 16; i++) {
-		uint8 colour = *iconRPAL++;
+	if (houseID != 0) {
+		/* Remap colors for the right house */
+		for (i = 0; i < 16; i++) {
+			uint8 colour = icon_palette[i];
 
-		/* ENHANCEMENT -- Dune2 recolours too many colours, causing clear graphical glitches in the IX building */
-		if (g_dune2_enhanced) {
-			if (colour >= 0x90 && colour <= 0x96) colour += houseID << 4;
-		} else {
-			if (colour >= 0x90 && colour <= 0xA0) colour += houseID << 4;
+			/* ENHANCEMENT -- Dune2 recolours too many colours, causing clear graphical glitches in the IX building */
+			if ((colour & 0xF0) == 0x90) {
+				if (colour <= 0x96 || !g_dune2_enhanced) colour += houseID << 4;
+			}
+			local_palette[i] = colour;
 		}
-		palette[i] = colour;
+		icon_palette = local_palette;
 	}
 
 	wptr = GFX_Screen_GetActive();
@@ -222,13 +224,14 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	for (j = 0; j < s_spriteHeight; j++) {
 		for (i = 0; i < s_spriteWidth; i++) {
-			uint8 left  = (*rptr) >> 4;
-			uint8 right = (*rptr) & 0xF;
+			uint8 left  = icon_palette[(*rptr) >> 4];
+			uint8 right = icon_palette[(*rptr) & 0xF];
 			rptr++;
 
-			if (palette[left] != 0) *wptr = palette[left];
+			/* if some tiles have no transparent pixels, this could be optimized */
+			if (left != 0) *wptr = left;
 			wptr++;
-			if (palette[right] != 0) *wptr = palette[right];
+			if (right != 0) *wptr = right;
 			wptr++;
 		}
 
