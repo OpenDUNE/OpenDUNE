@@ -216,6 +216,30 @@ void Video_SwitchFPSDisplay(uint8 key)
 	}
 }
 
+static uint32 s_fps_chars[5];
+
+static void Video_Atari_DrawChar(uint8 * screen, uint16 x, uint8 digit)
+{
+	static const uint8 fontdigits[10] = {0167,044,0135,0155,056,0153,0173,045,0177,0157};
+	static const uint8 fonttestsegments[15] = {03,01,05, 02,0,04, 032,010,054, 020,0,040, 0120,0100,0140};
+	uint8 segments = fontdigits[digit];
+	int i, line;
+	uint32 pixels = 0;
+
+	(void)screen;
+
+	for (i = 0, line = 0; i<15; i++) {
+		pixels <<= 1;
+		if (segments & fonttestsegments[i])	pixels++;
+		if((i % 3) == 2) {
+			pixels <<= 1;
+			s_fps_chars[line] |= pixels << (320-4-x);
+			line++;
+			pixels = 0;
+		}
+	}
+}
+
 /**
  * Runs every tick to handle video updates.
  */
@@ -233,7 +257,8 @@ void Video_Tick(void)
 	}
 
 	if (s_showFPS) {
-		Video_ShowFPS(data);
+		memset(s_fps_chars, 0, sizeof(s_fps_chars));
+		Video_ShowFPS_2(screen, Video_Atari_DrawChar);
 	}
 
 	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
@@ -285,6 +310,35 @@ void Video_Tick(void)
 		}
 		GFX_Screen_SetClean(SCREEN_0);
 		s_screen_needrepaint = false;
+	}
+
+	if (s_showFPS) {
+		int line, plane;
+		uint16 * screenwords;
+
+		screenwords = (uint16 *)Logbase();
+		screenwords += (320-32)/2;
+		/* copy the characters in color 15 (00001111) */
+		for (line = 0; line < 5; line++) {
+			for (plane = 0; plane < 4; plane++)
+			{
+				screenwords[plane] = (uint16)(s_fps_chars[line] >> 16);
+				screenwords[plane+8] = (uint16)s_fps_chars[line];
+			}
+			for (; plane < 8; plane++)
+			{
+				screenwords[plane] = 0;
+				screenwords[plane+8] = 0;
+			}
+			if(s_machine_type == MCH_TT) {	/* Double lines */
+				for(plane = 0; plane < 16; plane++) {
+					screenwords[(320/2)+plane] = screenwords[plane];
+				}
+				screenwords += 320;
+			} else {
+				screenwords += 320/2;
+			}
+		}
 	}
 }
 
