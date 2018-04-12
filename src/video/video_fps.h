@@ -3,6 +3,8 @@
 #ifndef VIDEO_VIDEO_FPS_H
 #define VIDEO_VIDEO_FPS_H
 
-void Video_ShowFPS(uint8 *screen);
+typedef void (*Video_ShowFPS_Proc)(uint8 *screen, uint16 x, uint8 digit);
+void Video_ShowFPS_2(uint8 *screen, Video_ShowFPS_Proc drawchar);
+#define Video_ShowFPS(screen) Video_ShowFPS_2(screen, NULL)
 
 #endif /* VIDEO_VIDEO_FPS_H */
