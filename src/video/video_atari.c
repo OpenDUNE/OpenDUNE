@@ -34,6 +34,9 @@ extern void Video_SwitchFPSDisplay(uint8 key);
  * conversion. */
 static uint8 * s_framebuffer = NULL;
 
+/* offset to center the 320x200 image in 320x240 display */
+static uint32 s_center_image_offset = 0;
+
 static short s_savedMode = 0;
 
 static enum {
@@ -153,6 +156,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
 		newMode = (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0);
 		vSize = VgetSize(newMode);
+		s_center_image_offset = (vSize-(SCREEN_WIDTH*SCREEN_HEIGHT)) >> 1;
 		Debug("allocate %ld + %d bytes for mode $%04x\n", vSize, 4*SCREEN_WIDTH, (int)newMode);
 		saddr = Srealloc(vSize + 4*SCREEN_WIDTH);	/* allocate 4 lines more for explosions */
 #if 0
@@ -166,6 +170,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		s_savedMode = EgetShift();
 		EsetShift(TT_LOW); /* set TT 8bps video mode */
 		EgetPalette(0, 256, s_paletteBackup);	/* backup palette */
+		s_center_image_offset = 320*40;
 	} else {
 		Error("Unsupported machine type.\nPlease contact us if you know how to initialize a 256 color mode on your machine.\n");
 		return false;
@@ -216,8 +221,9 @@ void Video_SwitchFPSDisplay(uint8 key)
  */
 void Video_Tick(void)
 {
-	uint8 *screen = Logbase();
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
+	uint8 *screen = Logbase();
+	screen += s_center_image_offset;
 
 	/* send mouse event */
 	if(s_mouse_state_changed) {
