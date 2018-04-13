@@ -14,6 +14,8 @@
 ;scalefilter=scale2x
 ; Start OpenDUNE fullscreen if possible
 ;fullscreen=1
+; Maximum frame rate  (default is 60)
+;framerate=60
 ; set mt32midi=1 if you output music to a MT-32 device or compatible
 ; default setting is for GeneralMidi music (Roland SC55)
 ;mt32midi=1
