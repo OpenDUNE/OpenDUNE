@@ -35,8 +35,6 @@ static uint32 s_tickCursor;                                 /*!< Stores last tim
 static uint32 s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */
 static uint32 s_tickClick;                                  /*!< Stores last time Viewport handled a click. */
 
-static uint8 s_paletteHouse[16];                            /*!< Used for palette manipulation to get housed coloured units etc. */
-
 /**
  * Handles the Click events for the Viewport widget.
  *
@@ -293,37 +291,35 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 }
 
 /**
- * Get a sprite for the viewport, recolouring it when needed.
+ * Get palette house of sprite for the viewport
  *
- * @param spriteID The sprite to get.
+ * @param sprite The sprite
  * @param houseID The House to recolour it with.
- * @return The sprite if found, otherwise NULL.
+ * @param paletteHouse the palette to set
  */
-static uint8 *GUI_Widget_Viewport_Draw_GetSprite(uint16 spriteID, uint8 houseID)
+static bool GUI_Widget_Viewport_GetSprite_HousePalette(const uint8 *sprite, uint8 houseID, uint8 *paletteHouse)
 {
-	uint8 *sprite;
-	uint8 i;
+	int i;
 
-	if (spriteID > 355) return NULL;
+	if (sprite == NULL) return false;
 
-	sprite = g_sprites[spriteID];
+	/* flag 0x1 indicates if the sprite has a palette */
+	if ((sprite[0] & 0x1) == 0) return false;
 
-	if (sprite == NULL) return NULL;
+	if (houseID == 0) {
+		memcpy(paletteHouse, sprite + 10, 16);
+	} else {
+		for (i = 0; i < 16; i++) {
+			uint8 v = sprite[10 + i];
 
-	if ((Sprites_GetType(sprite) & 0x1) == 0) return sprite;
+			if (v >= 0x90 && v <= 0x98) {
+				v += houseID << 4;
+			}
 
-	for (i = 0; i < 16; i++) {
-		uint8 v = sprite[10 + i];
-
-		if (v >= 0x90 && v <= 0x98) {
-			if (v == 0xFF) break;
-			v += houseID * 16;
+			paletteHouse[i] = v;
 		}
-
-		s_paletteHouse[i] = v;
 	}
-
-	return sprite;
+	return true;
 }
 
 /**
@@ -340,6 +336,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		{4, 0}, {3, 1}, {2, 1}, {1, 1}
 	};
 
+	uint8 paletteHouse[16] = {0};    /*!< Used for palette manipulation to get housed coloured units etc. */
 	uint16 x;
 	uint16 y;
 	uint16 i;
@@ -423,7 +420,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && !g_debugScenario) continue;
 
-		sprite = GUI_Widget_Viewport_Draw_GetSprite(g_table_unitInfo[u->o.type].groundSpriteID, Unit_GetHouseID(u));
+		sprite = g_sprites[g_table_unitInfo[u->o.type].groundSpriteID];
+		GUI_Widget_Viewport_GetSprite_HousePalette(sprite, Unit_GetHouseID(u), paletteHouse);
 
 		if (Map_IsPositionInViewport(u->o.position, &x, &y)) {
 			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
@@ -536,9 +534,14 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) spriteFlags |= DRAWSPRITE_FLAG_REMAP;
 			if (ui->o.flags.blurTile) spriteFlags |= DRAWSPRITE_FLAG_BLUR;
 
-			spriteFlags |= DRAWSPRITE_FLAG_PAL | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER;
+			spriteFlags |= DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER;
 
-			GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, spriteFlags, s_paletteHouse, g_paletteMapping2, 1);
+			if (GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[index], (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u), paletteHouse)) {
+				spriteFlags |= DRAWSPRITE_FLAG_PAL;
+				GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[index], x, y, 2, spriteFlags, paletteHouse, g_paletteMapping2, 1);
+			} else {
+				GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[index], x, y, 2, spriteFlags, g_paletteMapping2, 1);
+			}
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->spriteOffset >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -548,8 +551,9 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 						{0, -9}, { 9, -6}, { 14, 1}, { 7,  6}
 					};
 
+					/*GUI_Widget_Viewport_GetSprite_HousePalette(..., Unit_GetHouseID(u), paletteHouse),*/
 					GUI_DrawSprite(SCREEN_ACTIVE,
-					               GUI_Widget_Viewport_Draw_GetSprite((u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)),
+					               g_sprites[(u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3)],
 					               x + values_334E[orientation][0], y + values_334E[orientation][1],
 					               2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 				}
@@ -597,9 +601,15 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 				spriteID += values_32A4[orientation][0];
 
-				GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)),
-				               x + offsetX, y + offsetY,
-				               2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER | DRAWSPRITE_FLAG_PAL, s_paletteHouse);
+				if (GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[spriteID], Unit_GetHouseID(u), paletteHouse)) {
+					GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID],
+					               x + offsetX, y + offsetY,
+					               2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER | DRAWSPRITE_FLAG_PAL, paletteHouse);
+				} else {
+					GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID],
+					               x + offsetX, y + offsetY,
+					               2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
+				}
 			}
 
 			if (u->o.flags.s.isSmoking) {
@@ -634,7 +644,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 		if (!Map_IsPositionInViewport(e->position, &x, &y)) continue;
 
-		GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER, s_paletteHouse);
+		/*GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[e->spriteID], e->houseID, paletteHouse);*/
+		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[e->spriteID], x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER/*, paletteHouse*/);
 	}
 
 	/* draw air units */
@@ -720,14 +731,18 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 			if (ui->flags.hasAnimationSet && u->o.flags.s.animationFlip) index += 5;
 			if (u->o.type == UNIT_CARRYALL && u->o.flags.s.inTransport) index += 3;
 
-			sprite = GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u));
+			sprite = g_sprites[index];
 
 			if (ui->o.flags.hasShadow) {
 				GUI_DrawSprite(SCREEN_ACTIVE, sprite, x + 1, y + 3, 2, (spriteFlags & ~DRAWSPRITE_FLAG_PAL) | DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR, g_paletteMapping1, 1);
 			}
 			if (ui->o.flags.blurTile) spriteFlags |= DRAWSPRITE_FLAG_BLUR;
 
-			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, spriteFlags | DRAWSPRITE_FLAG_PAL, s_paletteHouse);
+			if (GUI_Widget_Viewport_GetSprite_HousePalette(sprite, Unit_GetHouseID(u), paletteHouse)) {
+				GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, spriteFlags | DRAWSPRITE_FLAG_PAL, paletteHouse);
+			} else {
+				GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, spriteFlags);
+			}
 		}
 
 		g_dirtyAirUnitCount = 0;

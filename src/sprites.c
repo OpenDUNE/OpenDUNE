@@ -140,19 +140,6 @@ uint8 Sprite_GetHeight(uint8 *sprite)
 }
 
 /**
- * Gets the type of the given sprite.
- *
- * @param sprite The sprite.
- * @return The type.
- */
-uint16 Sprites_GetType(uint8 *sprite)
-{
-	if (sprite == NULL) return 0;
-
-	return READ_LE_UINT16(sprite);
-}
-
-/**
  * Decodes an image.
  *
  * @param source The encoded image.
