@@ -927,11 +927,12 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  */
 void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
-	static const uint16 s_variable_60[8] = {1, 3, 2, 5, 4, 3, 2, 1};
-	static uint16 s_variable_5E     = 0;
-	static uint16 s_variable_70     = 1;
-	static uint16 s_variable_72     = 0x8B55;
-	static uint16 s_variable_74     = 0x51EC;
+	/* variables for blur/sandworm effect */
+	static const uint8 blurOffsets[8] = {1, 3, 2, 5, 4, 3, 2, 1};
+	static uint16 s_blurIndex  = 0;	/* index into previous table */
+	uint16 blurOffset = 1;
+	uint16 blurRandomValueIncr = 0x8B55;
+	uint16 blurRandomValue     = 0x51EC;
 
 	va_list ap;
 
@@ -978,13 +979,13 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	}
 
 	if ((flags & DRAWSPRITE_FLAG_BLUR) != 0) {
-		s_variable_5E = (s_variable_5E + 1) % 8;
-		s_variable_70 = s_variable_60[s_variable_5E];
-		s_variable_74 = 0x0;
-		s_variable_72 = 0x100;
+		s_blurIndex = (s_blurIndex + 1) % 8;
+		blurOffset = blurOffsets[s_blurIndex];
+		blurRandomValue = 0x0;
+		blurRandomValueIncr = 0x100;
 	}
 
-	if ((flags & 0x1000) != 0) s_variable_72 = (uint16)va_arg(ap, int);
+	if ((flags & 0x1000) != 0) blurRandomValueIncr = (uint16)va_arg(ap, int);
 
 	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		zoomRatioX = (uint16)va_arg(ap, int);
@@ -1206,18 +1207,17 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 		if (spriteWidth != 0) {
 			count += pixelCountPerRow;
-			if (count > 0) {
-				uint8 v;
 
-				while (count > 0) {
+			while (count > 0) {
+				uint8 v = *sprite++;
+				if (v == 0) {
+					/* run length encoding of transparent pixels */
 					v = *sprite++;
-					if (v == 0) {
-						/* run length encoding of transparent pixels */
-						if ((flags & 0xFD) == 0) buf += *sprite;
-						else buf -= *sprite;
-						count -= *sprite++;
-						continue;
-					}
+					if ((flags & 0xFD) == 0) buf += v;
+					else buf -= v;
+					count -= v;
+				} else {
+					int16 i;
 
 					assert(((flags >> 8) & 0xF) < 8);
 					switch ((flags >> 8) & 0xF) {
@@ -1225,32 +1225,27 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							*buf = v;
 							break;
 
-						case (DRAWSPRITE_FLAG_REMAP >> 8): {	/* remap */
-							int16 i;
-
+						case (DRAWSPRITE_FLAG_REMAP >> 8):	/* remap */
 							for(i = 0; i < remapCount; i++) v = remap[v];
 
 							*buf = v;
 
 							break;
-						}
 
 						case (DRAWSPRITE_FLAG_BLUR >> 8):	/* blur/Sandworm effect */
-							s_variable_74 += s_variable_72;
+							blurRandomValue += blurRandomValueIncr;
 
-							if ((s_variable_74 & 0xFF00) == 0) {
+							if ((blurRandomValue & 0xFF00) == 0) {
 								*buf = v;
 							} else {
-								s_variable_74 &= 0xFF;
-								*buf = buf[s_variable_70];
+								blurRandomValue &= 0xFF;
+								*buf = buf[blurOffset];
 							}
 							break;
 
 						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR) >> 8):
 						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
-						{	/* remap + blur ? (+ has house colors) */
-							int16 i;
-
+							/* remap + blur ? (+ has house colors) */
 							v = *buf;
 
 							for(i = 0; i < remapCount; i++) v = remap[v];
@@ -1258,16 +1253,13 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							*buf = v;
 
 							break;
-						}
 
 						case (DRAWSPRITE_FLAG_SPRITEPAL >> 8):	/* sprite has palette */
 							*buf = houseColors[v];
 							break;
 
 						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
-						{	/* remap +  sprite has palette */
-							int16 i;
-
+							/* remap +  sprite has palette */
 							v = houseColors[v];
 
 							for(i = 0; i < remapCount; i++) v = remap[v];
@@ -1275,17 +1267,16 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							*buf = v;
 
 							break;
-						}
 
 						case ((DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
 						/* blur/sandworm effect + sprite has palette */
-							s_variable_74 += s_variable_72;
+							blurRandomValue += blurRandomValueIncr;
 
-							if ((s_variable_74 & 0xFF00) == 0) {
+							if ((blurRandomValue & 0xFF00) == 0) {
 								*buf = houseColors[v];
 							} else {
-								s_variable_74 &= 0xFF;
-								*buf = buf[s_variable_70];
+								blurRandomValue &= 0xFF;
+								*buf = buf[blurOffset];
 							}
 							break;
 					}
