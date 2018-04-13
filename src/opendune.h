@@ -19,6 +19,7 @@ typedef struct XYPosition {
 extern const char *window_caption;
 extern bool g_dune2_enhanced;
 extern bool g_starPortEnforceUnitLimit;
+extern bool g_unpackSHPonLoad;
 
 extern uint32 g_hintsShown1;
 extern uint32 g_hintsShown2;

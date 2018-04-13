@@ -80,6 +80,7 @@ const char *window_caption = "OpenDUNE - Pre v0.9";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 bool g_starPortEnforceUnitLimit = false;	/*!< If true, one cannot circumvent unit cap using starport */
+bool g_unpackSHPonLoad = true;	/*!< If true, Format80 encoded sprites from SHP files will be decoded on load. set to false to save memory */
 
 uint32 g_hintsShown1 = 0;          /*!< A bit-array to indicate which hints has been show already (0-31). */
 uint32 g_hintsShown2 = 0;          /*!< A bit-array to indicate which hints has been show already (32-63). */

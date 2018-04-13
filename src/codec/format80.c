@@ -3,6 +3,7 @@
 #include <string.h>
 #include "types.h"
 
+#include "../os/error.h"
 #include "format80.h"
 
 /**

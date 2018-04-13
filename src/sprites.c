@@ -13,6 +13,7 @@
 
 #include "sprites.h"
 
+#include "opendune.h"
 #include "codec/format80.h"
 #include "file.h"
 #include "gfx.h"
@@ -84,6 +85,7 @@ static void Sprites_Load(const char *filename)
 	uint8 *buffer;
 	uint16 count;
 	uint16 i;
+	uint16 size;
 
 	buffer = File_ReadWholeFile(filename);
 
@@ -92,8 +94,6 @@ static void Sprites_Load(const char *filename)
 	s_spritesCount += count;
 	g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
 
-	/* TODO : It should be possible to decode sprites when loading
-	 * it will simplify the code byt take a few KB of memory */
 	for (i = 0; i < count; i++) {
 		const uint8 *src = Sprites_GetSprite(buffer, i);
 		uint8 *dst = NULL;
@@ -102,9 +102,41 @@ static void Sprites_Load(const char *filename)
 		      READ_LE_UINT16(src)/*Flags*/, READ_LE_UINT16(src+3)/*Width*/, src[2], /* height */
 		      src[5] /* height */, READ_LE_UINT16(src+6) /* packed size */, READ_LE_UINT16(src+8) /* decoded size */);
 		if (src != NULL) {
-			uint16 size = READ_LE_UINT16(src + 6);	/* "packed" size */
-			dst = (uint8 *)malloc(size);
-			memcpy(dst, src, size);
+			if (g_unpackSHPonLoad && (src[0] & 0x2) == 0) {
+				size = READ_LE_UINT16(src+8) + 10;
+				if (READ_LE_UINT16(src) & 0x1) {
+					size += 16;	/* 16 bytes more for the palette */
+				}
+				dst = (uint8 *)malloc(size);
+				if (dst == NULL) {
+					Error("Sprites_Load(%s) failed to allocate %u bytes\n", filename, size);
+				} else {
+					const uint8 *encoded_data = src;
+					uint8 *decoded_data = dst;
+					*decoded_data++ = *encoded_data++ | 0x2;	/* the sprite is not Format80 encoded any more */
+					memcpy(decoded_data, encoded_data, 5);
+					decoded_data += 5;
+					WRITE_LE_UINT16(decoded_data, size);  /* new packed size */
+					decoded_data += 2;
+					encoded_data += 7;
+					*decoded_data++ = *encoded_data++;    /* copy pixel size */
+					*decoded_data++ = *encoded_data++;
+					if (READ_LE_UINT16(src) & 0x1) {
+						memcpy(decoded_data, encoded_data, 16);	/* copy palette */
+						decoded_data += 16;
+						encoded_data += 16;
+					}
+					Format80_Decode(decoded_data, encoded_data, READ_LE_UINT16(src+8));
+				}
+			} else {
+				size = READ_LE_UINT16(src + 6);	/* "packed" size */
+				dst = (uint8 *)malloc(size);
+				if (dst == NULL) {
+					Error("Sprites_Load(%s) failed to allocate %u bytes\n", filename, size);
+				} else {
+					memcpy(dst, src, size);
+				}
+			}
 		}
 
 		g_sprites[s_spritesCount - count + i] = dst;
@@ -352,12 +384,12 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, const uint8 *sprit
 	}
 
 	if ((*sprite & 0x2) != 0) {
-		memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6) * 2);
+		memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6));
 	} else {
 		uint8 *dst = (uint8 *)g_mouseSprite;
-		uint16 flags = READ_LE_UINT16(sprite) | 0x2;
+		uint8 flags = sprite[0] | 0x2;
 
-		dst[0] = sprite[0] | 0x2;
+		dst[0] = flags;
 		dst[1] = sprite[1];
 		dst += 2;
 		sprite += 2;
