@@ -910,7 +910,7 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * 0x0100 Remap (uint8* remap, int remapCount)
  * 0x0200 blur - SandWorm effect (void)
  * 0x0400 sprite has house colors (set internally, no need to be set by caller)
- * 0x1000 ? (int)
+ * 0x1000 set blur increment value (int)
  * 0x2000 house colors argument (uint8 houseColors[16])
  * 0x4000 position relative to widget (void)
  * 0x8000 position posX,posY is relative to center of sprite
@@ -985,7 +985,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		blurRandomValueIncr = 0x100;
 	}
 
-	if ((flags & 0x1000) != 0) blurRandomValueIncr = (uint16)va_arg(ap, int);
+	if ((flags & DRAWSPRITE_FLAG_BLURINCR) != 0) blurRandomValueIncr = (uint16)va_arg(ap, int);
 
 	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		zoomRatioX = (uint16)va_arg(ap, int);

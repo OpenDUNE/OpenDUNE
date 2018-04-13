@@ -122,8 +122,8 @@ extern bool g_var_37B8;
 #define DRAWSPRITE_FLAG_BLUR 0x0200
 /* sprite has house colors (set internally, no need to be set by caller) */
 #define DRAWSPRITE_FLAG_SPRITEPAL 0x0400
-/*  ? (int)*/
-/*#define DRAWSPRITE_FLAG_ 0x1000 */
+/* Set increment value for blur/sandworm effect (int) UNUSED ? */
+#define DRAWSPRITE_FLAG_BLURINCR 0x1000
 /* house colors argument (uint8 houseColors[16]) */
 #define DRAWSPRITE_FLAG_PAL 0x2000
 /* position relative to widget (void)*/
