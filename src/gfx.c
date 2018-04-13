@@ -185,12 +185,12 @@ void GFX_Uninit(void)
 
 /**
  * Draw a sprite on the screen.
- * @param spriteID The sprite to draw.
+ * @param tileID The tile to draw.
  * @param x The x-coordinate to draw the sprite.
  * @param y The y-coordinate to draw the sprite.
  * @param houseID The house the sprite belongs (for recolouring).
  */
-void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
+void GFX_DrawSprite(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 {
 	int i, j;
 	uint8 *icon_palette;
@@ -202,7 +202,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	if (s_spriteMode == 4) return;
 
-	icon_palette = g_iconRPAL + (g_iconRTBL[spriteID] << 4);
+	icon_palette = g_iconRPAL + (g_iconRTBL[tileID] << 4);
 
 	if (houseID != 0) {
 		/* Remap colors for the right house */
@@ -220,22 +220,34 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	wptr = GFX_Screen_GetActive();
 	wptr += y * SCREEN_WIDTH + x;
-	rptr = g_spritePixels + (spriteID * s_spriteByteSize);
+	rptr = g_spritePixels + (tileID * s_spriteByteSize);
 
-	for (j = 0; j < s_spriteHeight; j++) {
-		for (i = 0; i < s_spriteWidth; i++) {
-			uint8 left  = icon_palette[(*rptr) >> 4];
-			uint8 right = icon_palette[(*rptr) & 0xF];
-			rptr++;
+	/* tiles with transparent pixels : [1 : 33] U [108 : 124]
+	 * palettes 1 to 18 and 22 */
+	if (tileID <= 33 || (tileID >= 108 && tileID <= 124)) {
+	/*if (icon_palette[0] == 0) { */
+		for (j = 0; j < s_spriteHeight; j++) {
+			for (i = 0; i < s_spriteWidth; i++) {
+				uint8 left  = icon_palette[(*rptr) >> 4];
+				uint8 right = icon_palette[(*rptr) & 0xF];
+				rptr++;
 
-			/* if some tiles have no transparent pixels, this could be optimized */
-			if (left != 0) *wptr = left;
-			wptr++;
-			if (right != 0) *wptr = right;
-			wptr++;
+				if (left != 0) *wptr = left;
+				wptr++;
+				if (right != 0) *wptr = right;
+				wptr++;
+			}
+			wptr += s_spriteSpacing;
 		}
-
-		wptr += s_spriteSpacing;
+	} else {
+		for (j = 0; j < s_spriteHeight; j++) {
+			for (i = 0; i < s_spriteWidth; i++) {
+				*wptr++ = icon_palette[(*rptr) >> 4];
+				*wptr++ = icon_palette[(*rptr) & 0xF];
+				rptr++;
+			}
+			wptr += s_spriteSpacing;
+		}
 	}
 }
 
