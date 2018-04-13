@@ -107,6 +107,30 @@ extern uint16 g_cursorDefaultSpriteID;
 extern bool g_structureHighHealth;
 extern bool g_var_37B8;
 
+/**
+ * flags used for GUI_DrawSprite()
+ */
+/* reverse X axis (void) (RTL = Right To Left) */
+#define DRAWSPRITE_FLAG_RTL 0x0001
+/* reverse Y axis (void) */
+#define DRAWSPRITE_FLAG_BOTTOMUP 0x0002
+/* Zoom (int zoom_factor_x, int zoomRatioY) UNUSED ? */
+#define DRAWSPRITE_FLAG_ZOOM 0x0004
+/* Remap (uint8* remap, int remapCount) */
+#define DRAWSPRITE_FLAG_REMAP 0x0100
+/* blur - SandWorm effect (void) */
+#define DRAWSPRITE_FLAG_BLUR 0x0200
+/* sprite has house colors (set internally, no need to be set by caller) */
+#define DRAWSPRITE_FLAG_SPRITEPAL 0x0400
+/*  ? (int)*/
+/*#define DRAWSPRITE_FLAG_ 0x1000 */
+/* house colors argument (uint8 houseColors[16]) */
+#define DRAWSPRITE_FLAG_PAL 0x2000
+/* position relative to widget (void)*/
+#define DRAWSPRITE_FLAG_WIDGETPOS 0x4000
+/* position posX,posY is relative to center of sprite */
+#define DRAWSPRITE_FLAG_CENTER 0x8000
+
 #define GUI_ClearScreen(screenID) GFX_ClearScreen(screenID)
 extern void GUI_DrawScreen(Screen screenID);
 extern void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);

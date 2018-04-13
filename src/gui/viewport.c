@@ -335,7 +335,7 @@ static uint8 *GUI_Widget_Viewport_Draw_GetSprite(uint16 spriteID, uint8 houseID)
  */
 void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMainScreen)
 {
-	static const uint16 values_32A4[8][2] = {
+	static const uint16 values_32A4[8][2] = {	/* index, flag passed to GUI_DrawSprite() */
 		{0, 0}, {1, 0}, {2, 0}, {3, 0},
 		{4, 0}, {3, 1}, {2, 1}, {1, 1}
 	};
@@ -363,7 +363,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 	if (g_dirtyViewportCount != 0 || forceRedraw) {
 		for (y = 0; y < 10; y++) {
-			uint16 top = (y << 4) + 0x28;
+			uint16 top = (y << 4) + 0x28;	/* 40 */
 			for (x = 0; x < (drawToMainScreen ? 15 : 16); x++) {
 				Tile *t;
 				uint16 left;
@@ -405,6 +405,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		g_dirtyViewportCount = 0;
 	}
 
+	/* Draw Sandworm */
 	find.type    = UNIT_SANDWORM;
 	find.index   = 0xFFFF;
 	find.houseID = HOUSE_INVALID;
@@ -424,17 +425,18 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 		sprite = GUI_Widget_Viewport_Draw_GetSprite(g_table_unitInfo[u->o.type].groundSpriteID, Unit_GetHouseID(u));
 
-		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, 0x200 | 0xC000);
-
-		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, 0x200 | 0xC000);
-
-		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, 0x200 | 0xC000);
-
-		if (u != g_unitSelected) continue;
-
-		if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
-
-		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, 0xC000);
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) {
+			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
+		}
+		if (Map_IsPositionInViewport(u->targetLast, &x, &y)) {
+			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
+		}
+		if (Map_IsPositionInViewport(u->targetPreLast, &x, &y)) {
+			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
+		}
+		if (u == g_unitSelected && Map_IsPositionInViewport(u->o.position, &x, &y)) {
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
+		}
 	}
 
 	if (g_unitSelected == NULL && (g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
@@ -456,6 +458,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		g_selectionRectangleNeedRepaint = false;
 	}
 
+	/* Draw ground units */
 	if (g_dirtyUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
@@ -492,7 +495,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 			orientation = Orientation_Orientation256ToOrientation8(u->orientation[0].current);
 
 			if (u->spriteOffset >= 0 || ui->destroyedSpriteID == 0) {
-				static const uint16 values_32C4[8][2] = {
+				static const uint16 values_32C4[8][2] = {	/* index, flag */
 					{0, 0}, {1, 0}, {1, 0}, {1, 0},
 					{2, 0}, {1, 1}, {1, 1}, {1, 1}
 				};
@@ -530,10 +533,12 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 				spriteFlags = 0;
 			}
 
-			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) spriteFlags |= 0x100;
-			if (ui->o.flags.blurTile) spriteFlags |= 0x200;
+			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) spriteFlags |= DRAWSPRITE_FLAG_REMAP;
+			if (ui->o.flags.blurTile) spriteFlags |= DRAWSPRITE_FLAG_BLUR;
 
-			GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, spriteFlags | 0xE000, s_paletteHouse, g_paletteMapping2, 1);
+			spriteFlags |= DRAWSPRITE_FLAG_PAL | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER;
+
+			GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(index, (u->deviated != 0) ? u->deviatedHouse : Unit_GetHouseID(u)), x, y, 2, spriteFlags, s_paletteHouse, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->spriteOffset >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -543,7 +548,10 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 						{0, -9}, { 9, -6}, { 14, 1}, { 7,  6}
 					};
 
-					GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite((u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
+					GUI_DrawSprite(SCREEN_ACTIVE,
+					               GUI_Widget_Viewport_Draw_GetSprite((u->spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)),
+					               x + values_334E[orientation][0], y + values_334E[orientation][1],
+					               2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 				}
 			}
 
@@ -589,24 +597,27 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 				spriteID += values_32A4[orientation][0];
 
-				GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, values_32A4[orientation][1] | 0xE000, s_paletteHouse);
+				GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(spriteID, Unit_GetHouseID(u)),
+				               x + offsetX, y + offsetY,
+				               2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER | DRAWSPRITE_FLAG_PAL, s_paletteHouse);
 			}
 
 			if (u->o.flags.s.isSmoking) {
 				uint16 spriteID = 180 + (u->spriteOffset & 3);
 				if (spriteID == 183) spriteID = 181;
 
-				GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], x, y - 14, 2, 0xC000);
+				GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], x, y - 14, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 			}
 
 			if (u != g_unitSelected) continue;
 
-			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, 0xC000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 		}
 
 		g_dirtyUnitCount = 0;
 	}
 
+	/* draw explosions */
 	for (i = 0; i < EXPLOSION_MAX; i++) {
 		Explosion *e = Explosion_Get_ByIndex(i);
 
@@ -623,9 +634,10 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 		if (!Map_IsPositionInViewport(e->position, &x, &y)) continue;
 
-		GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, 0xC000, s_paletteHouse);
+		GUI_DrawSprite(SCREEN_ACTIVE, GUI_Widget_Viewport_Draw_GetSprite(e->spriteID, e->houseID), x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER, s_paletteHouse);
 	}
 
+	/* draw air units */
 	if (g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
@@ -663,7 +675,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			index = ui->groundSpriteID;
 			orientation = u->orientation[0].current;
-			spriteFlags = 0xC000;
+			spriteFlags = DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER;
 
 			switch (ui->displayMode) {
 				case DISPLAYMODE_SINGLE_FRAME:
@@ -710,11 +722,12 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			sprite = GUI_Widget_Viewport_Draw_GetSprite(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.hasShadow) GUI_DrawSprite(SCREEN_ACTIVE, sprite, x + 1, y + 3, 2, (spriteFlags & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+			if (ui->o.flags.hasShadow) {
+				GUI_DrawSprite(SCREEN_ACTIVE, sprite, x + 1, y + 3, 2, (spriteFlags & ~DRAWSPRITE_FLAG_PAL) | DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR, g_paletteMapping1, 1);
+			}
+			if (ui->o.flags.blurTile) spriteFlags |= DRAWSPRITE_FLAG_BLUR;
 
-			if (ui->o.flags.blurTile) spriteFlags |= 0x200;
-
-			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, spriteFlags | 0x2000, s_paletteHouse);
+			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, spriteFlags | DRAWSPRITE_FLAG_PAL, s_paletteHouse);
 		}
 
 		g_dirtyAirUnitCount = 0;
@@ -927,7 +940,7 @@ bool GUI_Widget_Viewport_DrawTile(uint16 packed)
 	if (spriteID != 0xFFFF) {
 		x *= g_scenario.mapScale + 1;
 		y *= g_scenario.mapScale + 1;
-		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], x, y, 3, 0x4000);
+		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], x, y, 3, DRAWSPRITE_FLAG_WIDGETPOS);
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}

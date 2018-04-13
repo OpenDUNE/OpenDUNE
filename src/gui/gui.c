@@ -807,7 +807,7 @@ uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
 	GUI_Widget_DrawBorder(1, 1, 1);
 
 	if (spriteID != 0xFFFF) {
-		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], 7, 8, 1, 0x4000);
+		GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], 7, 8, 1, DRAWSPRITE_FLAG_WIDGETPOS);
 		GUI_Widget_SetProperties(1, g_curWidgetXBase + 5, g_curWidgetYBase + 8, g_curWidgetWidth - 7, g_curWidgetHeight - 16);
 	} else {
 		GUI_Widget_SetProperties(1, g_curWidgetXBase + 1, g_curWidgetYBase + 8, g_curWidgetWidth - 2, g_curWidgetHeight - 16);
@@ -904,17 +904,16 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * @param ... The extra args, flags dependant.
  *
  * flags :
- * 0x0001 ? (void)
- * 0x0002 reverse Y ? (void)
- * 0x0004 zoom ? (int zoom_factor_x, int zoomRatioY) UNUSED ?
+ * 0x0001 reverse X (void)
+ * 0x0002 reverse Y (void)
+ * 0x0004 zoom (int zoom_factor_x, int zoomRatioY) UNUSED ?
  * 0x0100 Remap (uint8* remap, int remapCount)
  * 0x0200 blur - SandWorm effect (void)
  * 0x0400 sprite has house colors (set internally, no need to be set by caller)
  * 0x1000 ? (int)
  * 0x2000 house colors argument (uint8 houseColors[16])
- * 0x4000 ? (void)
+ * 0x4000 position relative to widget (void)
  * 0x8000 position posX,posY is relative to center of sprite
- * TODO : add #define's
  *
  * sprite data format :
  * 00: 2 bytes = flags 0x01 = has House colors, 0x02 = Format80 encoded
@@ -965,18 +964,20 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	if (sprite == NULL) return;
 
+	/* read additional arguments according to the flags */
+
 	va_start(ap, flags);
 
-	if ((flags & 0x2000) != 0) houseColors = va_arg(ap, uint8*);
+	if ((flags & DRAWSPRITE_FLAG_PAL) != 0) houseColors = va_arg(ap, uint8*);
 
 	/* Remap */
-	if ((flags & 0x100) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_REMAP) != 0) {
 		remap = va_arg(ap, uint8*);
 		remapCount = (int16)va_arg(ap, int);
-		if (remapCount == 0) flags &= 0xFEFF;
+		if (remapCount == 0) flags &= ~DRAWSPRITE_FLAG_REMAP;
 	}
 
-	if ((flags & 0x200) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_BLUR) != 0) {
 		s_variable_5E = (s_variable_5E + 1) % 8;
 		s_variable_70 = s_variable_60[s_variable_5E];
 		s_variable_74 = 0x0;
@@ -985,7 +986,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	if ((flags & 0x1000) != 0) s_variable_72 = (uint16)va_arg(ap, int);
 
-	if ((flags & 0x4) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		zoomRatioX = (uint16)va_arg(ap, int);
 		zoomRatioY = (uint16)va_arg(ap, int);
 	}
@@ -999,7 +1000,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	top = g_widgetProperties[windowID].yBase;
 	bottom = top + g_widgetProperties[windowID].height;
 
-	if ((flags & 0x4000) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_WIDGETPOS) != 0) {
 		posY += g_widgetProperties[windowID].yBase;
 	} else {
 		posX -= g_widgetProperties[windowID].xBase << 3;
@@ -1008,28 +1009,28 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	spriteFlags = READ_LE_UINT16(sprite);
 	sprite += 2;
 
-	if ((spriteFlags & 0x1) != 0) flags |= 0x400;
+	if ((spriteFlags & 0x1) != 0) flags |= DRAWSPRITE_FLAG_SPRITEPAL;
 
 	spriteHeight = *sprite++;
 
-	if ((flags & 0x4) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		spriteHeight = (int16)(((int32)spriteHeight * (int32)zoomRatioY) >> 8);
 		if (spriteHeight == 0) return;
 	}
 
-	if ((flags & 0x8000) != 0) posY -= spriteHeight / 2;	/* posY relative to center */
+	if ((flags & DRAWSPRITE_FLAG_CENTER) != 0) posY -= spriteHeight / 2;	/* posY relative to center */
 
 	spriteWidth = READ_LE_UINT16(sprite);
 	sprite += 2;
 
 	spriteWidthZoomed = spriteWidth;
 
-	if ((flags & 0x4) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		spriteWidthZoomed = (int16)(((int32)spriteWidthZoomed * (int32)zoomRatioX) >> 8);
 		if (spriteWidthZoomed == 0) return;
 	}
 
-	if ((flags & 0x8000) != 0) posX -= spriteWidthZoomed / 2;	/* posX relative to center */
+	if ((flags & DRAWSPRITE_FLAG_CENTER) != 0) posX -= spriteWidthZoomed / 2;	/* posX relative to center */
 
 	pixelCountPerRow = spriteWidthZoomed;
 
@@ -1039,7 +1040,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	sprite += 2;
 
 	if ((spriteFlags & 0x1) != 0) {
-		if ((flags & 0x2000) == 0) houseColors = sprite;
+		if ((flags & DRAWSPRITE_FLAG_PAL) == 0) houseColors = sprite;
 		sprite += 16;
 	}
 
@@ -1049,7 +1050,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		sprite = spriteBuffer;
 	}
 
-	if ((flags & 0x2) == 0) {
+	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) == 0) {
 		/* distance between top of window and top of sprite */
 		distY = posY - top;
 	} else {
@@ -1083,14 +1084,14 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			}
 
 			/*buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);*/
-			if ((flags & 0xFD) == 0) buf -= count;
+			if ((flags & 0xFD) == 0) buf -= count;	/* 0xFD = 1111 1101b */
 			else buf += count;
 
 			Ycounter += zoomRatioY;
-			if ((Ycounter & 0xFF00) == 0) continue;
-
-			distY -= Ycounter >> 8;
-			Ycounter &= 0xFF;	/* keep only fractional part */
+			if ((Ycounter & 0xFF00) != 0) {
+				distY -= Ycounter >> 8;
+				Ycounter &= 0xFF;	/* keep only fractional part */
+			}
 		}
 
 		if (distY < 0) {
@@ -1099,10 +1100,10 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			Ycounter += (-distY) << 8;
 		}
 
-		if ((flags & 0x2) == 0) posY = top;
+		if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) == 0) posY = top;
 	}
 
-	if ((flags & 0x2) == 0) {
+	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) == 0) {
 		tmpRowCountToDraw = bottom - posY;	/* rows to draw */
 	} else {
 		tmpRowCountToDraw = posY + spriteHeight - top;	/* rows to draw */
@@ -1113,7 +1114,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	if (tmpRowCountToDraw < spriteHeight) {
 		/* there are a few rows to skip at the end */
 		spriteHeight = tmpRowCountToDraw;
-		if ((flags & 0x2) != 0) posY = top;
+		if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0) posY = top;
 	}
 
 	pixelSkipStart = 0;
@@ -1136,11 +1137,11 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	/* move pointer to 1st pixel of 1st row to draw */
 	buf += posY * SCREEN_WIDTH + posX;
-	if ((flags & 0x2) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0) {
 		buf += (spriteHeight - 1) * SCREEN_WIDTH;
 	}
 
-	if ((flags & 0x1) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_RTL) != 0) {
 		/* XCHG pixelSkipStart, pixelSkipEnd */
 		uint16 tmp = pixelSkipStart;
 		pixelSkipStart = pixelSkipEnd;
@@ -1150,7 +1151,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	b = buf;
 
-	if ((flags & 0x4) != 0) {
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		pixelSkipEnd = 0;
 		pixelSkipStart = (pixelSkipStart << 8) / zoomRatioX;
 	}
@@ -1224,7 +1225,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							*buf = v;
 							break;
 
-						case 1: {	/* remap */
+						case (DRAWSPRITE_FLAG_REMAP >> 8): {	/* remap */
 							int16 i;
 
 							for(i = 0; i < remapCount; i++) v = remap[v];
@@ -1234,7 +1235,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 						}
 
-						case 2:	/* blur ? */
+						case (DRAWSPRITE_FLAG_BLUR >> 8):	/* blur/Sandworm effect */
 							s_variable_74 += s_variable_72;
 
 							if ((s_variable_74 & 0xFF00) == 0) {
@@ -1245,7 +1246,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							}
 							break;
 
-						case 3: case 7: {	/* remap + blur ? (+ has house colors) */
+						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR) >> 8):
+						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
+						{	/* remap + blur ? (+ has house colors) */
 							int16 i;
 
 							v = *buf;
@@ -1257,11 +1260,12 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 						}
 
-						case 4:	/* sprite has house colors */
+						case (DRAWSPRITE_FLAG_SPRITEPAL >> 8):	/* sprite has palette */
 							*buf = houseColors[v];
 							break;
 
-						case 5: {	/* remap +  sprite has house colors */
+						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
+						{	/* remap +  sprite has palette */
 							int16 i;
 
 							v = houseColors[v];
@@ -1273,7 +1277,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 						}
 
-						case 6:	/* blur ? + sprite has house colors */
+						case ((DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
+						/* blur/sandworm effect + sprite has palette */
 							s_variable_74 += s_variable_72;
 
 							if ((s_variable_74 & 0xFF00) == 0) {
@@ -1308,7 +1313,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			}
 		}
 
-		if ((flags & 0x2) != 0)	b -= SCREEN_WIDTH;
+		if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0)	b -= SCREEN_WIDTH;
 		else b += SCREEN_WIDTH;
 		buf = b;
 
@@ -2120,7 +2125,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		creditsNew += 1;
 	}
 
-	GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[12], 0, 0, 4, 0x4000);
+	GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[12], 0, 0, 4, DRAWSPRITE_FLAG_WIDGETPOS);
 
 	g_playerCredits = creditsOld;
 
@@ -2134,14 +2139,14 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		spriteID = (charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34;
 
 		if (charCreditsOld[i] != charCreditsNew[i]) {
-			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, offset - creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, offset - creditsAnimationOffset, 4, DRAWSPRITE_FLAG_WIDGETPOS);
 			if (creditsAnimationOffset == 0) continue;
 
 			spriteID = (charCreditsNew[i] == ' ') ? 13 : charCreditsNew[i] - 34;
 
-			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, offset + 8 - creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, offset + 8 - creditsAnimationOffset, 4, DRAWSPRITE_FLAG_WIDGETPOS);
 		} else {
-			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, 1, 4, 0x4000);
+			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], left, 1, 4, DRAWSPRITE_FLAG_WIDGETPOS);
 		}
 	}
 
@@ -2735,7 +2740,7 @@ static void GUI_FactoryWindow_Init(void)
 
 		oi = item->objectInfo;
 		if (oi->available == -1) {
-			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, s_factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, DRAWSPRITE_FLAG_REMAP, s_factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
 		}
@@ -2920,14 +2925,14 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 	GFX_Screen_Copy2(16, 16, 176, 16, width, height, SCREEN_1, SCREEN_1, false);
 
-	GUI_DrawSprite(SCREEN_1, sprite, 16, 16, 0, 0x100, g_remap, 1);
+	GUI_DrawSprite(SCREEN_1, sprite, 16, 16, 0, DRAWSPRITE_FLAG_REMAP, g_remap, 1);
 
 	for (i = 0; i < 20; i++) {
 		GUI_StrategicMap_AnimateArrows();
 
 		if (data[i].index != selected) continue;
 
-		GUI_DrawSprite(SCREEN_1, g_sprites[505 + data[i].arrow], data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(SCREEN_1, g_sprites[505 + data[i].arrow], data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, DRAWSPRITE_FLAG_REMAP, g_remap, 1);
 	}
 
 	for (i = 0; i < 4; i++) {
@@ -3052,7 +3057,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, SCREEN_1, SCREEN_1, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, SCREEN_1, SCREEN_1, false);
-		GUI_DrawSprite(SCREEN_1, g_sprites[505 + data[i].arrow], i * 16, 152, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(SCREEN_1, g_sprites[505 + data[i].arrow], i * 16, 152, 0, DRAWSPRITE_FLAG_REMAP, g_remap, 1);
 	}
 
 	count = i;
@@ -3152,7 +3157,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 
 	sprite = g_sprites[477 + region];
 
-	GUI_DrawSprite(SCREEN_1, sprite, x + 8, y + 24, 0, 0x100, g_remap, 1);
+	GUI_DrawSprite(SCREEN_1, sprite, x + 8, y + 24, 0, DRAWSPRITE_FLAG_REMAP, g_remap, 1);
 
 	if (!progressive) return;
 
@@ -3688,7 +3693,7 @@ void GUI_FactoryWindow_PrepareScrollList(void)
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 8, 0, 0x100, s_factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 8, 0, DRAWSPRITE_FLAG_REMAP, s_factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 8, 0, 0);
 		}
@@ -3702,7 +3707,7 @@ void GUI_FactoryWindow_PrepareScrollList(void)
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 168, 0, 0x100, s_factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 168, 0, DRAWSPRITE_FLAG_REMAP, s_factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(SCREEN_1, g_sprites[oi->spriteID], 72, 168, 0, 0);
 		}

@@ -200,7 +200,7 @@ void GUI_Widget_Draw(Widget *w)
 		case DRAW_MODE_NONE: break;
 
 		case DRAW_MODE_SPRITE: {
-			GUI_DrawSprite(SCREEN_ACTIVE, drawParam.sprite, offsetX, offsetY, w->parentID, 0x4100, g_remap, 1);
+			GUI_DrawSprite(SCREEN_ACTIVE, drawParam.sprite, offsetX, offsetY, w->parentID, DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_WIDGETPOS, g_remap, 1);
 		} break;
 
 		case DRAW_MODE_TEXT: {
