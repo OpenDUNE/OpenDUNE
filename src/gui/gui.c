@@ -910,20 +910,20 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * 0x0100 Remap (uint8* remap, int remapCount)
  * 0x0200 blur - SandWorm effect (void)
  * 0x0400 sprite has house colors (set internally, no need to be set by caller)
- * 0x1000 set blur increment value (int)
+ * 0x1000 set blur increment value (int) UNUSED ?
  * 0x2000 house colors argument (uint8 houseColors[16])
  * 0x4000 position relative to widget (void)
  * 0x8000 position posX,posY is relative to center of sprite
  *
  * sprite data format :
- * 00: 2 bytes = flags 0x01 = has House colors, 0x02 = Format80 encoded
+ * 00: 2 bytes = flags 0x01 = has House colors, 0x02 = NOT Format80 encoded
  * 02: 1 byte  = height
  * 03: 2 bytes = width
  * 05: 1 byte  = height - duplicated (ignored)
  * 06: 2 bytes = sprite data length, including header (ignored)
  * 08: 2 bytes = decoded data length
  * 0A: [16 bytes] = house colors (if flags & 0x01)
- * [1]A: xx bytes = data (row or Format80 encoded if flags & 0x02)
+ * [1]A: xx bytes = data (depending on flags & 0x02 : 1 = raw, 0 = Format80 encoded)
  */
 void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
@@ -955,7 +955,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	uint16 Ycounter = 0;	/* 8.8 fixed point, ie 0x0100 = 1 */
 	const uint8 *spriteSave = NULL;
 	int16  distX;
-	const uint8 *houseColors = NULL;
+	const uint8 *palette = NULL;
 	uint16 spriteDecodedLength; /* if encoded with Format80 */
 	uint8 spriteBuffer[20000];	/* for sprites encoded with Format80 : maximum size for credits images is 19841, elsewere it is 3456 */
 
@@ -969,7 +969,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	va_start(ap, flags);
 
-	if ((flags & DRAWSPRITE_FLAG_PAL) != 0) houseColors = va_arg(ap, uint8*);
+	if ((flags & DRAWSPRITE_FLAG_PAL) != 0) palette = va_arg(ap, uint8*);
 
 	/* Remap */
 	if ((flags & DRAWSPRITE_FLAG_REMAP) != 0) {
@@ -1013,35 +1013,29 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	if ((spriteFlags & 0x1) != 0) flags |= DRAWSPRITE_FLAG_SPRITEPAL;
 
 	spriteHeight = *sprite++;
-
-	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
-		spriteHeight = (int16)(((int32)spriteHeight * (int32)zoomRatioY) >> 8);
-		if (spriteHeight == 0) return;
-	}
-
-	if ((flags & DRAWSPRITE_FLAG_CENTER) != 0) posY -= spriteHeight / 2;	/* posY relative to center */
-
 	spriteWidth = READ_LE_UINT16(sprite);
+	sprite += 5;
+	spriteDecodedLength = READ_LE_UINT16(sprite);
 	sprite += 2;
 
 	spriteWidthZoomed = spriteWidth;
 
 	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
+		spriteHeight = (int16)(((int32)spriteHeight * (int32)zoomRatioY) >> 8);
+		if (spriteHeight == 0) return;
 		spriteWidthZoomed = (int16)(((int32)spriteWidthZoomed * (int32)zoomRatioX) >> 8);
 		if (spriteWidthZoomed == 0) return;
 	}
 
-	if ((flags & DRAWSPRITE_FLAG_CENTER) != 0) posX -= spriteWidthZoomed / 2;	/* posX relative to center */
+	if ((flags & DRAWSPRITE_FLAG_CENTER) != 0) {
+		posX -= spriteWidthZoomed / 2;	/* posX relative to center */
+		posY -= spriteHeight / 2;		/* posY relative to center */
+	}
 
 	pixelCountPerRow = spriteWidthZoomed;
 
-	sprite += 3;
-
-	spriteDecodedLength = READ_LE_UINT16(sprite);
-	sprite += 2;
-
 	if ((spriteFlags & 0x1) != 0) {
-		if ((flags & DRAWSPRITE_FLAG_PAL) == 0) houseColors = sprite;
+		if ((flags & DRAWSPRITE_FLAG_PAL) == 0) palette = sprite;
 		sprite += 16;
 	}
 
@@ -1255,12 +1249,12 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 
 						case (DRAWSPRITE_FLAG_SPRITEPAL >> 8):	/* sprite has palette */
-							*buf = houseColors[v];
+							*buf = palette[v];
 							break;
 
 						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
 							/* remap +  sprite has palette */
-							v = houseColors[v];
+							v = palette[v];
 
 							for(i = 0; i < remapCount; i++) v = remap[v];
 
@@ -1273,7 +1267,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							blurRandomValue += blurRandomValueIncr;
 
 							if ((blurRandomValue & 0xFF00) == 0) {
-								*buf = houseColors[v];
+								*buf = palette[v];
 							} else {
 								blurRandomValue &= 0xFF;
 								*buf = buf[blurOffset];
