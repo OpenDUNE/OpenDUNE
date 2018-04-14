@@ -64,9 +64,9 @@ def extract_icn(filename):
 		width = ord(icn_data['SINF'][0]) * 8
 		height = ord(icn_data['SINF'][1]) * 8
 		tile_bytes = width * height / 2
-		print '%dx%d tiles of %d bytes' % (width, height, tile_bytes)
 		pixel_data = decode_sset(icn_data['SSET'])
 		count = len(pixel_data) / tile_bytes
+		print '%d tiles of %dx%d pixels, %d bytes' % (count, width, height, tile_bytes)
 		if len(icn_data['RTBL']) != count:
 			print 'RTBL size mismatch :', count, len(icn_data['RTBL'])
 		else:
@@ -74,7 +74,16 @@ def extract_icn(filename):
 			for i in range(count):
 				pal_index = ord(icn_data['RTBL'][i])
 				pal = icn_data['RPAL'][pal_index*16:(pal_index+1)*16]
-				tiles.append(decode_tile(pixel_data[tile_bytes*i:tile_bytes*(i+1)], pal, width, height))
+				tile = decode_tile(pixel_data[tile_bytes*i:tile_bytes*(i+1)], pal, width, height)
+				istransparent = False
+				for line in tile:
+					for j in range(len(line)):
+						if ord(line[j]) == 0:
+							istransparent = True
+							break
+				if istransparent:
+					print 'Tile %3d (palette %2d) is transparent %02x' % (i, pal_index, ord(pal[0]))
+				tiles.append(tile)
 			tileset_width = 320 # width * 20
 			tileset_height = height * ((count + (tileset_width / width) - 1) / (tileset_width / width))
 			print tileset_width, tileset_height
