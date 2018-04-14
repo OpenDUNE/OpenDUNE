@@ -10,8 +10,6 @@ from save_pictures import *
 
 palette = None
 
-split_string = lambda s, n: [s[i*n:i*n+n] for i, j in enumerate(s[::n])]
-
 def load_palette(filename):
 	global palette
 	with open(filename, 'rb') as pal_file:

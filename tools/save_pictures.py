@@ -4,6 +4,9 @@
 
 from struct import pack
 
+def split_string(s, n):
+	return [s[i*n:i*n+n] for i, j in enumerate(s[::n])]
+
 def save_pbm(filename, width, height, pixels, palette):
 	if (width & 1) != 0:
 		pixels = ''.join([line + chr(0) for line in split_string(pixels, width)])
