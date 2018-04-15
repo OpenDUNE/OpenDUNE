@@ -26,8 +26,8 @@ typedef struct WSAFlags {
 	BIT_U8 dataInMemory:1;                                  /*!< The whole WSA is in memory. */
 	BIT_U8 displayInBuffer:1;                               /*!< The output display is in the buffer. */
 	BIT_U8 noAnimation:1;                                   /*!< If the WSA has animation or not. */
-	BIT_U8 hasNoAnimation:1;                                /*!< The WSA has no animation. */
-	BIT_U8 isSpecial:1;                                     /*!< Indicates if the WSA has a special buffer. */
+	BIT_U8 hasNoFirstFrame:1;                               /*!< The WSA is the continuation of another one. */
+	BIT_U8 hasPalette:1;                                    /*!< Indicates if the WSA has a palette stored. */
 }  WSAFlags;
 
 /**
@@ -54,9 +54,9 @@ typedef struct WSAFileHeader {
 	/* 0002(2)   */ uint16 width;                      /*!< Width of WSA. */
 	/* 0004(2)   */ uint16 height;                     /*!< Height of WSA. */
 	/* 0006(2)   */ uint16 requiredBufferSize;         /*!< The size the buffer has to be at least to process this WSA. */
-	/* 0008(2)   */ uint16 isSpecial;                  /*!< Indicates if the WSA has a special buffer. */
-	/* 000A(4)   */ uint32 animationOffsetStart;       /*!< Offset where animation starts. */
-	/* 000E(4)   */ uint32 animationOffsetEnd;         /*!< Offset where animation ends. */
+	/* 0008(2)   */ uint16 hasPalette;                 /*!< Indicates if the WSA has a palette stored. */
+	/* 000A(4)   */ uint32 firstFrameOffset;           /*!< Offset where animation starts. */
+	/* 000E(4)   */ uint32 secondFrameOffset;          /*!< Offset where animation ends. */
 } WSAFileHeader;
 
 /**
@@ -122,11 +122,10 @@ static uint32 WSA_GetFrameOffset_FromDisk(uint8 fileno, uint16 frame)
 static uint16 WSA_GotoNextFrame(void *wsa, uint16 frame, uint8 *dst)
 {
 	WSAHeader *header = (WSAHeader *)wsa;
-	uint16 lengthSpecial;
+	uint16 lengthPalette;
 	uint8 *buffer;
 
-	lengthSpecial = 0;
-	if (header->flags.isSpecial) lengthSpecial = 0x300;
+	lengthPalette = (header->flags.hasPalette) ? 0x300 : 0;
 
 	buffer = header->buffer;
 
@@ -164,7 +163,7 @@ static uint16 WSA_GotoNextFrame(void *wsa, uint16 frame, uint8 *dst)
 
 		buffer += header->bufferLength - length;
 
-		File_Seek(fileno, positionStart + lengthSpecial, 0);
+		File_Seek(fileno, positionStart + lengthPalette, 0);
 		res = File_Read(fileno, buffer, length);
 		File_Close(fileno);
 
@@ -199,8 +198,8 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	uint32 bufferSizeOptimal;
 	uint16 lengthHeader;
 	uint8 fileno;
-	uint16 lengthSpecial;
-	uint16 lengthAnimation;
+	uint16 lengthPalette;
+	uint16 lengthFirstFrame;
 	uint32 lengthFileContent;
 	uint32 displaySize;
 	uint8 *buffer;
@@ -212,27 +211,27 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	fileheader.width = File_Read_LE16(fileno);
 	fileheader.height = File_Read_LE16(fileno);
 	fileheader.requiredBufferSize = File_Read_LE16(fileno);
-	fileheader.isSpecial = File_Read_LE16(fileno);	/* has palette */
-	fileheader.animationOffsetStart = File_Read_LE32(fileno);	/* Offset of 1st frame */
-	fileheader.animationOffsetEnd = File_Read_LE32(fileno);		/* Offset of 2nd frame (end of 1st frame) */
+	fileheader.hasPalette = File_Read_LE16(fileno);		/* has palette */
+	fileheader.firstFrameOffset = File_Read_LE32(fileno);	/* Offset of 1st frame */
+	fileheader.secondFrameOffset = File_Read_LE32(fileno);	/* Offset of 2nd frame (end of 1st frame) */
 
-	lengthSpecial = 0;
-	if (fileheader.isSpecial) {
-		flags.isSpecial = true;
+	lengthPalette = 0;
+	if (fileheader.hasPalette) {
+		flags.hasPalette = true;
 
-		lengthSpecial = 0x300;	/* length of a 256 color RGB palette */
+		lengthPalette = 0x300;	/* length of a 256 color RGB palette */
 	}
 
 	lengthFileContent = File_Seek(fileno, 0, 2);
 
-	lengthAnimation = 0;
-	if (fileheader.animationOffsetStart != 0) {
-		lengthAnimation = fileheader.animationOffsetEnd - fileheader.animationOffsetStart;
+	lengthFirstFrame = 0;
+	if (fileheader.firstFrameOffset != 0) {
+		lengthFirstFrame = fileheader.secondFrameOffset - fileheader.firstFrameOffset;
 	} else {
-		flags.hasNoAnimation = true;
+		flags.hasNoFirstFrame = true;	/* is the continuation of another WSA */
 	}
 
-	lengthFileContent -= lengthSpecial + lengthAnimation + 10;
+	lengthFileContent -= lengthPalette + lengthFirstFrame + 10;
 
 	displaySize = 0;
 	if (reserveDisplayFrame) {
@@ -298,7 +297,7 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 
 		File_Seek(fileno, 10, 0);
 		File_Read(fileno, header->fileContent, lengthHeader);
-		File_Seek(fileno, lengthAnimation + lengthSpecial, 1);
+		File_Seek(fileno, lengthFirstFrame + lengthPalette, 1);
 		File_Read(fileno, header->fileContent + lengthHeader, lengthFileContent - lengthHeader);
 
 		header->flags.dataInMemory = true;
@@ -310,10 +309,10 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 
 	{
 		uint8 *b;
-		b = buffer + header->bufferLength - lengthAnimation;
+		b = buffer + header->bufferLength - lengthFirstFrame;
 
-		File_Seek(fileno, lengthHeader + lengthSpecial + 10, 0);
-		File_Read(fileno, b, lengthAnimation);
+		File_Seek(fileno, lengthHeader + lengthPalette + 10, 0);
+		File_Read(fileno, b, lengthFirstFrame);
 		File_Close(fileno);
 
 		Format80_Decode(buffer, b, header->bufferLength);
@@ -410,6 +409,8 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, Scr
 	WSAHeader *header = (WSAHeader *)wsa;
 	uint8 *dst;
 
+	uint16 i;
+	uint16 frame;
 	int16 frameDiff;
 	int16 direction;
 	int16 frameCount;
@@ -425,7 +426,7 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, Scr
 	}
 
 	if (header->frameCurrent == header->frames) {
-		if (!header->flags.hasNoAnimation) {
+		if (!header->flags.hasNoFirstFrame) {
 			if (!header->flags.displayInBuffer) {
 				Format40_Decode_ToScreen(dst, header->buffer, header->width);
 			} else {
@@ -457,10 +458,8 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, Scr
 		}
 	}
 
+	frame = header->frameCurrent;
 	if (direction > 0) {
-		uint16 i;
-		uint16 frame = header->frameCurrent;
-
 		for (i = 0; i < frameCount; i++) {
 			frame += direction;
 
@@ -469,9 +468,6 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, Scr
 			if (frame == header->frames) frame = 0;
 		}
 	} else {
-		uint16 i;
-		uint16 frame = header->frameCurrent;
-
 		for (i = 0; i < frameCount; i++) {
 			if (frame == 0) frame = header->frames;
 
