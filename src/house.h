@@ -121,8 +121,8 @@ typedef struct HouseInfo {
  *  of an array that stops when duration is 0.
  */
 typedef struct HouseAnimation_Animation {
-	const char *string;                                     /*!< Name of the WSA for this animation. */
-	uint8  duration;                                        /*!< Duration of this animation. */
+	const char string[8];                                   /*!< Name of the WSA for this animation. */
+	uint8  duration;                                        /*!< Duration of this animation (in 1/10th sec). */
 	uint8  frameCount;                                      /*!< Amount of frames in this animation. */
 	uint16 flags;                                           /*!< Flags of the animation. */
 } HouseAnimation_Animation;

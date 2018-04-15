@@ -33,7 +33,7 @@
 static const HouseAnimation_Subtitle    *s_houseAnimation_subtitle = NULL;    /*!< Subtitle part of animation data. */
 static const HouseAnimation_SoundEffect *s_houseAnimation_soundEffect = NULL; /*!< Soundeffect part of animation data. */
 static uint16 s_feedback_base_index = 0xFFFF; /*!< base index in g_feedback - used in Intro animation.*/
-static uint16 s_var_8068 = 0xFFFF; /*!< Unknown animation data. */
+static uint16 s_subtitleIndex = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_subtitleWait = 0xFFFF; /*!< Unknown animation data. */
 static uint16 s_houseAnimation_currentSubtitle = 0; /*!< Current subtitle (index) part of animation. */
 static uint16 s_houseAnimation_currentSoundEffect = 0; /* Current voice (index) part of animation. */
@@ -69,7 +69,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Subtitle *subtitle, u
 	g_fontCharOffset = 0;
 
 	s_feedback_base_index = feedback_base_index;
-	s_var_8068 = 0;
+	s_subtitleIndex = 0;
 	s_subtitleWait = 0xFFFF;
 	s_subtitleActive = false;
 
@@ -120,7 +120,7 @@ static void GameLoop_PlaySoundEffect(uint8 animation)
 {
 	const HouseAnimation_SoundEffect *soundEffect = &s_houseAnimation_soundEffect[s_houseAnimation_currentSoundEffect];
 
-	if (soundEffect->animationID > animation || soundEffect->wait > s_var_8068) return;
+	if (soundEffect->animationID > animation || soundEffect->wait > s_subtitleIndex) return;
 
 	Voice_Play(soundEffect->voiceID);
 
@@ -161,7 +161,7 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 	uint8 i;
 	uint8 colors[16];
 
-	s_var_8068++;
+	s_subtitleIndex++;
 
 	GameLoop_PlaySoundEffect(animation);
 
@@ -296,7 +296,7 @@ static uint16 GameLoop_PalettePart_Update(bool finishNow)
 
 static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 {
-	uint8 animationMode = 0;
+	uint8 animationStep = 0;
 
 	while (animation->duration != 0) {
 		uint16 frameCount;
@@ -316,8 +316,9 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 			posY = 24;
 		}
 
-		s_var_8068 = 0;
+		s_subtitleIndex = 0;
 
+		Debug("GameLoop_PlayAnimation() %2d %-8.8s mode=%d flags=%03x\n", animationStep, animation->string, mode, animation->flags & ~3);
 		if (mode == 0) {
 			wsa = NULL;
 			frame = 0;
@@ -347,7 +348,7 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 				wsaSize = GFX_Screen_GetSize_ByIndex(SCREEN_1) + GFX_Screen_GetSize_ByIndex(SCREEN_2) + GFX_Screen_GetSize_ByIndex(SCREEN_3);
 			}
 
-			snprintf(filenameBuffer, sizeof(filenameBuffer), "%s.WSA", animation->string);
+			snprintf(filenameBuffer, sizeof(filenameBuffer), "%.8s.WSA", animation->string);
 			wsa = WSA_LoadFile(filenameBuffer, wsa, wsaSize, wsaReservedDisplayFrame);
 		}
 
@@ -361,7 +362,7 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 		}
 
 		if ((animation->flags & 0x4) != 0) {
-			GameLoop_PlaySubtitle(animationMode);
+			GameLoop_PlaySubtitle(animationStep);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
 			GameLoop_PalettePart_Update(true);
 
@@ -372,7 +373,7 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 			addFrameCount++;
 		} else {
 			if ((animation->flags & 0x480) != 0) {
-				GameLoop_PlaySubtitle(animationMode);
+				GameLoop_PlaySubtitle(animationStep);
 				WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_1);
 				addFrameCount++;
 
@@ -413,14 +414,14 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 
 			default:
 				PrepareEnd();
-				Error("Bad mode in animation #%i.\n", animationMode);
+				Error("Bad mode in animation #%i.\n", animationStep);
 				exit(0);
 		}
 
 		while (timeout > g_timerGUI) {
 			g_timerTimeout = timeLeftForFrame;
 
-			GameLoop_PlaySubtitle(animationMode);
+			GameLoop_PlaySubtitle(animationStep);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
 
 			if (mode == 1 && frame == frameCount) {
@@ -443,8 +444,9 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 		if (mode == 2) {
 			bool displayed;
 			do {
-				GameLoop_PlaySubtitle(animationMode);
+				GameLoop_PlaySubtitle(animationStep);
 				displayed = WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
+				sleepIdle();
 			} while (displayed);
 		}
 
@@ -468,7 +470,7 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 
 		WSA_Unload(wsa);
 
-		animationMode++;
+		animationStep++;
 		animation++;
 
 		while (timeout2 > g_timerGUI) sleepIdle();
