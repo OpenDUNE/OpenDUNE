@@ -300,8 +300,8 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 
 	while (animation->duration != 0) {
 		uint16 frameCount;
-		uint16 posX = 0;
-		uint16 posY = 0;
+		uint16 posX;
+		uint16 posY;
 		uint32 timeout = g_timerGUI + animation->duration * 6;
 		uint32 timeout2 = timeout + 30;	/* timeout + 0.5 s */
 		uint32 timeLeftForFrame;
@@ -311,7 +311,10 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 		uint16 frame;
 		void *wsa;
 
-		if ((animation->flags & 0x20) == 0) {
+		if ((animation->flags & HOUSEANIM_FLAGS_POS0_0) != 0) {
+			posX = 0;
+			posY = 0;
+		} else {
 			posX = 8;
 			posY = 24;
 		}
@@ -332,10 +335,10 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 				wsaReservedDisplayFrame = true;
 			} else {
 				frame = 0;
-				wsaReservedDisplayFrame = ((animation->flags & 0x40) != 0) ? true : false;
+				wsaReservedDisplayFrame = ((animation->flags & HOUSEANIM_FLAGS_DISPLAYFRAME) != 0) ? true : false;
 			}
 
-			if ((animation->flags & 0x480) != 0) {
+			if ((animation->flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) != 0) {
 				GUI_ClearScreen(SCREEN_1);
 
 				wsa = GFX_Screen_Get_ByIndex(SCREEN_2);
@@ -353,15 +356,15 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 		}
 
 		addFrameCount = 0;
-		if ((animation->flags & 0x8) != 0) {
+		if ((animation->flags & HOUSEANIM_FLAGS_FADEOUTTEXT) != 0) {
 			timeout -= 45;
 			addFrameCount++;
-		} else if ((animation->flags & 0x10) != 0) {
+		} else if ((animation->flags & HOUSEANIM_FLAGS_FADETOWHITE) != 0) {
 			timeout -= 15;
 			addFrameCount++;
 		}
 
-		if ((animation->flags & 0x4) != 0) {
+		if ((animation->flags & HOUSEANIM_FLAGS_FADEINTEXT) != 0) {
 			GameLoop_PlaySubtitle(animationStep);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_0);
 			GameLoop_PalettePart_Update(true);
@@ -371,17 +374,15 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 			GUI_SetPaletteAnimated(g_palette1, 45);
 
 			addFrameCount++;
-		} else {
-			if ((animation->flags & 0x480) != 0) {
-				GameLoop_PlaySubtitle(animationStep);
-				WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_1);
-				addFrameCount++;
+		} else if ((animation->flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) != 0) {
+			GameLoop_PlaySubtitle(animationStep);
+			WSA_DisplayFrame(wsa, frame++, posX, posY, SCREEN_1);
+			addFrameCount++;
 
-				if ((animation->flags & 0x480) == 0x80) {
-					GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_1, SCREEN_0, 1, false);
-				} else if ((animation->flags & 0x480) == 0x400) {
-					GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, SCREEN_1, SCREEN_0);
-				}
+			if ((animation->flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) == HOUSEANIM_FLAGS_FADEIN2) {
+				GUI_Screen_FadeIn2(8, 24, 304, 120, SCREEN_1, SCREEN_0, 1, false);
+			} else if ((animation->flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) == HOUSEANIM_FLAGS_FADEIN) {
+				GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, SCREEN_1, SCREEN_0);
 			}
 		}
 
@@ -426,8 +427,8 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 
 			if (mode == 1 && frame == frameCount) {
 				frame = 0;
-			} else {
-				if (mode == 3) frame--;
+			} else if (mode == 3) {
+				frame--;
 			}
 
 			if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) {
@@ -450,7 +451,7 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 			} while (displayed);
 		}
 
-		if ((animation->flags & 0x10) != 0) {
+		if ((animation->flags & HOUSEANIM_FLAGS_FADETOWHITE) != 0) {
 			memset(&g_palette_998A[3 * 1], 63, 255 * 3);
 
 			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
@@ -460,7 +461,7 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 			memcpy(g_palette_998A, g_palette1, 256 * 3);
 		}
 
-		if ((animation->flags & 0x8) != 0) {
+		if ((animation->flags & HOUSEANIM_FLAGS_FADEOUTTEXT) != 0) {
 			GameLoop_PalettePart_Update(true);
 
 			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);

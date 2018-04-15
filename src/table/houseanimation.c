@@ -5,6 +5,7 @@
 #include "../house.h"
 #include "strings.h"
 
+/* TODO : use HOUSEANIM_FLAGS_* */
 const HouseAnimation_Animation g_table_houseAnimation_animation[HOUSEANIMATION_MAX][32] = {
 	{ /* 0 - intro */
 		{ /* 0 */
