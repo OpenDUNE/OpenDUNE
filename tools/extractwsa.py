@@ -39,11 +39,14 @@ def extract_wsa(filename):
 		pictures = map(decode_format40, datablocks)
 		print ' ', map(lambda e : len(e), pictures)
 		pixels = chr(0) * (width * height)
+		frames = []
 		for i in range(len(pictures)):
 			pbm_filename = '%s_%02d.pbm' % (filename, i)
 			if len(pictures[i]) > 0:
 				pixels = xor_strings(pixels, pictures[i])
-				save_pbm(pbm_filename, width, height, pixels, palette)
+				#save_pbm(pbm_filename, width, height, pixels, palette)
+				frames.append(pixels)
+		save_flc(filename + '.flc', width, height, frames, palette)
 
 if len(sys.argv) <= 1:
 	print "usage : %s [-p palette.PAL] file.WSA" % sys.argv[0]
