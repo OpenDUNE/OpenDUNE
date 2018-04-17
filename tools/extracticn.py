@@ -8,12 +8,14 @@ import sys
 from westwood_codecs import *
 from save_pictures import *
 
-palette = None
-
 def load_palette(filename):
-	global palette
 	with open(filename, 'rb') as pal_file:
-		palette = ''.join(map(lambda c: chr((ord(c) << 2) + (ord(c) >> 6)), list(pal_file.read())))
+		return ''.join(map(lambda c: chr((ord(c) << 2) + (ord(c) >> 6)), list(pal_file.read())))
+
+def load_icon_map(filename):
+	with open(filename, 'rb') as map_file:
+		s = map_file.read()
+		return [unpack_from('<H', s, i)[0] for i in range(0, len(s), 2)]
 
 def parse_iff(data):
 	form = data[0:4]
@@ -57,7 +59,19 @@ def decode_tile(data, pal, width, height):
 		rows.append(row)
 	return rows
 
-def extract_icn(filename):
+def save_tileset(filename, tiles, width, height, palette, tileset_width = 320):
+	count = len(tiles)
+	tileset_height = height * ((count + (tileset_width / width) - 1) / (tileset_width / width))
+	#print tileset_width, tileset_height
+	step = tileset_width / width
+	pixels = ''
+	for i in range(0, count, step):
+		chunk = reduce(lambda a, b: map(lambda x, y: x+y, a, b), tiles[i:i+step])
+		chunk = map(lambda s: s if len(s) >= tileset_width else s + (chr(0)*(tileset_width-len(s))), chunk)
+		pixels += ''.join(chunk)
+	save_pbm(filename, tileset_width, tileset_height, pixels, palette)
+
+def extract_icn(filename, palette = None, icon_map = None):
 	with open(filename, 'rb') as icn_file:
 		icn = icn_file.read()
 		(icn_type, icn_data) = parse_iff(icn)
@@ -84,23 +98,39 @@ def extract_icn(filename):
 				if istransparent:
 					print 'Tile %3d (palette %2d) is transparent %02x' % (i, pal_index, ord(pal[0]))
 				tiles.append(tile)
-			tileset_width = 320 # width * 20
-			tileset_height = height * ((count + (tileset_width / width) - 1) / (tileset_width / width))
-			print tileset_width, tileset_height
-			step = tileset_width / width
-			pixels = ''
-			for i in range(0, count, step):
-				chunk = reduce(lambda a, b: map(lambda x, y: x+y, a, b), tiles[i:i+step])
-				chunk = map(lambda s: s if len(s) >= tileset_width else s + (chr(0)*(tileset_width-len(s))), chunk)
-				pixels += ''.join(chunk)
-			save_pbm(filename + '.pbm', tileset_width, tileset_height, pixels, palette)
+			save_tileset(filename + '.pbm', tiles, width, height, palette)
+			if icon_map is not None:
+				count = icon_map[0]
+				for i in range(count):
+					if icon_map[i+1] == 0:
+						icons = icon_map[icon_map[i]:]
+					else:
+						icons = icon_map[icon_map[i]:icon_map[i+1]]
+					#print i, icon_map[i], len(icons), icons
+					if len(icons) > 60 and i != 20:
+						tileset_width = 10 * width
+					elif (len(icons) % 3) == 0 and i != 12 and i != 26:
+						tileset_width = 3 * width
+					elif (len(icons) % 2) == 0:
+						tileset_width = 2 * width
+					elif len(icons) < 4:
+						tileset_width = width * len(icons)
+					else:
+						tileset_width = 4 * width
+					save_tileset("%s_%02d.pbm" % (filename, i), [tiles[j] for j in icons], width, height, palette, tileset_width)
 
 if len(sys.argv) <= 1:
-	print "usage : %s [-p palette.PAL] file.ICN" % sys.argv[0]
+	print "usage : %s [-p palette.PAL] [-m icon.MAP] file.ICN" % sys.argv[0]
 else:
+	palette = None
+	icon_map = None
 	args = sys.argv[1:]
-	if args[0] == '-p':
-		load_palette(args[1])
-		args = args[2:]
+	while len(args) > 2 and args[0][0] == '-':
+		if args[0] == '-p':
+			palette = load_palette(args[1])
+			args = args[2:]
+		elif args[0] == '-m':
+			icon_map = load_icon_map(args[1])
+			args = args[2:]
 	for filename in args:
-		extract_icn(filename)
+		extract_icn(filename, palette, icon_map)
