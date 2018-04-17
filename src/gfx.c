@@ -222,10 +222,11 @@ void GFX_DrawSprite(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 	wptr += y * SCREEN_WIDTH + x;
 	rptr = g_spritePixels + (tileID * s_spriteByteSize);
 
-	/* tiles with transparent pixels : [1 : 33] U [108 : 124]
-	 * palettes 1 to 18 and 22 */
-	if (tileID <= 33 || (tileID >= 108 && tileID <= 124)) {
-	/*if (icon_palette[0] == 0) { */
+	/* tiles with transparent pixels : [1 : 33] U [108 : 122] and 124
+	 * palettes 1 to 18 and 22 and 24 */
+	/*if (tileID <= 33 || (tileID >= 108 && tileID <= 124)) {*/
+	/* We've found that all "transparent" icons/tiles have 0 (transparent) as color 0 */
+	if (icon_palette[0] == 0) {
 		for (j = 0; j < s_spriteHeight; j++) {
 			for (i = 0; i < s_spriteWidth; i++) {
 				uint8 left  = icon_palette[(*rptr) >> 4];
