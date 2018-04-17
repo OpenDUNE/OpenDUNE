@@ -962,6 +962,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	uint8 *buf = NULL;
 	uint8 *b = NULL;
 	int16  count;
+	int16  buf_incr;
 
 	if (sprite == NULL) return;
 
@@ -1153,6 +1154,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		pixelSkipStart = pixelSkipEnd;
 		pixelSkipEnd = tmp;
 		buf += pixelCountPerRow - 1;
+		buf_incr = -1;
+	} else {
+		buf_incr = 1;
 	}
 
 	b = buf;
@@ -1312,13 +1316,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 					}
 
-#if 0
-					if ((flags & 0xFD) == 0) buf++;
-					else buf--;
-#else
-					if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf--;
-					else buf++;
-#endif
+					buf += buf_incr;
 					count--;
 				}
 			}
