@@ -40,6 +40,7 @@ static struct dirty_area s_screen0_dirty_area = { 0, 0, 0, 0 };
 
 static Screen s_screenActiveID = SCREEN_0;
 
+#if 0
 /**
  * Get the codesegment of the active screen buffer.
  * @return The codesegment of the screen buffer.
@@ -48,6 +49,7 @@ void *GFX_Screen_GetActive(void)
 {
 	return GFX_Screen_Get_ByIndex(s_screenActiveID);
 }
+#endif
 
 /**
  * Returns the size of a screenbuffer.

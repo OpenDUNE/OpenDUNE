@@ -26,9 +26,10 @@ extern void GFX_Init(void);
 extern void GFX_Uninit(void);
 extern Screen GFX_Screen_SetActive(Screen screenID);
 extern bool GFX_Screen_IsActive(Screen screenID);
-extern void *GFX_Screen_GetActive(void);
 extern uint16 GFX_Screen_GetSize_ByIndex(Screen screenID);
 extern void *GFX_Screen_Get_ByIndex(Screen screenID);
+
+#define GFX_Screen_GetActive() GFX_Screen_Get_ByIndex(SCREEN_ACTIVE)
 
 extern void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID);
 extern void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize);
