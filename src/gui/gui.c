@@ -1237,37 +1237,51 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		if (spriteWidth != 0) {
 			count += pixelCountPerRow;
 
-			/* TODO optimize! */
-			while (count > 0) {
-				uint8 v = *sprite++;
-				if (v == 0) {
-					/* run length encoding of transparent pixels */
-					v = *sprite++;
-#if 0
-					if ((flags & 0xFD) == 0) buf += v;
-					else buf -= v;
-#else
-					if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
-					else buf += v;
-#endif
-					count -= v;
-				} else {
-					int16 i;
-
-					assert((flags & 0xF00) < 0x800);
-					switch (flags & 0xF00) {
-						case 0:
+			assert((flags & 0xF00) < 0x800);
+			switch (flags & 0xF00) {
+				case 0:
+					while (count > 0) {
+						uint8 v = *sprite++;
+						if (v == 0) {
+							v = *sprite++; /* run length encoding of transparent pixels */
+							if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+							else buf += v;
+							count -= v;
+						} else {
 							*buf = v;
-							break;
+							buf += buf_incr;
+							count--;
+						}
+					}
+					break;
 
-						case (DRAWSPRITE_FLAG_REMAP):	/* remap */
+				case (DRAWSPRITE_FLAG_REMAP):	/* remap */
+					while (count > 0) {
+						uint8 v = *sprite++;
+						if (v == 0) {
+							v = *sprite++; /* run length encoding of transparent pixels */
+							if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+							else buf += v;
+							count -= v;
+						} else {
+							int16 i;
 							for(i = 0; i < remapCount; i++) v = remap[v];
-
 							*buf = v;
+							buf += buf_incr;
+							count--;
+						}
+					}
+					break;
 
-							break;
-
-						case (DRAWSPRITE_FLAG_BLUR):	/* blur/Sandworm effect */
+				case (DRAWSPRITE_FLAG_BLUR):	/* blur/Sandworm effect */
+					while (count > 0) {
+						uint8 v = *sprite++;
+						if (v == 0) {
+							v = *sprite++; /* run length encoding of transparent pixels */
+							if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+							else buf += v;
+							count -= v;
+						} else {
 							blurRandomValue += blurRandomValueIncr;
 
 							if ((blurRandomValue & 0xFF00) == 0) {
@@ -1276,49 +1290,92 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 								blurRandomValue &= 0xFF;
 								*buf = buf[blurOffset];
 							}
-							break;
+							buf += buf_incr;
+							count--;
+						}
+					}
+					break;
 
-						case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR):
-						case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
-							/* remap + blur ? (+ has house colors) */
+				case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR):
+				case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
+					/* remap + blur ? (+ has house colors) */
+					while (count > 0) {
+						uint8 v = *sprite++;
+						if (v == 0) {
+							v = *sprite++; /* run length encoding of transparent pixels */
+							if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+							else buf += v;
+							count -= v;
+						} else {
+							int16 i;
 							v = *buf;
-
 							for(i = 0; i < remapCount; i++) v = remap[v];
-
 							*buf = v;
+							buf += buf_incr;
+							count--;
+						}
+					}
+					break;
 
-							break;
-
-						case (DRAWSPRITE_FLAG_SPRITEPAL):	/* sprite has palette */
+				case (DRAWSPRITE_FLAG_SPRITEPAL):	/* sprite has palette */
+					while (count > 0) {
+						uint8 v = *sprite++;
+						if (v == 0) {
+							v = *sprite++; /* run length encoding of transparent pixels */
+							if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+							else buf += v;
+							count -= v;
+						} else {
 							*buf = palette[v];
-							break;
+							buf += buf_incr;
+							count--;
+						}
+					}
+					break;
 
-						case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL):
-							/* remap +  sprite has palette */
+				case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL):
+					/* remap +  sprite has palette */
+					while (count > 0) {
+						uint8 v = *sprite++;
+						if (v == 0) {
+							v = *sprite++; /* run length encoding of transparent pixels */
+							if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+							else buf += v;
+							count -= v;
+						} else {
+							int16 i;
 							v = palette[v];
-
 							for(i = 0; i < remapCount; i++) v = remap[v];
-
 							*buf = v;
+							buf += buf_incr;
+							count--;
+						}
+					}
+					break;
 
-							break;
-
-						case (DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
-						/* blur/sandworm effect + sprite has palette */
+				case (DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
+					/* blur/sandworm effect + sprite has palette */
+					while (count > 0) {
+						uint8 v = *sprite++;
+						if (v == 0) {
+							v = *sprite++; /* run length encoding of transparent pixels */
+							if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+							else buf += v;
+							count -= v;
+						} else {
 							blurRandomValue += blurRandomValueIncr;
 
 							if ((blurRandomValue & 0xFF00) == 0) {
 								*buf = palette[v];
 							} else {
-								blurRandomValue &= 0xFF;
+								blurRandomValue &= 0x00FF;
 								*buf = buf[blurOffset];
 							}
-							break;
+							buf += buf_incr;
+							count--;
+						}
 					}
-
-					buf += buf_incr;
-					count--;
-				}
+					break;
 			}
 
 			count += pixelSkipEnd;
