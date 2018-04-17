@@ -1066,9 +1066,14 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			spriteSave = sprite;
 			count = spriteWidth;
 
-			assert((flags & 0xFF) < 4);
+			assert((flags & 0xFF) < 4);	/* means DRAWSPRITE_FLAG_ZOOM is forbidden */
+			/* so (flags & 0xFD) equals (flags & DRAWSPRITE_FLAG_RTL) */
 
 			while (count > 0) {
+#if 1
+					if (*sprite++ == 0) count -= *sprite++;
+					else count--;
+#else
 				while (count != 0) {
 					count--;
 					if (*sprite++ == 0) break;
@@ -1076,11 +1081,17 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 				if (sprite[-1] != 0 && count == 0) break;
 
 				count -= *sprite++ - 1;
+#endif
 			}
 
 			/*buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);*/
+#if 0
 			if ((flags & 0xFD) == 0) buf -= count;	/* 0xFD = 1111 1101b */
 			else buf += count;
+#else
+			if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf += count;
+			else buf -= count;
+#endif
 
 			Ycounter += zoomRatioY;
 			if ((Ycounter & 0xFF00) != 0) {
@@ -1169,6 +1180,10 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 				count = spriteWidth;
 
 				while (count > 0) {
+#if 1
+					if (*sprite++ == 0) count -= *sprite++;
+					else count--;
+#else
 					while (count != 0) {
 						count--;
 						if (*sprite++ == 0) break;
@@ -1176,10 +1191,16 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 					if (sprite[-1] != 0 && count == 0) break;
 
 					count -= *sprite++ - 1;
+#endif
 				}
 
+#if 0
 				if ((flags & 0xFD) == 0) buf -= count;
 				else buf += count;
+#else
+				if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf += count;
+				else buf -= count;
+#endif
 			}
 			spriteSave = sprite;
 		}
@@ -1187,6 +1208,10 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		count = pixelSkipStart;
 
 		while (count > 0) {
+#if 1
+			if (*sprite++ == 0) count -= *sprite++;
+			else count--;
+#else
 			while (count != 0) {
 				count--;
 				if (*sprite++ == 0) break;
@@ -1194,39 +1219,51 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			if (sprite[-1] != 0 && count == 0) break;
 
 			count -= *sprite++ - 1;
+#endif
 		}
 
+#if 0
 		if ((flags & 0xFD) == 0) buf -= count;
 		else buf += count;
+#else
+		if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf += count;
+		else buf -= count;
+#endif
 
 		if (spriteWidth != 0) {
 			count += pixelCountPerRow;
 
+			/* TODO optimize! */
 			while (count > 0) {
 				uint8 v = *sprite++;
 				if (v == 0) {
 					/* run length encoding of transparent pixels */
 					v = *sprite++;
+#if 0
 					if ((flags & 0xFD) == 0) buf += v;
 					else buf -= v;
+#else
+					if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf -= v;
+					else buf += v;
+#endif
 					count -= v;
 				} else {
 					int16 i;
 
-					assert(((flags >> 8) & 0xF) < 8);
-					switch ((flags >> 8) & 0xF) {
+					assert((flags & 0xF00) < 0x800);
+					switch (flags & 0xF00) {
 						case 0:
 							*buf = v;
 							break;
 
-						case (DRAWSPRITE_FLAG_REMAP >> 8):	/* remap */
+						case (DRAWSPRITE_FLAG_REMAP):	/* remap */
 							for(i = 0; i < remapCount; i++) v = remap[v];
 
 							*buf = v;
 
 							break;
 
-						case (DRAWSPRITE_FLAG_BLUR >> 8):	/* blur/Sandworm effect */
+						case (DRAWSPRITE_FLAG_BLUR):	/* blur/Sandworm effect */
 							blurRandomValue += blurRandomValueIncr;
 
 							if ((blurRandomValue & 0xFF00) == 0) {
@@ -1237,8 +1274,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							}
 							break;
 
-						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR) >> 8):
-						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
+						case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR):
+						case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
 							/* remap + blur ? (+ has house colors) */
 							v = *buf;
 
@@ -1248,11 +1285,11 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 							break;
 
-						case (DRAWSPRITE_FLAG_SPRITEPAL >> 8):	/* sprite has palette */
+						case (DRAWSPRITE_FLAG_SPRITEPAL):	/* sprite has palette */
 							*buf = palette[v];
 							break;
 
-						case ((DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
+						case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL):
 							/* remap +  sprite has palette */
 							v = palette[v];
 
@@ -1262,7 +1299,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 							break;
 
-						case ((DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL) >> 8):
+						case (DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
 						/* blur/sandworm effect + sprite has palette */
 							blurRandomValue += blurRandomValueIncr;
 
@@ -1275,8 +1312,13 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 							break;
 					}
 
+#if 0
 					if ((flags & 0xFD) == 0) buf++;
 					else buf--;
+#else
+					if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf--;
+					else buf++;
+#endif
 					count--;
 				}
 			}
@@ -1284,6 +1326,10 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 			count += pixelSkipEnd;
 			if (count != 0) {
 				while (count > 0) {
+#if 1
+					if (*sprite++ == 0) count -= *sprite++;
+					else count--;
+#else
 					while (count != 0) {
 						count--;
 						if (*sprite++ == 0) break;
@@ -1291,10 +1337,16 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 					if (sprite[-1] != 0 && count == 0) break;
 
 					count -= *sprite++ - 1;
+#endif
 				}
 
+#if 0
 				if ((flags & 0xFD) == 0) buf -= count;
 				else buf += count;
+#else
+				if ((flags & DRAWSPRITE_FLAG_RTL) != 0) buf += count;
+				else buf -= count;
+#endif
 			}
 		}
 
@@ -1302,11 +1354,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		else b += SCREEN_WIDTH;
 		buf = b;
 
-		--spriteHeight;
-
 		Ycounter -= 0x100;
 		if ((Ycounter & 0xFF00) != 0) sprite = spriteSave;
-	} while (spriteHeight > 0);
+	} while (--spriteHeight > 0);
 }
 
 /**
