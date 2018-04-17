@@ -307,6 +307,7 @@ uint16 Tools_RandomLCG_Range(uint16 min, uint16 max)
 	return ret;
 }
 
+#ifndef BITARRAY_MACROS
 /**
  * Test a bit in a bit array.
  * @param array Bit array.
@@ -337,3 +338,4 @@ void BitArray_Clear(uint8 *array, uint16 index)
 {
 	array[index >> 3] &= ~(1 << (index & 7));
 }
+#endif

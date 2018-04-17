@@ -33,8 +33,16 @@ extern void Tools_Random_Seed(uint32 seed);
 extern void Tools_RandomLCG_Seed(uint16 seed);
 extern uint16 Tools_RandomLCG_Range(uint16 min, uint16 max);
 
+#define BITARRAY_MACROS
+
+#ifdef BITARRAY_MACROS
+#define BitArray_Test(array, index)  (((const uint8 *)(array))[(index) >> 3] & (1 << ((index) & 7)))
+#define BitArray_Set(array, index)   ((uint8 *)(array))[(index) >> 3] |= (1 << ((index) & 7))
+#define BitArray_Clear(array, index) ((uint8 *)(array))[(index) >> 3] &= ~(1 << ((index) & 7))
+#else
 extern bool BitArray_Test(uint8 *array, uint16 index);
 extern void BitArray_Set(uint8 *array, uint16 index);
 extern void BitArray_Clear(uint8 *array, uint16 index);
+#endif
 
 #endif /* TOOLS_H */
