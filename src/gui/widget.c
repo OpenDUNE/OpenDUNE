@@ -208,7 +208,7 @@ void GUI_Widget_Draw(Widget *w)
 		} break;
 
 		case DRAW_MODE_UNKNOWN3: {
-			GFX_DrawSprite(drawParam.spriteID, positionLeft, positionTop, HOUSE_HARKONNEN);
+			GFX_DrawTile(drawParam.spriteID, positionLeft, positionTop, HOUSE_HARKONNEN);
 		} break;
 
 		case DRAW_MODE_CUSTOM_PROC: {

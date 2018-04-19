@@ -30,7 +30,7 @@ uint8 **g_sprites = NULL;
 static uint16 s_spritesCount = 0;
 uint8 *g_iconRTBL = NULL;
 uint8 *g_iconRPAL = NULL;
-uint8 *g_spritePixels = NULL;
+uint8 *g_tilesPixels = NULL;
 uint16 *g_iconMap = NULL;
 
 uint8 *g_fileRgnclkCPS = NULL;
@@ -212,11 +212,11 @@ static uint32 Sprites_Decode(uint8 *source, uint8 *dest)
  * @param filename The name of the file to load.
  * @param screenID The index of a memory block where to store loaded sprites.
  */
-static void Sprites_LoadICNFile(const char *filename)
+static void Tiles_LoadICNFile(const char *filename)
 {
 	uint8  fileIndex;
 
-	uint32 spriteDataLength;
+	uint32 tilesDataLength;
 	uint32 tableLength;
 	uint32 paletteLength;
 	int8   info[4];
@@ -224,20 +224,20 @@ static void Sprites_LoadICNFile(const char *filename)
 	fileIndex = ChunkFile_Open(filename);
 
 	/* Get the length of the chunks */
-	spriteDataLength = ChunkFile_Seek(fileIndex, HTOBE32(CC_SSET));
-	tableLength      = ChunkFile_Seek(fileIndex, HTOBE32(CC_RTBL));
-	paletteLength    = ChunkFile_Seek(fileIndex, HTOBE32(CC_RPAL));
+	tilesDataLength = ChunkFile_Seek(fileIndex, HTOBE32(CC_SSET));
+	tableLength     = ChunkFile_Seek(fileIndex, HTOBE32(CC_RTBL));
+	paletteLength   = ChunkFile_Seek(fileIndex, HTOBE32(CC_RPAL));
 
 	/* Read the header information */
 	ChunkFile_Read(fileIndex, HTOBE32(CC_SINF), info, 4);
-	GFX_Init_SpriteInfo(info[0], info[1]);
+	GFX_Init_TilesInfo(info[0], info[1]);
 
 	/* Get the SpritePixels chunk */
-	free(g_spritePixels);
-	g_spritePixels = calloc(1, spriteDataLength);
-	ChunkFile_Read(fileIndex, HTOBE32(CC_SSET), g_spritePixels, spriteDataLength);
-	spriteDataLength = Sprites_Decode(g_spritePixels, g_spritePixels);
-	/*g_spritePixels = realloc(g_spritePixels, spriteDataLength);*/
+	free(g_tilesPixels);
+	g_tilesPixels = calloc(1, tilesDataLength);
+	ChunkFile_Read(fileIndex, HTOBE32(CC_SSET), g_tilesPixels, tilesDataLength);
+	tilesDataLength = Sprites_Decode(g_tilesPixels, g_tilesPixels);
+	/*g_tilesPixels = realloc(g_tilesPixels, tilesDataLength);*/
 
 	/* Get the Table chunk */
 	free(g_iconRTBL);
@@ -261,7 +261,7 @@ void Sprites_LoadTiles(void)
 
 	s_iconLoaded = true;
 
-	Sprites_LoadICNFile("ICON.ICN");
+	Tiles_LoadICNFile("ICON.ICN");
 
 	free(g_iconMap);
 	g_iconMap = File_ReadWholeFileLE16("ICON.MAP");
@@ -514,7 +514,7 @@ void Sprites_Uninit(void)
 	free(g_mouseSpriteBuffer); g_mouseSpriteBuffer = NULL;
 	free(g_mouseSprite); g_mouseSprite = NULL;
 
-	free(g_spritePixels); g_spritePixels = NULL;
+	free(g_tilesPixels); g_tilesPixels = NULL;
 	free(g_iconRTBL); g_iconRTBL = NULL;
 	free(g_iconRPAL); g_iconRPAL = NULL;
 

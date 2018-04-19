@@ -392,10 +392,10 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					continue;
 				}
 
-				GFX_DrawSprite(t->groundSpriteID, left, top, t->houseID);
+				GFX_DrawTile(t->groundSpriteID, left, top, t->houseID);
 
 				if (t->overlaySpriteID != 0 && !g_debugScenario) {
-					GFX_DrawSprite(t->overlaySpriteID, left, top, t->houseID);
+					GFX_DrawTile(t->overlaySpriteID, left, top, t->houseID);
 				}
 			}
 		}

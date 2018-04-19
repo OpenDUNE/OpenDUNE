@@ -48,11 +48,14 @@ typedef enum IconMapEntries {
 	ICM_ICONGROUP_EOF                    = 27  /*!< End of file spriteIDs. */
 } IconMapEntries;
 
-extern uint8 **g_sprites;
+/* for tiles loaded from ICON.ICN */
 extern uint8 *g_iconRTBL;	/* table to give spriteID => palette index*/
-extern uint8 *g_iconRPAL;	/* palettes for "icons" sprites. Each palette is 16 colors (8bits index into the main palette) */
-extern uint8 *g_spritePixels;	/* 2 pixels per byte */
+extern uint8 *g_iconRPAL;	/* palettes for "icons" tiles. Each palette is 16 colors (8bits index into the main palette) */
+extern uint8 *g_tilesPixels;	/* 2 pixels per byte */
 extern uint16 *g_iconMap;
+
+/* Sprites loaded from *.SHP files */
+extern uint8 **g_sprites;
 
 extern uint8 *g_fileRgnclkCPS;
 extern void *g_fileRegionINI;

@@ -20,11 +20,11 @@ uint8 *g_palette2 = NULL;
 uint8 *g_paletteMapping1 = NULL;
 uint8 *g_paletteMapping2 = NULL;
 
-static uint16 s_spriteSpacing  = 0;	/* bytes to skip between each line. == SCREEN_WIDTH - 2*s_spriteWidth */
-static uint16 s_spriteHeight   = 0;	/* "icon" sprites height (lines) */
-static uint16 s_spriteWidth    = 0;	/* "icon" sprites width in bytes. each bytes contains 2 pixels. 4 MSB = left, 4 LSB = right */
-static uint8  s_spriteMode     = 0;
-static uint8  s_spriteByteSize = 0;	/* size in byte of one sprite pixel data = s_spriteHeight * s_spriteWidth / 2 */
+static uint16 s_tileSpacing  = 0;	/* bytes to skip between each line. == SCREEN_WIDTH - 2*s_tileWidth */
+static uint16 s_tileHeight   = 0;	/* "icon" sprites height (lines) */
+static uint16 s_tileWidth    = 0;	/* "icon" sprites width in bytes. each bytes contains 2 pixels. 4 MSB = left, 4 LSB = right */
+static uint8  s_tileMode     = 0;
+static uint8  s_tileByteSize = 0;	/* size in byte of one sprite pixel data = s_tileHeight * s_tileWidth / 2 */
 
 /* SCREEN_0 = 320x200 = 64000 = 0xFA00   The main screen buffer, 0xA0000 Video RAM in DOS Dune 2
  * SCREEN_1 = 64506 = 0xFBFA
@@ -186,13 +186,13 @@ void GFX_Uninit(void)
 }
 
 /**
- * Draw a sprite on the screen.
+ * Draw a tile on the screen.
  * @param tileID The tile to draw.
  * @param x The x-coordinate to draw the sprite.
  * @param y The y-coordinate to draw the sprite.
  * @param houseID The house the sprite belongs (for recolouring).
  */
-void GFX_DrawSprite(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
+void GFX_DrawTile(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 {
 	int i, j;
 	uint8 *icon_palette;
@@ -202,7 +202,7 @@ void GFX_DrawSprite(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 
 	assert(houseID < HOUSE_MAX);
 
-	if (s_spriteMode == 4) return;
+	if (s_tileMode == 4) return;
 
 	icon_palette = g_iconRPAL + (g_iconRTBL[tileID] << 4);
 
@@ -222,15 +222,15 @@ void GFX_DrawSprite(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 
 	wptr = GFX_Screen_GetActive();
 	wptr += y * SCREEN_WIDTH + x;
-	rptr = g_spritePixels + (tileID * s_spriteByteSize);
+	rptr = g_tilesPixels + (tileID * s_tileByteSize);
 
 	/* tiles with transparent pixels : [1 : 33] U [108 : 122] and 124
 	 * palettes 1 to 18 and 22 and 24 */
 	/*if (tileID <= 33 || (tileID >= 108 && tileID <= 124)) {*/
 	/* We've found that all "transparent" icons/tiles have 0 (transparent) as color 0 */
 	if (icon_palette[0] == 0) {
-		for (j = 0; j < s_spriteHeight; j++) {
-			for (i = 0; i < s_spriteWidth; i++) {
+		for (j = 0; j < s_tileHeight; j++) {
+			for (i = 0; i < s_tileWidth; i++) {
 				uint8 left  = icon_palette[(*rptr) >> 4];
 				uint8 right = icon_palette[(*rptr) & 0xF];
 				rptr++;
@@ -240,16 +240,16 @@ void GFX_DrawSprite(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 				if (right != 0) *wptr = right;
 				wptr++;
 			}
-			wptr += s_spriteSpacing;
+			wptr += s_tileSpacing;
 		}
 	} else {
-		for (j = 0; j < s_spriteHeight; j++) {
-			for (i = 0; i < s_spriteWidth; i++) {
+		for (j = 0; j < s_tileHeight; j++) {
+			for (i = 0; i < s_tileWidth; i++) {
 				*wptr++ = icon_palette[(*rptr) >> 4];
 				*wptr++ = icon_palette[(*rptr) & 0xF];
 				rptr++;
 			}
-			wptr += s_spriteSpacing;
+			wptr += s_tileSpacing;
 		}
 	}
 }
@@ -260,25 +260,25 @@ void GFX_DrawSprite(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
  * @param widthSize Value between 0 and 2, indicating the width of the sprite. x8 to get actuel width of sprite
  * @param heightSize Value between 0 and 2, indicating the width of the sprite. x8 to get actuel width of sprite
  */
-void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
+void GFX_Init_TilesInfo(uint16 widthSize, uint16 heightSize)
 {
 	/* NOTE : shouldn't it be (heightSize < 3 && widthSize < 3) ??? */
 	if (widthSize == heightSize && widthSize < 3) {
-		s_spriteMode = widthSize & 2;
+		s_tileMode = widthSize & 2;
 
-		s_spriteWidth   = widthSize << 2;
-		s_spriteHeight  = heightSize << 3;
-		s_spriteSpacing = SCREEN_WIDTH - s_spriteHeight;
-		s_spriteByteSize = s_spriteWidth * s_spriteHeight;
+		s_tileWidth   = widthSize << 2;
+		s_tileHeight  = heightSize << 3;
+		s_tileSpacing = SCREEN_WIDTH - s_tileHeight;
+		s_tileByteSize = s_tileWidth * s_tileHeight;
 	} else {
 		/* NOTE : is it dead code ? */
 		/* default to 8x8 sprites */
-		s_spriteMode = 4;
-		s_spriteByteSize = 8*4;
+		s_tileMode = 4;
+		s_tileByteSize = 8*4;
 
-		s_spriteWidth   = 4;
-		s_spriteHeight  = 8;
-		s_spriteSpacing = 312;
+		s_tileWidth   = 4;
+		s_tileHeight  = 8;
+		s_tileSpacing = 312;
 	}
 }
 
