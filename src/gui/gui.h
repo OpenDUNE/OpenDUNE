@@ -133,7 +133,7 @@ extern bool g_var_37B8;
 
 #define GUI_ClearScreen(screenID) GFX_ClearScreen(screenID)
 extern void GUI_DrawScreen(Screen screenID);
-extern void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
+extern void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, int flags, ...);
 extern void GUI_DrawInterfaceAndRadar(Screen screenID);
 extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, Screen screenID, const uint8 *remap);
 extern void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, Screen screenSrc, Screen screenDst);
@@ -155,10 +155,10 @@ extern void GUI_Palette_CreateRemap(uint8 houseID);
 extern void GUI_SetPaletteAnimated(uint8 *palette, int16 ticksOfAnimation);
 extern void GUI_PaletteAnimate(void);
 
-extern void GUI_DisplayText(const char *str, int16 importance, ...);
+extern void GUI_DisplayText(const char *str, int importance, ...);
 extern void GUI_DrawText(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour);
-extern void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...);
-extern uint16 GUI_DisplayModalMessage(const char *str, uint16 stringID, ...);
+extern void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, int flags, ...);
+extern uint16 GUI_DisplayModalMessage(const char *str, unsigned int stringID, ...);
 extern uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID);
 
 extern void GUI_UpdateProductionStringID(void);

@@ -239,7 +239,7 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
  *                   Otherwise, it is the importance of the message (if supplied). Higher numbers mean displayed sooner.
  * @param ... The args for the text.
  */
-void GUI_DisplayText(const char *str, int16 importance, ...)
+void GUI_DisplayText(const char *str, int importance, ...)
 {
 	char buffer[80];                 /* Formatting buffer of new message. */
 	static uint32 displayTimer = 0;  /* Timeout value for next update of the display. */
@@ -522,7 +522,7 @@ void GUI_DrawText(const char *string, int16 left, int16 top, uint8 fgColour, uin
  * 0x0100 : align center
  * 0x0200 : align right
  */
-void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...)
+void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, int flags, ...)
 {
 	char textBuffer[240];
 	static uint16 displayedarg12low = -1;
@@ -772,7 +772,7 @@ static void GUI_Widget_SetProperties(uint16 index, uint16 xpos, uint16 ypos, uin
  * @param ... The args for the text.
  * @return ??
  */
-uint16 GUI_DisplayModalMessage(const char *str, uint16 spriteID, ...)
+uint16 GUI_DisplayModalMessage(const char *str, unsigned int spriteID, ...)
 {
 	static char textBuffer[768];
 
@@ -925,7 +925,7 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * 0A: [16 bytes] = house colors (if flags & 0x01)
  * [1]A: xx bytes = data (depending on flags & 0x02 : 1 = raw, 0 = Format80 encoded)
  */
-void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
+void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY, uint16 windowID, int flags, ...)
 {
 	/* variables for blur/sandworm effect */
 	static const uint8 blurOffsets[8] = {1, 3, 2, 5, 4, 3, 2, 1};
