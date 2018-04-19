@@ -18,8 +18,8 @@ static bool fread_tile(Tile *t, FILE *fp)
 {
 	uint8 buffer[4];
 	if (fread(buffer, 1, 4, fp) != 4) return false;
-	t->groundSpriteID = buffer[0] | ((buffer[1] & 1) << 8);
-	t->overlaySpriteID = buffer[1] >> 1;
+	t->groundTileID = buffer[0] | ((buffer[1] & 1) << 8);
+	t->overlayTileID = buffer[1] >> 1;
 	t->houseID = buffer[2] & 0x07;
 	t->isUnveiled = (buffer[2] & 0x08) ? true : false;
 	t->hasUnit =  (buffer[2] & 0x10) ? true : false;
@@ -40,8 +40,8 @@ static bool fread_tile(Tile *t, FILE *fp)
 static bool fwrite_tile(const Tile *t, FILE *fp)
 {
 	uint8 buffer[4];
-	buffer[0] = t->groundSpriteID & 0xff;
-	buffer[1] = (t->groundSpriteID >> 8) | (t->overlaySpriteID << 1);
+	buffer[0] = t->groundTileID & 0xff;
+	buffer[1] = (t->groundTileID >> 8) | (t->overlayTileID << 1);
 	buffer[2] = t->houseID | (t->isUnveiled << 3) | (t->hasUnit << 4) | (t->hasStructure << 5) | (t->hasAnimation << 6) | (t->hasExplosion << 7);
 	buffer[3] = t->index;
 	if (fwrite(buffer, 1, 4, fp) != 4) return false;
@@ -62,7 +62,7 @@ bool Map_Load(FILE *fp, uint32 length)
 		Tile *t = &g_map[i];
 
 		t->isUnveiled = false;
-		t->overlaySpriteID = g_veiledSpriteID;
+		t->overlayTileID = g_veiledTileID;
 	}
 
 	while (length >= sizeof(uint16) + sizeof(Tile)) {
@@ -76,8 +76,8 @@ bool Map_Load(FILE *fp, uint32 length)
 		t = &g_map[i];
 		if (!fread_tile(t, fp)) return false;
 
-		if (g_mapSpriteID[i] != t->groundSpriteID) {
-			g_mapSpriteID[i] |= 0x8000;
+		if (g_mapTileID[i] != t->groundTileID) {
+			g_mapTileID[i] |= 0x8000;
 		}
 	}
 	if (length != 0) return false;
@@ -98,7 +98,7 @@ bool Map_Save(FILE *fp)
 		Tile *tile = &g_map[i];
 
 		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->hasExplosion && (g_mapSpriteID[i] & 0x8000) == 0 && g_mapSpriteID[i] == tile->groundSpriteID) continue;
+		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->hasExplosion && (g_mapTileID[i] & 0x8000) == 0 && g_mapTileID[i] == tile->groundTileID) continue;
 
 		/* Store the index, then the tile itself */
 		if (!fwrite_le_uint16(i, fp)) return false;

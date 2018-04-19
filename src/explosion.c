@@ -54,8 +54,8 @@ static void Explosion_Func_TileDamage(Explosion *e, uint16 parameter)
 	uint16 type;
 	Tile *t;
 	int16 iconMapIndex;
-	uint16 overlaySpriteID;
-	uint16 *iconMap;
+	uint16 overlayTileID;
+	const uint16 *iconMap;
 
 	VARIABLE_NOT_USED(parameter);
 
@@ -70,39 +70,39 @@ static void Explosion_Func_TileDamage(Explosion *e, uint16 parameter)
 	t = &g_map[packed];
 
 	if (type == LST_CONCRETE_SLAB) {
-		t->groundSpriteID = g_mapSpriteID[packed];
+		t->groundTileID = g_mapTileID[packed];
 		Map_Update(packed, 0, false);
 	}
 
 	if (g_table_landscapeInfo[type].craterType == 0) return;
 
 	/* You cannot damage veiled tiles */
-	overlaySpriteID = t->overlaySpriteID;
-	if (!Sprite_IsUnveiled(overlaySpriteID)) return;
+	overlayTileID = t->overlayTileID;
+	if (!Tile_IsUnveiled(overlayTileID)) return;
 
 	iconMapIndex = craterIconMapIndex[g_table_landscapeInfo[type].craterType];
 	iconMap = &g_iconMap[g_iconMap[iconMapIndex]];
 
-	if (iconMap[0] <= overlaySpriteID && overlaySpriteID <= iconMap[10]) {
+	if (iconMap[0] <= overlayTileID && overlayTileID <= iconMap[10]) {
 		/* There already is a crater; make it bigger */
-		overlaySpriteID -= iconMap[0];
-		if (overlaySpriteID < 4) overlaySpriteID += 2;
+		overlayTileID -= iconMap[0];
+		if (overlayTileID < 4) overlayTileID += 2;
 	} else {
 		/* Randomly pick 1 of the 2 possible craters */
-		overlaySpriteID = Tools_Random_256() & 1;
+		overlayTileID = Tools_Random_256() & 1;
 	}
 
 	/* Reduce spice if there is any */
 	Map_ChangeSpiceAmount(packed, -1);
 
 	/* Boom a bloom if there is one */
-	if (t->groundSpriteID == g_bloomSpriteID) {
+	if (t->groundTileID == g_bloomTileID) {
 		Map_Bloom_ExplodeSpice(packed, g_playerHouseID);
 		return;
 	}
 
 	/* Update the tile with the crater */
-	t->overlaySpriteID = overlaySpriteID + iconMap[0];
+	t->overlayTileID = overlayTileID + iconMap[0];
 	Map_Update(packed, 0, false);
 }
 
@@ -162,7 +162,7 @@ static void Explosion_Func_BloomExplosion(Explosion *e, uint16 parameter)
 
 	packed = Tile_PackTile(e->position);
 
-	if (g_map[packed].groundSpriteID != g_bloomSpriteID) return;
+	if (g_map[packed].groundTileID != g_bloomTileID) return;
 
 	Map_Bloom_ExplodeSpice(packed, g_playerHouseID);
 }

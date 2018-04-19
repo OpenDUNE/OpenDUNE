@@ -1339,7 +1339,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		} else {
 			uint16 type = Map_GetLandscapeType(packed);
 			/* Produce tracks in the sand */
-			if ((type == LST_NORMAL_SAND || type == LST_ENTIRELY_DUNE) && g_map[packed].overlaySpriteID == 0) {
+			if ((type == LST_NORMAL_SAND || type == LST_ENTIRELY_DUNE) && g_map[packed].overlayTileID == 0) {
 				uint8 animationID = Orientation_Orientation256ToOrientation8(unit->orientation[0].current);
 
 				assert(animationID < 8);
@@ -1500,12 +1500,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				}
 
 				if (unit->o.type != UNIT_SANDWORM) {
-					if (g_map[packed].groundSpriteID == g_bloomSpriteID) {
+					if (g_map[packed].groundTileID == g_bloomTileID || g_map[packed].groundTileID == g_bloomTileID + 1) {
 						isSpiceBloom = true;
-					}
-
-					if (g_map[packed].groundSpriteID == g_bloomSpriteID + 1) {
-						isSpecialBloom = true;
 					}
 				}
 			}

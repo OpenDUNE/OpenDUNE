@@ -313,16 +313,16 @@ static void Scenario_Load_Map(const char *key, char *settings)
 	t->hasExplosion = (value & 0x80) != 0 ? true : false;
 
 	s = strtok(NULL, ",\r\n");
-	t->groundSpriteID = atoi(s) & 0x01FF;
-	if (g_mapSpriteID[packed] != t->groundSpriteID) g_mapSpriteID[packed] |= 0x8000;
+	t->groundTileID = atoi(s) & 0x01FF;
+	if (g_mapTileID[packed] != t->groundTileID) g_mapTileID[packed] |= 0x8000;
 
-	if (!t->isUnveiled) t->overlaySpriteID = g_veiledSpriteID;
+	if (!t->isUnveiled) t->overlayTileID = g_veiledTileID;
 }
 
 static void Scenario_Load_Map_Bloom(uint16 packed, Tile *t)
 {
-	t->groundSpriteID = g_bloomSpriteID;
-	g_mapSpriteID[packed] |= 0x8000;
+	t->groundTileID = g_bloomTileID;
+	g_mapTileID[packed] |= 0x8000;
 }
 
 static void Scenario_Load_Map_Field(uint16 packed, Tile *t)
@@ -331,14 +331,14 @@ static void Scenario_Load_Map_Field(uint16 packed, Tile *t)
 
 	/* Show where a field started in the preview mode by making it an odd looking sprite */
 	if (g_debugScenario) {
-		t->groundSpriteID = 0x01FF;
+		t->groundTileID = 0x01FF;
 	}
 }
 
 static void Scenario_Load_Map_Special(uint16 packed, Tile *t)
 {
-	t->groundSpriteID = g_bloomSpriteID + 1;
-	g_mapSpriteID[packed] |= 0x8000;
+	t->groundTileID = g_bloomTileID + 1;
+	g_mapTileID[packed] |= 0x8000;
 }
 
 static void Scenario_Load_Reinforcement(const char *key, char *settings)

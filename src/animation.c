@@ -53,11 +53,11 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 		Tile *t = &g_map[position];
 
 		if (animation->tileLayout != 0) {
-			t->groundSpriteID = g_mapSpriteID[position];
+			t->groundTileID = g_mapTileID[position];
 		}
 
 		if (Map_IsPositionUnveiled(position)) {
-			t->overlaySpriteID = 0;
+			t->overlayTileID = 0;
 		}
 
 		Map_Update(position, 0, false);
@@ -97,9 +97,9 @@ static void Animation_Func_Pause(Animation *animation, int16 parameter)
 /**
  * Set the overlay sprite of the tile.
  * @param animation The Animation for which we change the overlay sprite.
- * @param parameter The SpriteID to which the overlay sprite is set.
+ * @param parameter The TileID to which the overlay sprite is set.
  */
-static void Animation_Func_SetOverlaySprite(Animation *animation, int16 parameter)
+static void Animation_Func_SetOverlayTile(Animation *animation, int16 parameter)
 {
 	uint16 packed = Tile_PackTile(animation->tile);
 	Tile *t = &g_map[packed];
@@ -107,7 +107,7 @@ static void Animation_Func_SetOverlaySprite(Animation *animation, int16 paramete
 
 	if (!Map_IsPositionUnveiled(packed)) return;
 
-	t->overlaySpriteID = g_iconMap[g_iconMap[animation->iconGroup] + parameter];
+	t->overlayTileID = g_iconMap[g_iconMap[animation->iconGroup] + parameter];
 	t->houseID = animation->houseID;
 
 	Map_Update(packed, 0, false);
@@ -130,7 +130,7 @@ static void Animation_Func_Rewind(Animation *animation, int16 parameter)
  * @param animation The Animation for which we change the ground sprite.
  * @param parameter The offset in the iconGroup to which the ground sprite is set.
  */
-static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter)
+static void Animation_Func_SetGroundTile(Animation *animation, int16 parameter)
 {
 	uint16 specialMap[1];
 	uint16 *iconMap;
@@ -153,15 +153,15 @@ static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter
 
 	for (i = 0; i < layoutTileCount; i++) {
 		uint16 position = packed + (*layout++);
-		uint16 spriteID = *iconMap++;
+		uint16 tileID = *iconMap++;
 		Tile *t = &g_map[position];
 
-		if (t->groundSpriteID == spriteID) continue;
-		t->groundSpriteID = spriteID;
+		if (t->groundTileID == tileID) continue;
+		t->groundTileID = tileID;
 		t->houseID = animation->houseID;
 
 		if (Map_IsPositionUnveiled(position)) {
-			t->overlaySpriteID = 0;
+			t->overlayTileID = 0;
 		}
 
 		Map_Update(position, 0, false);
@@ -292,11 +292,11 @@ void Animation_Tick(void)
 				default:                           Animation_Func_Stop(animation, parameter); break;
 
 				case ANIMATION_ABORT:              Animation_Func_Abort(animation, parameter); break;
-				case ANIMATION_SET_OVERLAY_SPRITE: Animation_Func_SetOverlaySprite(animation, parameter); break;
+				case ANIMATION_SET_OVERLAY_TILE:   Animation_Func_SetOverlayTile(animation, parameter); break;
 				case ANIMATION_PAUSE:              Animation_Func_Pause(animation, parameter); break;
 				case ANIMATION_REWIND:             Animation_Func_Rewind(animation, parameter); break;
 				case ANIMATION_PLAY_VOICE:         Animation_Func_PlayVoice(animation, parameter); break;
-				case ANIMATION_SET_GROUND_SPRITE:  Animation_Func_SetGroundSprite(animation, parameter); break;
+				case ANIMATION_SET_GROUND_TILE:    Animation_Func_SetGroundTile(animation, parameter); break;
 				case ANIMATION_FORWARD:            Animation_Func_Forward(animation, parameter); break;
 				case ANIMATION_SET_ICONGROUP:      Animation_Func_SetIconGroup(animation, parameter); break;
 			}

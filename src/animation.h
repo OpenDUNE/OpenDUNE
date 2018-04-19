@@ -9,11 +9,11 @@
 typedef enum AnimationCommand {
 	ANIMATION_STOP,                                         /*!< Gracefully stop with animation. Clean up the tiles etc. */
 	ANIMATION_ABORT,                                        /*!< Abort animation. Leave it as it is. */
-	ANIMATION_SET_OVERLAY_SPRITE,                           /*!< Set a new overlay sprite. Param: the new overlay sprite. */
+	ANIMATION_SET_OVERLAY_TILE,                             /*!< Set a new overlay tile. Param: the new overlay tile. */
 	ANIMATION_PAUSE,                                        /*!< Pause the animation. Param: amount of ticks to pause. */
 	ANIMATION_REWIND,                                       /*!< Rewind the animation.*/
 	ANIMATION_PLAY_VOICE,                                   /*!< Play a voice. Param: the voice to play. */
-	ANIMATION_SET_GROUND_SPRITE,                            /*!< Set a new ground sprite. Param: the new ground sprite. */
+	ANIMATION_SET_GROUND_TILE,                              /*!< Set a new ground tile. Param: the new ground tile. */
 	ANIMATION_FORWARD,                                      /*!< Forward the animation. Param: how many commands to forward. */
 	ANIMATION_SET_ICONGROUP                                 /*!< Set a newicongroup. Param: the new icongroup. */
 } AnimationCommand;

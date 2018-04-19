@@ -377,7 +377,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	Structure *s;
 	tile32 lookAt;
 	Tile *tile;
-	uint16 baseSpriteID;
+	uint16 baseTileID;
 	uint16 encoded;
 	int16 rotation;
 	int16 rotationNeeded;
@@ -393,12 +393,12 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	/* Find the base sprite of the structure */
 	if (s->o.type == STRUCTURE_ROCKET_TURRET) {
-		baseSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 2];
+		baseTileID = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 2];
 	} else {
-		baseSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
+		baseTileID = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
 	}
 
-	rotation = tile->groundSpriteID - baseSpriteID;
+	rotation = tile->groundTileID - baseTileID;
 	if (rotation < 0 || rotation > 7) return 1;
 
 	/* Find what rotation we should have to look at the target */
@@ -419,7 +419,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	rotation &= 0x7;
 
 	/* Set the new sprites */
-	tile->groundSpriteID = baseSpriteID + rotation;
+	tile->groundTileID = baseTileID + rotation;
 	s->rotationSpriteDiff = rotation;
 
 	Map_Update(Tile_PackTile(s->o.position), 0, false);

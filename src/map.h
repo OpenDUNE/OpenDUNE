@@ -29,8 +29,8 @@ MSVC_PACKED_BEGIN
  * A Tile as stored in the memory in the map.
  */
 typedef struct Tile {
-	/* 0000 01FF */ PACK uint32 groundSpriteID:9;           /*!< The Sprite which is drawn on this Tile. */
-	/* 0000 FE00 */ PACK uint32 overlaySpriteID:7;          /*!< The Overlay which is drawn over this Tile. */
+	/* 0000 01FF */ PACK uint32 groundTileID:9;             /*!< The "Icon" which is drawn on this Tile. */
+	/* 0000 FE00 */ PACK uint32 overlayTileID:7;            /*!< The Overlay which is drawn over this Tile. */
 	/* 0007 0000 */ PACK uint32 houseID:3;                  /*!< Which House owns this Tile. */
 	/* 0008 0000 */ PACK uint32 isUnveiled:1;               /*!< There is no fog on the Tile. */
 	/* 0010 0000 */ PACK uint32 hasUnit:1;                  /*!< There is a Unit on the Tile. */
@@ -67,7 +67,7 @@ typedef struct LandscapeInfo {
 
 struct Unit;
 
-extern uint16 g_mapSpriteID[64 * 64];
+extern uint16 g_mapTileID[64 * 64];
 extern Tile g_map[64 * 64];
 extern uint8 g_functions[3][3];
 

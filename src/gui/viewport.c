@@ -264,7 +264,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			position = Unit_FindTargetAround(packed);
 		}
 
-		if (g_map[position].overlaySpriteID != g_veiledSpriteID || g_debugScenario) {
+		if (g_map[position].overlayTileID != g_veiledTileID || g_debugScenario) {
 			if (Object_GetByPackedTile(position) != NULL || g_debugScenario) {
 				Map_SetSelection(position);
 				Unit_DisplayStatusText(g_unitSelected);
@@ -386,16 +386,16 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 				t = &g_map[curPos];
 				left = x << 4;
 
-				if (!g_debugScenario && g_veiledSpriteID == t->overlaySpriteID) {
+				if (!g_debugScenario && g_veiledTileID == t->overlayTileID) {
 					/* draw a black rectangle */
 					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
 					continue;
 				}
 
-				GFX_DrawTile(t->groundSpriteID, left, top, t->houseID);
+				GFX_DrawTile(t->groundTileID, left, top, t->houseID);
 
-				if (t->overlaySpriteID != 0 && !g_debugScenario) {
-					GFX_DrawTile(t->overlaySpriteID, left, top, t->houseID);
+				if (t->overlayTileID != 0 && !g_debugScenario) {
+					GFX_DrawTile(t->overlayTileID, left, top, t->houseID);
 				}
 			}
 		}

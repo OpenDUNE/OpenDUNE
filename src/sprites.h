@@ -64,11 +64,11 @@ extern uint16 *g_regions;
 extern void *g_mouseSprite;
 extern void *g_mouseSpriteBuffer;
 
-extern uint16 g_veiledSpriteID;                             /*!< SpriteID of the veiled sprite, at the end of the partily veiled sprites. */
-extern uint16 g_bloomSpriteID;                              /*!< First bloom field spriteID. */
-extern uint16 g_landscapeSpriteID;                          /*!< First landscape spriteID. */
-extern uint16 g_builtSlabSpriteID;                          /*!< SpriteID of the built concrete slab. */
-extern uint16 g_wallSpriteID;                               /*!< First wall spriteID. */
+extern uint16 g_veiledTileID;     /*!< TileID of the veiled tile, at the end of the partily veiled tiles. */
+extern uint16 g_bloomTileID;      /*!< First bloom field ID. */
+extern uint16 g_landscapeTileID;  /*!< First landscape ID. */
+extern uint16 g_builtSlabTileID;  /*!< built concrete slab. */
+extern uint16 g_wallTileID;       /*!< First wall. */
 
 extern void Sprites_Init(void);
 extern void Sprites_Uninit(void);
@@ -79,7 +79,7 @@ extern void Sprites_UnloadTiles(void);
 extern uint16 Sprites_LoadImage(const char *filename, Screen screenID, uint8 *palette);
 extern void Sprites_SetMouseSprite(uint16 x, uint16 y, const uint8 *sprite);
 extern void Sprites_CPS_LoadRegionClick(void);
-extern bool Sprite_IsUnveiled(uint16 spriteID);
+extern bool Tile_IsUnveiled(uint16 spriteID);
 
 
 #endif /* SPRITES_H */
