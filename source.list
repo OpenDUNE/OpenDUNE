@@ -161,13 +161,17 @@ unit.c
 	#if SDL2
 		video/video_sdl2.c
 	#else
-		#if TOS
-			video/video_atari.c
+		#if SDL
+			video/video_sdl.c
 		#else
+			#if TOS
+				video/video_atari.c
+			#endif
 			#if DOS
 				video/video_dos.c
-			#else
-				video/video_sdl.c
+			#endif
+			#if OSX
+				video/video_osxppc.c
 			#endif
 		#endif
 	#endif

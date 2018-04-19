@@ -944,6 +944,11 @@ make_cflags_and_ldflags() {
 		LDFLAGS="-Wl,-framework,AudioToolbox -Wl,-framework,AudioUnit $LDFLAGS"
 		LDFLAGS="-Wl,-framework,CoreFoundation $LDFLAGS"
 
+		if [ -z "$sdl2_config" ] && [ -z "$sdl_config" ] ; then
+			LDFLAGS="$LDFLAGS -Wl,-framework,ApplicationServices"
+			LDFLAGS="$LDFLAGS -Wl,-framework,Carbon"
+		fi
+
 		if [ "$enable_universal" = "0" ]; then
 			# Universal builds set this elsewhere
 			CFLAGS="$OSX_SYSROOT $CFLAGS"
