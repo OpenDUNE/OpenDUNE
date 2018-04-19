@@ -37,11 +37,7 @@ static void CrashLog_LogVersion(char *buffer)
 			" Build date: %s\n\n",
 			g_opendune_revision,
 			g_opendune_revision_modified,
-#if (defined(_WIN64) || defined(_LP64))
-			64,
-#else
-			32,
-#endif
+			(int)(8*sizeof(char *)/sizeof(char)),
 			g_opendune_build_date
 	);
 }
