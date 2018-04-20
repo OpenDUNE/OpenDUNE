@@ -6,6 +6,7 @@
 
 #include "types.h"
 #include "video.h"
+#include "video_fps.h"
 
 #include "../gfx.h"
 #include "../input/input.h"
@@ -35,8 +36,10 @@ static long CFDictionaryGetValueLong(CFDictionaryRef dict, CFStringRef key)
     return l;
 }
 
-static CFDictionaryRef get_mode_same_refresh(CGDirectDisplayID display, long width, long height, int bpp)
+static CFDictionaryRef get_mode_same_refresh(CGDirectDisplayID display, long width, long height, int bpp, bool exact)
 {
+	static long s_best_diff = -1;
+	long diff;
     CFArrayRef modes;
     CFIndex count, i;
     CFDictionaryRef current_mode = CGDisplayCurrentMode(display);
@@ -47,12 +50,18 @@ static CFDictionaryRef get_mode_same_refresh(CGDirectDisplayID display, long wid
     for (i = 0; i < count; i++) {
         CFDictionaryRef mode = CFArrayGetValueAtIndex(modes, i);
         CFNumberRef refresh_rate = (CFNumberRef)CFDictionaryGetValue(mode, kCGDisplayRefreshRate);
-        if (CFEqual(refresh_rate, current_refresh_rate)) {
-            if (bpp == CFDictionaryGetValueLong(mode, kCGDisplayBitsPerPixel) &&
-                width == CFDictionaryGetValueLong(mode, kCGDisplayWidth) &&
+        if (CFEqual(refresh_rate, current_refresh_rate) && bpp == CFDictionaryGetValueLong(mode, kCGDisplayBitsPerPixel)) {
+			Debug("Found mode %ldx%ld\n", CFDictionaryGetValueLong(mode, kCGDisplayWidth), CFDictionaryGetValueLong(mode, kCGDisplayHeight));
+			if (width == CFDictionaryGetValueLong(mode, kCGDisplayWidth) &&
                 height == CFDictionaryGetValueLong(mode, kCGDisplayHeight)) {
                 return mode;
-            }
+            } else if (width <= CFDictionaryGetValueLong(mode, kCGDisplayWidth) &&
+			           height <= CFDictionaryGetValueLong(mode, kCGDisplayHeight)) {
+				diff = CFDictionaryGetValueLong(mode, kCGDisplayHeight) * CFDictionaryGetValueLong(mode, kCGDisplayWidth) - width * height;
+				if (!exact && diff == s_best_diff)
+					return mode;
+				if (s_best_diff < 0 || diff < s_best_diff) s_best_diff = diff;
+			}
         }
     }
     return NULL;
@@ -82,8 +91,12 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 
 	s_display = kCGDirectMainDisplay;
-	new_mode = get_mode_same_refresh(s_display, width, height, 8);
+	new_mode = get_mode_same_refresh(s_display, width, height, 8, true);
 	Debug("Video_Init(%d, %d) wanted : %ldx%ld\n", screen_magnification, (int)filter, width, height);
+	if (new_mode == NULL) {
+		new_mode = get_mode_same_refresh(s_display, width, height, 8, false);
+		if (new_mode == NULL) return false;
+	}
 
     err = CGDisplayCapture(s_display);
     if(err != kCGErrorSuccess) {
@@ -141,6 +154,7 @@ void Video_Tick(void)
 				break;
 		}
 	}
+	Video_ShowFPS(s_frame_buffer);
 	{
 		int y;
 		const uint8 * src = s_frame_buffer;
