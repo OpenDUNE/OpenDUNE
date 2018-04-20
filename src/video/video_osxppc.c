@@ -62,15 +62,40 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	CGError err;
 	CFDictionaryRef new_mode;
+	long width, height;
+	void * base;
+
+	width = SCREEN_WIDTH * screen_magnification;
+	switch (width) {
+	case 640:
+		height = 480;
+		break;
+	case 960:
+		width = 1024;
+		height = 768;
+		break;
+	case 1280:
+		height = 1024;
+		break;
+	default:
+		height = SCREEN_HEIGHT * screen_magnification;
+	}
 
 	s_display = kCGDirectMainDisplay;
-	new_mode = get_mode_same_refresh(s_display, 640, 480, 8);
+	new_mode = get_mode_same_refresh(s_display, width, height, 8);
+	Debug("Video_Init(%d, %d) wanted : %ldx%ld\n", screen_magnification, (int)filter, width, height);
 
     err = CGDisplayCapture(s_display);
-    if(err != kCGErrorSuccess) return false;
+    if(err != kCGErrorSuccess) {
+		Error("CGDisplayCapture() failed.\n");
+		return false;
+	}
 	CGDisplayHideCursor(s_display);
 	CGAssociateMouseAndMouseCursorPosition(false);
 	CGDisplaySwitchToMode(s_display, new_mode);
+	base = CGDisplayBaseAddress(s_display);	/* allowed up to 10.5 */
+	if (base != NULL) memset(base, 0, height * CGDisplayBytesPerRow(s_display));
+	Debug("BytesPerRow = %lu\n", (unsigned long)CGDisplayBytesPerRow(s_display));
 	return true;
 }
 
