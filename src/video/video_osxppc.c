@@ -7,6 +7,7 @@
 #include "types.h"
 #include "video.h"
 #include "video_fps.h"
+#include "scalebit.h"
 
 #include "../gfx.h"
 #include "../input/input.h"
@@ -15,7 +16,11 @@
 
 static CGDirectDisplayID s_display;
 
-static uint8 s_frame_buffer[64000];
+static int s_screen_magnification;
+static VideoScaleFilter s_filter;
+static long s_display_offset = 0;
+
+static uint8 s_frame_buffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 
 static int s_mousePosX = 0;
 static int s_mousePosY = 0;
@@ -73,7 +78,18 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	CFDictionaryRef new_mode;
 	long width, height;
 	void * base;
+	size_t bpr;
 
+	if (screen_magnification > 4) {
+		Error("Maximum screen_magnification : 4\n");
+		return false;
+	}
+	if (filter == FILTER_HQX) {
+		Error("This version does not support HQX. Please rebuild from sources.\n");
+		return false;
+	}
+	s_screen_magnification = screen_magnification;
+	s_filter = filter;
 	width = SCREEN_WIDTH * screen_magnification;
 	switch (width) {
 	case 640:
@@ -106,9 +122,19 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	CGDisplayHideCursor(s_display);
 	CGAssociateMouseAndMouseCursorPosition(false);
 	CGDisplaySwitchToMode(s_display, new_mode);
+	bpr = CGDisplayBytesPerRow(s_display);
 	base = CGDisplayBaseAddress(s_display);	/* allowed up to 10.5 */
-	if (base != NULL) memset(base, 0, height * CGDisplayBytesPerRow(s_display));
-	Debug("BytesPerRow = %lu\n", (unsigned long)CGDisplayBytesPerRow(s_display));
+	if (base != NULL) {
+		CGRect bounds;
+
+		bounds = CGDisplayBounds(s_display);
+		width = (long)bounds.size.width;
+		height = (long)bounds.size.height;
+		memset(base, 0, height * bpr);
+		s_display_offset = bpr * ((height - SCREEN_HEIGHT * screen_magnification) / 2);
+		s_display_offset += ((width - SCREEN_WIDTH * screen_magnification) / 2);
+	}
+	Debug("BytesPerRow = %lu display_offset=%ld\n", (unsigned long)bpr, s_display_offset);
 	return true;
 }
 
@@ -123,10 +149,14 @@ void Video_Tick(void)
 	int max_event = 10;
 	EventRecord event;
 	int32_t x, y;
+	unsigned top, bottom;
+	uint8 * screen;
+	size_t bytes_per_row;
+	struct dirty_area * area;
 
 	CGGetLastMouseDelta(&x, &y);
 	if (x != 0 || y != 0) {
-		Debug("mouse : delta(%d,%d) oldpos(%d,%d)\n", (int)x, (int)y, s_mousePosX, s_mousePosY);
+		/*Debug("mouse : delta(%d,%d) oldpos(%d,%d)\n", (int)x, (int)y, s_mousePosX, s_mousePosY);*/
 		s_mousePosX += x;
 		s_mousePosY += y;
 		if (s_mousePosX < s_mouse_minX) s_mousePosX = s_mouse_minX;
@@ -155,17 +185,52 @@ void Video_Tick(void)
 		}
 	}
 	Video_ShowFPS(s_frame_buffer);
+	if (!GFX_Screen_IsDirty(SCREEN_0)) return;
+	area = GFX_Screen_GetDirtyArea(SCREEN_0);
+	bytes_per_row = CGDisplayBytesPerRow(s_display);
+	screen = CGDisplayBaseAddress(s_display);	/* allowed up to 10.5 */
+	screen += s_display_offset;
+	if (area != NULL) {
+		top = area->top;
+		bottom = area->bottom;
+	} else {
+		top = 0;
+		bottom = SCREEN_HEIGHT;
+	}
+	if (s_screen_magnification == 1)
 	{
-		int y;
+		unsigned int y;
 		const uint8 * src = s_frame_buffer;
-		size_t bytes_per_row = CGDisplayBytesPerRow(s_display);
-		uint8 * screen = CGDisplayBaseAddress(s_display);	/* allowed up to 10.5 */
-		for (y = 0; y < SCREEN_HEIGHT; y++) {
+		src += top * SCREEN_WIDTH;
+		screen += top * bytes_per_row;
+		for (y = top; y < bottom; y++) {
 			memcpy(screen, src, SCREEN_WIDTH);
 			src += SCREEN_WIDTH;
 			screen += bytes_per_row;
 		}
+	} else if (s_filter == FILTER_SCALE2X) {
+		scale_part(s_screen_magnification, screen, bytes_per_row,
+		           s_frame_buffer, SCREEN_WIDTH, 1, SCREEN_WIDTH, SCREEN_HEIGHT,
+		           top, bottom);
+	} else {
+		unsigned int x, y;
+		int i, j;
+		const uint8 * data = s_frame_buffer;
+		/* The non-optimized works-for-every-magnification method */
+		for (y = top; y < bottom; y++) {
+			for (x = 0; x < SCREEN_WIDTH; x++) {
+				for (i = 0; i < s_screen_magnification; i++) {
+					for (j = 0; j < s_screen_magnification; j++) {
+						*(screen + bytes_per_row * j) = *data;
+					}
+					screen++;
+				}
+				data++;
+			}
+			screen += (bytes_per_row - SCREEN_WIDTH) * s_screen_magnification;
+		}
 	}
+	GFX_Screen_SetClean(SCREEN_0);
 }
 
 void Video_SetPalette(void *palette, int from, int length)
