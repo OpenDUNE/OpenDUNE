@@ -748,9 +748,8 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 						if (g_config.language == LANGUAGE_FRENCH) {
 							if (buttons[i]->stringID == STR_MOVE) buttons[i]->shortcut2 = 0x27;
-							if (buttons[i]->stringID == STR_RETURN) buttons[i]->shortcut2 = 0x13;
-						}
-						if (g_config.language == LANGUAGE_GERMAN) {
+							else if (buttons[i]->stringID == STR_RETURN) buttons[i]->shortcut2 = 0x13;
+						} else if (g_config.language == LANGUAGE_GERMAN) {
 							if (buttons[i]->stringID == STR_GUARD) buttons[i]->shortcut2 = 0x17;
 						}
 
@@ -920,7 +919,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
  */
 void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 {
-	static const uint16 borderIndexSize[][2] = {
+	static const uint8 borderIndexSize[][2] = {
 		{0, 0}, {2, 4}, {1, 1}, {2, 1}
 	};
 
@@ -930,7 +929,6 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 	uint16 height = g_widgetProperties[widgetIndex].height;
 
 	uint16 colourSchemaIndex = (pressed) ? 2 : 0;
-	uint16 colourSchemaIndexDiff;
 	uint16 size;
 
 	if (GFX_Screen_IsActive(SCREEN_0)) {
@@ -939,11 +937,11 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 
 	GUI_DrawBorder(left, top, width, height, colourSchemaIndex + 1, true);
 
-	colourSchemaIndexDiff = borderIndexSize[borderType][0];
 	size = borderIndexSize[borderType][1];
 
 	if (size != 0) {
-		GUI_DrawBorder(left + size, top + size, width - (size * 2), height - (size * 2), colourSchemaIndexDiff + colourSchemaIndex, false);
+		colourSchemaIndex += borderIndexSize[borderType][0];
+		GUI_DrawBorder(left + size, top + size, width - (size * 2), height - (size * 2), colourSchemaIndex, false);
 	}
 
 	if (GFX_Screen_IsActive(SCREEN_0)) {
