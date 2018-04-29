@@ -3,7 +3,7 @@
 
 #include "video_fps.h"
 
-static void Video_ShowFPS_DrawChar(uint8 * screen, uint16 x, uint8 digit)
+static void Video_ShowFPS_DrawChar(uint8 * screen, int bytes_per_row, uint16 x, uint8 digit)
 {
 	int i;
 	static const uint8 fontdigits[10] = {0167,044,0135,0155,056,0153,0173,045,0177,0157};
@@ -15,12 +15,12 @@ static void Video_ShowFPS_DrawChar(uint8 * screen, uint16 x, uint8 digit)
 		offset++;
 		if((i % 3) == 2) {
 			screen[x+offset] = 0;
-			offset += 317;
+			offset += bytes_per_row - 3;
 		}
 	}
 }
 
-void Video_ShowFPS_2(uint8 *screen, Video_ShowFPS_Proc drawchar)
+void Video_ShowFPS_2(uint8 *screen, int bytes_per_row, Video_ShowFPS_Proc drawchar)
 {
 	uint32 timeStamp;
 	static uint32 s_previousTimeStamps[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -37,10 +37,10 @@ void Video_ShowFPS_2(uint8 *screen, Video_ShowFPS_Proc drawchar)
 			if (drawchar)
 				drawchar(screen, x, kfps % 10);
 			else
-				Video_ShowFPS_DrawChar(screen, x, kfps % 10);
+				Video_ShowFPS_DrawChar(screen, bytes_per_row, x, kfps % 10);
 		}
 		if (!drawchar) {
-			for (i=0; i<5; i++) screen[x+2+i*320] = 0;
+			for (i=0; i<5; i++) screen[x+2+i*bytes_per_row] = 0;
 		}
 	}
 	s_previousTimeStamps[s_previousTimeStampsIndex] = timeStamp;
