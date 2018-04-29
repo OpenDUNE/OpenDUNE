@@ -213,6 +213,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 	s_screen_magnification = screen_magnification;
 	s_filter = filter;
+	/*scale_set_options(SCALE2X_OPTION_NO_ALTIVEC);*/
 	width = SCREEN_WIDTH * screen_magnification;
 	switch (width) {
 	case 640:
@@ -256,6 +257,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		memset(base, 0, height * bpr);
 		s_display_offset = bpr * ((height - SCREEN_HEIGHT * screen_magnification) / 2);
 		s_display_offset += ((width - SCREEN_WIDTH * screen_magnification) / 2);
+	} else {
+		CGDisplayShowCursor(s_display);
+		CGDisplayRelease(s_display);
+		Error("Cannot access to Video Memory\n");
+		return false;
 	}
 	Debug("BytesPerRow = %lu display_offset=%ld\n", (unsigned long)bpr, s_display_offset);
 	s_frame_buffer = malloc(SCREEN_WIDTH * SCREEN_HEIGHT);
