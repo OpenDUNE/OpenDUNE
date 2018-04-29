@@ -19,8 +19,9 @@ static CGDirectDisplayID s_display;
 static int s_screen_magnification;
 static VideoScaleFilter s_filter;
 static long s_display_offset = 0;
+static bool s_display_fps = false;
 
-static uint8 s_frame_buffer[SCREEN_WIDTH * SCREEN_HEIGHT];
+static uint8 * s_frame_buffer;
 
 static int s_mousePosX = 0;
 static int s_mousePosY = 0;
@@ -135,6 +136,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		s_display_offset += ((width - SCREEN_WIDTH * screen_magnification) / 2);
 	}
 	Debug("BytesPerRow = %lu display_offset=%ld\n", (unsigned long)bpr, s_display_offset);
+	s_frame_buffer = malloc(SCREEN_WIDTH * SCREEN_HEIGHT);
 	return true;
 }
 
@@ -142,6 +144,8 @@ void Video_Uninit(void)
 {
 	CGDisplayShowCursor(s_display);
 	CGDisplayRelease(s_display);
+	free(s_frame_buffer);
+	s_frame_buffer = NULL;
 }
 
 void Video_Tick(void)
@@ -184,11 +188,11 @@ void Video_Tick(void)
 				break;
 		}
 	}
-	Video_ShowFPS(s_frame_buffer);
+	screen = CGDisplayBaseAddress(s_display);	/* allowed up to 10.5 */
+	bytes_per_row = CGDisplayBytesPerRow(s_display);
+	if (s_display_fps) Video_ShowFPS_2(screen, bytes_per_row, NULL);
 	if (!GFX_Screen_IsDirty(SCREEN_0)) return;
 	area = GFX_Screen_GetDirtyArea(SCREEN_0);
-	bytes_per_row = CGDisplayBytesPerRow(s_display);
-	screen = CGDisplayBaseAddress(s_display);	/* allowed up to 10.5 */
 	screen += s_display_offset;
 	if (area != NULL) {
 		top = area->top;
