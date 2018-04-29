@@ -33,6 +33,128 @@ static uint16 s_mouse_maxX = SCREEN_WIDTH - 1;
 static uint16 s_mouse_minY = 0;
 static uint16 s_mouse_maxY = SCREEN_HEIGHT - 1;
 
+/* Mac keyboard scancodes :
+ * https://boredzo.org/blog/wp-content/uploads/2007/05/imtx-virtual-keycodes.png
+ */
+/* decimal Mac scancode :
+  0 A   1 S   2 D   3 F   4 H   5 G   6 Z   7 X
+  8 C   9 V  10 ?? 11 B  12 Q  13 W  14 E  15 R
+ 16 Y  17 T  18 1  19 2  20 3  21 4  22 6  23 5
+ 24 =  25 9  26 7  27 -_ 28 8  29 0  30 ]  31 O
+ 32 U  33 [  34 I  35 P  36 RT 37 L  38 J  39 '"
+ 40 K  41 ;: 42 ?? 43 <  44 /  45 N  46 M  47 >
+ 48 TB 49 SP 50 ~` 51 BS 52 ?? 53 ESC
+ */
+static uint8 OSX_TranslateKey(unsigned int msg)
+{
+#if 0
+#define M(c, scan) { c, (uint8)scan }
+static const struct {
+	char c;
+	uint8 scancode;
+} s_table[] = {
+    M('A',           0x001E),
+    M('B',           0x0030),
+    M('C',           0x002E),
+    M('D',           0x0020),
+    M('E',           0x0012),
+    M('F',           0x0021),
+    M('G',           0x0022),
+    M('H',           0x0023),
+    M('I',           0x0017),
+    M('J',           0x0024),
+    M('K',           0x0025),
+    M('L',           0x0026),
+    M('M',           0x0032),
+    M('N',           0x0031),
+    M('O',           0x0018),
+    M('P',           0x0019),
+    M('Q',           0x0010),
+    M('R',           0x0013),
+    M('S',           0x001F),
+    M('T',           0x0014),
+    M('U',           0x0016),
+    M('V',           0x002F),
+    M('W',           0x0011),
+    M('X',           0x002D),
+    M('Y',           0x0015),
+    M('Z',           0x002C),
+	};
+#undef M
+#endif
+	static const uint8 s_Mac_to_XT[] = {
+		0x1E, 0x1F, 0x20, 0x21, 0x23, 0x22, 0x2C, 0x2D, /*  0 -  7 */
+		0x2E, 0x2F,    0, 0x30, 0x10, 0x11, 0x12, 0x13, /*  8 - 15 */
+		0x15, 0x14, 0x02, 0x03, 0x04, 0x05, 0x07, 0x06, /* 16 - 23 */
+		0x0D, 0x0A, 0x08, 0x0C, 0x09, 0x0B, 0x1B, 0x18, /* 24 - 31 */
+		0x16, 0x1A, 0x17, 0x19, 0x1C, 0x26, 0x24, 0x28, /* 32 - 39 */
+		0x25, 0x27,    0, 0x33, 0x35, 0x31, 0x32, 0x34, /* 40 - 47 */
+		0x0F, 0x39, 0x29, 0x0E,    0, 0x01              /* 48 - 53 */
+	};
+	unsigned int i;
+	uint8 macScanCode = (uint8)(msg >> 8);
+
+	switch(macScanCode) {
+	case 122:	/* F1 */
+		return 0x3B;
+	case 120:	/* F2 */
+		return 0x3C;
+	case 99:	/* F3 */
+		return 0x3D;
+	case 118:	/* F4 */
+		return 0x3E;
+	case 96:	/* F5 */
+		return 0x3F;
+	case 97:	/* F6 */
+		return 0x40;
+	case 98:	/* F7 */
+		return 0x41;
+	case 100:	/* F8 */
+		return 0x42;
+	case 101:	/* F9 */
+		return 0x43;
+	case 109:	/* F10 */
+		return 0x44;
+	/* arrows / Num pad : */
+	case 76:	/* return */
+		return 0x1C;
+	case 82:	/* 0 */
+		return 0x52;
+	case 83:	/* 1 */
+		return 0x4F;
+	case 125:	/* down */
+	case 84:	/* 2 */
+		return 0x50;
+	case 85:	/* 3 */
+		return 0x51;
+	case 123:	/* left */
+	case 86:	/* 4 */
+		return 0x4B;
+	case 87:	/* 5 */
+		return 0x4C;
+	case 124:	/* right */
+	case 88:	/* 6 */
+		return 0x4D;
+	case 89:	/* 7 */
+		return 0x47;
+	case 126:	/* up */
+	case 91:	/* 8 */
+		return 0x48;
+	case 92:	/* 9 */
+		return 0x49;
+	default:
+		if (macScanCode < sizeof(s_Mac_to_XT)) return s_Mac_to_XT[macScanCode];
+	}
+
+#if 0
+	for (i = 0; i < sizeof(s_table)/sizeof(s_table[0]); i++) {
+		if (((unsigned int)s_table[i].c | 0x20) == ((msg & 0xFF) | 0x20)) return s_table[i].scancode;
+	}
+#endif
+	Warning("Unrecognized key : %08x '%c'\n", (unsigned)msg, (msg & 0xff) >= 32 ? (int)(msg & 0xff) : '?');
+	return 0;
+}
+
 static long CFDictionaryGetValueLong(CFDictionaryRef dict, CFStringRef key)
 {
     long l;
@@ -170,21 +292,24 @@ void Video_Tick(void)
 		Mouse_EventHandler(s_mousePosX, s_mousePosY, s_mouseButtonLeft, s_mouseButtonRight);
 	}
     while  (WaitNextEvent(everyEvent, &event, 0, NULL) && max_event-- > 0) {
+		uint8 XT_scancode;
 		Debug(" what=%04x message=%08x modifier=%04x where=(%d,%d)\n", event.what, event.message, event.modifiers, event.where.h, event.where.v);
 		switch (event.what) {
 			case mouseDown:
-				Mouse_EventHandler(s_mousePosX, s_mousePosY, true, s_mouseButtonRight);
+				/*Mouse_EventHandler(s_mousePosX, s_mousePosY, !(event.modifiers & optionKey), (event.modifiers & optionKey));*/
+				Mouse_EventHandler(s_mousePosX, s_mousePosY, !(event.modifiers & cmdKey), (event.modifiers & cmdKey));
 				break;
 			case mouseUp:
-				Mouse_EventHandler(s_mousePosX, s_mousePosY, false, s_mouseButtonRight);
+				Mouse_EventHandler(s_mousePosX, s_mousePosY, false, false);
 				break;
 			case keyUp:
-				if (event.message == 0x0071) exit(2);
-				Input_EventHandler(event.message >> 8 | 0x80);
+				XT_scancode = OSX_TranslateKey(event.message);
+				if (XT_scancode != 0) Input_EventHandler(XT_scancode | 0x80);
 				break;
 			case keyDown:
-				Input_EventHandler(event.message >> 8);
-				/*printf("  scancode=$%02x char='%c'\n", event.message >> 8, (int)(event.message & 0xff));*/
+				if (event.message == 0x6410) s_display_fps = !s_display_fps;	/* F8 */
+				XT_scancode = OSX_TranslateKey(event.message);
+				if (XT_scancode != 0) Input_EventHandler(XT_scancode);
 				break;
 		}
 	}
