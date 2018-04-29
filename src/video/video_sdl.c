@@ -457,15 +457,16 @@ static void Video_DrawScreen_Nearest_Neighbor(const struct dirty_area * area)
 			for (x = SCREEN_WIDTH / 16; x > 0; x--) {
 				vector unsigned char m0;
 				vector unsigned char m1;
-				m1 = *((vector unsigned char *)data);
+				/*m1 = *((vector unsigned char *)data);*/
+				m1 = vec_ld(0, data);
 				data += 16;
 				m0 = vec_mergeh(m1, m1);
 				m1 = vec_mergel(m1, m1);
-				((vector unsigned char *)gfx1)[0] = m0;
-				((vector unsigned char *)gfx1)[1] = m1;
+				vec_st(m0, 0, gfx1);
+				vec_st(m1, 16, gfx1);
 				gfx1 += 32;
-				((vector unsigned char *)gfx2)[0] = m0;
-				((vector unsigned char *)gfx2)[1] = m1;
+				vec_st(m0, 0, gfx2);
+				vec_st(m1, 16, gfx2);
 				gfx2 += 32;
 			}
 #else
