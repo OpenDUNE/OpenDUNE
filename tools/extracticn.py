@@ -118,6 +118,10 @@ def extract_icn(filename, palette = None, icon_map = None):
 					else:
 						tileset_width = 4 * width
 					save_tileset("%s_%02d.pbm" % (filename, i), [tiles[j] for j in icons], width, height, palette, tileset_width)
+			palette_usage = ['0'] * 256
+			for c in icn_data['RPAL']:
+				palette_usage[ord(c)] = '1'
+			#print ''.join(palette_usage)
 
 if len(sys.argv) <= 1:
 	print "usage : %s [-p palette.PAL] [-m icon.MAP] file.ICN" % sys.argv[0]
