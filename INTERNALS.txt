@@ -35,7 +35,64 @@ the 6 first colors of sub-palettes 8 to 14 are a shade of the house colors :
 11 (176-181) : Ordos
 12 (192-197) : Fremen
 13 (208-213) : Sardaukar
-14 (224-229) : merecenary
+14 (224-229) : merecenary (also used by interface)
+
+Full palette description :
+
+ 1 ( 16- 31) : shade of cream/grey
+ 2 ( 32- 47) : "skin" to brown shade
+ 3 ( 48- 59) : purple to dark red
+   ( 60- 63) : brown shade
+ 4 ( 64- 79) : yellow-ish to light blue shade
+ 5 ( 80- 84) : various colors...
+   ( 85- 95) : skin colors shade ?
+ 6 ( 96-100) : dark brown shade
+   (101-104) : another brown shade ?
+   (105-111) : light sand color shade ?
+ 7 (112-116) : dark sand color shade
+   (117-121) : ?
+   (122-127) : various colors : dark grey, yellow, orange, dark blue, light blue
+ 8 (128-134) : grey(blue-ish) shade
+   (135-143) : pink-ish to grey shade
+ 9 (144-150) : Harkonnen colors
+   (151-159) : cyan to white shade
+10 (160-166) : Atreides colors
+   (167-175) : Blues and greys
+11 (176-182) : Ordos colors
+   (183-187) : Greens
+   (188-190) : blues
+    191      : White
+12 (192-198) : Fremen colors
+   (199-203) : Browns
+   (204-207) : Blue-ish greys
+13 (208-214) : Sardaukar colors
+   (215-220) : brown shade
+    221,222  : White
+    223      : Windtrap cycling color
+14 (224-230) : Mercenaries colors
+   (231-238) : Menu colors (Also Mouse pointer)
+    239      : alternating white Red (REPAIR / etc.)
+15 (240-250) : pink/skinish shade
+   (251-254) : cycling arrows in mission selection screen
+    255      : unit selection (color cycling)
+
+
+Interface (SCREEN.CPS, CHOAM, hall of fame, etc.) :
+32-43
+59-63
+81
+97
+105-111
+112-116 127
+224-229
+244
+
+Map (campain selection screen) :
+23-28
+84
+88-92
+104
+
 
 colors 215 to 220 are used for text in intro (red gradient)
 
