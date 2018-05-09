@@ -36,6 +36,9 @@ static void *s_screenBuffer[GFX_SCREEN_BUFFER_COUNT] = { NULL, NULL, NULL, NULL 
 #ifdef GFX_STORE_DIRTY_AREA
 static bool s_screen0_is_dirty = false;
 static struct dirty_area s_screen0_dirty_area = { 0, 0, 0, 0 };
+#ifdef GFX_STORE_DIRTY_AREA_BLOCKS
+uint32 g_dirty_blocks[200];
+#endif
 #endif
 
 static Screen s_screenActiveID = SCREEN_0;
@@ -105,6 +108,10 @@ bool GFX_Screen_IsActive(Screen screenID)
 #ifdef GFX_STORE_DIRTY_AREA
 void GFX_Screen_SetDirty(Screen screenID, uint16 left, uint16 top, uint16 right, uint16 bottom)
 {
+#ifdef GFX_STORE_DIRTY_AREA_BLOCKS
+	uint32 mask;
+	uint16 y;
+#endif
 	if(screenID == SCREEN_ACTIVE) screenID = s_screenActiveID;
 	if(screenID != SCREEN_0) return;
 	s_screen0_is_dirty = true;
@@ -112,6 +119,11 @@ void GFX_Screen_SetDirty(Screen screenID, uint16 left, uint16 top, uint16 right,
 	if (top < s_screen0_dirty_area.top) s_screen0_dirty_area.top = top;
 	if (right > s_screen0_dirty_area.right) s_screen0_dirty_area.right = right;
 	if (bottom > s_screen0_dirty_area.bottom) s_screen0_dirty_area.bottom = bottom;
+#ifdef GFX_STORE_DIRTY_AREA_BLOCKS
+	mask = (1 << ((right + 15) >> 4)) - 1;
+	mask -= (1 << (left >> 4)) - 1;
+	for (y = top; y < bottom; y++) g_dirty_blocks[y] |= mask;
+#endif
 }
 
 void GFX_Screen_SetClean(Screen screenID)
@@ -123,6 +135,9 @@ void GFX_Screen_SetClean(Screen screenID)
 	s_screen0_dirty_area.top = 0xffff;
 	s_screen0_dirty_area.right = 0;
 	s_screen0_dirty_area.bottom = 0;
+#ifdef GFX_STORE_DIRTY_AREA_BLOCKS
+	memset(g_dirty_blocks, 0, sizeof(g_dirty_blocks));
+#endif
 }
 
 bool GFX_Screen_IsDirty(Screen screenID)

@@ -298,6 +298,18 @@ void Video_Tick(void)
 			if (width == SCREEN_WIDTH) {
 				c2p1x1_8_falcon(screen, data, height*SCREEN_WIDTH);
 			} else {
+#ifdef GFX_STORE_DIRTY_AREA_BLOCKS
+				int y;
+				for (y = area->top; y < area->bottom; y++) {
+					if (g_dirty_blocks[y] != 0) {
+						left = __builtin_ctz(g_dirty_blocks[y]) << 4;
+						width = ((32 - __builtin_clz(g_dirty_blocks[y])) << 4) - left;
+						c2p1x1_8_falcon(screen + left, data + left, width);
+					}
+					screen += SCREEN_WIDTH;
+					data += SCREEN_WIDTH;
+				}
+#else
 				screen += left;
 				data += left;
 				while(height > 0) {
@@ -306,6 +318,7 @@ void Video_Tick(void)
 					data += SCREEN_WIDTH;
 					height--;
 				}
+#endif
 			}
 		}
 		GFX_Screen_SetClean(SCREEN_0);
