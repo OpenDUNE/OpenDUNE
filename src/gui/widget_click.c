@@ -255,6 +255,11 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	}
 
 	action = actions[w->index - 8];
+	if (g_dune2_enhanced) {
+		/* AREA GUARD instead of GUARD if SHIFT is pressed */
+		if (action == ACTION_GUARD && (Input_Test(0x2c) || Input_Test(0x39))) action = ACTION_AREA_GUARD;
+		Debug("GUI_Widget_TextButton_Click(%p index=%d) action=%d\n", w, w->index, action);
+	}
 
 	unitAction = u->nextActionID;
 	if (unitAction == ACTION_INVALID) {
