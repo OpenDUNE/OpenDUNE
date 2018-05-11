@@ -214,7 +214,7 @@ _c2p1x1_8_tt:
 	;	a1	screen
 	movem.l	d2-d7/a2-a6,-(sp)
 	add.l	a0,d0
-	move.l	d0,offset_end	; end of chunky buffer
+	move.l	d0,-(sp);offset_end	; end of chunky buffer
 	move.l	#$0f0f0f0f,d4
 	move.l	#$00ff00ff,d5
 	move.l	#$55555555,d6
@@ -411,12 +411,13 @@ _c2p1x1_8_tt:
 	move.l	a6,(a1)+
 
 	lea	320(a1),a1
-	cmp.l	offset_end,a0
+	cmp.l	(sp),a0	; offset_end
 	bne		.startline
-	
+
+	addq	#4,sp	; pop offset_end
 	movem.l	(sp)+,d2-d7/a2-a6
 	rts
 
-	bss
-offset_end:
-	ds.l	1
+;	bss
+;offset_end:
+;	ds.l	1
