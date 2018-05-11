@@ -25,6 +25,7 @@ extern void uninstall_ikbd_handler(void);
 /* chunky to planar routine : */
 extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
 extern void c2p1x1_8_tt(void * planar, void * chunky, uint32 count);
+extern void c2p1x1_8_tt_partial(void * planar, void * chunky, uint32 count);
 
 /* switch FPS display */
 extern void Video_SwitchFPSDisplay(uint8 key);
@@ -293,7 +294,31 @@ void Video_Tick(void)
 		if(s_machine_type == MCH_TT) {
 			data += (s_screenOffset << 2);
 			/* c2p1x1_8_tt is only able to convert full lines */
-			c2p1x1_8_tt(screen, data, height*SCREEN_WIDTH);
+			if (width == SCREEN_WIDTH) {
+				c2p1x1_8_tt(screen, data, height*SCREEN_WIDTH);
+			} else {
+#ifdef GFX_STORE_DIRTY_AREA_BLOCKS
+				int y;
+				for (y = area->top; y < area->bottom; y++) {
+					if (g_dirty_blocks[y] != 0) {
+						left = __builtin_ctz(g_dirty_blocks[y]) << 4;
+						width = ((32 - __builtin_clz(g_dirty_blocks[y])) << 4) - left;
+						c2p1x1_8_tt_partial(screen + left, data + left, width);
+					}
+					screen += 2*SCREEN_WIDTH;
+					data += SCREEN_WIDTH;
+				}
+#else
+				screen += left;
+				data += left;
+				while(height > 0) {
+					c2p1x1_8_tt_partial(screen, data, width);
+					screen += 2*SCREEN_WIDTH;
+					data += SCREEN_WIDTH;
+					height--;
+				}
+#endif
+			}
 		} else {
 			if (width == SCREEN_WIDTH) {
 				c2p1x1_8_falcon(screen, data, height*SCREEN_WIDTH);
