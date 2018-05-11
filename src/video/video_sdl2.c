@@ -74,7 +74,7 @@ static const uint8 s_SDL_keymap[] = {
 
 /* see https://wiki.libsdl.org/SDLKeycodeLookup */
 static const uint8 s_SDL_hikeymap[] = {
-	0x00,	/* 1073741881 0x40000039 SDLK_CAPSLOCK */
+	0x3A,	/* 1073741881 0x40000039 SDLK_CAPSLOCK */
 	0x3B,	/* 1073741882 0x4000003A SDLK_F1 */
 	0x3C,	/* 1073741883 0x4000003B SDLK_F2 */
 	0x3D,	/* 1073741884 0x4000003C SDLK_F3 */
@@ -587,7 +587,11 @@ void Video_Tick(void)
 					if (keyup) s_showFPS = !s_showFPS;
 					continue;
 				}
-				if (sym >= SDLK_CAPSLOCK) {
+				if (sym == SDLK_RSHIFT) {
+					code = 0x36;
+				} else if (sym == SDLK_LSHIFT) {
+					code = 0x2a;
+				} else if (sym >= SDLK_CAPSLOCK) {
 					sym -= SDLK_CAPSLOCK;
 					if (sym < sizeof(s_SDL_hikeymap)) code = s_SDL_hikeymap[sym];
 				} else {
