@@ -747,10 +747,10 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 						buttons[i]->shortcut = GUI_Widget_GetShortcut(String_Get_ByIndex(buttons[i]->stringID)[0]);
 
 						if (g_config.language == LANGUAGE_FRENCH) {
-							if (buttons[i]->stringID == STR_MOVE) buttons[i]->shortcut2 = 0x27;
-							else if (buttons[i]->stringID == STR_RETURN) buttons[i]->shortcut2 = 0x13;
+							if (buttons[i]->stringID == STR_MOVE) buttons[i]->shortcut2 = 0x27;	/* L key */
+							else if (buttons[i]->stringID == STR_RETURN) buttons[i]->shortcut2 = 0x13;	/* E key */
 						} else if (g_config.language == LANGUAGE_GERMAN) {
-							if (buttons[i]->stringID == STR_GUARD) buttons[i]->shortcut2 = 0x17;
+							if (buttons[i]->stringID == STR_GUARD) buttons[i]->shortcut2 = 0x17;	/* U key */
 						}
 
 						GUI_Widget_MakeVisible(buttons[i]);

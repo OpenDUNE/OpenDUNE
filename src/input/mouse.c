@@ -246,14 +246,14 @@ uint16 Mouse_CheckButtons(uint16 newButtonState)
 	if ((change & 0x2) != 0) {
 		result = 0x42;
 		if ((newButtonState & 0x2) == 0) {
-			result |= 0x800;
+			result |= 0x800;	/* RELEASE */
 		}
 	}
 
 	if ((change & 0x1) != 0) {
 		result = 0x41;
 		if ((newButtonState & 0x1) == 0) {
-			result |= 0x800;
+			result |= 0x800;	/* RELEASE */
 		}
 	}
 
