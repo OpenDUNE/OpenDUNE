@@ -942,7 +942,7 @@ static void GUI_Mentat_ShowHelp(void)
 	fileID = File_Open(s_mentatFilename, FILE_MODE_READ);
 	File_Seek(fileID, offset, 0);
 	File_Read(fileID, compressedText, info.length);
-	String_Decompress(compressedText, text);
+	String_Decompress(compressedText, text, g_readBufferSize);
 	String_TranslateSpecial(text);
 	File_Close(fileID);
 

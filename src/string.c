@@ -32,9 +32,8 @@ const char * const g_languageSuffixes[LANGUAGE_MAX] = { "ENG", "FRE", "GER", "IT
  * @param dest The decompressed string.
  * @return The length of decompressed string.
  */
-uint16 String_Decompress(const char *s, char *dest)
+uint16 String_Decompress(const char *s, char *dest, uint16 destLen)
 {
-/* TODO check buffer overflow */
 	static const char couples[] =
 		" etainosrlhcdupm"	/* 1st char */
 		"tasio wb"	/* <SPACE>? */
@@ -63,6 +62,10 @@ uint16 String_Decompress(const char *s, char *dest)
 			c = couples[c + 16];	/* 2nd char */
 		}
 		dest[count++] = c;
+		if (count >= destLen - 1) {
+			Warning("String_Decompress() : truncating output !\n");
+			break;
+		}
 	}
 	dest[count] = '\0';
 	return count;
@@ -138,7 +141,7 @@ static void String_Load(const char *filename, bool compressed, int start, int en
 
 		if (compressed) {
 			uint16 len;
-			len = String_Decompress(src, decomp_buffer);
+			len = String_Decompress(src, decomp_buffer, (uint16)sizeof(decomp_buffer));
 			String_TranslateSpecial(decomp_buffer);
 			String_Trim(decomp_buffer);
 			dst = strdup(decomp_buffer);
