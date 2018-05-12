@@ -943,7 +943,7 @@ static void GUI_Mentat_ShowHelp(void)
 	File_Seek(fileID, offset, 0);
 	File_Read(fileID, compressedText, info.length);
 	String_Decompress(compressedText, text);
-	String_TranslateSpecial(text, text);
+	String_TranslateSpecial(text);
 	File_Close(fileID);
 
 	/* skip WSA file name (or string index) */
