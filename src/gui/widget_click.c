@@ -256,8 +256,10 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	action = actions[w->index - 8];
 	if (g_dune2_enhanced) {
-		/* AREA GUARD instead of GUARD if SHIFT is pressed */
-		if (action == ACTION_GUARD && (Input_Test(0x2c) || Input_Test(0x39))) action = ACTION_AREA_GUARD;
+		if (Input_Test(0x2c) || Input_Test(0x39)) {	/* LSHIFT or RSHIFT is pressed */
+			if (action == ACTION_GUARD) action = ACTION_AREA_GUARD;   /* AREA GUARD instead of GUARD */
+			else if (action == ACTION_ATTACK) action = ACTION_AMBUSH; /* AMBUSH instead of ATTACK */
+		}
 		Debug("GUI_Widget_TextButton_Click(%p index=%d) action=%d\n", w, w->index, action);
 	}
 
