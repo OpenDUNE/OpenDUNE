@@ -1,6 +1,12 @@
 /** @file src/audio/midi_osx.c Mac OS X implementation of the MIDI.
  * See PlaySoftMIDI example from the OS X SDK. */
 
+#if defined(__ALTIVEC__) && !defined(MAC_OS_X_VERSION_10_5)
+/* to circumvent a bug in Mac OS X 10.4 SDK */
+#define vector __vector
+#include <CoreServices/CoreServices.h>
+#undef vector
+#endif
 #include <AudioUnit/AudioUnit.h>
 #include <AudioToolbox/AudioToolbox.h>
 #include "types.h"

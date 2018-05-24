@@ -1,5 +1,11 @@
 /* Mac OS X 10.4 CoreGraphics direct access video driver */
 
+#if defined(__ALTIVEC__) && !defined(MAC_OS_X_VERSION_10_5)
+/* to circumvent a bug in Mac OS X 10.4 SDK */
+#define vector __vector
+#include <CoreServices/CoreServices.h>
+#undef vector
+#endif
 /* CoreGraphics is part of ApplicationServices FrameWork */
 #include <ApplicationServices/ApplicationServices.h>
 #include <Carbon/Carbon.h>
