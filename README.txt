@@ -74,7 +74,7 @@ Available options are :
 - language : english / french / german
 - datadir : directory where Dune data files are
 - savedir : directory for Dune personal data files (savegames)
-- scalefactor : 2 (default), 3, 4
+- scalefactor : 1 (no upscaling), 2 (default), 3, 4
 - scalefilter : nearest (default), scale2x, hqx
 - framerate : maximum frame rate (60 FPS default)
 - fullscreen : 0(default)/1 starts the game in full screen mode if possible
@@ -124,6 +124,7 @@ Known Bugs
 If the digitized sound output does not work for some reason, you will very likely
 be stuck in the house selection screen. Because when you click on the house button,
 a voice is played, and the game waits for the voice to finish.
+Please check your sound output options.
 
 
 Changelog
@@ -138,6 +139,7 @@ The OpenDUNE team (in alphabetical order):
   Loic Guilloux (glx)                  - Windows Guru
   Patric Stout (TrueBrain)             - Lead Developer
   Steven Noorbergen (Xaroth)           - Lead Manager
+  Thomas Bernard                       - Developer
 
 Thanks To (in alphabetical order):
   Szabolcs Nagy (nsz)                  - ANSI C Guru

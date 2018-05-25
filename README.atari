@@ -23,18 +23,24 @@ http://www.atari-forum.com/viewtopic.php?f=26&t=29873
 
 * running
 
-MIDI music is sent to the ATARI MIDI Out port.
-320x200 (RGB) or 320x240 (VGA) 8bpp modes are used on Falcon.
+- MIDI music is sent to the ATARI MIDI Out port : use a Gerneral Midi
+or MT32 compatible expander to hear music. Set mt32midi=1 in OPENDUNE.INI
+to enable the MT32 songs.
+
+- 320x200 (RGB) or 320x240 (VGA) 8bpp modes are used on Falcon.
 TT Low (320x480 8bpp) is used on TT.
-Keyboard and mouse input is managed with a custom IKBD interrupt
+
+- Keyboard and mouse input is managed with a custom IKBD interrupt
 handler.
-Digitized Sound and Voices are played using STE DMA Sound.
+
+- Digitized Sound and Voices are played using STE DMA Sound.
 Depending on your Falcon configuration, you may need to run
 FPATCH.PRG / FPATCH2.PRG before launching the game
 
-OPENDUNE.INI file should be located in the same directory as
+- OPENDUNE.INI file should be located in the same directory as
 OPENDUNE.TOS.
-DOS Dune II  v1.07 original files should be in a DATA subdirectory,
+
+- DOS Dune II  v1.07 original files should be in a DATA subdirectory,
 savegames and options will be stored in a SAVES subdirectory.
 
 
