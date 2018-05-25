@@ -76,7 +76,7 @@
 #endif
 
 
-const char *window_caption = "OpenDUNE - Pre v0.9";
+const char *window_caption = "OpenDUNE - v0.9";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 bool g_starPortEnforceUnitLimit = false;	/*!< If true, one cannot circumvent unit cap using starport */
