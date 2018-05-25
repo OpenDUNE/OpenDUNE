@@ -259,7 +259,7 @@ void Video_Tick(void)
 
 	if (s_showFPS) {
 		memset(s_fps_chars, 0, sizeof(s_fps_chars));
-		Video_ShowFPS_2(screen, Video_Atari_DrawChar);
+		Video_ShowFPS_2(screen, 320, Video_Atari_DrawChar);
 	}
 
 	if (GFX_Screen_IsDirty(SCREEN_0) || s_screen_needrepaint) {
