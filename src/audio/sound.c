@@ -5,6 +5,7 @@
 #include "types.h"
 #include "../os/common.h"
 #include "../os/strings.h"
+#include "../os/sleep.h"
 
 #include "sound.h"
 
@@ -234,6 +235,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 	for (voice = 0; voice < NUM_VOICES; voice++) {
 		char filename[16];
 		const char *str = g_table_voices[voice].string;
+		sleepIdle();	/* let a chance to update screen, etc. */
 		switch (*str) {
 			case '%':
 				if (g_voiceData[voice] != NULL ||

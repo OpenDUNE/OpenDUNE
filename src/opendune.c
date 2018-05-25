@@ -1486,6 +1486,8 @@ void Game_Init(void)
 	g_structureActiveType   = 0xFFFF;
 
 	GUI_DisplayText(NULL, -1);
+
+	sleepIdle();	/* let the game a chance to update screen, etc. */
 }
 
 /**
