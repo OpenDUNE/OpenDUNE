@@ -26,7 +26,11 @@ audio/midi_atari.c
 				#if SDL2
 					audio/dsp_sdl.c
 				#else
+					#if OSX
+					audio/dsp_osx.c
+					#else
 					audio/dsp_none.c
+					#endif
 				#endif
 			#endif
 		#endif

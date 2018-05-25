@@ -947,6 +947,7 @@ make_cflags_and_ldflags() {
 		if [ -z "$sdl2_config" ] && [ -z "$sdl_config" ] ; then
 			LDFLAGS="$LDFLAGS -Wl,-framework,ApplicationServices"
 			LDFLAGS="$LDFLAGS -Wl,-framework,Carbon"
+			LDFLAGS="$LDFLAGS -Wl,-framework,CoreAudio"
 		fi
 
 		if [ "$enable_universal" = "0" ]; then
