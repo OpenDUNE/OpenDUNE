@@ -41,6 +41,7 @@ set_default() {
 	with_sdl="1"
 	with_sdlimage="1"
 	with_sdl2="1"
+	with_sdl2image="1"
 	with_asound="1"
 	with_oss="1"
 	with_pulse="1"
@@ -79,6 +80,7 @@ set_default() {
 		with_sdl
 		with_sdlimage
 		with_sdl2
+		with_sdl2image
 		with_asound
 		with_oss
 		with_pulse
@@ -1033,15 +1035,27 @@ make_cflags_and_ldflags() {
 		# SDL2 must not add _GNU_SOURCE as it breaks many platforms
 		CFLAGS="$CFLAGS `$sdl2_config --cflags | sed 's@-D_GNU_SOURCE[^ ]*@@'` -DSDL_FORCE_INLINE='static __inline'"
 		if [ "$enable_static" != "0" ]; then
-			LIBS="$LIBS `$sdl2_config --static-libs`"
 			if [ "$os" == "OSX" ] ; then
-				LIBS="$LIBS $(pkg-config SDL2_image --libs-only-L | cut -c 3- | tr -d ' ')/libSDL2_image.a"
+				libpath=`$sdl2_config --static-libs | cut -d ' ' -f 1 | cut -b 3- `
+				LIBS="$LIBS `$sdl2_config --static-libs | cut -d ' ' -f 2- | sed 's@-l\([^ ]*\)@'${libpath}'/lib\1.a@' `"
 			else
-				LIBS="$LIBS -lSDL2_image"
+				LIBS="$LIBS `$sdl2_config --static-libs`"
+			fi
+			if [ $with_sdl2image -gt 0 ]; then
+				if [ "$os" == "OSX" ] ; then
+					LIBS="$LIBS $(pkg-config SDL2_image --libs-only-L | cut -c 3- | tr -d ' ')/libSDL2_image.a"
+				else
+					LIBS="$LIBS -lSDL2_image"
+				fi
 			fi
 		else
 			LIBS="$LIBS `$sdl2_config --libs`"
-			LIBS="$LIBS -lSDL2_image"
+			if [ $with_sdl2image -gt 0 ]; then
+				LIBS="$LIBS -lSDL2_image"
+			fi
+		fi
+		if [ $with_sdl2image -eq 0 ]; then
+			CFLAGS="$CFLAGS -DWITHOUT_SDLIMAGE"
 		fi
 	fi
 
@@ -1573,6 +1587,14 @@ detect_sdl2() {
 	# SDL2 found, disabling SDL
 	if [ "$with_sdl" = "1" ] ; then
 		with_sdl="0"
+	fi
+
+	if version=`pkg-config SDLi2_image --modversion 2>/dev/null`; then
+		log 1 "checking SDL2_image... found version $version"
+		with_sdl2image="1"
+	else
+		log 1 "checking SDL2_image... not found"
+		with_sdl2image="0"
 	fi
 }
 
