@@ -84,7 +84,7 @@
 
 	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(snprintf)
 		/* (v)snprintf is in fact C99, but we like to use it over (v)sprintf for the obvious reasons */
-		#if !defined(__APPLE__) && !defined(TOS) && !defined(__FreeBSD__) && !defined(__DJGPP__)
+		#if !defined(__APPLE__) && !defined(TOS) && !defined(__FreeBSD__) && !defined(__OpenBSD__) && !defined(__DJGPP__)
 			extern int snprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, ...) __THROW __attribute__ ((__format__ (__printf__, 3, 4)));
 			extern int vsnprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, va_list __arg) __THROW __attribute__ ((__format__ (__printf__, 3, 0)));
 		#endif /* __APPLE__ */

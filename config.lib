@@ -991,6 +991,9 @@ make_cflags_and_ldflags() {
 	if [ "$os" = "BEOS" ] || [ "$os" = "HAIKU" ] || [ "$os" = "OSX" ] || [ "$os" = "MORPHOS" ] || [ "$os" = "FREEBSD" ] || [ "$os" = "OPENBSD" ] || [ "$os" = "NETBSD" ] || [ "$os" = "HPUX" ] || [ "$os" = "SUNOS" ] || [ "$os" = "OS2" ]; then
 		CFLAGS="$CFLAGS -DUNIX"
 	fi
+	if [ "$os" = "FREEBSD" ] || [ "$os" = "OPENBSD" ] || [ "$os" = "NETBSD" ]; then
+		LIBS="$LIBS -lintl"
+	fi
 	# And others like Windows
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
 		CFLAGS="$CFLAGS -DWIN"
