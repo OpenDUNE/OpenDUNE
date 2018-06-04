@@ -17,6 +17,7 @@
  */
 
 #include <stdlib.h>
+#include <assert.h>
 #include "hqx.h"
 
 uint32_t * RGBtoYUV = NULL;
@@ -27,6 +28,7 @@ HQX_API void HQX_CALLCONV hqxInit(void)
     uint32_t c, r, g, b, y, u, v;
 #ifndef HQX_VGACOLORS
     RGBtoYUV = malloc(sizeof(uint32_t) * 16777216);
+	assert (RGBtoYUV != NULL);
 
     for (c = 0; c < 16777216; c++) {
         r = (c & 0xFF0000) >> 16;
@@ -40,6 +42,7 @@ HQX_API void HQX_CALLCONV hqxInit(void)
 #else
     /* DUNE 2 is using 6bit per component colors (VGA) */
     RGBtoYUV = malloc(sizeof(uint32_t) * 64*64*64);
+	assert (RGBtoYUV != NULL);
 
     for (c = 0; c < 64*64*64; c++) {
         r = (((c & 0x0FF000) >> 12) * 0x41) >> 4;

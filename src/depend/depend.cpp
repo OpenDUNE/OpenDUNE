@@ -82,6 +82,10 @@ public:
 			exit(1);
 		}
 		this->dirname = strdup(filename);
+		if (this->dirname == NULL) {
+			fprintf(stdout, "Error allocating %d bytes of memory\n", (int)(strlen(filename) + 1));
+			exit(1);
+		}
 		char *last = strrchr(this->dirname, '/');
 		if (last != NULL) {
 			*last = '\0';
