@@ -1081,6 +1081,9 @@ make_cflags_and_ldflags() {
 	if [ "$with_pulse" != "0" ]; then
 		LIBS="$LIBS $(pkg-config --libs-only-l libpulse)"
 		CFLAGS="$CFLAGS $(pkg-config --cflags libpulse) -DPULSEAUDIO"
+		if [ "$os" = "FREEBSD" ] || [ "$os" = "OPENBSD" ] || [ "$os" = "NETBSD" ]; then
+			LIBS="$LIBS -lintl"
+		fi
 	fi
 
 	if [ "$with_munt" != "0" ]; then
