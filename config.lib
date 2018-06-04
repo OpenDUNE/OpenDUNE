@@ -1592,7 +1592,7 @@ detect_sdl2() {
 		with_sdl="0"
 	fi
 
-	if version=`pkg-config SDLi2_image --modversion 2>/dev/null`; then
+	if version=`pkg-config SDL2_image --modversion 2>/dev/null`; then
 		log 1 "checking SDL2_image... found version $version"
 		with_sdl2image="1"
 	else
