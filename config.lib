@@ -1586,7 +1586,7 @@ detect_sdl2() {
 		return 0
 	fi
 
-	log 1 "checking SDL2... found"
+	log 1 "checking SDL2... found version $version"
 	# SDL2 found, disabling SDL
 	if [ "$with_sdl" = "1" ] ; then
 		with_sdl="0"
