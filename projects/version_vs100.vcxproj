@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\src\rev.c.in" />
+    <None Include="determineversion.vbs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
