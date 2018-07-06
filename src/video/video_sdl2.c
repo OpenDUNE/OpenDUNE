@@ -452,7 +452,7 @@ static void Video_DrawScreen_Scale2x(void)
 	uint8 * pixels;
 	int pitch;
 	uint32 * p;
-	static uint32 truecolorbuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
+	static uint32 truecolorbuffer[SCREEN_WIDTH * SCREEN_HEIGHT] __attribute__((aligned(16)));
 	SDL_Rect rect, rectlock;
 	SDL_Rect * prect = NULL;
 	SDL_Rect * prectlock = NULL;
