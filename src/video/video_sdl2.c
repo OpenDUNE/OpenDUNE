@@ -142,25 +142,36 @@ static void Video_Key_Callback(uint8 key)
 }
 
 /**
- * Handle the moving of the mouse.
- * @param x The new X-position of the mouse.
- * @param y The new Y-position of the mouse.
+ * Ensure that "val" falls within "min" and "max". If not, it will be clipped
+ * to one of these boundaries.
+ * @param val Value to be champed.
+ * @param min Minimum allowed value.
+ * @param max Maximum allowed value.
  */
-static void Video_Mouse_Move(uint16 x, uint16 y)
+static uint16 Video_Mouse_Clamp(int32 val, uint16 min, uint16 max)
+{
+	if (val < 0) return 0;
+	if (val < min) return min;
+	if (val > max) return max;
+	return val;
+}
+
+/**
+ * Handle the moving of the mouse. Note: These positions can be negative when
+ * the cursor is out of the logical screen.
+ * @param x The new logical X-position of the mouse.
+ * @param y The new logical Y-position of the mouse.
+ */
+static void Video_Mouse_Move(int32 x, int32 y)
 {
 	uint16 rx, ry;
 
-	rx = x;
-	ry = y;
-
-	if (s_mouseMinX != 0 && rx < s_mouseMinX) rx = s_mouseMinX;
-	if (s_mouseMaxX != 0 && rx > s_mouseMaxX) rx = s_mouseMaxX;
-	if (s_mouseMinY != 0 && ry < s_mouseMinY) ry = s_mouseMinY;
-	if (s_mouseMaxY != 0 && ry > s_mouseMaxY) ry = s_mouseMaxY;
+	rx = Video_Mouse_Clamp(x, s_mouseMinX, s_mouseMaxX);
+	ry = Video_Mouse_Clamp(y, s_mouseMinY, s_mouseMaxY);
 
 	/* If we moved, send the signal back to the window to correct for it */
 	if (x != rx || y != ry) {
-		SDL_WarpMouseInWindow(s_window, rx, ry);
+		Video_Mouse_SetPosition(rx, ry);
 		return;
 	}
 
@@ -188,12 +199,38 @@ static void Video_Mouse_Button(bool left, bool down)
 
 /**
  * Set the current position of the mouse.
- * @param x The new X-position of the mouse.
- * @param y The new Y-position of the mouse.
+ * @param x The new logical X-position of the mouse.
+ * @param y The new logical Y-position of the mouse.
  */
 void Video_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	SDL_WarpMouseInWindow(s_window, x, y);
+	SDL_Rect rect;
+	int w, h;
+	float scale;
+
+	/*
+	 * We receive logical positions but SDL_WarpMouseInWindow expects physical
+	 * window positions. We need to guess what SDL_RenderSetLogicalSize did
+	 * exactly. Note that the values from SDL_GetRendererOutputSize are in
+	 * physical units while SDL_RenderGetViewport are in logical units.
+	 */
+	SDL_RenderGetViewport(s_renderer, &rect);
+
+	if (SDL_GetRendererOutputSize(s_renderer, &w, &h)) {
+		Error("SDL_GetRendererOutputSize failed: %s\n", SDL_GetError());
+		return;
+	}
+
+	if (rect.x && !rect.y) {
+		scale = (float)h / (float)rect.h;
+	} else if (rect.y && !rect.x) {
+		scale = (float)w / (float)rect.w;
+	} else {
+		/* Guess! */
+		scale = 1.0;
+	}
+
+	SDL_WarpMouseInWindow(s_window, ((float)rect.x + (float)x) * scale, ((float)rect.y + (float)y) * scale);
 }
 
 /**
@@ -312,6 +349,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	}
 
 	SDL_ShowCursor(SDL_DISABLE);
+
+	/* Setup SDL_RenderClear */
+	SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255);
+
+	Video_Mouse_SetRegion(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 
 	s_video_initialized = true;
 	return true;
@@ -534,6 +576,7 @@ void Video_Tick(void)
 {
 	SDL_Event event;
 	static bool s_showFPS = false;
+	bool draw = true;
 
 	if (!s_video_initialized) return;
 	if (s_video_lock) return;
@@ -605,11 +648,27 @@ void Video_Tick(void)
 				}
 				Video_Key_Callback(code | (keyup ? 0x80 : 0x0));
 			} break;
+
+			case SDL_WINDOWEVENT:
+				if (event.window.event == SDL_WINDOWEVENT_EXPOSED) {
+					/* Clear area outside the 4:3 logical screen, if any */
+					SDL_RenderClear(s_renderer);
+
+					if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
+						Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
+					}
+
+					SDL_RenderPresent(s_renderer);
+					draw = false;
+				}
+				break;
 		}
 	}
 
-	Video_DrawScreen();
-	SDL_RenderPresent(s_renderer);
+	if (draw) {
+		Video_DrawScreen();
+		SDL_RenderPresent(s_renderer);
+	}
 
 	s_video_lock = false;
 }
