@@ -42,8 +42,8 @@ static uint16 s_savegameCountOnDisk = 0;                    /*!< Amount of saveg
 
 static char *GenerateSavegameFilename(uint16 number)
 {
-	static char filename[13];
-	sprintf(filename, "_save%03d.dat", number);
+	static char filename[15];
+	sprintf(filename, "_save%03hx.dat", number);
 	return filename;
 }
 
