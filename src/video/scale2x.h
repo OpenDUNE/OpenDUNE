@@ -65,7 +65,7 @@ typedef uint32_t scale2x_uint32;
 /**
  * Align a pointer.
  */
-static void* scale2x_align_ptr(const void* ptr)
+static inline void* scale2x_align_ptr(const void* ptr)
 {
 #if SCALE2X_ALIGN_SIZE != 1
 	intptr_t iptr = (intptr_t)ptr;
