@@ -1087,7 +1087,7 @@ make_cflags_and_ldflags() {
 	fi
 
 	if [ "$with_munt" != "0" ]; then
-		LIBS="$LIBS -lmt32emu -lstdc++"
+		LIBS="$LIBS -lmt32emu -lm -lstdc++"
 		CFLAGS="$CFLAGS -DMUNT"
 	fi
 
