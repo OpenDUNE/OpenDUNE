@@ -140,8 +140,7 @@ static void String_Load(const char *filename, bool compressed, int start, int en
 		char *dst;
 
 		if (compressed) {
-			uint16 len;
-			len = String_Decompress(src, decomp_buffer, (uint16)sizeof(decomp_buffer));
+			String_Decompress(src, decomp_buffer, (uint16)sizeof(decomp_buffer));
 			String_TranslateSpecial(decomp_buffer);
 			String_Trim(decomp_buffer);
 			dst = strdup(decomp_buffer);

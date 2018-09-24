@@ -329,7 +329,7 @@ void Driver_Sound_LoadFile(const char *musicName)
 char *Drivers_GenerateFilename(const char *name, Driver *driver)
 {
 	char basefilename[14];
-	static char filename[14];
+	static char filename[18];
 
 	if (name == NULL || driver == NULL || driver->index == 0xFFFF) return NULL;
 

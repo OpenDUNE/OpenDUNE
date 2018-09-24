@@ -992,6 +992,9 @@ make_cflags_and_ldflags() {
 	# Most targets act like UNIX, just with some additions
 	if [ "$os" = "BEOS" ] || [ "$os" = "HAIKU" ] || [ "$os" = "OSX" ] || [ "$os" = "MORPHOS" ] || [ "$os" = "FREEBSD" ] || [ "$os" = "OPENBSD" ] || [ "$os" = "NETBSD" ] || [ "$os" = "HPUX" ] || [ "$os" = "SUNOS" ] || [ "$os" = "OS2" ]; then
 		CFLAGS="$CFLAGS -DUNIX"
+
+		# We want "strdup" and "*snprintf" from libc
+		CFLAGS+=" -D_XOPEN_SOURCE=500"
 	fi
 	# And others like Windows
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then

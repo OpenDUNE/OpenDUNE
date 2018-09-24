@@ -524,6 +524,7 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 	int i;
 
 	if (houseID >= HOUSE_MAX) return false;
+	if (scenarioID > 999) return false;
 
 	g_scenarioID = scenarioID;
 
