@@ -11,8 +11,10 @@ extern void Free_IniFile(void);
 
 extern bool SetLanguage_From_IniFile(DuneCfg *config);
 
+/* if source is NULL, defaultValue will still be returned */
 extern char *IniFile_GetString(const char *key, const char *defaultValue, char *dest, uint16 length);
 
+/* if source is NULL, defaultValue will still be returned */
 extern int IniFile_GetInteger(const char *key, int defaultValue);
 
 #endif /* INIFILE_H */

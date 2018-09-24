@@ -165,7 +165,7 @@ char *IniFile_GetString(const char *key, const char *defaultValue, char *dest, u
 {
 	char * p;
 	uint16 i;
-	if (g_openduneini == NULL) return NULL;
+	/* if g_openduneini is NULL, Ini_GetString() still does what we expect */
 	p = Ini_GetString("opendune", key, defaultValue, dest, length, g_openduneini);
 	if (p) {
 		/* Trim space from the beginning of the dest */
