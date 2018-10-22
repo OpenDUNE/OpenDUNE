@@ -3,6 +3,10 @@
 #ifdef OSX
 #include <CoreFoundation/CoreFoundation.h>
 #endif /* OSX */
+#ifdef __HAIKU__
+#include <FindDirectory.h>
+#include <StorageDefs.h>
+#endif /* HAIKU */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,7 +44,9 @@ bool Load_IniFile(void)
 	   1) %APPDATA%/OpenDUNE (win32)
 	      ~/Library/Application Support/OpenDUNE (Mac OS X)
 	      ~/.config/opendune (Linux)
-	   2) current directory
+	      B_USER_SETTINGS_DIRECTORY (Haiku)
+	   2) B_SYSTEM_SETTINGS_DIRECTORY (Haiku)
+	      current directory
 	   3) data/ dir
 	   4) parent of bundle dir (Mac OS X)
 	*/
@@ -52,7 +58,21 @@ bool Load_IniFile(void)
 		PathAppend(path, TEXT("OpenDUNE\\opendune.ini"));
 		f = fopen(path, "rb");
 	}
-#elif !defined(TOS) && !defined(DOS)  /* _WIN32 */
+#elif defined(__HAIKU__)  /* _WIN32 */
+	char path[B_PATH_NAME_LENGTH];
+	char buffer[B_PATH_NAME_LENGTH];
+	if (find_directory(B_USER_SETTINGS_DIRECTORY, 0, true, buffer, sizeof(buffer)) == B_OK) {
+		snprintf(path, sizeof(path), "%s/opendune/opendune.ini", buffer);
+		f = fopen(path, "rb");
+	}
+	if (f == NULL) {
+		Warning("%s not found; using default one...\n", path);
+		if (find_directory(B_SYSTEM_SETTINGS_DIRECTORY, 0, true, buffer, sizeof(buffer)) == B_OK) {
+			snprintf(path, sizeof(path), "%s/opendune.ini", buffer);
+			f = fopen(path, "rb");
+		}
+	}
+#elif !defined(TOS) && !defined(DOS)  /* __HAIKU__ */
 	char path[PATH_MAX];
 	char * homeDir;
 	homeDir = getenv("HOME");

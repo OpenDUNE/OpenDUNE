@@ -25,12 +25,19 @@
 #include "config.h"
 #include "inifile.h"
 
+#ifdef __HAIKU__
+#include <FindDirectory.h>
+#include <StorageDefs.h>
+#endif /* HAIKU */
+
 /* Set DUNE_DATA_DIR at compile time.  e.g. */
 /* #define DUNE_DATA_DIR "/usr/local/share/opendune" */
 
 #ifndef DUNE_DATA_DIR
 #if defined(TOS) || defined(DOS)
 #define DUNE_DATA_DIR "DATA"
+#elif defined(__HAIKU__)
+#define DUNE_DATA_DIR ""
 #else
 #define DUNE_DATA_DIR "./data"
 #endif
@@ -540,7 +547,11 @@ bool File_Init(void)
 #elif defined(TOS) || defined(DOS)
 		(void)homedir;
 		strcpy(g_personal_data_dir, "SAVES");
-#else /* _WIN32 / TOS / DOS */
+#elif defined(__HAIKU__)
+		if (find_directory(B_USER_SETTINGS_DIRECTORY, 0, true, buf, sizeof(buf)) == B_OK) {
+			snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), "%s/opendune/savegames", buf);
+		}
+#else /* _WIN32 / TOS / DOS / __HAIKU__ */
 		/* ~/.config/opendune (Linux)  ~/Library/Application Support/OpenDUNE (Mac OS X) */
 		homedir = getenv("HOME");
 		if (homedir == NULL) {
@@ -592,6 +603,12 @@ bool File_Init(void)
 	if (IniFile_GetString("datadir", NULL, buf, sizeof(buf)) != NULL) {
 		/* datadir is defined in opendune.ini */
 		strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
+	} else if (g_dune_data_dir[0] == '\0') {
+#ifdef __HAIKU__
+		if (find_directory(B_USER_NONPACKAGED_DATA_DIRECTORY, 0, true, buf, sizeof(buf)) == B_OK) {
+			snprintf(g_dune_data_dir, sizeof(g_dune_data_dir), "%s/opendune", buf);
+		}
+#endif
 	}
 	File_MakeCompleteFilename(buf, sizeof(buf), SEARCHDIR_GLOBAL_DATA_DIR, "", NO_CONVERT);
 
