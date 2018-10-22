@@ -26,6 +26,8 @@
 	#define __LITTLE_ENDIAN 1234
 	#define __BIG_ENDIAN 4321
 	#define __BYTE_ORDER __LITTLE_ENDIAN
+#elif defined(__HAIKU__)
+	#include <posix/endian.h>
 #else
 	#include <endian.h>
 #endif /* _WIN32 */
