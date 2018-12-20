@@ -565,6 +565,7 @@ static void Video_DrawScreen(void)
 	default:
 		Error("Unsupported scale filter\n");
 	}
+	SDL_RenderPresent(s_renderer);
 	GFX_Screen_SetClean(SCREEN_0);
 	s_screen_needrepaint = false;
 }
@@ -667,7 +668,6 @@ void Video_Tick(void)
 
 	if (draw) {
 		Video_DrawScreen();
-		SDL_RenderPresent(s_renderer);
 	}
 
 	s_video_lock = false;
