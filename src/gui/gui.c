@@ -3130,14 +3130,14 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 	GUI_Palette_CreateRemap(g_playerHouseID);
 
-	sprintf(category, "GROUP%d", campaignID);
+	sprintf(category, "GROUP%hu", campaignID);
 
 	memset(data, 0, 20 * sizeof(StrategicMapData));
 
 	for (i = 0; i < 20; i++) {
 		char buffer[81];
 
-		sprintf(key, "REG%d", i + 1);
+		sprintf(key, "REG%hu", i + 1);
 
 		if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer) - 1, g_fileRegionINI) == NULL) break;
 
@@ -3240,7 +3240,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 
 	GUI_Palette_CreateRemap(houseId);
 
-	sprintf(key, "%d", region);
+	sprintf(key, "%hu", region);
 
 	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer), g_fileRegionINI);
 	sscanf(buffer, "%hd,%hd", &x, &y);
@@ -3279,7 +3279,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 	char buf[100];
 	uint16 i;
 
-	sprintf(category, "GROUP%d", campaignID);
+	sprintf(category, "GROUP%hu", campaignID);
 
 	for (i = 0; i < 6; i++) {
 		uint8 houseID = (g_playerHouseID + i) % 6;
