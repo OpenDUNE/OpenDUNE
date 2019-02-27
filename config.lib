@@ -379,14 +379,13 @@ check_params() {
 
 	if [ "$enable_lto" != "0" ]; then
 		# GCC 4.5 outputs '%{flto}', GCC 4.6 outputs '%{flto*}'
-		has_lto=`($cxx_build -dumpspecs 2>&1 | grep '\%{flto') || ($cxx_build -help ipo 2>&1 | grep '\-ipo')`
+		has_lto=`($cc_build -dumpspecs 2>&1 | grep '\%{flto') || ($cc_build -help ipo 2>&1 | grep '\-ipo')`
 		if [ -n "$has_lto" ]; then
 			log 1 "using link time optimization... yes"
 		else
 			enable_lto="0"
 			log 1 "using link time optimization... no"
 			log 1 "WARNING: you selected link time optimization but it is not found."
-			sleep 5
 		fi
 	else
 		log 1 "using link time optimization... no"
