@@ -3137,7 +3137,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	for (i = 0; i < 20; i++) {
 		char buffer[81];
 
-		sprintf(key, "REG%hu", i + 1);
+		sprintf(key, "REG%hu", (uint16)(i + 1));
 
 		if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer) - 1, g_fileRegionINI) == NULL) break;
 
