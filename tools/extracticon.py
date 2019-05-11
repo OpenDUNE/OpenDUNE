@@ -98,9 +98,18 @@ if content[0:2] == 'MZ':
                 offset = offset + 12
                 realoffset = rnOffset << rscAlignShift
                 reallen = rnLength << rscAlignShift
-                print '  offset=0x%06x (0x%04x) len=%d (0x%04x) flags=%04x ID=%04x' % (realoffset, rnOffset, reallen, rnLength, rnFlags, rnID)
+                print '  offset=0x%06x (0x%04x) len=%d (0x%04x) flags=%04x ID=%04x Handle=%04x Usage=%04x' % (realoffset, rnOffset, reallen, rnLength, rnFlags, rnID, rnHandle, rnUsage)
                 if rtTypeID == 0x800e:
-                    icon_header[rnID] = content[realoffset:realoffset+18] + '\x16\x00\x00\x00'
+                    Res, Type, Count = unpack_from('<HHH', content, realoffset)
+                    print "  ", Res, Type, Count
+                    Offset = 6 + 16 * Count
+                    header = content[realoffset:realoffset+6]
+                    for i in range(0, Count):
+                        Width, Height, Ncolor, Res, Planes, Bpp, ByteCount, icon_id = unpack_from('<BBBBHHIH', content, realoffset+6+i*14)
+                        print '  #%02d %03dx%03d %dcols %dx%dbpp %d bytes at 0x%06x %d' % (i, Width, Height, Ncolor, Planes, Bpp, ByteCount, Offset, icon_id)
+                        header = header + content[realoffset+6+i*14:realoffset+6+i*14+12] + pack('<I', Offset)
+                        Offset = Offset + ByteCount
+                    icon_header[rnID] = header
                 elif rtTypeID == 0x8003:
                     icon_data[rnID] = content[realoffset:realoffset+reallen]
 
