@@ -1,12 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # vim: tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 #
 # Extract ICONs from MZ/NE MS Windows executable file
 #
 
 from struct import *
+import sys
 
-with open('../bin/data/DUNE2.ICO', 'rb') as content_file:
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+else:
+    filename = '../bin/data/DUNE2.ICO'
+
+print 'reading %s' % (filename)
+with open(filename, 'rb') as content_file:
     content = content_file.read()
 
 icon_header = {}
