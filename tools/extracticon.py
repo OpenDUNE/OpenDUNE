@@ -64,6 +64,7 @@ def decode_rsrc_dir(virtual_address, rsrc, offset=0, level=0, rtype=0, rsid=0):
                     print '%s%s written' % (pad, filename)
 
 icon_header = {}
+icon_header_data = {}
 icon_data = {}
 
 # RT_GROUP_ICON = 14 = 0x0e
@@ -104,19 +105,23 @@ if content[0:2] == 'MZ':
                     print "  ", Res, Type, Count
                     Offset = 6 + 16 * Count
                     header = content[realoffset:realoffset+6]
+                    data_ids = {}
                     for i in range(0, Count):
                         Width, Height, Ncolor, Res, Planes, Bpp, ByteCount, icon_id = unpack_from('<BBBBHHIH', content, realoffset+6+i*14)
                         print '  #%02d %03dx%03d %dcols %dx%dbpp %d bytes at 0x%06x %d' % (i, Width, Height, Ncolor, Planes, Bpp, ByteCount, Offset, icon_id)
                         header = header + content[realoffset+6+i*14:realoffset+6+i*14+12] + pack('<I', Offset)
                         Offset = Offset + ByteCount
+                        data_ids[i] = icon_id
                     icon_header[rnID] = header
+                    icon_header_data[rnID] = data_ids
                 elif rtTypeID == 0x8003:
-                    icon_data[rnID] = content[realoffset:realoffset+reallen]
+                    icon_data[rnID & 0x7fff] = content[realoffset:realoffset+reallen]
 
 for icon_id in icon_header.keys():
     filename = '%04x.ICO' % icon_id
     with open(filename, 'wb') as icon_file:
         icon_file.write(icon_header[icon_id])
-        icon_file.write(icon_data[icon_id])
+        for data_id in icon_header_data[icon_id].keys():
+            icon_file.write(icon_data[icon_header_data[icon_id][data_id]])
         print '%s written' % filename
 
