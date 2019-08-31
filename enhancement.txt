@@ -12,7 +12,7 @@ Below is the complete listing of all those bugs and problems, per category.
 Structure
 ---------
 - When building a Wall, the owner-bits are not cleared correctly, which in
-    theory could mean a Wall build by you could show up as owned by Sadukar.
+    theory could mean a Wall build by you could show up as owned by Sardaukar.
 - When building a structure completely on slabs, it still degrades. This seems
     in contrast with the idea of slabs.
 - When building a structure, only the fog is removed (with a radius of 2) from
@@ -110,5 +110,5 @@ Map
     parameter order is switched, where the type of the unit becomes the number
     of the house, and the house becomes the value of Trike (13). This also
     means that these vehicles read/write outside the house struct, which in
-    terms results in random artifects.
+    terms results in random artifacts.
 
