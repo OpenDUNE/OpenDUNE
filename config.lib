@@ -742,7 +742,10 @@ make_compiler_cflags() {
 		fi
 
 		if [ "$os" != "TOS" ] && [ "$os" != "DOS" ] && [ $cc_version -lt 70 ] ; then
-			flags="$flags -ansi -pedantic"
+			if [ "$with_asound" = "0" ] ; then
+				flags="$flags -ansi"
+			fi
+			flags="$flags -pedantic"
 		fi
 		flags="$flags -fno-common"
 		flags="$flags -Wall -Wsign-compare -Wundef"
