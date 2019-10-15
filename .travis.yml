@@ -36,6 +36,8 @@ matrix:
       env: CROSS=mingw
     - os: osx
       arch: arm64
+    - os: osx
+      compiler: gcc
 
 compiler:
   - gcc
