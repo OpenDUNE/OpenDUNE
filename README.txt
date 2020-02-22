@@ -96,7 +96,7 @@ debug options (for developpers) :
                    0(default) = off
                    1 = record game to 'dune.log'
                    2 = playback game stored in 'dune.log'
-- startport_unit_cap : 0 = Allows to overflow unit limit using starport (default)
+- starport_unit_cap : 0 = Allows to overflow unit limit using starport (default)
                        1 = unit limit is enforced in starport
 
 
