@@ -984,7 +984,8 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 				s = Structure_Find(&find);
 
 				if (s != NULL) {
-					ret = Tile_PackTile(Tile_MoveByRandom(s->o.position, 120, true));
+					tile32 unpacked = Tile_MoveByRandom(s->o.position, 120, true);
+					ret = Tile_PackTile(unpacked);
 				} else {
 					Unit *u;
 
@@ -995,7 +996,8 @@ uint16 Map_FindLocationTile(uint16 locationID, uint8 houseID)
 					u = Unit_Find(&find);
 
 					if (u != NULL) {
-						ret = Tile_PackTile(Tile_MoveByRandom(u->o.position, 120, true));
+						tile32 unpacked = Tile_MoveByRandom(u->o.position, 120, true);
+						ret = Tile_PackTile(unpacked);
 					} else {
 						ret = Tile_PackXY(mapInfo->minX + Tools_RandomLCG_Range(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomLCG_Range(0, mapInfo->sizeY));
 					}
@@ -1588,7 +1590,8 @@ void Map_CreateLandscape(uint32 seed)
 		j = Tools_Random_256() & 0x1F;
 		while (j-- != 0) {
 			while (true) {
-				packed = Tile_PackTile(Tile_MoveByRandom(tile, Tools_Random_256() & 0x3F, true));
+				tile32 unpacked = Tile_MoveByRandom(tile, Tools_Random_256() & 0x3F, true);
+				packed = Tile_PackTile(unpacked);
 
 				if (!Tile_IsOutOfMap(packed)) break;
 			}
