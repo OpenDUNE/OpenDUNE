@@ -18,6 +18,7 @@ addons:
     - libsdl-image1.2-dev
     - libsdl2-dev
     - libsdl2-image-dev
+    - zip
 
 # container-based builds
 sudo: false
