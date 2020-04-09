@@ -910,7 +910,6 @@ uint32 File_ReadBlockFile_Ex(enum SearchDirectory dir, const char *filename, voi
  * Reads the whole file in the memory.
  *
  * @param filename The name of the file to open.
- * @param mallocFlags The type of memory to allocate.
  * @return The pointer to allocated memory where the file has been read.
  */
 void *File_ReadWholeFile(const char *filename)
@@ -924,7 +923,10 @@ void *File_ReadWholeFile(const char *filename)
 	length = File_GetSize(index);
 
 	buffer = malloc(length + 1);
-	File_Read(index, buffer, length);
+	if (File_Read(index, buffer, length) != length) {
+		free(buffer);
+		return NULL;
+	}
 
 	/* In case of text-files it can be very important to have a \0 at the end */
 	((char *)buffer)[length] = '\0';
