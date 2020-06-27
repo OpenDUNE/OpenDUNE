@@ -1,4 +1,4 @@
-To get OpenDUNE running on Atari Falcon and TT :
+To get OpenDUNE running on Atari Falcon, TT and accelerated ST/STE:
 
 
 * building
@@ -29,6 +29,9 @@ to enable the MT32 songs.
 
 - 320x200 (RGB) or 320x240 (VGA) 8bpp modes are used on Falcon.
 TT Low (320x480 8bpp) is used on TT.
+ST Low (320x200 4bpp) is used on ST/STE.
+
+- ST/STE requires 68030 accelerator or better
 
 - Keyboard and mouse input is managed with a custom IKBD interrupt
 handler.
