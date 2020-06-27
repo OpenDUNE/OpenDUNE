@@ -34,7 +34,7 @@ Currently we officially support the following platforms:
   - FreeBSD
   - Mac OS X (PowerPC or Intel i686 / x86_64, 10.4+)
   - Windows (i686 / x86_64)
-  - Atari TOS (68030+ CPU, TT and Falcon machines supported)
+  - Atari TOS (68030+ CPU, TT, Falcon and accelerated ST/STE supported)
   - OS/2
   - Haiku
 
