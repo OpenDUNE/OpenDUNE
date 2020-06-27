@@ -2,6 +2,7 @@
 
 #include <mint/osbind.h>
 #include <mint/ostruct.h>
+#include <mint/cookie.h>
 
 #include "types.h"
 #include "../os/endian.h"
@@ -40,6 +41,17 @@ void DSP_Uninit(void)
 
 bool DSP_Init(void) 
 {
+	/* Get sound hardware with '_SND' cookie */
+	long snd_cookie;
+	if (Getcookie(C__SND, &snd_cookie) != C_FOUND)
+		snd_cookie = 0;
+
+	/* Check for DMA support */
+	if (!(snd_cookie & 2)) {
+		Warning("No Sound DMA detected\n");
+		return false;
+	}
+
 	/* allocate ST RAM buffer for audio */
 	s_stRamBufferSize = DMASOUND_BUFFER_SIZE;
 	s_stRamBuffer = (uint8 *)Mxalloc(s_stRamBufferSize, MX_STRAM);

@@ -26,6 +26,7 @@ extern void uninstall_ikbd_handler(void);
 extern void c2p1x1_8_falcon(void * planar, void * chunky, uint32 count);
 extern void c2p1x1_8_tt(void * planar, void * chunky, uint32 count);
 extern void c2p1x1_8_tt_partial(void * planar, void * chunky, uint32 count);
+extern void c2p1x1_4_st(void * planar, void * chunky, uint32 count, void * pal);
 
 /* switch FPS display */
 extern void Video_SwitchFPSDisplay(uint8 key);
@@ -39,17 +40,68 @@ static uint8 * s_framebuffer = NULL;
 static uint32 s_center_image_offset = 0;
 
 static short s_savedMode = 0;
+static void* s_savedLogBase = 0;
+static void* s_savedPhysBase = 0;
 
 static enum {
 	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_TT, MCH_FALCON, MCH_OTHER
 } s_machine_type = MCH_UNKNOWN;
 
 static uint32 s_paletteBackup[256];
+static uint16 s_SquareTable[256];
 
 static uint16 s_screenOffset = 0;
 static bool s_screen_needrepaint = false;
 
 static bool s_showFPS = false;
+
+/* 4bit palette */
+#define MAKE_PC_COLOR(_r,_g,_b) _r>>2,_g>>2,_b>>2,0
+const uint8 s_palette4BitPC[16*4] =
+{
+	MAKE_PC_COLOR(20,12,28), MAKE_PC_COLOR(68,36,52), MAKE_PC_COLOR(48,52,109),	MAKE_PC_COLOR(78,74,78),
+	MAKE_PC_COLOR(133,76,48), MAKE_PC_COLOR(52,101,36), MAKE_PC_COLOR(208,70,72), MAKE_PC_COLOR(117,113,97),
+	MAKE_PC_COLOR(89,125,206), MAKE_PC_COLOR(210,125,44), MAKE_PC_COLOR(133,149,161), MAKE_PC_COLOR(109,170,44),
+	MAKE_PC_COLOR(210,170,153), MAKE_PC_COLOR(109,194,202), MAKE_PC_COLOR(218,212,94), MAKE_PC_COLOR(222,238,214)
+};
+
+static uint8 s_palette4BitMap[256];
+
+static inline uint8 Palette_FindClosestColor(uint8 r, uint8 g, uint8 b)
+{
+	uint8 i;
+	uint32 ar, ag, ab, sum;
+	uint8 bestItem = 0;
+	uint32 bestSum = (uint32) - 1;
+	const uint8 *pal = s_palette4BitPC;
+
+	r &= ~3; g &= ~3; b &= ~3;
+	for (i=0; i<16; i++, pal+=4)
+	{
+		ar = pal[0] & ~3;
+		ag = pal[1] & ~3;
+		ab = pal[2] & ~3;
+		if (ar==r && ag==g && ab==b)
+			return i;
+
+		ar = (ar > r) ? ar - r : r - ar;
+		ag = (ag > g) ? ag - g : g - ag;
+		ab = (ab > b) ? ab - b : b - ab;
+
+		ar = s_SquareTable[ar];
+		ag = s_SquareTable[ag];
+		ab = s_SquareTable[ab];
+		sum = ((ar<<1)+ar) + ((ag<<2)+(ag<<1)) + (ab<<1);	/* (r*3 + g*6 + b*2) */
+
+		if (sum < bestSum)
+		{
+			bestSum = sum;
+			bestItem = i;
+		}
+	}
+	return bestItem;
+}
+
 
 /* mouse : */
 static int s_mouse_x = SCREEN_WIDTH/2;
@@ -134,6 +186,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 {
 	VARIABLE_NOT_USED(filter);
 	VARIABLE_NOT_USED(screen_magnification);
+	int i;
 
 	s_framebuffer = calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4));
 	if (s_framebuffer == NULL) {
@@ -143,10 +196,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	(void)Cconws("Video_Init()\r\n");
 	if(s_machine_type == MCH_UNKNOWN) Detect_Machine();
-	if(s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
-		Error("Only TT and Falcon 8bpp graphics supported.\n");
-		return false;
-	}
+
 	(void)Cursconf(0, 0);	/* switch cursor Off */
 	g_consoleActive = false;
 
@@ -172,10 +222,30 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		EsetShift(TT_LOW); /* set TT 8bps video mode */
 		EgetPalette(0, 256, s_paletteBackup);	/* backup palette */
 		s_center_image_offset = 320*40;
+	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+		/* set ST/STE 4bps video mode */
+		uint32 saddr;
+		long size = (SCREEN_WIDTH*(4+SCREEN_HEIGHT)/2) + 256;
+		saddr = (uint32) Mxalloc(size, 0);	/* allocate from ST-RAM */
+		if (saddr & 0x80000000)
+			saddr = (uint32)malloc(size);	/* use malloc() if Mxalloc is not available (TOS <= 1.04) */
+		saddr = (saddr + 255) & 0x00FFFF00;	/* 256byte alignment */
+		s_savedMode = Getrez();
+		s_savedLogBase = Logbase();
+		s_savedPhysBase = Physbase();
+		Setscreen(saddr,saddr,0);	 /* set ST-Low resolution */
+		/* set and backup system palette */
+		for (i=0; i<16; i++) {
+			s_paletteBackup[i] = Setcolor(i, ((s_palette4BitPC[i*4+0] << 5) & 0x0700) | ((s_palette4BitPC[i*4+1] << 1) & 0x0070) | ((s_palette4BitPC[i*4+2]>>3) & 0x007));
+		}
 	} else {
 		Error("Unsupported machine type.\nPlease contact us if you know how to initialize a 256 color mode on your machine.\n");
 		return false;
 	}
+
+	/* build square table */
+	for (i=0; i<256; i++)
+		s_SquareTable[i] = (uint16)(i * i);
 
 	Debug("old video mode = $%04hx\n", s_savedMode);
 	Debug("Physbase() = $%08x  Logbase() = $%08x\n", Physbase(), Logbase());
@@ -202,6 +272,13 @@ void Video_Uninit(void)
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
 		(void)EsetShift(s_savedMode);
+	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+		int i;
+		for (i=0; i<16; i++) {
+			int oldColor = Setcolor(i, s_paletteBackup[i]);
+			VARIABLE_NOT_USED(oldColor);
+		}
+		Setscreen(s_savedLogBase, s_savedPhysBase, s_savedMode);
 	}
 	Supexec(uninstall_ikbd_handler);
 	g_consoleActive = true;
@@ -275,8 +352,14 @@ void Video_Tick(void)
 				return;
 			}
 			data += area->top * SCREEN_WIDTH;
-			screen += area->top * SCREEN_WIDTH;
-			if(s_machine_type == MCH_TT) screen += area->top * SCREEN_WIDTH;
+			if (s_machine_type == MCH_TT) {
+				screen += area->top * (SCREEN_WIDTH << 1);
+			} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+				screen += area->top * (SCREEN_WIDTH >> 1);
+			} else {
+				screen += area->top * SCREEN_WIDTH;
+			}
+
 			if (area->bottom > SCREEN_HEIGHT) {
 				Warning("GFX_Screen_GetDirtyArea: (%hu, %hu) - (%hu, %hu)\n", area->left, area->top, area->right, area->bottom);
 				area->bottom = SCREEN_HEIGHT;
@@ -319,7 +402,7 @@ void Video_Tick(void)
 				}
 #endif
 			}
-		} else {
+		} else if (s_machine_type == MCH_FALCON) {
 			if (width == SCREEN_WIDTH) {
 				c2p1x1_8_falcon(screen, data, height*SCREEN_WIDTH);
 			} else {
@@ -345,7 +428,36 @@ void Video_Tick(void)
 				}
 #endif
 			}
+		} else if (s_machine_type == MCH_ST ||s_machine_type == MCH_STE) {
+			int i;
+			data += (s_screenOffset << 2);
+			if (width == SCREEN_WIDTH) {
+				c2p1x1_4_st(screen, data, height*SCREEN_WIDTH, s_palette4BitMap);
+			} else {
+#ifdef GFX_STORE_DIRTY_AREA_BLOCKS
+				int y;
+				for (y = area->top; y < area->bottom; y++) {
+					if (g_dirty_blocks[y] != 0) {
+						left = __builtin_ctz(g_dirty_blocks[y]) << 4;
+						width = ((32 - __builtin_clz(g_dirty_blocks[y])) << 4) - left;
+						c2p1x1_4_st(screen + (left >> 1), data + left, width, s_palette4BitMap);
+					}
+					screen += SCREEN_WIDTH >> 1;
+					data += SCREEN_WIDTH;
+				}
+#else
+				screen += (left >> 1);
+				data += left;
+				while(height > 0) {
+					c2p1x1_4_st(screen, data, width, s_palette4BitMap);
+					screen += SCREEN_WIDTH >> 1;
+					data += SCREEN_WIDTH;
+					height--;
+				}
+#endif
+			}
 		}
+
 		GFX_Screen_SetClean(SCREEN_0);
 		s_screen_needrepaint = false;
 	}
@@ -409,6 +521,18 @@ void Video_SetPalette(void *palette, int from, int length)
 			p += 3;
 		}
 		EsetPalette(from, length, rgb12);
+	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+		uint8 red,green,blue;
+		for (i = from; i < from + length; i++)
+		{
+			red = *p++;
+			green = *p++;
+			blue = *p++;
+			s_palette4BitMap[i] = Palette_FindClosestColor(red, green, blue);
+		}
+		/* repaint only when a large amount of colors are changing, for fading and so on */
+		if (length >= 128)
+			s_screen_needrepaint = true;
 	} else {
 		Error("don't know how to set palette on this machine.\n");
 	}
