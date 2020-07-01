@@ -318,9 +318,6 @@ static void Video_Atari_DrawChar(uint8 * screen, uint16 x, uint8 digit)
 	}
 }
 
-
-static uint8 _temp_buf[320*200];
-
 /**
  * Runs every tick to handle video updates.
  */
