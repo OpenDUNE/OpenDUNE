@@ -20,6 +20,9 @@ audio/midi_atari.c
 		#if OSS
 			audio/dsp_oss.c
 		#else
+		#if KAI
+			audio/dsp_kai.c
+		#else
 			#if SDL
 				audio/dsp_sdl.c
 			#else
@@ -33,6 +36,7 @@ audio/midi_atari.c
 					#endif
 				#endif
 			#endif
+		#endif
 		#endif
 		#endif
 	#endif

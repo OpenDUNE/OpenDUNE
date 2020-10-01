@@ -8,6 +8,9 @@
 #define inline __inline
 #include <pulse/pulseaudio.h>
 
+#elif defined(KAI)
+/* KAI */
+#include <kai.h>
 #else
 /* OSS API */
 #include <fcntl.h>
@@ -37,6 +40,11 @@ static void munt_stream_overflow_cb(pa_stream *p, void *userdata);
 static void munt_stream_underflow_cb(pa_stream *p, void *userdata);
 static void munt_stream_write_cb(pa_stream *p, size_t nbytes, void *userdata);
 static void munt_stream_state_cb(pa_stream *p, void *userdata);
+#elif defined(KAI)
+/* KAI */
+static HKAI s_hkai;
+
+static APIRET APIENTRY munt_cb(PVOID userdata, PVOID buffer, ULONG size);
 #else
 /* OSS */
 static int s_oss_fd = -1;
@@ -113,6 +121,8 @@ bool midi_init(void)
 {
 #ifdef PULSEAUDIO
 	pa_sample_spec sample_spec;
+#elif defined(KAI)
+	KAISPEC spec, obtained;
 #endif
 	char rompath[1024];
 	char romfile[1024];
@@ -160,6 +170,30 @@ bool midi_init(void)
 		Error("pa_stream_connect_playback() failed\n");
 		return false;
 	}
+#elif defined(KAI)
+	spec.usDeviceIndex   = 0;
+	spec.ulType          = KAIT_PLAY;
+	spec.ulBitsPerSample = 16;
+	spec.ulSamplingRate  = s_sample_rate;
+	spec.ulDataFormat    = 0;
+	spec.ulChannels      = 2;
+	spec.ulNumBuffers    = 2;
+	spec.ulBufferSize    = 512 * 2 * 2;
+	spec.fShareable      = FALSE;
+	spec.pfnCallBack     = munt_cb;
+	spec.pCallBackData   = NULL;
+
+	if (kaiInit(KAIM_AUTO) || kaiEnableSoftMixer(TRUE, &spec)) {
+		Error("Munt is compiled for KAI : KAI init failed\n");
+		return false;
+	}
+
+	if (kaiOpen(&spec, &obtained, &s_hkai) != 0) {
+		Error("Munt: kaiOpen() failed\n");
+		return false;
+	}
+
+	kaiPlay(s_hkai);
 #else
 	s_oss_fd = open(AUDIO_DEVICE, O_WRONLY);
 	if(s_oss_fd < 0) {
@@ -195,6 +229,11 @@ void midi_uninit(void)
 	pa_stream_disconnect(s_stream);
 	pa_stream_unref(s_stream);
 	s_stream = NULL;
+#elif defined(KAI)
+	kaiClose(s_hkai);
+	s_hkai = NULLHANDLE;
+
+	kaiDone();
 #else
 	Timer_Remove(munt_tick);
 #endif
@@ -203,7 +242,7 @@ void midi_uninit(void)
 	s_context = NULL;
 	free(s_buffer);
 	s_buffer = NULL;
-#ifndef PULSEAUDIO
+#if !defined(PULSEAUDIO) && !defined(KAI)
 	if(s_oss_fd >= 0) {
 		close(s_oss_fd);
 		s_oss_fd = -1;
@@ -304,6 +343,16 @@ static void munt_stream_state_cb(pa_stream *p, void *userdata)
 		Debug("  PA_STREAM_CREATING\n");
 		break;
 	}
+}
+
+#elif defined(KAI)
+static APIRET APIENTRY munt_cb(PVOID userData, PVOID buffer, ULONG size)
+{
+	VARIABLE_NOT_USED(userData);
+
+	mt32emu_render_bit16s(s_context, buffer, size / 4);
+
+	return size;
 }
 
 #else

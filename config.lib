@@ -45,6 +45,7 @@ set_default() {
 	with_asound="1"
 	with_oss="1"
 	with_pulse="1"
+	with_kai="1"
 	with_munt="1"
 	enable_builtin_depend="1"
 	with_makedepend="0"
@@ -198,6 +199,10 @@ detect_params() {
 			--with-pulse)                 with_pulse="2";;
 			--without-pulse)              with_pulse="0";;
 			--with-pulse=*)               with_pulse="$optarg";;
+
+			--with-kai)                   with_kai="2";;
+			--without-kai)                with_kai="0";;
+			--with-kai=*)                 with_kai="$optarg";;
 
 			--with-munt)                  with_munt="2";;
 			--without-munt)               with_munt="0";;
@@ -458,6 +463,7 @@ check_params() {
 	detect_asound
 	detect_oss
 	detect_pulseaudio
+	detect_kai
 	detect_munt
 
 	if [ "$os" = "MINGW" ] || [ "$os" = "CYGWIN" ] || [ "$os" = "WINCE" ]; then
@@ -1091,6 +1097,11 @@ make_cflags_and_ldflags() {
 		if [ "$os" = "FREEBSD" ] || [ "$os" = "OPENBSD" ] || [ "$os" = "NETBSD" ]; then
 			LIBS="$LIBS -lintl"
 		fi
+	fi
+
+	if [ "$with_kai" != "0" ]; then
+		LIBS="$LIBS -lkai"
+		CFLAGS="$CFLAGS -DKAI"
 	fi
 
 	if [ "$with_munt" != "0" ]; then
@@ -1773,8 +1784,17 @@ detect_pulseaudio() {
 	detect_library "$with_pulse" "pulse" "libpulse.a" "pulse/" "pulseaudio.h"
 }
 
+detect_kai() {
+	detect_library "$with_kai" "kai" "" "" "kai.h"
+}
+
 detect_munt() {
-	detect_library "$with_munt" "munt" "libmt32emu.a" "mt32emu/" "mt32emu.h"
+	if [ "$os" = "OS2" ]; then
+		MT32EMU_LIB=mt32emu.a
+	else
+		MT32EMU_LIB=libmt32emu.a
+	fi
+	detect_library "$with_munt" "munt" "$MT32EMU_LIB" "mt32emu/" "mt32emu.h"
 }
 
 _detect_sort() {
@@ -2098,6 +2118,7 @@ showhelp() {
 	echo "  --with-oss                     enables Open Sound System"
 	echo "  --with-munt                    enables MUNT support"
 	echo "  --with-pulse[=libpulse.a]      enables PulseAudio support"
+	echo "  --with-kai                     enables KAI support"
 	echo "  --disable-builtin-depend       disable use of builtin deps finder"
 	echo "  --with-makedepend[=makedepend] enables makedepend support"
 	echo "  --with-ccache                  enables ccache support"
