@@ -1,0 +1,45 @@
+OpenDUNE for OS/2
+-----------------
+
+1. How to run OpenDUNE
+----------------------
+
+1) Copy Dune v1.07 files to `data' directory1
+2) Copy CM32L_CONTROL.ROM and CM32L_PCM.ROM to `roms' directory
+3) Copy opendune.ini.sample to opendune.ini to modify default settings
+
+* You SHOULD GET Dune2 v1.07 files and MIDI ROM files by yourself.
+
+2. Tips
+-------
+
+* If CPU load is high, set mt32midi of opendune.ini to 0.
+* If CPU load is still high, rename `roms' directory to something like
+`roms.sav'. This disables MIDI sounds at all.
+
+3. How to build OpenDUNE
+------------------------
+
+3.1. Requirements
+-----------------
+
+  * libkai v2.0.0
+  * munt-libmt32emu v2.4.1
+  * SDL2 v2.0.4
+  * gcc v9.1
+
+3.2. Configure
+--------------
+
+Just run configure like:
+
+  sh ./configure
+
+3.3. Build
+----------
+
+Just run make like:
+
+  make
+
+Then, you'll get opendune.exe in `bin' directory.
