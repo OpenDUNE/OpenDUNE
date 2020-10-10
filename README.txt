@@ -35,6 +35,7 @@ Currently we officially support the following platforms:
   - Mac OS X (PowerPC or Intel i686 / x86_64, 10.4+)
   - Windows (i686 / x86_64)
   - Atari TOS (68030+ CPU, TT and Falcon machines supported)
+  - OS/2
 
 
 Requirements
