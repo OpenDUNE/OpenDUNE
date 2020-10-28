@@ -635,7 +635,7 @@ void Video_Tick(void)
 					/* use "translated" KeySym */
 					sym = sdlkey_map[event.key.keysym.scancode];
 				}
-#else /* defined(__APPLE__) */
+#elif !defined(__HAIKU__)
 				if (event.key.keysym.scancode == 0) {
 #endif /* defined(__APPLE__) */
 					/* scancode 0 : retrieve from sym */
@@ -645,7 +645,7 @@ void Video_Tick(void)
 						continue;
 					}
 					scancode = s_SDL_keymap[sym];
-#if !defined(__APPLE__)
+#if !defined(__APPLE__) && !defined(__HAIKU__)
 				} else {
 					scancode = (uint8)event.key.keysym.scancode;
 #if !defined(_WIN32) && !defined(__APPLE__)
