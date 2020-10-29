@@ -26,8 +26,9 @@ CONFIG_CACHE_SOURCE   = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_SOURCE!!
 CONFIG_CACHE_VERSION  = $(SRC_OBJS_DIR)/!!CONFIG_CACHE_VERSION!!
 
 OBJS_C   := !!OBJS_C!!
+OBJS_CXX := !!OBJS_CXX!!
 OBJS_S   := !!OBJS_S!!
-OBJS     := $(OBJS_C) $(OBJS_S)
+OBJS     := $(OBJS_C) $(OBJS_CXX) $(OBJS_S)
 SRCS     := !!SRCS!!
 
 # All C-files depend on those 3 files
@@ -79,7 +80,7 @@ RES := $(shell if [ "`cat $(CONFIG_CACHE_VERSION) 2>/dev/null`" != "$(REV) $(MOD
 ifndef MAKEDEPEND
 # The slow, but always correct, dep-check
 DEP_MASK := %.d
-DEPS     := $(OBJS_C:%.o=%.d)
+DEPS     := $(OBJS_C:%.o=%.d) $(OBJS_CXX:%.o=%.d)
 
 # Only include the deps if we are compiling everything
 ifeq ($(filter %.o clean mrproper, $(MAKECMDGOALS)),)
@@ -96,6 +97,10 @@ endif
 
 $(OBJS_C:%.o=%.d): %.d: $(SRC_DIR)/%.c $(FILE_DEP)
 	$(E) '$(STAGE) DEP $(<:$(SRC_DIR)/%.c=%.c)'
+	$(Q)$(CC_HOST) $(CFLAGS) -MM $< | sed 's@^$(@F:%.d=%.o):@$@ $(@:%.d=%.o):@' > $@
+
+$(OBJS_CXX:%.o=%.d): %.d: $(SRC_DIR)/%.cpp $(FILE_DEP)
+	$(E) '$(STAGE) DEP $(<:$(SRC_DIR)/%.cpp=%.cpp)'
 	$(Q)$(CC_HOST) $(CFLAGS) -MM $< | sed 's@^$(@F:%.d=%.o):@$@ $(@:%.d=%.o):@' > $@
 
 else
@@ -176,6 +181,10 @@ endif
 
 $(OBJS_C): %.o: $(SRC_DIR)/%.c $(DEP_MASK) $(FILE_DEP)
 	$(E) '$(STAGE) Compiling $(<:$(SRC_DIR)/%.c=%.c)'
+	$(Q)$(CC_HOST) $(CFLAGS) -c -o $@ $<
+
+$(OBJS_CXX): %.o: $(SRC_DIR)/%.cpp $(DEP_MASK) $(FILE_DEP)
+	$(E) '$(STAGE) Compiling $(<:$(SRC_DIR)/%.cpp=%.cpp)'
 	$(Q)$(CC_HOST) $(CFLAGS) -c -o $@ $<
 
 $(OBJS_S): %.o: $(SRC_DIR)/%.s

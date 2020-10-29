@@ -126,6 +126,7 @@ AWKCOMMAND='
 SRCS="`< $ROOT_DIR/source.list tr '\r' '\n' | $awk \"$AWKCOMMAND\" | $PIPE_SORT`"
 
 OBJS_C="`  echo \"$SRCS\" | $awk ' { ORS = \" \" } /\.c$/   { gsub(\".c$\",   \".o\", $0); print $0; }'`"
+OBJS_CXX="`  echo \"$SRCS\" | $awk ' { ORS = \" \" } /\.cpp$/   { gsub(\".cpp$\",   \".o\", $0); print $0; }'`"
 OBJS_S="`  echo \"$SRCS\" | $awk ' { ORS = \" \" } /\.s$/   { gsub(\".s$\",   \".o\", $0); print $0; }'`"
 SRCS="`    echo \"$SRCS\" | $awk ' { ORS = \" \" } { print $0; }'`"
 

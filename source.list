@@ -101,7 +101,11 @@ os/endian.c
 	#if OSX
 		os/error_osx.c
 	#else
-		os/error.c
+		#if HAIKU
+			os/error_haiku.cpp
+		#else
+			os/error.c
+		#endif
 	#endif
 	#if TOS
 		os/readdir_atari.c

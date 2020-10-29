@@ -995,6 +995,9 @@ make_cflags_and_ldflags() {
 
 	if [ "$os" = "BEOS" ] || [ "$os" = "HAIKU" ]; then
 		LIBS="$LIBS -lmidi -lbe"
+		if [ "$os" = "HAIKU" ]; then
+			LIBS="$LIBS -lstdc++"
+		fi
 	fi
 
 	# Most targets act like UNIX, just with some additions
@@ -1924,6 +1927,7 @@ make_sed() {
 		s@!!CONFIG_CACHE_VERSION!!@config.cache.version@g;
 		s@!!CONFIG_CACHE_SOURCE_LIST!!@config.cache.source.list@g;
 		s@!!CONFIG_CACHE_PWD!!@config.cache.pwd@g;
+		s@!!OBJS_CXX!!@$OBJS_CXX@g;
 		s@!!OBJS_C!!@$OBJS_C@g;
 		s@!!OBJS_S!!@$OBJS_S@g;
 		s@!!SRCS!!@$SRCS@g;
