@@ -16,6 +16,8 @@
 	#include <mint/sysvars.h>
 #elif defined(__WATCOMC__)
 	#include <time.h>
+#elif defined(__HAIKU__)
+	#include <OS.h>
 #else
 	/* Linux / Mac OS X / etc. */
 	#if !defined(__USE_POSIX)
@@ -134,6 +136,24 @@ void SleepAndProcessBackgroundTasks(void)
 	Timer_InterruptRun(0);
 }
 
+#elif defined(__HAIKU__)
+void SleepAndProcessBackgroundTasks(void)
+{
+	static bigtime_t s_nextTrigger = 0;
+	int dontRunCallonce = 0;
+	if (s_nextTrigger == 0) s_nextTrigger = system_time();
+
+	while (snooze_until(s_nextTrigger, B_SYSTEM_TIMEBASE) != B_OK)
+		/* We were interrupted, snooze again */
+		;
+
+	do {
+		s_nextTrigger += s_timerSpeed;
+		Timer_InterruptRun(dontRunCallonce);
+		dontRunCallonce = 1;
+	} while (system_time() - s_nextTrigger > 0);
+}
+
 #elif !defined(_WIN32) || defined(WITH_SDL) || defined(WITH_SDL2)
 #if defined(_WIN32)
 static volatile int s_timer_count = 0;
@@ -192,7 +212,7 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 }
 #endif /* _WIN32 */
 
-#if !defined(TOS) && !defined(DOS)
+#if !defined(TOS) && !defined(DOS) && !defined(__HAIKU__)
 
 /**
  * Suspend the timer interrupt handling.
@@ -248,7 +268,7 @@ void Timer_Init(void)
 #if 0
 	Xbtimer(0/* Timer A */, 1/* divider = 4 */, s_timerSpeed * 6144 / 10000, Timer_Handler);
 #endif
-#elif defined(DOS)
+#elif defined(DOS) || defined(__HAIKU__)
 	/* */
 #else
 	{
@@ -260,7 +280,7 @@ void Timer_Init(void)
 		sigaction(SIGALRM, &timerSignal, NULL);
 	}
 #endif /* _WIN32 */
-#if !defined(TOS) && !defined(DOS)
+#if !defined(TOS) && !defined(DOS) && !defined(__HAIKU__)
 	Timer_InterruptResume();
 #endif /* !defined(TOS) && !defined(DOS) */
 }
@@ -270,7 +290,7 @@ void Timer_Init(void)
  */
 void Timer_Uninit(void)
 {
-#if !defined(TOS) && !defined(DOS)
+#if !defined(TOS) && !defined(DOS) && !defined(__HAIKU__)
 	Timer_InterruptSuspend();
 #endif /* !defined(TOS) && !defined(DOS) */
 #if defined(_WIN32)
