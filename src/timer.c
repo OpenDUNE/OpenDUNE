@@ -206,7 +206,11 @@ static void Timer_InterruptSuspend(void)
 	if (s_timerThread != NULL) DeleteTimerQueueTimer(NULL, s_timerThread, NULL);
 	s_timerThread = NULL;
 #else
-	setitimer(ITIMER_REAL, NULL, NULL);
+	s_timerTime.it_value.tv_sec = 0;
+	s_timerTime.it_value.tv_usec = 0;
+	s_timerTime.it_interval.tv_sec = 0;
+	s_timerTime.it_interval.tv_usec = 0;
+	setitimer(ITIMER_REAL, &s_timerTime, NULL);
 #endif /* _WIN32 */
 }
 
