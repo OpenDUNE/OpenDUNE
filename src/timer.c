@@ -51,9 +51,6 @@ typedef struct TimerNode {
 #if defined(_WIN32)
 static HANDLE s_timerMainThread = NULL;
 static HANDLE s_timerThread = NULL;
-static int s_timerTime;
-#elif !defined(TOS) && !defined(DOS)
-static struct itimerval s_timerTime;
 #endif /* _WIN32 */
 
 static TimerNode *s_timerNodes = NULL;
@@ -206,11 +203,12 @@ static void Timer_InterruptSuspend(void)
 	if (s_timerThread != NULL) DeleteTimerQueueTimer(NULL, s_timerThread, NULL);
 	s_timerThread = NULL;
 #else
-	s_timerTime.it_value.tv_sec = 0;
-	s_timerTime.it_value.tv_usec = 0;
-	s_timerTime.it_interval.tv_sec = 0;
-	s_timerTime.it_interval.tv_usec = 0;
-	setitimer(ITIMER_REAL, &s_timerTime, NULL);
+	struct itimerval timerTime;
+	timerTime.it_value.tv_sec = 0;
+	timerTime.it_value.tv_usec = 0;
+	timerTime.it_interval.tv_sec = 0;
+	timerTime.it_interval.tv_usec = 0;
+	setitimer(ITIMER_REAL, &timerTime, NULL);
 #endif /* _WIN32 */
 }
 
@@ -220,9 +218,15 @@ static void Timer_InterruptSuspend(void)
 static void Timer_InterruptResume(void)
 {
 #if defined(_WIN32)
-	CreateTimerQueueTimer(&s_timerThread, NULL, Timer_InterruptWindows, NULL, s_timerTime, s_timerTime, WT_EXECUTEINTIMERTHREAD);
+	int timerTime = s_timerSpeed / 1000;
+	CreateTimerQueueTimer(&s_timerThread, NULL, Timer_InterruptWindows, NULL, timerTime, timerTime, WT_EXECUTEINTIMERTHREAD);
 #else
-	setitimer(ITIMER_REAL, &s_timerTime, NULL);
+	struct itimerval timerTime;
+	timerTime.it_value.tv_sec = 0;
+	timerTime.it_value.tv_usec = s_timerSpeed;
+	timerTime.it_interval.tv_sec = 0;
+	timerTime.it_interval.tv_usec = s_timerSpeed;
+	setitimer(ITIMER_REAL, &timerTime, NULL);
 #endif /* _WIN32 */
 }
 
@@ -236,7 +240,6 @@ void Timer_Init(void)
 	s_timerLastTime = Timer_GetTime();
 
 #if defined(_WIN32)
-	s_timerTime = s_timerSpeed / 1000;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &s_timerMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 #elif defined(TOS)
 	(void)Cconws("Timer_Init()\r\n");
@@ -248,11 +251,6 @@ void Timer_Init(void)
 #elif defined(DOS)
 	/* */
 #else
-	s_timerTime.it_value.tv_sec = 0;
-	s_timerTime.it_value.tv_usec = s_timerSpeed;
-	s_timerTime.it_interval.tv_sec = 0;
-	s_timerTime.it_interval.tv_usec = s_timerSpeed;
-
 	{
 		struct sigaction timerSignal;
 
