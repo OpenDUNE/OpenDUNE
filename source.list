@@ -50,7 +50,11 @@ audio/midi_atari.c
 		#if OSX
 			audio/midi_osx.c
 		#else
-			audio/midi_none.c
+			#if HAIKU
+				audio/midi_haiku.cpp
+			#else
+				audio/midi_none.c
+			#endif
 		#endif
 	#endif
 	#endif
