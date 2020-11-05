@@ -206,7 +206,7 @@ void Input_EventHandler(uint8 key)
 		key = s_keyTranslate[key & 0x7F];
 	}
 
-	if ((s_activeInputMap[7] & 0x4) != 0) return;	/* 0x3a : LCTRL */
+	if ((s_activeInputMap[7] & 0x4) != 0) state |= 0x02;	/* 0x3a : LCTRL */
 	if ((s_activeInputMap[7] & 0x50) != 0) state |= 0x04;	/* 0x3c 0x3e : LALT RALT => ALT */
 
 	key = Input_Keyboard_Translate(key) & 0xFF;
