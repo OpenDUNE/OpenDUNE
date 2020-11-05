@@ -213,8 +213,8 @@ void Input_EventHandler(uint8 key)
 
 	if ((s_activeInputMap[7] & 0x2) != 0) state |= 0x01;	/* 0x39 : RSHIFT */
 
-	if (state == 0x06 && key == 0x68) return;	/* state == ALT+??? && key == KP DEL */
-	if (state == 0x06 && key == 0x4C) return;	/* state == ALT+??? && key == DELETE */
+	if (state == 0x06 && key == 0x68) return;	/* state == CTRL+ALT && key == KP DEL */
+	if (state == 0x06 && key == 0x4C) return;	/* state == CTRL+ALT && key == DELETE */
 
 	Input_HandleInput((state << 8) | key);
 }
