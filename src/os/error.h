@@ -11,8 +11,11 @@ extern void Error(const char *format, ...);
 extern void Warning(const char *format, ...);
 #ifdef _DEBUG
 extern void Debug(const char *format, ...);
-#else
+#elif !defined(__GNUC__) || __GNUC__ > 3 \
+	|| (__GNUC__ == 3 && __GNUC_MINOR__ >= 3)
 #define Debug(...)
+#else
+#define Debug(args...)
 #endif
 
 #if defined(TOS) || defined(DOS)

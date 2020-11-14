@@ -10,7 +10,9 @@
 #include "types.h"
 #include "../os/error.h"
 
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__)) \
+	&& (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
+#define WITHMMX 1
 #include <mmintrin.h>
 #endif /* i386 / x86_64 */
 
@@ -440,7 +442,7 @@ static void Video_DrawScreen_Nearest_Neighbor(const struct dirty_area * area)
 				*((__m128i *)gfx2) = mh;
 				gfx2 += 16;
 			}
-#elif defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+#elif defined(WITHMMX)
 			/* MMX code */
 			for (x = SCREEN_WIDTH / 4; x > 0; x--) {
 				__m64 m;

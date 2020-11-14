@@ -742,11 +742,6 @@ make_compiler_cflags() {
 			cc_version="${cc_version}0"
 		fi
 
-		if [ $cc_version -lt 33 ]; then
-			log 1 "configure: error: gcc older than 3.3 can't compile OpenDUNE because of its poor template support"
-			exit 1
-		fi
-
 		if [ "$os" != "TOS" ] && [ "$os" != "DOS" ] && [ $cc_version -lt 70 ] ; then
 			if [ "$with_asound" = "0" ] ; then
 				flags="$flags -ansi"
@@ -762,7 +757,9 @@ make_compiler_cflags() {
 
 		if [ $enable_assert -eq 0 ]; then
 			# Do not warn about unused variables when building without asserts
-			flags="$flags -Wno-unused-variable"
+			if [ $cc_version -ge 30 ]; then
+				flags="$flags -Wno-unused-variable"
+			fi
 			if [ $cc_version -ge 46 ]; then
 				# GCC 4.6 gives more warnings, disable them too
 				flags="$flags -Wno-unused-but-set-variable"
@@ -865,6 +862,8 @@ make_cflags_and_ldflags() {
 
 		if [ "$os" = "TOS" ] ; then
 			CFLAGS="-Ofast -fomit-frame-pointer $CFLAGS"
+		elif [ "$os" = "HAIKU" -a $cc_version -lt 40 ] ; then
+			CFLAGS="-O2 -fomit-frame-pointer $CFLAGS"
 		else
 			CFLAGS="-O2 -fomit-frame-pointer -Wno-variadic-macros $CFLAGS"
 		fi
@@ -993,9 +992,15 @@ make_cflags_and_ldflags() {
 		fi
 	fi
 
+	if [ "$os" = "OS2" ]; then
+		LDFLAGS_BUILD="$LDFLAGS_BUILD -lstdc++"
+	fi
+
 	if [ "$os" = "BEOS" ] || [ "$os" = "HAIKU" ]; then
 		LIBS="$LIBS -lmidi -lbe"
-		if [ "$os" = "HAIKU" ]; then
+		if [ $cc_version -lt 30 ]; then
+			LIBS="$LIBS -lstdc++.r4"
+		else
 			LIBS="$LIBS -lstdc++"
 		fi
 	fi
@@ -1281,9 +1286,11 @@ check_build() {
            #	if [ "$os" = "FREEBSD" ]; then
            #	# FreeBSD's C compiler does not support dump machine.
            #	check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CXX" "g++" "c++" "0" "-dumpmachine"
-           #else
+	if [ "$os" = "HAIKU" ]; then
+		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CXX" "g++" "c++" "0" "-dumpmachine"
+	else
 		check_compiler "build system type" "cc_build" "$build" "$cc_build" "$CC" "gcc" "cc" "0" "-dumpmachine"
-                #fi
+	fi
 }
 
 check_host() {

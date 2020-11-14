@@ -5,6 +5,10 @@
 #include "crashlog.h"
 #include "../rev.h"
 
+#if defined(__GNUC__) && !defined(__GNUC_PATCHLEVEL__)
+#define __GNUC_PATCHLEVEL__ 0
+#endif
+
 static void CrashLog_LogCompiler(char *buffer)
 {
 			sprintf(buffer + strlen(buffer), " Compiler: "
