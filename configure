@@ -102,6 +102,7 @@ AWKCOMMAND='
 		if ($0 == "OSX"         && "'$os'" != "OSX")               { next; }
 		if ($0 == "TOS"         && "'$os'" != "TOS")               { next; }
 		if ($0 == "DOS"         && "'$os'" != "DOS")               { next; }
+		if ($0 == "HAIKU"       && "'$os'" != "HAIKU")             { next; }
 		if ($0 == "WIN32"       && "'$os'" != "MINGW" &&
 		                 "'$os'" != "CYGWIN" && "'$os'" != "MSVC") { next; }
 
