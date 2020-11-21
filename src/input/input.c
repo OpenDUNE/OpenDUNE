@@ -325,7 +325,7 @@ static void Input_ReadInputFromFile(void)
 	g_mouseRecordedTimer = mouseBuffer[1];
 	value = g_mouseInputValue = mouseBuffer[0];
 
-	if ((value & 0xFF) != 0x2D) {
+	if ((value & 0xFF) != 0x2D) {	// 0x2d = mouse move
 		uint8 idx, bit;
 
 		idx = (value & 0xFF) >> 3;
@@ -418,8 +418,13 @@ void Input_HandleInput(uint16 input)
 	if (input == 0) return;
 
 	value = input & 0xFF;
-	if ((flags & INPUT_FLAG_NO_CLICK) != 0 && (input & 0x400) == 0) {
-
+	if ((flags & INPUT_FLAG_MOUSE_EMUL) != 0 && (input & 0x400) == 0) {
+		/* Keyboard mouse emulation :
+		 * Numeric keypad is used. 0 <Insert> is left click, . <Suppr> is right click
+		 *         7 8 9 4 6 1 2 3 => move the cursor
+		 * SHIFT + 7 8 9 4 6 1 2 3 => move the cursor faster
+		 *  CTRL + 7 8 9 4 5 6 1 2 3 => move the cursor to absolute position
+		 */
 		if (((flags & INPUT_FLAG_UNKNOWN_2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63) {
 			input = 0x41 | (input & 0xFF00);
 			g_prevButtonState |= 1;
