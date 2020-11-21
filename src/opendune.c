@@ -918,7 +918,7 @@ static void GameLoop_Main(void)
 #endif
 
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT | INPUT_FLAG_UNKNOWN_0010 | INPUT_FLAG_UNKNOWN_0200 |
-	                    INPUT_FLAG_UNKNOWN_2000);
+	                    INPUT_FLAG_KBD_MOUSE_CLK);
 	Input_Flags_ClearBits(INPUT_FLAG_KEY_RELEASE | INPUT_FLAG_UNKNOWN_0400 | INPUT_FLAG_UNKNOWN_0100 |
 	                      INPUT_FLAG_UNKNOWN_0080 | INPUT_FLAG_UNKNOWN_0040 | INPUT_FLAG_UNKNOWN_0020 |
 	                      INPUT_FLAG_UNKNOWN_0008 | INPUT_FLAG_UNKNOWN_0004 | INPUT_FLAG_NO_TRANSLATE);
@@ -1293,6 +1293,7 @@ int main(int argc, char **argv)
 	}
 
 	Input_Init();
+	/* if no mouse is detected, we should Input_Flags_SetBits(INPUT_FLAG_MOUSE_EMUL) */
 
 	Drivers_All_Init();
 
