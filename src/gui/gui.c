@@ -3130,7 +3130,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 	GUI_Palette_CreateRemap(g_playerHouseID);
 
-	sprintf(category, "GROUP%hu", campaignID);
+	snprintf(category, sizeof(category), "GROUP%hu", campaignID);
 
 	memset(data, 0, 20 * sizeof(StrategicMapData));
 
@@ -3279,7 +3279,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 	char buf[100];
 	uint16 i;
 
-	sprintf(category, "GROUP%hu", campaignID);
+	snprintf(category, sizeof(category), "GROUP%hu", campaignID);
 
 	for (i = 0; i < 6; i++) {
 		uint8 houseID = (g_playerHouseID + i) % 6;

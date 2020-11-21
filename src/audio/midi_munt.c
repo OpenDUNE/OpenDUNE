@@ -125,7 +125,7 @@ bool midi_init(void)
 	KAISPEC spec, obtained;
 #endif
 	char rompath[1024];
-	char romfile[1024];
+	char romfile[1024+64];
 	int i;
 
 	Debug("munt version : %s\n", mt32emu_get_library_version_string());

@@ -87,7 +87,8 @@ static bool Drivers_Init(Driver *driver, const char *extension)
 
 	Driver_Init(driver->index);
 
-	strncpy(driver->extension, extension, 4);
+	strncpy(driver->extension, extension, 3);
+	driver->extension[3] = '\0';
 
 	return true;
 }
@@ -328,23 +329,27 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 char *Drivers_GenerateFilename(const char *name, Driver *driver)
 {
-	char basefilename[14];
+	char * ext;
 	static char filename[14];
 
 	if (name == NULL || driver == NULL || driver->index == 0xFFFF) return NULL;
 
-	strncpy(basefilename, name, sizeof(basefilename));
-	basefilename[sizeof(basefilename) - 1] = '\0';
+	strncpy(filename, name, sizeof(filename));
+	filename[sizeof(filename) - 1] = '\0';
 	/* Remove extension if there is one */
-	if (strrchr(basefilename, '.') != NULL) *strrchr(basefilename, '.') = '\0';
+	ext = strrchr(filename, '.');
+	if (ext != NULL) {
+		*ext = '\0';
+	} else {
+		ext = filename + strlen(filename);
+	}
 
-	snprintf(filename, sizeof(filename), "%s.%s", basefilename, driver->extension);
+	snprintf(ext, sizeof(filename) - (ext - filename), ".%s", driver->extension);
 
 	if (File_Exists(filename)) return filename;
 
-	if (driver->index == 0xFFFF) return NULL;
-
-	snprintf(filename, sizeof(filename), "%s.XMI", basefilename);
+	/* try with XMI extension */
+	memcpy(ext, ".XMI", 5);
 
 	if (File_Exists(filename)) return filename;
 

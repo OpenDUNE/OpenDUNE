@@ -288,7 +288,8 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	header->height       = fileheader.height;
 	header->bufferLength = fileheader.requiredBufferSize + 33 - sizeof(WSAHeader);
 	header->buffer       = buffer;
-	strncpy(header->filename, filename, sizeof(header->filename));
+	strncpy(header->filename, filename, sizeof(header->filename) - 1);
+	header->filename[sizeof(header->filename) - 1] = '\0';
 
 	lengthHeader = (fileheader.frames + 2) * 4;
 
