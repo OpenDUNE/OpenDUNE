@@ -1186,10 +1186,53 @@ static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int
 	return true;
 }
 
+/**
+ * Print a IBM 437 encoded string to the system console,
+ * performing conversion to the system charset.
+ *
+ * @param str IBM 437 code page encoded character string
+ */
+static void PrintToConsole(const char * str)
+{
+#if defined(TOS) || defined(DOS)
+	/* directly output the IBM437 string */
+	puts(str);
+#else
+	static const unsigned char cp437toLatin1[] = {
+		0xC7, 0xFC, 0xE9, 0xE2, 0xE4, 0xE0, 0xE5, 0xE7,	/* 0x80 - 0x87 */
+		0xEA, 0xEB, 0xE8, 0xEF, 0xEE, 0xEC, 0xC4, 0xC5,	/* 0x88 - 0x8f */
+		0xC9, 0xE6, 0xC6, 0xF4, 0xF6, 0xF2, 0xFB, 0xF9,	/* 0x90 - 0x97 */
+		0xFF, 0xD6, 0xDC, 0xA2, 0xA3, 0xA5				/* 0x98 - 0x9d */
+	};
+	int utf8_output;
+	char * LANG = getenv("LANG");
+
+	utf8_output = (LANG != NULL && strstr(LANG, "UTF-8") != NULL);
+	while (*str) {
+		unsigned char c = *str++;	/* IBM 437 code page character */
+
+		if (c & 0x80) {
+			if ((c & 0x7f) < sizeof(cp437toLatin1)) {
+				c = cp437toLatin1[c & 0x7f];
+			}
+			if (utf8_output) {
+				putchar(0xc0 | (c >> 6));
+				putchar(0x80 | (c & 0x3f));
+			} else {
+				putchar(c);
+			}
+		} else {
+			putchar(c);
+		}
+	}
+	putchar('\n');
+#endif
+}
+
 #ifdef TOS
 void exit_handler(void)
 {
-	printf("Press any key to quit.\n");
+	PrintToConsole("Press any key to quit.");
 	(void)Cnecin();
 }
 #endif /* TOS */
@@ -1317,7 +1360,7 @@ int main(int argc, char **argv)
 
 	GameLoop_Main();
 
-	printf("%s\n", String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
+	PrintToConsole(String_Get_ByIndex(STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
 	PrepareEnd();
 	Free_IniFile();
