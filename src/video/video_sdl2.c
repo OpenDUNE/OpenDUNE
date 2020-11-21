@@ -635,6 +635,10 @@ void Video_Tick(void)
 					code = 0x36;
 				} else if (sym == SDLK_LSHIFT) {
 					code = 0x2a;
+				} else if (sym == SDLK_RCTRL || sym == SDLK_LCTRL) {
+					code = 0x1d;	// RCTRL is e0 1d
+				} else if (sym == SDLK_RALT || sym == SDLK_LALT) {
+					code = 0x38;	// RALT is e0 38
 				} else if (sym >= SDLK_CAPSLOCK) {
 					sym -= SDLK_CAPSLOCK;
 					if (sym < sizeof(s_SDL_hikeymap)) code = s_SDL_hikeymap[sym];
