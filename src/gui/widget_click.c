@@ -43,7 +43,11 @@ static uint16 s_savegameCountOnDisk = 0;                    /*!< Amount of saveg
 static char *GenerateSavegameFilename(uint16 number)
 {
 	static char filename[13];
-	sprintf(filename, "_save%03d.dat", number);
+	if (number >= 1000) {
+		Warning("Savegame #%hu not supported\n", number);
+		return NULL;
+	}
+	sprintf(filename, "_save%03hu.dat", number);
 	return filename;
 }
 
