@@ -923,6 +923,10 @@ void *File_ReadWholeFile(const char *filename)
 	length = File_GetSize(index);
 
 	buffer = malloc(length + 1);
+	if (buffer == NULL) {
+		Error("Failed to allocate %lu bytes of memory.\n", (unsigned long)length + 1);
+		return NULL;
+	}
 	if (File_Read(index, buffer, length) != length) {
 		free(buffer);
 		return NULL;
