@@ -36,6 +36,7 @@ Currently we officially support the following platforms:
   - Windows (i686 / x86_64)
   - Atari TOS (68030+ CPU, TT and Falcon machines supported)
   - OS/2
+  - Haiku
 
 
 Requirements
@@ -68,8 +69,8 @@ Start 'opendune'.
 Additional options may be specified using an opendune.ini file located
 in the data/ directory, in the current directory or in %APPDATA%\OpenDUNE
 (on Windows) or ~/Library/Application Support/OpenDUNE (on Mac OS X) or
-~/.config/opendune (on Linux/FreeBSD). All options must be in an [opendune]
-section.
+~/.config/opendune (on Linux/FreeBSD) or B_USER_SETTINGS_DIRECTORY/opendune
+(on Haiku). All options must be in an [opendune] section.
 
 Available options are :
 - language : english / french / german
