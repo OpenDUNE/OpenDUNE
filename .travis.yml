@@ -4,6 +4,8 @@ os:
   - linux
   - osx
 
+osx_image: xcode12.2
+
 arch:
   - amd64
   - arm64
