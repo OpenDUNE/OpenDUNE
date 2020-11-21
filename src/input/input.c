@@ -206,15 +206,16 @@ void Input_EventHandler(uint8 key)
 		key = s_keyTranslate[key & 0x7F];
 	}
 
-	if ((s_activeInputMap[7] & 0x4) != 0) return;	/* 0x3a : LCTRL */
+	if ((s_activeInputMap[7] & 0x4) != 0) state |= 0x02;	/* 0x3a : LCTRL */
+	if ((s_activeInputMap[8] & 0x1) != 0) state |= 0x02;	/* 0x40 : RCTRL */
 	if ((s_activeInputMap[7] & 0x50) != 0) state |= 0x04;	/* 0x3c 0x3e : LALT RALT => ALT */
 
 	key = Input_Keyboard_Translate(key) & 0xFF;
 
 	if ((s_activeInputMap[7] & 0x2) != 0) state |= 0x01;	/* 0x39 : RSHIFT */
 
-	if (state == 0x06 && key == 0x68) return;	/* state == ALT+??? && key == KP DEL */
-	if (state == 0x06 && key == 0x4C) return;	/* state == ALT+??? && key == DELETE */
+	if (state == 0x06 && key == 0x68) return;	/* state == CTRL+ALT && key == KP DEL */
+	if (state == 0x06 && key == 0x4C) return;	/* state == CTRL+ALT && key == DELETE */
 
 	Input_HandleInput((state << 8) | key);
 }
@@ -324,7 +325,7 @@ static void Input_ReadInputFromFile(void)
 	g_mouseRecordedTimer = mouseBuffer[1];
 	value = g_mouseInputValue = mouseBuffer[0];
 
-	if ((value & 0xFF) != 0x2D) {
+	if ((value & 0xFF) != 0x2D) {	/* 0x2d = mouse move */
 		uint8 idx, bit;
 
 		idx = (value & 0xFF) >> 3;
@@ -388,8 +389,8 @@ static uint16 Input_AddHistory(uint16 value)
  * Upper byte is flags, lower byte is Dune II keycode
  * Flags :
  *   0x01 SHIFT
- *   0x02 ALT
- *   0x04 ?
+ *   0x02 CTRL ?
+ *   0x04 ALT
  *   0x08 KEYUP / RELEASE
  */
 void Input_HandleInput(uint16 input)
@@ -417,9 +418,14 @@ void Input_HandleInput(uint16 input)
 	if (input == 0) return;
 
 	value = input & 0xFF;
-	if ((flags & INPUT_FLAG_NO_CLICK) != 0 && (input & 0x400) == 0) {
-
-		if (((flags & INPUT_FLAG_UNKNOWN_2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63) {
+	if ((flags & INPUT_FLAG_MOUSE_EMUL) != 0 && (input & 0x400) == 0) {
+		/* Keyboard mouse emulation :
+		 * Numeric keypad is used. 0 <Insert> is left click, . <Suppr> is right click
+		 *         7 8 9 4 6 1 2 3 => move the cursor
+		 * SHIFT + 7 8 9 4 6 1 2 3 => move the cursor faster
+		 *  CTRL + 7 8 9 4 5 6 1 2 3 => move the cursor to absolute position
+		 */
+		if (((flags & INPUT_FLAG_KBD_MOUSE_CLK) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63) {
 			input = 0x41 | (input & 0xFF00);
 			g_prevButtonState |= 1;
 			if ((input & 0x800) != 0) {
@@ -433,14 +439,23 @@ void Input_HandleInput(uint16 input)
 			}
 		} else if ((input & 0x800) == 0 && (value == 0x61 || (value >= 0x5B && value <= 0x67 &&
 				(value <= 0x5D || value >= 0x65 || value == 0x60 || value == 0x62)))) {
-
+			/* Numeric Keypad press */
 			/* Copied from 29E8:0A9C - 29E8:0AB6 */
 			static const int8 data_0A9C[13][2] =
 			{
-				{-1, -1}, {-1,  0}, {-1,  1}, { 0,  0},
-				{ 0,  0}, { 0, -1}, { 0,  0}, { 0,  1},
-				{ 0,  0}, { 0,  0}, { 1, -1}, { 1,  0},
-				{ 1,  1},
+				{-1, -1}, /* 0x5B - KP 7 : up left */
+				{-1,  0}, /* 0x5C - KP 4 : left */
+				{-1,  1}, /* 0x5D - KP 1 : down left*/
+				{ 0,  0},
+				{ 0,  0},
+				{ 0, -1}, /* 0x60 - KP 8 : up */
+				{ 0,  0}, /* 0x61 - KP 5 : center */
+				{ 0,  1}, /* 0x62 - KP 2 : down */
+				{ 0,  0},
+				{ 0,  0},
+				{ 1, -1}, /* 0x65 - KP 9 : up right */
+				{ 1,  0}, /* 0x66 - KP 6 : right */
+				{ 1,  1}, /* 0x67 - KP 3 : down right */
 			};
 			int8 dx, dy;
 
@@ -448,22 +463,23 @@ void Input_HandleInput(uint16 input)
 			dy = data_0A9C[value - 0x5B][1];
 
 			if ((input & 0x200) != 0) {
+				/* CTRL pressed : move to absolute position */
 				/* Copied from 29E8:0AB6 - 29E8:0AD6 */
 				static const uint16 data_0AB6[16] = {8, 2, 8, 6, 4, 3, 8, 5,  8, 8, 8, 8, 0, 1, 8, 7};
 				/* Copied from 29E8:000A - 29E8:002E */
 				static const XYPosition mousePos[9] = {
 					{0x0a0, 0x000}, {0x13f, 0x000}, {0x13f, 0x045}, {0x13f, 0x089},
 					{0x0a0, 0x089}, {0x000, 0x089}, {0x000, 0x045}, {0x000, 0x000},
-					{0x0a0, 0x045}
-				};
+					{0x0a0, 0x045} /* center position */
+				};	/* 0xa0 = 160, 0x13f = 319  ;  0x45 = 69, 0x89 = 137 */
 				const XYPosition *xy;
 
 				xy = mousePos + data_0AB6[((dy & 3) << 2) | (dx & 3)];
 				inputMouseX = xy->x;
 				inputMouseY = xy->y;
 			} else {
-				static const int8 offsetSmall[3] = { -1, 0,  1};
-				static const int8 offsetBig[3]   = {-16, 0, 16};
+				static const int8 offsetSmall[3] = { -1, 0,  1};	/* When shift is released : SLOW */
+				static const int8 offsetBig[3]   = {-16, 0, 16};	/* When shift is pressed : FAST */
 				const int8 *change;
 
 				change = ((input & 0x100) == 0) ? &offsetSmall[1] : &offsetBig[1];

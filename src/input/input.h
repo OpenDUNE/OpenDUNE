@@ -19,8 +19,8 @@ typedef enum InputFlagsEnum {
 	INPUT_FLAG_UNKNOWN_0200 = 0x0200,                       /*!< ?? */
 	INPUT_FLAG_UNKNOWN_0400 = 0x0400,                       /*!< ?? */
 	INPUT_FLAG_KEY_RELEASE  = 0x0800,                       /*!< Record release of keys (not for buttons). */
-	INPUT_FLAG_NO_CLICK     = 0x1000,                       /*!< Don't record mouse button clicks. */
-	INPUT_FLAG_UNKNOWN_2000 = 0x2000                        /*!< ?? */
+	INPUT_FLAG_MOUSE_EMUL   = 0x1000,                       /*!< Enable mouse emulation with numeric keypad */
+	INPUT_FLAG_KBD_MOUSE_CLK = 0x2000                       /*!< Enable mouse click emulation with Enter, etc. */
 } InputFlagsEnum;
 
 /**
