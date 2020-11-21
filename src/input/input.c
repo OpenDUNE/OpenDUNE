@@ -325,7 +325,7 @@ static void Input_ReadInputFromFile(void)
 	g_mouseRecordedTimer = mouseBuffer[1];
 	value = g_mouseInputValue = mouseBuffer[0];
 
-	if ((value & 0xFF) != 0x2D) {	// 0x2d = mouse move
+	if ((value & 0xFF) != 0x2D) {	/* 0x2d = mouse move */
 		uint8 idx, bit;
 
 		idx = (value & 0xFF) >> 3;
