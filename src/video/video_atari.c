@@ -224,16 +224,10 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		s_center_image_offset = 320*40;
 	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
 		/* set ST/STE 4bps video mode */
-		uint32 saddr;
-		long size = (SCREEN_WIDTH*(4+SCREEN_HEIGHT)/2) + 256;
-		saddr = (uint32) Mxalloc(size, 0);	/* allocate from ST-RAM */
-		if (saddr & 0x80000000)
-			saddr = (uint32)malloc(size);	/* use malloc() if Mxalloc is not available (TOS <= 1.04) */
-		saddr = (saddr + 255) & 0x00FFFF00;	/* 256byte alignment */
 		s_savedMode = Getrez();
 		s_savedLogBase = Logbase();
 		s_savedPhysBase = Physbase();
-		Setscreen(saddr,saddr,0);	 /* set ST-Low resolution */
+		Setscreen(-1, -1, 0);	 /* set ST-Low resolution */
 		/* set and backup system palette */
 		for (i=0; i<16; i++) {
 			s_paletteBackup[i] = Setcolor(i, ((s_palette4BitPC[i*4+0] << 5) & 0x0700) | ((s_palette4BitPC[i*4+1] << 1) & 0x0070) | ((s_palette4BitPC[i*4+2]>>3) & 0x007));
