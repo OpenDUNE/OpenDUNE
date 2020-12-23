@@ -28,17 +28,18 @@ static uint16 s_stringsCount = 0;
 const char * const g_languageSuffixes[LANGUAGE_MAX] = { "ENG", "FRE", "GER", "ITA", "SPA" };
 
 /**
- * Decompress a string.
+ * Decompress a string and
+ * Translates 0x1B 0xXX occurences into extended ASCII values (0x7F + 0xXX).
  *
  * Characters values >= 0x80 (1AAAABBB) are unpacked to 2 characters
  * from the table. AAAA gives the 1st characted.
  * BBB the 2nd one (from a sub-table depending on AAAA)
  *
  * @param source The compressed string.
- * @param dest The decompressed string.
+ * @param dest The decompressed and translated string.
  * @return The length of decompressed string.
  */
-uint16 String_Decompress(const char *s, char *dest, uint16 destLen)
+uint16 String_DecompressAndTranslate(const char *s, char *dest, uint16 destLen)
 {
 	static const char couples[] =
 		" etainosrlhcdupm"	/* 1st char */
@@ -66,6 +67,8 @@ uint16 String_Decompress(const char *s, char *dest, uint16 destLen)
 			c &= 0x7F;
 			dest[count++] = couples[c >> 3];	/* 1st char */
 			c = couples[c + 16];	/* 2nd char */
+		} else if (c == 0x1B) {
+			c = 0x7F + *(++s);
 		}
 		dest[count++] = c;
 		if (count >= destLen - 1) {
@@ -104,28 +107,6 @@ char *String_Get_ByIndex(uint16 stringID)
 	return s_stringsBuffer + s_strings[stringID];
 }
 
-/**
- * Translates 0x1B 0xXX occurences into extended ASCII values (0x7F + 0xXX).
- *
- * @param source The untranslated string.
- * @param dest The translated string.
- */
-void String_TranslateSpecial(char *string)
-{
-	char * dest;
-	if (string == NULL) return;
-
-	dest = string;
-	while (*string != '\0') {
-		char c = *string++;
-		if (c == 0x1B) {
-			c = 0x7F + (*string++);
-		}
-		*dest++ = c;
-	}
-	*dest = '\0';
-}
-
 static void String_Load(const char *filename, bool compressed, uint16 start, uint16 end)
 {
 	uint8 *buf;
@@ -143,8 +124,7 @@ static void String_Load(const char *filename, bool compressed, uint16 start, uin
 		const char *src = (const char *)buf + READ_LE_UINT16(buf + i * 2);
 
 		if (compressed) {
-			len = String_Decompress(src, buffer, (uint16)sizeof(buffer));
-			String_TranslateSpecial(buffer);
+			len = String_DecompressAndTranslate(src, buffer, (uint16)sizeof(buffer));
 		} else {
 			strcpy(buffer, src);
 		}
