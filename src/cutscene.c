@@ -127,32 +127,39 @@ static void GameLoop_PlaySoundEffect(uint8 animation)
 	s_houseAnimation_currentSoundEffect++;
 }
 
+/**
+ * Used to print subtitles during cutscenes :
+ * one or two lines separated by a CR
+ *
+ * Warning : \xE1 is translated to \x01 in the source string
+ */
 static void GameLoop_DrawText(char *string, uint16 top)
 {
 	char *s;
-	uint8 *s2;
 
+	/* replace all \xE1 with \x01 */
+	for (s = string; *s != 0; s++) if (*s == '\xE1') *s = '\x01';
+
+	/* look for either null terminator or CR */
 	s = string;
-	for (s2 = (uint8 *)string; *s2 != 0; s2++) *s++ = (*s2 == 0xE1) ? 1 : *s2;
-	*s = 0;
-
-	s = string;
-
 	while (*s != 0 && *s != '\r') s++;
 
 	if (*s != 0) {
+		/* replace CR with a null terminator and let s point to the 2nd line */
 		*s++ = 0;
 	} else {
 		s = NULL;
 	}
 
+	Debug("GameLoop_DrawText() 1st line : %s\n", string);;
 	GUI_DrawText_Wrapper(string, 160, top, 215, 0, 0x100);
 
-	if (s == NULL) return;
-
-	GUI_DrawText_Wrapper(s, 160, top + 18, 215, 0, 0x100);
-
-	s[-1] = 0xD;
+	if (s != NULL) {
+		/* there is a second line to draw */
+		Debug("GameLoop_DrawText() 2nd line : %s\n", s);;
+		GUI_DrawText_Wrapper(s, 160, top + 18, 215, 0, 0x100);
+		s[-1] = '\r';	/* put the CR character back in place */
+	}
 }
 
 static void GameLoop_PlaySubtitle(uint8 animation)
