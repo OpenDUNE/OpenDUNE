@@ -460,27 +460,43 @@ void Video_Tick(void)
 		int line, plane;
 		uint16 * screenwords;
 
+		/* in 320xYYY resolution, each line is 20 words x bitdepth
+		 * so on TT and Falcon 8bpp it is 160 words = 320 bytes,
+		 * on the ST/STE in 4bpp it is 80 words = 160 bytes */
 		screenwords = (uint16 *)Logbase();
-		screenwords += (320-32)/2;
-		/* copy the characters in color 15 (00001111) */
-		for (line = 0; line < 5; line++) {
-			for (plane = 0; plane < 4; plane++)
-			{
-				screenwords[plane] = (uint16)(s_fps_chars[line] >> 16);
-				screenwords[plane+8] = (uint16)s_fps_chars[line];
-			}
-			for (; plane < 8; plane++)
-			{
-				screenwords[plane] = 0;
-				screenwords[plane+8] = 0;
-			}
-			if(s_machine_type == MCH_TT) {	/* Double lines */
-				for(plane = 0; plane < 16; plane++) {
-					screenwords[(320/2)+plane] = screenwords[plane];
+		/* copy the characters in color 15 (00001111 or 1111) */
+		if (s_machine_type == MCH_TT || s_machine_type == MCH_FALCON) {
+			screenwords += (320-32)/2;
+			for (line = 0; line < 5; line++) {
+				for (plane = 0; plane < 4; plane++)
+				{
+					screenwords[plane] = (uint16)(s_fps_chars[line] >> 16);
+					screenwords[plane+8] = (uint16)s_fps_chars[line];
 				}
-				screenwords += 320;
-			} else {
-				screenwords += 320/2;
+				for (; plane < 8; plane++)
+				{
+					screenwords[plane] = 0;
+					screenwords[plane+8] = 0;
+				}
+				if(s_machine_type == MCH_TT) {	/* Double lines */
+					for(plane = 0; plane < 16; plane++) {
+						screenwords[(320/2)+plane] = screenwords[plane];
+					}
+					screenwords += 320;	/* two lines = 320 words */
+				} else {
+					screenwords += 320/2;
+				}
+			}
+		} else {
+			/* ST / STE */
+			screenwords += (320-32)/4;
+			for (line = 0; line < 5; line++) {
+				for (plane = 0; plane < 4; plane++)
+				{
+					screenwords[plane] = (uint16)(s_fps_chars[line] >> 16);
+					screenwords[plane+4] = (uint16)s_fps_chars[line];
+				}
+				screenwords += 320/4;
 			}
 		}
 	}
