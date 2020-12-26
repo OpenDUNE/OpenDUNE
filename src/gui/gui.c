@@ -404,6 +404,7 @@ static void GUI_DrawChar(unsigned char c, uint16 x, uint16 y)
 	uint16 remainingWidth;
 	uint8 i;
 	uint8 j;
+	const uint8 * fontData;
 
 	if (g_fontCurrent == NULL) return;
 
@@ -414,25 +415,27 @@ static void GUI_DrawChar(unsigned char c, uint16 x, uint16 y)
 	if (y >= SCREEN_HEIGHT || (y + g_fontCurrent->height) > SCREEN_HEIGHT) return;
 
 	GFX_Screen_SetDirty(SCREEN_ACTIVE, x, y, x + fc->width, y + g_fontCurrent->height);
-	x += y * SCREEN_WIDTH;
+	x += y * (uint16)SCREEN_WIDTH;
 	remainingWidth = SCREEN_WIDTH - fc->width;
 
 	if (g_colours[0] != 0) {
+		/* fill unused lines with g_colours[0] */
 		for (j = 0; j < fc->unusedLines; j++) {
 			for (i = 0; i < fc->width; i++) screen[x++] = g_colours[0];
 			x += remainingWidth;
 		}
 	} else {
-		x += fc->unusedLines * SCREEN_WIDTH;
+		/* unused lines are left untouched (transparent) */
+		x += fc->unusedLines * (uint16)SCREEN_WIDTH;
 	}
 
 	if (fc->usedLines == 0) return;
 
+	fontData = fc->data;
 	for (j = 0; j < fc->usedLines; j++) {
 		for (i = 0; i < fc->width; i++) {
-			uint8 data = fc->data[j * fc->width + i];
-
-			if (g_colours[data & 0xF] != 0) screen[x] = g_colours[data & 0xF];
+			uint8 c = g_colours[*fontData++ & 0xF];
+			if (c != 0) screen[x] = c;
 			x++;
 		}
 		x += remainingWidth;
@@ -440,6 +443,7 @@ static void GUI_DrawChar(unsigned char c, uint16 x, uint16 y)
 
 	if (g_colours[0] == 0) return;
 
+	/* fill unused lines with g_colours[0] */
 	for (j = fc->unusedLines + fc->usedLines; j < g_fontCurrent->height; j++) {
 		for (i = 0; i < fc->width; i++) screen[x++] = g_colours[0];
 		x += remainingWidth;
