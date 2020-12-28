@@ -8,17 +8,25 @@ def split_string(s, n):
 	return [s[i*n:i*n+n] for i, j in enumerate(s[::n])]
 
 def save_pbm(filename, width, height, pixels, palette):
+	save_iff(filename, width, height, pixels, palette, 'PBM ', 8)
+
+def save_ilbm(filename, width, height, pixels, palette):
+	bpp = 8 * len(pixels) / (width * height)
+	save_iff(filename, width, height, pixels, palette, 'ILBM', bpp)
+
+def save_iff(filename, width, height, pixels, palette, fmt, bpp):
 	if (width & 1) != 0:
 		pixels = ''.join([line + chr(0) for line in split_string(pixels, width)])
 	with open(filename, 'wb') as pbm_file:
-		bmhd_chunk = 'BMHD' + pack('>LHHHHBBBBHBBHH', 20, width, height, 0, 0, 8, 2, 0, 0, 0, 10, 10, width, height);
+		# width, height, x, y, bitplanes, mask, compression, pad, transp_col, ratio_x, ratio_y, screen width, screen height
+		bmhd_chunk = 'BMHD' + pack('>LHHHHBBBBHBBHH', 20, width, height, 0, 0, bpp, 2, 0, 0, 0, 10, 10, width, height);
 		cmap_chunk = '' if not palette else 'CMAP' + pack('>L', len(palette)) + palette
 		body_chunk = 'BODY' + pack('>L', len(pixels)) + pixels
 
 		size = 4 + len(body_chunk) + len(bmhd_chunk) + len(cmap_chunk)
-		form = 'FORM' + pack('>L', size) + 'PBM ' + bmhd_chunk + cmap_chunk + body_chunk
+		form = 'FORM' + pack('>L', size) + fmt + bmhd_chunk + cmap_chunk + body_chunk
 		pbm_file.write(form)
-		print filename, "written"
+		print filename, "written", bpp, "bpp"
 
 def save_flc(filename, width, height, frames, palette):
 	with open(filename, 'wb') as flc_file:
