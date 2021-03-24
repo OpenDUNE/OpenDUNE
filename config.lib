@@ -605,7 +605,7 @@ make_compiler_cflags() {
 
 	if [ `basename $1 | cut -c 1-3` = "icc" ]; then
 		# Enable some things only for certain ICC versions
-		cc_version=`$1 -dumpversion | cut -c 1-4 | sed s@\\\.@@g`
+		cc_version=`$1 -dumpversion | cut -d. -f 1-2 | sed s@\\\.@@g`
 
 		flags="$flags -rdynamic"
 		ldflags="$ldflags -rdynamic"
@@ -736,7 +736,7 @@ make_compiler_cflags() {
 		ldflags="$ldflags -rdynamic"
 	else
 		# Enable some things only for certain GCC versions
-		cc_version=`$1 -dumpversion | cut -c 1,3`
+		cc_version=`$1 -dumpversion | cut -d. -f 1-2 | sed s@\\\.@@g`
 		if [ $(echo -n "$cc_version" | wc -c) -eq 1 ] ; then
 			# add a 0 if the version had only one digit
 			cc_version="${cc_version}0"
