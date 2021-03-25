@@ -736,8 +736,11 @@ make_compiler_cflags() {
 		ldflags="$ldflags -rdynamic"
 	else
 		# Enable some things only for certain GCC versions
-		cc_version=`$1 -dumpversion | cut -d. -f 1-2 | sed s@\\\.@@g`
-		if [ $(echo -n "$cc_version" | wc -c) -eq 1 ] ; then
+		cc_version=`$1 -dumpversion | cut -d. -f 1-2`
+		if echo "$cc_version" | grep -q '\.' ; then
+		    # remove the dot
+		    cc_version=`echo "$cc_version" | sed s@\\\.@@g`
+		else
 			# add a 0 if the version had only one digit
 			cc_version="${cc_version}0"
 		fi
