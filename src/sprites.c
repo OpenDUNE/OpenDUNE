@@ -98,10 +98,12 @@ static void Sprites_Load(const char *filename)
 		const uint8 *src = Sprites_GetSprite(buffer, i);
 		uint8 *dst = NULL;
 
-		Debug("Sprites %-12s %3d : 0x%04x %2dx%2d %2d %5d %5d\n", filename, i,
-		      READ_LE_UINT16(src)/*Flags*/, READ_LE_UINT16(src+3)/*Width*/, src[2], /* height */
-		      src[5] /* height */, READ_LE_UINT16(src+6) /* packed size */, READ_LE_UINT16(src+8) /* decoded size */);
-		if (src != NULL) {
+		if (src == NULL) {
+			Warning("Sprites %-12s %3d : Load Error\n", filename, i);
+		} else {
+			Debug("Sprites %-12s %3d : 0x%04x %2dx%2d %2d %5d %5d\n", filename, i,
+			      READ_LE_UINT16(src)/*Flags*/, READ_LE_UINT16(src+3)/*Width*/, src[2], /* height */
+			      src[5] /* height */, READ_LE_UINT16(src+6) /* packed size */, READ_LE_UINT16(src+8) /* decoded size */);
 			if (g_unpackSHPonLoad && (src[0] & 0x2) == 0) {
 				size = READ_LE_UINT16(src+8) + 10;
 				if (READ_LE_UINT16(src) & 0x1) {
