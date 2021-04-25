@@ -78,6 +78,15 @@ void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft
 {
 	uint8 newButtonState = (mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0);
 
+	/* some of the input sources might be a bit sloppy on restricting the X/Y upper limits, so we clamp the values */
+	if (mousePosX >= 320) {
+		mousePosX = 319;
+	}
+
+	if (mousePosY >= 200) {
+		mousePosY = 199;
+	}
+
 	if (g_mouseDisabled == 0) {
 		if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & INPUT_FLAG_MOUSE_EMUL) == 0) {
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
