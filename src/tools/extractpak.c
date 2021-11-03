@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <errno.h>
 
 #ifndef MIN
 #define MIN(a,b) (((a)<=(b))?(a):(b))
@@ -13,7 +14,7 @@
 
 static const char * outdir = NULL;
 
-static void buildOutPath(char * outpath, size_t outpath_len, const char * path)
+static int buildOutPath(char * outpath, size_t outpath_len, const char * path)
 {
 	const char * filename;
 	char * ext;
@@ -26,7 +27,11 @@ static void buildOutPath(char * outpath, size_t outpath_len, const char * path)
 	/* remove extension */
 	ext = strrchr(outpath, '.');
 	if (ext) *ext = '\0';
-	if (mkdir(outpath, 0777) < 0) perror("mkdir");
+	if (mkdir(outpath, 0777) < 0) {
+		perror("mkdir");
+		return -1;
+	}
+	return 0;
 }
 
 
@@ -87,7 +92,10 @@ int extractPak(const char * path, uint32_t paksize)
 		paksize = (uint32_t)ftell(f);
 		fseek(f, 0, SEEK_SET);
 	}
-	buildOutPath(outpath, sizeof(outpath), path);
+	if (buildOutPath(outpath, sizeof(outpath), path) < 0) {
+		fprintf(stderr, "Failed to create directory : %s\n", outpath);
+		return -1;
+	}
 	printf("extracting %s to %s\n", path, outpath);
 	if (fread_le_uint32(&nextposition, f) < 0) {
 		fclose(f);
@@ -163,6 +171,23 @@ int main(int argc, char * * argv)
 		fprintf(stderr, "options:\n");
 		fprintf(stderr, "    --outdir path\n");
 		return 1;
+	}
+
+	if (outdir != NULL) {
+		if (stat(outdir, &st) < 0) {
+			if (errno != ENOENT) {
+				perror(outdir);
+				return 1;
+			}
+			if (mkdir(outdir, 0777) < 0) {
+				perror("mkdir");
+				fprintf(stderr, "Failed to create directory : %s\n", outdir);
+				return 1;
+			}
+		} else if (!S_ISDIR(st.st_mode)) {
+			fprintf(stderr, "%s is not a directory\n", outdir);
+			return 1;
+		}
 	}
 
 	if (stat(path, &st) < 0) {
