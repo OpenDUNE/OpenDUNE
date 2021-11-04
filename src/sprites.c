@@ -307,6 +307,10 @@ static uint32 Sprites_LoadCPSFile(const char *filename, Screen screenID, uint8 *
 	buffer = GFX_Screen_Get_ByIndex(screenID);
 
 	index = File_Open(filename, FILE_MODE_READ);
+	if (index == FILE_INVALID) {
+		Warning("Failed to open %s\n", filename);
+		return 0;
+	}
 
 	size = File_Read_LE16(index);
 
