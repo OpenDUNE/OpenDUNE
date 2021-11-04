@@ -486,6 +486,7 @@ static uint16 GameLoop_HandleEvents(const char **strings)
 				char c1;
 				char c2;
 
+				if (strings[i] == NULL) continue;
 				c1 = toupper(*strings[i]);
 				c2 = toupper(Input_Keyboard_HandleKeys(key & 0xFF));
 
