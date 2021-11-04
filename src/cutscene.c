@@ -988,7 +988,8 @@ static void Gameloop_Logos(void)
 
 	GFX_ClearScreen(SCREEN_ACTIVE);
 
-	Sprites_LoadImage(String_GenerateFilename("AND"), SCREEN_1, g_palette_998A);
+	if (File_Exists("AND.CPS")) Sprites_LoadImage("AND.CPS", SCREEN_1, g_palette_998A);
+	else Sprites_LoadImage(String_GenerateFilename("AND"), SCREEN_1, g_palette_998A);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 
