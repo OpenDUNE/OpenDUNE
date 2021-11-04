@@ -52,55 +52,50 @@ static uint16 s_mouseSpriteBufferSize = 0;
 static bool s_iconLoaded = false;
 
 /**
- * Gets the given sprite inside the given buffer.
- *
- * @param buffer The buffer containing sprites.
- * @param index The index of the sprite to get.
- * @return The sprite.
- */
-static const uint8 *Sprites_GetSprite(const uint8 *buffer, uint16 index)
-{
-	uint32 offset;
-
-	if (buffer == NULL) return NULL;
-	if (READ_LE_UINT16(buffer) <= index) return NULL;
-
-	buffer += 2;
-
-	offset = READ_LE_UINT32(buffer + 4 * index);
-
-	if (offset == 0) return NULL;
-
-	return buffer + offset;
-}
-
-/**
  * Loads the sprites.
  *
  * @param index The index of the list of sprite files to load.
  * @param sprites The array where to store CSIP for each loaded sprite.
  */
-static void Sprites_Load(const char *filename)
+static void Sprites_Load(const char *filename, const char *altFilename, uint16 expectedCount)
 {
 	uint8 *buffer;
 	uint16 count;
 	uint16 i;
 	uint16 size;
+	bool oldFormat;	// true for Dune2 v1.0 format
 
+	if (!File_Exists(filename)) {
+		if (altFilename != NULL && File_Exists(altFilename)) {
+			Warning("%s Does not exists, using %s instead\n", filename, altFilename);
+			filename = altFilename;
+		} else {
+			Warning("%s Does not exists\n", filename);
+			s_spritesCount += expectedCount;
+			g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
+			for (i = s_spritesCount - expectedCount; i < s_spritesCount; i++) g_sprites[i] = NULL;
+			return;
+		}
+	}
 	buffer = File_ReadWholeFile(filename);
+	if (buffer == NULL) return;
 
 	count = READ_LE_UINT16(buffer);
+	Debug("%s: %d %d\n", filename, count, expectedCount);
+	oldFormat = (4 + (uint32)count * 4) != READ_LE_UINT32(buffer + 2);
 
 	s_spritesCount += count;
 	g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
 
 	for (i = 0; i < count; i++) {
-		const uint8 *src = Sprites_GetSprite(buffer, i);
 		uint8 *dst = NULL;
+		uint32 offset = oldFormat ? (uint32)READ_LE_UINT16(buffer + 2 + 2 * i) : READ_LE_UINT32(buffer + 2 + 4 * i);
 
-		if (src == NULL) {
+		if (offset == 0) {
 			Warning("Sprites %-12s %3d : Load Error\n", filename, i);
 		} else {
+			const uint8 *src = buffer + offset;
+			if (!oldFormat) src += 2;
 			Debug("Sprites %-12s %3d : 0x%04x %2dx%2d %2d %5d %5d\n", filename, i,
 			      READ_LE_UINT16(src)/*Flags*/, READ_LE_UINT16(src+3)/*Width*/, src[2], /* height */
 			      src[5] /* height */, READ_LE_UINT16(src+6) /* packed size */, READ_LE_UINT16(src+8) /* decoded size */);
@@ -142,6 +137,14 @@ static void Sprites_Load(const char *filename)
 		}
 
 		g_sprites[s_spritesCount - count + i] = dst;
+	}
+	if (expectedCount == 99 && count == 103) {
+		// relocation of BTTN when loading SHAPES.SHP of Dune2 v1.0
+		memcpy(g_sprites + 7, g_sprites + (s_spritesCount - count + 94), 4 * sizeof(uint8 *));
+		memmove(g_sprites + (s_spritesCount - count + 94), g_sprites + (s_spritesCount - count + 98), (count - 98) * sizeof(uint8 *));
+		s_spritesCount -= 4;
+	} else if (expectedCount != count) {
+		Warning("Sprites %-12s : %d sprites expected, found %d\n", filename, expectedCount, count);
 	}
 
 	free(buffer);
@@ -477,33 +480,33 @@ bool Tile_IsUnveiled(uint16 tileID)
 
 void Sprites_Init(void)
 {
-	Sprites_Load("MOUSE.SHP");                       /*   0 -   6 */
-	Sprites_Load(String_GenerateFilename("BTTN"));   /*   7 -  11 */
-	Sprites_Load("SHAPES.SHP");                      /*  12 - 110 */
-	Sprites_Load("UNITS2.SHP");                      /* 111 - 150 */
-	Sprites_Load("UNITS1.SHP");                      /* 151 - 237 */
-	Sprites_Load("UNITS.SHP");                       /* 238 - 354 */
-	Sprites_Load(String_GenerateFilename("CHOAM"));  /* 355 - 372 */
-	Sprites_Load(String_GenerateFilename("MENTAT")); /* 373 - 386 */
-	Sprites_Load("MENSHPH.SHP");                     /* 387 - 401 */
-	Sprites_Load("MENSHPA.SHP");                     /* 402 - 416 */
-	Sprites_Load("MENSHPO.SHP");                     /* 417 - 431 */
-	Sprites_Load("MENSHPM.SHP");                     /* 432 - 446 (Placeholder - Fremen) */
-	Sprites_Load("MENSHPM.SHP");                     /* 447 - 461 (Placeholder - Sardaukar) */
-	Sprites_Load("MENSHPM.SHP");                     /* 462 - 476 */
-	Sprites_Load("PIECES.SHP");                      /* 477 - 504 */
-	Sprites_Load("ARROWS.SHP");                      /* 505 - 513 */
-	Sprites_Load("CREDIT1.SHP");                     /* 514 */
-	Sprites_Load("CREDIT2.SHP");                     /* 515 */
-	Sprites_Load("CREDIT3.SHP");                     /* 516 */
-	Sprites_Load("CREDIT4.SHP");                     /* 517 */
-	Sprites_Load("CREDIT5.SHP");                     /* 518 */
-	Sprites_Load("CREDIT6.SHP");                     /* 519 */
-	Sprites_Load("CREDIT7.SHP");                     /* 520 */
-	Sprites_Load("CREDIT8.SHP");                     /* 521 */
-	Sprites_Load("CREDIT9.SHP");                     /* 522 */
-	Sprites_Load("CREDIT10.SHP");                    /* 523 */
-	Sprites_Load("CREDIT11.SHP");                    /* 524 */
+	Sprites_Load("MOUSE.SHP", NULL, 7);              /*   0 -   6 */
+	Sprites_Load(String_GenerateFilename("BTTN"), NULL, 5); /*   7 -  11 */
+	Sprites_Load("SHAPES.SHP", NULL, 99);            /*  12 - 110 */
+	Sprites_Load("UNITS2.SHP", NULL, 40);            /* 111 - 150 */
+	Sprites_Load("UNITS1.SHP", NULL, 87);            /* 151 - 237 */
+	Sprites_Load("UNITS.SHP", NULL, 117);            /* 238 - 354 */
+	Sprites_Load(String_GenerateFilename("CHOAM"), "CHOAMSHP.SHP", 18); /* 355 - 372 */
+	Sprites_Load(String_GenerateFilename("MENTAT"), "MENTAT.SHP", 14);  /* 373 - 386 */
+	Sprites_Load("MENSHPH.SHP", NULL, 15);           /* 387 - 401 */
+	Sprites_Load("MENSHPA.SHP", NULL, 15);           /* 402 - 416 */
+	Sprites_Load("MENSHPO.SHP", NULL, 15);                    /* 417 - 431 */
+	Sprites_Load("MENSHPM.SHP", NULL, 15);                    /* 432 - 446 (Placeholder - Fremen) */
+	Sprites_Load("MENSHPM.SHP", NULL, 15);                    /* 447 - 461 (Placeholder - Sardaukar) */
+	Sprites_Load("MENSHPM.SHP", NULL, 15);                    /* 462 - 476 */
+	Sprites_Load("PIECES.SHP", NULL, 28);                     /* 477 - 504 */
+	Sprites_Load("ARROWS.SHP", NULL, 9);                      /* 505 - 513 */
+	Sprites_Load("CREDIT1.SHP", NULL, 1);                     /* 514 */
+	Sprites_Load("CREDIT2.SHP", NULL, 1);                     /* 515 */
+	Sprites_Load("CREDIT3.SHP", NULL, 1);                     /* 516 */
+	Sprites_Load("CREDIT4.SHP", NULL, 1);                     /* 517 */
+	Sprites_Load("CREDIT5.SHP", NULL, 1);                     /* 518 */
+	Sprites_Load("CREDIT6.SHP", NULL, 1);                     /* 519 */
+	Sprites_Load("CREDIT7.SHP", NULL, 1);                     /* 520 */
+	Sprites_Load("CREDIT8.SHP", NULL, 1);                     /* 521 */
+	Sprites_Load("CREDIT9.SHP", NULL, 1);                     /* 522 */
+	Sprites_Load("CREDIT10.SHP", NULL, 1);                    /* 523 */
+	Sprites_Load("CREDIT11.SHP", NULL, 1);                    /* 524 */
 }
 
 void Sprites_Uninit(void)
