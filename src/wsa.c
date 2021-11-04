@@ -6,6 +6,7 @@
 #include "types.h"
 #include "os/math.h"
 #include "os/endian.h"
+#include "os/error.h"
 #include "gfx.h"
 
 #include "wsa.h"
@@ -43,6 +44,7 @@ typedef struct WSAHeader {
 	uint8 *fileContent;                                     /*!< The content of the file. */
 	char   filename[13];                                    /*!< Filename of WSA. */
 	WSAFlags flags;                                         /*!< Flags of WSA. */
+	uint16 lengthHeader;									/*!< length of file header (8 or 10) */
 } WSAHeader;
 
 MSVC_PACKED_BEGIN
@@ -92,7 +94,7 @@ static uint32 WSA_GetFrameOffset_FromMemory(WSAHeader *header, uint16 frame)
 		lengthAnimation = READ_LE_UINT32(header->fileContent + 4) - animation0;
 	}
 
-	return animationFrame - lengthAnimation - 10;
+	return animationFrame - lengthAnimation - header->lengthHeader;
 }
 
 /**
@@ -102,11 +104,11 @@ static uint32 WSA_GetFrameOffset_FromMemory(WSAHeader *header, uint16 frame)
  * @param frame The frame of animation.
  * @return The offset for the animation from the beginning of the file.
  */
-static uint32 WSA_GetFrameOffset_FromDisk(uint8 fileno, uint16 frame)
+static uint32 WSA_GetFrameOffset_FromDisk(uint8 fileno, uint16 frame, uint16 lengthHeader)
 {
 	uint32 offset;
 
-	File_Seek(fileno, frame * 4 + 10, 0);
+	File_Seek(fileno, frame * 4 + lengthHeader, 0);
 	offset = File_Read_LE32(fileno);
 
 	return offset;
@@ -152,8 +154,8 @@ static uint16 WSA_GotoNextFrame(void *wsa, uint16 frame, uint8 *dst)
 
 		fileno = File_Open(header->filename, FILE_MODE_READ);
 
-		positionStart = WSA_GetFrameOffset_FromDisk(fileno, frame);
-		positionEnd = WSA_GetFrameOffset_FromDisk(fileno, frame + 1);
+		positionStart = WSA_GetFrameOffset_FromDisk(fileno, frame, header->lengthHeader);
+		positionEnd = WSA_GetFrameOffset_FromDisk(fileno, frame + 1, header->lengthHeader);
 		length = positionEnd - positionStart;
 
 		if (positionStart == 0 || positionEnd == 0 || length == 0) {
@@ -196,7 +198,8 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	WSAHeader *header;
 	uint32 bufferSizeMinimal;
 	uint32 bufferSizeOptimal;
-	uint16 lengthHeader;
+	uint16 lengthHeader = 10;
+	uint16 lengthOffsets;
 	uint8 fileno;
 	uint16 lengthPalette;
 	uint16 lengthFirstFrame;
@@ -212,8 +215,17 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	fileheader.height = File_Read_LE16(fileno);
 	fileheader.requiredBufferSize = File_Read_LE16(fileno);
 	fileheader.hasPalette = File_Read_LE16(fileno);		/* has palette */
+	Debug("%s : %u %ux%u %u %x\n", filename, fileheader.frames, fileheader.width, fileheader.height, fileheader.requiredBufferSize, fileheader.hasPalette);
 	fileheader.firstFrameOffset = File_Read_LE32(fileno);	/* Offset of 1st frame */
+	if (fileheader.firstFrameOffset != (uint32)lengthHeader + 8 + 4 * fileheader.frames) {
+		/* Old format from Dune v1.0 */
+		lengthHeader = 8;
+		fileheader.hasPalette = 0;
+		File_Seek(fileno, -6, 1);
+		fileheader.firstFrameOffset = File_Read_LE32(fileno);
+	}
 	fileheader.secondFrameOffset = File_Read_LE32(fileno);	/* Offset of 2nd frame (end of 1st frame) */
+	Debug("               %08x %08x\n", fileheader.firstFrameOffset, fileheader.secondFrameOffset);
 
 	lengthPalette = 0;
 	if (fileheader.hasPalette) {
@@ -231,7 +243,7 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 		flags.hasNoFirstFrame = true;	/* is the continuation of another WSA */
 	}
 
-	lengthFileContent -= lengthPalette + lengthFirstFrame + 10;
+	lengthFileContent -= lengthPalette + lengthFirstFrame + lengthHeader;
 
 	displaySize = 0;
 	if (reserveDisplayFrame) {
@@ -271,6 +283,7 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	buffer = (uint8 *)wsa + sizeof(WSAHeader);
 
 	header->flags = flags;
+	header->lengthHeader = lengthHeader;
 
 	if (reserveDisplayFrame) {
 		memset(buffer, 0, displaySize);
@@ -291,28 +304,28 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	strncpy(header->filename, filename, sizeof(header->filename) - 1);
 	header->filename[sizeof(header->filename) - 1] = '\0';
 
-	lengthHeader = (fileheader.frames + 2) * 4;
+	lengthOffsets = (fileheader.frames + 2) * 4;
 
 	if (wsaSize >= bufferSizeOptimal) {
 		header->fileContent = buffer + header->bufferLength;
 
-		File_Seek(fileno, 10, 0);
-		File_Read(fileno, header->fileContent, lengthHeader);
+		File_Seek(fileno, lengthHeader, 0);
+		File_Read(fileno, header->fileContent, lengthOffsets);
 		File_Seek(fileno, lengthFirstFrame + lengthPalette, 1);
-		File_Read(fileno, header->fileContent + lengthHeader, lengthFileContent - lengthHeader);
+		File_Read(fileno, header->fileContent + lengthOffsets, lengthFileContent - lengthOffsets);
 
 		header->flags.dataInMemory = true;
 		if (WSA_GetFrameOffset_FromMemory(header, header->frames + 1) == 0) header->flags.noAnimation = true;
 	} else {
 		header->flags.dataOnDisk = true;
-		if (WSA_GetFrameOffset_FromDisk(fileno, header->frames + 1) == 0) header->flags.noAnimation = true;
+		if (WSA_GetFrameOffset_FromDisk(fileno, header->frames + 1, header->lengthHeader) == 0) header->flags.noAnimation = true;
 	}
 
 	{
 		uint8 *b;
 		b = buffer + header->bufferLength - lengthFirstFrame;
 
-		File_Seek(fileno, lengthHeader + lengthPalette + 10, 0);
+		File_Seek(fileno, lengthHeader + lengthOffsets + lengthPalette, 0);
 		File_Read(fileno, b, lengthFirstFrame);
 		File_Close(fileno);
 
