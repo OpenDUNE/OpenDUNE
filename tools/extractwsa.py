@@ -27,6 +27,11 @@ def extract_wsa(filename, palette = None, frame = None):
 		print '  %2d frames %3dx%3d req_buffer_size=%5d has_palette=%d' % (frames, width, height, req_buffer_size, has_palette)
 		offset = 10
 		offsets = []
+		(offset_frame,) = unpack_from('<L', wsa, offset)
+		if offset_frame != 10 + 8 + 4 * frames:
+			# old format from Dune v1.0
+			offset -= 2
+			has_palette = 0
 		for i in range(frames+2):
 			(offset_frame,) = unpack_from('<L', wsa, offset)
 			offsets += [offset_frame]
