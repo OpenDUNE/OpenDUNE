@@ -30,3 +30,4 @@ tools/*.o
 tools/*.pyc
 tools/amigaMXextract
 tools/extractpak
+.*.swp
