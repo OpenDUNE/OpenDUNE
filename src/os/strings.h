@@ -89,11 +89,6 @@
 			extern int vsnprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, va_list __arg) __THROW __attribute__ ((__format__ (__printf__, 3, 0)));
 		#endif /* __APPLE__ */
 	#endif /* __GCC__ */
-	
-	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(strdup) && !defined(__APPLE__) && !defined(TOS) && !defined(__FreeBSD__) && !defined(__DJGPP__) && !defined(__OS2__) && !defined(__HAIKU__)
-		/* strdup is not ANSI-C, but our own implemention would only be slower */
-		extern char *strdup (__const char *__s);
-	#endif /* __GCC__ */
 #endif /* _MSC_VER && !__TINYC__ */
 
 #endif /* OS_STRINGS_H */

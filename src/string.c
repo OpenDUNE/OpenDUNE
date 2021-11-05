@@ -16,7 +16,13 @@
 #include "file.h"
 #include "table/strings.h"
 
-static char **s_strings = NULL;
+/* 941 strings and 38356 chars in English,
+   833 and 39582 in French,
+   899 and 42868 in German */
+#define MAX_STRING_COUNT 950U
+#define MAX_CHARACTER_COUNT 48*1024U
+static uint16 * s_strings = NULL;
+static char * s_stringsBuffer = NULL;
 static uint16 s_stringsCount = 0;
 
 const char * const g_languageSuffixes[LANGUAGE_MAX] = { "ENG", "FRE", "GER", "ITA", "SPA" };
@@ -95,7 +101,7 @@ const char *String_GenerateFilename(const char *name)
  */
 char *String_Get_ByIndex(uint16 stringID)
 {
-	return s_strings[stringID];
+	return s_stringsBuffer + s_strings[stringID];
 }
 
 /**
@@ -120,50 +126,51 @@ void String_TranslateSpecial(char *string)
 	*dest = '\0';
 }
 
-static void String_Load(const char *filename, bool compressed, int start, int end)
+static void String_Load(const char *filename, bool compressed, uint16 start, uint16 end)
 {
 	uint8 *buf;
 	uint16 count;
 	uint16 i;
-	char decomp_buffer[1024];
+	char buffer[1024];
 
 	buf = File_ReadWholeFile(String_GenerateFilename(filename));
 	count = READ_LE_UINT16(buf) / 2;
 
-	if (end < 0) end = start + count - 1;
-
-	s_strings = (char **)realloc(s_strings, (end + 1) * sizeof(char *));
-	s_strings[s_stringsCount] = NULL;
+	if (end == 0) end = start + count - 1;
 
 	for (i = 0; i < count && s_stringsCount <= end; i++) {
-		char *src = (char *)buf + READ_LE_UINT16(buf + i * 2);
-		char *dst;
+		uint16 len;
+		const char *src = (const char *)buf + READ_LE_UINT16(buf + i * 2);
 
 		if (compressed) {
-			uint16 len;
-			len = String_Decompress(src, decomp_buffer, (uint16)sizeof(decomp_buffer));
-			String_TranslateSpecial(decomp_buffer);
-			String_Trim(decomp_buffer);
-			dst = strdup(decomp_buffer);
+			len = String_Decompress(src, buffer, (uint16)sizeof(buffer));
+			String_TranslateSpecial(buffer);
 		} else {
-			dst = strdup(src);
-			String_Trim(dst);
+			strcpy(buffer, src);
 		}
+		String_Trim(buffer);
 
-		if (strlen(dst) == 0 && s_strings[0] != NULL) {
-			free(dst);
-		} else {
-			s_strings[s_stringsCount++] = dst;
+		len = strlen(buffer);
+		if (len > 0 || s_strings[s_stringsCount] == 0) {
+			memcpy(s_stringsBuffer + s_strings[s_stringsCount++], buffer, len + 1);
+			s_strings[s_stringsCount] = s_strings[s_stringsCount - 1] + len + 1;
 		}
 	}
 
 	/* EU version has one more string in DUNE langfile. */
-	if (s_stringsCount == STR_LOAD_GAME) s_strings[s_stringsCount++] = strdup(s_strings[STR_LOAD_A_GAME]);
-
-	while (s_stringsCount <= end) {
-		s_strings[s_stringsCount++] = NULL;
+	if (s_stringsCount == STR_LOAD_GAME) {
+		s_strings[s_stringsCount + 1] = s_strings[s_stringsCount];
+		s_strings[s_stringsCount++] = s_strings[STR_LOAD_A_GAME];
 	}
 
+	while (s_stringsCount <= end) {
+		Warning("String_Load(%s) filling %hu\n", filename, s_stringsCount);
+		s_stringsCount++;
+		s_strings[s_stringsCount] = s_strings[s_stringsCount - 1];
+	}
+
+	Debug("String_Load(%s) done. str count = %hu, byte count = %hu\n",
+	      filename, s_stringsCount, s_strings[s_stringsCount]);
 	free(buf);
 }
 
@@ -172,13 +179,17 @@ static void String_Load(const char *filename, bool compressed, int start, int en
  */
 void String_Init(void)
 {
+	s_stringsCount = 0;
+	s_strings = malloc(sizeof(uint16) * MAX_STRING_COUNT);
+	s_strings[s_stringsCount] = 0;	/* points to available space in buffer */
+	s_stringsBuffer = malloc(MAX_CHARACTER_COUNT);
 	String_Load("DUNE",     false,   1, 339);
 	String_Load("MESSAGE",  false, 340, 367);
 	String_Load("INTRO",    false, 368, 404);
 	String_Load("TEXTH",    true,  405, 444);
 	String_Load("TEXTA",    true,  445, 484);
 	String_Load("TEXTO",    true,  485, 524);
-	String_Load("PROTECT",  true,  525,  -1);
+	String_Load("PROTECT",  true,  525,   0);
 }
 
 /**
@@ -186,9 +197,8 @@ void String_Init(void)
  */
 void String_Uninit(void)
 {
-	uint16 i;
-
-	for (i = 0; i < s_stringsCount; i++) free(s_strings[i]);
+	free(s_stringsBuffer);
+	s_stringsBuffer = NULL;
 	free(s_strings);
 	s_strings = NULL;
 }
