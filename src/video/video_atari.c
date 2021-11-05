@@ -375,7 +375,7 @@ void Video_Tick(void)
 				c2p1x1_8_tt(screen, data, height*SCREEN_WIDTH);
 			} else {
 #ifdef GFX_STORE_DIRTY_AREA_BLOCKS
-				int y;
+				uint16 y;
 				for (y = area->top; y < area->bottom; y++) {
 					if (g_dirty_blocks[y] != 0) {
 						left = __builtin_ctz(g_dirty_blocks[y]) << 4;
@@ -401,7 +401,7 @@ void Video_Tick(void)
 				c2p1x1_8_falcon(screen, data, height*SCREEN_WIDTH);
 			} else {
 #ifdef GFX_STORE_DIRTY_AREA_BLOCKS
-				int y;
+				uint16 y;
 				for (y = area->top; y < area->bottom; y++) {
 					if (g_dirty_blocks[y] != 0) {
 						left = __builtin_ctz(g_dirty_blocks[y]) << 4;
@@ -429,7 +429,7 @@ void Video_Tick(void)
 				c2p1x1_4_st(screen, data, height*SCREEN_WIDTH, s_palette4BitMap);
 			} else {
 #ifdef GFX_STORE_DIRTY_AREA_BLOCKS
-				int y;
+				uint16 y;
 				for (y = area->top; y < area->bottom; y++) {
 					if (g_dirty_blocks[y] != 0) {
 						left = __builtin_ctz(g_dirty_blocks[y]) << 4;

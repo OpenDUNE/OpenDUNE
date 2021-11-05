@@ -423,7 +423,7 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, Scr
 	WSAHeader *header = (WSAHeader *)wsa;
 	uint8 *dst;
 
-	uint16 i;
+	int16 i;
 	uint16 frame;
 	int16 frameDiff;
 	int16 direction;
