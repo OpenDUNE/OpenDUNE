@@ -2160,8 +2160,8 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	char charCreditsNew[7];
 	int i;
 	int16 creditsDiff;
-	int32 creditsNew;
-	int32 creditsOld;
+	uint16 creditsNew;
+	uint16 creditsOld;
 	int16 offset;
 
 	if (s_tickCreditsAnimation > g_timerGUI && mode == 0) return;
@@ -2207,8 +2207,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	offset = 1;
 
 	if (creditsAnimationOffset < 0) {
-		creditsOld -= 1;
-		if (creditsOld < 0) creditsOld = 0;
+		if (creditsOld > 0) creditsOld--;
 
 		offset -= 8;
 	}
@@ -2221,8 +2220,8 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	g_playerCredits = creditsOld;
 
-	snprintf(charCreditsOld, sizeof(charCreditsOld), "%6d", creditsOld);
-	snprintf(charCreditsNew, sizeof(charCreditsNew), "%6d", creditsNew);
+	snprintf(charCreditsOld, sizeof(charCreditsOld), "%6hu", creditsOld);
+	snprintf(charCreditsNew, sizeof(charCreditsNew), "%6hu", creditsNew);
 
 	for (i = 0; i < 6; i++) {
 		uint16 left = i * 10 + 4;
