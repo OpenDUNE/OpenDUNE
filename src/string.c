@@ -134,24 +134,34 @@ static void String_Load(const char *filename, bool compressed, uint16 start, uin
 		if (len > 0 || s_strings[s_stringsCount] == 0) {
 			memcpy(s_stringsBuffer + s_strings[s_stringsCount++], buffer, len + 1);
 			s_strings[s_stringsCount] = s_strings[s_stringsCount - 1] + len + 1;
+			/* s_strings[s_stringsCount] must point to the available space in buffer */
 		}
+	}
+	free(buf);
+
+	if (s_stringsCount == 335) {
+		Warning("DUNE V1.0 message file detected\n");
+		memmove(s_strings + 283, s_strings + 281, sizeof(s_strings[0]) * (335 - 281 + 1));
+		s_stringsCount += 2;
+		s_strings[s_stringsCount + 2] = s_strings[s_stringsCount];	/* available space */
+		s_strings[s_stringsCount++] = s_strings[STR_NULL];
+		s_strings[s_stringsCount++] = s_strings[STR_OLD_SAVE_GAME_FILE_IS_INCOMPATABLE_WITH_LATEST_VERSION];
 	}
 
 	/* EU version has one more string in DUNE langfile. */
 	if (s_stringsCount == STR_LOAD_GAME) {
-		s_strings[s_stringsCount + 1] = s_strings[s_stringsCount];
+		s_strings[s_stringsCount + 1] = s_strings[s_stringsCount];	/* available space */
 		s_strings[s_stringsCount++] = s_strings[STR_LOAD_A_GAME];
 	}
 
 	while (s_stringsCount <= end) {
-		Warning("String_Load(%s) filling %hu\n", filename, s_stringsCount);
+		Warning("String_Load(%s) filling %hu 0x%hx\n", filename, s_stringsCount, s_strings[s_stringsCount]);
 		s_stringsCount++;
-		s_strings[s_stringsCount] = s_strings[s_stringsCount - 1];
+		s_strings[s_stringsCount] = s_strings[s_stringsCount - 1];	/* available space */
 	}
 
 	Debug("String_Load(%s) done. str count = %hu, byte count = %hu\n",
 	      filename, s_stringsCount, s_strings[s_stringsCount]);
-	free(buf);
 }
 
 /**
