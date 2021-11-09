@@ -117,7 +117,7 @@ void DSP_Play(const uint8 *data)
 	n = write(s_oss_fd, data + 2, len);
 #ifdef _DEBUG
 	if((int)n != (int)len) {
-		Debug("write() returned %d (len=%d)\n", (int)n, (int)len);
+		Debug("write(%d) returned %d\n", (int)len, (int)n);
 	}
 #endif
 	if(n < 0) {
@@ -156,7 +156,7 @@ static void oss_tick(void)
 		n = write(s_oss_fd, s_data_to_play, s_bytes_to_play);
 #ifdef _DEBUG
 		if((int)n != (int)s_bytes_to_play) {
-			Debug("  write() returned %d (len=%d)\n", (int)n, (int)s_bytes_to_play);
+			Debug("  write(%d) returned %d\n", (int)s_bytes_to_play, (int)n);
 		}
 #endif
 		if(n < 0) {
