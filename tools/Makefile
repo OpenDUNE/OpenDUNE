@@ -1,8 +1,10 @@
 CFLAGS=-Wall -O -Wextra
 
-all:	extractpak amigaMXextract
+all:	extractpak buildpak amigaMXextract
 
 extractpak:	extractpak.o
+
+buildpak:	buildpak.o
 
 amigaMXextract:	amigaMXextract.o
 
