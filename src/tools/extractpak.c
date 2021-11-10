@@ -45,6 +45,10 @@ int extractFile(FILE * pak, const char * path, const char * filename, uint32_t p
 
 	snprintf(filepath, sizeof(filepath), "%s/%s", path, filename);
 	f = fopen(filepath, "wb");
+	if (f == NULL) {
+		fprintf(stderr, "Failed to open %s for writing\n", filepath);
+		return -1;
+	}
 
 	pos_backup = ftell(pak);
 	fseek(pak, position, SEEK_SET);
