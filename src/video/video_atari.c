@@ -423,7 +423,6 @@ void Video_Tick(void)
 #endif
 			}
 		} else if (s_machine_type == MCH_ST ||s_machine_type == MCH_STE) {
-			int i;
 			data += (s_screenOffset << 2);
 			if (width == SCREEN_WIDTH) {
 				c2p1x1_4_st(screen, data, height*SCREEN_WIDTH, s_palette4BitMap);
