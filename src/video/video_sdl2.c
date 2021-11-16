@@ -221,12 +221,17 @@ void Video_Mouse_SetPosition(uint16 x, uint16 y)
 		return;
 	}
 
+	Debug("viewport : (%d,%d) %dx%d\n", rect.x, rect.y, rect.w, rect.h);
 	if (rect.x && !rect.y) {
 		scale = (float)h / (float)rect.h;
 	} else if (rect.y && !rect.x) {
 		scale = (float)w / (float)rect.w;
+	} else if (rect.w != 0 && w != 0) {
+		scale = (float)w / (float)rect.w;
+	} else if (rect.h != 0 && h != 0) {
+		scale = (float)h / (float)rect.h;
 	} else {
-		/* Guess! */
+		Warning("viewport : %dx%d,  render output size : %dx%d\n", rect.w, rect.h, w, h);
 		scale = 1.0;
 	}
 
