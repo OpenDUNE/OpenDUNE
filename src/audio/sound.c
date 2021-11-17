@@ -173,6 +173,17 @@ void Voice_Play(int16 voiceID)
 }
 
 /**
+ * Free a voice
+ */
+static void Voice_UnloadVoice(uint16 voice)
+{
+	if (g_voiceData[voice] != NULL) {
+		free(g_voiceData[voice]);
+		g_voiceData[voice] = NULL;
+	}
+}
+
+/**
  * Load voices.
  * voiceSet 0xFFFE is for Game Intro.
  * voiceSet 0xFFFF is for Game End.
@@ -187,42 +198,39 @@ void Voice_LoadVoices(uint16 voiceSet)
 	if (g_enableVoices == 0) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
+		/* unload if necessary */
 		switch (g_table_voices[voice].string[0]) {
 			case '%':
 				if (g_config.language != LANGUAGE_ENGLISH || currentVoiceSet == voiceSet) {
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
 
-				free(g_voiceData[voice]);
-				g_voiceData[voice] = NULL;
+				Voice_UnloadVoice(voice);
 				break;
 
 			case '+':
 				if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 
-				free(g_voiceData[voice]);
-				g_voiceData[voice] = NULL;
+				Voice_UnloadVoice(voice);
 				break;
 
 			case '-':
 				if (voiceSet == 0xFFFF) break;
 
-				free(g_voiceData[voice]);
-				g_voiceData[voice] = NULL;
+				Voice_UnloadVoice(voice);
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
 
-				free(g_voiceData[voice]);
-				g_voiceData[voice] = NULL;
+				Voice_UnloadVoice(voice);
 				break;
 
 			case '?':
 				if (voiceSet == 0xFFFF) break;
 
-				/* No free() as there was never a malloc(). */
-				g_voiceData[voice] = NULL;
+				/* Theses are not supposed to be preloaded. check anyway */
+				Voice_UnloadVoice(voice);
 				break;
 
 			default:
@@ -293,6 +301,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 				break;
 
 			case '?':
+				/* Do not preload */
 				break;
 
 			default:
@@ -313,8 +322,7 @@ void Voice_UnloadVoices(void)
 	uint16 voice;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
-		free(g_voiceData[voice]);
-		g_voiceData[voice] = NULL;
+		Voice_UnloadVoice(voice);
 	}
 }
 
