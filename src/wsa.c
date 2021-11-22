@@ -217,14 +217,16 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 	fileheader.hasPalette = File_Read_LE16(fileno);		/* has palette */
 	Debug("%s : %u %ux%u %u %x\n", filename, fileheader.frames, fileheader.width, fileheader.height, fileheader.requiredBufferSize, fileheader.hasPalette);
 	fileheader.firstFrameOffset = File_Read_LE32(fileno);	/* Offset of 1st frame */
-	if (fileheader.firstFrameOffset != (uint32)lengthHeader + 8 + 4 * fileheader.frames) {
+	fileheader.secondFrameOffset = File_Read_LE32(fileno);	/* Offset of 2nd frame (end of 1st frame) */
+	if (fileheader.firstFrameOffset != (uint32)lengthHeader + 8 + 4 * fileheader.frames
+	    && fileheader.secondFrameOffset != (uint32)lengthHeader + 8 + 4 * fileheader.frames) {
 		/* Old format from Dune v1.0 */
 		lengthHeader = 8;
 		fileheader.hasPalette = 0;
-		File_Seek(fileno, -6, 1);
+		File_Seek(fileno, -10, 1);
 		fileheader.firstFrameOffset = File_Read_LE32(fileno);
+		fileheader.secondFrameOffset = File_Read_LE32(fileno);
 	}
-	fileheader.secondFrameOffset = File_Read_LE32(fileno);	/* Offset of 2nd frame (end of 1st frame) */
 	Debug("               %08x %08x\n", fileheader.firstFrameOffset, fileheader.secondFrameOffset);
 
 	lengthPalette = 0;
