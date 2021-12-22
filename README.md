@@ -1,13 +1,10 @@
 
 [OpenDune.org]: https://www.opendune.org/
 [Github]: https://github.com/OpenDUNE/OpenDUNE
-[IRC]: irc://irc.oftc.net/OpenDUNE
 [Report Bugs]: https://github.com/OpenDUNE/OpenDUNE/issues
-
 [Wiki]: https://github.com/OpenDUNE/OpenDUNE/wiki
-[Changelog]: changelog.txt
 [Bugs]: docs/Bugs.md
-[Enhancements]: enhancements.txt
+[Enhancements]: docs/Enhancements.txt
 
 
 [Munt Emulator]: http://munt.sourceforge.net/
@@ -24,11 +21,11 @@ released by **Virgin Entertainment**.
 
 ---
 
-**⸢ [OpenDune.org] ⸥ ⸢ [Github] ⸥ ⸢ [IRC] ⸥ ⸢ [Report Bugs] ⸥**
+**⸢ [OpenDune.org] ⸥ ⸢ [Github] ⸥ ⸢ [Report Bugs] ⸥ ⸢ [Wiki] ⸥ ⸢ [Bugs] ⸥ ⸢ [Enhancements] ⸥**
 
 ---
 
-**⸢ [Wiki] ⸥ ⸢ [Changelog] ⸥ ⸢ [Bugs] ⸥ ⸢ [Enhancements] ⸥**
+**IRC:** `irc://irc.oftc.net/OpenDUNE`
 
 ---
 
