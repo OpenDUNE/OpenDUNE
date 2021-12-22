@@ -40,7 +40,7 @@ game `DuneII`, released by **Virgin Entertainment**.
 | *OS/2* | **\*** |
 | *Haiku* | **\*** |
 
-***OpenDUNE*** *is writtin in `ASNI C(C89)`, only requires `SDL` / `SDL2`* <br>
+***OpenDUNE*** *is writtin in `ANSI C(C89)`, only requires `SDL` / `SDL2`* <br>
 *and thus should run on all platforms supporting either of those.*
 
 ---
