@@ -7,14 +7,13 @@
 [Enhancements]: docs/Enhancements.txt
 
 
-[Munt Emulator]: http://munt.sourceforge.net/
+[Munt Emulator]: https://github.com/munt/munt
 
 
 # OpenDUNE
 
-This is an open source recreation of <br>
-**Westwood Studios'** game `DuneII`, <br>
-released by **Virgin Entertainment**.
+This is an open source recreation of **Westwood Studios** <br>
+game `DuneII`, released by **Virgin Entertainment**.
 
 *This implementation tries to stay true to original while using* <br>
 *modern techniques to run natively on a wide variety of systems.*
@@ -33,13 +32,13 @@ released by **Virgin Entertainment**.
 
 | Platform | Requirements |
 |:--------:|:------------:|
-| <b>Atari TOS</b> | `68030+ CPU` \| `TT` \| `Falcon` \| `Accelerated ST / STE` |
-| <b>Mac OS X</b> | `PowerPC` \| `i686 / x86_64` \| `10.4+` |
-| <b>Windows</b> | `i686 / x86_64` |
-| <b>Linux</b> | **\*** |
-| <b>FreeBSD</b> | **\*** |
-| <b>OS/2</b> | **\*** |
-| <b>Haiku</b> | **\*** |
+| *Atari TOS* | `68030+ CPU` \| `TT` \| `Falcon` \| `Accelerated ST / STE` |
+| *Mac OS X* | `PowerPC` \| `i686 / x86_64` \| `10.4+` |
+| *Windows* | `i686 / x86_64` |
+| *Linux* | **\*** |
+| *FreeBSD* | **\*** |
+| *OS/2* | **\*** |
+| *Haiku* | **\*** |
 
 ***OpenDUNE*** *is writtin in `ASNI C(C89)`, only requires `SDL` / `SDL2`* <br>
 *and thus should run on all platforms supporting either of those.*
@@ -50,11 +49,11 @@ released by **Virgin Entertainment**.
 
 #### Windows
 
-No requirements.
+`No requirements`.
 
 #### Mac OS X
 
-No requirements, the used libraries are <br>
+`No requirements`, the used libraries are <br>
 packaged into the statically compiled binary.
 
 #### Linux / FreeBSD
@@ -97,8 +96,8 @@ Users should install `munt` on their system and rebuild.
 3. Start `opendune`
 
 *All 3 data files ( `eu` | `hs` | `us` ) will work,* <br>
-*however `French` is contained to `eu` / `hs`,* <br>
-*while `German` is limited to `eu`.*
+*however **French** is contained to `eu` / `hs`,* <br>
+*while **German** is limited to `eu`.*
 
 ## Configuration
 
