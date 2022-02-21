@@ -1,5 +1,6 @@
 /* ATARI Falcon / TT Video Driver */
 
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -39,6 +40,7 @@ static uint8 * s_framebuffer = NULL;
 /* offset to center the 320x200 image in 320x240 display */
 static uint32 s_center_image_offset = 0;
 
+static long  s_savedPScreen = 0;
 static short s_savedMode = 0;
 static void* s_savedLogBase = 0;
 static void* s_savedPhysBase = 0;
@@ -202,19 +204,18 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	if(s_machine_type == MCH_FALCON) {
 		short newMode;
-		long vSize, saddr;
+		long vSize;
+
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
 		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
 		newMode = (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0);
 		vSize = VgetSize(newMode);
-		s_center_image_offset = (vSize-(SCREEN_WIDTH*SCREEN_HEIGHT)) >> 1;
-		Debug("allocate %ld + %d bytes for mode $%04x\n", vSize, 4*SCREEN_WIDTH, (int)newMode);
-		saddr = Srealloc(vSize + 4*SCREEN_WIDTH);	/* allocate 4 lines more for explosions */
-#if 0
-		(void)VsetMode((s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
-#else
-		Vsetscreen(saddr, saddr, 3, newMode);
-#endif
+		s_center_image_offset = (vSize - (SCREEN_WIDTH * SCREEN_HEIGHT)) >> 1;
+		Debug("allocate %ld + %d bytes for mode $%04x\n", vSize, 4 * SCREEN_WIDTH, (int)newMode);
+		s_savedPScreen = Mxalloc(vSize + 4 * SCREEN_WIDTH, 0);	/* allocate 4 lines more for explosions */
+		memset(s_savedPScreen, 0, vSize + 4 * SCREEN_WIDTH);
+		VsetScreen(-1, s_savedPScreen, -1, -1);
+		(void)VsetMode(newMode);
 		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
 		/* set TT 8bps video mode */
@@ -255,14 +256,10 @@ void Video_Uninit(void)
 {
 	(void)Cursconf(1, 0);	/* switch cursor On */
 	if(s_machine_type == MCH_FALCON) {
-		long saddr;
 		VsetRGB(0, 256, s_paletteBackup);
-#if 0
 		(void)VsetMode(s_savedMode);
-#else
-		saddr = Srealloc(VgetSize(s_savedMode));
-		Vsetscreen(saddr, saddr, 3, s_savedMode);
-#endif
+		VsetScreen(-1, Logbase(), -1, -1);
+		Mfree(s_savedPScreen);
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
 		(void)EsetShift(s_savedMode);
@@ -318,7 +315,7 @@ static void Video_Atari_DrawChar(uint8 * screen, uint16 x, uint8 digit)
 void Video_Tick(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	uint8 *screen = Logbase();
+	uint8 *screen = Physbase();
 	screen += s_center_image_offset;
 
 	/* send mouse event */
@@ -462,7 +459,7 @@ void Video_Tick(void)
 		/* in 320xYYY resolution, each line is 20 words x bitdepth
 		 * so on TT and Falcon 8bpp it is 160 words = 320 bytes,
 		 * on the ST/STE in 4bpp it is 80 words = 160 bytes */
-		screenwords = (uint16 *)Logbase();
+		screenwords = (uint16 *)Physbase();
 		/* copy the characters in color 15 (00001111 or 1111) */
 		if (s_machine_type == MCH_TT || s_machine_type == MCH_FALCON) {
 			screenwords += (320-32)/2;
@@ -588,7 +585,8 @@ void Video_SetOffset(uint16 offset)
 {
 	if(s_machine_type == MCH_FALCON) {
 		/* Change Physbase(), but not Logbase() */
-		Vsetscreen(-1, Logbase() + (4 * offset), -1, -1);
+		assert(offset < 4 * SCREEN_WIDTH);
+		VsetScreen(-1, Physbase() + (4 * offset), -1, -1);
 		Vsync();
 	} else {
 		s_screenOffset = offset;
