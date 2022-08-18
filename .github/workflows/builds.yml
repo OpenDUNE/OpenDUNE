@@ -1,0 +1,72 @@
+name: builds
+
+on:
+  pull_request: # Run on all pull requests
+  push: # Run only on pushes to master
+    branches:
+      - master
+  schedule: # Run monthly
+    - cron: "0 0 1 * *"
+
+jobs:
+  build:
+    name: ${{ matrix.os }} | ${{ matrix.env }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+        env: [ 'SDLVERSION1', 'SDLVERSION2', 'mingw' ]
+        exclude:
+          - os: macos-latest
+            env: "mingw"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies Mac
+        if: ${{ runner.os == 'MacOS' }}
+        env:
+          envvar: ${{ matrix.env }}
+        run: |
+          brew update
+          if [[ $envvar == "SDLVERSION1" ]]; then
+            brew install sdl sdl_image
+          fi
+          if [[ $envvar == "SDLVERSION2" ]]; then
+            brew install sdl2 sdl2_image
+          fi
+      - name: Install dependencies Linux
+        if: ${{ runner.os == 'Linux' }}
+        env:
+          envvar: ${{ matrix.env }}
+        run: |
+          sudo apt-get update
+          if [[ $envvar == "SDLVERSION1" ]]; then
+            sudo apt-get install -y gcc-mingw-w64-i686 dos2unix zip libsdl1.2-dev libsdl-image1.2-dev
+          elif [[ $envvar == "SDLVERSION2" ]]; then
+            sudo apt-get install -y gcc-mingw-w64-i686 dos2unix zip libsdl2-image-dev libsdl2-dev
+          else
+            sudo apt-get install -y gcc-mingw-w64-i686 dos2unix zip
+          fi
+      - name: Configure
+        env:
+          envvar: ${{ matrix.env }}
+        run: |
+          if [[ $envvar == "mingw" ]]; then
+            export CC="i686-w64-mingw32-gcc"
+            ./configure --prefix-dir=${HOME} --os=MINGW --without-asound --without-oss --without-munt --without-sdl --without-sdl2 --without-pulse
+          elif [[ $envvar = "SDLVERSION1" ]]; then
+            ./configure --prefix-dir=${HOME} --without-sdl2
+          else
+            ./configure --prefix-dir=${HOME}
+          fi
+      - name: Build
+        run:
+          make -j3
+      - name: Bundle
+        run:
+          make bundle_zip
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: OpenDune ${{ matrix.os }} ${{ matrix.env }}
+          path: bundles/opendune-custom-*.zip
