@@ -40,8 +40,9 @@ static uint8 * s_framebuffer = NULL;
 /* offset to center the 320x200 image in 320x240 display */
 static uint32 s_center_image_offset = 0;
 
-static long  s_savedPScreen = 0;
+static long  s_workPhysBase = 0;
 static short s_savedMode = 0;
+static unsigned short s_nbDesktopColors = 0;
 static void* s_savedLogBase = 0;
 static void* s_savedPhysBase = 0;
 
@@ -49,7 +50,7 @@ static enum {
 	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_TT, MCH_FALCON, MCH_OTHER
 } s_machine_type = MCH_UNKNOWN;
 
-static uint32 s_paletteBackup[256];
+static int32 s_paletteBackup[256];
 static uint16 s_SquareTable[256];
 
 static uint16 s_screenOffset = 0;
@@ -207,16 +208,34 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		long vSize;
 
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
+		// number of colors ?
+		s_nbDesktopColors = s_savedMode & (int16)3;
+		if (s_nbDesktopColors == 0)
+			s_nbDesktopColors = 2;
+		else if (s_nbDesktopColors == 1)
+			s_nbDesktopColors = 4;
+		else if (s_nbDesktopColors == 2)
+			s_nbDesktopColors = 16;
+		else if (s_nbDesktopColors == 3)
+			s_nbDesktopColors = 256;
+		else 
+			s_nbDesktopColors = 65535;
+
 		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
 		newMode = (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0);
 		vSize = VgetSize(newMode);
 		s_center_image_offset = (vSize - (SCREEN_WIDTH * SCREEN_HEIGHT)) >> 1;
+		
 		Debug("allocate %ld + %d bytes for mode $%04x\n", vSize, 4 * SCREEN_WIDTH, (int)newMode);
-		s_savedPScreen = Mxalloc(vSize + 4 * SCREEN_WIDTH, 0);	/* allocate 4 lines more for explosions */
-		memset(s_savedPScreen, 0, vSize + 4 * SCREEN_WIDTH);
-		VsetScreen(-1, s_savedPScreen, -1, -1);
+		s_workPhysBase = Mxalloc(vSize + 4 * SCREEN_WIDTH, MX_STRAM);	/* allocate 4 lines more for explosions */
+		memset((void*)s_workPhysBase, 0, vSize + 4 * SCREEN_WIDTH);
+		
+		if (s_nbDesktopColors != 65535)
+			VgetRGB(0, s_nbDesktopColors, s_paletteBackup);	/* backup palette */
+		s_savedPhysBase = Physbase();		/* backup physical screen address*/
 		(void)VsetMode(newMode);
-		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
+		VsetScreen(-1, s_workPhysBase, -1, -1);
+
 	} else if(s_machine_type == MCH_TT) {
 		/* set TT 8bps video mode */
 		s_savedMode = EgetShift();
@@ -256,10 +275,14 @@ void Video_Uninit(void)
 {
 	(void)Cursconf(1, 0);	/* switch cursor On */
 	if(s_machine_type == MCH_FALCON) {
-		VsetRGB(0, 256, s_paletteBackup);
+		
+		VsetScreen(-1, s_savedPhysBase, -1, -1);
 		(void)VsetMode(s_savedMode);
-		VsetScreen(-1, Logbase(), -1, -1);
-		Mfree(s_savedPScreen);
+
+		if (s_nbDesktopColors != 65535)
+			VsetRGB(0, s_nbDesktopColors, s_paletteBackup);
+
+		Mfree(s_workPhysBase);
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
 		(void)EsetShift(s_savedMode);
