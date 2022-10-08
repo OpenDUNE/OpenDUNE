@@ -208,20 +208,24 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		long vSize;
 
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
-		// number of colors ?
+		// number of colors ? (we can't read/write more colors than current desktop depth with VgetRGB/VsetRGB)
+		// TOS documentation explaining this (http://toshyp.atari.org/en/Screen_functions.html)
+		// What we actually want is 2 ^ 2 ^ (s_savedMode & NUMCOLS).
+		// 2 ^ (s_savedMode & NUMCOLS)-- > nb bitplanes
+		// 2 ^ nb bitplanes-- > nb colors
 		switch(s_savedMode & NUMCOLS) {
-		case 0:
+		case BPS1:
 			s_nbDesktopColors = 2;
 			break;
-		case 1:
+		case BPS2:
 			s_nbDesktopColors = 4;
 			break;
-		case 2:
+		case BPS4:
 			s_nbDesktopColors = 16;
 			break;
-		case 3:
+		case BPS8:
 			s_nbDesktopColors = 256;
-			break
+			break;
 		default:
 			s_nbDesktopColors = 65535;
 		}
