@@ -209,17 +209,22 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
 		// number of colors ?
-		s_nbDesktopColors = s_savedMode & (int16)3;
-		if (s_nbDesktopColors == 0)
+		switch(s_savedMode & NUMCOLS) {
+		case 0:
 			s_nbDesktopColors = 2;
-		else if (s_nbDesktopColors == 1)
+			break;
+		case 1:
 			s_nbDesktopColors = 4;
-		else if (s_nbDesktopColors == 2)
+			break;
+		case 2:
 			s_nbDesktopColors = 16;
-		else if (s_nbDesktopColors == 3)
+			break;
+		case 3:
 			s_nbDesktopColors = 256;
-		else 
+			break
+		default:
 			s_nbDesktopColors = 65535;
+		}
 
 		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
 		newMode = (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0);
