@@ -618,7 +618,7 @@ void Video_SetOffset(uint16 offset)
 	if(s_machine_type == MCH_FALCON) {
 		/* Change Physbase(), but not Logbase() */
 		assert(offset < 4 * SCREEN_WIDTH);
-		VsetScreen(-1, Physbase() + (4 * offset), -1, -1);
+		VsetScreen(-1, s_workPhysBase + (4 * offset), -1, -1);
 		Vsync();
 	} else {
 		s_screenOffset = offset;
