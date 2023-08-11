@@ -8,11 +8,17 @@
 #include "dsp.h"
 
 
+#define MIX_OUTPUT_FORMAT	AUDIO_U8
+#define MIX_OUTPUT_FREQUENCY  22050
+#define MIX_OUTPUT_CHANNELS	2
+#define MIX_BUFFER_SIZE 1024
+
+
 static uint8 *s_buffer;
 static uint32 s_bufferLen;
 static uint8 s_status;
 static uint8 *s_data;
-static uint32 s_dataLen;
+
 
 static SDL_AudioSpec s_spec;
 
@@ -44,9 +50,11 @@ void DSP_Stop(void)
 {
 	SDL_PauseAudio(1);
 
-	s_bufferLen = 0;
 	s_buffer = NULL;
+	s_bufferLen = 0;
+
 	s_status = 0;
+	s_data = NULL;
 }
 
 void DSP_Uninit(void)
@@ -57,7 +65,6 @@ void DSP_Uninit(void)
 	SDL_CloseAudio();
 
 	free(s_data); s_data = NULL;
-	s_dataLen = 0;
 
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
@@ -66,17 +73,16 @@ bool DSP_Init(void)
 {
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) return false;
 
-	s_spec.freq     = 22050;
-	s_spec.format   = AUDIO_U8;
-	s_spec.channels = 1;
-	s_spec.samples  = 512;
+	s_spec.freq     = MIX_OUTPUT_FREQUENCY;
+	s_spec.format   = MIX_OUTPUT_FORMAT;
+	s_spec.channels = MIX_OUTPUT_CHANNELS;
+	s_spec.samples  = MIX_BUFFER_SIZE;
 	s_spec.callback = DSP_Callback;
 
 	s_bufferLen = 0;
 	s_buffer = NULL;
 	s_status = 0;
 	s_data = NULL;
-	s_dataLen = 0;
 
 	if (SDL_OpenAudio(&s_spec, &s_spec) != 0) return false;
 
@@ -86,44 +92,29 @@ bool DSP_Init(void)
 /**
  * In Dune2, the frequency of the VOC files are all over the place. SDL really
  *  dislikes it when we close/open the audio driver a lot. So, we convert all
- *  audio to one frequency, which resolves all issues. Sadly, our knowledge of
- *  audio is not really good, so this is a linear scaler.
+ *  audio to one frequency, which resolves all issues.
  */
 static void DSP_ConvertAudio(uint32 freq)
 {
 	uint32 newlen = s_bufferLen * s_spec.freq / freq;
-	uint8 *r;
-	uint8 *w;
-	uint32 i, j;
 
-	assert((int)freq < s_spec.freq);
+    SDL_AudioCVT cvt;
 
-	if (s_dataLen < newlen) {
-		s_data = realloc(s_data, newlen);
-		s_dataLen = newlen;
-	}
+	SDL_BuildAudioCVT(&cvt, AUDIO_U8, 1, freq, s_spec.format, s_spec.channels, s_spec.freq);
 
-	w = s_data + newlen - 1;
-	r = s_data + s_bufferLen - 1;
-	j = 0;
-	for (i = 0; i < s_bufferLen; i++) {
-		do {
-			*w-- = *r;
-			j++;
-		} while (j <= i * s_spec.freq / freq);
-		r--;
-	}
-	r++;
-	while (j < i * s_spec.freq / freq) {
-		*w-- = *r;
-		j++;
-	}
-	w++;
+	// Setup for conversion.
+	cvt.len = s_bufferLen;
+	cvt.buf = malloc(cvt.len * cvt.len_mult);
 
-	assert(w == s_data);
-	assert(r == s_data);
 
-	s_bufferLen = newlen;
+    // copy the old data into the buffer
+	memcpy(cvt.buf, s_data, cvt.len);
+
+	SDL_ConvertAudio(&cvt);
+
+
+	s_data = cvt.buf;
+	s_bufferLen = (newlen * MIX_OUTPUT_CHANNELS);
 }
 
 void DSP_Play(const uint8 *data)
@@ -136,18 +127,17 @@ void DSP_Play(const uint8 *data)
 
 	s_bufferLen = (READ_LE_UINT32(data) >> 8) - 2;
 
-	if (s_dataLen < s_bufferLen) {
-		s_data = realloc(s_data, s_bufferLen);
-		s_dataLen = s_bufferLen;
-	}
-
+	s_data = realloc(s_data, s_bufferLen);
 	memcpy(s_data, data + 6, s_bufferLen);
+
 	DSP_ConvertAudio(1000000 / (256 - data[4]));
 
 	s_buffer = s_data;
 	s_status = 2;
+
 	SDL_PauseAudio(0);
 }
+
 
 uint8 DSP_GetStatus(void)
 {
