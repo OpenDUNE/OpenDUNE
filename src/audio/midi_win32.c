@@ -30,6 +30,8 @@ bool midi_init(void)
 				if (strstr(caps.szPname, "MT-32") != NULL) devID = i;
 			}
 		}
+	} else {
+		devID = (uint32)IniFile_GetInteger("midideviceid", 0);
 	}
 
 	/* No callback to process messages related to the progress of the playback */

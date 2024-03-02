@@ -86,6 +86,7 @@ Available options are :
                 for Munt MT32 emulator.
 - fs_soundfont : SoundFont2 file for FluidSynth
 - fs_audiodriver : FluidSynth audio driver name (alsa, jack, oss, etc.)
+- midideviceid : Windows MIDI Device ID to use (default is 0)
 
 debug options (for developpers) :
 - dune2_enhanced : 0 = game acts like the original Dune II, including bugs

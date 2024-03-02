@@ -24,6 +24,8 @@
 ; FluidSynth settings
 fs_soundfont=/usr/local/share/soundfonts/default.sf2
 fs_audiodriver=oss
+; use the following option to force the Windows MIDI Device ID
+midideviceid=0
 
 ; Game behaviour options :
 ;dune2_enhanced=0
