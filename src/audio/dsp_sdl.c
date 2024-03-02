@@ -4,15 +4,20 @@
 #include <SDL.h>
 #include "types.h"
 #include "../os/endian.h"
+#include "../os/error.h"
 
 #include "dsp.h"
 
+#define MIX_OUTPUT_FORMAT	AUDIO_U8
+#define MIX_OUTPUT_FREQUENCY  22050
+#define MIX_OUTPUT_CHANNELS	2
+#define MIX_BUFFER_SIZE 1024
 
 static uint8 *s_buffer;
 static uint32 s_bufferLen;
 static uint8 s_status;
-static uint8 *s_data;
-static uint32 s_dataLen;
+static uint8 *s_data;		// allocated buffer
+static uint32 s_dataLen;	// size of the allocated buffer
 
 static SDL_AudioSpec s_spec;
 
@@ -66,10 +71,10 @@ bool DSP_Init(void)
 {
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) return false;
 
-	s_spec.freq     = 22050;
-	s_spec.format   = AUDIO_U8;
-	s_spec.channels = 1;
-	s_spec.samples  = 512;
+	s_spec.freq     = MIX_OUTPUT_FREQUENCY;
+	s_spec.format   = MIX_OUTPUT_FORMAT;
+	s_spec.channels = MIX_OUTPUT_CHANNELS;
+	s_spec.samples  = MIX_BUFFER_SIZE;
 	s_spec.callback = DSP_Callback;
 
 	s_bufferLen = 0;
@@ -86,44 +91,41 @@ bool DSP_Init(void)
 /**
  * In Dune2, the frequency of the VOC files are all over the place. SDL really
  *  dislikes it when we close/open the audio driver a lot. So, we convert all
- *  audio to one frequency, which resolves all issues. Sadly, our knowledge of
- *  audio is not really good, so this is a linear scaler.
+ *  audio to one frequency, which resolves all issues.
  */
 static void DSP_ConvertAudio(uint32 freq)
 {
-	uint32 newlen = s_bufferLen * s_spec.freq / freq;
-	uint8 *r;
-	uint8 *w;
-	uint32 i, j;
+	SDL_AudioCVT cvt;
+	int r;
 
-	assert((int)freq < s_spec.freq);
-
-	if (s_dataLen < newlen) {
-		s_data = realloc(s_data, newlen);
-		s_dataLen = newlen;
+	r = SDL_BuildAudioCVT(&cvt, AUDIO_U8, 1, freq, s_spec.format, s_spec.channels, s_spec.freq);
+	if (r == 0) {
+		// no conversion is needed
+		return;
+	} else if (r < 0) {
+		Error("SDL_BuildAudioCVT(%p, 0x%04x, 1, %d, 0x%04x, %u, %d): %s\n",
+		      &cvt, AUDIO_U8, freq,  s_spec.format, s_spec.channels, s_spec.freq, SDL_GetError());
+		return;
 	}
 
-	w = s_data + newlen - 1;
-	r = s_data + s_bufferLen - 1;
-	j = 0;
-	for (i = 0; i < s_bufferLen; i++) {
-		do {
-			*w-- = *r;
-			j++;
-		} while (j <= i * s_spec.freq / freq);
-		r--;
+	// Setup for conversion.
+	cvt.len = s_bufferLen; // original audio data in bytes
+	if ((int)s_dataLen < cvt.len * cvt.len_mult) {
+		s_data = realloc(s_data, cvt.len * cvt.len_mult);
+		s_dataLen = cvt.len * cvt.len_mult;
 	}
-	r++;
-	while (j < i * s_spec.freq / freq) {
-		*w-- = *r;
-		j++;
+	cvt.buf = s_data;
+
+	r = SDL_ConvertAudio(&cvt);
+	if (r < 0) {
+		Error("SDL_ConvertAudio(%p): %s\n", &cvt, SDL_GetError());
+		return;
 	}
-	w++;
 
-	assert(w == s_data);
-	assert(r == s_data);
+	Debug("SDL_ConvertAudio(): rate_incr=%f len=%d len_cvt=%d len_mult=%d len_ratio=%f\n",
+	      cvt.rate_incr, cvt.len, cvt.len_cvt, cvt.len_mult, cvt.len_ratio);
 
-	s_bufferLen = newlen;
+	s_bufferLen = cvt.len_cvt;
 }
 
 void DSP_Play(const uint8 *data)
