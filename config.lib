@@ -973,7 +973,7 @@ make_cflags_and_ldflags() {
 			# Universal builds set the version elsewhere.
 			if [ "$cpu_type" = "64" ]; then
 				if [ -n "$sdl2_config" ]; then
-					CFLAGS="$CFLAGS -mmacosx-version-min=10.6"
+					CFLAGS="$CFLAGS -mmacosx-version-min=10.7"
 				else
 					CFLAGS="$CFLAGS -mmacosx-version-min=10.5"
 				fi
