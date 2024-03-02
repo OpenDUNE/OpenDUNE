@@ -166,8 +166,9 @@ void Drivers_All_Init(void)
 {
 	Drivers_Reset();
 
-	g_enableSoundMusic = Drivers_SoundMusic_Init(g_enableSoundMusic);
+	// Must call SDL_InitSubSystem() before enabling MIDI.
 	g_enableVoices = Drivers_Voice_Init(g_enableVoices);
+	g_enableSoundMusic = Drivers_SoundMusic_Init(g_enableSoundMusic);
 }
 
 bool Driver_Music_IsPlaying(void)
