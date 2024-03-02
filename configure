@@ -99,6 +99,7 @@ AWKCOMMAND='
 		if ($0 == "MUNT"        && "'$with_munt'" == "0")          { next; }
 		if ($0 == "PULSE"       && "'$with_pulse'" == "0")         { next; }
 		if ($0 == "KAI"         && "'$with_kai'" == "0")           { next; }
+		if ($0 == "FLUID"       && "'$with_fluid'" == "0")         { next; }
 		if ($0 == "OSX"         && "'$os'" != "OSX")               { next; }
 		if ($0 == "TOS"         && "'$os'" != "TOS")               { next; }
 		if ($0 == "DOS"         && "'$os'" != "DOS")               { next; }

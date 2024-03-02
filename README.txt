@@ -55,6 +55,7 @@ It is also possible to build with Munt MT32 emulator http://munt.sourceforge.net
 to have MT32 music : Windows users should just install the mt32emu_win32drv and
 the right MIDI device will be selected when mt32midi option in opendune.ini
 is on. Linux/FreeBSD users should install munt on their system and rebuild.
+FluidSynth is also supported.
 
 
 Installation & Running
@@ -83,6 +84,8 @@ Available options are :
 - mt32midi : 0(default)/1 send MT32 init, use .XMI files
 - mt32rompath : directory containing CM32L_CONTROL.ROM/CM32L_PCM.ROM files
                 for Munt MT32 emulator.
+- fs_soundfont : SoundFont2 file for FluidSynth
+- fs_audiodriver : FluidSynth audio driver name (alsa, jack, oss, etc.)
 
 debug options (for developpers) :
 - dune2_enhanced : 0 = game acts like the original Dune II, including bugs

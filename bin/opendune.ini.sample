@@ -21,6 +21,9 @@
 ;mt32midi=1
 ; Path to MT32 ROMs (needed when built with munt library)
 ;mt32rompath=/home/user/mt32roms
+; FluidSynth settings
+fs_soundfont=/usr/local/share/soundfonts/default.sf2
+fs_audiodriver=oss
 
 ; Game behaviour options :
 ;dune2_enhanced=0

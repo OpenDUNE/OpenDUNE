@@ -53,7 +53,11 @@ audio/midi_atari.c
 			#if HAIKU
 				audio/midi_haiku.cpp
 			#else
-				audio/midi_none.c
+				#if FLUID
+					audio/midi_fluid.c
+				#else
+					audio/midi_none.c
+				#endif
 			#endif
 		#endif
 	#endif
