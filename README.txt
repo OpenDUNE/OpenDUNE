@@ -67,6 +67,10 @@ Copy the original Dune2 1.07 data files (including dune2.exe) to data/.
   only with the eu data files the German language will work.
 Start 'opendune'.
 
+OS X/macOS : data files are searched additionaly in the Contents/Resources/data
+subdirectory of the application bundle, and in
+~/Library/Application Support/OpenDUNE/data
+
 Additional options may be specified using an opendune.ini file located
 in the data/ directory, in the current directory or in %APPDATA%\OpenDUNE
 (on Windows) or ~/Library/Application Support/OpenDUNE (on Mac OS X) or
