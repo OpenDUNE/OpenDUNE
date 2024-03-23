@@ -528,6 +528,7 @@ bool File_Init(void)
 	char buf[1024];
 	char *homedir = NULL;
 #ifdef OSX
+	struct stat st;
 	CFBundleRef mainBundle = CFBundleGetMainBundle();
 #endif /* OSX */
 
@@ -599,6 +600,14 @@ bool File_Init(void)
 			CFRelease(bundleURL);
 		}
 	}
+	if (stat(g_dune_data_dir, &st) < 0) {
+		/* try ~/Library/Application Support/OpenDUNE/data */
+		homedir = getenv("HOME");
+		if (homedir != NULL) {
+			snprintf(g_dune_data_dir, sizeof(g_dune_data_dir), "%s/Library/Application Support/OpenDUNE/data", homedir);
+			Debug("datadir set to : %s\n", g_dune_data_dir);
+		}
+    }
 #endif /* OSX */
 	if (IniFile_GetString("datadir", NULL, buf, sizeof(buf)) != NULL) {
 		/* datadir is defined in opendune.ini */
