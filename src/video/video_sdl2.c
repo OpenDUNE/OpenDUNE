@@ -261,6 +261,28 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 }
 
 /**
+* Same as SDL_CreateWindowAndRenderer, except allowing renderer flags
+*/
+int Video_CreateWindowAndRenderer(int width, int height, Uint32 window_flags, Uint32 renderer_flags,
+                                SDL_Window **window, SDL_Renderer **renderer)
+{
+    *window = SDL_CreateWindow(NULL, SDL_WINDOWPOS_UNDEFINED,
+                               SDL_WINDOWPOS_UNDEFINED,
+                               width, height, window_flags);
+    if (!*window) {
+        *renderer = NULL;
+        return -1;
+    }
+
+    *renderer = SDL_CreateRenderer(*window, -1, renderer_flags);
+    if (!*renderer) {
+        return -1;
+    }
+
+    return 0;
+}
+
+/**
  * Initialize the video driver.
  */
 bool Video_Init(int screen_magnification, VideoScaleFilter filter)
@@ -272,6 +294,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
 	uint32 window_flags = 0;
+	uint32 renderer_flags;
 
 	if (s_video_initialized) return true;
 	if (screen_magnification <= 0 || screen_magnification > 4) {
@@ -295,11 +318,14 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		window_flags |= SDL_WINDOW_FULLSCREEN;
 		s_full_screen = true;
 	}
-
-	err = SDL_CreateWindowAndRenderer(
+	
+	renderer_flags = (IniFile_GetInteger("renderer_software_fallback", 0) != 0) ? SDL_RENDERER_SOFTWARE : 0;
+	
+	err = Video_CreateWindowAndRenderer(
 			SCREEN_WIDTH * s_screen_magnification,
 			SCREEN_HEIGHT * s_screen_magnification,
 			window_flags,
+			renderer_flags,
 			&s_window,
 			&s_renderer);
 
