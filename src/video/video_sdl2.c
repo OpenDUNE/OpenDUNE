@@ -276,6 +276,8 @@ int Video_CreateWindowAndRenderer(int width, int height, Uint32 window_flags, Ui
 
     *renderer = SDL_CreateRenderer(*window, -1, renderer_flags);
     if (!*renderer) {
+        SDL_DestroyWindow(*window);
+        *window = NULL;
         return -1;
     }
 
@@ -318,9 +320,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		window_flags |= SDL_WINDOW_FULLSCREEN;
 		s_full_screen = true;
 	}
-	
+
 	renderer_flags = (IniFile_GetInteger("renderer_software_fallback", 0) != 0) ? SDL_RENDERER_SOFTWARE : 0;
-	
+
 	err = Video_CreateWindowAndRenderer(
 			SCREEN_WIDTH * s_screen_magnification,
 			SCREEN_HEIGHT * s_screen_magnification,
