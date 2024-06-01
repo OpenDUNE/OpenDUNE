@@ -1129,6 +1129,9 @@ make_cflags_and_ldflags() {
 	if [ "$with_fluid" != "0" ]; then
 		LIBS="$LIBS -lfluidsynth"
 		CFLAGS="$CFLAGS -DFLUID"
+		if [ "$os" = "OS2" ]; then
+			LIBS="$LIBS -lkai"
+		fi
 	fi
 
 	if [ "$enable_assert" = "0" ]; then
