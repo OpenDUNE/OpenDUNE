@@ -81,36 +81,33 @@ void DSP_Uninit(void)
 
 bool DSP_Init(void)
 {
-	if (g_driverMusic->index == 0xFFFF) {
-		/* Not initialized by MUNT, intialize here */
-		KAISPEC spec, obtained;
+	KAISPEC spec, obtained;
 
-		spec.usDeviceIndex   = 0;
-		spec.ulType          = KAIT_PLAY;
-		spec.ulBitsPerSample = 16;
-		spec.ulSamplingRate  = 22050;
-		spec.ulDataFormat    = 0;
-		spec.ulChannels      = 2;
-		spec.ulNumBuffers    = 2;
-		spec.ulBufferSize    = 512 * 2 * 2;
-		spec.fShareable      = TRUE;
-		spec.pfnCallBack     = DSP_ZeroCallback;
-		spec.pCallBackData   = NULL;
-
-		if (kaiInit(KAIM_AUTO) || kaiEnableSoftMixer(TRUE, &spec)) {
-			Error("kaiInit() failed!\n");
-			return false;
-		}
-
-		/* KAI does not like frequent opening/closing an audio device.
-		 * To avoid this, open an instance playing silence. Later instances
-		 * are managed by a mixer not an audio device. */
-		if (kaiOpen(&spec, &obtained, &s_hkaiZero)) {
-			Error("kaiOpen() for ZERO failed!\n");
-		}
-
-		kaiPlay(s_hkaiZero);
+	if (kaiInit(KAIM_AUTO) || kaiEnableSoftMixer(TRUE, NULL)) {
+		Error("DSP: kaiInit() failed!\n");
+		return false;
 	}
+
+	spec.usDeviceIndex   = 0;
+	spec.ulType          = KAIT_PLAY;
+	spec.ulBitsPerSample = 16;
+	spec.ulSamplingRate  = 22050;
+	spec.ulDataFormat    = 0;
+	spec.ulChannels      = 2;
+	spec.ulNumBuffers    = 2;
+	spec.ulBufferSize    = 512 * 2 * 2;
+	spec.fShareable      = TRUE;
+	spec.pfnCallBack     = DSP_ZeroCallback;
+	spec.pCallBackData   = NULL;
+
+	/* KAI does not like frequent opening/closing an audio device.
+	 * To avoid this, open an instance playing silence. Later instances
+	 * are managed by a mixer not an audio device. */
+	if (kaiOpen(&spec, &obtained, &s_hkaiZero)) {
+		Error("DSP: kaiOpen() for ZERO failed!\n");
+	}
+
+	kaiPlay(s_hkaiZero);
 
 	s_bufferLen = 0;
 	s_buffer = NULL;
@@ -154,7 +151,7 @@ void DSP_Play(const uint8 *data)
 
 	if (kaiOpen(&spec, &obtained, &s_hkai))
 	{
-		Error("kaiMixerStreamOpen() failed!\n");
+		Error("DSP: kaiOpen() failed!\n");
 		return;
 	}
 
