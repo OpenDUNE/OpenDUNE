@@ -6,6 +6,11 @@
 
 #include <fluidsynth.h>
 
+#if (FLUIDSYNTH_VERSION_MAJOR << 16) + FLUIDSYNTH_VERSION_MINOR < 0x00010001
+#define FLUID_OK		(0)
+#define FLUID_FAILED	(-1)
+#endif
+
 #include "types.h"
 #include "../os/error.h"
 #include "../inifile.h"
@@ -35,10 +40,12 @@ bool midi_init(void)
 	}
 
 	if (IniFile_GetString("fs_soundfont", NULL, sfont, sizeof(sfont)) == NULL) {
+#if (FLUIDSYNTH_VERSION_MAJOR << 16) + FLUIDSYNTH_VERSION_MINOR >= 0x00010001
 		if (fluid_settings_copystr(settings, "synth.default-soundfont", sfont, sizeof(sfont)) != FLUID_OK) {
 			Error("Failed to get FluidSynth sound font.\n");
 			sfont[0] = '\0';
 		}
+#endif
 	}
 	sfont_id = fluid_synth_sfload(synth, sfont, 1);
 	if(sfont_id == FLUID_FAILED) {
@@ -117,10 +124,12 @@ uint16 midi_send_string(const uint8 * data, uint16 len)
 {
 	if (synth == NULL) return len;
 
+#if (FLUIDSYNTH_VERSION_MAJOR << 16) + FLUIDSYNTH_VERSION_MINOR >= 0x00010001
 	if (fluid_synth_sysex(synth, (const char*) data, len, NULL, NULL, NULL, 0) != FLUID_OK) {
 		Error("fluid_synth_sysex() failed\n");
 		return 0;
 	}
+#endif
 
 	return len;
 }
