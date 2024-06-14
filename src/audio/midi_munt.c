@@ -171,6 +171,11 @@ bool midi_init(void)
 		return false;
 	}
 #elif defined(KAI)
+	if (kaiInit(KAIM_AUTO) || kaiEnableSoftMixer(TRUE, NULL)) {
+		Error("Munt is compiled for KAI : KAI init failed\n");
+		return false;
+	}
+
 	spec.usDeviceIndex   = 0;
 	spec.ulType          = KAIT_PLAY;
 	spec.ulBitsPerSample = 16;
@@ -182,11 +187,6 @@ bool midi_init(void)
 	spec.fShareable      = FALSE;
 	spec.pfnCallBack     = munt_cb;
 	spec.pCallBackData   = NULL;
-
-	if (kaiInit(KAIM_AUTO) || kaiEnableSoftMixer(TRUE, &spec)) {
-		Error("Munt is compiled for KAI : KAI init failed\n");
-		return false;
-	}
 
 	if (kaiOpen(&spec, &obtained, &s_hkai) != 0) {
 		Error("Munt: kaiOpen() failed\n");
