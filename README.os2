@@ -23,10 +23,11 @@ OpenDUNE for OS/2
 3.1. Requirements
 -----------------
 
-  * libkai v2.0.0
+  * libkai v2.2.1
   * munt-libmt32emu v2.4.1
+  * libfluidsynth v1.0.9-r2
   * SDL2 v2.0.4
-  * gcc v9.1
+  * gcc v12.4.0
 
 3.2. Configure
 --------------
@@ -34,6 +35,10 @@ OpenDUNE for OS/2
 Just run configure like:
 
   sh ./configure
+
+If you want to enable FluidSynth midi support, then:
+
+  sh ./configure --without-munt --with-fluid
 
 3.3. Build
 ----------
