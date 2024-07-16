@@ -1,5 +1,6 @@
 /* ATARI Falcon / TT Video Driver */
 
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -39,7 +40,9 @@ static uint8 * s_framebuffer = NULL;
 /* offset to center the 320x200 image in 320x240 display */
 static uint32 s_center_image_offset = 0;
 
+static long  s_workPhysBase = 0;
 static short s_savedMode = 0;
+static unsigned short s_nbDesktopColors = 0;
 static void* s_savedLogBase = 0;
 static void* s_savedPhysBase = 0;
 
@@ -47,7 +50,7 @@ static enum {
 	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_TT, MCH_FALCON, MCH_OTHER
 } s_machine_type = MCH_UNKNOWN;
 
-static uint32 s_paletteBackup[256];
+static int32 s_paletteBackup[256];
 static uint16 s_SquareTable[256];
 
 static uint16 s_screenOffset = 0;
@@ -202,20 +205,46 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 
 	if(s_machine_type == MCH_FALCON) {
 		short newMode;
-		long vSize, saddr;
+		long vSize;
+
 		s_savedMode = VsetMode(VM_INQUIRE);	/* get current mode */
+		// number of colors ? (we can't read/write more colors than current desktop depth with VgetRGB/VsetRGB)
+		// TOS documentation explaining this (http://toshyp.atari.org/en/Screen_functions.html)
+		// What we actually want is 2 ^ 2 ^ (s_savedMode & NUMCOLS).
+		// 2 ^ (s_savedMode & NUMCOLS)-- > nb bitplanes
+		// 2 ^ nb bitplanes-- > nb colors
+		switch(s_savedMode & NUMCOLS) {
+		case BPS1:
+			s_nbDesktopColors = 2;
+			break;
+		case BPS2:
+			s_nbDesktopColors = 4;
+			break;
+		case BPS4:
+			s_nbDesktopColors = 16;
+			break;
+		case BPS8:
+			s_nbDesktopColors = 256;
+			break;
+		default:
+			s_nbDesktopColors = 65535;
+		}
+
 		/*  8 planes 256 colours + 40 columns + double line (if VGA) */
 		newMode = (s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0);
 		vSize = VgetSize(newMode);
-		s_center_image_offset = (vSize-(SCREEN_WIDTH*SCREEN_HEIGHT)) >> 1;
-		Debug("allocate %ld + %d bytes for mode $%04x\n", vSize, 4*SCREEN_WIDTH, (int)newMode);
-		saddr = Srealloc(vSize + 4*SCREEN_WIDTH);	/* allocate 4 lines more for explosions */
-#if 0
-		(void)VsetMode((s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
-#else
-		Vsetscreen(saddr, saddr, 3, newMode);
-#endif
-		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
+		s_center_image_offset = (vSize - (SCREEN_WIDTH * SCREEN_HEIGHT)) >> 1;
+		
+		Debug("allocate %ld + %d bytes for mode $%04x\n", vSize, 4 * SCREEN_WIDTH, (int)newMode);
+		s_workPhysBase = Mxalloc(vSize + 4 * SCREEN_WIDTH, MX_STRAM);	/* allocate 4 lines more for explosions */
+		memset((void*)s_workPhysBase, 0, vSize + 4 * SCREEN_WIDTH);
+		
+		if (s_nbDesktopColors != 65535)
+			VgetRGB(0, s_nbDesktopColors, s_paletteBackup);	/* backup palette */
+		s_savedPhysBase = Physbase();		/* backup physical screen address*/
+		(void)VsetMode(newMode);
+		VsetScreen(-1, s_workPhysBase, -1, -1);
+
 	} else if(s_machine_type == MCH_TT) {
 		/* set TT 8bps video mode */
 		s_savedMode = EgetShift();
@@ -255,14 +284,14 @@ void Video_Uninit(void)
 {
 	(void)Cursconf(1, 0);	/* switch cursor On */
 	if(s_machine_type == MCH_FALCON) {
-		long saddr;
-		VsetRGB(0, 256, s_paletteBackup);
-#if 0
+		
+		VsetScreen(-1, s_savedPhysBase, -1, -1);
 		(void)VsetMode(s_savedMode);
-#else
-		saddr = Srealloc(VgetSize(s_savedMode));
-		Vsetscreen(saddr, saddr, 3, s_savedMode);
-#endif
+
+		if (s_nbDesktopColors != 65535)
+			VsetRGB(0, s_nbDesktopColors, s_paletteBackup);
+
+		Mfree(s_workPhysBase);
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
 		(void)EsetShift(s_savedMode);
@@ -318,7 +347,7 @@ static void Video_Atari_DrawChar(uint8 * screen, uint16 x, uint8 digit)
 void Video_Tick(void)
 {
 	uint8 *data = GFX_Screen_Get_ByIndex(SCREEN_0);
-	uint8 *screen = Logbase();
+	uint8 *screen = Physbase();
 	screen += s_center_image_offset;
 
 	/* send mouse event */
@@ -462,7 +491,7 @@ void Video_Tick(void)
 		/* in 320xYYY resolution, each line is 20 words x bitdepth
 		 * so on TT and Falcon 8bpp it is 160 words = 320 bytes,
 		 * on the ST/STE in 4bpp it is 80 words = 160 bytes */
-		screenwords = (uint16 *)Logbase();
+		screenwords = (uint16 *)Physbase();
 		/* copy the characters in color 15 (00001111 or 1111) */
 		if (s_machine_type == MCH_TT || s_machine_type == MCH_FALCON) {
 			screenwords += (320-32)/2;
@@ -588,7 +617,8 @@ void Video_SetOffset(uint16 offset)
 {
 	if(s_machine_type == MCH_FALCON) {
 		/* Change Physbase(), but not Logbase() */
-		Vsetscreen(-1, Logbase() + (4 * offset), -1, -1);
+		assert(offset < 4 * SCREEN_WIDTH);
+		VsetScreen(-1, s_workPhysBase + (4 * offset), -1, -1);
 		Vsync();
 	} else {
 		s_screenOffset = offset;
