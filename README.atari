@@ -9,6 +9,9 @@ http://vincent.riviere.free.fr/soft/m68k-atari-mint/
 use :
 ./configure --host=m68k-atari-mint --os=TOS
 
+If you want to run with memory protection active in Mint, run this command after make :
+m68k-atari-mint-flags.exe -S bin/opendune.tos
+
 you'll also need vasm (vasmm68k_mot)
 http://sun.hasenbraten.de/vasm/
 
