@@ -1,16 +1,35 @@
-To get OpenDUNE running on Atari Falcon, TT and accelerated ST/STE:
+To get OpenDUNE running on Atari ST/STE, TT or Falcon:
 
 
-* building
+* Building
 
-cross compile using cross mint :
+cross compile using cross mint and vasm (vasmm68k_mot):
 http://vincent.riviere.free.fr/soft/m68k-atari-mint/
+http://sun.hasenbraten.de/vasm/
 
-use :
+or download a pre-configured toolchain from:
+https://github.com/sidecartridge/atarist-toolkit-docker
+
+
+for the default 68030 version use :
+
 ./configure --host=m68k-atari-mint --os=TOS
 
-you'll also need vasm (vasmm68k_mot)
-http://sun.hasenbraten.de/vasm/
+to specify the CPU type (68000, 68010, 68020, 68030, 68040 or
+68060) add --cpu :
+
+./configure --host=m68k-atari-mint --os=TOS --cpu=68000
+
+The 68030 build will not run on a stock ST/STE. To build a version
+that will run on any machine in the Atari ST family, use --cpu=68000.
+
+
+* Performance
+
+Based on a typical scene on level 1 :
+
+- 68000 build on ST/STE is 6-15fps (busy-quiet), Mega STE is 18fps
+- 68030 build is 60fps (the maximum frame rate)
 
 
 * Precompiled versions
@@ -21,9 +40,9 @@ Discussion about the port on atari-forum.com :
 http://www.atari-forum.com/viewtopic.php?f=26&t=29873
 
 
-* running
+* Running
 
-- MIDI music is sent to the ATARI MIDI Out port : use a Gerneral Midi
+- MIDI music is sent to the ATARI MIDI Out port : use a General MIDI
 or MT32 compatible expander to hear music. Set mt32midi=1 in OPENDUNE.INI
 to enable the MT32 songs.
 
@@ -31,7 +50,9 @@ to enable the MT32 songs.
 TT Low (320x480 8bpp) is used on TT.
 ST Low (320x200 4bpp) is used on ST/STE.
 
-- ST/STE requires 68030 accelerator or better
+- on a Mega STE the CPU is switched to 16MHz with the cache enabled
+at startup, and put back to whatever it was on exit. Detected from the
+_MCH cookie, so nothing is touched on any other machine.
 
 - Keyboard and mouse input is managed with a custom IKBD interrupt
 handler.
@@ -43,8 +64,17 @@ FPATCH.PRG / FPATCH2.PRG before launching the game
 - OPENDUNE.INI file should be located in the same directory as
 OPENDUNE.TOS.
 
-- DOS Dune II  v1.07 original files should be in a DATA subdirectory,
+- DOS Dune II v1.07 original files should be in a DATA subdirectory,
 savegames and options will be stored in a SAVES subdirectory.
 
 
 Thomas Bernard
+
+
+* Added by Neil Rackett (neilrackett.com), 2026 :
+
+- Support for 68000 and other CPUs (--cpu build option)
+- Automatic 16MHz+cache switching on Mega STE
+- Fixes for misaligned word accesses
+- Fixes for cutscene timing on slower machines
+- Build fix for current MiNTLib (VsetScreen)

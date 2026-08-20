@@ -47,6 +47,14 @@ static enum {
 	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_TT, MCH_FALCON, MCH_OTHER
 } s_machine_type = MCH_UNKNOWN;
 
+/* The Mega STE is an MCH_STE with $0010 in the low word of the cookie.
+ * It is the only machine with the cache / CPU speed register at
+ * $FFFF8E21 : reading it anywhere else is a bus error.
+ * bit 0 = 16MHz, bit 1 = cache enable. Supervisor mode only. */
+static bool s_isMegaSTE = false;
+static int s_savedCpuSpeed = -1;	/* -1 = not touched, else value to restore */
+#define MEGASTE_CPUCTL	((volatile uint8 *)0xFFFF8E21UL)
+
 static uint32 s_paletteBackup[256];
 static uint16 s_SquareTable[256];
 
@@ -161,6 +169,7 @@ static void Detect_Machine(void)
 			break;
 		case 1:
 			s_machine_type = MCH_STE;
+			s_isMegaSTE = ((machine_type & 0xFFFF) == 0x0010);
 			break;
 		case 2:
 			s_machine_type = MCH_TT;
@@ -177,6 +186,19 @@ static void Detect_Machine(void)
 		s_machine_type = MCH_ST;
 		Warning("Failed to get _MCH cookie\n");
 	}
+}
+
+/* Run through Supexec() : switch a Mega STE to 16MHz with the cache on. */
+static void MegaSTE_SpeedUp(void)
+{
+	s_savedCpuSpeed = *MEGASTE_CPUCTL;
+	*MEGASTE_CPUCTL = 0x03;	/* 16MHz + cache */
+}
+
+/* Run through Supexec() : put back what MegaSTE_SpeedUp() found. */
+static void MegaSTE_SpeedRestore(void)
+{
+	*MEGASTE_CPUCTL = (uint8)s_savedCpuSpeed;
 }
 
 /**
@@ -197,6 +219,11 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	(void)Cconws("Video_Init()\r\n");
 	if(s_machine_type == MCH_UNKNOWN) Detect_Machine();
 
+	if(s_isMegaSTE && s_savedCpuSpeed < 0) {
+		Supexec(MegaSTE_SpeedUp);
+		Debug("Mega STE : 16MHz + cache enabled (was $%02x)\n", s_savedCpuSpeed);
+	}
+
 	(void)Cursconf(0, 0);	/* switch cursor Off */
 	g_consoleActive = false;
 
@@ -213,7 +240,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 #if 0
 		(void)VsetMode((s_savedMode & (VGA | PAL)) | BPS8 | COL40 | ((s_savedMode & VGA) ? VERTFLAG : 0));
 #else
-		Vsetscreen(saddr, saddr, 3, newMode);
+		VsetScreen(saddr, saddr, 3, newMode);
 #endif
 		VgetRGB(0, 256, s_paletteBackup);	/* backup palette */
 	} else if(s_machine_type == MCH_TT) {
@@ -261,7 +288,7 @@ void Video_Uninit(void)
 		(void)VsetMode(s_savedMode);
 #else
 		saddr = Srealloc(VgetSize(s_savedMode));
-		Vsetscreen(saddr, saddr, 3, s_savedMode);
+		VsetScreen(saddr, saddr, 3, s_savedMode);
 #endif
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
@@ -275,6 +302,10 @@ void Video_Uninit(void)
 		Setscreen(s_savedLogBase, s_savedPhysBase, s_savedMode);
 	}
 	Supexec(uninstall_ikbd_handler);
+	if(s_savedCpuSpeed >= 0) {
+		Supexec(MegaSTE_SpeedRestore);
+		s_savedCpuSpeed = -1;
+	}
 	g_consoleActive = true;
 	free(s_framebuffer);
 	s_framebuffer = NULL;
@@ -588,7 +619,7 @@ void Video_SetOffset(uint16 offset)
 {
 	if(s_machine_type == MCH_FALCON) {
 		/* Change Physbase(), but not Logbase() */
-		Vsetscreen(-1, Logbase() + (4 * offset), -1, -1);
+		VsetScreen(-1, Logbase() + (4 * offset), -1, -1);
 		Vsync();
 	} else {
 		s_screenOffset = offset;

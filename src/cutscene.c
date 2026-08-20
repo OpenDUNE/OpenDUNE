@@ -393,7 +393,13 @@ static void GameLoop_PlayAnimation(const HouseAnimation_Animation *animation)
 			}
 		}
 
-		timeLeft = timeout - g_timerGUI;
+		/* On a machine too slow to set the step up within its own time
+		 * budget, g_timerGUI has already passed timeout : the unsigned
+		 * subtraction would wrap to ~4 billion. Modes 0/1/3 get away with
+		 * it (the frame loop below is skipped anyway), but mode 2 then does
+		 * timeout -= timeLeftForFrame, wrapping timeout forward so the loop
+		 * never ends. Drop the overdue step instead. */
+		timeLeft = (timeout > g_timerGUI) ? (timeout - g_timerGUI) : 0;
 		timeLeftForFrame = 0;
 		frameCount = 1;
 
