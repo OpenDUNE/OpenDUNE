@@ -22,6 +22,7 @@ set_default() {
 	awk="awk"
 	os="DETECT"
 	cpu_type="DETECT"
+	cpu="68030"
 	config_log="config.log"
 	prefix_dir="/usr/local"
 	binary_dir="games"
@@ -64,6 +65,7 @@ set_default() {
 		awk
 		os
 		cpu_type
+		cpu
 		config_log
 		prefix_dir
 		binary_dir
@@ -124,6 +126,9 @@ detect_params() {
 
 			--cpu-type)                   prev_p="cpu_type";;
 			--cpu-type=*)                 cpu_type="$optarg";;
+
+			--cpu)                        prev_p="cpu";;
+			--cpu=*)                      cpu="$optarg";;
 
 			--cc-build)                   prev_p="cc_build";;
 			--cc-build=*)                 cc_build="$optarg";;
@@ -320,6 +325,18 @@ check_params() {
 
 	check_build
 	check_host
+
+	# cpu is the m68k CPU to target; it is only used for TOS, so say so and
+	# carry on rather than failing the build for another OS
+	if [ "$os" = "TOS" ]; then
+		if [ -z "`echo $cpu | grep -E -- '^(68000|68010|68020|68030|68040|68060)$'`" ]; then
+			log 1 "configure: error: invalid option --cpu=$cpu"
+			log 1 " Available options are: --cpu[=68000|68010|68020|68030|68040|68060]"
+			exit 1
+		fi
+	elif [ "$cpu" != "68030" ]; then
+		log 1 "WARNING: --cpu is not available on $os, ignoring --cpu=$cpu"
+	fi
 
 	# Check for universal builds; they only make sense for OSX, so fail if enabled for another OS
 	if [ "$enable_universal" = "0" ]; then
@@ -1025,10 +1042,11 @@ make_cflags_and_ldflags() {
 	fi
 
 	if [ "$os" = "TOS" ]; then
-		CFLAGS="-m68030 -msoft-float $CFLAGS"
+		log 1 "targeting m68k CPU... $cpu"
+		CFLAGS="-m$cpu -msoft-float $CFLAGS"
 		LDFLAGS="$LDFLAGS -Wl,--traditional-format"
 		as_host="vasmm68k_mot"
-		asflags="-m68030 -Faout -quiet"
+		asflags="-m$cpu -Faout -quiet"
 	fi
 
 	if [ -n "$sdl_config" ]; then
@@ -2108,7 +2126,10 @@ showhelp() {
 	echo "  --os=OS                        the OS we are compiling for [DETECT]"
 	echo "                                 DETECT/UNIX/OSX/FREEBSD/OPENBSD/NETBSD/"
 	echo "                                 MORPHOS/HPUX/BEOS/SUNOS/CYGWIN/MINGW/OS2/"
-	echo "                                 DOS/WINCE/HAIKU"
+	echo "                                 DOS/WINCE/HAIKU/TOS"
+	echo "  --cpu=CPU                      the m68k CPU to target (TOS only) [68030]"
+	echo "                                 68000/68010/68020/68030/68040/68060"
+	echo "                                 use 68000 for a stock ST/STE"
 	echo ""
 	echo "Paths:"
 	echo "  --prefix-dir=dir               specifies the prefix for all installed"

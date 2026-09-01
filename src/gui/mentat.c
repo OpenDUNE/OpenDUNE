@@ -928,7 +928,9 @@ static void GUI_Mentat_ShowHelp(void)
 	for (i = 0; i < s_selectedHelpSubject; i++) subject = String_NextString(subject);
 
 	noDesc = (subject[5] == '0');	/* or no WSA file ? */
-	offset = HTOBE32(*(uint32 *)(subject + 1));
+	/* subject + 1 is odd for half the entries : read the offset byte by byte,
+	 * a misaligned uint32 access is an address error on 68000 */
+	offset = READ_BE_UINT32(subject + 1);
 
 	fileID = ChunkFile_Open(s_mentatFilename);
 	ChunkFile_Read(fileID, HTOBE32(CC_INFO), &info, 12);

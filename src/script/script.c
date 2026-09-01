@@ -640,7 +640,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 	if (length != 0) {
 		if (data != NULL) {
 			scriptInfo->text = (uint16 *)data;
-			data += length;
+			data += (length + 1) & ~1;	/* keep word aligned (68000) */
 		} else {
 			scriptInfo->text = calloc(1, length);
 		}
@@ -659,7 +659,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 
 	if (data != NULL) {
 		scriptInfo->offsets = (uint16 *)data;
-		data += length;
+		data += (length + 1) & ~1;	/* keep word aligned (68000) */
 	} else {
 		scriptInfo->offsets = calloc(1, length);
 	}
@@ -682,7 +682,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 
 	if (data != NULL) {
 		scriptInfo->start = (uint16 *)data;
-		data += length;
+		data += (length + 1) & ~1;	/* keep word aligned (68000) */
 	} else {
 		scriptInfo->start = calloc(1, length);
 	}

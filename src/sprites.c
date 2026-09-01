@@ -464,6 +464,10 @@ void Sprites_CPS_LoadRegionClick(void)
 	snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
 	buf += File_ReadFile(filename, buf);
 
+	/* REGION?.INI has an odd size for 2 of the 3 houses, which would leave
+	 * g_regions on an odd address : uint16 access there is an address
+	 * error on 68000 */
+	if (((size_t)buf & 1) != 0) buf++;
 	g_regions = (uint16 *)buf;
 
 	InitRegions();
