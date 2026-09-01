@@ -44,14 +44,12 @@ static void* s_savedLogBase = 0;
 static void* s_savedPhysBase = 0;
 
 static enum {
-	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_TT, MCH_FALCON, MCH_OTHER
+	MCH_UNKNOWN=0, MCH_ST, MCH_STE, MCH_MEGA_STE, MCH_TT, MCH_FALCON, MCH_OTHER
 } s_machine_type = MCH_UNKNOWN;
 
-/* The Mega STE is an MCH_STE with $0010 in the low word of the cookie.
- * It is the only machine with the cache / CPU speed register at
+/* The Mega STE is the only machine with the cache / CPU speed register at
  * $FFFF8E21 : reading it anywhere else is a bus error.
  * bit 0 = 16MHz, bit 1 = cache enable. Supervisor mode only. */
-static bool s_isMegaSTE = false;
 static int s_savedCpuSpeed = -1;	/* -1 = not touched, else value to restore */
 #define MEGASTE_CPUCTL	((volatile uint8 *)0xFFFF8E21UL)
 
@@ -168,8 +166,8 @@ static void Detect_Machine(void)
 			s_machine_type = MCH_ST;
 			break;
 		case 1:
-			s_machine_type = MCH_STE;
-			s_isMegaSTE = ((machine_type & 0xFFFF) == 0x0010);
+			/* the Mega STE has $0010 in the low word of the cookie */
+			s_machine_type = ((machine_type & 0xFFFF) == 0x0010) ? MCH_MEGA_STE : MCH_STE;
 			break;
 		case 2:
 			s_machine_type = MCH_TT;
@@ -219,7 +217,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	(void)Cconws("Video_Init()\r\n");
 	if(s_machine_type == MCH_UNKNOWN) Detect_Machine();
 
-	if(s_isMegaSTE && s_savedCpuSpeed < 0) {
+	if(s_machine_type == MCH_MEGA_STE && s_savedCpuSpeed < 0) {
 		Supexec(MegaSTE_SpeedUp);
 		Debug("Mega STE : 16MHz + cache enabled (was $%02x)\n", s_savedCpuSpeed);
 	}
@@ -249,7 +247,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 		EsetShift(TT_LOW); /* set TT 8bps video mode */
 		EgetPalette(0, 256, s_paletteBackup);	/* backup palette */
 		s_center_image_offset = 320*40;
-	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE || s_machine_type == MCH_MEGA_STE) {
 		/* set ST/STE 4bps video mode */
 		s_savedMode = Getrez();
 		s_savedLogBase = Logbase();
@@ -293,7 +291,7 @@ void Video_Uninit(void)
 	} else if(s_machine_type == MCH_TT) {
 		EsetPalette(0, 256, s_paletteBackup);
 		(void)EsetShift(s_savedMode);
-	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE || s_machine_type == MCH_MEGA_STE) {
 		int i;
 		for (i=0; i<16; i++) {
 			int oldColor = Setcolor(i, s_paletteBackup[i]);
@@ -379,7 +377,7 @@ void Video_Tick(void)
 			data += area->top * SCREEN_WIDTH;
 			if (s_machine_type == MCH_TT) {
 				screen += area->top * (SCREEN_WIDTH << 1);
-			} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+			} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE || s_machine_type == MCH_MEGA_STE) {
 				screen += area->top * (SCREEN_WIDTH >> 1);
 			} else {
 				screen += area->top * SCREEN_WIDTH;
@@ -453,7 +451,7 @@ void Video_Tick(void)
 				}
 #endif
 			}
-		} else if (s_machine_type == MCH_ST ||s_machine_type == MCH_STE) {
+		} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE || s_machine_type == MCH_MEGA_STE) {
 			data += (s_screenOffset << 2);
 			if (width == SCREEN_WIDTH) {
 				c2p1x1_4_st(screen, data, height*SCREEN_WIDTH, s_palette4BitMap);
@@ -561,7 +559,7 @@ void Video_SetPalette(void *palette, int from, int length)
 			p += 3;
 		}
 		EsetPalette(from, length, rgb12);
-	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE) {
+	} else if (s_machine_type == MCH_ST || s_machine_type == MCH_STE || s_machine_type == MCH_MEGA_STE) {
 		uint8 red,green,blue;
 		for (i = from; i < from + length; i++)
 		{
