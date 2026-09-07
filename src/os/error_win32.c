@@ -12,6 +12,9 @@ void Error(const char *format, ...) {
 
 	va_start(ap, format);
 	vsnprintf(message, sizeof(message), format, ap);
+	va_end(ap);
+
+	va_start(ap, format);
 	vfprintf(stderr, format, ap);
 	va_end(ap);
 
@@ -19,16 +22,22 @@ void Error(const char *format, ...) {
 }
 
 void Warning(const char *format, ...) {
+#ifdef _DEBUG
 	char message[512];
+#endif
 	va_list ap;
 
 	va_start(ap, format);
-	vsnprintf(message, sizeof(message), format, ap);
 	vfprintf(stderr, format, ap);
+	va_end(ap);
+
 #ifdef _DEBUG
+	va_start(ap, format);
+	vsnprintf(message, sizeof(message), format, ap);
+	va_end(ap);
+
 	OutputDebugString(message);
 #endif
-	va_end(ap);
 }
 
 #ifdef _DEBUG
@@ -38,8 +47,12 @@ void Debug(const char *format, ...) {
 
 	va_start(ap, format);
 	vsnprintf(message, sizeof(message), format, ap);
+	va_end(ap);
+
+	va_start(ap, format);
 	vfprintf(stdout, format, ap);
 	va_end(ap);
+
 	OutputDebugString(message);
 }
 #endif
