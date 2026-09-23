@@ -178,6 +178,9 @@ unit.c
 		#endif
 	#endif
 #else
+	#if SDL3
+		video/video_sdl3.c
+	#endif
 	#if SDL2
 		video/video_sdl2.c
 	#else

@@ -154,7 +154,7 @@ void SleepAndProcessBackgroundTasks(void)
 	} while (system_time() - s_nextTrigger > 0);
 }
 
-#elif !defined(_WIN32) || defined(WITH_SDL) || defined(WITH_SDL2)
+#elif !defined(_WIN32) || defined(WITH_SDL) || defined(WITH_SDL2) || defined(WITH_SDL3)
 #if defined(_WIN32)
 static volatile int s_timer_count = 0;
 #else
@@ -203,11 +203,11 @@ void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
 	VARIABLE_NOT_USED(TimerOrWaitFired);
 
 	SuspendThread(s_timerMainThread);
-#if defined(WITH_SDL) || defined(WITH_SDL2)
+#if defined(WITH_SDL) || defined(WITH_SDL2) || defined(WITH_SDL3)
 	s_timer_count++;
 #else
 	Timer_InterruptRun(0);
-#endif /* defined(WITH_SDL) || defined(WITH_SDL2) */
+#endif /* defined(WITH_SDL) || defined(WITH_SDL2) || defined(WITH_SDL3) */
 	ResumeThread(s_timerMainThread);
 }
 #endif /* _WIN32 */

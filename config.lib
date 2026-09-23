@@ -43,6 +43,8 @@ set_default() {
 	with_sdlimage="1"
 	with_sdl2="1"
 	with_sdl2image="1"
+	with_sdl3="1"
+	with_sdl3image="1"
 	with_asound="1"
 	with_oss="1"
 	with_pulse="1"
@@ -85,6 +87,8 @@ set_default() {
 		with_sdlimage
 		with_sdl2
 		with_sdl2image
+		with_sdl3
+		with_sdl3image
 		with_asound
 		with_oss
 		with_pulse
@@ -191,6 +195,9 @@ detect_params() {
 			--with-sdl2)                  with_sdl2="2";;
 			--without-sdl2)               with_sdl2="0";;
 			--with-sdl2=*)                with_sdl2="$optarg";;
+
+			--with-sdl3)                  with_sdl3="2";;
+			--without-sdl3)               with_sdl3="0";;
 
 			--with-asound)                with_asound="2";;
 			--without-asound)             with_asound="0";;
@@ -469,6 +476,7 @@ check_params() {
 	fi
 
 	if [ "$os" = "TOS" ]; then
+		with_sdl3="0"
 		with_sdl2="0"
 		with_sdl="0"
 		with_asound="0"
@@ -481,6 +489,7 @@ check_params() {
 		# prefers OSS to ALSA under FreeBSD
 		with_asound="0"
 	fi
+	detect_sdl3
 	detect_sdl2
 	detect_sdl
 	detect_asound
@@ -1107,6 +1116,30 @@ make_cflags_and_ldflags() {
 		fi
 	fi
 
+	if [ "$with_sdl3" != "0" ]; then
+		CFLAGS="$CFLAGS -DWITH_SDL3"
+		CFLAGS="$CFLAGS $(pkg-config sdl3 --cflags)"
+		if [ "$enable_static" != "0" ]; then
+			if [ $with_sdl3image -gt 0 ]; then
+				CFLAGS="$CFLAGS $(pkg-config sdl3-image --cflags)"
+				# This contains SDL3
+				LIBS="$LIBS $(pkg-config sdl3-image --static)"
+			else
+				CFLAGS="$CFLAGS -DWITHOUT_SDLIMAGE"
+				LIBS="$LIBS $(pkg-config sdl3 --static)"
+			fi
+		else
+			if [ $with_sdl3image -gt 0 ]; then
+				CFLAGS="$CFLAGS $(pkg-config sdl3-image --cflags)"
+				# This contains SDL3
+				LIBS="$LIBS $(pkg-config sdl3-image --libs)"
+			else
+				CFLAGS="$CFLAGS -DWITHOUT_SDLIMAGE"
+				LIBS="$LIBS $(pkg-config sdl3 --libs)"
+			fi
+		fi
+	fi
+
 	if [ "$enable_static" != "0" ]; then
 		# OSX can't handle -static in LDFLAGS
 		if [ "$os" != "OSX" ]; then
@@ -1604,6 +1637,13 @@ detect_sdl() {
 	fi
 
 	log 1 "checking SDL... found version $version"
+	# SDL found, disabling SDL2 and SDL3
+	if [ "$with_sdl2" = "1" ] ; then
+		with_sdl2="0"
+	fi
+	if [ "$with_sdl3" = "1" ] ; then
+		with_sdl3="0"
+	fi
 
 	if version=`pkg-config SDL_image --modversion 2>/dev/null`; then
 		log 1 "checking SDL_image... found version $version"
@@ -1650,9 +1690,12 @@ detect_sdl2() {
 	fi
 
 	log 1 "checking SDL2... found version $version"
-	# SDL2 found, disabling SDL
+	# SDL2 found, disabling SDL and SDL3
 	if [ "$with_sdl" = "1" ] ; then
 		with_sdl="0"
+	fi
+	if [ "$with_sdl3" = "1" ] ; then
+		with_sdl3="0"
 	fi
 
 	if version=`pkg-config SDL2_image --modversion 2>/dev/null`; then
@@ -1661,6 +1704,48 @@ detect_sdl2() {
 	else
 		log 1 "checking SDL2_image... not found"
 		with_sdl2image="0"
+	fi
+}
+
+detect_sdl3() {
+	# 0 means no, 1 is auto-detect, 2 is force
+	if [ "$with_sdl3" = "0" ]; then
+		log 1 "checking SDL3... disabled"
+		return 0
+	fi
+
+	version=`pkg-config sdl3 --modversion 2>/dev/null`
+	ret=$?
+	log 2 "executing pkg-config sdl3 --modversion"
+	log 2 "  returned $version"
+	log 2 "  exit code $ret"
+
+	if [ -z "$version" ] || [ "$ret" != "0" ]; then
+		log 1 "checking SDL3... not found"
+
+		# It was forced, so it should be found.
+		if [ "$with_sdl3" != "1" ]; then
+			log 1 "configure: error: sdl3 couldn't be found, but it was forced"
+			exit 1
+		fi
+		return 0
+	fi
+
+	log 1 "checking SDL3... found version $version"
+	# SDL3 found, disabling SDL and SDL2
+	if [ "$with_sdl" = "1" ] ; then
+		with_sdl="0"
+	fi
+	if [ "$with_sdl2" = "1" ] ; then
+		with_sdl2="0"
+	fi
+
+	if version=`pkg-config sdl3-image --modversion 2>/dev/null`; then
+		log 1 "checking SDL3_image... found version $version"
+		with_sdl3image="1"
+	else
+		log 1 "checking SDL3_image... not found"
+		with_sdl3image="0"
 	fi
 }
 
@@ -2163,6 +2248,7 @@ showhelp() {
 	echo "  --with-sort=sort               define a non-default location for sort"
 	echo "  --with-sdl[=sdl-config]        enables SDL video driver support"
 	echo "  --with-sdl2[=sdl2-config]      enables SDL2 video driver support"
+	echo "  --with-sdl3                    enables SDL3 video driver support"
 	echo "  --with-asound[=libasound.a]    enables ALSA support"
 	echo "  --with-oss                     enables Open Sound System"
 	echo "  --with-munt                    enables MUNT support"

@@ -92,8 +92,9 @@ AWKCOMMAND='
 
 		deep += 1;
 
-		if ($0 == "SDL2"        && "'$sdl2_config'" == "")         { next; }
-		if ($0 == "SDL"         && "'$sdl_config'" == "")          { next; }
+		if ($0 == "SDL3"        && "'$with_sdl3'" == "0")          { next; }
+		if ($0 == "SDL2"        && "'$with_sdl2'" == "0")          { next; }
+		if ($0 == "SDL"         && "'$with_sdl'" == "0")           { next; }
 		if ($0 == "ALSA"        && "'$with_asound'" == "0")        { next; }
 		if ($0 == "OSS"         && "'$with_oss'" == "0")           { next; }
 		if ($0 == "MUNT"        && "'$with_munt'" == "0")          { next; }

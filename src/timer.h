@@ -28,8 +28,8 @@ extern void Timer_Add(void (*callback)(void), uint32 usec_delay, bool callonce);
 extern void Timer_Change(void (*callback)(void), uint32 usec_delay);
 extern void Timer_Remove(void (*callback)(void));
 
-#if !defined(_WIN32) || defined(WITH_SDL) || defined(WITH_SDL2)
+#if !defined(_WIN32) || defined(WITH_SDL) || defined(WITH_SDL2) || defined(WITH_SDL3)
 extern void SleepAndProcessBackgroundTasks(void);
-#endif /* !_WIN32 || SDL || SDL2 */
+#endif /* !_WIN32 || SDL || SDL2 || SDL3 */
 
 #endif /* TIMER_H */
