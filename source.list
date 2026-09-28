@@ -8,7 +8,9 @@ audio/midi_win32.c
 #if TOS
 audio/dsp_atari.c
 audio/atari_dma_sound.s
+audio/atari_ym.s
 audio/midi_atari.c
+audio/midi_ym_atari.c
 #else
 # DSP
 	#if PULSE
