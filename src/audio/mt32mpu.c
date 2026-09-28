@@ -103,6 +103,7 @@ static volatile uint8 s_mpuOwed = 0;	/*!< Ticks held back meanwhile. Only MPU_In
 #define MPU_UNLOCK() do { MPU_BARRIER(); s_mpuLock--; } while (0)
 
 static void MPU_ReleaseData(uint16 index);
+static void MPU_StopAllNotes(MSData *data);
 
 static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 {
@@ -445,6 +446,9 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 
 	switch (type) {
 		case 0x2F:	/* End of track / end sequence */
+			/* A note still sounding would never get its Note Off : the
+			 * durations of a finished sequence are not counted down. */
+			MPU_StopAllNotes(data);
 			MPU_ResetSequence(data);	/* reset_sequence */
 
 			data->playing = 2; /* 2 = SEQ_DONE */
