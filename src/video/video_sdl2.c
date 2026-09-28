@@ -436,8 +436,6 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 	int pitch;
 	int x, y;
 	uint32 * p;
-	SDL_Rect rect;
-	SDL_Rect * prect = NULL;
 
 	gfx_screen8 += (s_screenOffset << 2);
 	if (SDL_LockTexture(s_texture, NULL, (void **)&pixels, &pitch) != 0) {
@@ -445,11 +443,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		return;
 	}
 	if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
-		rect.x = area->left;
-		rect.y = area->top;
-		rect.w = area->right - area->left;
-		rect.h = area->bottom - area->top;
-		prect = &rect;
+		int spitch = SCREEN_WIDTH - area->right + area->left;
 		pixels += pitch * area->top;
 		gfx_screen8 += SCREEN_WIDTH * area->top + area->left;
 		for (y = area->top; y < area->bottom; y++) {
@@ -458,7 +452,7 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 			for (x = area->left; x < area->right; x++) {
 				*p++ = s_palette[*gfx_screen8++];
 			}
-			gfx_screen8 += (SCREEN_WIDTH - rect.w);
+			gfx_screen8 += spitch;
 			pixels += pitch;
 		}
 		Debug("Dirty area : (%d,%d)-(%d,%d)\n", area->left, area->top, area->right, area->bottom);
@@ -472,7 +466,8 @@ static void Video_DrawScreen_Nearest_Neighbor(void)
 		}
 	}
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, prect, prect)) {
+	SDL_RenderClear(s_renderer);
+	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -486,8 +481,7 @@ static void Video_DrawScreen_Scale2x(void)
 	int pitch;
 	uint32 * p;
 	static uint32 truecolorbuffer[SCREEN_WIDTH * SCREEN_HEIGHT] __attribute__((aligned(16)));
-	SDL_Rect rect, rectlock;
-	SDL_Rect * prect = NULL;
+	SDL_Rect rectlock;
 	SDL_Rect * prectlock = NULL;
 
 	data += (s_screenOffset << 2);
@@ -495,15 +489,10 @@ static void Video_DrawScreen_Scale2x(void)
 	/* first do 8bit => 32bit pixel conversion */
 	if (!s_screen_needrepaint && area && (area->left > 0 || area->top > 0 || area->right < SCREEN_WIDTH || area->bottom < SCREEN_HEIGHT)) {
 		int x, y;
-		rect.x = area->left * s_screen_magnification;
-		rect.y = area->top * s_screen_magnification;
-		rect.w = (area->right - area->left) * s_screen_magnification;
-		rect.h = (area->bottom - area->top) * s_screen_magnification;
-		prect = &rect;
 		rectlock.x = 0;
-		rectlock.y = rect.y;
+		rectlock.y = area->top * s_screen_magnification;
 		rectlock.w = SCREEN_WIDTH * s_screen_magnification;
-		rectlock.h = rect.h;
+		rectlock.h = (area->bottom - area->top) * s_screen_magnification;
 		prectlock = &rectlock;
 		top = area->top;
 		bottom = area->bottom;
@@ -538,7 +527,8 @@ static void Video_DrawScreen_Scale2x(void)
 	           truecolorbuffer, SCREEN_WIDTH * 4, 4,
 	           SCREEN_WIDTH, SCREEN_HEIGHT, top, bottom);
 	SDL_UnlockTexture(s_texture);
-	if (SDL_RenderCopy(s_renderer, s_texture, prect, prect)) {
+	SDL_RenderClear(s_renderer);
+	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
 }
@@ -574,6 +564,7 @@ static void Video_DrawScreen_Hqx(void)
 		break;
 	}
 	SDL_UnlockTexture(s_texture);
+	SDL_RenderClear(s_renderer);
 	if (SDL_RenderCopy(s_renderer, s_texture, NULL, NULL)) {
 		Error("SDL_RenderCopy failed : %s\n", SDL_GetError());
 	}
