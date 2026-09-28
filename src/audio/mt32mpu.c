@@ -88,6 +88,22 @@ static bool s_mpu_initialized;
 
 static bool s_mpuIgnore = false;
 
+/* MPU_Interrupt() may run asynchronously to the functions below that change
+ * the sequencer state (a thread on Windows, a timer interrupt on Atari).
+ * While one of them runs, ticks are held back and played afterwards. */
+static volatile uint8 s_mpuLock = 0;	/*!< Nesting depth of the state-changing functions. */
+static volatile uint8 s_mpuOwed = 0;	/*!< Ticks held back meanwhile. Only MPU_Interrupt() writes it. */
+
+#if defined(__GNUC__)
+#define MPU_BARRIER() __asm__ __volatile__("" ::: "memory")
+#else
+#define MPU_BARRIER()
+#endif
+#define MPU_LOCK()   do { s_mpuLock++; MPU_BARRIER(); } while (0)
+#define MPU_UNLOCK() do { MPU_BARRIER(); s_mpuLock--; } while (0)
+
+static void MPU_ReleaseData(uint16 index);
+
 static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 {
 	s_mpuIgnore = true;
@@ -432,7 +448,7 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 			MPU_ResetSequence(data);	/* reset_sequence */
 
 			data->playing = 2; /* 2 = SEQ_DONE */
-			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);	/* release-on-completion pending => release_seq */
+			if (data->delayedClear) MPU_ReleaseData(s_mpu_msdataCurrent);	/* release-on-completion pending => release_seq */
 			break;
 
 		case 0x58: {	/* time sig */
@@ -489,12 +505,11 @@ static uint16 MPU_XMIDIMeta(MSData *data)
 	return len + data_len;
 }
 
-void MPU_Interrupt(void)
+static void MPU_Tick(void)
 {
 	static bool locked = false;
 	uint16 count;
 
-	if (s_mpuIgnore) return;
 	if (locked) return;
 	locked = true;
 
@@ -699,6 +714,21 @@ void MPU_Interrupt(void)
 	return;
 }
 
+void MPU_Interrupt(void)
+{
+	if (s_mpuLock != 0 || s_mpuIgnore) {
+		if (s_mpuOwed != 0xFF) s_mpuOwed++;
+		return;
+	}
+
+	MPU_Tick();
+
+	while (s_mpuOwed != 0) {
+		s_mpuOwed--;
+		MPU_Tick();
+	}
+}
+
 static void *MPU_FindSoundStart(uint8 *file, uint16 index)
 {
 	uint32 total;
@@ -775,13 +805,18 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 
 	if (file == NULL) return 0xFFFF;
 
+	file = MPU_FindSoundStart(file, index);
+	if (file == NULL) return 0xFFFF;
+
+	MPU_LOCK();
+
 	for (i = 0; i < 8; i++) {
 		if (s_mpu_msdata[i] == NULL) break;
 	}
-	if (i == 8) return 0xFFFF;
-
-	file = MPU_FindSoundStart(file, index);
-	if (file == NULL) return 0xFFFF;
+	if (i == 8) {
+		MPU_UNLOCK();
+		return 0xFFFF;
+	}
 
 	s_mpu_msdata[i] = data;
 	data->EVNT = NULL;
@@ -802,6 +837,8 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 
 	MPU_InitData(data);
 
+	MPU_UNLOCK();
+
 	return i;
 }
 
@@ -810,6 +847,8 @@ void MPU_Play(uint16 index)
 	MSData *data;
 
 	if (index == 0xFFFF) return;
+
+	MPU_LOCK();
 
 	data = s_mpu_msdata[index];
 
@@ -820,6 +859,8 @@ void MPU_Play(uint16 index)
 	data->sound = data->EVNT + 8;
 
 	data->playing = 1;
+
+	MPU_UNLOCK();
 }
 
 static void MPU_StopAllNotes(MSData *data)
@@ -849,16 +890,19 @@ void MPU_Stop(uint16 index)
 	MSData *data;
 
 	if (index == 0xFFFF) return;
-	if (s_mpu_msdata[index] == NULL) return;
+
+	MPU_LOCK();
 
 	data = s_mpu_msdata[index];
 
-	if (data->playing != 1) return;
+	if (data != NULL && data->playing == 1) {
+		MPU_StopAllNotes(data);
+		MPU_ResetSequence(data);
 
-	MPU_StopAllNotes(data);
-	MPU_ResetSequence(data);
+		data->playing = 0;
+	}
 
-	data->playing = 0;
+	MPU_UNLOCK();
 }
 
 uint16 MPU_IsPlaying(uint16 index)
@@ -993,7 +1037,7 @@ void MPU_Uninit(void)
 /**
  * XMIDI.ASM - release_seq
  */
-void MPU_ClearData(uint16 index)
+static void MPU_ReleaseData(uint16 index)
 {
 	MSData *data;
 
@@ -1010,6 +1054,13 @@ void MPU_ClearData(uint16 index)
 	}
 }
 
+void MPU_ClearData(uint16 index)
+{
+	MPU_LOCK();
+	MPU_ReleaseData(index);
+	MPU_UNLOCK();
+}
+
 /**
  * XMIDI.ASM - set_rel_volume
  * Set relative volume
@@ -1023,6 +1074,8 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 time)
 
 	if (index == 0xFFFF) return;
 
+	MPU_LOCK();
+
 	data = s_mpu_msdata[index];
 
 	data->globalVolumeTarget = volume;	/* volume target */
@@ -1031,15 +1084,16 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 time)
 		/* immediate */
 		data->globalVolume = volume;
 		MPU_ApplyVolume(data);
-		return;
+	} else {
+		diff = data->globalVolumeTarget - data->globalVolume;
+		if (diff != 0) {
+			data->globalVolumeIncr = 10 * (uint32)time / (uint16)abs(diff);	/* volume increment per 100us period */
+			if (data->globalVolumeIncr == 0) data->globalVolumeIncr = 1;
+			data->globalVolumeAcc = 0;	/* vol_accum */
+		}
 	}
 
-	diff = data->globalVolumeTarget - data->globalVolume;
-	if (diff == 0) return;
-
-	data->globalVolumeIncr = 10 * (uint32)time / (uint16)abs(diff);	/* volume increment per 100us period */
-	if (data->globalVolumeIncr == 0) data->globalVolumeIncr = 1;
-	data->globalVolumeAcc = 0;	/* vol_accum */
+	MPU_UNLOCK();
 }
 
 #if defined(_WIN32)
