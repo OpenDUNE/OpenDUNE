@@ -26,6 +26,9 @@ static uint32 s_stRamBufferSize;
 
 void DSP_Stop(void)
 {
+	/* Without DMA sound hardware (plain ST) its registers would bus error */
+	if (s_stRamBuffer == NULL) return;
+
 	Supexec(stop_dma_sound);
 }
 
@@ -146,7 +149,11 @@ void DSP_Play(const uint8 *data)
  */
 uint8 DSP_GetStatus(void)
 {
-	uint8 status = (uint8)Supexec(get_dma_status);
+	uint8 status;
+
+	if (s_stRamBuffer == NULL) return 0;
+
+	status = (uint8)Supexec(get_dma_status);
 	Debug("DSP_GetStatus() status = %02x : %s\n",
 	      status, (status != 0) ? "Playing" : "Stopped");
 	return (status != 0) ? 2 : 0;
