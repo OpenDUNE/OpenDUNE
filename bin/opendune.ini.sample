@@ -26,6 +26,9 @@ fs_soundfont=/usr/local/share/soundfonts/default.sf2
 fs_audiodriver=oss
 ; use the following option to force the Windows MIDI Device ID
 midideviceid=0
+; Atari : music and sound effects on the YM2149 sound chip (ym, default)
+; or sent to the MIDI Out port (midi)
+;music_output=midi
 
 ; Game behaviour options :
 ;dune2_enhanced=0

@@ -78,3 +78,6 @@ Thomas Bernard
 - Fixes for misaligned word accesses
 - Fixes for cutscene timing on slower machines
 - Build fix for current MiNTLib (VsetScreen)
+- Music and sound effects on the YM2149 sound chip, from the game's
+Tandy 3 voice arrangements. Set music_output=midi in OPENDUNE.INI to
+use the MIDI Out port instead
