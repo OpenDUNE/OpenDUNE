@@ -13,6 +13,7 @@ extern bool MPU_Init(void);
 extern void MPU_Uninit(void);
 extern void MPU_ClearData(uint16 index);
 extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 time);
+extern void MPU_SetChannelMap(uint16 index, uint8 chan, uint8 physical);
 #if defined(_WIN32)
 extern void MPU_StartThread(uint32 usec);
 extern void MPU_StopThread(void);

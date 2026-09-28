@@ -69,6 +69,7 @@ typedef struct MSData {
 	const uint8 *forLoopPtrs[4];                            /*!< FOR_loop_ptrs pointer to start of FOR loop */
 	uint16 forLoopCounters[4];                              /*!< FOR_loop_cnt */
 	uint8  chanMaps[NUM_CHANS];                             /*!< ?? Channel mapping. */
+	uint8  chanBase[NUM_CHANS];                             /*!< Channel mapping without CHAN_LOCK. See MPU_SetChannelMap(). */
 	Controls controls[NUM_CHANS];                           /*!< ?? */
 	uint8  noteOnChans[MAX_NOTES];                          /*!< ?? */
 	uint8  noteOnNotes[MAX_NOTES];                          /*!< ?? */
@@ -327,7 +328,7 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 control, uint8 value)
 				/* unlock */
 				MPU_FlushChannel(chan);
 				MPU_ReleaseChannel(data->chanMaps[chan]);	/* release channel */
-				data->chanMaps[chan] = chan;
+				data->chanMaps[chan] = data->chanBase[chan];
 			} else {
 				/* lock */
 				uint8 newChan = MPU_LockChannel();	/* lock new channel and map to current channel in sequence */
@@ -415,7 +416,7 @@ static void MPU_ResetSequence(MSData *data)
 		if (data->controls[chan].chan_lock != 0xFF && data->controls[chan].chan_lock >= 64) {
 			MPU_FlushChannel(chan);
 			MPU_ReleaseChannel(data->chanMaps[chan]);	/* release_channel */
-			data->chanMaps[chan] = chan;
+			data->chanMaps[chan] = data->chanBase[chan];
 		}
 
 		if (data->controls[chan].chan_protect != 0xFF && data->controls[chan].chan_protect >= 64) s_mpu_lockStatus[chan] &= 0xBF;
@@ -779,7 +780,7 @@ static void MPU_InitData(MSData *data)
 	for (i = 0; i < 4; i++) data->forLoopCounters[i] = 0xFFFF;
 
 	for (i = 0; i < NUM_CHANS; i++) {
-		data->chanMaps[i] = i;
+		data->chanMaps[i] = data->chanBase[i];
 	}
 
 	memset(data->controls, 0xFF, sizeof(data->controls));
@@ -806,6 +807,7 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 	uint32 header;
 	uint32 size;
 	uint16 i;
+	uint8 chan;
 
 	if (file == NULL) return 0xFFFF;
 
@@ -836,6 +838,8 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 	data->EVNT = file;
 	data->playing = 0;
 	data->delayedClear = false;
+
+	for (chan = 0; chan < NUM_CHANS; chan++) data->chanBase[chan] = chan;
 
 	s_mpu_msdataSize++;
 
@@ -1062,6 +1066,30 @@ void MPU_ClearData(uint16 index)
 {
 	MPU_LOCK();
 	MPU_ReleaseData(index);
+	MPU_UNLOCK();
+}
+
+/**
+ * Play a channel of a sequence on another channel, for when two sequences
+ * that were not written to play together use the same channel.
+ * @param index The sequence, as returned by MPU_SetData().
+ * @param chan The channel the sequence uses.
+ * @param physical The channel to play it on.
+ */
+void MPU_SetChannelMap(uint16 index, uint8 chan, uint8 physical)
+{
+	MSData *data;
+
+	if (index == 0xFFFF || chan >= NUM_CHANS || physical >= NUM_CHANS) return;
+
+	MPU_LOCK();
+
+	data = s_mpu_msdata[index];
+	if (data != NULL) {
+		data->chanBase[chan] = physical;
+		data->chanMaps[chan] = physical;
+	}
+
 	MPU_UNLOCK();
 }
 
