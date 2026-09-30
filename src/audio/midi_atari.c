@@ -1,6 +1,6 @@
-/** @file src/audio/midi_atari.c ATARI ST/TT/Falcon implementation of the MIDI
- *  play on the YM2149 sound chip (see midi_ym_atari.c), or
- *  send directly MIDI data to the MIDI Out port */
+/** @file src/audio/midi_atari.c ATARI ST/TT/Falcon implementation of the MIDI :
+ *  play it on the YM2149 sound chip (see midi_ym_atari.c), or send it
+ *  directly to the MIDI Out port */
 
 #include <mint/ostruct.h>
 #include <mint/osbind.h>
@@ -25,7 +25,10 @@ bool midi_init(void)
 
 	if (strcasecmp(output, "ym") != 0) Warning("Unknown music_output=%s, using ym\n", output);
 
-	return YM_Init();
+	/* Timer A in use : the MIDI port, as before the YM2149 */
+	if (!YM_Init()) s_midiYM = false;
+
+	return true;
 }
 
 void midi_uninit(void)

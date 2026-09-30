@@ -112,9 +112,6 @@ void Music_InitMT32(void)
 {
 	uint16 left = 0;
 
-	/* Only the MT-32 music (.XMI) needs the MT-32 initialised */
-	if (strcasecmp(g_driverMusic->extension, "XMI") != 0) return;
-
 	Driver_Music_LoadFile("DUNEINIT");
 
 	Driver_Music_Play(0, 0xFF);

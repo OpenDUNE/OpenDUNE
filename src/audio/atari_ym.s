@@ -16,7 +16,7 @@
 
 	code
 
-	; long YM_TimerStart(void), through Supexec() :
+	; long YM_TimerStart(void), from supervisor mode :
 	; 0 if started, -1 if Timer A is already in use.
 _YM_TimerStart:
 	move.w	sr,-(sp)
@@ -41,8 +41,8 @@ _YM_TimerStart:
 	move.w	(sp)+,sr
 	rts
 
-	; long YM_TimerStop(void), through Supexec() or from supervisor
-	; mode. Only stops a timer YM_TimerStart() started.
+	; void YM_TimerStop(void), from supervisor mode. Only stops a
+	; timer YM_TimerStart() started.
 _YM_TimerStop:
 	move.w	sr,-(sp)
 	move.w	#$2700,sr	; Disable all interrupts
@@ -61,7 +61,6 @@ _YM_TimerStop:
 .notours:
 	sf	timera_on
 .stopped:
-	moveq	#0,d0
 	move.w	(sp)+,sr
 	rts
 

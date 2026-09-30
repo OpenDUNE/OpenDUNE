@@ -31,22 +31,23 @@
 
 #include <stdlib.h>
 #include <mint/osbind.h>
+#include <mint/sysvars.h>
 
 #include "types.h"
+#include "../os/common.h"
 #include "../os/error.h"
+#include "../os/math.h"
 
+#include "midi.h"
 #include "midi_ym_atari.h"
 
 extern long YM_TimerStart(void);	/* atari_ym.s, supervisor mode */
-extern long YM_TimerStop(void);
+extern void YM_TimerStop(void);
 
 #define YM_SELECT  (*(volatile uint8 *)0xFFFF8800UL)	/* write : select a register, read : its value */
 #define YM_DATA    (*(volatile uint8 *)0xFFFF8802UL)
-#define MFP_IERA   (*(volatile uint8 *)0xFFFFFA07UL)
-#define MFP_TACR   (*(volatile uint8 *)0xFFFFFA19UL)
-#define CONTERM    (*(volatile uint8 *)0x484UL)	/* bit 0 : key click, bit 2 : bell */
-
-#define ETV_TERM   0x102	/*!< Setexc() number of the GEMDOS terminate vector. */
+#define YM_TONES   (PSG_ENABLEA | PSG_ENABLEB | PSG_ENABLEC)	/* mixer bits, set = off */
+#define YM_NOISES  (PSG_NOISEA | PSG_NOISEB | PSG_NOISEC)
 
 #define YM_VOICES     3
 #define YM_SLOTS      16
@@ -55,23 +56,17 @@ extern long YM_TimerStop(void);
 #define YM_SETTLE     30	/*!< Ticks after which a melodic note settles lower. */
 #define YM_SWELL      6	/*!< Ticks per level of a pad's swell, over 3 levels. */
 #define YM_VIBRATO_DELAY 40	/*!< Ticks before a held note gets a vibrato. */
-#define YM_VIBRATO_TOP   80	/*!< Notes from E5 up get none : the periods are too coarse. */
+#define YM_VIBRATO_TOP   80	/*!< Notes from G#5 up get none : the periods are too coarse. */
 #define YM_CRASH_OVER 8	/*!< Ticks a cymbal may replace a melody or the bass. */
 #define YM_MUSIC_QUIETER 3	/*!< Levels (about 9dB) the music plays under the sound effects and voices. */
 
 #define CHAN_DRUMS    9	/*!< General MIDI percussion. */
-#define CHAN_FX_MASK  0xFC00	/*!< Sound effects : channel 15, and 10-14 where XMIDI locks them. */
-
-#if defined(__GNUC__)
-#define YM_BARRIER() __asm__ __volatile__("" ::: "memory")
-#else
-#define YM_BARRIER()
-#endif
+#define CHAN_FX_MASK  ((1 << MIDI_YM_FX_CHAN) | 0x7C00)	/*!< Sound effects : on MIDI_YM_FX_CHAN, and 10-14 where XMIDI locks them. */
 
 /*
  * Generated with :
  *   P = [125000 / (440 * 2 ** ((n - 69) / 12)) for n in range(128)], halved
- *       while above 4095 (notes under the YM's range play an octave up)
+ *       while above 4095
  *   F = [round(32768 * 2 ** (-i / 192)) for i in range(16)]
  *   st = lambda db: round(-db / 3)                  (about 3dB a level)
  *   VEL = [0] + [max(0, 15 - st(40 * log10(v / 127))) for v in 1..127]
@@ -297,8 +292,6 @@ typedef struct YMDrum {
 	uint8  ticks;                                           /*!< Length, 0 = none. */
 	uint8  kind;                                            /*!< DRUM_KICK ... */
 	uint8  chan;                                            /*!< MIDI channel. */
-	uint8  noise;                                           /*!< Noise period, 0 = no noise. */
-	uint8  fade;                                            /*!< Level lost per tick, in 1/4. */
 	uint8  level;                                           /*!< Starting level, in 1/4. */
 	uint16 period;                                          /*!< Starting tone period, 0 = no tone. */
 	uint16 sweep;                                           /*!< Period added per tick. */
@@ -330,11 +323,11 @@ static volatile uint16 s_ymTicks;
 
 static volatile uint8 s_ymInSend;                       /*!< A message is being applied. */
 static volatile uint8 s_ymDirty;                        /*!< Keyed notes changed : allocate the voices again. */
-static volatile uint8 s_ymParams;                       /*!< Volumes or bends changed. */
+static volatile uint8 s_ymParams;                       /*!< Volumes, bends or the drum changed. */
 static uint8 s_ymActive;                                /*!< A drum or an envelope : update at s_ymWake. */
 static uint16 s_ymWake;                                 /*!< Tick of the next envelope step. */
 
-static void (*s_ymTick)(void);
+static void (* volatile s_ymTick)(void);                /*!< Called at each tick, before the update. */
 static bool s_ymOpen;
 static uint8 s_ymConterm;
 static void (*s_ymOldTerm)(void);
@@ -358,6 +351,13 @@ static void YM_Write(uint8 reg, uint8 value)
 	YM_DATA = value;
 }
 
+/** Write the mixer, keeping the port direction bits TOS set. */
+static void YM_WriteMixer(uint8 mixer)
+{
+	YM_SELECT = PSG_MODE;
+	YM_Write(PSG_MODE, (YM_SELECT & (PSG_PRTAOUT | PSG_PRTBOUT)) | mixer);
+}
+
 /** Level (0-15, or less) of a velocity on a channel. */
 static int8 YM_Level(uint8 chan, uint8 velocity)
 {
@@ -365,6 +365,12 @@ static int8 YM_Level(uint8 chan, uint8 velocity)
 
 	if (((CHAN_FX_MASK >> chan) & 1) == 0) level -= YM_MUSIC_QUIETER;
 	return level;
+}
+
+/** Whether a part plays a note before another : a bass its lowest, the others their highest. */
+static bool YM_NoteFirst(uint8 kind, uint8 note1, uint8 note2)
+{
+	return ((kind & YM_PRIORITY) == YM_BASS) ? note1 < note2 : note1 > note2;
 }
 
 /**
@@ -379,7 +385,7 @@ static bool YM_Before(const YMSlot *s1, const YMSlot *s2)
 	if (p1 != p2) return p1 > p2;
 	if (s1->level != s2->level) return s1->level > s2->level;
 
-	if (s1->note != s2->note) return (p1 == YM_BASS) ? s1->note < s2->note : s1->note > s2->note;
+	if (s1->note != s2->note) return YM_NoteFirst(s1->kind, s1->note, s2->note);
 
 	return (int16)(s1->stamp - s2->stamp) > 0;
 }
@@ -428,7 +434,7 @@ static void YM_Allocate(void)
 	uint8 i;
 	uint8 v;
 
-	for (i = 0; i < 16; i++) parts[i] = -1;
+	for (i = 0; i < lengthof(parts); i++) parts[i] = -1;
 
 	for (i = 0; i < YM_SLOTS; i++) {
 		const YMSlot *s = &s_ymSlots[i];
@@ -444,13 +450,13 @@ static void YM_Allocate(void)
 
 		others[i] = i;
 		part = parts[s->chan];
-		if (part < 0 || ((s->kind & YM_PRIORITY) == YM_BASS ? s->note < s_ymSlots[part].note : s->note > s_ymSlots[part].note)) parts[s->chan] = i;
+		if (part < 0 || YM_NoteFirst(s->kind, s->note, s_ymSlots[part].note)) parts[s->chan] = i;
 	}
 
 	if (effect >= 0) chosen[count++] = effect;
 
 	while (count < YM_VOICES) {
-		int8 best = YM_Best(parts, 16, chosen, count);
+		int8 best = YM_Best(parts, lengthof(parts), chosen, count);
 
 		if (best < 0) best = YM_Best(others, YM_SLOTS, chosen, count);
 		if (best < 0) break;
@@ -472,14 +478,12 @@ static void YM_Allocate(void)
 
 	/* The others take a free voice : effects from C down, music from A up */
 	for (i = 0; i < count; i++) {
-		bool effect;
 		uint8 k;
 
 		if (chosen[i] < 0) continue;
 
-		effect = (s_ymSlots[chosen[i]].kind & YM_PRIORITY) == YM_EFFECT;
 		for (k = 0; k < YM_VOICES; k++) {
-			v = effect ? YM_VOICES - 1 - k : k;
+			v = (chosen[i] == effect) ? YM_VOICES - 1 - k : k;
 			if (s_ymVoices[v].slot >= 0) continue;
 			s_ymVoices[v].slot = chosen[i];
 			break;
@@ -504,10 +508,8 @@ static uint8 YM_DrumVoice(void)
 		if (slot < 0) return v;
 
 		priority = s_ymSlots[slot].kind & YM_PRIORITY;
-		if (s_ymDrum.period != 0) {
-			/* A kick or tom goes on the bass : rank it first */
-			priority = (priority == YM_BASS) ? 0 : priority;
-		}
+		/* A kick or tom goes on the bass : rank it first */
+		if (s_ymDrum.period != 0 && priority == YM_BASS) priority = 0;
 		if (priority < hostPriority) {
 			host = v;
 			hostPriority = priority;
@@ -530,13 +532,16 @@ static void YM_WakeIn(uint16 ticks, uint16 grid)
 	s_ymActive = 1;
 }
 
-/** Update the voices, and write the registers that changed. Supervisor mode. */
-static void YM_Flush(void)
+/**
+ * Update the voices, and write the registers that changed. Supervisor mode.
+ * Not inlined, so the ticks with nothing to update skip saving its registers.
+ */
+static void __attribute__((noinline)) YM_Flush(void)
 {
 	uint16 periods[YM_VOICES];
 	uint8 levels[YM_VOICES];
 	uint8 notes = s_ymDirty | s_ymParams;
-	uint8 mixer = 0x3F;
+	uint8 mixer = YM_TONES | YM_NOISES;
 	uint16 sr;
 	uint8 v;
 
@@ -557,7 +562,7 @@ static void YM_Flush(void)
 		levels[v] = 0;
 
 		/* Tone on : a silent voice has level 0 */
-		mixer &= ~(1 << v);
+		mixer &= ~(PSG_ENABLEA << v);
 		if (voice->slot < 0) continue;
 
 		s = &s_ymSlots[voice->slot];
@@ -583,9 +588,7 @@ static void YM_Flush(void)
 			/* A square wave below C2 is a buzz more than a note */
 			while (note < YM_NOTE_FLOOR) note += 12;
 
-			pitch = (note << 4) + s_ymChanBend[s->chan] + vibrato;
-			if (pitch < 0) pitch = 0;
-			if (pitch > (127 << 4)) pitch = 127 << 4;
+			pitch = clamp((note << 4) + s_ymChanBend[s->chan] + vibrato, 0, 127 << 4);
 			voice->notePeriod = (uint16)(((uint32)s_ymPeriods[pitch >> 4] * s_ymBendFactors[pitch & 15]) >> 15);
 			voice->vibrato = vibrato;
 		}
@@ -629,14 +632,12 @@ static void YM_Flush(void)
 					break;
 
 				case YM_LEAD:
-					if (age < YM_ACCENT) {
-						YM_WakeIn(YM_ACCENT - age, 4);
+					if (age < YM_SETTLE) {
+						YM_WakeIn(YM_SETTLE - age, 4);
 					} else {
 						level--;
-						if (age < YM_SETTLE) YM_WakeIn(YM_SETTLE - age, 4);
 					}
-					if (age >= YM_SETTLE) level--;
-					break;
+					/* Fall through : the accent */
 
 				case YM_BASS:
 					if (age < YM_ACCENT) {
@@ -649,14 +650,15 @@ static void YM_Flush(void)
 				default: break;
 			}
 		}
-		levels[v] = (level < 0) ? 0 : level;
+		levels[v] = max(level, 0);
 	}
 
 	/* A drum sounds over a voice, going by its age : updated at 60Hz */
 	if (s_ymDrum.ticks != 0) {
+		const YMDrumKind *k = &s_ymDrumKinds[s_ymDrum.kind];
 		uint16 age = (uint16)(s_ymTicks - s_ymDrum.tick);
 
-		uint16 fade = (uint16)s_ymDrum.fade * age;
+		uint16 fade = (uint16)k->fade * age;
 		uint8 drumLevel = (s_ymDrum.level > fade) ? (s_ymDrum.level - fade) >> 2 : 0;
 
 		if (age >= s_ymDrum.ticks || drumLevel == 0) {
@@ -666,11 +668,9 @@ static void YM_Flush(void)
 			v = YM_DrumVoice();
 			if (s_ymDrum.period != 0) {
 				/* A kick or tom : its own tone */
-				uint16 period = s_ymDrum.period + s_ymDrum.sweep * age;
-
-				periods[v] = (period > 4095) ? 4095 : period;
+				periods[v] = min(s_ymDrum.period + s_ymDrum.sweep * age, 4095);
 				levels[v] = drumLevel;
-				if (s_ymDrum.noise != 0) mixer &= ~(8 << v);
+				if (k->noise != 0) mixer &= ~(PSG_NOISEA << v);
 			} else {
 				/* Noise : on a free voice, or instead of the least important
 				 * note (noise over a tone would sound its pitch), a cymbal
@@ -678,13 +678,13 @@ static void YM_Flush(void)
 				int8 slot = s_ymVoices[v].slot;
 
 				if (slot < 0 || age < YM_CRASH_OVER || (s_ymSlots[slot].kind & YM_PRIORITY) < YM_LEAD || s_ymDrum.kind < DRUM_OPEN_HIHAT) {
-					mixer |= 1 << v;
-					mixer &= ~(8 << v);
+					mixer |= PSG_ENABLEA << v;
+					mixer &= ~(PSG_NOISEA << v);
 					levels[v] = drumLevel;
 				}
 			}
 
-			YM_WakeIn((age + 2 < s_ymDrum.ticks) ? 2 : s_ymDrum.ticks - age, 2);
+			YM_WakeIn(min(s_ymDrum.ticks - age, 2), 2);
 		}
 	}
 
@@ -697,26 +697,24 @@ static void YM_Flush(void)
 
 		if (periods[v] != voice->period) {
 			voice->period = periods[v];
-			YM_Write(v * 2, periods[v] & 0xFF);
-			YM_Write(v * 2 + 1, periods[v] >> 8);
+			YM_Write(PSG_APITCHLOW + v * 2, periods[v] & 0xFF);
+			YM_Write(PSG_APITCHHIGH + v * 2, periods[v] >> 8);
 		}
 
 		if (levels[v] != voice->level) {
 			voice->level = levels[v];
-			YM_Write(8 + v, levels[v]);
+			YM_Write(PSG_AVOLUME + v, levels[v]);
 		}
 	}
 
-	if ((mixer & 0x38) != 0x38 && s_ymDrum.noise != s_ymNoise) {
-		s_ymNoise = s_ymDrum.noise;
-		YM_Write(6, s_ymNoise);
+	if ((mixer & YM_NOISES) != YM_NOISES && s_ymDrumKinds[s_ymDrum.kind].noise != s_ymNoise) {
+		s_ymNoise = s_ymDrumKinds[s_ymDrum.kind].noise;
+		YM_Write(PSG_NOISEPITCH, s_ymNoise);
 	}
 
-	/* Keep the port direction bits TOS set */
 	if (mixer != s_ymMixer) {
 		s_ymMixer = mixer;
-		YM_SELECT = 7;
-		YM_Write(7, (YM_SELECT & 0xC0) | mixer);
+		YM_WriteMixer(mixer);
 	}
 
 	YM_IrqRestore(sr);
@@ -731,7 +729,7 @@ static void YM_Silence(void)
 	sr = YM_IrqOff();
 
 	for (v = 0; v < YM_VOICES; v++) {
-		YM_Write(8 + v, 0);
+		YM_Write(PSG_AVOLUME + v, 0);
 		s_ymVoices[v].slot = -1;
 		s_ymVoices[v].level = 0;
 		s_ymVoices[v].period = 0xFFFF;
@@ -739,8 +737,7 @@ static void YM_Silence(void)
 	s_ymNoise = 0xFF;
 	s_ymMixer = 0xFF;
 
-	YM_SELECT = 7;
-	YM_Write(7, (YM_SELECT & 0xC0) | 0x3F);
+	YM_WriteMixer(YM_TONES | YM_NOISES);
 
 	YM_IrqRestore(sr);
 }
@@ -751,10 +748,13 @@ static void YM_Silence(void)
  */
 void YM_Tick(void)
 {
+	void (*tick)(void);
+
 	g_interruptDepth++;
 	s_ymTicks++;
 
-	if (s_ymTick != NULL) s_ymTick();
+	tick = s_ymTick;
+	if (tick != NULL) tick();
 
 	if (s_ymInSend == 0 && ((s_ymDirty | s_ymParams) != 0 || (s_ymActive != 0 && (int16)(s_ymTicks - s_ymWake) >= 0))) YM_Flush();
 
@@ -774,8 +774,6 @@ static void YM_DrumHit(uint8 chan, uint8 note, uint8 velocity, uint8 kind)
 
 	s_ymDrum.kind   = kind;
 	s_ymDrum.chan   = chan;
-	s_ymDrum.noise  = k->noise;
-	s_ymDrum.fade   = k->fade;
 	s_ymDrum.level  = level << 2;
 	s_ymDrum.period = k->period;
 	if (kind == DRUM_TOM && chan != CHAN_DRUMS) {
@@ -792,13 +790,15 @@ static void YM_DrumHit(uint8 chan, uint8 note, uint8 velocity, uint8 kind)
 static void YM_NoteOn(uint8 chan, uint8 note, uint8 velocity)
 {
 	YMSlot *slot = NULL;
+	YMSlot *unused = NULL;
+	YMSlot *oldest = NULL;
 	uint8 kind;
 	uint8 i;
 
 	if (((CHAN_FX_MASK >> chan) & 1) != 0) {
 		kind = YM_EFFECT;
 	} else if (chan == CHAN_DRUMS) {
-		YM_DrumHit(chan, note, velocity, (note >= 35 && note <= 81) ? s_ymDrumNotes[note - 35] : DRUM_HIHAT);
+		YM_DrumHit(chan, note, velocity, (note >= 35 && note < 35 + lengthof(s_ymDrumNotes)) ? s_ymDrumNotes[note - 35] : DRUM_HIHAT);
 		return;
 	} else {
 		uint8 program = s_ymChanProgram[chan];
@@ -812,24 +812,21 @@ static void YM_NoteOn(uint8 chan, uint8 note, uint8 velocity)
 		if (kind == 0) return;
 	}
 
-	for (i = 0; i < YM_SLOTS; i++) {
+	/* The note's slot if it is keyed already, else a free one, else the oldest note's */
+	for (i = 0; i < YM_SLOTS && slot == NULL; i++) {
 		YMSlot *s = &s_ymSlots[i];
 
 		if (s->count == 0) {
-			if (slot == NULL || slot->count != 0) slot = s;
-			continue;
-		}
-
-		if (s->chan == chan && s->note == note) {
+			if (unused == NULL) unused = s;
+		} else if (s->chan == chan && s->note == note) {
 			slot = s;
-			break;
+		} else if (oldest == NULL || (int16)(s->stamp - oldest->stamp) < 0) {
+			oldest = s;
 		}
-
-		/* No free slot yet : remember the oldest note */
-		if (slot == NULL || (slot->count != 0 && (int16)(s->stamp - slot->stamp) < 0)) slot = s;
 	}
 
-	if (slot->count == 0 || slot->chan != chan || slot->note != note) {
+	if (slot == NULL) {
+		slot = (unused != NULL) ? unused : oldest;
 		slot->count = 0;
 		slot->chan = chan;
 		slot->note = note;
@@ -913,7 +910,7 @@ void YM_Send(uint32 data)
 	uint8 data2 = (data >> 16) & 0x7F;
 
 	s_ymInSend = 1;
-	YM_BARRIER();
+	COMPILER_BARRIER();
 
 	switch (status & 0xF0) {
 		case 0x90:	/* Note On */
@@ -944,7 +941,7 @@ void YM_Send(uint32 data)
 			break;
 	}
 
-	YM_BARRIER();
+	COMPILER_BARRIER();
 	s_ymInSend = 0;
 }
 
@@ -954,7 +951,7 @@ void YM_Reset(void)
 	uint8 i;
 
 	s_ymInSend = 1;
-	YM_BARRIER();
+	COMPILER_BARRIER();
 
 	for (i = 0; i < YM_SLOTS; i++) s_ymSlots[i].count = 0;
 
@@ -968,39 +965,40 @@ void YM_Reset(void)
 	s_ymDrum.ticks = 0;
 	s_ymDirty = 1;
 
-	YM_BARRIER();
+	COMPILER_BARRIER();
 	s_ymInSend = 0;
 }
 
-/** Supervisor mode : check Timer A is free, and take the chip. */
+/** Supervisor mode : start the clock if Timer A is free, and take the chip. */
 static long YM_HwOpen(void)
 {
-	if (MFP_TACR != 0 || (MFP_IERA & 0x20) != 0) return -1;
+	uint16 sr;
+
+	/* No tick before the chip is silent */
+	sr = YM_IrqOff();
+
+	if (YM_TimerStart() != 0) {
+		YM_IrqRestore(sr);
+		return -1;
+	}
 
 	/* The key click and bell would fight over the chip */
-	s_ymConterm = CONTERM;
-	CONTERM &= ~0x05;
+	s_ymConterm = *conterm;
+	*conterm &= ~0x05;
 
 	YM_Silence();
 
+	YM_IrqRestore(sr);
 	return 0;
 }
 
-/** Supervisor mode : stop the clock and silence the chip. */
-static long YM_HwStop(void)
+/** Supervisor mode : stop the clock, and give back the chip silent. */
+static long YM_HwClose(void)
 {
 	YM_TimerStop();
 	YM_Silence();
 
-	return 0;
-}
-
-/** Supervisor mode : stop the clock and give back the chip. */
-static long YM_HwClose(void)
-{
-	YM_HwStop();
-
-	CONTERM = s_ymConterm;
+	*conterm = s_ymConterm;
 
 	return 0;
 }
@@ -1013,7 +1011,7 @@ static void YM_TermHandler(void)
 {
 	void (*oldTerm)(void) = s_ymOldTerm;
 
-	(void)Setexc(ETV_TERM, oldTerm);
+	(void)Setexc(VEC_TERMINATE, oldTerm);
 
 	if (s_ymOpen) {
 		s_ymOpen = false;
@@ -1021,16 +1019,6 @@ static void YM_TermHandler(void)
 	}
 
 	if (oldTerm != NULL) oldTerm();
-}
-
-static void YM_Shutdown(void)
-{
-	if (!s_ymOpen) return;
-	s_ymOpen = false;
-
-	Supexec(YM_HwClose);
-
-	if (Setexc(ETV_TERM, -1) == YM_TermHandler) (void)Setexc(ETV_TERM, s_ymOldTerm);
 }
 
 bool YM_Init(void)
@@ -1042,16 +1030,16 @@ bool YM_Init(void)
 	YM_Reset();
 
 	if (Supexec(YM_HwOpen) != 0) {
-		Warning("YM2149 music needs the MFP Timer A, which is in use : set music_output=midi\n");
+		Warning("YM2149 music needs the MFP Timer A, which is in use : music goes to the MIDI port\n");
 		return false;
 	}
 
-	s_ymOldTerm = Setexc(ETV_TERM, YM_TermHandler);
+	s_ymOldTerm = Setexc(VEC_TERMINATE, YM_TermHandler);
 	s_ymOpen = true;
 
 	if (!atexitDone) {
 		atexitDone = true;
-		atexit(YM_Shutdown);
+		atexit(YM_Uninit);
 	}
 
 	return true;
@@ -1059,32 +1047,30 @@ bool YM_Init(void)
 
 void YM_Uninit(void)
 {
-	YM_Shutdown();
+	if (!s_ymOpen) return;
+	s_ymOpen = false;
+
+	Supexec(YM_HwClose);
+
+	if (Setexc(VEC_TERMINATE, VEC_INQUIRE) == YM_TermHandler) (void)Setexc(VEC_TERMINATE, s_ymOldTerm);
 }
 
 /**
- * Start calling a function at 120Hz from the Timer A interrupt, followed by
- * an update of the chip.
+ * Call a function at 120Hz from the Timer A interrupt, before each update of
+ * the chip.
  * @param tick The function.
- * @return True if the clock started.
+ * @return True if the chip is in use, and the interrupt calls it.
  */
 bool YM_StartTick(void (*tick)(void))
 {
 	if (!s_ymOpen) return false;
 
 	s_ymTick = tick;
-
-	if (Supexec(YM_TimerStart) != 0) {
-		s_ymTick = NULL;
-		Warning("YM2149 music : the MFP Timer A is in use\n");
-		return false;
-	}
-
 	return true;
 }
 
+/** Stop calling the tick function : the interrupt no longer calls it once this returns. */
 void YM_StopTick(void)
 {
-	Supexec(YM_HwStop);
 	s_ymTick = NULL;
 }

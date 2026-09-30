@@ -89,19 +89,14 @@ static bool s_mpu_initialized;
 
 static bool s_mpuIgnore = false;
 
-/* MPU_Interrupt() may run asynchronously to the functions below that change
- * the sequencer state (a thread on Windows, a timer interrupt on Atari).
- * While one of them runs, ticks are held back and played afterwards. */
+/* MPU_Interrupt() may be called from an interrupt (a timer on Atari) that
+ * lands while one of the functions below changes the sequencer state : the
+ * tick is then held back, and played once they are done. */
 static volatile uint8 s_mpuLock = 0;	/*!< Nesting depth of the state-changing functions. */
 static volatile uint8 s_mpuOwed = 0;	/*!< Ticks held back meanwhile. Only MPU_Interrupt() writes it. */
 
-#if defined(__GNUC__)
-#define MPU_BARRIER() __asm__ __volatile__("" ::: "memory")
-#else
-#define MPU_BARRIER()
-#endif
-#define MPU_LOCK()   do { s_mpuLock++; MPU_BARRIER(); } while (0)
-#define MPU_UNLOCK() do { MPU_BARRIER(); s_mpuLock--; } while (0)
+#define MPU_LOCK()   do { s_mpuLock++; COMPILER_BARRIER(); } while (0)
+#define MPU_UNLOCK() do { COMPILER_BARRIER(); s_mpuLock--; } while (0)
 
 static void MPU_ReleaseData(uint16 index);
 static void MPU_StopAllNotes(MSData *data);
