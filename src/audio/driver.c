@@ -11,6 +11,7 @@
 #include "driver.h"
 
 #include "dsp.h"
+#include "midi.h"
 #include "mt32mpu.h"
 #include "../config.h"
 #include "../file.h"
@@ -112,13 +113,23 @@ static bool Drivers_SoundMusic_Init(bool enable)
 
 #ifdef MUNT
 	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 1) != 0) ? "XMI" : "C55")) return false;
+#elif defined(TOS)
+	/* The YM2149 plays the sound effects of the Tandy 3 voice arrangements,
+	 * the General MIDI ones being instrument patches it cannot play */
+	if (!Drivers_Init(sound, midi_uses_ym() ? "TAN" : (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
 #else
 	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
 #endif
 	memcpy(music, sound, sizeof(Driver));
+#if defined(TOS)
+	/* and the General MIDI music, the Tandy one leaving most of it out */
+	if (midi_uses_ym()) strcpy(music->extension, "C55");
+#endif
 
 #if defined(_WIN32)
 	MPU_StartThread(1000000 / 120);
+#elif defined(TOS)
+	if (!midi_start_tick(MPU_Interrupt)) Timer_Add(MPU_Interrupt, 1000000 / 120, false);
 #else
 	Timer_Add(MPU_Interrupt, 1000000 / 120, false);
 #endif
@@ -205,6 +216,11 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	}
 
 	soundBuffer->index = MPU_SetData(sound->content, index, soundBuffer->buffer);
+
+#if defined(TOS)
+	/* The Tandy sound effects use channel 4, and so does the General MIDI music */
+	if (midi_uses_ym()) MPU_SetChannelMap(soundBuffer->index, 3, 15);
+#endif
 
 	MPU_Play(soundBuffer->index);
 	MPU_SetVolume(soundBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
@@ -384,6 +400,9 @@ static void Drivers_SoundMusic_Uninit(void)
 
 #if defined(_WIN32)
 		MPU_StopThread();
+#elif defined(TOS)
+		midi_stop_tick();
+		Timer_Remove(MPU_Interrupt);
 #else
 		Timer_Remove(MPU_Interrupt);
 #endif

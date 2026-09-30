@@ -42,9 +42,9 @@ http://www.atari-forum.com/viewtopic.php?f=26&t=29873
 
 * Running
 
-- MIDI music is sent to the ATARI MIDI Out port : use a General MIDI
-or MT32 compatible expander to hear music. Set mt32midi=1 in OPENDUNE.INI
-to enable the MT32 songs.
+- With music_output=midi in OPENDUNE.INI, MIDI music is sent to the
+ATARI MIDI Out port : use a General MIDI or MT32 compatible expander to
+hear music. Set mt32midi=1 in OPENDUNE.INI to enable the MT32 songs.
 
 - 320x200 (RGB) or 320x240 (VGA) 8bpp modes are used on Falcon.
 TT Low (320x480 8bpp) is used on TT.
@@ -76,5 +76,12 @@ Thomas Bernard
 - Support for 68000 and other CPUs (--cpu build option)
 - Automatic 16MHz+cache switching on Mega STE
 - Fixes for misaligned word accesses
+- Fix for a crash on exit on STs without DMA sound
 - Fixes for cutscene timing on slower machines
 - Build fix for current MiNTLib (VsetScreen)
+- YM2149 music added using General MIDI reduced to 3 voices and drums
+- MIDI music still available by setting music_output=midi in OPENDUNE.INI
+- Tandy sound effects give regular STs in-game audio without a MIDI synth,
+and are used elsewhere where no digitised sound is available, matching
+the PC's Sound Blaster audio configuration
+
