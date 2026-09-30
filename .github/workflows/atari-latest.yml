@@ -1,0 +1,89 @@
+# Build OpenDUNE for any Atari ST (68000) whenever main changes, a merge
+# included : tag the commit with the next version (v0.9.0-atarist.N), move the
+# "latest" tag to it, and replace opendune.tos on the "latest" release with
+# the build.
+# For neilrackett/atarist-opendune only : not for upstream.
+name: Atari latest release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: atari-latest-release
+  cancel-in-progress: true
+
+env:
+  VERSION_PREFIX: v0.9.0-atarist.
+
+jobs:
+  build:
+    if: github.repository == 'neilrackett/atarist-opendune'
+    runs-on: ubuntu-latest
+    container:
+      image: neilrackett/atarist-toolkit-docker-x86_64:latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # tags, for the version
+
+      - name: Pick the version
+        id: version
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          version=$(git tag --points-at HEAD --list "${VERSION_PREFIX}*" | head -n 1)
+          if [ -z "$version" ]; then
+            last=0
+            for tag in $(git tag --list "${VERSION_PREFIX}*"); do
+              n=${tag#"$VERSION_PREFIX"}
+              case $n in ''|*[!0-9]*) continue ;; esac
+              if [ "$n" -gt "$last" ]; then last=$n; fi
+            done
+            version="${VERSION_PREFIX}$((last + 1))"
+            # Here only, for the version string of the build : pushed once it worked
+            git tag "$version"
+          fi
+          # and the build shows its version rather than "latest", moved later
+          git tag -d latest > /dev/null 2>&1 || true
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Version: $version"
+
+      - name: Build for the 68000
+        run: |
+          ./configure --host=m68k-atari-mint --os=TOS --cpu=68000
+          make
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: opendune.tos
+          path: bin/opendune.tos
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      VERSION: ${{ needs.build.outputs.version }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: opendune.tos
+
+      - name: Tag the commit built with its version
+        run: |
+          if ! gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$VERSION" > /dev/null 2>&1; then
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$VERSION" -f sha="$GITHUB_SHA"
+          fi
+
+      - name: Move the latest tag to the commit built
+        run: gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/latest" -f sha="$GITHUB_SHA" -F force=true
+
+      - name: Replace opendune.tos on the latest release
+        run: gh release upload latest opendune.tos --clobber --repo "$GITHUB_REPOSITORY"
