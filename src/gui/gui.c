@@ -58,14 +58,13 @@ typedef struct ClippingArea {
 MSVC_PACKED_END
 assert_compile(sizeof(ClippingArea) == 0x08);
 
-MSVC_PACKED_BEGIN
+/* Not packed: sscanf() writes the fields through int16 pointers, which must be word aligned on 68000 */
 typedef struct StrategicMapData {
-	/* 0000(2)   */ PACK int16 index;      /*!< ?? */
-	/* 0002(2)   */ PACK int16 arrow;      /*!< ?? */
-	/* 0004(2)   */ PACK int16 offsetX;    /*!< ?? */
-	/* 0006(2)   */ PACK int16 offsetY;    /*!< ?? */
-} GCC_PACKED StrategicMapData;
-MSVC_PACKED_END
+	/* 0000(2)   */ int16 index;      /*!< ?? */
+	/* 0002(2)   */ int16 arrow;      /*!< ?? */
+	/* 0004(2)   */ int16 offsetX;    /*!< ?? */
+	/* 0006(2)   */ int16 offsetY;    /*!< ?? */
+} StrategicMapData;
 assert_compile(sizeof(StrategicMapData) == 0x8);
 
 /** Coupling between score and rank name. */
