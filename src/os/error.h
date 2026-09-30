@@ -26,4 +26,8 @@ extern FILE * g_outlog;
 #endif
 #endif
 
+#if defined(TOS)
+extern volatile uint8 g_interruptDepth;	/*!< Non-zero while an interrupt handler runs C code. */
+#endif
+
 #endif /* OS_ERROR_H */

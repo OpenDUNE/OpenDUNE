@@ -95,6 +95,8 @@ char *Ini_GetString(const char *category, const char *key, const char *defaultVa
 				/* Copy the value */
 				if (dest != NULL) {
 					uint16 len = (uint16)(lineEnd - current);
+					/* The line end and blank lines are copied too, trimmed below */
+					if (len >= length) len = length - 1;
 					memcpy(dest, current, len);
 					*(dest + len) = '\0';
 

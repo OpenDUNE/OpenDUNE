@@ -11,6 +11,7 @@
 #include "driver.h"
 
 #include "dsp.h"
+#include "midi.h"
 #include "mt32mpu.h"
 #include "../config.h"
 #include "../file.h"
@@ -97,6 +98,8 @@ static bool Drivers_SoundMusic_Init(bool enable)
 {
 	Driver *sound;
 	Driver *music;
+	const char *musicExtension;
+	const char *soundExtension;
 	uint32 size;
 	uint8 i;
 
@@ -111,14 +114,29 @@ static bool Drivers_SoundMusic_Init(bool enable)
 	if (!MPU_Init()) return false;
 
 #ifdef MUNT
-	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 1) != 0) ? "XMI" : "C55")) return false;
+	musicExtension = (IniFile_GetInteger("mt32midi", 1) != 0) ? "XMI" : "C55";
 #else
-	if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
+	musicExtension = (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55";
 #endif
+	soundExtension = musicExtension;
+#if defined(TOS)
+	/* The YM2149 plays the General MIDI music, the Tandy one leaving most of
+	 * it out, and the sound effects of the Tandy 3 voice arrangements, the
+	 * General MIDI ones being instrument patches it cannot play */
+	if (midi_uses_ym()) {
+		musicExtension = "C55";
+		soundExtension = "TAN";
+	}
+#endif
+
+	if (!Drivers_Init(sound, soundExtension)) return false;
 	memcpy(music, sound, sizeof(Driver));
+	strcpy(music->extension, musicExtension);
 
 #if defined(_WIN32)
 	MPU_StartThread(1000000 / 120);
+#elif defined(TOS)
+	if (!midi_start_tick(MPU_Interrupt)) Timer_Add(MPU_Interrupt, 1000000 / 120, false);
 #else
 	Timer_Add(MPU_Interrupt, 1000000 / 120, false);
 #endif
@@ -205,6 +223,12 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	}
 
 	soundBuffer->index = MPU_SetData(sound->content, index, soundBuffer->buffer);
+
+#if defined(TOS)
+	/* The Tandy sound effects use channel 4 (3 from 0), and so does the
+	 * General MIDI music : move them where the YM2149 knows them as effects */
+	if (midi_uses_ym()) MPU_SetChannelMap(soundBuffer->index, 3, MIDI_YM_FX_CHAN);
+#endif
 
 	MPU_Play(soundBuffer->index);
 	MPU_SetVolume(soundBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
@@ -384,6 +408,9 @@ static void Drivers_SoundMusic_Uninit(void)
 
 #if defined(_WIN32)
 		MPU_StopThread();
+#elif defined(TOS)
+		midi_stop_tick();
+		Timer_Remove(MPU_Interrupt);
 #else
 		Timer_Remove(MPU_Interrupt);
 #endif

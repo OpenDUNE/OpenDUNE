@@ -913,11 +913,8 @@ static void GameLoop_Main(void)
 	String_Init();
 	Sprites_Init();
 
-#ifdef MUNT
-	if (IniFile_GetInteger("mt32midi", 1) != 0) Music_InitMT32();
-#else
-	if (IniFile_GetInteger("mt32midi", 0) != 0) Music_InitMT32();
-#endif
+	/* Only the MT-32 music (.XMI) needs the MT-32 initialised */
+	if (strcasecmp(g_driverMusic->extension, "XMI") == 0) Music_InitMT32();
 
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT | INPUT_FLAG_UNKNOWN_0010 | INPUT_FLAG_UNKNOWN_0200 |
 	                    INPUT_FLAG_KBD_MOUSE_CLK);
