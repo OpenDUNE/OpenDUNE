@@ -57,6 +57,7 @@ extern long YM_TimerStop(void);
 #define YM_VIBRATO_DELAY 40	/*!< Ticks before a held note gets a vibrato. */
 #define YM_VIBRATO_TOP   80	/*!< Notes from E5 up get none : the periods are too coarse. */
 #define YM_CRASH_OVER 8	/*!< Ticks a cymbal may replace a melody or the bass. */
+#define YM_MUSIC_QUIETER 3	/*!< Levels (about 9dB) the music plays under the sound effects and voices. */
 
 #define CHAN_DRUMS    9	/*!< General MIDI percussion. */
 #define CHAN_FX_MASK  0xFC00	/*!< Sound effects : channel 15, and 10-14 where XMIDI locks them. */
@@ -360,7 +361,10 @@ static void YM_Write(uint8 reg, uint8 value)
 /** Level (0-15, or less) of a velocity on a channel. */
 static int8 YM_Level(uint8 chan, uint8 velocity)
 {
-	return s_ymVelocityLevels[velocity] - s_ymAttenuation[s_ymChanVolume[chan]] - s_ymAttenuation[s_ymChanExpression[chan]];
+	int8 level = s_ymVelocityLevels[velocity] - s_ymAttenuation[s_ymChanVolume[chan]] - s_ymAttenuation[s_ymChanExpression[chan]];
+
+	if (((CHAN_FX_MASK >> chan) & 1) == 0) level -= YM_MUSIC_QUIETER;
+	return level;
 }
 
 /**
