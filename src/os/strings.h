@@ -82,8 +82,9 @@
 	#endif
 	#endif /* __MINGW32__ && __STRICT_ANSI__ */
 
-	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(snprintf) && !defined(__OS2__)
-		/* (v)snprintf is in fact C99, but we like to use it over (v)sprintf for the obvious reasons */
+	#if !defined(__MINGW32__) && defined(__GNUC__) && defined(__STRICT_ANSI__) && !defined(snprintf) && !defined(__OS2__)
+		/* (v)snprintf is in fact C99, but we like to use it over (v)sprintf for the obvious reasons.
+		 * In strict-ANSI mode glibc's <stdio.h> hides these prototypes, so declare them ourselves. */
 		#if !defined(__APPLE__) && !defined(TOS) && !defined(__FreeBSD__) && !defined(__OpenBSD__) && !defined(__DJGPP__) && !defined(__HAIKU__)
 			extern int snprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, ...) __THROW __attribute__ ((__format__ (__printf__, 3, 4)));
 			extern int vsnprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, va_list __arg) __THROW __attribute__ ((__format__ (__printf__, 3, 0)));

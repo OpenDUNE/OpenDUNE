@@ -65,6 +65,9 @@ typedef uint32_t scale2x_uint32;
 /**
  * Align a pointer.
  */
+#if defined(__GNUC__)
+__attribute__((unused))
+#endif
 static void* scale2x_align_ptr(const void* ptr)
 {
 #if SCALE2X_ALIGN_SIZE != 1

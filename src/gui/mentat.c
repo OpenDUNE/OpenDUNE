@@ -210,7 +210,8 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 		s_selectedHelpSubject = 0;
 
 		sprintf(s_mentatFilename, "MENTAT%c", g_table_houseInfo[g_playerHouseID].name[0]);
-		strncpy(s_mentatFilename, String_GenerateFilename(s_mentatFilename), sizeof(s_mentatFilename));
+		strncpy(s_mentatFilename, String_GenerateFilename(s_mentatFilename), sizeof(s_mentatFilename) - 1);
+		s_mentatFilename[sizeof(s_mentatFilename) - 1] = '\0';
 	}
 
 	fileID = ChunkFile_Open(s_mentatFilename);
