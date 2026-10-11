@@ -48,6 +48,11 @@
 #define VDP2_BKTAU      VDP2_REG(0x0AC)
 #define VDP2_BKTAL      VDP2_REG(0x0AE)
 #define VDP2_CRAOFA     VDP2_REG(0x0E4)
+#define VDP2_SPCTL      VDP2_REG(0x0E0)
+#define VDP2_PRISA      VDP2_REG(0x0F0)
+#define VDP2_PRISB      VDP2_REG(0x0F2)
+#define VDP2_PRISC      VDP2_REG(0x0F4)
+#define VDP2_PRISD      VDP2_REG(0x0F6)
 #define VDP2_PRINA      VDP2_REG(0x0F8)
 
 #define VDP2_TVSTAT_VBLANK  0x0008

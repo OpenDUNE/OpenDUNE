@@ -96,6 +96,14 @@ void Vdp2_BitmapInit(void)
 	/* NBG1 in front of NBG0 */
 	VDP2_PRINA = (7 << 8) | 6;
 
+	/* the VDP1 sprite layer: palette sprites (type 0), all on priority 3,
+	 * above the map planes (1, 2) and below NBG0 (6) and NBG1 (7) */
+	VDP2_SPCTL = 0;
+	VDP2_PRISA = (3 << 8) | 3;
+	VDP2_PRISB = (3 << 8) | 3;
+	VDP2_PRISC = (3 << 8) | 3;
+	VDP2_PRISD = (3 << 8) | 3;
+
 	/* back screen: single colour stored in the last word of VRAM */
 	*(volatile uint16_t *)(VDP2_VRAM + 0x7FFFE) = RGB555(0, 0, 0);
 	VDP2_BKTAU = (0x7FFFE >> 17) & 7;

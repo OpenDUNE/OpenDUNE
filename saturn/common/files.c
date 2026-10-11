@@ -20,6 +20,7 @@
 #include "backup.h"
 #include "files.h"
 #include "loading.h"
+#include "vdp1.h"
 
 #undef errno
 extern int errno;
@@ -78,14 +79,11 @@ static int32_t s_cacheFid = -1;
 static uint32_t s_cacheFirst; /*!< first sector held */
 static uint32_t s_cacheCount; /*!< sectors held */
 
-/* Sectors read before, kept in VDP1's 512 KB of VRAM, which nothing else
- * uses (the picture is VDP2's): reading them again (tiles, scripts, the
- * Mentat's pictures, menus) then takes no CD seek. Slot i is at VRAM
- * (i + 1) * 2048; the first 2048 bytes keep an end-of-list command, so
- * VDP1 never takes the cached data for drawing commands. */
-enum { VRAM_SLOTS = 255 };
-#define VDP1_VRAM   0x25C00000UL
-#define VDP1_PTMR   (*(volatile uint16_t *)0x25D00004UL)
+/* Sectors read before, kept in the top 256 KB of VDP1's VRAM (vdp1.h), so
+ * reading them again (tiles, scripts, the Mentat's pictures, menus) takes no
+ * CD seek. Slot i is at VDP1_CD_CACHE + i * 2048; the command lists and
+ * sprite patterns live below it. */
+enum { VRAM_SLOTS = 128 };
 
 typedef struct VramSlot {
 	int32_t fid; /*!< -1: free */
@@ -104,18 +102,16 @@ static uint32_t s_vramClock = 0;
  */
 static volatile uint32_t *Files_VramSlot(int i)
 {
-	return (volatile uint32_t *)(VDP1_VRAM + (uint32_t)(i + 1) * SECTOR_SIZE);
+	return (volatile uint32_t *)(VDP1_VRAM + VDP1_CD_CACHE + (uint32_t)i * SECTOR_SIZE);
 }
 
 /**
- * Empty the cache and keep VDP1 from drawing.
+ * Empty the cache.
  */
 static void Files_VramInit(void)
 {
 	int i;
-	/* no drawing */
-	VDP1_PTMR = 0;
-	*(volatile uint16_t *)VDP1_VRAM = 0x8000;       /* end of command list */
+
 	for (i = 0; i < VRAM_SLOTS; i++) s_vram[i].fid = -1;
 }
 

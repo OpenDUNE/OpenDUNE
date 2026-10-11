@@ -22,6 +22,7 @@
 #include "saturn_hw.h"
 #include "saturn_timer.h"
 #include "smpc.h"
+#include "vdp1.h"
 #include "vdp2.h"
 
 enum {
@@ -74,6 +75,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	PadSaturn_Init();
 	SaturnTimer_SetVBlankHook(Video_VBlank);
 	Vdp2_BitmapInit();
+	Vdp1_Init();
 	Vdp2_DisplayOn();
 	s_repaintAll = true;
 	return true;
