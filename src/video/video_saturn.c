@@ -48,10 +48,10 @@ static int s_mapScrollX = 0;
 static int s_mapScrollY = 0;
 static bool s_mapScrollDirty = true;
 
-/* house-coloured structure characters, baked per (tile, house) into bank B1:
- * the map only has a few hundred structure tiles and two or three houses.
- * 511 slots leave the last word of VRAM for the back screen colour. */
-#define HOUSE_CHAR_SLOTS 511
+/* house-coloured structure characters, baked per (tile, house) into the free
+ * part of bank A1 (the only bank VDP2 reads character patterns from): the
+ * map only has a few hundred structure tiles and two or three houses */
+#define HOUSE_CHAR_SLOTS 119
 static int16 s_houseCharMap[512 * 6]; /*!< (tileID * 6 + houseID) -> slot + 1 */
 static int s_houseCharCount = 0;
 
@@ -327,7 +327,7 @@ static int MapTileChar(int tileID, int houseID)
 		slot = stored - 1;
 	}
 
-	return 0x3000 + slot * 8;
+	return (VDP2_MAP_HOUSES / 0x20) + slot * 8;
 }
 
 /**

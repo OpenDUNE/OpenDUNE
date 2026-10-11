@@ -9,7 +9,7 @@ enum {
 	VDP2_BITMAP_PITCH = 512, /*!< NBG0 bitmap is 512x256, 1 byte per pixel */
 	VDP2_DISPLAY_W = 320,
 	VDP2_DISPLAY_H = 224,
-	VDP2_OVERLAY_OFFSET = 0x40000, /*!< NBG1 in VRAM: bank B */
+	VDP2_OVERLAY_OFFSET = 0x60000, /*!< NBG1 in VRAM: bank B1 */
 	/* overlay colours (0 is transparent) */
 	VDP2_OVERLAY_CLEAR = 0,
 	VDP2_OVERLAY_LIGHT = 1,
@@ -21,7 +21,7 @@ enum {
  * apart) in bank B0 after the NBG1 overlay. */
 enum {
 	VDP2_MAP_PATTERNS = 0x20000, /*!< 16x16 8bpp tile characters */
-	VDP2_MAP_HOUSES = 0x60000,   /*!< house-coloured structure characters (bank B1) */
+	VDP2_MAP_HOUSES = 0x38900,   /*!< house-coloured characters, after the tiles in A1 */
 	VDP2_MAP_NAMES_NBG2 = 0x50000,
 	VDP2_MAP_NAMES_NBG3 = 0x54000,
 	/* one 16x16 tile is four 8x8 cells; a character number is 0x20 bytes */

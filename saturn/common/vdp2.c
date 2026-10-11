@@ -45,22 +45,22 @@ void Vdp2_BitmapInit(void)
 	for (i = 0x00E; i <= 0x11E; i += 2) VDP2_REG(i) = 0;
 
 	/* colour RAM mode 0, VRAM banks A and B partitioned: A0 the NBG0
-	 * bitmap, A1 the map's character patterns, B0 the NBG1 overlay and the
-	 * map's pattern name tables, B1 free (the back screen colour lives in
-	 * its last word). */
+	 * bitmap, A1 the map's characters, B0 the map's pattern name tables,
+	 * B1 the NBG1 overlay (the back screen colour lives in its last word). */
 	VDP2_RAMCTL = 0x0300;
 
 	/* The NBG0 256-colour bitmap needs 2 VRAM reads a cycle, the NBG1
 	 * 16-colour one 1; the map planes read their pattern names (NBG2 in T0,
 	 * NBG3 in T1) and their 256-colour characters (2 reads each). The rest
-	 * of the slots go to the CPU (Table 3.5). */
+	 * of the slots go to the CPU (Table 3.5). The overlay lives in B1, away
+	 * from the map's name reads, so its pixel writes rarely contend. */
 	VDP2_CYCA0L = 0x44EE;
 	VDP2_CYCA0U = 0xEEEE;
 	VDP2_CYCA1L = 0x6677;
 	VDP2_CYCA1U = 0xEEEE;
-	VDP2_CYCB0L = 0x235E;
+	VDP2_CYCB0L = 0x23EE;
 	VDP2_CYCB0U = 0xEEEE;
-	VDP2_CYCB1L = 0xEEEE;
+	VDP2_CYCB1L = 0xEE5E;
 	VDP2_CYCB1U = 0xEEEE;
 
 	/* N0CHCN = 256 colours */
@@ -239,7 +239,7 @@ void Vdp2_MapInit(void)
 	/* pattern name tables: NBG2 pages at 0x50000, NBG3 at 0x54000 (pages
 	 * 0x1000 apart); the NBG1 overlay bitmap stays at 0x40000. The map
 	 * registers hold the low six bits of each page number, MPOFN the top. */
-	VDP2_MPOFN = (VDP2_OVERLAY_OFFSET / 0x20000) << 4  /* N1MP = 2 */
+	VDP2_MPOFN = (VDP2_OVERLAY_OFFSET / 0x20000) << 4  /* N1MP = 3 */
 	           | (1 << 8)                             /* N2MP = 1 */
 	           | (1 << 12);                           /* N3MP = 1 */
 	VDP2_MPABN2 = (0x11 << 8) | 0x10;
