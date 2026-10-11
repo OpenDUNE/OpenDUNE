@@ -69,10 +69,15 @@ void Vdp1_Init(void)
 	s_listPending = false;
 	s_patternNext = VDP1_PATTERNS;
 
-	/* the list at the start of VRAM is a single jump to the active one */
+	/* the list at the start of VRAM is a single jump to the active one.
+	 * VDP1 leaves a stray pixel at a non-drawing command's vertex, so
+	 * clear the whole table and put that vertex off the picture. */
 	jump = (Vdp1Cmd *)VDP1_VRAM;
+	memset(jump, 0, sizeof(*jump));
 	jump->ctrl = 0x1000; /* JP = jump assign */
 	jump->link = (uint16_t)(s_listActive >> 3);
+	jump->xa = 400;
+	jump->ya = 300;
 
 	/* The local coordinate register is undefined after a reset and is added
 	 * to every subsequent draw, so it must be set before drawing starts.
@@ -144,7 +149,11 @@ void Vdp1_ListCommit(void)
 {
 	Vdp1Cmd *end = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + s_listCount;
 
+	/* a stray pixel can come from a command's vertex, so leave none set */
+	memset(end, 0, sizeof(*end));
 	end->ctrl = VDP1_CMD_END;
+	end->xa = 400;
+	end->ya = 300;
 	g_vdp1CommitCount = (uint32_t)s_listCount;
 	g_vdp1CommitTrace[g_vdp1TracePos & 7] = (uint32_t)s_listCount;
 	g_vdp1AddTrace[g_vdp1TracePos & 7] = g_vdp1Commands;
