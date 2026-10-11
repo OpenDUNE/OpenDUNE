@@ -1,4 +1,32 @@
-/** @file saturn/common/vdp2.h VDP2 set up as an 8bpp bitmap (NBG0) and an overlay (NBG1). */
+/** @file saturn/common/vdp2.h VDP2: the software screen, the map planes and the overlay.
+ *
+ * Four layers, by priority (highest first):
+ *
+ *   NBG0  priority 6  the engine's own screen (SCREEN_0), as a 512x256 8bpp
+ *                     bitmap: menus, dialogs, the side bar, text, the minimap.
+ *                     Colour 0 is transparent while the map is shown, so the
+ *                     map planes and the sprites show through the viewport.
+ *   VDP1  priority 3  everything the hardware draws: units, effects, the
+ *                     selection rectangle and the selected-unit marker.
+ *   NBG1  priority 3  the 16-colour overlay bitmap (the reticle).
+ *   NBG3  priority 2  the map's overlay plane: tracks, blood, wrecks, fog.
+ *   NBG2  priority 1  the map's ground plane.
+ *
+ * The two map planes are cell (tile) planes so a scroll costs two register
+ * writes instead of a copy of the whole viewport.
+ *
+ * VRAM (0x25E00000, 512 KB) is used as:
+ *
+ *   0x00000  A0  NBG0 bitmap, 512x256 bytes
+ *   0x20000  A1  map tile characters (16x16, 8bpp), 0x20 bytes each
+ *   0x38900  A1  house-coloured tile characters, baked on demand
+ *   0x50000  B0  NBG2 pattern name tables (pages A-D, 0x1000 apart)
+ *   0x54000  B0  NBG3 pattern name tables
+ *   0x60000  B1  NBG1 overlay bitmap, and the back colour at the end
+ *
+ * The cycle patterns below give the sprite layer and NBG0 the most accesses;
+ * the map planes and the overlay need fewer, so their banks carry a shorter
+ * pattern. Changing the layering means re-deriving them. */
 
 #ifndef SATURN_VDP2_H
 #define SATURN_VDP2_H

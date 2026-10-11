@@ -32,14 +32,6 @@
 #include "../unit.h"
 #include "../video/video.h"
 
-/* diagnostics: are the unit loop and the marker call even reached? */
-uint32 g_dbgUnitSeen;
-uint32 g_dbgMarkerCalls;
-uint32 g_dbgMarkerSprite;
-uint16 g_dbgMarkerW;
-uint16 g_dbgMarkerH;
-int16 g_dbgMarkerX;
-int16 g_dbgMarkerY;
 
 #if defined(SATURN) && SATURN_HW_SPRITES
 /* VDP1 draws its whole sprite list from scratch every frame, so the viewport
@@ -681,11 +673,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 				GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[spriteID], x, y - 14, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 			}
 
-			g_dbgUnitSeen++;
 			if (u != g_unitSelected) continue;
 
-			g_dbgMarkerCalls++;
-			g_dbgMarkerSprite = (uint32)g_sprites[6];
 			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 		}
 

@@ -15,9 +15,29 @@
 #define VDP1_EWLR (*(volatile uint16_t *)0x25D00008UL)
 #define VDP1_EWRR (*(volatile uint16_t *)0x25D0000AL)
 
-/* VRAM layout: the command lists live at 0 (reached through the jump command
- * there), the cached sprite patterns follow, and the top 256 KB is the CD
- * sector cache (files.c). */
+/* VRAM layout (512 KB). The frame buffer is NOT here: the VDP1's two frame
+ * buffer screens live separately at 0x080000 and 0x0C0000, which is why the
+ * VDP1 draws into one while VDP2 shows the other, and why anything drawn
+ * here reaches the screen a screen later than a VDP2 register change.
+ *
+ *   0x00020  command list A (VDP1_LIST_A)
+ *   0x04000  command list B (VDP1_LIST_B)
+ *   0x08000  cached sprite patterns
+ *   0x40000  the CD sector cache (files.c)
+ *
+ * Rules learned the hard way, all following from the VDP1 manual:
+ *
+ *  - Fetching always starts at VRAM 0, so the first command table must be the
+ *    jump that points at the list to draw.
+ *  - The local coordinate register is undefined after a reset and is added to
+ *    every draw, so it must be set before drawing starts. It persists, so
+ *    Vdp1_Init sets it once; without that every sprite is displaced by
+ *    whatever the register happened to hold.
+ *  - A 256-colour pattern's rows must be padded to 16 pixels, because the size
+ *    field counts 16-pixel units. Nothing draws a pattern pixel of 0xFF.
+ *  - Every command that does not draw still leaves a pixel at its vertex, so
+ *    the vertex of the jump, clipping and end commands is put off-screen.
+ */
 enum {
 	VDP1_PATTERNS = 0x8000,  /*!< cached sprite patterns, 8 bpp */
 	VDP1_CD_CACHE = 0x40000  /*!< the CD sector cache */
