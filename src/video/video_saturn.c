@@ -148,15 +148,8 @@ static void Video_CopyRows(uint16 top, uint16 bottom)
 	uint16 y;
 
 	for (y = top; y < bottom; y++, src += SCREEN_WIDTH, dst += VDP2_BITMAP_PITCH) {
-#if SATURN_HW_MAP
-		/* The viewport holds nothing: the terrain is on the map planes and
-		 * everything that moves is a VDP1 sprite or line. Only the side bar
-		 * beside it still has pixels of its own. */
-		if (s_mapVisible && y >= 40 && y < 40 + 160) {
-			memcpy((void *)(dst + 240), src + 240, SCREEN_WIDTH - 240);
-			continue;
-		}
-#endif
+		/* The menus and dialogs are drawn straight into SCREEN_0 across
+		 * the viewport as well, so the whole row still has to be copied. */
 		memcpy((void *)dst, src, SCREEN_WIDTH);
 	}
 }
@@ -629,8 +622,49 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
  */
 void Video_MapLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 {
-	Vdp1Cmd *cmd = Vdp1_ListAdd();
+	Vdp1Cmd *cmd;
+	int code1, code2;
 
+	/* VDP1's system clipping cannot bound the top or the left, because its
+	 * upper left is fixed at (0,0), so clip to the viewport here. Without
+	 * this the selection rectangle leaks into the letterbox above it. */
+#define VPORT_LEFT   0
+#define VPORT_TOP    40
+#define VPORT_RIGHT  239
+#define VPORT_BOTTOM 199
+#define VPORT_CODE(x, y) (((y) < VPORT_TOP ? 1 : ((y) > VPORT_BOTTOM ? 2 : 0)) | \
+                          ((x) < VPORT_LEFT ? 4 : ((x) > VPORT_RIGHT ? 8 : 0)))
+
+	for (;;) {
+		code1 = VPORT_CODE(x1, y1);
+		code2 = VPORT_CODE(x2, y2);
+		if ((code1 | code2) == 0) break;
+		if ((code1 & code2) != 0) return;
+
+		{
+			int code = (code1 != 0) ? code1 : code2;
+			int32 nx, ny;
+
+			if ((code & 1) != 0) {
+				nx = x1 + (int32)(x2 - x1) * (VPORT_TOP - y1) / (y2 - y1);
+				ny = VPORT_TOP;
+			} else if ((code & 2) != 0) {
+				nx = x1 + (int32)(x2 - x1) * (VPORT_BOTTOM - y1) / (y2 - y1);
+				ny = VPORT_BOTTOM;
+			} else if ((code & 4) != 0) {
+				ny = y1 + (int32)(y2 - y1) * (VPORT_LEFT - x1) / (x2 - x1);
+				nx = VPORT_LEFT;
+			} else {
+				ny = y1 + (int32)(y2 - y1) * (VPORT_RIGHT - x1) / (x2 - x1);
+				nx = VPORT_RIGHT;
+			}
+
+			if (code == code1) { x1 = (int16)nx; y1 = (int16)ny; }
+			else               { x2 = (int16)nx; y2 = (int16)ny; }
+		}
+	}
+
+	cmd = Vdp1_ListAdd();
 	if (cmd == NULL) return;
 
 	memset(cmd, 0, sizeof(*cmd));
