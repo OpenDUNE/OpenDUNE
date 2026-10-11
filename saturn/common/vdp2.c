@@ -125,6 +125,21 @@ void Vdp2_BitmapInit(void)
 	Vdp2_SetColor(256 + VDP2_OVERLAY_DARK, RGB555(0, 0, 0));
 }
 
+/* What Vdp2_OverlayShow() and Vdp2_MapShow() keep in BGON: the register is
+ * write-only, so its whole value is tracked here. */
+static int s_overlayShow = 1; /*!< NBG1 drawn */
+static int s_mapShow = 0;     /*!< NBG0's colour 0 transparent (map behind) */
+
+/**
+ * Write BGON from the overlay and map flags.
+ */
+static void Vdp2_BgonUpdate(void)
+{
+	VDP2_BGON = (s_mapShow ? 0 : (1 << 8))      /* N0TPON */
+	          | (s_overlayShow ? (1 << 1) : 0)  /* N1ON */
+	          | (1 << 0);                       /* N0ON */
+}
+
 /**
  * Show the overlay in front of the bitmap, or not.
  *
@@ -132,8 +147,22 @@ void Vdp2_BitmapInit(void)
  */
 void Vdp2_OverlayShow(int show)
 {
-	/* N0TPON, N1ON, N0ON as Vdp2_BitmapInit() sets them */
-	VDP2_BGON = (1 << 8) | (show ? (1 << 1) : 0) | (1 << 0);
+	if (s_overlayShow == show) return;
+	s_overlayShow = show;
+	Vdp2_BgonUpdate();
+}
+
+/**
+ * Make NBG0's colour 0 transparent so the map planes show through, or opaque
+ * so colour 0 draws.
+ *
+ * @param show Whether the map is shown.
+ */
+void Vdp2_MapShow(int show)
+{
+	if (s_mapShow == show) return;
+	s_mapShow = show;
+	Vdp2_BgonUpdate();
 }
 
 /**

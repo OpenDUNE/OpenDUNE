@@ -198,6 +198,17 @@ void Video_SetOffset(uint16 offset)
 }
 
 /**
+ * Make NBG0's colour 0 transparent while the map viewport is shown, so the
+ * map planes behind it show through, and opaque again everywhere else.
+ *
+ * @param show Whether the map is shown.
+ */
+void Video_MapShow(bool show)
+{
+	Vdp2_MapShow(show);
+}
+
+/**
  * The frame buffer, the engine's SCREEN_0.
  *
  * @param size The size wanted.

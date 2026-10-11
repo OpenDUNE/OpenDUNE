@@ -18,4 +18,8 @@ extern void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 
 extern void Video_SetOffset(uint16 offset);
 extern void * Video_GetFrameBuffer(uint16 size);
 
+#if defined(SATURN)
+extern void Video_MapShow(bool show);
+#endif
+
 #endif /* VIDEO_VIDEO_H */

@@ -27,5 +27,6 @@ extern void Vdp2_SetScrollY(int y);
 
 extern void Vdp2_OverlayShow(int show);
 extern void Vdp2_OverlayPixel(int x, int y, int colour);
+extern void Vdp2_MapShow(int show);
 
 #endif /*!< SATURN_VDP2_H */

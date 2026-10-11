@@ -2320,6 +2320,13 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_selectionTypeNew = selectionType;
 		g_var_37B8 = true;
 
+#if defined(SATURN)
+		/* the map viewport is drawn for these; elsewhere NBG0's colour 0
+		 * must be opaque again */
+		Video_MapShow(selectionType == SELECTIONTYPE_TARGET || selectionType == SELECTIONTYPE_PLACE ||
+		              selectionType == SELECTIONTYPE_UNIT || selectionType == SELECTIONTYPE_STRUCTURE);
+#endif
+
 		switch (oldSelectionType) {
 			case SELECTIONTYPE_PLACE:
 				Map_SetSelection(g_structureActivePosition);
@@ -4672,6 +4679,10 @@ void GUI_DrawScreen(Screen screenID)
 	if (g_selectionType == SELECTIONTYPE_DEBUG) return;
 	if (g_selectionType == SELECTIONTYPE_UNKNOWN6) return;
 	if (g_selectionType == SELECTIONTYPE_INTRO) return;
+
+#if defined(SATURN)
+	Video_MapShow(true);
+#endif
 
 	oldScreenID = GFX_Screen_SetActive(screenID);
 
