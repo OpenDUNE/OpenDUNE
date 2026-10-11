@@ -758,6 +758,11 @@ static void GameLoop_GameIntroAnimationMenu(void)
 			GUI_Mouse_Hide_Safe();
 			GUI_SetPaletteAnimated(g_palette2, 30);
 			GUI_ClearScreen(SCREEN_0);
+#if defined(SATURN)
+			/* get the cleared screen onto the bitmap before anything can
+			 * restore the palette, or the menu flashes back for a frame */
+			Video_Repaint();
+#endif
 			GUI_Mouse_Show_Safe();
 
 			/* the palette is restored by GUI_Widget_SaveLoad_Click, once it

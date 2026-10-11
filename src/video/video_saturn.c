@@ -166,6 +166,37 @@ static void Video_CopyRows(uint16 top, uint16 bottom)
 /**
  * Copy what changed of the screen to the bitmap, and read the controllers.
  */
+/**
+ * Bring the bitmap up to date now, instead of waiting for the next tick.
+ *
+ * The palette is uploaded by the vertical blank hook while the bitmap is
+ * copied by the 60 Hz tick, so a palette change that follows closely after
+ * something is drawn can reach the screen first - showing the previous
+ * picture through the new palette for a frame. Callers that change both
+ * call this in between.
+ */
+void Video_Repaint(void)
+{
+	struct dirty_area *area;
+
+	if (s_framebuffer == NULL) return;
+
+	if (s_repaintAll) {
+		Video_CopyRows(0, SCREEN_HEIGHT);
+		s_repaintAll = false;
+		GFX_Screen_SetClean(SCREEN_0);
+		return;
+	}
+
+	if (!GFX_Screen_IsDirty(SCREEN_0)) return;
+
+	area = GFX_Screen_GetDirtyArea(SCREEN_0);
+	if (area != NULL && area->top < area->bottom) {
+		Video_CopyRows(area->top, (area->bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : area->bottom);
+	}
+	GFX_Screen_SetClean(SCREEN_0);
+}
+
 void Video_Tick(void)
 {
 	struct dirty_area *area;
