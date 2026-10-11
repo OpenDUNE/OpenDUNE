@@ -41,6 +41,7 @@ static uint32 s_framebufferMemory[(SCREEN_WIDTH * (SCREEN_HEIGHT + EXTRA_LINES) 
 static uint8 *s_framebuffer = NULL;
 static uint16 s_screenOffset = 0; /*!< VGA start address, in units of 4 bytes */
 static bool s_mapVisible;      /*!< the map planes are showing */
+uint32 g_videoSpriteFallback; /*!< a viewport sprite fell back to software */
 static bool s_repaintAll = true;
 static uint16 s_palette[256];                     /*!< the colours, RGB555, for colour RAM */
 static volatile int s_paletteFrom = 256;          /*!< the first changed since the last vertical blank, */
@@ -575,6 +576,7 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	Vdp1Cmd *cmd;
 
 	g_vdp1SpriteCalls++;
+	g_videoSpriteFallback = 0;
 
 	{
 		extern uint32 g_dbgMarkerSprite;
@@ -590,10 +592,10 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	}
 
 	if (width <= 0 || height <= 0) return true;
-	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; return false; }
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
 
 	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch);
-	if (pattern == 0) { g_vdp1SpriteRejected++; return false; }
+	if (pattern == 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
 
 	cmd = Vdp1_ListAdd();
 	if (cmd == NULL) return true; /* list full: drop the sprite */

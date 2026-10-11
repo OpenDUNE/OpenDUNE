@@ -35,6 +35,7 @@ extern bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width,
                             int16 x, int16 y, const uint8 *palette, const uint8 *remap,
                             int remapCount, uint16 flags);
 extern void Video_MapSpritesBegin(void);
+extern uint32 g_videoSpriteFallback;
 extern void Video_MapFlush(void);
 extern void Video_MapSpritesReset(void);
 extern void Video_MapLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour);

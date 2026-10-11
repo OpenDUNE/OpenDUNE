@@ -923,9 +923,20 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					init = true;
 				}
 
-#if defined(SATURN) && SATURN_HW_MAP
-				/* the viewport buffer is empty now, so there is nothing to
-				 * move into SCREEN_0 */
+#if defined(SATURN) && SATURN_HW_MAP && SATURN_HW_SPRITES
+				/* The viewport buffer is normally empty - the map is on
+				 * VDP2 and the sprites are on VDP1 - but a sprite the
+				 * hardware could not take (a zoomed one) is drawn here in
+				 * software, and that does have to reach SCREEN_0. */
+				if (g_videoSpriteFallback == 0) {
+					VARIABLE_NOT_USED(x);
+					VARIABLE_NOT_USED(y);
+					VARIABLE_NOT_USED(width);
+					VARIABLE_NOT_USED(height);
+				} else {
+					GUI_Screen_Copy(x, y, x, y, width, height, SCREEN_ACTIVE, SCREEN_0);
+				}
+#elif defined(SATURN) && SATURN_HW_MAP
 				VARIABLE_NOT_USED(x);
 				VARIABLE_NOT_USED(y);
 				VARIABLE_NOT_USED(width);
