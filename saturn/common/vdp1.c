@@ -98,6 +98,11 @@ void Vdp1_ListBegin(void)
 	clip->ctrl = 0x0009; /* system clipping coordinate set */
 	clip->xc = 239; /* the viewport is 240x160 at display (0,52) */
 	clip->yc = 211;
+	/* The clipping area's upper left is fixed at (0,0) whoever we are, but
+	 * VDP1 leaves a stray pixel at the command's vertex, so put that
+	 * vertex off the picture. */
+	clip->xa = 400;
+	clip->ya = 300;
 	s_listCount = 1;
 
 	/* The local coordinate register is undefined after a reset and is
