@@ -366,14 +366,17 @@ static void MapWriteTile(uint16 packed)
 	int groundChar;
 	int overlayChar;
 
-	groundChar = MapTileChar(t->groundTileID, t->houseID);
-
-	if (t->overlayTileID == 0) {
-		overlayChar = 0x1000 + VDP2_MAP_CHAR_BLANK * 8;
-	} else if (t->overlayTileID == g_veiledTileID) {
+	if (t->overlayTileID == g_veiledTileID) {
+		/* fully veiled: an opaque black tile, with no terrain behind it */
+		groundChar = 0x1000 + VDP2_MAP_CHAR_BLANK * 8;
 		overlayChar = 0x1000 + VDP2_MAP_CHAR_FOG * 8;
 	} else {
-		overlayChar = MapTileChar(t->overlayTileID, t->houseID);
+		groundChar = MapTileChar(t->groundTileID, t->houseID);
+		if (t->overlayTileID == 0) {
+			overlayChar = 0x1000 + VDP2_MAP_CHAR_BLANK * 8;
+		} else {
+			overlayChar = MapTileChar(t->overlayTileID, t->houseID);
+		}
 	}
 
 	Vdp2_MapSetTile(packed, groundChar, overlayChar);
