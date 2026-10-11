@@ -15,6 +15,7 @@
 #include "../gfx.h"
 #include "../input/pad_saturn.h"
 #include "../map.h"
+#include "../opendune.h"
 #include "../os/error.h"
 #include "../sprites.h"
 #include "../tile.h"
@@ -46,6 +47,13 @@ static volatile int s_paletteTo = 0;              /*!< and the one after the las
 static int s_mapScrollX = 0;
 static int s_mapScrollY = 0;
 static bool s_mapScrollDirty = true;
+
+/* house-coloured structure characters, baked per (tile, house) into bank B1:
+ * the map only has a few hundred structure tiles and two or three houses.
+ * 511 slots leave the last word of VRAM for the back screen colour. */
+#define HOUSE_CHAR_SLOTS 511
+static int16 s_houseCharMap[512 * 6]; /*!< (tileID * 6 + houseID) -> slot + 1 */
+static int s_houseCharCount = 0;
 
 /**
  * The VBlank interrupt: the colours changed, the controllers, and the
@@ -228,6 +236,83 @@ void Video_MapShow(bool show)
 #endif
 }
 
+/* Convert one 16x16 4 bpp tile into an 8 bpp character of four 8x8 cells,
+ * with the house's colour remap applied. */
+static void MapConvertTile(int tileID, int houseID, volatile uint8_t *dst)
+{
+	const uint8_t *palette = g_iconRPAL + (g_iconRTBL[tileID] << 4);
+	uint8_t local[16];
+	const uint8_t *src = g_tilesPixels + tileID * 128; /* 16x16, 4 bpp */
+	int cell;
+
+	if (houseID != 0) {
+		int i;
+
+		for (i = 0; i < 16; i++) {
+			uint8_t c = palette[i];
+
+			if ((c & 0xF0) == 0x90 && (c <= 0x96 || !g_dune2_enhanced)) c += houseID << 4;
+			local[i] = c;
+		}
+		palette = local;
+	}
+
+	for (cell = 0; cell < 4; cell++) {
+		int cellRow = (cell >> 1) * 8;
+		int cellCol = (cell & 1) * 8;
+		int r, c;
+
+		for (r = 0; r < 8; r++) {
+			const uint8_t *s = src + (cellRow + r) * 8 + cellCol / 2;
+			for (c = 0; c < 8; c += 2) {
+				uint8_t b = *s++;
+				*dst++ = palette[b >> 4];
+				*dst++ = palette[b & 0xF];
+			}
+		}
+	}
+}
+
+/* Whether a tile's palette has a colour the house remap changes. */
+static bool MapTileHasHouseColour(int tileID)
+{
+	const uint8_t *palette = g_iconRPAL + (g_iconRTBL[tileID] << 4);
+	int i;
+
+	for (i = 0; i < 16; i++) {
+		uint8_t c = palette[i];
+		if ((c & 0xF0) == 0x90 && (c <= 0x96 || !g_dune2_enhanced)) return true;
+	}
+	return false;
+}
+
+/* The character number of a tile, its house colour baked in if the house
+ * remaps it. House-coloured characters are built on demand into bank B1. */
+static int MapTileChar(int tileID, int houseID)
+{
+	int stored;
+	int slot;
+
+	if (houseID <= 0 || houseID >= 6 || !MapTileHasHouseColour(tileID)) {
+		return 0x1000 + (tileID + VDP2_MAP_CHAR_TILE) * 8;
+	}
+
+	stored = s_houseCharMap[tileID * 6 + houseID];
+	if (stored == 0) {
+		if (s_houseCharCount >= HOUSE_CHAR_SLOTS) {
+			/* out of room: fall back to the unremapped character */
+			return 0x1000 + (tileID + VDP2_MAP_CHAR_TILE) * 8;
+		}
+		slot = s_houseCharCount++;
+		s_houseCharMap[tileID * 6 + houseID] = (int16_t)(slot + 1);
+		MapConvertTile(tileID, houseID, (volatile uint8_t *)(VDP2_VRAM + VDP2_MAP_HOUSES) + slot * 256);
+	} else {
+		slot = stored - 1;
+	}
+
+	return 0x3000 + slot * 8;
+}
+
 /**
  * Convert ICON.ICN's tiles into 8 bpp 16x16 characters in VDP2 VRAM, each as
  * four 8x8 cells (top left, top right, bottom left, bottom right). Character
@@ -245,26 +330,12 @@ void Video_MapLoadTiles(int tileCount)
 	memset((void *)(patterns + 1 * 256), 12, 256);  /* fog */
 
 	for (t = 0; t < tileCount; t++) {
-		const uint8_t *palette = g_iconRPAL + (g_iconRTBL[t] << 4);
-		const uint8_t *src = g_tilesPixels + t * 128; /* 16x16, 4 bpp */
-		volatile uint8_t *dst = patterns + (t + VDP2_MAP_CHAR_TILE) * 256;
-		int cell;
-
-		for (cell = 0; cell < 4; cell++) {
-			int cellRow = (cell >> 1) * 8;
-			int cellCol = (cell & 1) * 8;
-			int r, c;
-
-			for (r = 0; r < 8; r++) {
-				const uint8_t *s = src + (cellRow + r) * 8 + cellCol / 2;
-				for (c = 0; c < 8; c += 2) {
-					uint8_t b = *s++;
-					*dst++ = palette[b >> 4];
-					*dst++ = palette[b & 0xF];
-				}
-			}
-		}
+		MapConvertTile(t, 0, patterns + (t + VDP2_MAP_CHAR_TILE) * 256);
 	}
+
+	/* the house characters are baked afresh for each scenario's houses */
+	memset(s_houseCharMap, 0, sizeof(s_houseCharMap));
+	s_houseCharCount = 0;
 }
 
 /**
@@ -278,14 +349,14 @@ void Video_MapSetTile(uint16 packed)
 	int groundChar;
 	int overlayChar;
 
-	groundChar = 0x1000 + (t->groundTileID + VDP2_MAP_CHAR_TILE) * 8;
+	groundChar = MapTileChar(t->groundTileID, t->houseID);
 
 	if (t->overlayTileID == 0) {
 		overlayChar = 0x1000 + VDP2_MAP_CHAR_BLANK * 8;
 	} else if (t->overlayTileID == g_veiledTileID) {
 		overlayChar = 0x1000 + VDP2_MAP_CHAR_FOG * 8;
 	} else {
-		overlayChar = 0x1000 + (t->overlayTileID + VDP2_MAP_CHAR_TILE) * 8;
+		overlayChar = MapTileChar(t->overlayTileID, t->houseID);
 	}
 
 	Vdp2_MapSetTile(packed, groundChar, overlayChar);

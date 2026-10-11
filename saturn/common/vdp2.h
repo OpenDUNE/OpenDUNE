@@ -21,6 +21,7 @@ enum {
  * apart) in bank B0 after the NBG1 overlay. */
 enum {
 	VDP2_MAP_PATTERNS = 0x20000, /*!< 16x16 8bpp tile characters */
+	VDP2_MAP_HOUSES = 0x60000,   /*!< house-coloured structure characters (bank B1) */
 	VDP2_MAP_NAMES_NBG2 = 0x50000,
 	VDP2_MAP_NAMES_NBG3 = 0x54000,
 	/* one 16x16 tile is four 8x8 cells; a character number is 0x20 bytes */
