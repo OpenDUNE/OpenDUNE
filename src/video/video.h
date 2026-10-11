@@ -6,7 +6,7 @@
 #if defined(SATURN)
 /* Hardware rendering stages: 0 keeps the software path for that stage so it
  * can be compared with the hardware picture; 1 draws it with the VDPs. */
-#define SATURN_HW_MAP     0 /*!< the map on VDP2 cell planes */
+#define SATURN_HW_MAP     1 /*!< the map on VDP2 cell planes */
 #define SATURN_HW_SPRITES 0 /*!< units and effects on VDP1 */
 #endif
 

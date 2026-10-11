@@ -363,7 +363,6 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		for (y = 0; y < 10; y++) {
 			uint16 top = (y << 4) + 0x28;	/* 40 */
 			for (x = 0; x < (drawToMainScreen ? 15 : 16); x++) {
-				Tile *t;
 				uint16 left;
 
 				curPos = g_viewportPosition + Tile_PackXY(x, y);
@@ -384,7 +383,6 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					if (minX[y] > x) minX[y] = x;
 				}
 
-				t = &g_map[curPos];
 				left = x << 4;
 
 #if defined(SATURN) && SATURN_HW_MAP
@@ -401,16 +399,20 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					Video_MapSetTile(curPos);
 				}
 #else
-				if (!g_debugScenario && g_veiledTileID == t->overlayTileID) {
-					/* draw a black rectangle */
-					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
-					continue;
-				}
+				{
+					Tile *t = &g_map[curPos];
 
-				GFX_DrawTile(t->groundTileID, left, top, t->houseID);
+					if (!g_debugScenario && g_veiledTileID == t->overlayTileID) {
+						/* draw a black rectangle */
+						GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
+						continue;
+					}
 
-				if (t->overlayTileID != 0 && !g_debugScenario) {
-					GFX_DrawTile(t->overlayTileID, left, top, t->houseID);
+					GFX_DrawTile(t->groundTileID, left, top, t->houseID);
+
+					if (t->overlayTileID != 0 && !g_debugScenario) {
+						GFX_DrawTile(t->overlayTileID, left, top, t->houseID);
+					}
 				}
 #endif
 			}

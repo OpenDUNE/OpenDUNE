@@ -221,7 +221,11 @@ void Video_SetOffset(uint16 offset)
  */
 void Video_MapShow(bool show)
 {
+#if SATURN_HW_MAP
 	Vdp2_MapShow(show);
+#else
+	VARIABLE_NOT_USED(show);
+#endif
 }
 
 /**

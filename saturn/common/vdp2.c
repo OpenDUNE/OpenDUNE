@@ -136,6 +136,7 @@ static int s_mapShow = 0;     /*!< NBG0's colour 0 transparent (map behind) */
 static void Vdp2_BgonUpdate(void)
 {
 	VDP2_BGON = (s_mapShow ? 0 : (1 << 8))      /* N0TPON */
+	          | (s_mapShow ? ((1 << 3) | (1 << 2)) : 0)  /* N3ON, N2ON */
 	          | (s_overlayShow ? (1 << 1) : 0)  /* N1ON */
 	          | (1 << 0);                       /* N0ON */
 }
@@ -261,12 +262,15 @@ void Vdp2_MapInit(void)
  */
 void Vdp2_MapWindow(int left, int top, int right, int bottom)
 {
-	VDP2_WPSX0 = (uint16_t)left;
+	/* the horizontal window coordinates are in 2-pixel units (the H counter's
+	 * low bit is not in the register) */
+	VDP2_WPSX0 = (uint16_t)(left * 2);
 	VDP2_WPSY0 = (uint16_t)top;
-	VDP2_WPEX0 = (uint16_t)right;
+	VDP2_WPEX0 = (uint16_t)(right * 2);
 	VDP2_WPEY0 = (uint16_t)bottom;
-	/* use W0, with its inside active, for both planes */
-	VDP2_WCTLB = (1 << 9) | (1 << 1);
+	/* use W0 for both planes, with the transparent area outside the window:
+	 * the planes show inside the viewport and vanish outside it */
+	VDP2_WCTLB = (1 << 9) | (1 << 8) | (1 << 1) | (1 << 0);
 }
 
 /**
@@ -288,10 +292,12 @@ void Vdp2_MapSetTile(int packed, int groundChar, int overlayChar)
 	volatile uint16_t *ground = (volatile uint16_t *)(VDP2_VRAM + VDP2_MAP_NAMES_NBG2 + page * 0x1000) + word;
 	volatile uint16_t *overlay = (volatile uint16_t *)(VDP2_VRAM + VDP2_MAP_NAMES_NBG3 + page * 0x1000) + word;
 
-	ground[0] = (uint16_t)groundChar; /* LSW: character number */
-	ground[1] = 0;                     /* MSW: palette 0, no flip */
-	overlay[0] = (uint16_t)overlayChar;
-	overlay[1] = 0;
+	/* a two-word pattern name stores its most significant word (palette,
+	 * flip) at the lower address and the character number in the word after */
+	ground[0] = 0;                     /* MSW: palette 0, no flip */
+	ground[1] = (uint16_t)groundChar;  /* LSW: character number */
+	overlay[0] = 0;
+	overlay[1] = (uint16_t)overlayChar;
 }
 
 /**
