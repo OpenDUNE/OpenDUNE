@@ -43,6 +43,12 @@ static uint16 s_screenOffset = 0; /*!< VGA start address, in units of 4 bytes */
 static bool s_mapVisible;      /*!< the map planes are showing */
 uint32 g_videoSpriteFallback; /*!< a viewport sprite fell back to software */
 static bool s_repaintAll = true;
+/* VDP1 does not draw a pattern pixel of 0xFF - the selected unit's marker is
+ * drawn entirely in that colour, and vanished because of it. Patterns remap
+ * it to 0xFE, and the colour RAM upload mirrors the animated selection colour
+ * from entry 255 into 254 so the marker still follows it. */
+#define VDP1_PATTERN_MAX 0xFE
+
 static uint16 s_palette[256];                     /*!< the colours, RGB555, for colour RAM */
 static volatile int s_paletteFrom = 256;          /*!< the first changed since the last vertical blank, */
 static volatile int s_paletteTo = 0;              /*!< and the one after the last */
@@ -76,6 +82,7 @@ static void Video_VBlank(void)
 	int i;
 
 	for (i = s_paletteFrom; i < s_paletteTo; i++) Vdp2_SetColor(i, s_palette[i]);
+	if (s_paletteTo > 255) Vdp2_SetColor(VDP1_PATTERN_MAX, s_palette[255]);
 	s_paletteFrom = 256;
 	s_paletteTo = 0;
 
@@ -541,6 +548,7 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 			} else {
 				if (palette != NULL) v = palette[v];
 				for (i = 0; i < remapCount; i++) v = remap[v];
+				if (v == 0xFF) v = VDP1_PATTERN_MAX;
 				dst[x++] = v;
 			}
 		}

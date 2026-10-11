@@ -473,14 +473,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 			GUI_DrawSprite(SCREEN_ACTIVE, sprite, x, y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 		}
 		if (u == g_unitSelected && Map_IsPositionInViewport(u->o.position, &x, &y)) {
-#if defined(SATURN) && SATURN_HW_SPRITES
-			Video_MapLine(x,     (int16)(y - 8), (int16)(x + 8), y,     0xFF);
-			Video_MapLine((int16)(x + 8), y,     x,     (int16)(y + 8), 0xFF);
-			Video_MapLine(x,     (int16)(y + 8), (int16)(x - 8), y,     0xFF);
-			Video_MapLine((int16)(x - 8), y,     x,     (int16)(y - 8), 0xFF);
-#else
 			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
-#endif
 		}
 	}
 
@@ -693,17 +686,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			g_dbgMarkerCalls++;
 			g_dbgMarkerSprite = (uint32)g_sprites[6];
-#if defined(SATURN) && SATURN_HW_SPRITES
-			/* The marker's pixels are all colour 0xFF, which VDP1 does not
-			 * draw from a pattern, so draw the same diamond as lines - the
-			 * path the selection rectangle already uses successfully. */
-			Video_MapLine(x,     (int16)(y - 8), (int16)(x + 8), y,     0xFF);
-			Video_MapLine((int16)(x + 8), y,     x,     (int16)(y + 8), 0xFF);
-			Video_MapLine(x,     (int16)(y + 8), (int16)(x - 8), y,     0xFF);
-			Video_MapLine((int16)(x - 8), y,     x,     (int16)(y - 8), 0xFF);
-#else
 			GUI_DrawSprite(SCREEN_ACTIVE, g_sprites[6], x, y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
-#endif
 		}
 
 		g_dirtyUnitCount = 0;
