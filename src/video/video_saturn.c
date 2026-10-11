@@ -576,6 +576,19 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 
 	g_vdp1SpriteCalls++;
 
+	{
+		extern uint32 g_dbgMarkerSprite;
+		extern uint16 g_dbgMarkerW, g_dbgMarkerH;
+		extern int16 g_dbgMarkerX, g_dbgMarkerY;
+
+		if (g_dbgMarkerSprite != 0 && (uint32)sprite == g_dbgMarkerSprite) {
+			g_dbgMarkerW = (uint16)width;
+			g_dbgMarkerH = (uint16)height;
+			g_dbgMarkerX = screenX;
+			g_dbgMarkerY = screenY;
+		}
+	}
+
 	if (width <= 0 || height <= 0) return true;
 	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; return false; }
 
