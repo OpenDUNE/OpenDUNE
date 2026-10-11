@@ -995,6 +995,7 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	uint16 zoomRatioY = 0x100;	/* 8.8 fixed point, ie 0x0100 = 1x */
 	uint16 Ycounter = 0;	/* 8.8 fixed point, ie 0x0100 = 1 */
 	const uint8 *spriteSave = NULL;
+	const uint8 *spriteOriginal;
 	int16  distX;
 	const uint8 *palette = NULL;
 	uint16 spriteDecodedLength; /* if encoded with Format80 */
@@ -1006,6 +1007,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	int16  buf_incr;
 
 	if (sprite == NULL) return;
+
+	spriteOriginal = sprite;
 
 	/* read additional arguments according to the flags */
 
@@ -1086,6 +1089,17 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 		sprite = spriteBuffer;
 	}
+
+#if defined(SATURN) && SATURN_HW_SPRITES
+	if (windowID == 2) {
+		int16 screenX = (g_widgetProperties[windowID].xBase << 3) + posX;
+
+		if (Video_MapSprite(spriteOriginal, sprite, spriteWidth, spriteHeight, screenX, posY,
+		                    palette, remap, remapCount, (uint16)flags)) {
+			return;
+		}
+	}
+#endif
 
 	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) == 0) {
 		/* distance between top of window and top of sprite */

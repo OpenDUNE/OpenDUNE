@@ -12,7 +12,9 @@
 
 #include "types.h"
 #include "video.h"
+#include "../codec/format80.h"
 #include "../gfx.h"
+#include "../gui/gui.h"
 #include "../input/pad_saturn.h"
 #include "../map.h"
 #include "../opendune.h"
@@ -88,6 +90,8 @@ static void Video_VBlank(void)
 		s_mapNameQueued[packed >> 3] &= ~(1 << (packed & 7));
 	}
 	s_mapNameCount = 0;
+
+	Vdp1_ListVBlank();
 
 	Smpc_VBlank();
 	Loading_VBlank();
@@ -432,6 +436,146 @@ void Video_MapScroll(int viewportX, int viewportY)
 	s_mapScrollX = x;
 	s_mapScrollY = y;
 	s_mapScrollDirty = true;
+}
+
+/* --- VDP1 sprites -------------------------------------------------------- */
+
+#define SPRITE_CACHE_MAX 512
+
+typedef struct SpritePattern {
+	const uint8 *sprite;  /*!< the sprite this pattern was baked from */
+	const uint8 *palette;
+	const uint8 *remap;
+	int remapCount;
+	uint32 address;
+	uint16 pitch;
+} SpritePattern;
+
+static SpritePattern s_spriteCache[SPRITE_CACHE_MAX];
+static int s_spriteCacheCount = 0;
+
+/**
+ * Bake a sprite (already expanded to its colour indices) into a linear 8 bpp
+ * VDP1 pattern, colour 0 transparent, the width padded to a multiple of 8.
+ *
+ * @return The pattern's VRAM address, or 0.
+ */
+static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int width, int height,
+                                  const uint8 *palette, const uint8 *remap, int remapCount, int *pitchOut)
+{
+	int pitch = (width + 7) & ~7;
+	int i, x, y;
+	uint32 address;
+	volatile uint8 *dst;
+	SpritePattern *entry;
+
+	for (i = 0; i < s_spriteCacheCount; i++) {
+		entry = &s_spriteCache[i];
+		if (entry->sprite == sprite && entry->palette == palette &&
+		    entry->remap == remap && entry->remapCount == remapCount) {
+			*pitchOut = entry->pitch;
+			return entry->address;
+		}
+	}
+
+	if (s_spriteCacheCount >= SPRITE_CACHE_MAX) return 0;
+
+	address = Vdp1_PatternAlloc(pitch * height);
+	if (address == 0) return 0;
+
+	dst = (volatile uint8 *)(VDP1_VRAM + address);
+	for (y = 0; y < height; y++) {
+		x = 0;
+		while (x < width) {
+			uint8 v = *data++;
+
+			if (v == 0) {
+				int n = *data++;
+
+				while (n-- > 0 && x < width) dst[x++] = 0;
+			} else {
+				if (palette != NULL) v = palette[v];
+				for (i = 0; i < remapCount; i++) v = remap[v];
+				dst[x++] = v;
+			}
+		}
+		while (x < pitch) dst[x++] = 0;
+		dst += pitch;
+	}
+
+	entry = &s_spriteCache[s_spriteCacheCount++];
+	entry->sprite = sprite;
+	entry->palette = palette;
+	entry->remap = remap;
+	entry->remapCount = remapCount;
+	entry->address = address;
+	entry->pitch = (uint16)pitch;
+
+	*pitchOut = pitch;
+	return address;
+}
+
+/**
+ * Queue a normal-sprite command for one viewport sprite.
+ *
+ * @return True if the hardware took it, false to fall back to software.
+ */
+bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 height,
+                     int16 screenX, int16 screenY, const uint8 *palette, const uint8 *remap,
+                     int remapCount, uint16 flags)
+{
+	uint32 pattern;
+	int pitch;
+	Vdp1Cmd *cmd;
+
+	if (width <= 0 || height <= 0) return true;
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) return false;
+
+	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch);
+	if (pattern == 0) return false;
+
+	cmd = Vdp1_ListAdd();
+	if (cmd == NULL) return true; /* list full: drop the sprite */
+
+	memset(cmd, 0, sizeof(*cmd));
+	cmd->ctrl = VDP1_CMD_NORMAL_SPRITE;
+	if ((flags & DRAWSPRITE_FLAG_RTL) != 0) cmd->ctrl |= VDP1_DIR_HFLIP;
+	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0) cmd->ctrl |= VDP1_DIR_VFLIP;
+	cmd->pmod = VDP1_PMOD_COLOR_256;
+	if ((flags & DRAWSPRITE_FLAG_BLUR) != 0) cmd->pmod |= VDP1_PMOD_MESH;
+	cmd->colr = 0;
+	cmd->srca = VDP1_CHAR_ADDR(pattern);
+	cmd->size = (uint16)(((pitch / 8) << 9) | (height & 0x1FF));
+
+	cmd->xa = (int16)(screenX * 32);
+	cmd->ya = (int16)((screenY + TOP) * 32);
+	return true;
+}
+
+/**
+ * Start a fresh VDP1 sprite list for this frame's viewport.
+ */
+void Video_MapSpritesBegin(void)
+{
+	Vdp1_ListBegin();
+}
+
+/**
+ * Commit the VDP1 sprite list built this frame; it is switched in at the
+ * vertical blank.
+ */
+void Video_MapFlush(void)
+{
+	Vdp1_ListCommit();
+}
+
+/**
+ * Forget the baked sprite patterns, on a scenario load or save restore.
+ */
+void Video_MapSpritesReset(void)
+{
+	s_spriteCacheCount = 0;
+	Vdp1_PatternReset();
 }
 
 /**

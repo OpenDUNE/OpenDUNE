@@ -1535,6 +1535,10 @@ void Game_Prepare(void)
 	 * never meets an unwritten cell */
 	Video_MapRedrawAll();
 #endif
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* the sprite set changed with the scenario */
+	Video_MapSpritesReset();
+#endif
 	g_playerCredits = 0xFFFF;
 
 	g_selectionType = oldSelectionType;

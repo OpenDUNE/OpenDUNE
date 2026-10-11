@@ -359,6 +359,10 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 	oldWidgetID = Widget_SetCurrentWidget(2);
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+	Video_MapSpritesBegin();
+#endif
+
 	if (g_dirtyViewportCount != 0 || forceRedraw) {
 		for (y = 0; y < 10; y++) {
 			uint16 top = (y << 4) + 0x28;	/* 40 */
@@ -881,6 +885,10 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 			if (init) GUI_Mouse_Show_InWidget();
 		}
 	}
+
+#if defined(SATURN) && SATURN_HW_SPRITES
+	Video_MapFlush();
+#endif
 
 	GFX_Screen_SetActive(oldScreenID);
 
