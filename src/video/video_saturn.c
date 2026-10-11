@@ -82,7 +82,12 @@ static void Video_VBlank(void)
 	int i;
 
 	for (i = s_paletteFrom; i < s_paletteTo; i++) Vdp2_SetColor(i, s_palette[i]);
-	if (s_paletteTo > 255) Vdp2_SetColor(VDP1_PATTERN_MAX, s_palette[255]);
+
+	/* Entry 254 only stands in for the marker's colour while the game view is
+	 * up, because the menus' own artwork uses that entry: it must not take
+	 * the animated selection colour there. */
+	Vdp2_SetColor(VDP1_PATTERN_MAX, s_mapVisible ? s_palette[255] : s_palette[VDP1_PATTERN_MAX]);
+
 	s_paletteFrom = 256;
 	s_paletteTo = 0;
 
