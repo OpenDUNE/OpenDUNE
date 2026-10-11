@@ -55,6 +55,14 @@ static bool s_mapScrollDirty = true;
 static int16 s_houseCharMap[512 * 6]; /*!< (tileID * 6 + houseID) -> slot + 1 */
 static int s_houseCharCount = 0;
 
+/* pattern names changed by the game loop, written in the vertical blank so
+ * the CPU only touches VDP2's VRAM when the display isn't reading it */
+static uint16 s_mapNameQueue[64 * 64];
+static uint8 s_mapNameQueued[512];
+static int s_mapNameCount = 0;
+
+static void MapWriteTile(uint16 packed);
+
 /**
  * The VBlank interrupt: the colours changed, the controllers, and the
  * loading indicator.
@@ -71,6 +79,15 @@ static void Video_VBlank(void)
 		Vdp2_MapScroll(s_mapScrollX, s_mapScrollY);
 		s_mapScrollDirty = false;
 	}
+
+	/* write the queued pattern names while the display isn't reading VRAM */
+	for (i = 0; i < s_mapNameCount; i++) {
+		uint16 packed = s_mapNameQueue[i];
+
+		MapWriteTile(packed);
+		s_mapNameQueued[packed >> 3] &= ~(1 << (packed & 7));
+	}
+	s_mapNameCount = 0;
 
 	Smpc_VBlank();
 	Loading_VBlank();
@@ -343,7 +360,7 @@ void Video_MapLoadTiles(int tileCount)
  *
  * @param packed The tile.
  */
-void Video_MapSetTile(uint16 packed)
+static void MapWriteTile(uint16 packed)
 {
 	const Tile *t = &g_map[packed];
 	int groundChar;
@@ -360,6 +377,29 @@ void Video_MapSetTile(uint16 packed)
 	}
 
 	Vdp2_MapSetTile(packed, groundChar, overlayChar);
+}
+
+/**
+ * Queue one map tile's pattern names to be written in the vertical blank.
+ *
+ * @param packed The tile.
+ */
+void Video_MapSetTile(uint16 packed)
+{
+	uint32 sr;
+	int byte;
+	int bit;
+
+	if (packed >= 64 * 64) return;
+
+	byte = packed >> 3;
+	bit = 1 << (packed & 7);
+	sr = Cpu_DisableInterrupts();
+	if ((s_mapNameQueued[byte] & bit) == 0) {
+		s_mapNameQueued[byte] |= bit;
+		s_mapNameQueue[s_mapNameCount++] = packed;
+	}
+	Cpu_RestoreInterrupts(sr);
 }
 
 /**
