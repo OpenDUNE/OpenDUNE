@@ -760,8 +760,8 @@ static void GameLoop_GameIntroAnimationMenu(void)
 			GUI_ClearScreen(SCREEN_0);
 			GUI_Mouse_Show_Safe();
 
-			GFX_SetPalette(g_palette1);
-
+			/* the palette is restored by GUI_Widget_SaveLoad_Click, once it
+			 * has read the save files, so the screen stays black meanwhile */
 			if (GUI_Widget_SaveLoad_Click(false)) {
 				loadGame = true;
 				if (g_gameMode == GM_RESTART) break;

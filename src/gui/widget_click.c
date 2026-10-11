@@ -1067,6 +1067,12 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	desc->stringID = save ? STR_SELECT_A_POSITION_TO_SAVE_TO : STR_SELECT_A_SAVED_GAME_TO_LOAD;
 
+	/* The caller faded the screen to black before this call, and reading the
+	 * save files above is slow, so the normal palette is only wanted once
+	 * there is a window about to be drawn on top. In game it is already the
+	 * active palette and this does nothing. */
+	GFX_SetPalette(g_palette1);
+
 	GUI_Window_BackupScreen(desc);
 
 	GUI_Window_Create(desc);
