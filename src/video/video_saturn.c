@@ -40,6 +40,7 @@ enum {
 static uint32 s_framebufferMemory[(SCREEN_WIDTH * (SCREEN_HEIGHT + EXTRA_LINES) + 3) / 4];
 static uint8 *s_framebuffer = NULL;
 static uint16 s_screenOffset = 0; /*!< VGA start address, in units of 4 bytes */
+static bool s_mapVisible;      /*!< the map planes are showing */
 static bool s_repaintAll = true;
 static uint16 s_palette[256];                     /*!< the colours, RGB555, for colour RAM */
 static volatile int s_paletteFrom = 256;          /*!< the first changed since the last vertical blank, */
@@ -151,6 +152,7 @@ static void Video_CopyRows(uint16 top, uint16 bottom)
 	}
 }
 
+
 /**
  * Copy what changed of the screen to the bitmap, and read the controllers.
  */
@@ -250,6 +252,7 @@ void Video_SetOffset(uint16 offset)
  */
 void Video_MapShow(bool show)
 {
+	s_mapVisible = show;
 #if SATURN_HW_MAP
 	Vdp2_MapShow(show);
 #else
