@@ -576,7 +576,6 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	Vdp1Cmd *cmd;
 
 	g_vdp1SpriteCalls++;
-	g_videoSpriteFallback = 0;
 
 	{
 		extern uint32 g_dbgMarkerSprite;
@@ -709,6 +708,7 @@ void Video_MapRect(int16 left, int16 top, int16 right, int16 bottom, uint8 colou
  */
 void Video_MapSpritesBegin(void)
 {
+	g_videoSpriteFallback = 0;
 	Vdp1_ListBegin();
 }
 
