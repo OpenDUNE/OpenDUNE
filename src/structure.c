@@ -15,6 +15,7 @@
 #include "explosion.h"
 #include "gfx.h"
 #include "gui/gui.h"
+#include "video/video.h"
 #include "gui/widget.h"
 #include "house.h"
 #include "map.h"
@@ -1570,6 +1571,13 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 			GFX_SetPalette(g_palette1);
 
 			GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
+
+#if defined(SATURN)
+			/* the window is still what the bitmap shows; hide the map again
+			 * so it is revealed by the viewport's redraw rather than
+			 * showing through the window's transparent background */
+			Video_MapShow(false);
+#endif
 
 			if (res == FACTORY_RESUME) return false;
 

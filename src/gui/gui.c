@@ -2928,6 +2928,10 @@ static void GUI_FactoryWindow_Init(void)
 	WSA_Unload(wsa);
 
 	GUI_Mouse_Hide_Safe();
+#if defined(SATURN)
+	/* the window is about to replace the game on screen */
+	Video_MapShow(false);
+#endif
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 
@@ -2957,6 +2961,12 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	uint8 backup[3];
 
 	oldScreenID = GFX_Screen_SetActive(SCREEN_0);
+
+#if defined(SATURN)
+	/* the window is composed off-screen; the map stays up until it is
+	 * flipped in, so nothing changes before the switch */
+	Video_MapShow(true);
+#endif
 
 	memcpy(backup, g_palette1 + 255 * 3, 3);
 
