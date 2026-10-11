@@ -255,6 +255,17 @@ void Video_MapShow(bool show)
 #else
 	VARIABLE_NOT_USED(show);
 #endif
+
+#if SATURN_HW_SPRITES
+	/* Outside a mission the viewport is no longer drawn, so nothing would
+	 * rebuild the command list and the last mission's sprites would stay
+	 * on VDP1 for ever. Commit an empty list: VDP1 then erases the frame
+	 * buffer to the transparent colour every frame. */
+	if (!show) {
+		Vdp1_ListBegin();
+		Vdp1_ListCommit();
+	}
+#endif
 }
 
 /* Convert one 16x16 4 bpp tile into an 8 bpp character of four 8x8 cells,
