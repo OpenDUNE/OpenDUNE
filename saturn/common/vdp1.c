@@ -95,8 +95,8 @@ void Vdp1_ListBegin(void)
 	clip = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild);
 	memset(clip, 0, sizeof(*clip));
 	clip->ctrl = 0x0009; /* system clipping coordinate set */
-	clip->xc = 319;
-	clip->yc = 223;
+	clip->xc = 239; /* the viewport is 240x160 at display (0,52) */
+	clip->yc = 211;
 	s_listCount = 1;
 
 }
