@@ -11,6 +11,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <string.h>
 
 #include "vdp1.h"
 
@@ -28,6 +29,14 @@ static bool s_listPending;    /*!< a finished list waits for the vertical blank 
 
 static uint32_t s_patternNext; /*!< next free byte in the pattern area */
 
+uint32_t g_vdp1Commands;    /*!< diagnostics: commands in the list built this frame */
+uint32_t g_vdp1CommitCount; /*!< diagnostics: commands in the list committed last */
+uint32_t g_vdp1Magic;       /*!< diagnostics: proves Vdp1_Init ran */
+uint32_t g_vdp1BeginCount;  /*!< diagnostics: how often the list is begun */
+uint32_t g_vdp1TracePos;    /*!< diagnostics: index into the trace rings */
+uint32_t g_vdp1CommitTrace[8]; /*!< diagnostics: command count at each commit */
+uint32_t g_vdp1AddTrace[8];    /*!< diagnostics: commands added since the last begin */
+
 /**
  * Set VDP1 up: a 16 bpp one-cycle frame buffer, erased to colour 0 over the
  * whole picture, drawing automatically each frame from an empty command list.
@@ -35,6 +44,8 @@ static uint32_t s_patternNext; /*!< next free byte in the pattern area */
 void Vdp1_Init(void)
 {
 	Vdp1Cmd *jump;
+
+	g_vdp1Magic = 0xA5A5A5A5;
 
 	/* 16 bpp, normal 320x224, no V-blank erase; erase over the whole picture */
 	VDP1_TVMR = 0x0000;
@@ -48,8 +59,8 @@ void Vdp1_Init(void)
 	VDP1_EWLR = 0x0000;
 	VDP1_EWRR = (40 << 9) | 223;
 
-	/* draw automatically with each frame change */
-	VDP1_PTMR = 0x0001;
+	/* draw automatically at the start of every frame (PTM = 10B) */
+	VDP1_PTMR = 0x0002;
 
 	s_listActive = VDP1_LIST_A;
 	s_listBuild = VDP1_LIST_B;
@@ -64,6 +75,7 @@ void Vdp1_Init(void)
 
 	/* the active list starts empty */
 	((Vdp1Cmd *)(VDP1_VRAM + s_listActive))->ctrl = VDP1_CMD_END;
+
 }
 
 /**
@@ -71,8 +83,22 @@ void Vdp1_Init(void)
  */
 void Vdp1_ListBegin(void)
 {
+	Vdp1Cmd *clip;
+
 	s_listCount = 0;
 	s_listPending = false;
+	g_vdp1BeginCount++;
+
+	/* The system clipping area is undefined until a command sets it, so
+	 * put one at the head of every list: upper left is fixed at (0,0),
+	 * lower right is the bottom of the picture. */
+	clip = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild);
+	memset(clip, 0, sizeof(*clip));
+	clip->ctrl = 0x0009; /* system clipping coordinate set */
+	clip->xc = 319;
+	clip->yc = 223;
+	s_listCount = 1;
+
 }
 
 /**
@@ -88,6 +114,7 @@ Vdp1Cmd *Vdp1_ListAdd(void)
 
 	cmd = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + s_listCount;
 	s_listCount++;
+	g_vdp1Commands = (uint32_t)s_listCount;
 	return cmd;
 }
 
@@ -100,6 +127,10 @@ void Vdp1_ListCommit(void)
 	Vdp1Cmd *end = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + s_listCount;
 
 	end->ctrl = VDP1_CMD_END;
+	g_vdp1CommitCount = (uint32_t)s_listCount;
+	g_vdp1CommitTrace[g_vdp1TracePos & 7] = (uint32_t)s_listCount;
+	g_vdp1AddTrace[g_vdp1TracePos & 7] = g_vdp1Commands;
+	g_vdp1TracePos++;
 	s_listPending = true;
 }
 

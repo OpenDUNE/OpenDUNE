@@ -444,15 +444,23 @@ void Video_MapScroll(int viewportX, int viewportY)
 
 typedef struct SpritePattern {
 	const uint8 *sprite;  /*!< the sprite this pattern was baked from */
-	const uint8 *palette;
 	const uint8 *remap;
 	int remapCount;
+	bool hasPalette;      /*!< the sprite carries a 16 colour palette */
+	uint8 palette[16];    /*!< and its contents: the viewport hands the same
+	                       * stack buffer in for every house, so the pointer
+	                       * alone cannot tell two houses apart */
 	uint32 address;
 	uint16 pitch;
 } SpritePattern;
 
 static SpritePattern s_spriteCache[SPRITE_CACHE_MAX];
 static int s_spriteCacheCount = 0;
+
+/* diagnostics for the VDP1 sprite path */
+uint32 g_vdp1SpriteCalls;
+uint32 g_vdp1SpriteQueued;
+uint32 g_vdp1SpriteRejected;
 
 /**
  * Bake a sprite (already expanded to its colour indices) into a linear 8 bpp
@@ -463,7 +471,10 @@ static int s_spriteCacheCount = 0;
 static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int width, int height,
                                   const uint8 *palette, const uint8 *remap, int remapCount, int *pitchOut)
 {
-	int pitch = (width + 7) & ~7;
+	/* For 256 colour patterns the VDP1 size field counts 16 pixel units,
+	 * so the pattern row must be padded to 16 pixels; a row padded to 8
+	 * makes the hardware read across into the next pattern. */
+	int pitch = (width + 15) & ~15;
 	int i, x, y;
 	uint32 address;
 	volatile uint8 *dst;
@@ -471,11 +482,14 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 
 	for (i = 0; i < s_spriteCacheCount; i++) {
 		entry = &s_spriteCache[i];
-		if (entry->sprite == sprite && entry->palette == palette &&
-		    entry->remap == remap && entry->remapCount == remapCount) {
-			*pitchOut = entry->pitch;
-			return entry->address;
-		}
+
+		if (entry->sprite != sprite) continue;
+		if (entry->remap != remap || entry->remapCount != remapCount) continue;
+		if (entry->hasPalette != (palette != NULL)) continue;
+		if (palette != NULL && memcmp(entry->palette, palette, 16) != 0) continue;
+
+		*pitchOut = entry->pitch;
+		return entry->address;
 	}
 
 	if (s_spriteCacheCount >= SPRITE_CACHE_MAX) return 0;
@@ -505,9 +519,10 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 
 	entry = &s_spriteCache[s_spriteCacheCount++];
 	entry->sprite = sprite;
-	entry->palette = palette;
 	entry->remap = remap;
 	entry->remapCount = remapCount;
+	entry->hasPalette = (palette != NULL);
+	if (palette != NULL) memcpy(entry->palette, palette, 16);
 	entry->address = address;
 	entry->pitch = (uint16)pitch;
 
@@ -528,14 +543,18 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	int pitch;
 	Vdp1Cmd *cmd;
 
+	g_vdp1SpriteCalls++;
+
 	if (width <= 0 || height <= 0) return true;
-	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) return false;
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; return false; }
 
 	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch);
-	if (pattern == 0) return false;
+	if (pattern == 0) { g_vdp1SpriteRejected++; return false; }
 
 	cmd = Vdp1_ListAdd();
 	if (cmd == NULL) return true; /* list full: drop the sprite */
+
+	g_vdp1SpriteQueued++;
 
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->ctrl = VDP1_CMD_NORMAL_SPRITE;
@@ -545,10 +564,12 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	if ((flags & DRAWSPRITE_FLAG_BLUR) != 0) cmd->pmod |= VDP1_PMOD_MESH;
 	cmd->colr = 0;
 	cmd->srca = VDP1_CHAR_ADDR(pattern);
-	cmd->size = (uint16)(((pitch / 8) << 9) | (height & 0x1FF));
+	cmd->size = (uint16)(((pitch / 16) << 9) | (height & 0x1FF));
 
-	cmd->xa = (int16)(screenX * 32);
-	cmd->ya = (int16)((screenY + TOP) * 32);
+	/* the vertex coordinate is a 10-bit signed integer, its sign
+	 * extended over the top six bits; there is no fractional part */
+	cmd->xa = screenX;
+	cmd->ya = (int16)(screenY + TOP);
 	return true;
 }
 

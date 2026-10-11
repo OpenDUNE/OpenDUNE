@@ -32,6 +32,14 @@
 #include "../unit.h"
 #include "../video/video.h"
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+/* VDP1 draws its whole sprite list from scratch every frame, so the viewport
+ * must queue every visible sprite every frame, not only the dirty ones. */
+#define VIEWPORT_SPRITES_ALWAYS 1
+#else
+#define VIEWPORT_SPRITES_ALWAYS 0
+#endif
+
 static uint32 s_tickCursor;                                 /*!< Stores last time Viewport changed the cursor spriteID. */
 static uint32 s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */
 static uint32 s_tickClick;                                  /*!< Stores last time Viewport handled a click. */
@@ -437,7 +445,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 		if (u == NULL) break;
 
-		if (!u->o.flags.s.isDirty && !forceRedraw) continue;
+		if (!VIEWPORT_SPRITES_ALWAYS && !u->o.flags.s.isDirty && !forceRedraw) continue;
 		u->o.flags.s.isDirty = false;
 
 		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && !g_debugScenario) continue;
@@ -479,7 +487,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 	}
 
 	/* Draw ground units */
-	if (g_dirtyUnitCount != 0 || forceRedraw || updateDisplay) {
+	if (VIEWPORT_SPRITES_ALWAYS || g_dirtyUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -500,7 +508,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			packed = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, packed)) continue;
+			if (!VIEWPORT_SPRITES_ALWAYS && (!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, packed)) continue;
+			if (u->o.flags.s.isNotOnMap) { u->o.flags.s.isDirty = false; continue; }
 			u->o.flags.s.isDirty = false;
 
 			if (!g_map[packed].isUnveiled && !g_debugScenario) continue;
@@ -658,7 +667,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (BitArray_Test(g_dirtyViewport, curPos)) e->isDirty = true;
 
 		if (e->commands == NULL) continue;
-		if (!e->isDirty && !forceRedraw) continue;
+		if (!VIEWPORT_SPRITES_ALWAYS && !e->isDirty && !forceRedraw) continue;
 		if (e->spriteID == 0) continue;
 
 		e->isDirty = false;
@@ -671,7 +680,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 	}
 
 	/* draw air units */
-	if (g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
+	if (VIEWPORT_SPRITES_ALWAYS || g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -697,7 +706,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			curPos = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, curPos)) continue;
+			if (!VIEWPORT_SPRITES_ALWAYS && (!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, curPos)) continue;
+			if (u->o.flags.s.isNotOnMap) { u->o.flags.s.isDirty = false; continue; }
 			u->o.flags.s.isDirty = false;
 
 			if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
