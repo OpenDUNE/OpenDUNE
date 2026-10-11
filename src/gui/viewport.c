@@ -467,22 +467,32 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		}
 	}
 
-	if (g_unitSelected == NULL && (g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* VDP1 rebuilds its command list from scratch every frame, so the
+	 * rectangle has to be queued every frame it should be visible, not
+	 * only when the selection changed. */
+	if (g_unitSelected == NULL && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
 		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
 		uint16 y2 = y1 + (g_selectionHeight << 4) - 1;
 
-#if defined(SATURN) && SATURN_HW_SPRITES
-		/* the rectangle lives on VDP1, so the viewport buffer stays empty
-		 * and the hardware needs no copy of it */
 		Video_MapRect(x1, y1, x2, y2, 0xFF);
 
 		if (g_selectionState == 0 && g_selectionType == SELECTIONTYPE_PLACE) {
 			Video_MapLine(x1, y1, x2, y2, 0xFF);
 			Video_MapLine(x2, y1, x1, y2, 0xFF);
 		}
+	}
+
+	g_selectionRectangleNeedRepaint = false;
 #else
+	if (g_unitSelected == NULL && (g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
+		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
+		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
+		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
+		uint16 y2 = y1 + (g_selectionHeight << 4) - 1;
+
 		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
@@ -492,10 +502,10 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		}
 
 		GUI_SetClippingArea(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
-#endif
 
 		g_selectionRectangleNeedRepaint = false;
 	}
+#endif
 
 	/* Draw ground units */
 	if (VIEWPORT_SPRITES_ALWAYS || g_dirtyUnitCount != 0 || forceRedraw || updateDisplay) {
