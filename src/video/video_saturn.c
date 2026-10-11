@@ -148,6 +148,15 @@ static void Video_CopyRows(uint16 top, uint16 bottom)
 	uint16 y;
 
 	for (y = top; y < bottom; y++, src += SCREEN_WIDTH, dst += VDP2_BITMAP_PITCH) {
+#if SATURN_HW_MAP
+		/* The viewport holds nothing: the terrain is on the map planes and
+		 * everything that moves is a VDP1 sprite or line. Only the side bar
+		 * beside it still has pixels of its own. */
+		if (s_mapVisible && y >= 40 && y < 40 + 160) {
+			memcpy((void *)(dst + 240), src + 240, SCREEN_WIDTH - 240);
+			continue;
+		}
+#endif
 		memcpy((void *)dst, src, SCREEN_WIDTH);
 	}
 }
@@ -252,6 +261,20 @@ void Video_SetOffset(uint16 offset)
  */
 void Video_MapShow(bool show)
 {
+#if SATURN_HW_MAP
+	/* Showing the map over a bitmap that still holds the previous screen
+	 * (a briefing, say) would leave that screen covering the map, because
+	 * NBG0 is opaque where it is not colour 0 and the viewport rows are no
+	 * longer copied. Clear that area once, as the map appears. */
+	if (show && !s_mapVisible) {
+		volatile uint8 *p = VDP2_BITMAP + (TOP + 40) * VDP2_BITMAP_PITCH;
+		int row;
+
+		for (row = 0; row < 160; row++, p += VDP2_BITMAP_PITCH) {
+			memset((void *)p, 0, 240);
+		}
+	}
+#endif
 	s_mapVisible = show;
 #if SATURN_HW_MAP
 	Vdp2_MapShow(show);

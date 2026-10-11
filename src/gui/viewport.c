@@ -910,7 +910,16 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					init = true;
 				}
 
+#if defined(SATURN) && SATURN_HW_MAP
+				/* the viewport buffer is empty now, so there is nothing to
+				 * move into SCREEN_0 */
+				VARIABLE_NOT_USED(x);
+				VARIABLE_NOT_USED(y);
+				VARIABLE_NOT_USED(width);
+				VARIABLE_NOT_USED(height);
+#else
 				GUI_Screen_Copy(x, y, x, y, width, height, SCREEN_ACTIVE, SCREEN_0);
+#endif
 			}
 
 			if (init) GUI_Mouse_Show_InWidget();
