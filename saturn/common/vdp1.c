@@ -100,6 +100,18 @@ void Vdp1_ListBegin(void)
 	clip->yc = 211;
 	s_listCount = 1;
 
+	/* The local coordinate register is undefined after a reset and is
+	 * added to every subsequent draw, so clear it too; otherwise every
+	 * sprite is displaced by whatever it happened to contain. */
+	{
+		Vdp1Cmd *lc = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + s_listCount++;
+
+		memset(lc, 0, sizeof(*lc));
+		lc->ctrl = 0x000A; /* local coordinate set */
+		lc->xa = 0;
+		lc->ya = 0;
+	}
+
 }
 
 /**
