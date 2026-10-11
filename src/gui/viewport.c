@@ -473,6 +473,16 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
 		uint16 y2 = y1 + (g_selectionHeight << 4) - 1;
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+		/* the rectangle lives on VDP1, so the viewport buffer stays empty
+		 * and the hardware needs no copy of it */
+		Video_MapRect(x1, y1, x2, y2, 0xFF);
+
+		if (g_selectionState == 0 && g_selectionType == SELECTIONTYPE_PLACE) {
+			Video_MapLine(x1, y1, x2, y2, 0xFF);
+			Video_MapLine(x2, y1, x1, y2, 0xFF);
+		}
+#else
 		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
@@ -482,6 +492,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		}
 
 		GUI_SetClippingArea(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+#endif
 
 		g_selectionRectangleNeedRepaint = false;
 	}

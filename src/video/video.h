@@ -37,6 +37,8 @@ extern bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width,
 extern void Video_MapSpritesBegin(void);
 extern void Video_MapFlush(void);
 extern void Video_MapSpritesReset(void);
+extern void Video_MapLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour);
+extern void Video_MapRect(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
 #endif
 
 #endif /* VIDEO_VIDEO_H */

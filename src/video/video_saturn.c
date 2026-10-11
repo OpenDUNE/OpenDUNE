@@ -596,6 +596,42 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 }
 
 /**
+ * Queue a non-textured line for the viewport, in game screen coordinates.
+ *
+ * @param x1 The first point's x.
+ * @param y1 Its y.
+ * @param x2 The second point's x.
+ * @param y2 Its y.
+ * @param colour The palette colour.
+ */
+void Video_MapLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
+{
+	Vdp1Cmd *cmd = Vdp1_ListAdd();
+
+	if (cmd == NULL) return;
+
+	memset(cmd, 0, sizeof(*cmd));
+	cmd->ctrl = VDP1_CMD_LINE;
+	cmd->pmod = VDP1_PMOD_COLOR_16; /* non-textured: CMDCOLR is the colour */
+	cmd->colr = colour;
+	cmd->xa = x1;
+	cmd->ya = (int16)(y1 + TOP);
+	cmd->xb = x2;
+	cmd->yb = (int16)(y2 + TOP);
+}
+
+/**
+ * Queue a wire rectangle for the viewport, in game screen coordinates.
+ */
+void Video_MapRect(int16 left, int16 top, int16 right, int16 bottom, uint8 colour)
+{
+	Video_MapLine(left,  top,    right, top,    colour);
+	Video_MapLine(left,  bottom, right, bottom, colour);
+	Video_MapLine(left,  top,    left,  bottom, colour);
+	Video_MapLine(right, top,    right, bottom, colour);
+}
+
+/**
  * Start a fresh VDP1 sprite list for this frame's viewport.
  */
 void Video_MapSpritesBegin(void)
