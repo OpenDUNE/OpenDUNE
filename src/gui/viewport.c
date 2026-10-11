@@ -378,6 +378,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 #if defined(SATURN) && SATURN_HW_SPRITES
 	Video_MapSpritesBegin();
+
 #endif
 
 	if (g_dirtyViewportCount != 0 || forceRedraw) {
