@@ -44,16 +44,21 @@ void Vdp2_BitmapInit(void)
 	VDP2_REG(0x002) = 0;
 	for (i = 0x00E; i <= 0x11E; i += 2) VDP2_REG(i) = 0;
 
-	/* colour RAM mode 0, VRAM banks not partitioned */
-	VDP2_RAMCTL = 0x0000;
+	/* colour RAM mode 0, VRAM banks A and B partitioned: A0 the NBG0
+	 * bitmap, A1 the map's character patterns, B0 the NBG1 overlay and the
+	 * map's pattern name tables, B1 free (the back screen colour lives in
+	 * its last word). */
+	VDP2_RAMCTL = 0x0300;
 
-	/* NBG0 256-colour bitmap needs 2 VRAM reads per cycle, the NBG1
-	 * 16-colour one 1 (Table 3.3); the rest of the slots go to the CPU. */
+	/* The NBG0 256-colour bitmap needs 2 VRAM reads a cycle, the NBG1
+	 * 16-colour one 1; the map planes read their pattern names (NBG2 in T0,
+	 * NBG3 in T1) and their 256-colour characters (2 reads each). The rest
+	 * of the slots go to the CPU (Table 3.5). */
 	VDP2_CYCA0L = 0x44EE;
 	VDP2_CYCA0U = 0xEEEE;
-	VDP2_CYCA1L = 0xEEEE;
+	VDP2_CYCA1L = 0x6677;
 	VDP2_CYCA1U = 0xEEEE;
-	VDP2_CYCB0L = 0x5EEE;
+	VDP2_CYCB0L = 0x235E;
 	VDP2_CYCB0U = 0xEEEE;
 	VDP2_CYCB1L = 0xEEEE;
 	VDP2_CYCB1U = 0xEEEE;
