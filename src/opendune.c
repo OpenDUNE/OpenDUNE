@@ -1016,6 +1016,9 @@ static void GameLoop_Main(void)
 
 	for (;; sleepIdle()) {
 		if (g_gameMode == GM_MENU) {
+#if defined(SATURN)
+			Video_MapShow(false);
+#endif
 			GameLoop_GameIntroAnimationMenu();
 
 			if (!g_running) break;
@@ -1035,6 +1038,9 @@ static void GameLoop_Main(void)
 		}
 
 		if (g_gameMode == GM_PICKHOUSE) {
+#if defined(SATURN)
+			Video_MapShow(false);
+#endif
 			Music_Play(28);
 
 			g_playerHouseID = HOUSE_MERCENARY;
