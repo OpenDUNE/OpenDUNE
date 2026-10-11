@@ -216,3 +216,95 @@ void Vdp2_SetScrollY(int y)
 	VDP2_SCYIN0 = (uint16_t)y;
 	VDP2_SCYIN1 = (uint16_t)y;
 }
+
+/**
+ * Set NBG2 and NBG3 up as the map's cell planes, one 32x32-character page
+ * per plane (planes A-D make the 64x64-tile map). The planes stay hidden
+ * until Vdp2_MapShow().
+ */
+void Vdp2_MapInit(void)
+{
+	/* NBG2 and NBG3: 256 colours, 16x16 (2x2 cell) characters */
+	VDP2_CHCTLB = (1 << 5) | (1 << 4)   /* N3CHCN, N3CHSZ */
+	            | (1 << 1) | (1 << 0);  /* N2CHCN, N2CHSZ */
+
+	/* two-word pattern names */
+	VDP2_PNCN2 = 0;
+	VDP2_PNCN3 = 0;
+
+	/* one page per plane */
+	VDP2_PLSZ = 0;
+
+	/* pattern name tables: NBG2 pages at 0x50000, NBG3 at 0x54000 (pages
+	 * 0x1000 apart); the NBG1 overlay bitmap stays at 0x40000. The map
+	 * registers hold the low six bits of each page number, MPOFN the top. */
+	VDP2_MPOFN = (VDP2_OVERLAY_OFFSET / 0x20000) << 4  /* N1MP = 2 */
+	           | (1 << 8)                             /* N2MP = 1 */
+	           | (1 << 12);                           /* N3MP = 1 */
+	VDP2_MPABN2 = (0x11 << 8) | 0x10;
+	VDP2_MPCDN2 = (0x13 << 8) | 0x12;
+	VDP2_MPABN3 = (0x15 << 8) | 0x14;
+	VDP2_MPCDN3 = (0x17 << 8) | 0x16;
+
+	/* NBG2 under NBG3, both under the sprites (3), NBG0 (6) and NBG1 (7) */
+	VDP2_PRINB = (2 << 8) | 1;
+}
+
+/**
+ * Clip NBG2 and NBG3 to a rectangle of the display with window W0, outside
+ * which the planes are transparent.
+ *
+ * @param left The left edge.
+ * @param top The top edge.
+ * @param right The right edge.
+ * @param bottom The bottom edge.
+ */
+void Vdp2_MapWindow(int left, int top, int right, int bottom)
+{
+	VDP2_WPSX0 = (uint16_t)left;
+	VDP2_WPSY0 = (uint16_t)top;
+	VDP2_WPEX0 = (uint16_t)right;
+	VDP2_WPEY0 = (uint16_t)bottom;
+	/* use W0, with its inside active, for both planes */
+	VDP2_WCTLB = (1 << 9) | (1 << 1);
+}
+
+/**
+ * Write the pattern names of one map tile: its ground character to NBG2 and
+ * its overlay character to NBG3.
+ *
+ * @param packed The tile (6-bit x and y).
+ * @param groundChar The character number of the ground.
+ * @param overlayChar The character number of the overlay.
+ */
+void Vdp2_MapSetTile(int packed, int groundChar, int overlayChar)
+{
+	int x = packed & 0x3F;
+	int y = (packed >> 6) & 0x3F;
+	/* the 2x2 pages: A (top-left), B (top-right), C (bottom-left),
+	 * D (bottom-right), each 0x1000 bytes and 32x32 characters */
+	int page = ((y & 0x20) ? 2 : 0) | ((x & 0x20) ? 1 : 0);
+	int word = ((y & 0x1F) * 32 + (x & 0x1F)) * 2;
+	volatile uint16_t *ground = (volatile uint16_t *)(VDP2_VRAM + VDP2_MAP_NAMES_NBG2 + page * 0x1000) + word;
+	volatile uint16_t *overlay = (volatile uint16_t *)(VDP2_VRAM + VDP2_MAP_NAMES_NBG3 + page * 0x1000) + word;
+
+	ground[0] = (uint16_t)groundChar; /* LSW: character number */
+	ground[1] = 0;                     /* MSW: palette 0, no flip */
+	overlay[0] = (uint16_t)overlayChar;
+	overlay[1] = 0;
+}
+
+/**
+ * Scroll the map planes so the given map pixel is at the top-left of the
+ * screen.
+ *
+ * @param x The horizontal scroll.
+ * @param y The vertical scroll.
+ */
+void Vdp2_MapScroll(int x, int y)
+{
+	VDP2_SCXIN2 = (uint16_t)(x & 0x7FF);
+	VDP2_SCYIN2 = (uint16_t)(y & 0x7FF);
+	VDP2_SCXIN3 = (uint16_t)(x & 0x7FF);
+	VDP2_SCYIN3 = (uint16_t)(y & 0x7FF);
+}

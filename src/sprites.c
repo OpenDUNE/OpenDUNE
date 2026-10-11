@@ -24,6 +24,7 @@
 #include "script/script.h"
 #include "string.h"
 #include "tile.h"
+#include "video/video.h"
 
 
 uint8 **g_sprites = NULL;
@@ -255,6 +256,11 @@ static void Tiles_LoadICNFile(const char *filename)
 	ChunkFile_Read(fileIndex, HTOBE32(CC_RPAL), g_iconRPAL, paletteLength);
 
 	ChunkFile_Close(fileIndex);
+
+#if defined(SATURN) && SATURN_HW_MAP
+	/* the map planes need the tiles as VDP2 characters */
+	Video_MapLoadTiles(tableLength);
+#endif
 }
 
 /**

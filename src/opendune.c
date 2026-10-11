@@ -1524,6 +1524,11 @@ void Game_Prepare(void)
 
 	g_tickHousePowerMaintenance = max(g_timerGame + 70, g_tickHousePowerMaintenance);
 	g_viewport_forceRedraw = true;
+#if defined(SATURN) && SATURN_HW_MAP
+	/* the map planes hold the whole map, written once here so scrolling
+	 * never meets an unwritten cell */
+	Video_MapRedrawAll();
+#endif
 	g_playerCredits = 0xFFFF;
 
 	g_selectionType = oldSelectionType;

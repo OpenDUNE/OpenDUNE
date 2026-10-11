@@ -14,7 +14,10 @@
 #include "video.h"
 #include "../gfx.h"
 #include "../input/pad_saturn.h"
+#include "../map.h"
 #include "../os/error.h"
+#include "../sprites.h"
+#include "../tile.h"
 
 #include "bios.h"
 #include "console.h"
@@ -39,6 +42,11 @@ static uint16 s_palette[256];                     /*!< the colours, RGB555, for 
 static volatile int s_paletteFrom = 256;          /*!< the first changed since the last vertical blank, */
 static volatile int s_paletteTo = 0;              /*!< and the one after the last */
 
+/* the map planes' scroll, written in the vertical blank */
+static int s_mapScrollX = 0;
+static int s_mapScrollY = 0;
+static bool s_mapScrollDirty = true;
+
 /**
  * The VBlank interrupt: the colours changed, the controllers, and the
  * loading indicator.
@@ -50,6 +58,11 @@ static void Video_VBlank(void)
 	for (i = s_paletteFrom; i < s_paletteTo; i++) Vdp2_SetColor(i, s_palette[i]);
 	s_paletteFrom = 256;
 	s_paletteTo = 0;
+
+	if (s_mapScrollDirty) {
+		Vdp2_MapScroll(s_mapScrollX, s_mapScrollY);
+		s_mapScrollDirty = false;
+	}
 
 	Smpc_VBlank();
 	Loading_VBlank();
@@ -76,6 +89,9 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	SaturnTimer_SetVBlankHook(Video_VBlank);
 	Vdp2_BitmapInit();
 	Vdp1_Init();
+	Vdp2_MapInit();
+	/* window the map planes to the viewport: 240x160 at game y 40 */
+	Vdp2_MapWindow(0, TOP + 40, 239, TOP + 40 + 159);
 	Vdp2_DisplayOn();
 	s_repaintAll = true;
 	return true;
@@ -206,6 +222,98 @@ void Video_SetOffset(uint16 offset)
 void Video_MapShow(bool show)
 {
 	Vdp2_MapShow(show);
+}
+
+/**
+ * Convert ICON.ICN's tiles into 8 bpp 16x16 characters in VDP2 VRAM, each as
+ * four 8x8 cells (top left, top right, bottom left, bottom right). Character
+ * slot 0 is blank (transparent), slot 1 the fog colour, and tile N lives at
+ * slot N + 2.
+ *
+ * @param tileCount How many tiles.
+ */
+void Video_MapLoadTiles(int tileCount)
+{
+	volatile uint8_t *patterns = (volatile uint8_t *)(VDP2_VRAM + VDP2_MAP_PATTERNS);
+	int t;
+
+	memset((void *)(patterns + 0 * 256), 0, 256);   /* blank */
+	memset((void *)(patterns + 1 * 256), 12, 256);  /* fog */
+
+	for (t = 0; t < tileCount; t++) {
+		const uint8_t *palette = g_iconRPAL + (g_iconRTBL[t] << 4);
+		const uint8_t *src = g_tilesPixels + t * 128; /* 16x16, 4 bpp */
+		volatile uint8_t *dst = patterns + (t + VDP2_MAP_CHAR_TILE) * 256;
+		int cell;
+
+		for (cell = 0; cell < 4; cell++) {
+			int cellRow = (cell >> 1) * 8;
+			int cellCol = (cell & 1) * 8;
+			int r, c;
+
+			for (r = 0; r < 8; r++) {
+				const uint8_t *s = src + (cellRow + r) * 8 + cellCol / 2;
+				for (c = 0; c < 8; c += 2) {
+					uint8_t b = *s++;
+					*dst++ = palette[b >> 4];
+					*dst++ = palette[b & 0xF];
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Write the pattern names of one map tile from its ground and overlay IDs.
+ *
+ * @param packed The tile.
+ */
+void Video_MapSetTile(uint16 packed)
+{
+	const Tile *t = &g_map[packed];
+	int groundChar;
+	int overlayChar;
+
+	groundChar = 0x1000 + (t->groundTileID + VDP2_MAP_CHAR_TILE) * 8;
+
+	if (t->overlayTileID == 0) {
+		overlayChar = 0x1000 + VDP2_MAP_CHAR_BLANK * 8;
+	} else if (t->overlayTileID == g_veiledTileID) {
+		overlayChar = 0x1000 + VDP2_MAP_CHAR_FOG * 8;
+	} else {
+		overlayChar = 0x1000 + (t->overlayTileID + VDP2_MAP_CHAR_TILE) * 8;
+	}
+
+	Vdp2_MapSetTile(packed, groundChar, overlayChar);
+}
+
+/**
+ * Write the pattern names of the whole map, after a scenario load or a save
+ * restore, so scrolling never meets an unwritten cell.
+ */
+void Video_MapRedrawAll(void)
+{
+	int packed;
+
+	for (packed = 0; packed < 64 * 64; packed++) Video_MapSetTile((uint16)packed);
+}
+
+/**
+ * Scroll the map planes so the given viewport tile is at the viewport's top
+ * left. The registers are written in the next vertical blank.
+ *
+ * @param viewportX The viewport's column.
+ * @param viewportY The viewport's row.
+ */
+void Video_MapScroll(int viewportX, int viewportY)
+{
+	int x = viewportX * 16;
+	int y = viewportY * 16 - (TOP + 40);
+
+	if (s_mapScrollX == x && s_mapScrollY == y) return;
+	s_mapScrollX = x;
+	s_mapScrollY = y;
+	s_mapScrollDirty = true;
 }
 
 /**

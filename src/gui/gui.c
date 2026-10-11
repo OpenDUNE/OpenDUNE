@@ -4745,6 +4745,9 @@ void GUI_DrawScreen(Screen screenID)
 	}
 
 	g_minimapPosition = g_viewportPosition;
+#if defined(SATURN) && SATURN_HW_MAP
+	Video_MapScroll(Tile_GetPackedX(g_viewportPosition), Tile_GetPackedY(g_viewportPosition));
+#endif
 	g_selectionRectanglePosition = g_selectionPosition;
 
 	if (g_viewportMessageCounter != 0 && s_timerViewportMessage < g_timerGUI) {

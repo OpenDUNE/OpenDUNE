@@ -30,6 +30,7 @@
 #include "../timer.h"
 #include "../tools.h"
 #include "../unit.h"
+#include "../video/video.h"
 
 static uint32 s_tickCursor;                                 /*!< Stores last time Viewport changed the cursor spriteID. */
 static uint32 s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */
@@ -386,6 +387,20 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 				t = &g_map[curPos];
 				left = x << 4;
 
+#if defined(SATURN) && SATURN_HW_MAP
+				{
+					uint8 *p = (uint8 *)GFX_Screen_GetActive() + top * SCREEN_WIDTH + left;
+					int r;
+
+					/* clear the tile so NBG0 is transparent there and the
+					 * map plane shows through */
+					for (r = 0; r < 16; r++) {
+						memset(p, 0, 16);
+						p += SCREEN_WIDTH;
+					}
+					Video_MapSetTile(curPos);
+				}
+#else
 				if (!g_debugScenario && g_veiledTileID == t->overlayTileID) {
 					/* draw a black rectangle */
 					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
@@ -397,6 +412,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 				if (t->overlayTileID != 0 && !g_debugScenario) {
 					GFX_DrawTile(t->overlayTileID, left, top, t->houseID);
 				}
+#endif
 			}
 		}
 		g_dirtyViewportCount = 0;
