@@ -30,6 +30,7 @@ static bool s_listPending;    /*!< a finished list waits for the vertical blank 
 static uint32_t s_patternNext; /*!< next free byte in the pattern area */
 
 
+
 uint32_t g_vdp1Commands;    /*!< diagnostics: commands in the list built this frame */
 uint32_t g_vdp1CommitCount; /*!< diagnostics: commands in the list committed last */
 uint32_t g_vdp1Magic;       /*!< diagnostics: proves Vdp1_Init ran */

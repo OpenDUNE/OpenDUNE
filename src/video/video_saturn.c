@@ -547,6 +547,7 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 		dst += pitch;
 	}
 
+
 	entry = &s_spriteCache[s_spriteCacheCount++];
 	entry->sprite = sprite;
 	entry->remap = remap;
