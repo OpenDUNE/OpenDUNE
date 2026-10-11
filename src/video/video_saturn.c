@@ -558,8 +558,6 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->ctrl = VDP1_CMD_NORMAL_SPRITE;
-	if ((flags & DRAWSPRITE_FLAG_RTL) != 0) cmd->ctrl |= VDP1_DIR_HFLIP;
-	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0) cmd->ctrl |= VDP1_DIR_VFLIP;
 	cmd->pmod = VDP1_PMOD_COLOR_256;
 	if ((flags & DRAWSPRITE_FLAG_BLUR) != 0) cmd->pmod |= VDP1_PMOD_MESH;
 	cmd->colr = 0;
@@ -570,6 +568,16 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	 * extended over the top six bits; there is no fractional part */
 	cmd->xa = screenX;
 	cmd->ya = (int16)(screenY + TOP);
+
+	/* A pattern's rows are padded to 16 pixels with the spare columns on
+	 * the right, so a horizontal flip moves the live pixels pitch - width
+	 * columns right. Pull the sprite back by that much. */
+	if ((flags & DRAWSPRITE_FLAG_RTL) != 0) {
+		cmd->ctrl |= VDP1_DIR_HFLIP;
+		cmd->xa -= (int16)(pitch - width);
+	}
+	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0) cmd->ctrl |= VDP1_DIR_VFLIP;
+
 	return true;
 }
 
