@@ -295,7 +295,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 #ifndef WITHOUT_SDLIMAGE
 	SDL_Surface * icon;
 #endif /* WITHOUT_SDLIMAGE */
-	uint32 window_flags = 0;
+	uint32 window_flags = SDL_WINDOW_ALLOW_HIGHDPI;
 	uint32 renderer_flags;
 
 	if (s_video_initialized) return true;
