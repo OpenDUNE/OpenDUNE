@@ -26,8 +26,9 @@ Our wiki is at:
 
 Supported Platforms
 -------------------
-OpenDUNE is written in ANSI C (C89), and only requires SDL/SDL2 to run. In result,
- OpenDUNE should run on all platforms supported by SDL or SDL2.
+OpenDUNE is written in ANSI C (C89), and only requires SDL/SDL2/SDL3 to run. In result,
+ OpenDUNE should run on all platforms supported by SDL, SDL2 or SDL3. SDL3 is currently
+ only supported on Linux.
 Currently we officially support the following platforms:
 
   - Linux
