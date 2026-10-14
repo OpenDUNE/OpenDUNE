@@ -112,7 +112,15 @@ os/endian.c
 		#if HAIKU
 			os/error_haiku.cpp
 		#else
+		#if TOS
+			os/error_logger.c
+		#else
+		#if DOS
+			os/error_logger.c
+		#else
 			os/error.c
+		#endif
+		#endif
 		#endif
 	#endif
 	#if TOS
