@@ -251,6 +251,18 @@ void Vdp2_SetScrollY(int y)
 }
 
 /**
+ * Scroll the bitmap and the overlay vertically together, as the screen shake
+ * moves the whole picture.
+ *
+ * @param y The first line shown.
+ */
+void Vdp2_PictureScrollY(int y)
+{
+	VDP2_SCYIN0 = (uint16_t)(y & 0x7FF);
+	VDP2_SCYIN1 = (uint16_t)(y & 0x7FF);
+}
+
+/**
  * Set NBG2 and NBG3 up as the map's cell planes, one 32x32-character page
  * per plane (planes A-D make the 64x64-tile map). The planes stay hidden
  * until Vdp2_MapShow().

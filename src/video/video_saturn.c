@@ -40,7 +40,6 @@ enum {
 /* SCREEN_0, in high work RAM (see GFX_Init()) */
 static uint32 s_framebufferMemory[(SCREEN_WIDTH * (SCREEN_HEIGHT + EXTRA_LINES) + 3) / 4];
 static uint8 *s_framebuffer = NULL;
-static uint16 s_screenOffset = 0; /*!< VGA start address, in units of 4 bytes */
 static bool s_mapVisible;      /*!< the map planes are showing */
 uint32 g_videoSpriteFallback; /*!< a viewport sprite fell back to software */
 static bool s_repaintAll = true;
@@ -87,7 +86,13 @@ static int s_mapScrollY = 0;
 static volatile bool s_mapScrollDirty = true;
 static int s_pendScrollX = 0;    /*!< staged at the last blank, */
 static int s_pendScrollY = 0;
+static int s_pendShake = 0;
 static bool s_pendValid = false; /*!< written at this one */
+/* the screen shake: lines the whole picture moves up. It rides the same
+ * deferral: the sprite lists take it at once (both are patched in VRAM, as
+ * no list is built while the shake lasts), the VDP2 layers a blank later */
+static volatile int s_shakeY = 0;
+static volatile bool s_shakeDirty = false;
 
 /* house-coloured structure characters, baked per (tile, house) into the free
  * part of bank A1 (the only bank VDP2 reads character patterns from): the
@@ -119,7 +124,7 @@ static void Video_CopyRow(int y)
 {
 	int left = s_rowLeft[y];
 	int right = s_rowRight[y];
-	const uint32 *src = (const uint32 *)(s_framebuffer + (s_screenOffset << 2) + y * SCREEN_WIDTH + left);
+	const uint32 *src = (const uint32 *)(s_framebuffer + y * SCREEN_WIDTH + left);
 	volatile uint32 *dst = (volatile uint32 *)(VDP2_BITMAP + (TOP + y) * VDP2_BITMAP_PITCH + left);
 	int n;
 
@@ -209,14 +214,19 @@ static void Video_VBlank(void)
 	Vdp1_ListVBlank();
 
 	if (s_pendValid) {
-		Vdp2_MapScroll(s_pendScrollX, s_pendScrollY);
+		/* one line up is a larger scroll value */
+		Vdp2_MapScroll(s_pendScrollX, s_pendScrollY + s_pendShake);
+		Vdp2_PictureScrollY(s_pendShake);
 		s_pendValid = false;
 	}
-	if (s_mapScrollDirty) {
+	if (s_mapScrollDirty || s_shakeDirty) {
 		s_pendScrollX = s_mapScrollX;
 		s_pendScrollY = s_mapScrollY;
+		s_pendShake = s_shakeY;
 		s_pendValid = true;
+		if (s_shakeDirty) Vdp1_LocalVBlank((int16)-s_shakeY);
 		s_mapScrollDirty = false;
+		s_shakeDirty = false;
 	}
 
 	/* the bitmap rows before the colours, so a picture and its palette land
@@ -438,14 +448,21 @@ void Video_Mouse_SetRegion(uint16 minX, uint16 maxX, uint16 minY, uint16 maxY)
 }
 
 /**
- * Show the frame buffer from an offset (the credits scroll that way).
+ * Show the frame buffer from an offset: an explosion shakes the screen with
+ * it, a few lines for a few frames. The whole picture moves, as the VGA's
+ * start address moved it - the bitmap and the overlay by their scroll
+ * registers, the map planes with their scroll, the sprites by their local
+ * coordinate - in step, from the vertical blank.
  *
  * @param offset The offset, in 4-byte units.
  */
 void Video_SetOffset(uint16 offset)
 {
-	s_screenOffset = offset;
-	s_repaintAll = true;
+	int lines = ((int)offset << 2) / SCREEN_WIDTH;
+
+	if (lines == s_shakeY) return;
+	s_shakeY = lines;
+	s_shakeDirty = true;
 }
 
 /**

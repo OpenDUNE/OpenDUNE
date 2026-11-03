@@ -76,5 +76,6 @@ extern void Vdp2_MapInit(void);
 extern void Vdp2_MapWindow(int left, int top, int right, int bottom);
 extern void Vdp2_MapSetTile(int packed, int groundChar, int overlayChar);
 extern void Vdp2_MapScroll(int x, int y);
+extern void Vdp2_PictureScrollY(int y);
 
 #endif /*!< SATURN_VDP2_H */

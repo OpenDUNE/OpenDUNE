@@ -98,6 +98,7 @@ extern Vdp1Cmd *Vdp1_ListAdd(void);
 extern void Vdp1_ListCommit(void);
 extern void Vdp1_ListVBlank(void);
 extern void Vdp1_ListReset(void);
+extern void Vdp1_LocalVBlank(int16_t y);
 
 /* Sprite patterns are baked into VDP1 VRAM on demand, resetting each frame. */
 extern void Vdp1_PatternReset(void);

@@ -30,6 +30,7 @@ static uint32_t s_listBuild;  /*!< the list the game loop fills */
 static uint32_t s_listActive; /*!< the list VDP1 draws */
 static int s_listCount;       /*!< commands in the build list */
 static bool s_listPending;    /*!< a finished list waits for the vertical blank */
+static int16_t s_localY = 0;  /*!< the local coordinate every list starts with */
 
 static uint32_t s_patternNext; /*!< next free byte in the pattern area */
 
@@ -92,11 +93,11 @@ void Vdp1_Init(void)
 	{
 		Vdp1Cmd *lc = (Vdp1Cmd *)(VDP1_VRAM + s_listActive);
 
-		memset(lc, 0, 2 * sizeof(*lc));
+		memset(lc, 0, 3 * sizeof(*lc));
 		lc[0].ctrl = 0x000A; /* local coordinate set */
-		lc[0].xa = 0;
-		lc[0].ya = 0;
-		lc[1].ctrl = VDP1_CMD_END;
+		/* slot 1 is a list's local coordinate (Vdp1_LocalVBlank) */
+		lc[1].ctrl = 0x000A;
+		lc[2].ctrl = VDP1_CMD_END;
 	}
 }
 
@@ -124,9 +125,27 @@ void Vdp1_ListBegin(void)
 	 * vertex off the picture. */
 	clip->xa = 400;
 	clip->ya = 300;
-	s_listCount = 1;
 
+	/* then the local coordinate, added to every vertex: it carries the
+	 * screen shake (Vdp1_LocalVBlank). It draws nothing, and a list that
+	 * left it out would inherit the last one's. */
+	memset(&clip[1], 0, sizeof(clip[1]));
+	clip[1].ctrl = 0x000A; /* local coordinate set */
+	clip[1].ya = s_localY;
+	s_listCount = 2;
+}
 
+/**
+ * The vertical blank: move the sprites of both lists - the one VDP1 draws
+ * and the one being built - by a vertical offset, without building a list.
+ *
+ * @param y The offset; up on the screen is negative.
+ */
+void Vdp1_LocalVBlank(int16_t y)
+{
+	s_localY = y;
+	((Vdp1Cmd *)(VDP1_VRAM + VDP1_LIST_A))[1].ya = y;
+	((Vdp1Cmd *)(VDP1_VRAM + VDP1_LIST_B))[1].ya = y;
 }
 
 /**
