@@ -1035,6 +1035,12 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 
 	if ((flags & DRAWSPRITE_FLAG_BLURINCR) != 0) blurRandomValueIncr = (uint16)va_arg(ap, int);
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* the hardware path rebuilds the blur from the map (Video_MapSprite) */
+	g_videoBlurOffset = blurOffset;
+	g_videoBlurIncrement = blurRandomValueIncr;
+#endif
+
 	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		zoomRatioX = (uint16)va_arg(ap, int);
 		zoomRatioY = (uint16)va_arg(ap, int);

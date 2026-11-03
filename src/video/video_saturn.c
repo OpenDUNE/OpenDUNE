@@ -758,6 +758,32 @@ uint32 g_vdp1SpriteRejected;
 uint32 g_vdp1SpriteDropped; /*!< sprites a full command list had no room for */
 uint32 g_vdp1SpriteRebuilt; /*!< patterns rebuilt over an evicted one */
 
+/* The blur of the sandworm (and of units on a blur tile), set by
+ * GUI_DrawSprite() for the sprite it hands over. */
+uint16 g_videoBlurOffset = 1;
+uint16 g_videoBlurIncrement = 0x100;
+
+/* The blur is rebuilt every frame (Video_MapShimmer), so its patterns are
+ * not cached: they go into a few buffers taken in turn, each stamped with
+ * the list that uses it and reused only once VDP1 can no longer draw that. */
+#define SHIMMER_BUFFERS 4
+#define SHIMMER_BYTES   0x2000
+static uint32 s_shimmerAddress[SHIMMER_BUFFERS]; /*!< 0: not allocated */
+static uint32 s_shimmerGen[SHIMMER_BUFFERS];
+static int s_shimmerBuffer = -1;                 /*!< the one this list fills */
+static uint32 s_shimmerUsed = 0;                 /*!< bytes of it filled */
+
+/**
+ * Whether the draw flags make the blur alone: the sandworm, and units on a
+ * blur tile. The original draws none of the sprite's colours: each of its
+ * pixels takes the background a few pixels to the right, so the ground
+ * under the outline shimmers sideways.
+ */
+static bool Video_SpriteIsShimmer(uint16 flags)
+{
+	return (flags & (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR)) == DRAWSPRITE_FLAG_BLUR;
+}
+
 /**
  * Whether the draw flags make an air unit's shadow: the remap and blur pair,
  * which the software path draws by darkening the ground under the sprite.
@@ -884,8 +910,12 @@ static uint32 SpritePatternEvict(uint32 need, uint32 *bytesOut)
 uint32 Video_SpriteLookup(const uint8 *sprite, const uint8 *palette, const uint8 *remap, int remapCount,
                           uint16 flags, uint16 *pitchOut)
 {
-	SpritePattern *e = &s_spriteCache[SpritePatternProbe(sprite, remap, remapCount, palette, Video_SpriteIsShadow(flags))];
+	SpritePattern *e;
 
+	/* rebuilt from the map every frame, never cached */
+	if (Video_SpriteIsShimmer(flags)) return 0;
+
+	e = &s_spriteCache[SpritePatternProbe(sprite, remap, remapCount, palette, Video_SpriteIsShadow(flags))];
 	if (e->sprite == NULL) return 0;
 
 	/* the list being built uses it: it must stay while VDP1 may draw that */
@@ -1050,6 +1080,131 @@ bool Video_MapSpritePattern(uint32 pattern, uint16 pitch, int16 width, int16 hei
 }
 
 /**
+ * The colour the map planes show at a pixel of the game screen's viewport:
+ * the overlay tile where it is not transparent, else the ground, else black;
+ * the veil is black.
+ *
+ * @param x The game screen column (0 to 239).
+ * @param y The game screen line (40 to 199).
+ * @return The colour, never 0.
+ */
+static uint8 Video_MapPixel(int x, int y)
+{
+	int mapX = (s_mapScrollX + x) & 1023;
+	int mapY = (s_mapScrollY + s_top + y) & 1023;
+	const Tile *t = &g_map[(mapY >> 4) * 64 + (mapX >> 4)];
+	int px = mapX & 15;
+	int py = mapY & 15;
+	uint8 c = 0;
+	int pass;
+
+	if (t->overlayTileID == g_veiledTileID) return 12;
+
+	for (pass = 0; pass < 2 && c == 0; pass++) {
+		int tileID = (pass == 0) ? t->overlayTileID : t->groundTileID;
+		const uint8 *palette;
+		uint8 b;
+
+		if (pass == 0 && tileID == 0) continue;
+		palette = g_iconRPAL + (g_iconRTBL[tileID] << 4);
+		b = g_tilesPixels[tileID * 128 + py * 8 + (px >> 1)];
+		c = palette[(px & 1) ? (b & 0xF) : (b >> 4)];
+		if (t->houseID != 0 && (c & 0xF0) == 0x90 && (c <= 0x96 || !g_dune2_enhanced)) c += t->houseID << 4;
+	}
+	/* the back screen behind a transparent ground pixel is black: 12 is
+	 * the opaque black the veil uses */
+	return (c == 0) ? 12 : c;
+}
+
+/**
+ * Draw the blur of the sandworm (and of units on a blur tile) as the
+ * original does: every pixel of the sprite's outline takes the background
+ * g_videoBlurOffset pixels to its right (or, when the step says so, the
+ * sprite's own colour), reading what the row already holds - so drawn right
+ * to left, the shift runs on. The background is the map as the planes show
+ * it, rebuilt here from the tiles, so over the veil the worm stays black on
+ * black. Units under the worm are not part of it.
+ *
+ * @param data The sprite, decoded to its run-length colour indices.
+ * @return True: the hardware took it (or dropped it).
+ */
+static bool Video_MapShimmer(const uint8 *data, int16 width, int16 height, int16 screenX, int16 screenY, uint16 flags)
+{
+	int pitch = (width + 15) & ~15;
+	uint32 need = (uint32)(pitch * height);
+	uint32 gen = Vdp1_ListGeneration();
+	uint16 value = 0;
+	uint8 row[320 + 8];
+	volatile uint8 *dst;
+	uint32 address;
+	int x, y;
+
+	/* the buffer this list fills: the one taken for it already, or one no
+	 * list VDP1 may still draw */
+	if (s_shimmerBuffer < 0 || s_shimmerGen[s_shimmerBuffer] != gen) {
+		int i;
+
+		s_shimmerBuffer = -1;
+		for (i = 0; i < SHIMMER_BUFFERS; i++) {
+			if (s_shimmerAddress[i] == 0) continue;
+			if (s_shimmerGen[i] != 0 && Vdp1_ListInUse(s_shimmerGen[i])) continue;
+			s_shimmerBuffer = i;
+			s_shimmerGen[i] = gen;
+			s_shimmerUsed = 0;
+			break;
+		}
+		if (s_shimmerBuffer < 0) return true;
+	}
+	if (s_shimmerUsed + need > SHIMMER_BYTES || width > 320) return true;
+	address = s_shimmerAddress[s_shimmerBuffer] + s_shimmerUsed;
+	s_shimmerUsed += (need + 0x1F) & ~0x1FU;
+
+	dst = (volatile uint8 *)(VDP1_VRAM + address);
+	for (y = 0; y < height; y++) {
+		int screenRow = ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0) ? height - 1 - y : y;
+		volatile uint8 *out = dst + screenRow * pitch;
+		bool rtl = (flags & DRAWSPRITE_FLAG_RTL) != 0;
+		int gy = screenY + screenRow;
+		int i;
+
+		/* the background under this row, and the few pixels the shift
+		 * reads beyond its right end */
+		for (x = 0; x < width + 8; x++) {
+			int gx = screenX + x;
+
+			row[x] = (gx < 0 || gx > 239 || gy < 40 || gy > 199) ? 12 : Video_MapPixel(gx, gy);
+		}
+		for (x = 0; x < pitch; x++) out[x] = 0;
+
+		/* the sprite's row in drawing order: left to right, or right to
+		 * left when flipped */
+		i = 0;
+		while (i < width) {
+			uint8 v = *data++;
+			int col;
+
+			if (v == 0) {
+				i += *data++;
+				continue;
+			}
+			col = rtl ? width - 1 - i : i;
+			value += g_videoBlurIncrement;
+			if ((value & 0xFF00) != 0) {
+				value &= 0xFF;
+				row[col] = row[col + g_videoBlurOffset];
+			} else {
+				row[col] = v;
+			}
+			out[col] = row[col];
+			i++;
+		}
+	}
+
+	return Video_MapSpritePattern(address, (uint16)pitch, width, height, screenX, screenY,
+	                              (uint16)(flags & ~(DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_RTL | DRAWSPRITE_FLAG_BOTTOMUP)));
+}
+
+/**
  * Bake a viewport sprite's pattern if need be and queue its command.
  *
  * @return True if the hardware took it, false to fall back to software.
@@ -1065,6 +1220,7 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	g_vdp1SpriteCalls++;
 
 	if (width <= 0 || height <= 0) return true;
+	if (Video_SpriteIsShimmer(flags) && !zoomed) return Video_MapShimmer(data, width, height, screenX, screenY, flags);
 	/* nothing left to draw, as the software path's zero-sized sprite */
 	if (((width * zoomX) >> 8) <= 0 || ((height * zoomY) >> 8) <= 0) return true;
 
@@ -1187,9 +1343,18 @@ void Video_MapFlush(void)
  */
 void Video_MapSpritesReset(void)
 {
+	int i;
+
 	memset(s_spriteCache, 0, sizeof(s_spriteCache));
 	s_spriteCacheCount = 0;
 	Vdp1_PatternReset();
+
+	/* the blur's buffers first, so they always have room */
+	for (i = 0; i < SHIMMER_BUFFERS; i++) {
+		s_shimmerAddress[i] = Vdp1_PatternAlloc(SHIMMER_BYTES);
+		s_shimmerGen[i] = 0;
+	}
+	s_shimmerBuffer = -1;
 }
 
 /**

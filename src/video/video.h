@@ -41,6 +41,8 @@ extern bool Video_MapSpritePattern(uint32 pattern, uint16 pitch, int16 width, in
                                    int16 x, int16 y, uint16 flags);
 extern void Video_MapSpritesBegin(void);
 extern uint32 g_videoSpriteFallback;
+extern uint16 g_videoBlurOffset;
+extern uint16 g_videoBlurIncrement;
 extern void Video_MapFlush(void);
 extern void Video_MapMask(void);
 extern void Video_MapSpritesReset(void);
