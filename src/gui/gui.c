@@ -1130,6 +1130,16 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	}
 #endif
 
+#if defined(SATURN) && SATURN_HW_MAP
+	/* Drawn in software into the viewport of SCREEN_0 while the map is
+	 * shown, a sprite lands on the bitmap in front of the map and stays
+	 * until those rows are cleared: count it, for a memory dump to show */
+	if (windowID == 2 && (screenID == SCREEN_0 || (screenID == SCREEN_ACTIVE && GFX_Screen_IsActive(SCREEN_0))) &&
+	    Video_MapIsShown()) {
+		g_videoViewportStray++;
+	}
+#endif
+
 	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) == 0) {
 		/* distance between top of window and top of sprite */
 		distY = posY - top;

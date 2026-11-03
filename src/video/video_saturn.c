@@ -44,6 +44,7 @@ static uint32 s_framebufferMemory[(SCREEN_WIDTH * (SCREEN_HEIGHT + EXTRA_LINES) 
 static uint8 *s_framebuffer = NULL;
 static bool s_mapVisible;      /*!< the map planes are showing */
 uint32 g_videoSpriteFallback; /*!< a viewport sprite fell back to software */
+uint32 g_videoViewportStray;  /*!< sprites drawn in software over the shown map */
 static bool s_repaintAll = true;
 
 static uint16 s_palette[256];                     /*!< the colours, RGB555, for colour RAM */
@@ -455,6 +456,16 @@ void Video_SetOffset(uint16 offset)
 	if (lines == s_shakeY) return;
 	s_shakeY = lines;
 	s_shakeDirty = true;
+}
+
+/**
+ * Whether the map's viewport is shown.
+ *
+ * @return True if it is.
+ */
+bool Video_MapIsShown(void)
+{
+	return s_mapVisible;
 }
 
 /**
