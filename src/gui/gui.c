@@ -1084,6 +1084,21 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		sprite += 16;
 	}
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* a sprite seen before has its pattern in VDP1 VRAM already: find it by
+	 * the sprite's pointer before paying for the decode */
+	if (windowID == 2 && spriteWidth > 0 && spriteHeight > 0 && (flags & DRAWSPRITE_FLAG_ZOOM) == 0) {
+		uint16 pitch = 0;
+		uint32 pattern = Video_SpriteLookup(spriteOriginal, palette, remap, remapCount, (uint16)flags, &pitch);
+
+		if (pattern != 0) {
+			Video_MapSpritePattern(pattern, pitch, spriteWidth, spriteHeight,
+			                       (int16)((g_widgetProperties[windowID].xBase << 3) + posX), posY, (uint16)flags);
+			return;
+		}
+	}
+#endif
+
 	if ((spriteFlags & 0x2) == 0) {
 		Format80_Decode(spriteBuffer, sprite, spriteDecodedLength);
 
