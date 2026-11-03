@@ -1,11 +1,12 @@
 /** @file src/video/video_saturn.c Sega Saturn video driver.
  *
- * SCREEN_0 lives in work RAM; every tick the rows marked dirty are copied
- * into the VDP2 NBG0 bitmap (512x256, 8bpp), with the 320x200 picture
- * centred in the 320x224 display. The palette goes to colour RAM in the
- * vertical blank (written while the picture is drawn, colour RAM shows stray
- * dots on the hardware). The pad is read here too (input/pad_saturn.c), as
- * other drivers read events. */
+ * SCREEN_0 lives in work RAM; every tick the parts marked dirty are queued,
+ * and the vertical blank hook copies them into the VDP2 NBG0 bitmap (512x256,
+ * 8bpp), with the 320x200 picture centred in the display's lines. Like the
+ * palette, the scroll and the map's pattern names, the bitmap is written only
+ * in the vertical blank: VRAM and colour RAM written while the picture is
+ * drawn show stripes and stray dots on the hardware. The pad is read here too
+ * (input/pad_saturn.c), as other drivers read events. */
 
 #include <stdlib.h>
 #include <string.h>
@@ -53,6 +54,28 @@ static uint16 s_palette[256];                     /*!< the colours, RGB555, for 
 static volatile int s_paletteFrom = 256;          /*!< the first changed since the last vertical blank, */
 static volatile int s_paletteTo = 0;              /*!< and the one after the last */
 
+/* SCREEN_0's rows waiting for the vertical blank, each with the columns that
+ * changed (left inclusive, right exclusive, 4-byte aligned). The hook copies
+ * them from a cursor that goes round the screen, so a screen redrawn every
+ * tick still gets every row to the bitmap within a few blanks instead of
+ * restarting at its top each time. */
+static uint16 s_rowLeft[SCREEN_HEIGHT];
+static uint16 s_rowRight[SCREEN_HEIGHT];   /*!< 0: the row is not dirty */
+static volatile int s_rowsPending = 0;     /*!< rows with s_rowRight != 0 */
+static int s_rowCursor = 0;                /*!< where the copy goes on */
+static volatile uint32 s_rowsQueued = 0;   /*!< queue calls so far */
+static volatile uint32 s_rowsLanded = 0;   /*!< s_rowsQueued when the queue last ran dry */
+static volatile uint32 s_paletteAfter = 0; /*!< the palette waits for this s_rowsLanded */
+static int s_paletteHeld = 0;              /*!< blanks the palette has waited */
+static uint32 s_mainBusySince = 0;         /*!< frame the main loop was last parked */
+static bool s_clearViewport = false;       /*!< the map appeared: clear its area */
+
+/* The hook's share of the vertical blank: 39 lines on NTSC (about 2.5 ms),
+ * 57 on PAL (3.6 ms); the rest is left for its other work and lateness. */
+#define VBLANK_BUDGET_US_NTSC 1400
+#define VBLANK_BUDGET_US_PAL  2400
+static uint32 s_vblankBudgetUs = VBLANK_BUDGET_US_NTSC;
+
 /* the map planes' scroll, written in the vertical blank */
 static int s_mapScrollX = 0;
 static int s_mapScrollY = 0;
@@ -74,12 +97,81 @@ static int s_mapNameCount = 0;
 static void MapWriteTile(uint16 packed);
 
 /**
- * The VBlank interrupt: the colours changed, the controllers, and the
- * loading indicator.
+ * Copy one row's dirty columns of SCREEN_0 to the bitmap, in 32-bit words.
+ *
+ * @param y The row.
  */
-static void Video_VBlank(void)
+static void Video_CopyRow(int y)
+{
+	int left = s_rowLeft[y];
+	int right = s_rowRight[y];
+	const uint32 *src = (const uint32 *)(s_framebuffer + (s_screenOffset << 2) + y * SCREEN_WIDTH + left);
+	volatile uint32 *dst = (volatile uint32 *)(VDP2_BITMAP + (TOP + y) * VDP2_BITMAP_PITCH + left);
+	int n;
+
+	for (n = (right - left) >> 2; n > 0; n--) *dst++ = *src++;
+}
+
+/**
+ * The vertical blank: copy the queued rows until the hook's budget is spent;
+ * the rest wait for the next blank.
+ *
+ * The copy reads SCREEN_0, which the game may be in the middle of drawing,
+ * so it runs only while the main loop is parked waiting for the frame -
+ * which, with the loop paced to the display, it is at nearly every blank. A
+ * loop busy for longer (a load) gets its rows copied anyway after a few
+ * frames, rather than none.
+ */
+static void Video_CopyPending(void)
+{
+	uint32 frame = SaturnTimer_Frames();
+	int done = 0;
+
+	if (SaturnTimer_MainWaiting()) {
+		s_mainBusySince = frame;
+	} else if (frame - s_mainBusySince < 4) {
+		return;
+	}
+
+	if (s_clearViewport) {
+		/* the map appeared: its area of the bitmap goes transparent */
+		volatile uint32 *p = (volatile uint32 *)(VDP2_BITMAP + (TOP + 40) * VDP2_BITMAP_PITCH);
+		int row, n;
+
+		for (row = 0; row < 160; row++, p += VDP2_BITMAP_PITCH / 4) {
+			for (n = 0; n < 240 / 4; n++) p[n] = 0;
+		}
+		s_clearViewport = false;
+	}
+
+	while (s_rowsPending > 0 && done < SCREEN_HEIGHT) {
+		int y = s_rowCursor;
+
+		if (s_rowRight[y] != 0) {
+			if (SaturnTimer_SinceFrameUs() >= s_vblankBudgetUs) return;
+			Video_CopyRow(y);
+			s_rowRight[y] = 0;
+			s_rowsPending--;
+		}
+		s_rowCursor = (y + 1 == SCREEN_HEIGHT) ? 0 : y + 1;
+		done++;
+	}
+	if (s_rowsPending == 0) s_rowsLanded = s_rowsQueued;
+}
+
+/**
+ * Upload the changed colours - unless rows queued before the change have not
+ * reached the bitmap yet, in which case the new colours would show on the old
+ * picture. That wait is bounded, so a screen that changes every tick cannot
+ * starve a fade.
+ */
+static void Video_PalettePending(void)
 {
 	int i;
+
+	if (s_paletteFrom >= s_paletteTo) return;
+	if ((int32)(s_rowsLanded - s_paletteAfter) < 0 && ++s_paletteHeld < 4) return;
+	s_paletteHeld = 0;
 
 	for (i = s_paletteFrom; i < s_paletteTo; i++) Vdp2_SetColor(i, s_palette[i]);
 
@@ -90,11 +182,31 @@ static void Video_VBlank(void)
 
 	s_paletteFrom = 256;
 	s_paletteTo = 0;
+}
+
+/**
+ * The VBlank interrupt. The register writes that must land in this blank
+ * come first; the bulk copies follow under the time budget.
+ */
+static void Video_VBlank(void)
+{
+	int i;
+
+	Vdp1_ListVBlank();
 
 	if (s_mapScrollDirty) {
 		Vdp2_MapScroll(s_mapScrollX, s_mapScrollY);
 		s_mapScrollDirty = false;
 	}
+
+	/* the bitmap rows before the colours, so a picture and its palette land
+	 * together */
+	if (s_framebuffer != NULL) Video_CopyPending();
+	Video_PalettePending();
+
+	/* the selection colour animates every few frames: keep its stand-in
+	 * current even when nothing else changed */
+	if (s_mapVisible) Vdp2_SetColor(VDP1_PATTERN_MAX, s_palette[255]);
 
 	/* write the queued pattern names while the display isn't reading VRAM */
 	for (i = 0; i < s_mapNameCount; i++) {
@@ -104,8 +216,6 @@ static void Video_VBlank(void)
 		s_mapNameQueued[packed >> 3] &= ~(1 << (packed & 7));
 	}
 	s_mapNameCount = 0;
-
-	Vdp1_ListVBlank();
 
 	Smpc_VBlank();
 	Loading_VBlank();
@@ -129,6 +239,7 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	/* from here on the game owns the screen; the console only records */
 	Console_Release();
 	PadSaturn_Init();
+	if (VDP2_TVSTAT & VDP2_TVSTAT_PAL) s_vblankBudgetUs = VBLANK_BUDGET_US_PAL;
 	SaturnTimer_SetVBlankHook(Video_VBlank);
 	Vdp2_BitmapInit();
 	Vdp1_Init();
@@ -149,84 +260,97 @@ void Video_Uninit(void)
 }
 
 /**
- * Copy rows of the frame buffer to the VDP2 bitmap.
+ * Queue a rectangle of SCREEN_0 for the vertical blank's copy.
  *
+ * @param left The left edge.
  * @param top The first row.
+ * @param right The column after the last.
  * @param bottom The row after the last.
  */
-static void Video_CopyRows(uint16 top, uint16 bottom)
+static void Video_QueueRect(int left, int top, int right, int bottom)
 {
-	const uint8 *src = s_framebuffer + (s_screenOffset << 2) + top * SCREEN_WIDTH;
-	volatile uint8 *dst = VDP2_BITMAP + (TOP + top) * VDP2_BITMAP_PITCH;
-	uint16 y;
+	uint32 sr;
+	int y;
 
-	for (y = top; y < bottom; y++, src += SCREEN_WIDTH, dst += VDP2_BITMAP_PITCH) {
-		/* The menus and dialogs are drawn straight into SCREEN_0 across
-		 * the viewport as well, so the whole row still has to be copied. */
-		memcpy((void *)dst, src, SCREEN_WIDTH);
+	if (left < 0) left = 0;
+	if (top < 0) top = 0;
+	if (right > SCREEN_WIDTH) right = SCREEN_WIDTH;
+	if (bottom > SCREEN_HEIGHT) bottom = SCREEN_HEIGHT;
+	if (left >= right || top >= bottom) return;
+
+	/* whole 32-bit words */
+	left &= ~3;
+	right = (right + 3) & ~3;
+
+	sr = Cpu_DisableInterrupts();
+	for (y = top; y < bottom; y++) {
+		if (s_rowRight[y] == 0) {
+			s_rowLeft[y] = (uint16)left;
+			s_rowRight[y] = (uint16)right;
+			s_rowsPending++;
+		} else {
+			if (left < s_rowLeft[y]) s_rowLeft[y] = (uint16)left;
+			if (right > s_rowRight[y]) s_rowRight[y] = (uint16)right;
+		}
 	}
+	s_rowsQueued++;
+	Cpu_RestoreInterrupts(sr);
 }
 
+/**
+ * Queue what changed of SCREEN_0 since the last call.
+ *
+ * @return True if anything was.
+ */
+static bool Video_QueueDirty(void)
+{
+	struct dirty_area *area;
+
+	if (s_repaintAll) {
+		s_repaintAll = false;
+		GFX_Screen_SetClean(SCREEN_0);
+		Video_QueueRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		return true;
+	}
+
+	if (!GFX_Screen_IsDirty(SCREEN_0)) return false;
+
+	area = GFX_Screen_GetDirtyArea(SCREEN_0);
+	if (area == NULL || area->top >= area->bottom || area->left >= area->right) {
+		GFX_Screen_SetClean(SCREEN_0);
+		return false;
+	}
+	/* the dirty area's right and bottom edges are exclusive; take one more
+	 * column in case a caller marked them inclusive */
+	Video_QueueRect(area->left, area->top, area->right + 1, area->bottom);
+	GFX_Screen_SetClean(SCREEN_0);
+	return true;
+}
 
 /**
- * Copy what changed of the screen to the bitmap, and read the controllers.
- */
-/**
- * Bring the bitmap up to date now, instead of waiting for the next tick.
- *
- * The palette is uploaded by the vertical blank hook while the bitmap is
- * copied by the 60 Hz tick, so a palette change that follows closely after
- * something is drawn can reach the screen first - showing the previous
- * picture through the new palette for a frame. Callers that change both
- * call this in between.
+ * Bring the bitmap up to date as soon as possible, instead of waiting for
+ * the next tick: the vertical blank copies what is queued, and the palette
+ * changed after this waits for those rows.
  */
 void Video_Repaint(void)
 {
-	struct dirty_area *area;
-
 	if (s_framebuffer == NULL) return;
 
-	if (s_repaintAll) {
-		Video_CopyRows(0, SCREEN_HEIGHT);
-		s_repaintAll = false;
-		GFX_Screen_SetClean(SCREEN_0);
-		return;
-	}
-
-	if (!GFX_Screen_IsDirty(SCREEN_0)) return;
-
-	area = GFX_Screen_GetDirtyArea(SCREEN_0);
-	if (area != NULL && area->top < area->bottom) {
-		Video_CopyRows(area->top, (area->bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : area->bottom);
-	}
-	GFX_Screen_SetClean(SCREEN_0);
+	Video_QueueDirty();
 }
 
+/**
+ * Queue what changed of the screen for the vertical blank, and read the
+ * controllers.
+ */
 void Video_Tick(void)
 {
-	struct dirty_area *area;
-
 	if (s_framebuffer == NULL) return;
 
 	Loading_Alive();
 	PadSaturn_Tick();
 
-	if (s_repaintAll) {
-		Loading_ScreenChanged();
-		Video_CopyRows(0, SCREEN_HEIGHT);
-		s_repaintAll = false;
-		GFX_Screen_SetClean(SCREEN_0);
-		return;
-	}
-
-	if (!GFX_Screen_IsDirty(SCREEN_0)) return;
-
-	area = GFX_Screen_GetDirtyArea(SCREEN_0);
-	if (area != NULL && area->top < area->bottom) {
-		Loading_ScreenChanged();
-		Video_CopyRows(area->top, (area->bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : area->bottom);
-	}
-	GFX_Screen_SetClean(SCREEN_0);
+	if (Video_QueueDirty()) Loading_ScreenChanged();
 }
 
 /**
@@ -246,10 +370,14 @@ void Video_SetPalette(void *palette, int from, int length)
 
 	/* VGA palette entries are 6 bits per component; Video_VBlank() writes
 	 * them to colour RAM */
+	/* the rows drawn so far go to the screen before these colours do */
+	Video_QueueDirty();
+
 	sr = Cpu_DisableInterrupts();
 	for (i = from; i < from + length; i++, p += 3) {
 		s_palette[i] = RGB555(p[0] >> 1, p[1] >> 1, p[2] >> 1);
 	}
+	if (s_rowsPending > 0) s_paletteAfter = s_rowsQueued;
 	if (from < s_paletteFrom) s_paletteFrom = from;
 	if (from + length > s_paletteTo) s_paletteTo = from + length;
 	Cpu_RestoreInterrupts(sr);
@@ -302,15 +430,9 @@ void Video_MapShow(bool show)
 	/* Showing the map over a bitmap that still holds the previous screen
 	 * (a briefing, say) would leave that screen covering the map, because
 	 * NBG0 is opaque where it is not colour 0 and the viewport rows are no
-	 * longer copied. Clear that area once, as the map appears. */
-	if (show && !s_mapVisible) {
-		volatile uint8 *p = VDP2_BITMAP + (TOP + 40) * VDP2_BITMAP_PITCH;
-		int row;
-
-		for (row = 0; row < 160; row++, p += VDP2_BITMAP_PITCH) {
-			memset((void *)p, 0, 240);
-		}
-	}
+	 * longer copied. Clear that area once, as the map appears - in the
+	 * vertical blank, like every other write into the bitmap. */
+	if (show && !s_mapVisible) s_clearViewport = true;
 #endif
 	s_mapVisible = show;
 #if SATURN_HW_MAP

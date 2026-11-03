@@ -158,6 +158,17 @@ int SaturnTimer_MainWaiting(void)
 }
 
 /**
+ * Microseconds since the last VBlank-in interrupt, from the free-running
+ * timer: how much of the vertical blank the hook has used.
+ *
+ * @return The microseconds.
+ */
+uint32_t SaturnTimer_SinceFrameUs(void)
+{
+	return (uint32_t)(uint16_t)(SaturnTimer_FrtRead() - s_frameStart) * 2 / 7;
+}
+
+/**
  * Frames since SaturnTimer_Init().
  *
  * @return The frames.
