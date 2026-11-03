@@ -13,6 +13,37 @@
 #define VBLANK_POLLS_MAX 1000000UL
 
 /**
+ * Write the VRAM cycle patterns for the layers shown.
+ *
+ * NBG0's 256-colour bitmap reads A0 twice (T0, T1); NBG1's 16-colour bitmap
+ * reads B1 once (T2); with the map shown, NBG2 and NBG3 read their pattern
+ * names from B0 (T0, T1) and their 256-colour characters from A1 (T0-T3).
+ *
+ * The VDP2 manual (3.3, "Read/Write Access by the CPU") asks, with the banks
+ * split, for the CPU slots to be the same in bank 0 and bank 1, with a
+ * "no access" slot before them in both, and "no access" in every slot the
+ * display does not use. It also turns the slots of a layer switched off in
+ * BGON into CPU slots - so with the map hidden, the planes' slots would
+ * surround the other layers' reads with CPU slots. The real hardware shows
+ * stripes then (Ymir does not model it), so the planes' slots are set to
+ * "no access" explicitly while the map is hidden. The CPU gets T6 and T7 in
+ * every bank; the bulk writes are made in the vertical blank anyway.
+ *
+ * @param mapShow Whether NBG2 and NBG3 are shown.
+ */
+static void Vdp2_CyclesUpdate(int mapShow)
+{
+	VDP2_CYCA0L = 0x44FF;
+	VDP2_CYCA0U = 0xFFEE;
+	VDP2_CYCA1L = mapShow ? 0x6677 : 0xFFFF;
+	VDP2_CYCA1U = 0xFFEE;
+	VDP2_CYCB0L = mapShow ? 0x23FF : 0xFFFF;
+	VDP2_CYCB0U = 0xFFEE;
+	VDP2_CYCB1L = 0xFF5F;
+	VDP2_CYCB1U = 0xFFEE;
+}
+
+/**
  * Wait for the start of the next vertical blank. While the display is off,
  * the hardware keeps the VBLANK flag set: then this gives up after a while
  * instead of waiting forever.
@@ -49,19 +80,8 @@ void Vdp2_BitmapInit(void)
 	 * B1 the NBG1 overlay (the back screen colour lives in its last word). */
 	VDP2_RAMCTL = 0x0300;
 
-	/* The NBG0 256-colour bitmap needs 2 VRAM reads a cycle, the NBG1
-	 * 16-colour one 1; the map planes read their pattern names (NBG2 in T0,
-	 * NBG3 in T1) and their 256-colour characters (2 reads each). The rest
-	 * of the slots go to the CPU (Table 3.5). The overlay lives in B1, away
-	 * from the map's name reads, so its pixel writes rarely contend. */
-	VDP2_CYCA0L = 0x44EE;
-	VDP2_CYCA0U = 0xEEEE;
-	VDP2_CYCA1L = 0x6677;
-	VDP2_CYCA1U = 0xEEEE;
-	VDP2_CYCB0L = 0x23EE;
-	VDP2_CYCB0U = 0xEEEE;
-	VDP2_CYCB1L = 0xEE5E;
-	VDP2_CYCB1U = 0xEEEE;
+	/* the VRAM access cycles, for the map hidden (see Vdp2_CyclesUpdate) */
+	Vdp2_CyclesUpdate(0);
 
 	/* N0CHCN = 256 colours */
 	VDP2_CHCTLA = (1 << 4)
@@ -135,6 +155,7 @@ static int s_mapShow = 0;     /*!< NBG0's colour 0 transparent (map behind) */
  */
 static void Vdp2_BgonUpdate(void)
 {
+	Vdp2_CyclesUpdate(s_mapShow);
 	VDP2_BGON = (s_mapShow ? 0 : (1 << 8))      /* N0TPON */
 	          | (s_mapShow ? ((1 << 3) | (1 << 2)) : 0)  /* N3ON, N2ON */
 	          | (s_overlayShow ? (1 << 1) : 0)  /* N1ON */
