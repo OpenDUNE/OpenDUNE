@@ -76,10 +76,18 @@ static bool s_clearViewport = false;       /*!< the map appeared: clear its area
 #define VBLANK_BUDGET_US_PAL  2400
 static uint32 s_vblankBudgetUs = VBLANK_BUDGET_US_NTSC;
 
-/* the map planes' scroll, written in the vertical blank */
+/* the map planes' scroll, written in the vertical blank - one blank after
+ * the sprite list built with it is switched in. A list switched at a blank
+ * is drawn during the next display period and shown in the one after (VDP1
+ * manual, table 4.3: the frame changes at the end of each V-blank), while a
+ * VDP2 register written at that blank shows a period earlier: written
+ * together, the ground would jump a frame ahead of the units on it. */
 static int s_mapScrollX = 0;
 static int s_mapScrollY = 0;
-static bool s_mapScrollDirty = true;
+static volatile bool s_mapScrollDirty = true;
+static int s_pendScrollX = 0;    /*!< staged at the last blank, */
+static int s_pendScrollY = 0;
+static bool s_pendValid = false; /*!< written at this one */
 
 /* house-coloured structure characters, baked per (tile, house) into the free
  * part of bank A1 (the only bank VDP2 reads character patterns from): the
@@ -200,8 +208,14 @@ static void Video_VBlank(void)
 
 	Vdp1_ListVBlank();
 
+	if (s_pendValid) {
+		Vdp2_MapScroll(s_pendScrollX, s_pendScrollY);
+		s_pendValid = false;
+	}
 	if (s_mapScrollDirty) {
-		Vdp2_MapScroll(s_mapScrollX, s_mapScrollY);
+		s_pendScrollX = s_mapScrollX;
+		s_pendScrollY = s_mapScrollY;
+		s_pendValid = true;
 		s_mapScrollDirty = false;
 	}
 
@@ -658,7 +672,8 @@ void Video_MapRedrawAll(void)
 
 /**
  * Scroll the map planes so the given viewport tile is at the viewport's top
- * left. The registers are written in the next vertical blank.
+ * left. The registers are written two vertical blanks later, see
+ * s_mapScrollX.
  *
  * @param viewportX The viewport's column.
  * @param viewportY The viewport's row.
@@ -667,11 +682,14 @@ void Video_MapScroll(int viewportX, int viewportY)
 {
 	int x = viewportX * 16;
 	int y = viewportY * 16 - (TOP + 40);
+	uint32 sr;
 
 	if (s_mapScrollX == x && s_mapScrollY == y) return;
+	sr = Cpu_DisableInterrupts();
 	s_mapScrollX = x;
 	s_mapScrollY = y;
 	s_mapScrollDirty = true;
+	Cpu_RestoreInterrupts(sr);
 }
 
 /* --- VDP1 sprites -------------------------------------------------------- */
