@@ -89,12 +89,13 @@ void Vdp1_Init(int clipBottom)
 	s_listPending = false;
 	s_patternNext = VDP1_PATTERNS;
 
-	/* the list at the start of VRAM is a single jump to the active one.
-	 * VDP1 leaves a stray pixel at a non-drawing command's vertex, so
-	 * clear the whole table and put that vertex off the picture. */
+	/* the list at the start of VRAM is a single jump to the active one:
+	 * "skip assign" goes to CMDLINK without processing the table (VDP1
+	 * manual, CMDCTRL jump mode). "Jump assign" would first run it as a
+	 * normal sprite of size 0 and leave a pixel at its vertex. */
 	jump = (Vdp1Cmd *)VDP1_VRAM;
 	memset(jump, 0, sizeof(*jump));
-	jump->ctrl = 0x1000; /* JP = jump assign */
+	jump->ctrl = 0x5000; /* JP = skip assign */
 	jump->link = (uint16_t)(s_listActive >> 3);
 	jump->xa = 400;
 	jump->ya = 300;
