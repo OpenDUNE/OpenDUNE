@@ -535,6 +535,7 @@ static int s_spriteCacheCount = 0;
 uint32 g_vdp1SpriteCalls;
 uint32 g_vdp1SpriteQueued;
 uint32 g_vdp1SpriteRejected;
+uint32 g_vdp1SpriteDropped; /*!< sprites a full command list had no room for */
 
 /**
  * Bake a sprite (already expanded to its colour indices) into a linear 8 bpp
@@ -629,7 +630,12 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	if (pattern == 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
 
 	cmd = Vdp1_ListAdd();
-	if (cmd == NULL) return true; /* list full: drop the sprite */
+	if (cmd == NULL) {
+		/* list full: drop the sprite, counted so a busy scene's losses
+		 * show against the list's size */
+		g_vdp1SpriteDropped++;
+		return true;
+	}
 
 	g_vdp1SpriteQueued++;
 
