@@ -65,6 +65,7 @@ static volatile uint32 s_paletteAfter = 0; /*!< the palette waits for this s_row
 static int s_paletteHeld = 0;              /*!< blanks the palette has waited */
 static uint32 s_mainBusySince = 0;         /*!< frame the main loop was last parked */
 static bool s_clearViewport = false;       /*!< the map appeared: clear its area */
+static uint32 s_clearFill = 0;             /*!< to this, four pixels at a time */
 
 /* The hook's share of the vertical blank: 39 lines on NTSC (about 2.5 ms),
  * 57 on PAL (3.6 ms); the rest is left for its other work and lateness. */
@@ -155,9 +156,10 @@ static void Video_CopyPending(void)
 		int row, n;
 
 		for (row = 0; row < 160; row++, p += VDP2_BITMAP_PITCH / 4) {
-			for (n = 0; n < 240 / 4; n++) p[n] = 0;
+			for (n = 0; n < 240 / 4; n++) p[n] = s_clearFill;
 		}
 		s_clearViewport = false;
+		s_clearFill = 0;
 	}
 
 	while (s_rowsPending > 0 && done < SCREEN_HEIGHT) {
@@ -453,6 +455,27 @@ void Video_SetOffset(uint16 offset)
 	if (lines == s_shakeY) return;
 	s_shakeY = lines;
 	s_shakeDirty = true;
+}
+
+/**
+ * Cover the map's viewport with opaque black on SCREEN_0 and the bitmap, for
+ * the mission's fade-in to uncover block by block.
+ */
+void Video_MapMask(void)
+{
+	uint8 *p = s_framebuffer + 40 * SCREEN_WIDTH;
+	uint32 sr;
+	int row;
+
+	/* 12 is black in every game palette (the veil's colour) */
+	for (row = 0; row < 160; row++, p += SCREEN_WIDTH) memset(p, 12, 240);
+
+	/* the hook's clear lays it on the bitmap, in the blank the map's
+	 * layers switch in, so the map never shows before the fade */
+	sr = Cpu_DisableInterrupts();
+	s_clearFill = 0x0C0C0C0CU;
+	s_clearViewport = true;
+	Cpu_RestoreInterrupts(sr);
 }
 
 /**
