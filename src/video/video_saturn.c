@@ -45,11 +45,6 @@ static uint8 *s_framebuffer = NULL;
 static bool s_mapVisible;      /*!< the map planes are showing */
 uint32 g_videoSpriteFallback; /*!< a viewport sprite fell back to software */
 static bool s_repaintAll = true;
-/* VDP1 does not draw a pattern pixel of 0xFF - the selected unit's marker is
- * drawn entirely in that colour, and vanished because of it. Patterns remap
- * it to 0xFE, and the colour RAM upload mirrors the animated selection colour
- * from entry 255 into 254 so the marker still follows it. */
-#define VDP1_PATTERN_MAX 0xFE
 
 static uint16 s_palette[256];                     /*!< the colours, RGB555, for colour RAM */
 static volatile int s_paletteFrom = 256;          /*!< the first changed since the last vertical blank, */
@@ -196,11 +191,6 @@ static void Video_PalettePending(void)
 
 	for (i = s_paletteFrom; i < s_paletteTo; i++) Vdp2_SetColor(i, s_palette[i]);
 
-	/* Entry 254 only stands in for the marker's colour while the game view is
-	 * up, because the menus' own artwork uses that entry: it must not take
-	 * the animated selection colour there. */
-	Vdp2_SetColor(VDP1_PATTERN_MAX, s_mapVisible ? s_palette[255] : s_palette[VDP1_PATTERN_MAX]);
-
 	s_paletteFrom = 256;
 	s_paletteTo = 0;
 }
@@ -238,10 +228,6 @@ static void Video_VBlank(void)
 	 * old screen does not show through for a frame */
 	if (!s_clearViewport) Vdp2_LayersVBlank();
 	Video_PalettePending();
-
-	/* the selection colour animates every few frames: keep its stand-in
-	 * current even when nothing else changed */
-	if (s_mapVisible) Vdp2_SetColor(VDP1_PATTERN_MAX, s_palette[255]);
 
 	/* write the queued pattern names while the display isn't reading VRAM */
 	for (i = 0; i < MAP_NAMES_PER_VBLANK && s_mapNameCount > 0; i++) {
@@ -786,7 +772,6 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 			} else {
 				if (palette != NULL) v = palette[v];
 				for (i = 0; i < remapCount; i++) v = remap[v];
-				if (v == 0xFF) v = VDP1_PATTERN_MAX;
 				dst[x++] = v;
 			}
 		}
@@ -842,7 +827,9 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->ctrl = VDP1_CMD_NORMAL_SPRITE;
-	cmd->pmod = VDP1_PMOD_COLOR_256;
+	/* end codes off: 0xFF is then a colour like the others (VDP1 manual,
+	 * End Code Disable) - the selected unit's marker is drawn in it */
+	cmd->pmod = VDP1_PMOD_COLOR_256 | VDP1_PMOD_ECD;
 	if ((flags & DRAWSPRITE_FLAG_BLUR) != 0) cmd->pmod |= VDP1_PMOD_MESH;
 	cmd->colr = 0;
 	cmd->srca = VDP1_CHAR_ADDR(pattern);

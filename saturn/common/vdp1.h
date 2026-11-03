@@ -33,8 +33,11 @@
  *    every draw, so it must be set before drawing starts. It persists, so
  *    Vdp1_Init sets it once; without that every sprite is displaced by
  *    whatever the register happened to hold.
- *  - A 256-colour pattern's rows must be padded to 16 pixels, because the size
- *    field counts 16-pixel units. Nothing draws a pattern pixel of 0xFF.
+ *  - A 256-colour pattern's rows are padded to 16 pixels, so that
+ *    (pitch / 16) << 9 puts pitch / 8 exactly into the size field's 8-pixel
+ *    units (bits 13-8).
+ *  - With end codes on, a pattern pixel of 0xFF is not drawn (two end a
+ *    row), so the sprite commands turn them off (VDP1_PMOD_ECD).
  *  - Every command that does not draw still leaves a pixel at its vertex, so
  *    the vertex of the jump, clipping and end commands is put off-screen.
  */
@@ -81,7 +84,7 @@ enum {
 /* Draw mode bits (pmod). */
 enum {
 	VDP1_PMOD_MESH = 0x0100,        /*!< checkerboard, every other pixel */
-	VDP1_PMOD_ECD = 0x0080,         /*!< end code (colour 0) drawn, not transparent */
+	VDP1_PMOD_ECD = 0x0080,         /*!< end code (0xFF at 8 bpp) drawn as a colour, not ending the row */
 	VDP1_PMOD_SPD = 0x0040,         /*!< transparent pixel drawn */
 	VDP1_PMOD_COLOR_256 = 0x0020,   /*!< 8 bits/pixel, 256 colours, colour bank 0 */
 	VDP1_PMOD_COLOR_16 = 0x0000     /*!< 4 bits/pixel, 16 colours */
