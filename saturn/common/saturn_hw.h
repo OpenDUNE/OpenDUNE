@@ -64,6 +64,7 @@
 #define VDP2_WPEX0      VDP2_REG(0x0C4)
 #define VDP2_WPEY0      VDP2_REG(0x0C6)
 #define VDP2_WCTLB      VDP2_REG(0x0D2)
+#define VDP2_WCTLC      VDP2_REG(0x0D4)
 #define VDP2_CRAOFA     VDP2_REG(0x0E4)
 #define VDP2_SPCTL      VDP2_REG(0x0E0)
 #define VDP2_SDCTL      VDP2_REG(0x0E2)

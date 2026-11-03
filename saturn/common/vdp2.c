@@ -307,8 +307,8 @@ void Vdp2_MapInit(void)
 }
 
 /**
- * Clip NBG2 and NBG3 to a rectangle of the display with window W0, outside
- * which the planes are transparent.
+ * Clip NBG2, NBG3 and the sprite layer to a rectangle of the display with
+ * window W0, outside which they are transparent.
  *
  * @param left The left edge.
  * @param top The top edge.
@@ -326,6 +326,10 @@ void Vdp2_MapWindow(int left, int top, int right, int bottom)
 	/* use W0 for both planes, with the transparent area outside the window:
 	 * the planes show inside the viewport and vanish outside it */
 	VDP2_WCTLB = (1 << 9) | (1 << 8) | (1 << 1) | (1 << 0);
+	/* and the sprite layer (SPW0E, SPW0A): VDP1's system clip cannot bound
+	 * the top, so a sprite reaching above the viewport would otherwise show
+	 * through every colour-0 pixel of the bar above it */
+	VDP2_WCTLC = (1 << 9) | (1 << 8);
 }
 
 /**
