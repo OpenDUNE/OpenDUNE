@@ -65,6 +65,7 @@ static volatile uint32 s_rowsLanded = 0;   /*!< s_rowsQueued when the queue last
 static volatile uint32 s_paletteAfter = 0; /*!< the palette waits for this s_rowsLanded */
 static int s_paletteHeld = 0;              /*!< blanks the palette has waited */
 static uint32 s_mainBusySince = 0;         /*!< frame the main loop was last parked */
+static uint32 s_busyRepaint = 0;           /*!< frame the busy loop's screen was last queued whole */
 static bool s_clearViewport = false;       /*!< the map appeared: clear its area */
 static uint32 s_clearFill = 0;             /*!< to this, four pixels at a time */
 
@@ -113,6 +114,7 @@ static int s_mapNameHead = 0;
 static volatile int s_mapNameCount = 0;
 
 static void MapWriteTile(uint16 packed);
+static void Video_QueueRect(int left, int top, int right, int bottom);
 
 /**
  * Copy one row's dirty columns of SCREEN_0 to the bitmap, in 32-bit words.
@@ -147,8 +149,18 @@ static void Video_CopyPending(void)
 
 	if (SaturnTimer_MainWaiting()) {
 		s_mainBusySince = frame;
+		s_busyRepaint = 0;
 	} else if (frame - s_mainBusySince < 4) {
 		return;
+	} else if (s_busyRepaint == 0 || frame - s_busyRepaint >= 15) {
+		/* What was queued at the last tick is stale by now: the loop has
+		 * gone on drawing (a window restored over the screen, say) and
+		 * stays busy (a load), so no tick queues the rest. Copy the whole
+		 * screen as it stands instead of the stale part of it - the
+		 * original showed every change at once. Again every quarter
+		 * second while it stays busy, for what it draws meanwhile. */
+		s_busyRepaint = frame;
+		Video_QueueRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 
 	if (s_clearViewport) {
