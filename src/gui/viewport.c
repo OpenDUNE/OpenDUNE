@@ -30,6 +30,16 @@
 #include "../timer.h"
 #include "../tools.h"
 #include "../unit.h"
+#include "../video/video.h"
+
+
+#if defined(SATURN) && SATURN_HW_SPRITES
+/* VDP1 draws its whole sprite list from scratch every frame, so the viewport
+ * must queue every visible sprite every frame, not only the dirty ones. */
+#define VIEWPORT_SPRITES_ALWAYS 1
+#else
+#define VIEWPORT_SPRITES_ALWAYS 0
+#endif
 
 static uint32 s_tickCursor;                                 /*!< Stores last time Viewport changed the cursor spriteID. */
 static uint32 s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */
@@ -358,11 +368,15 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 	oldWidgetID = Widget_SetCurrentWidget(2);
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+	Video_MapSpritesBegin();
+
+#endif
+
 	if (g_dirtyViewportCount != 0 || forceRedraw) {
 		for (y = 0; y < 10; y++) {
 			uint16 top = (y << 4) + 0x28;	/* 40 */
 			for (x = 0; x < (drawToMainScreen ? 15 : 16); x++) {
-				Tile *t;
 				uint16 left;
 
 				curPos = g_viewportPosition + Tile_PackXY(x, y);
@@ -383,20 +397,38 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					if (minX[y] > x) minX[y] = x;
 				}
 
-				t = &g_map[curPos];
 				left = x << 4;
 
-				if (!g_debugScenario && g_veiledTileID == t->overlayTileID) {
-					/* draw a black rectangle */
-					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
-					continue;
-				}
+#if defined(SATURN) && SATURN_HW_MAP
+				{
+					uint8 *p = (uint8 *)GFX_Screen_GetActive() + top * SCREEN_WIDTH + left;
+					int r;
 
-				GFX_DrawTile(t->groundTileID, left, top, t->houseID);
-
-				if (t->overlayTileID != 0 && !g_debugScenario) {
-					GFX_DrawTile(t->overlayTileID, left, top, t->houseID);
+					/* clear the tile so NBG0 is transparent there and the
+					 * map plane shows through */
+					for (r = 0; r < 16; r++) {
+						memset(p, 0, 16);
+						p += SCREEN_WIDTH;
+					}
+					Video_MapSetTile(curPos);
 				}
+#else
+				{
+					Tile *t = &g_map[curPos];
+
+					if (!g_debugScenario && g_veiledTileID == t->overlayTileID) {
+						/* draw a black rectangle */
+						GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
+						continue;
+					}
+
+					GFX_DrawTile(t->groundTileID, left, top, t->houseID);
+
+					if (t->overlayTileID != 0 && !g_debugScenario) {
+						GFX_DrawTile(t->overlayTileID, left, top, t->houseID);
+					}
+				}
+#endif
 			}
 		}
 		g_dirtyViewportCount = 0;
@@ -415,7 +447,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 		if (u == NULL) break;
 
-		if (!u->o.flags.s.isDirty && !forceRedraw) continue;
+		if (!VIEWPORT_SPRITES_ALWAYS && !u->o.flags.s.isDirty && !forceRedraw) continue;
 		u->o.flags.s.isDirty = false;
 
 		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && !g_debugScenario) continue;
@@ -437,6 +469,26 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		}
 	}
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* VDP1 rebuilds its command list from scratch every frame, so the
+	 * rectangle has to be queued every frame it should be visible, not
+	 * only when the selection changed. */
+	if (g_unitSelected == NULL && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
+		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
+		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
+		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
+		uint16 y2 = y1 + (g_selectionHeight << 4) - 1;
+
+		Video_MapRect(x1, y1, x2, y2, 0xFF);
+
+		if (g_selectionState == 0 && g_selectionType == SELECTIONTYPE_PLACE) {
+			Video_MapLine(x1, y1, x2, y2, 0xFF);
+			Video_MapLine(x2, y1, x1, y2, 0xFF);
+		}
+	}
+
+	g_selectionRectangleNeedRepaint = false;
+#else
 	if (g_unitSelected == NULL && (g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == SELECTIONTYPE_PLACE || g_debugScenario)) {
 		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
@@ -455,9 +507,10 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 		g_selectionRectangleNeedRepaint = false;
 	}
+#endif
 
 	/* Draw ground units */
-	if (g_dirtyUnitCount != 0 || forceRedraw || updateDisplay) {
+	if (VIEWPORT_SPRITES_ALWAYS || g_dirtyUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -478,7 +531,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			packed = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, packed)) continue;
+			if (!VIEWPORT_SPRITES_ALWAYS && (!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, packed)) continue;
+			if (u->o.flags.s.isNotOnMap) { u->o.flags.s.isDirty = false; continue; }
 			u->o.flags.s.isDirty = false;
 
 			if (!g_map[packed].isUnveiled && !g_debugScenario) continue;
@@ -636,7 +690,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (BitArray_Test(g_dirtyViewport, curPos)) e->isDirty = true;
 
 		if (e->commands == NULL) continue;
-		if (!e->isDirty && !forceRedraw) continue;
+		if (!VIEWPORT_SPRITES_ALWAYS && !e->isDirty && !forceRedraw) continue;
 		if (e->spriteID == 0) continue;
 
 		e->isDirty = false;
@@ -649,7 +703,7 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 	}
 
 	/* draw air units */
-	if (g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
+	if (VIEWPORT_SPRITES_ALWAYS || g_dirtyAirUnitCount != 0 || forceRedraw || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -675,7 +729,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 			curPos = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, curPos)) continue;
+			if (!VIEWPORT_SPRITES_ALWAYS && (!u->o.flags.s.isDirty || u->o.flags.s.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, curPos)) continue;
+			if (u->o.flags.s.isNotOnMap) { u->o.flags.s.isDirty = false; continue; }
 			u->o.flags.s.isDirty = false;
 
 			if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
@@ -821,12 +876,23 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 		if (g_viewport_fadein) {
 			GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 
+#if defined(SATURN) && SATURN_HW_MAP
+			/* The map and the sprites are behind NBG0 here, and the
+			 * viewport copied below is all colour 0: cover the viewport
+			 * on SCREEN_0 with an opaque black, and the fade's blocks of
+			 * colour 0 then uncover the map and the sprites in the
+			 * original's order and time. The sprites go up now, under
+			 * the cover. */
+			Video_MapMask();
+			Video_MapFlush();
+#else
 			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 			if (g_dune2_enhanced) {
 				Screen oldScreenID2 = GFX_Screen_SetActive(SCREEN_0);
 				GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 0);
 				GFX_Screen_SetActive(oldScreenID2);
 			}
+#endif
 
 			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_ACTIVE, SCREEN_0);
 			GUI_Mouse_Show_InWidget();
@@ -857,12 +923,38 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 					init = true;
 				}
 
+#if defined(SATURN) && SATURN_HW_MAP && SATURN_HW_SPRITES
+				/* The viewport buffer is normally empty - the map is on
+				 * VDP2 and the sprites are on VDP1 - but two things are
+				 * still drawn here in software and have to reach SCREEN_0:
+				 * a sprite the hardware could not take, and the viewport
+				 * message in row 6 (its background is colour 0, so on the
+				 * bitmap only the letters cover the map). */
+				if (g_videoSpriteFallback == 0 && i != 6) {
+					VARIABLE_NOT_USED(x);
+					VARIABLE_NOT_USED(y);
+					VARIABLE_NOT_USED(width);
+					VARIABLE_NOT_USED(height);
+				} else {
+					GUI_Screen_Copy(x, y, x, y, width, height, SCREEN_ACTIVE, SCREEN_0);
+				}
+#elif defined(SATURN) && SATURN_HW_MAP
+				VARIABLE_NOT_USED(x);
+				VARIABLE_NOT_USED(y);
+				VARIABLE_NOT_USED(width);
+				VARIABLE_NOT_USED(height);
+#else
 				GUI_Screen_Copy(x, y, x, y, width, height, SCREEN_ACTIVE, SCREEN_0);
+#endif
 			}
 
 			if (init) GUI_Mouse_Show_InWidget();
 		}
 	}
+
+#if defined(SATURN) && SATURN_HW_SPRITES
+	Video_MapFlush();
+#endif
 
 	GFX_Screen_SetActive(oldScreenID);
 

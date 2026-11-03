@@ -24,6 +24,7 @@
 #include "script/script.h"
 #include "string.h"
 #include "tile.h"
+#include "video/video.h"
 
 
 uint8 **g_sprites = NULL;
@@ -255,6 +256,11 @@ static void Tiles_LoadICNFile(const char *filename)
 	ChunkFile_Read(fileIndex, HTOBE32(CC_RPAL), g_iconRPAL, paletteLength);
 
 	ChunkFile_Close(fileIndex);
+
+#if defined(SATURN) && SATURN_HW_MAP
+	/* the map planes need the tiles as VDP2 characters */
+	Video_MapLoadTiles(tableLength);
+#endif
 }
 
 /**
@@ -266,10 +272,21 @@ void Sprites_LoadTiles(void)
 
 	s_iconLoaded = true;
 
+#if defined(SATURN)
+	/* The tiles and their map are malloc'd and left alone by the screens
+	 * that "unload" them: read (and decode) them only once. The unit
+	 * scripts below live in a screen buffer those screens reuse. */
+	if (g_tilesPixels == NULL || g_iconMap == NULL) {
+		Tiles_LoadICNFile("ICON.ICN");
+		free(g_iconMap);
+		g_iconMap = File_ReadWholeFileLE16("ICON.MAP");
+	}
+#else
 	Tiles_LoadICNFile("ICON.ICN");
 
 	free(g_iconMap);
 	g_iconMap = File_ReadWholeFileLE16("ICON.MAP");
+#endif
 
 	g_veiledTileID    = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
 	g_bloomTileID     = g_iconMap[g_iconMap[ICM_ICONGROUP_SPICE_BLOOM]];

@@ -983,6 +983,42 @@ static void GUI_Mentat_ShowHelp(void)
 	GUI_Mentat_Draw(true);
 }
 
+#if defined(SATURN)
+bool g_mentatTextPending = false; /*!< The Mentat has more to say: a pad's A carries on. */
+
+/**
+ * Draw the selected help subject as selected (red), or as the others: it
+ * only looks selected while it has the pad's focus.
+ *
+ * @param show Whether to draw it as selected.
+ */
+void GUI_Mentat_ShowHelpSelection(bool show)
+{
+	Widget *w = GUI_Widget_Get_ByIndex(g_widgetMentatTail, s_selectedHelpSubject + 3);
+	uint8 colour = show ? 8 : 15;
+
+	if (w == NULL || w->stringID != 0x31 || w->fgColourNormal == colour) return;
+	w->fgColourNormal = colour;
+	w->fgColourDown = colour;
+	w->fgColourSelected = colour;
+	GUI_Widget_Draw(w);
+}
+
+/**
+ * The selected help subject, for moving through the list with a pad.
+ *
+ * @param first Filled with whether it is the first subject of all.
+ * @param last Filled with whether it is the last subject of all.
+ * @return The index of its widget.
+ */
+uint16 GUI_Mentat_HelpSelection(bool *first, bool *last)
+{
+	*first = s_topHelpList + s_selectedHelpSubject == 0;
+	*last = s_topHelpList + s_selectedHelpSubject + 1 >= s_numberHelpSubjects;
+	return s_selectedHelpSubject + 3;
+}
+#endif
+
 /**
  * Handles Click event for list in mentat window.
  *
@@ -1122,6 +1158,10 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 		GFX_Screen_SetActive(SCREEN_0);
 
+#if defined(SATURN)
+		/* a pad's A carries the speech on while there is more of it */
+		g_mentatTextPending = text != NULL && !textDone;
+#endif
 		key = GUI_Widget_HandleEvents(w);
 
 		GUI_PaletteAnimate();
@@ -1265,6 +1305,9 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	}
 
 	if (wsa != NULL) WSA_Unload(wsa);
+#if defined(SATURN)
+	g_mentatTextPending = false;
+#endif
 
 	GFX_Screen_SetActive(SCREEN_2);
 	GUI_DrawSprite(SCREEN_2, g_sprites[397 + g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);

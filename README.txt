@@ -37,6 +37,7 @@ Currently we officially support the following platforms:
   - Atari TOS (ST, STE, TT or Falcon)
   - OS/2
   - Haiku
+  - Sega Saturn (see README.saturn)
 
 
 Requirements

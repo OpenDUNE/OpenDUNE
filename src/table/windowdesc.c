@@ -81,7 +81,11 @@ WindowDesc g_gameControlWindowDesc = {
 	/* index       */ 16,
 	/* stringID    */ STR_GAME_CONTROLS,
 	/* addArrows   */ false,
+#if defined(SATURN)
+	/* widgetCount */ 7,
+#else
 	/* widgetCount */ 6,
+#endif
 	{ /* widgets */
 		{ /* 0 */
 		/* stringID      */ -10, /* Music state. */
@@ -128,6 +132,26 @@ WindowDesc g_gameControlWindowDesc = {
 		/* labelStringID */ STR_AUTO_SCROLL_IS,
 		/* shortcut2     */ 0,
 		},
+#if defined(SATURN)
+		{ /* 5 */
+		/* stringID      */ (uint16)-24, /* Camera: tiles or free. */
+		/* offsetX       */ 152,
+		/* offsetY       */ 107,
+		/* width         */ 80,
+		/* height        */ 15,
+		/* labelStringID */ (uint16)-23,
+		/* shortcut2     */ 0,
+		},
+		{ /* 6 */
+		/* stringID      */ STR_PREVIOUS,
+		/* offsetX       */ 96,
+		/* offsetY       */ 127,
+		/* width         */ 136,
+		/* height        */ 15,
+		/* labelStringID */ STR_NULL,
+		/* shortcut2     */ 110,
+		},
+#else
 		{ /* 5 */
 		/* stringID      */ STR_PREVIOUS,
 		/* offsetX       */ 96,
@@ -146,6 +170,7 @@ WindowDesc g_gameControlWindowDesc = {
 		/* labelStringID */ STR_NULL,
 		/* shortcut2     */ 0,
 		}
+#endif
 	}
 };
 

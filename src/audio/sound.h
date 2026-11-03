@@ -46,5 +46,8 @@ extern void Voice_UnloadVoices(void);
 extern void Sound_StartSound(uint16 index);
 extern void Sound_Output_Feedback(uint16 index);
 extern bool Sound_StartSpeech(void);
+#if defined(SATURN)
+extern void Sound_Saturn_ExpectFeedback(uint16 index);
+#endif
 
 #endif /* SOUND_H */

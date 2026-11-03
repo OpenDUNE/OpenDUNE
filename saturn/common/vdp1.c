@@ -1,0 +1,292 @@
+/** @file saturn/common/vdp1.c VDP1 sprite layer: frame buffer, command lists and patterns.
+ *
+ * VDP1 draws into a 16 bpp frame buffer that VDP2 shows as its sprite layer.
+ * A one-cycle frame buffer is erased to the transparent colour over the whole
+ * display each frame, and drawing restarts from the command list at
+ * the start of VDP1's VRAM with each frame change.
+ *
+ * The command list is double buffered: the game loop fills one list while
+ * VDP1 draws the other, and the jump command at the start of VRAM is switched
+ * to the new list in the vertical blank. */
+
+#include <stdbool.h>
+#include <stddef.h>
+#include <string.h>
+
+#include "vdp1.h"
+#include "vdp2.h"
+#include "saturn_timer.h"
+
+enum {
+	/* the jump command is 32 bytes at 0, then two command lists of 0x47E0
+	 * bytes each, ending where the sprite patterns start (VDP1_PATTERNS).
+	 * The last slot of each is kept for the draw end command: written one
+	 * further, list A's end would land on list B's first command and VDP1
+	 * would run on into it. */
+	VDP1_LIST_A = 0x00020,
+	VDP1_LIST_B = 0x04800,
+	VDP1_LIST_COMMANDS = (VDP1_LIST_B - VDP1_LIST_A) / 32 - 1
+};
+
+static uint32_t s_listBuild;  /*!< the list the game loop fills */
+static uint32_t s_listActive; /*!< the list VDP1 draws */
+static int s_listCount;       /*!< commands in the build list */
+static bool s_listPending;    /*!< a finished list waits for the vertical blank */
+static int s_clipBottom = 211; /*!< the system clip's last line */
+static int16_t s_localY = 0;
+
+/* Lists are numbered as they are begun. A pattern a list uses must stay
+ * until VDP1 can no longer draw that list: VDP1 redraws the active list at
+ * every frame change until another is switched in, and the one switched out
+ * at a blank is still drawn until the frame change at that blank's end. */
+static uint32_t s_buildGen = 1;      /*!< the list being built */
+static uint32_t s_committedGen = 0;  /*!< the list waiting for the blank */
+static volatile uint32_t s_activeGen = 0;   /*!< the list VDP1 draws */
+static volatile uint32_t s_previousGen = 0; /*!< the one before it */
+static volatile uint32_t s_switchFrame = 0; /*!< the frame it was switched in */  /*!< the local coordinate every list starts with */
+
+static uint32_t s_patternNext; /*!< next free byte in the pattern area */
+
+
+
+uint32_t g_vdp1Commands;    /*!< diagnostics: commands in the list built this frame */
+uint32_t g_vdp1CommitCount; /*!< diagnostics: commands in the list committed last */
+uint32_t g_vdp1Magic;       /*!< diagnostics: proves Vdp1_Init ran */
+uint32_t g_vdp1BeginCount;  /*!< diagnostics: how often the list is begun */
+uint32_t g_vdp1TracePos;    /*!< diagnostics: index into the trace rings */
+uint32_t g_vdp1CommitTrace[8]; /*!< diagnostics: command count at each commit */
+uint32_t g_vdp1AddTrace[8];    /*!< diagnostics: commands added since the last begin */
+
+/**
+ * Set VDP1 up: a 16 bpp one-cycle frame buffer, erased to colour 0 over the
+ * whole picture, drawing automatically each frame from an empty command list.
+ */
+void Vdp1_Init(int clipBottom)
+{
+	Vdp1Cmd *jump;
+
+	g_vdp1Magic = 0xA5A5A5A5;
+
+	/* 16 bpp, normal 320 wide, no V-blank erase; erase over the whole picture */
+	VDP1_TVMR = 0x0000;
+
+	/* one-cycle frame buffer, changes each field */
+	VDP1_FBCR = 0x0000;
+
+	/* erase to colour 0 (transparent) over the whole display: (0, 0) to
+	 * (319, last line); the horizontal coordinates are in units of 8 pixels */
+	VDP1_EWDR = 0x0000;
+	VDP1_EWLR = 0x0000;
+	VDP1_EWRR = (40 << 9) | (g_vdp2DisplayH - 1);
+	s_clipBottom = clipBottom;
+
+	/* draw automatically at the start of every frame (PTM = 10B) */
+	VDP1_PTMR = 0x0002;
+
+	s_listActive = VDP1_LIST_A;
+	s_listBuild = VDP1_LIST_B;
+	s_listCount = 0;
+	s_listPending = false;
+	s_patternNext = VDP1_PATTERNS;
+
+	/* the list at the start of VRAM is a single jump to the active one:
+	 * "skip assign" goes to CMDLINK without processing the table (VDP1
+	 * manual, CMDCTRL jump mode). "Jump assign" would first run it as a
+	 * normal sprite of size 0 and leave a pixel at its vertex. */
+	jump = (Vdp1Cmd *)VDP1_VRAM;
+	memset(jump, 0, sizeof(*jump));
+	jump->ctrl = 0x5000; /* JP = skip assign */
+	jump->link = (uint16_t)(s_listActive >> 3);
+	jump->xa = 400;
+	jump->ya = 300;
+
+	/* The local coordinate register is undefined after a reset and is added
+	 * to every subsequent draw, so it must be set before drawing starts.
+	 * The register persists, so one command in this very first list is
+	 * enough - and it keeps a stray pixel at (0,0) out of every later
+	 * list. */
+	{
+		Vdp1Cmd *lc = (Vdp1Cmd *)(VDP1_VRAM + s_listActive);
+
+		memset(lc, 0, 3 * sizeof(*lc));
+		lc[0].ctrl = 0x000A; /* local coordinate set */
+		/* slot 1 is a list's local coordinate (Vdp1_LocalVBlank) */
+		lc[1].ctrl = 0x000A;
+		lc[2].ctrl = VDP1_CMD_END;
+	}
+}
+
+/**
+ * Start filling the list that VDP1 is not drawing.
+ */
+void Vdp1_ListBegin(void)
+{
+	Vdp1Cmd *clip;
+
+	s_listCount = 0;
+	s_listPending = false;
+	s_buildGen++;
+	g_vdp1BeginCount++;
+
+	/* The system clipping area is undefined until a command sets it, so
+	 * put one at the head of every list: upper left is fixed at (0,0),
+	 * lower right is the bottom of the picture. */
+	clip = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild);
+	memset(clip, 0, sizeof(*clip));
+	clip->ctrl = 0x0009; /* system clipping coordinate set */
+	clip->xc = 239; /* the viewport is 240x160 at display (0,52) */
+	clip->yc = s_clipBottom;
+	/* The clipping area's upper left is fixed at (0,0) whoever we are, but
+	 * VDP1 leaves a stray pixel at the command's vertex, so put that
+	 * vertex off the picture. */
+	clip->xa = 400;
+	clip->ya = 300;
+
+	/* then the local coordinate, added to every vertex: it carries the
+	 * screen shake (Vdp1_LocalVBlank). It draws nothing, and a list that
+	 * left it out would inherit the last one's. */
+	memset(&clip[1], 0, sizeof(clip[1]));
+	clip[1].ctrl = 0x000A; /* local coordinate set */
+	clip[1].ya = s_localY;
+	s_listCount = 2;
+}
+
+/**
+ * The vertical blank: move the sprites of both lists - the one VDP1 draws
+ * and the one being built - by a vertical offset, without building a list.
+ *
+ * @param y The offset; up on the screen is negative.
+ */
+void Vdp1_LocalVBlank(int16_t y)
+{
+	s_localY = y;
+	((Vdp1Cmd *)(VDP1_VRAM + VDP1_LIST_A))[1].ya = y;
+	((Vdp1Cmd *)(VDP1_VRAM + VDP1_LIST_B))[1].ya = y;
+}
+
+/**
+ * The next command of the list being built, or NULL when it is full.
+ *
+ * @return The command to fill in.
+ */
+Vdp1Cmd *Vdp1_ListAdd(void)
+{
+	Vdp1Cmd *cmd;
+
+	if (s_listCount >= VDP1_LIST_COMMANDS) return NULL;
+
+	cmd = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + s_listCount;
+	s_listCount++;
+	g_vdp1Commands = (uint32_t)s_listCount;
+	return cmd;
+}
+
+/**
+ * The command added last to the list being built.
+ *
+ * @return It.
+ */
+Vdp1Cmd *Vdp1_ListLast(void)
+{
+	return (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + (s_listCount - 1);
+}
+
+/**
+ * Finish the list being built with a draw end command; it is switched in at
+ * the next vertical blank.
+ */
+void Vdp1_ListCommit(void)
+{
+	Vdp1Cmd *end = (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + s_listCount;
+
+	/* a stray pixel can come from a command's vertex, so leave none set */
+	memset(end, 0, sizeof(*end));
+	end->ctrl = VDP1_CMD_END;
+	end->xa = 400;
+	end->ya = 300;
+	g_vdp1CommitCount = (uint32_t)s_listCount;
+	g_vdp1CommitTrace[g_vdp1TracePos & 7] = (uint32_t)s_listCount;
+	g_vdp1AddTrace[g_vdp1TracePos & 7] = g_vdp1Commands;
+	g_vdp1TracePos++;
+	s_committedGen = s_buildGen;
+	s_listPending = true;
+}
+
+/**
+ * The vertical blank: switch VDP1 to the list just finished, if any.
+ */
+void Vdp1_ListVBlank(void)
+{
+	Vdp1Cmd *jump;
+
+	if (!s_listPending) return;
+
+	jump = (Vdp1Cmd *)VDP1_VRAM;
+	jump->link = (uint16_t)(s_listBuild >> 3);
+
+	s_previousGen = s_activeGen;
+	s_activeGen = s_committedGen;
+	s_switchFrame = SaturnTimer_Frames();
+	s_listActive = s_listBuild;
+	s_listBuild = (s_listBuild == VDP1_LIST_A) ? VDP1_LIST_B : VDP1_LIST_A;
+	s_listPending = false;
+}
+
+/**
+ * The number of the list being built, to stamp the patterns it uses with.
+ *
+ * @return The number.
+ */
+uint32_t Vdp1_ListGeneration(void)
+{
+	return s_buildGen;
+}
+
+/**
+ * Whether VDP1 may still draw a list of the given number, so the patterns
+ * it uses must stay as they are.
+ *
+ * @param gen The list's number.
+ * @return True if it may.
+ */
+int Vdp1_ListInUse(uint32_t gen)
+{
+	uint32_t oldest = (SaturnTimer_Frames() != s_switchFrame) ? s_activeGen : s_previousGen;
+
+	return gen >= oldest;
+}
+
+/**
+ * Throw the list being built away (as when the map viewport is not drawn).
+ */
+void Vdp1_ListReset(void)
+{
+	s_listCount = 0;
+	s_listPending = false;
+}
+
+/**
+ * Forget every cached sprite pattern. Called when the viewport is redrawn from
+ * scratch so the whole picture gets fresh patterns.
+ */
+void Vdp1_PatternReset(void)
+{
+	s_patternNext = VDP1_PATTERNS;
+}
+
+/**
+ * Reserve room for a pattern of the given size, 32-byte aligned.
+ *
+ * @param bytes How many bytes the pattern needs.
+ * @return Its address in VDP1 VRAM, or 0 when there is no room.
+ */
+uint32_t Vdp1_PatternAlloc(int bytes)
+{
+	uint32_t address;
+
+	address = (s_patternNext + 0x1F) & ~0x1FUL;
+	if (address + (uint32_t)bytes > VDP1_CD_CACHE) return 0;
+
+	s_patternNext = address + (uint32_t)bytes;
+	return address;
+}

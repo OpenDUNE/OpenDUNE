@@ -180,7 +180,8 @@ bool SaveGame_SaveFile(char *filename, char *description)
 	res = Save_Main(fp, description);
 	g_validateStrictIfZero--;
 
-	fclose(fp);
+	/* closing writes the file out, which can fail too (backup memory full) */
+	if (fclose(fp) != 0) res = false;
 
 	if (!res) {
 		/* TODO -- Also remove the savegame now */

@@ -28,6 +28,11 @@
 	#define __BYTE_ORDER __LITTLE_ENDIAN
 #elif defined(__HAIKU__)
 	#include <posix/endian.h>
+#elif defined(SATURN)
+	/* newlib has no <endian.h>; take the byte order from the compiler */
+	#define __LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
+	#define __BIG_ENDIAN __ORDER_BIG_ENDIAN__
+	#define __BYTE_ORDER __BYTE_ORDER__
 #else
 	#include <endian.h>
 #endif /* _WIN32 */

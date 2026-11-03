@@ -12,7 +12,11 @@
 #include "file.h"
 #include "string.h"
 
+#if defined(SATURN)
+GameCfg g_gameConfig = { 1, 1, 2, 1, 0, 0 };
+#else
 GameCfg g_gameConfig = { 1, 1, 2, 1, 0 };
+#endif
 DuneCfg g_config;
 bool g_enableSoundMusic = true;
 bool g_enableVoices = true;
@@ -122,6 +126,10 @@ bool GameOptions_Load(void)
 	g_gameConfig.gameSpeed = File_Read_LE16(index);
 	g_gameConfig.hints = File_Read_LE16(index);
 	g_gameConfig.autoScroll = File_Read_LE16(index);
+#if defined(SATURN)
+	/* files from before the setting existed: tiles */
+	g_gameConfig.camera = (File_GetSize(index) >= 12) ? File_Read_LE16(index) : 0;
+#endif
 
 	File_Close(index);
 
@@ -144,6 +152,9 @@ void GameOptions_Save(void)
 	File_Write_LE16(index, g_gameConfig.gameSpeed);
 	File_Write_LE16(index, g_gameConfig.hints);
 	File_Write_LE16(index, g_gameConfig.autoScroll);
+#if defined(SATURN)
+	File_Write_LE16(index, g_gameConfig.camera);
+#endif
 
 	File_Close(index);
 

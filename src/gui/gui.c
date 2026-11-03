@@ -41,6 +41,9 @@
 #include "../string.h"
 #include "../structure.h"
 #include "../table/strings.h"
+#if defined(SATURN)
+#include "../input/pad_saturn.h"
+#endif
 #include "../tile.h"
 #include "../timer.h"
 #include "../tools.h"
@@ -99,6 +102,9 @@ uint16 g_factoryWindowBase = 0;
 uint16 g_factoryWindowTotal = 0;
 uint16 g_factoryWindowSelected = 0;
 uint16 g_factoryWindowUpgradeCost = 0;
+#if defined(SATURN)
+uint16 g_factoryWindowFirstType = 0xFFFF; /*!< The item to open at (the structure's choice), or 0xFFFF. */
+#endif
 bool g_factoryWindowConstructionYard = false;
 FactoryResult g_factoryWindowResult = FACTORY_RESUME;
 bool g_factoryWindowStarport = false;
@@ -775,6 +781,10 @@ static void GUI_Widget_SetProperties(uint16 index, uint16 xpos, uint16 ypos, uin
  * @param ... The args for the text.
  * @return ??
  */
+#if defined(SATURN)
+bool (*g_modalMessageUntil)(void) = NULL;
+#endif
+
 uint16 GUI_DisplayModalMessage(const char *str, unsigned int spriteID, ...)
 {
 	static char textBuffer[768];
@@ -784,6 +794,9 @@ uint16 GUI_DisplayModalMessage(const char *str, unsigned int spriteID, ...)
 	uint16 ret;
 	Screen oldScreenID;
 	uint8 *screenBackup = NULL;
+#if defined(SATURN)
+	uint16 oldXBase = 0, oldYBase = 0;
+#endif
 
 	va_start(ap, spriteID);
 	vsnprintf(textBuffer, sizeof(textBuffer), str, ap);
@@ -798,6 +811,16 @@ uint16 GUI_DisplayModalMessage(const char *str, unsigned int spriteID, ...)
 	oldWidgetId = Widget_SetCurrentWidget(1);
 
 	g_widgetProperties[1].height = g_fontCurrent->height * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
+
+#if defined(SATURN)
+	/* the Saturn's own messages (no controller) in the middle of the screen */
+	if (g_modalMessageUntil != NULL) {
+		oldXBase = g_widgetProperties[1].xBase;
+		oldYBase = g_widgetProperties[1].yBase;
+		g_widgetProperties[1].xBase = (SCREEN_WIDTH / 8 - g_widgetProperties[1].width) / 2;
+		g_widgetProperties[1].yBase = (SCREEN_HEIGHT - g_widgetProperties[1].height) / 2;
+	}
+#endif
 
 	Widget_SetCurrentWidget(1);
 
@@ -833,6 +856,14 @@ uint16 GUI_DisplayModalMessage(const char *str, unsigned int spriteID, ...)
 	do {
 		GUI_PaletteAnimate();
 
+#if defined(SATURN)
+		if (g_modalMessageUntil != NULL) {
+			/* up until something happens rather than a key is pressed */
+			ret = g_modalMessageUntil() ? 1 : 0;
+			sleepIdle();
+			continue;
+		}
+#endif
 		ret = Input_WaitForValidInput();
 		sleepIdle();
 	} while (ret == 0 || (ret & 0x800) != 0);
@@ -850,6 +881,13 @@ uint16 GUI_DisplayModalMessage(const char *str, unsigned int spriteID, ...)
 	if (screenBackup != NULL) {
 		GFX_CopyFromBuffer(g_curWidgetXBase * 8, g_curWidgetYBase, g_curWidgetWidth * 8, g_curWidgetHeight, screenBackup);
 	}
+
+#if defined(SATURN)
+	if (g_modalMessageUntil != NULL) {
+		g_widgetProperties[1].xBase = oldXBase;
+		g_widgetProperties[1].yBase = oldYBase;
+	}
+#endif
 
 	Widget_SetCurrentWidget(oldWidgetId);
 
@@ -957,6 +995,10 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	uint16 zoomRatioY = 0x100;	/* 8.8 fixed point, ie 0x0100 = 1x */
 	uint16 Ycounter = 0;	/* 8.8 fixed point, ie 0x0100 = 1 */
 	const uint8 *spriteSave = NULL;
+	const uint8 *spriteOriginal;
+#if defined(SATURN) && SATURN_HW_SPRITES
+	int16 spriteHeightRaw;  /*!< the height before the zoom, as the pattern has it */
+#endif
 	int16  distX;
 	const uint8 *palette = NULL;
 	uint16 spriteDecodedLength; /* if encoded with Format80 */
@@ -968,6 +1010,8 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	int16  buf_incr;
 
 	if (sprite == NULL) return;
+
+	spriteOriginal = sprite;
 
 	/* read additional arguments according to the flags */
 
@@ -990,6 +1034,12 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	}
 
 	if ((flags & DRAWSPRITE_FLAG_BLURINCR) != 0) blurRandomValueIncr = (uint16)va_arg(ap, int);
+
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* the hardware path rebuilds the blur from the map (Video_MapSprite) */
+	g_videoBlurOffset = blurOffset;
+	g_videoBlurIncrement = blurRandomValueIncr;
+#endif
 
 	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) {
 		zoomRatioX = (uint16)va_arg(ap, int);
@@ -1017,6 +1067,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	if ((spriteFlags & 0x1) != 0) flags |= DRAWSPRITE_FLAG_SPRITEPAL;
 
 	spriteHeight = *sprite++;
+#if defined(SATURN) && SATURN_HW_SPRITES
+	spriteHeightRaw = spriteHeight;
+#endif
 	spriteWidth = READ_LE_UINT16(sprite);
 	sprite += 5;
 	spriteDecodedLength = READ_LE_UINT16(sprite);
@@ -1043,11 +1096,49 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 		sprite += 16;
 	}
 
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* a sprite seen before has its pattern in VDP1 VRAM already: find it by
+	 * the sprite's pointer before paying for the decode */
+	if (windowID == 2 && spriteWidth > 0 && spriteHeight > 0 && (flags & DRAWSPRITE_FLAG_ZOOM) == 0) {
+		uint16 pitch = 0;
+		uint32 pattern = Video_SpriteLookup(spriteOriginal, palette, remap, remapCount, (uint16)flags, &pitch);
+
+		if (pattern != 0) {
+			Video_MapSpritePattern(pattern, pitch, spriteWidth, spriteHeight,
+			                       (int16)((g_widgetProperties[windowID].xBase << 3) + posX), posY, (uint16)flags);
+			return;
+		}
+	}
+#endif
+
 	if ((spriteFlags & 0x2) == 0) {
 		Format80_Decode(spriteBuffer, sprite, spriteDecodedLength);
 
 		sprite = spriteBuffer;
 	}
+
+#if defined(SATURN) && SATURN_HW_SPRITES
+	if (windowID == 2) {
+		int16 screenX = (g_widgetProperties[windowID].xBase << 3) + posX;
+
+		if (Video_MapSprite(spriteOriginal, sprite, spriteWidth, spriteHeightRaw, screenX, posY,
+		                    palette, remap, remapCount, (uint16)flags,
+		                    ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) ? zoomRatioX : 0x100,
+		                    ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) ? zoomRatioY : 0x100)) {
+			return;
+		}
+	}
+#endif
+
+#if defined(SATURN) && SATURN_HW_MAP
+	/* Drawn in software into the viewport of SCREEN_0 while the map is
+	 * shown, a sprite lands on the bitmap in front of the map and stays
+	 * until those rows are cleared: count it, for a memory dump to show */
+	if (windowID == 2 && (screenID == SCREEN_0 || (screenID == SCREEN_ACTIVE && GFX_Screen_IsActive(SCREEN_0))) &&
+	    Video_MapIsShown()) {
+		g_videoViewportStray++;
+	}
+#endif
 
 	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) == 0) {
 		/* distance between top of window and top of sprite */
@@ -2282,6 +2373,13 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_selectionTypeNew = selectionType;
 		g_var_37B8 = true;
 
+#if defined(SATURN)
+		/* the map viewport is drawn for these; elsewhere NBG0's colour 0
+		 * must be opaque again */
+		Video_MapShow(selectionType == SELECTIONTYPE_TARGET || selectionType == SELECTIONTYPE_PLACE ||
+		              selectionType == SELECTIONTYPE_UNIT || selectionType == SELECTIONTYPE_STRUCTURE);
+#endif
+
 		switch (oldSelectionType) {
 			case SELECTIONTYPE_PLACE:
 				Map_SetSelection(g_structureActivePosition);
@@ -2513,6 +2611,8 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 			}
 		}
 	}
+
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, min(x1, x2), min(y1, y2), max(x1, x2) + 1, max(y1, y2) + 1);
 
 	y2 -= y1;
 
@@ -2800,6 +2900,21 @@ static void GUI_FactoryWindow_InitItems(void)
 	}
 
 	qsort(g_factoryWindowItems, g_factoryWindowTotal, sizeof(FactoryWindowItem), GUI_FactoryWindow_Sorter);
+
+#if defined(SATURN)
+	/* open at what the structure has chosen, as its side bar shows it, not
+	 * at the first item */
+	{
+		uint16 i;
+
+		for (i = 0; i < g_factoryWindowTotal; i++) {
+			if (g_factoryWindowItems[i].objectType != g_factoryWindowFirstType) continue;
+			g_factoryWindowBase = (i > 3) ? i - 3 : 0;
+			g_factoryWindowSelected = i - g_factoryWindowBase;
+			break;
+		}
+	}
+#endif
 }
 
 static void GUI_FactoryWindow_Init(void)
@@ -2840,16 +2955,24 @@ static void GUI_FactoryWindow_Init(void)
 		}
 	}
 
+#if defined(SATURN)
+	oi = GUI_FactoryWindow_GetItem(g_factoryWindowSelected)->objectInfo;
+#else
 	g_factoryWindowBase = 0;
 	g_factoryWindowSelected = 0;
 
 	oi = g_factoryWindowItems[0].objectInfo;
+#endif
 
 	wsa = WSA_LoadFile(oi->wsa, s_factoryWindowWsaBuffer, sizeof(s_factoryWindowWsaBuffer), false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, SCREEN_1);
 	WSA_Unload(wsa);
 
 	GUI_Mouse_Hide_Safe();
+#if defined(SATURN)
+	/* the window is about to replace the game on screen */
+	Video_MapShow(false);
+#endif
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, SCREEN_1, SCREEN_0);
 	GUI_Mouse_Show_Safe();
 
@@ -2880,6 +3003,12 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	oldScreenID = GFX_Screen_SetActive(SCREEN_0);
 
+#if defined(SATURN)
+	/* the window is composed off-screen; the map stays up until it is
+	 * flipped in, so nothing changes before the switch */
+	Video_MapShow(true);
+#endif
+
 	memcpy(backup, g_palette1 + 255 * 3, 3);
 
 	g_factoryWindowConstructionYard = isConstructionYard; /* always same value as g_factoryWindowConstructionYard */
@@ -2888,6 +3017,11 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	g_factoryWindowOrdered = 0;
 
 	GUI_FactoryWindow_Init();
+
+#if defined(SATURN)
+	/* the pad's focus on the item selected */
+	PadSaturn_FocusWidget(GUI_Widget_Get_ByIndex(g_widgetInvoiceTail, 46 + g_factoryWindowSelected));
+#endif
 
 	GUI_FactoryWindow_UpdateSelection(true);
 
@@ -2931,6 +3065,23 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 			if (*s == '\0') return NULL;
 			return s;
 		}
+
+#if defined(SATURN)
+		case -22: case -21: case -20: {
+			extern char g_saturnWindowStrings[3][52];
+			return g_saturnWindowStrings[-20 - stringID];
+		}
+
+		case -23: {
+			static char label[] = "Camera";
+			return label;
+		}
+
+		case -24: {
+			static char tiles[] = "Tiles", free[] = "Free";
+			return (g_gameConfig.camera != 0) ? free : tiles;
+		}
+#endif
 
 		case -10:
 			stringID = (g_gameConfig.music != 0) ? STR_ON : STR_OFF;
@@ -3180,6 +3331,28 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	Input_History_Clear();
 
 	for (loop = true; loop; sleepIdle()) {
+#if defined(SATURN)
+		{
+			/* with a pad: the focus goes from region to region */
+			int16 x[20], y[20];
+			bool usable[20];
+			int pick;
+
+			for (i = 0; i < count; i++) {
+				x[i] = data[i].offsetX;
+				y[i] = data[i].offsetY;
+				usable[i] = data[i].index != 0;
+			}
+			pick = PadSaturn_PickRegion(x, y, usable, count);
+			if (pick >= 0) {
+				Input_History_Clear();
+				region = data[pick].index;
+				scenarioID = pick;
+				loop = false;
+				continue;
+			}
+		}
+#endif
 		region = GUI_StrategicMap_ClickedRegion();
 
 		if (region == 0) continue;
@@ -3921,6 +4094,11 @@ void GUI_Mouse_Show(void)
 		GFX_CopyToBuffer(s_mouseSpriteLeft * 8, s_mouseSpriteTop, s_mouseSpriteWidth * 8, s_mouseSpriteHeight, g_mouseSpriteBuffer);
 	}
 
+#if defined(SATURN)
+	/* with a pad the focus has a reticle instead (what's under is saved all
+	 * the same, so hiding still puts it back) */
+	if (!PadSaturn_PointerVisible()) return;
+#endif
 	GUI_DrawSprite(SCREEN_0, g_mouseSprite, left, top, 0, 0);
 }
 
@@ -4117,6 +4295,7 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
 
 	screen = GFX_Screen_GetActive();
 	screen += top * SCREEN_WIDTH + left;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, left + width, top + height);
 
 	for (; height > 0; height--) {
 		int i = width;
@@ -4177,6 +4356,7 @@ void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 heigh
 {
 	uint8 *screen = GFX_Screen_Get_ByIndex(screenID);
 
+	GFX_Screen_SetDirty(screenID, left, top, left + width, top + height);
 	screen += top * SCREEN_WIDTH + left;
 	for (; height > 0; height--) {
 		int i;
@@ -4519,6 +4699,7 @@ void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom
 	screen += left + top * SCREEN_WIDTH;
 	width = right - left + 1;
 	height = bottom - top + 1;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, right + 1, bottom + 1);
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < width; x++) {
 			*screen++ ^= colour;
@@ -4566,6 +4747,10 @@ void GUI_DrawScreen(Screen screenID)
 	if (g_selectionType == SELECTIONTYPE_DEBUG) return;
 	if (g_selectionType == SELECTIONTYPE_UNKNOWN6) return;
 	if (g_selectionType == SELECTIONTYPE_INTRO) return;
+
+#if defined(SATURN)
+	Video_MapShow(true);
+#endif
 
 	oldScreenID = GFX_Screen_SetActive(screenID);
 
@@ -4628,6 +4813,9 @@ void GUI_DrawScreen(Screen screenID)
 	}
 
 	g_minimapPosition = g_viewportPosition;
+#if defined(SATURN) && SATURN_HW_MAP
+	Video_MapScroll(Tile_GetPackedX(g_viewportPosition), Tile_GetPackedY(g_viewportPosition));
+#endif
 	g_selectionRectanglePosition = g_selectionPosition;
 
 	if (g_viewportMessageCounter != 0 && s_timerViewportMessage < g_timerGUI) {

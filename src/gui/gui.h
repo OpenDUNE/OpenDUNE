@@ -77,6 +77,9 @@ extern uint16 g_factoryWindowOrdered;
 extern uint16 g_factoryWindowBase;
 extern uint16 g_factoryWindowTotal;
 extern uint16 g_factoryWindowSelected;
+#if defined(SATURN)
+extern uint16 g_factoryWindowFirstType;
+#endif
 extern uint16 g_factoryWindowUpgradeCost;
 extern bool g_factoryWindowConstructionYard;
 extern FactoryResult g_factoryWindowResult;
@@ -159,6 +162,15 @@ extern void GUI_DisplayText(const char *str, int importance, ...);
 extern void GUI_DrawText(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour);
 extern void GUI_DrawText_Wrapper(const char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, int flags, ...);
 extern uint16 GUI_DisplayModalMessage(const char *str, unsigned int stringID, ...);
+#if defined(SATURN)
+/* Ask where to keep saved games and settings: 0 the Saturn's own memory,
+ * 1 the cartridge (free bytes given for each). */
+extern int GUI_Saturn_AskBackupDevice(int32 internalFree, int32 cartridgeFree);
+
+/* If set, GUI_DisplayModalMessage() keeps the message up until it returns
+ * true, instead of until a key is pressed. */
+extern bool (*g_modalMessageUntil)(void);
+#endif
 extern uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID);
 
 extern void GUI_UpdateProductionStringID(void);

@@ -15,6 +15,7 @@
 #include "explosion.h"
 #include "gfx.h"
 #include "gui/gui.h"
+#include "video/video.h"
 #include "gui/widget.h"
 #include "house.h"
 #include "map.h"
@@ -1557,6 +1558,10 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Timer_SetTimer(TIMER_GAME, false);
 
+#if defined(SATURN)
+			/* (the Starport's orders don't keep a choice) */
+			g_factoryWindowFirstType = (s->o.type == STRUCTURE_STARPORT) ? 0xFFFF : s->objectType;
+#endif
 			res = GUI_DisplayFactoryWindow(g_factoryWindowConstructionYard, s->o.type == STRUCTURE_STARPORT ? 1 : 0, upgradeCost);
 
 			Timer_SetTimer(TIMER_GAME, true);
@@ -1566,6 +1571,13 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 			GFX_SetPalette(g_palette1);
 
 			GUI_ChangeSelectionType(SELECTIONTYPE_STRUCTURE);
+
+#if defined(SATURN)
+			/* the window is still what the bitmap shows; hide the map again
+			 * so it is revealed by the viewport's redraw rather than
+			 * showing through the window's transparent background */
+			Video_MapShow(false);
+#endif
 
 			if (res == FACTORY_RESUME) return false;
 

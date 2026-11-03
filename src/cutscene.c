@@ -28,6 +28,9 @@
 #include "table/strings.h"
 #include "timer.h"
 #include "wsa.h"
+#if defined(SATURN)
+#include "loading.h"
+#endif
 
 
 static const HouseAnimation_Subtitle    *s_houseAnimation_subtitle = NULL;    /*!< Subtitle part of animation data. */
@@ -55,6 +58,23 @@ static uint8                s_palettePartChange[18];   /*!< Amount of change of 
 
 bool g_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
+#if defined(SATURN)
+/**
+ * Tell the sound code which feedback the intro speaks after the one of this
+ * subtitle, so its voices can be read from the disc ahead of time.
+ * @param current The current subtitle.
+ */
+static void GameLoop_ExpectFeedback(uint16 current)
+{
+	if (s_feedback_base_index == 0xFFFF || s_houseAnimation_subtitle[current].stringID == 0xFFFF ||
+			s_houseAnimation_subtitle[current + 1].stringID == 0xFFFF) {
+		Sound_Saturn_ExpectFeedback(0xFFFF);
+		return;
+	}
+	Sound_Saturn_ExpectFeedback(s_feedback_base_index + current + 1);
+}
+#endif
+
 static void GameLoop_PrepareAnimation(const HouseAnimation_Subtitle *subtitle, uint16 feedback_base_index, const HouseAnimation_SoundEffect *soundEffect)
 {
 	uint8 i;
@@ -76,6 +96,10 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Subtitle *subtitle, u
 	s_palettePartDirection    = PPD_STOPPED;
 	s_palettePartCount        = 0;
 	s_paletteAnimationTimeout = 0;
+
+#if defined(SATURN)
+	GameLoop_ExpectFeedback(0);
+#endif
 
 	GFX_ClearScreen(SCREEN_ACTIVE);
 
@@ -215,6 +239,9 @@ static void GameLoop_PlaySubtitle(uint8 animation)
 		uint16 feedback_index = s_feedback_base_index + s_houseAnimation_currentSubtitle;
 
 		Sound_Output_Feedback(feedback_index);
+#if defined(SATURN)
+		GameLoop_ExpectFeedback(s_houseAnimation_currentSubtitle);
+#endif
 
 		if (g_feedback[feedback_index].messageId != 0) {
 			/* force drawing of subtitle */
@@ -910,6 +937,9 @@ void GameLoop_GameEndAnimation(void)
 	const HouseAnimation_SoundEffect *soundEffect;
 	uint16 sound;
 
+#if defined(SATURN)
+	Loading_Enable(0);      /* reading as it goes, with its own pictures */
+#endif
 	Voice_LoadVoices(0xFFFE);
 
 	switch (g_playerHouseID) {
@@ -947,6 +977,9 @@ void GameLoop_GameEndAnimation(void)
 	GameLoop_FinishAnimation();
 
 	GameLoop_GameCredits();
+#if defined(SATURN)
+	Loading_Enable(1);
+#endif
 }
 
 /**
@@ -1032,6 +1065,9 @@ logos_exit:
  */
 void GameLoop_GameIntroAnimation(void)
 {
+#if defined(SATURN)
+	Loading_Enable(0);      /* reading as it goes, with its own pictures */
+#endif
 	GUI_ChangeSelectionType(SELECTIONTYPE_INTRO);
 
 	Gameloop_Logos();
@@ -1054,4 +1090,7 @@ void GameLoop_GameIntroAnimation(void)
 	}
 
 	GUI_ChangeSelectionType(SELECTIONTYPE_MENTAT);
+#if defined(SATURN)
+	Loading_Enable(1);
+#endif
 }

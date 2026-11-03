@@ -31,6 +31,9 @@ typedef struct GameCfg {
 	uint16 gameSpeed;                  /*!< 0:Slowest, 1:Slow, 2:Normal, 3:Fast, 4:Fastest. */
 	uint16 hints;                      /*!< 0:Off, 1:On. */
 	uint16 autoScroll;                 /*!< 0:Off, 1:On. */
+#if defined(SATURN)
+	uint16 camera;                     /*!< With a pad, 0:the reticle snaps to tiles, 1:moves freely (Mega Drive). */
+#endif
 } GameCfg;
 
 extern GameCfg g_gameConfig;

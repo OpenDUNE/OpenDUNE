@@ -17,6 +17,9 @@
 #include "../string.h"
 #include "../sprites.h"
 #include "../table/strings.h"
+#if defined(SATURN)
+#include "../input/pad_saturn.h"
+#endif
 
 
 Widget *g_widgetLinkedListHead = NULL;
@@ -47,7 +50,11 @@ WidgetProperties g_widgetProperties[22] = {
 	{12, 140, 16,  42, 236, 233,  0}, /* 13 */
 	{ 2,  89, 36,  60,   0,   0,  0}, /* 14 */
 	{ 4, 110, 32,  12, 232, 235,  0}, /* 15 */
+#if defined(SATURN)
+	{ 5,  40, 30, 150,   0,   0,  0}, /* 16 (one more line: the camera) */
+#else
 	{ 5,  48, 30, 134,   0,   0,  0}, /* 16 */
+#endif
 	{ 3,  36, 36, 148,   0,   0,  0}, /* 17 */
 	{ 1,  72, 38,  52,   0,   0,  0}, /* 18 */
 	{ 0,   0,  0,   0,   0,   0,  0}, /* 19 */
@@ -251,6 +258,10 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 	uint16 returnValue;
 	uint16 key;
 	bool fakeClick;
+
+#if defined(SATURN)
+	PadSaturn_HandleEvents(w);
+#endif
 
 	/* Get the key from the buffer, if there was any key pressed */
 	key = 0;

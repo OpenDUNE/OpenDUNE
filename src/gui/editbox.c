@@ -10,6 +10,9 @@
 #include "../gfx.h"
 #include "../input/input.h"
 #include "../timer.h"
+#if defined(SATURN)
+	#include "../input/pad_saturn.h"
+#endif /* SATURN */
 
 /**
  * Draw a blinking cursor, used inside the EditBox.
@@ -70,6 +73,10 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, Widget *w, uin
 		oldWidgetID = Widget_SetCurrentWidget(widgetID);
 
 		returnValue = 0x0;
+#if defined(SATURN)
+		/* without a keyboard, an on-screen one types; Esc cancels windows */
+		PadSaturn_EditBox(true, w != NULL);
+#endif
 	}
 
 	positionX = g_curWidgetXBase << 3;
@@ -171,6 +178,9 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 widgetID, Widget *w, uin
 
 	/* Deinitialize */
 	{
+#if defined(SATURN)
+		PadSaturn_EditBox(false, false);
+#endif
 		Input_Flags_ClearBits(INPUT_FLAG_NO_TRANSLATE);
 		Input_Flags_SetBits(INPUT_FLAG_KBD_MOUSE_CLK);
 

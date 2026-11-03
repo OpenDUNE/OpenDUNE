@@ -74,6 +74,11 @@
 #ifdef TOS
 #include "rev.h"
 #endif
+#if defined(SATURN)
+#include "backup.h"
+#include "console.h"
+#include "input/pad_saturn.h"
+#endif
 
 
 const char *window_caption = "OpenDUNE - v0.9";
@@ -316,12 +321,14 @@ static void GameLoop_LevelEnd(void)
 
 			GUI_SetPaletteAnimated(g_palette2, 15);
 
+#if !defined(SATURN)
 			if (g_campaignID == 1 || g_campaignID == 7) {
 				if (!GUI_Security_Show()) {
 					PrepareEnd();
 					exit(0);
 				}
 			}
+#endif
 		} else {
 			Sound_Output_Feedback(41);
 
@@ -432,6 +439,10 @@ static uint16 GameLoop_HandleEvents(const char **strings)
 
 	fgColourNormal = props->fgColourNormal;
 	fgColourSelected = props->fgColourSelected;
+
+#if defined(SATURN)
+	PadSaturn_HandleMenu(minX, minY, maxX, lineHeight, last + 1, current);
+#endif
 
 	key = 0;
 	if (Input_IsInputAvailable() != 0) {
@@ -747,10 +758,15 @@ static void GameLoop_GameIntroAnimationMenu(void)
 			GUI_Mouse_Hide_Safe();
 			GUI_SetPaletteAnimated(g_palette2, 30);
 			GUI_ClearScreen(SCREEN_0);
+#if defined(SATURN)
+			/* get the cleared screen onto the bitmap before anything can
+			 * restore the palette, or the menu flashes back for a frame */
+			Video_Repaint();
+#endif
 			GUI_Mouse_Show_Safe();
 
-			GFX_SetPalette(g_palette1);
-
+			/* the palette is restored by GUI_Widget_SaveLoad_Click, once it
+			 * has read the save files, so the screen stays black meanwhile */
 			if (GUI_Widget_SaveLoad_Click(false)) {
 				loadGame = true;
 				if (g_gameMode == GM_RESTART) break;
@@ -982,6 +998,12 @@ static void GameLoop_Main(void)
 	}
 
 	Window_WidgetClick_Create();
+#if defined(SATURN)
+	/* before the first file in backup memory: where to keep them */
+	if (Backup_HasCartridge()) {
+		Backup_Select(GUI_Saturn_AskBackupDevice(Backup_Free(BACKUP_INTERNAL), Backup_Free(BACKUP_CARTRIDGE)) ? BACKUP_CARTRIDGE : BACKUP_INTERNAL);
+	}
+#endif
 	GameOptions_Load();
 	Unit_Init();
 	Team_Init();
@@ -990,10 +1012,18 @@ static void GameLoop_Main(void)
 
 	GUI_Mouse_Show_Safe();
 
+#if defined(SATURN)
+	/* Start skips the intro, from the first time on */
+	g_canSkipIntro = true;
+#else
 	g_canSkipIntro = File_Exists_Personal("ONETIME.DAT");
+#endif
 
 	for (;; sleepIdle()) {
 		if (g_gameMode == GM_MENU) {
+#if defined(SATURN)
+			Video_MapShow(false);
+#endif
 			GameLoop_GameIntroAnimationMenu();
 
 			if (!g_running) break;
@@ -1013,6 +1043,9 @@ static void GameLoop_Main(void)
 		}
 
 		if (g_gameMode == GM_PICKHOUSE) {
+#if defined(SATURN)
+			Video_MapShow(false);
+#endif
 			Music_Play(28);
 
 			g_playerHouseID = HOUSE_MERCENARY;
@@ -1090,6 +1123,10 @@ static void GameLoop_Main(void)
 
 		key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
+#if defined(SATURN)
+		PadSaturn_GameLoop();
+#endif
+
 		if (g_selectionType == SELECTIONTYPE_TARGET || g_selectionType == SELECTIONTYPE_PLACE || g_selectionType == SELECTIONTYPE_UNIT || g_selectionType == SELECTIONTYPE_STRUCTURE) {
 			if (g_unitSelected != NULL) {
 				if (l_timerUnitStatus < g_timerGame) {
@@ -1136,6 +1173,12 @@ static void GameLoop_Main(void)
 	GFX_Screen_SetActive(SCREEN_1);
 
 	GFX_ClearScreen(SCREEN_1);
+#if defined(SATURN) && SATURN_HW_MAP
+	/* Colour 0 on the bitmap is transparent while the map is shown, so a
+	 * dissolve to colour 0 would open holes onto the map and the units
+	 * instead of covering them. Dissolve to the veil's opaque black. */
+	if (Video_MapIsShown()) memset(GFX_Screen_Get_ByIndex(SCREEN_1), 12, SCREEN_WIDTH * SCREEN_HEIGHT);
+#endif
 
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 }
@@ -1295,6 +1338,11 @@ int main(int argc, char **argv)
 	if(g_outlog != NULL) setvbuf(g_outlog, NULL, _IOLBF, 0);
 #endif
 #endif /* DOS */
+#if defined(SATURN)
+	/* messages only go to the log in memory: the screen is the game's;
+	 * errors and crashes still bring the console up */
+	Console_Release();
+#endif
 	CrashLog_Init();
 
 	VARIABLE_NOT_USED(argc);
@@ -1323,11 +1371,17 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+#if defined(SATURN)
+	/* dune.cfg only holds the drivers and the language, fixed on the Saturn:
+	 * not worth backup memory (nor a failed start when it is full) */
+	Config_Default(&g_config);
+#else
 	/* Loading config from dune.cfg */
 	if (!Config_Read("dune.cfg", &g_config)) {
 		Config_Default(&g_config);
 		commit_dune_cfg = true;
 	}
+#endif
 	/* reading config from opendune.ini which prevail over dune.cfg */
 	SetLanguage_From_IniFile(&g_config);
 
@@ -1487,6 +1541,15 @@ void Game_Prepare(void)
 
 	g_tickHousePowerMaintenance = max(g_timerGame + 70, g_tickHousePowerMaintenance);
 	g_viewport_forceRedraw = true;
+#if defined(SATURN) && SATURN_HW_MAP
+	/* the map planes hold the whole map, written once here so scrolling
+	 * never meets an unwritten cell */
+	Video_MapRedrawAll();
+#endif
+#if defined(SATURN) && SATURN_HW_SPRITES
+	/* the sprite set changed with the scenario */
+	Video_MapSpritesReset();
+#endif
 	g_playerCredits = 0xFFFF;
 
 	g_selectionType = oldSelectionType;
@@ -1572,6 +1635,11 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
  */
 void PrepareEnd(void)
 {
+#if !defined(SATURN)
+	/* (On the Saturn there is nothing to give back to: exit() goes to the
+	 * system menu or shows the error. Taking the drivers and screens away
+	 * first would pull them from under the VBlank interrupt, which goes on
+	 * using them.) */
 	free(g_palette_998A); g_palette_998A = NULL;
 
 	GameLoop_Uninit();
@@ -1589,4 +1657,5 @@ void PrepareEnd(void)
 	Timer_Uninit();
 	GFX_Uninit();
 	Video_Uninit();
+#endif /* SATURN */
 }

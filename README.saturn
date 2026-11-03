@@ -1,0 +1,80 @@
+## Building
+
+The port is built on Linux with a GCC cross compiler for the SH-2 and
+Sega's Saturn Basic Library (SBL 6), which is not included.
+
+1. Build the sh-elf toolchain (binutils, GCC 14 with C and C++, newlib);
+   it is installed in saturn/toolchain/install. This needs a C and C++
+   compiler for the host, make, curl, tar with xz and bzip2, and cmp
+   (diffutils); on Fedora:
+
+`dnf install gcc gcc-c++ make diffutils curl tar xz bzip2`
+
+`saturn/toolchain/build-toolchain.sh`
+
+2. Put the SBL 6 in SSSDK/SaturnBasicLibrary6 (the IP objects and the CD
+   block library from SEGALIB/LIB, and the GFS, DMA and CSH sources are
+   used).
+
+3. Put the Dune II files in bin/data (only the PAK archives go
+   on the disc), or give their directory with DATA=..., and build:
+
+`make -C saturn`
+
+This needs xorriso and python3, and makes the disc image
+saturn/build/opendune.cue (with opendune.iso). IMAGE=... names it instead:
+
+`make -C saturn IMAGE="Dune II"`
+
+makes saturn/build/Dune II.cue (with Dune II.iso).
+
+The game has been tested in the Ymir emulator and on the real Sega Saturn hardware.
+
+
+## Controllers
+
+The controller is found by itself, on port 1 or else on port 2. A keyboard
+and a mouse together give the DOS controls. With no controller the game
+pauses with a message until one is connected.
+
+Standard pad (after the Mega Drive version):
+- D-pad: moves the focus between the buttons of the screen; in missions,
+  in camera mode, moves the camera. There are two camera modes, chosen in Game
+  Controls: Tiles scrolls the map a tile at a time under a cursor in the
+  middle of the view; Free moves the cursor freely and scrolls the map
+  smoothly near the edges, as on the Mega Drive.
+- C: in missions, a tap switches between the UI and the camera; held
+  with the D-pad, the camera moves fast.
+- A: the left mouse button (press, select, target, place).
+- B: cancel (Esc).
+- X, Y, Z, R: the command buttons of the selected unit; with a structure
+  selected, X opens its menu, Y repairs or upgrades it and Z presses its
+  build button (a Construction Yard's "Build it", then "Place it").
+- L: held, Shift (Ambush, Area Guard); a tap selects the next unit, C+L the
+  next structure.
+- Start: options; C+Start: the Mentat.
+- A+B+C+Start: back to the BIOS screen.
+
+3D Controller: as the pad, but the D-pad always moves the focus on UI elements and the
+analog stick the camera.
+
+Keyboard: the DOS keys; the arrows work as the D-pad, Space as A and Tab
+as C. (Not actually tested, since I don't have a Saturn Keyboard, and Ymir doesn't support it)
+
+Typing a name (a saved game, the Hall of Fame) without a keyboard brings up
+an on-screen keyboard: the D-pad picks a key, A types it, B deletes and
+Start is OK.
+
+
+## Saving
+
+Saved games and options are kept, compressed, in backup memory. When a
+backup cartridge is connected, the game asks at start whether to use the
+Saturn's own memory or the cartridge.
+
+
+## Sound
+
+The AdLib music and sound effects are played as FM on the Saturn's sound
+chip (SCSP), through Westwood's AdLib driver; voices are played from sound
+RAM.

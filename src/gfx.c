@@ -172,7 +172,19 @@ void GFX_Init(void)
 		totalSize += GFX_Screen_GetSize_ByIndex(i);
 	}
 
+#if defined(SATURN)
+	{
+		/* In the program's area, high work RAM: the SH-2 reaches it several
+		 * times faster than the low work RAM malloc() hands out first, and
+		 * the screens are drawn on and copied all the time. */
+		static uint32 screens[(0xFBF4 + 0xFA00 + 0xFD0D + 3) / 4];
+
+		assert(totalSize <= sizeof(screens));
+		screenBuffers = (uint8 *)screens;
+	}
+#else
 	screenBuffers = calloc(1, totalSize);
+#endif
 
 	for (i = 1; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = screenBuffers;
@@ -193,7 +205,9 @@ void GFX_Uninit(void)
 {
 	int i;
 
+#if !defined(SATURN)
 	free(s_screenBuffer[1]);
+#endif
 
 	for (i = 0; i < GFX_SCREEN_BUFFER_COUNT; i++) {
 		s_screenBuffer[i] = NULL;
@@ -237,6 +251,7 @@ void GFX_DrawTile(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 
 	wptr = GFX_Screen_GetActive();
 	wptr += y * SCREEN_WIDTH + x;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, x, y, x + s_tileWidth * 2, y + s_tileHeight);
 	rptr = g_tilesPixels + (tileID * s_tileByteSize);
 
 	/* tiles with transparent pixels : [1 : 33] U [108 : 122] and 124
@@ -309,6 +324,7 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 	if (x >= SCREEN_WIDTH) return;
 
 	*((uint8 *)GFX_Screen_GetActive() + y * SCREEN_WIDTH + x) = colour;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, x, y, x + 1, y + 1);
 }
 
 /**
@@ -390,6 +406,23 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 	}
 }
 
+#if defined(SATURN)
+/**
+ * A whole-area change of SCREEN_0 is complete: show it now, as the original
+ * did by writing to video memory. Copies and clears are where screens and
+ * windows replace each other, often just before a load during which no tick
+ * would come to copy them.
+ *
+ * @param screenID The screen written to.
+ */
+static void GFX_Screen0Changed(Screen screenID)
+{
+	if (screenID == SCREEN_0 || (screenID == SCREEN_ACTIVE && GFX_Screen_IsActive(SCREEN_0))) Video_Repaint();
+}
+#else
+#define GFX_Screen0Changed(screenID)
+#endif
+
 /**
  * Copy information from one screenbuffer to the other.
  * @param xSrc The X-coordinate on the source.
@@ -442,6 +475,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 			src += SCREEN_WIDTH;
 		}
 	}
+	GFX_Screen0Changed(screenDst);
 }
 
 /**
@@ -451,6 +485,7 @@ void GFX_ClearScreen(Screen screenID)
 {
 	memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 	GFX_Screen_SetDirty(screenID, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	GFX_Screen0Changed(screenID);
 }
 
 /**
@@ -548,6 +583,7 @@ void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 height, uint
 		screen += SCREEN_WIDTH;
 		buffer += width;
 	}
+	GFX_Screen0Changed(SCREEN_0);
 }
 
 /**

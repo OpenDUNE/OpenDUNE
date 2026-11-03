@@ -31,6 +31,9 @@
 #include "../string.h"
 #include "../structure.h"
 #include "../table/strings.h"
+#if defined(SATURN)
+#include "../input/pad_saturn.h"
+#endif
 #include "../tile.h"
 #include "../timer.h"
 #include "../unit.h"
@@ -622,7 +625,15 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 					g_gameConfig.autoScroll ^= 0x1;
 					break;
 
+#if defined(SATURN)
 				case 5:
+					g_gameConfig.camera ^= 0x1;
+					break;
+
+				case 6:
+#else
+				case 5:
+#endif
 					loop = false;
 					break;
 
@@ -691,6 +702,84 @@ static bool GUI_YesNo(uint16 stringID)
 
 	return ret;
 }
+#if defined(SATURN)
+char g_saturnWindowStrings[3][52]; /*!< Strings -20 to -22, see GUI_String_Get_ByIndex(). */
+
+static WindowDesc s_backupWindowDesc = {
+	/* index       */ 18,
+	/* stringID    */ -20,
+	/* addArrows   */ false,
+	/* widgetCount */ 2,
+	{ /* widgets */
+		{ (uint16)-21,   8, 32, 88, 15, STR_NULL, 0 },
+		{ (uint16)-22, 208, 32, 88, 15, STR_NULL, 0 },
+		{ STR_NULL,      0,  0,  0,  0, STR_NULL, 0 },
+	}
+};
+
+/**
+ * Draw the window of s_backupWindowDesc, with a line under its title.
+ *
+ * @param line The line.
+ */
+static void GUI_Saturn_BackupWindow(const char *line)
+{
+	Screen oldScreenID;
+
+	GUI_Window_Create(&s_backupWindowDesc);
+	oldScreenID = GFX_Screen_SetActive(SCREEN_0);
+	GUI_Mouse_Hide_Safe();
+	GUI_DrawText_Wrapper(line, (g_curWidgetXBase << 3) + (g_curWidgetWidth << 2), g_curWidgetYBase + 18, 232, 0, 0x122);
+	GUI_Mouse_Show_Safe();
+	GFX_Screen_SetActive(oldScreenID);
+}
+
+/**
+ * Ask where to keep saved games and settings, when a backup cartridge is
+ * connected. While no controller is connected, the window says so.
+ * @param internalFree Free bytes in the Saturn's own memory.
+ * @param cartridgeFree Free bytes on the cartridge.
+ * @return 0 for the Saturn's own memory, 1 for the cartridge.
+ */
+int GUI_Saturn_AskBackupDevice(int32 internalFree, int32 cartridgeFree)
+{
+	char freeLine[64];
+	int choice = -1;
+	bool connected = !PadSaturn_Connected();   /* so the window is drawn at once */
+
+	snprintf(g_saturnWindowStrings[0], sizeof(g_saturnWindowStrings[0]), "Where should games and settings be saved?");
+	snprintf(g_saturnWindowStrings[1], sizeof(g_saturnWindowStrings[1]), "Onboard RAM");
+	snprintf(g_saturnWindowStrings[2], sizeof(g_saturnWindowStrings[2]), "Cartridge");
+	snprintf(freeLine, sizeof(freeLine), "Onboard RAM: %ld KB free.  Cartridge: %ld KB free.",
+		(long)(internalFree < 0 ? 0 : internalFree / 1024), (long)(cartridgeFree < 0 ? 0 : cartridgeFree / 1024));
+
+	GUI_Window_BackupScreen(&s_backupWindowDesc);
+	PadSaturn_ShowControllerMessage(false);
+
+	while (choice < 0) {
+		uint16 key;
+
+		if (PadSaturn_Connected() != connected) {
+			connected = !connected;
+			GUI_Saturn_BackupWindow(connected ? freeLine : "No controller: connect one to port 1 or 2.");
+		}
+
+		key = GUI_Widget_HandleEvents(g_widgetLinkedListTail);
+		if ((key & 0x8000) != 0) {
+			if ((key & 0x7FFF) == 0x1E) choice = 0;
+			if ((key & 0x7FFF) == 0x1F) choice = 1;
+		}
+
+		GUI_PaletteAnimate();
+		sleepIdle();
+	}
+
+	PadSaturn_ShowControllerMessage(true);
+	GUI_Window_RestoreScreen(&s_backupWindowDesc);
+	return choice;
+}
+#endif
+
 /**
  * Handles Click event for "Options" button.
  *
@@ -868,6 +957,13 @@ static bool GUI_Widget_Savegame_Click(uint16 index)
 
 	if (*saveDesc == '[') *saveDesc = 0;
 
+#if defined(SATURN)
+	/* the pad has no keys to type a name: start from one saying what it is */
+	if (*saveDesc == 0 && g_playerHouseID < HOUSE_MAX) {
+		snprintf(saveDesc, 50, "%s, mission %u", g_table_houseInfo[g_playerHouseID].name, (unsigned int)g_campaignID + 1);
+	}
+#endif
+
 	GUI_Window_BackupScreen(desc);
 
 	GUI_Window_Create(desc);
@@ -902,7 +998,11 @@ static bool GUI_Widget_Savegame_Click(uint16 index)
 			case 0x1E:	/* RETURN / Save Button */
 				if (*saveDesc == 0) break;
 
-				SaveGame_SaveFile(GenerateSavegameFilename(s_savegameIndexBase - index), saveDesc);
+				if (!SaveGame_SaveFile(GenerateSavegameFilename(s_savegameIndexBase - index), saveDesc)) {
+#if defined(SATURN)
+					GUI_DisplayModalMessage("There is not enough room in backup memory to save the game.", 0xFFFF);
+#endif
+				}
 				loop = false;
 				ret = true;
 				break;
@@ -966,6 +1066,12 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 	FillSavegameDesc(save);
 
 	desc->stringID = save ? STR_SELECT_A_POSITION_TO_SAVE_TO : STR_SELECT_A_SAVED_GAME_TO_LOAD;
+
+	/* The caller faded the screen to black before this call, and reading the
+	 * save files above is slow, so the normal palette is only wanted once
+	 * there is a window about to be drawn on top. In game it is already the
+	 * active palette and this does nothing. */
+	GFX_SetPalette(g_palette1);
 
 	GUI_Window_BackupScreen(desc);
 
@@ -1085,6 +1191,20 @@ bool GUI_Widget_HOF_Resume_Click(Widget *w)
  */
 bool GUI_Production_List_Click(Widget *w)
 {
+#if defined(SATURN)
+	/* using the selected item again builds it, as "Build This" does: no
+	 * trip to that button with a pad (not at the Starport, where the button
+	 * sends the whole order) */
+	if (!g_factoryWindowStarport && w->index - 46 == g_factoryWindowSelected) {
+		Widget *build;
+
+		for (build = g_widgetInvoiceTail; build != NULL; build = GUI_Widget_GetNext(build)) {
+			if (build->flags.invisible || build->clickProc != &GUI_Production_BuildThis_Click) continue;
+			return GUI_Production_BuildThis_Click(build);
+		}
+	}
+#endif
+
 	GUI_FactoryWindow_B495_0F30();
 
 	g_factoryWindowSelected = w->index - 46;

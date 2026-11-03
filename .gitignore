@@ -31,3 +31,4 @@ tools/*.pyc
 tools/amigaMXextract
 tools/extractpak
 .*.swp
+SSSDK/
