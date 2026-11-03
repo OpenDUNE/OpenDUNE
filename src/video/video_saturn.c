@@ -707,6 +707,8 @@ typedef struct SpritePattern {
 	const uint8 *sprite;  /*!< the sprite this pattern was baked from */
 	const uint8 *remap;
 	int remapCount;
+	bool shadow;          /*!< a VDP2 normal shadow's silhouette, not the
+	                       * sprite's own colours */
 	bool hasPalette;      /*!< the sprite carries a 16 colour palette */
 	uint8 palette[16];    /*!< and its contents: the viewport hands the same
 	                       * stack buffer in for every house, so the pointer
@@ -731,7 +733,8 @@ uint32 g_vdp1SpriteDropped; /*!< sprites a full command list had no room for */
  * @return The pattern's VRAM address, or 0.
  */
 static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int width, int height,
-                                  const uint8 *palette, const uint8 *remap, int remapCount, int *pitchOut)
+                                  const uint8 *palette, const uint8 *remap, int remapCount, int *pitchOut,
+                                  bool shadow)
 {
 	/* For 256 colour patterns the VDP1 size field counts 16 pixel units,
 	 * so the pattern row must be padded to 16 pixels; a row padded to 8
@@ -746,6 +749,7 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 		entry = &s_spriteCache[i];
 
 		if (entry->sprite != sprite) continue;
+		if (entry->shadow != shadow) continue;
 		if (entry->remap != remap || entry->remapCount != remapCount) continue;
 		if (entry->hasPalette != (palette != NULL)) continue;
 		if (palette != NULL && memcmp(entry->palette, palette, 16) != 0) continue;
@@ -769,6 +773,9 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 				int n = *data++;
 
 				while (n-- > 0 && x < width) dst[x++] = 0;
+			} else if (shadow) {
+				/* the silhouette only: VDP2 darkens what is beneath */
+				dst[x++] = 0xFE;
 			} else {
 				if (palette != NULL) v = palette[v];
 				for (i = 0; i < remapCount; i++) v = remap[v];
@@ -784,6 +791,7 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 	entry->sprite = sprite;
 	entry->remap = remap;
 	entry->remapCount = remapCount;
+	entry->shadow = shadow;
 	entry->hasPalette = (palette != NULL);
 	if (palette != NULL) memcpy(entry->palette, palette, 16);
 	entry->address = address;
@@ -805,6 +813,10 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	uint32 pattern;
 	int pitch;
 	Vdp1Cmd *cmd;
+	/* the remap and blur pair is an air unit's shadow: the software path
+	 * darkens the ground under the sprite through the shadow palette */
+	bool shadow = (flags & (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR)) ==
+	              (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR);
 
 	g_vdp1SpriteCalls++;
 
@@ -812,7 +824,7 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	if (width <= 0 || height <= 0) return true;
 	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
 
-	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch);
+	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch, shadow);
 	if (pattern == 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
 
 	cmd = Vdp1_ListAdd();
@@ -830,8 +842,13 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	/* end codes off: 0xFF is then a colour like the others (VDP1 manual,
 	 * End Code Disable) - the selected unit's marker is drawn in it */
 	cmd->pmod = VDP1_PMOD_COLOR_256 | VDP1_PMOD_ECD;
-	if ((flags & DRAWSPRITE_FLAG_BLUR) != 0) cmd->pmod |= VDP1_PMOD_MESH;
-	cmd->colr = 0;
+	if (!shadow && (flags & DRAWSPRITE_FLAG_BLUR) != 0) cmd->pmod |= VDP1_PMOD_MESH;
+	/* A 256-colour pattern's pixel takes the colour bank's upper byte
+	 * (VDP1 manual, colour mode 4), so bank 0x0700 over the silhouette's
+	 * 0xFE writes 0x07FE: sprite type 0's normal shadow code, every dot
+	 * colour bit set but the lowest (VDP2 manual, chapter 14). VDP2 then
+	 * halves the brightness of the map planes beneath instead of drawing. */
+	cmd->colr = shadow ? 0x0700 : 0;
 	cmd->srca = VDP1_CHAR_ADDR(pattern);
 	cmd->size = (uint16)(((pitch / 16) << 9) | (height & 0x1FF));
 

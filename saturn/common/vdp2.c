@@ -300,6 +300,10 @@ void Vdp2_MapInit(void)
 
 	/* NBG2 under NBG3, both under the sprites (3), NBG0 (6) and NBG1 (7) */
 	VDP2_PRINB = (2 << 8) | 1;
+
+	/* the air units' shadows are normal shadows on the map planes: NBG0 and
+	 * NBG1 sit above the sprites and are never darkened */
+	VDP2_SDCTL = (1 << 3) | (1 << 2); /* N3SDEN, N2SDEN; TPSDSL off */
 }
 
 /**
