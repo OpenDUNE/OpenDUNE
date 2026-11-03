@@ -406,6 +406,23 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 	}
 }
 
+#if defined(SATURN)
+/**
+ * A whole-area change of SCREEN_0 is complete: show it now, as the original
+ * did by writing to video memory. Copies and clears are where screens and
+ * windows replace each other, often just before a load during which no tick
+ * would come to copy them.
+ *
+ * @param screenID The screen written to.
+ */
+static void GFX_Screen0Changed(Screen screenID)
+{
+	if (screenID == SCREEN_0 || (screenID == SCREEN_ACTIVE && GFX_Screen_IsActive(SCREEN_0))) Video_Repaint();
+}
+#else
+#define GFX_Screen0Changed(screenID)
+#endif
+
 /**
  * Copy information from one screenbuffer to the other.
  * @param xSrc The X-coordinate on the source.
@@ -458,6 +475,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 			src += SCREEN_WIDTH;
 		}
 	}
+	GFX_Screen0Changed(screenDst);
 }
 
 /**
@@ -467,6 +485,7 @@ void GFX_ClearScreen(Screen screenID)
 {
 	memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 	GFX_Screen_SetDirty(screenID, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	GFX_Screen0Changed(screenID);
 }
 
 /**
@@ -564,6 +583,7 @@ void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 height, uint
 		screen += SCREEN_WIDTH;
 		buffer += width;
 	}
+	GFX_Screen0Changed(SCREEN_0);
 }
 
 /**
