@@ -954,6 +954,30 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
  * @return True if the hardware took it (or dropped it), false to fall back
  *  to software.
  */
+/**
+ * Turn a queued normal-sprite command into a scaled one, the pattern's
+ * height and its padded pitch drawn at the zoom ratios (8.8 fixed point).
+ */
+static void Video_ScaleCommand(Vdp1Cmd *cmd, uint16 pitch, int16 width, int16 height, uint16 flags,
+                               uint16 zoomX, uint16 zoomY)
+{
+	/* ZP = 0: two vertices, A the upper left and C the lower right of the
+	 * display rectangle (VDP1 manual 7.5) - B holds a width only with a
+	 * zoom point. The command maps the whole pattern, padding included, so
+	 * the X extent follows the pitch: the transparent padding then scales
+	 * away and the visible part lands at the software path's size. */
+	cmd->ctrl = (uint16)((cmd->ctrl & ~0x000F) | VDP1_CMD_SCALED_SPRITE);
+	if ((flags & DRAWSPRITE_FLAG_RTL) != 0) {
+		/* undo the normal path's pull-back, and pull back by the scaled one */
+		cmd->xa += (int16)(pitch - width);
+		cmd->xa -= (int16)((((int32)(pitch - width)) * zoomX) >> 8);
+	}
+	cmd->xc = (int16)(cmd->xa + ((((int32)pitch) * zoomX) >> 8) - 1);
+	cmd->yc = (int16)(cmd->ya + ((((int32)height) * zoomY) >> 8) - 1);
+	/* a reduced pattern skips columns, and an end code read as one could
+	 * end a row early (VDP1 manual, End Code Disable): ECD is set already */
+}
+
 bool Video_MapSpritePattern(uint32 pattern, uint16 pitch, int16 width, int16 height,
                             int16 screenX, int16 screenY, uint16 flags)
 {
@@ -1009,21 +1033,35 @@ bool Video_MapSpritePattern(uint32 pattern, uint16 pitch, int16 width, int16 hei
  */
 bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 height,
                      int16 screenX, int16 screenY, const uint8 *palette, const uint8 *remap,
-                     int remapCount, uint16 flags)
+                     int remapCount, uint16 flags, uint16 zoomX, uint16 zoomY)
 {
 	uint32 pattern;
 	uint16 pitch;
+	bool zoomed = (zoomX != 0x100 || zoomY != 0x100);
 
 	g_vdp1SpriteCalls++;
 
 	if (width <= 0 || height <= 0) return true;
-	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
+	/* nothing left to draw, as the software path's zero-sized sprite */
+	if (((width * zoomX) >> 8) <= 0 || ((height * zoomY) >> 8) <= 0) return true;
 
 	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch,
 	                              Video_SpriteIsShadow(flags));
 	if (pattern == 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
 
-	return Video_MapSpritePattern(pattern, pitch, width, height, screenX, screenY, flags);
+	if (!zoomed) return Video_MapSpritePattern(pattern, pitch, width, height, screenX, screenY, flags);
+
+	{
+		uint32 queued = g_vdp1SpriteQueued;
+
+		Video_MapSpritePattern(pattern, pitch, width, height, screenX, screenY, flags);
+		if (g_vdp1SpriteQueued != queued) {
+			Vdp1Cmd *cmd = Vdp1_ListLast();
+
+			Video_ScaleCommand(cmd, pitch, width, height, flags, zoomX, zoomY);
+		}
+	}
+	return true;
 }
 
 /**

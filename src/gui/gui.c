@@ -996,6 +996,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	uint16 Ycounter = 0;	/* 8.8 fixed point, ie 0x0100 = 1 */
 	const uint8 *spriteSave = NULL;
 	const uint8 *spriteOriginal;
+#if defined(SATURN) && SATURN_HW_SPRITES
+	int16 spriteHeightRaw;  /*!< the height before the zoom, as the pattern has it */
+#endif
 	int16  distX;
 	const uint8 *palette = NULL;
 	uint16 spriteDecodedLength; /* if encoded with Format80 */
@@ -1058,6 +1061,9 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	if ((spriteFlags & 0x1) != 0) flags |= DRAWSPRITE_FLAG_SPRITEPAL;
 
 	spriteHeight = *sprite++;
+#if defined(SATURN) && SATURN_HW_SPRITES
+	spriteHeightRaw = spriteHeight;
+#endif
 	spriteWidth = READ_LE_UINT16(sprite);
 	sprite += 5;
 	spriteDecodedLength = READ_LE_UINT16(sprite);
@@ -1109,8 +1115,10 @@ void GUI_DrawSprite(Screen screenID, const uint8 *sprite, int16 posX, int16 posY
 	if (windowID == 2) {
 		int16 screenX = (g_widgetProperties[windowID].xBase << 3) + posX;
 
-		if (Video_MapSprite(spriteOriginal, sprite, spriteWidth, spriteHeight, screenX, posY,
-		                    palette, remap, remapCount, (uint16)flags)) {
+		if (Video_MapSprite(spriteOriginal, sprite, spriteWidth, spriteHeightRaw, screenX, posY,
+		                    palette, remap, remapCount, (uint16)flags,
+		                    ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) ? zoomRatioX : 0x100,
+		                    ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) ? zoomRatioY : 0x100)) {
 			return;
 		}
 	}

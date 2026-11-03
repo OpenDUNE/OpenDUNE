@@ -181,6 +181,16 @@ Vdp1Cmd *Vdp1_ListAdd(void)
 }
 
 /**
+ * The command added last to the list being built.
+ *
+ * @return It.
+ */
+Vdp1Cmd *Vdp1_ListLast(void)
+{
+	return (Vdp1Cmd *)(VDP1_VRAM + s_listBuild) + (s_listCount - 1);
+}
+
+/**
  * Finish the list being built with a draw end command; it is switched in at
  * the next vertical blank.
  */

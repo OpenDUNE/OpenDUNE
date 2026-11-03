@@ -98,6 +98,7 @@ enum {
 extern void Vdp1_Init(int clipBottom);
 extern void Vdp1_ListBegin(void);
 extern Vdp1Cmd *Vdp1_ListAdd(void);
+extern Vdp1Cmd *Vdp1_ListLast(void);
 extern void Vdp1_ListCommit(void);
 extern void Vdp1_ListVBlank(void);
 extern void Vdp1_ListReset(void);
