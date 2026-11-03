@@ -43,6 +43,7 @@ enum {
 static uint32 s_framebufferMemory[(SCREEN_WIDTH * (SCREEN_HEIGHT + EXTRA_LINES) + 3) / 4];
 static uint8 *s_framebuffer = NULL;
 static bool s_mapVisible;      /*!< the map planes are showing */
+static bool s_mapWanted;       /*!< the game asked for them (Video_MapShow) */
 uint32 g_videoSpriteFallback; /*!< a viewport sprite fell back to software */
 uint32 g_videoViewportStray;  /*!< sprites drawn in software over the shown map */
 static bool s_repaintAll = true;
@@ -115,6 +116,7 @@ static volatile int s_mapNameCount = 0;
 
 static void MapWriteTile(uint16 packed);
 static void Video_QueueRect(int left, int top, int right, int bottom);
+static uint8 Video_MapPixel(int x, int y);
 
 /**
  * Copy one row's dirty columns of SCREEN_0 to the bitmap, in 32-bit words.
@@ -557,25 +559,30 @@ void Video_MapMask(void)
 void Video_MapShow(bool show)
 {
 #if SATURN_HW_MAP
-	/* Showing the map over a bitmap that still holds the previous screen
-	 * (a briefing, say) would leave that screen covering the map, because
-	 * NBG0 is opaque where it is not colour 0 and the viewport rows are no
-	 * longer copied. Clear that area once, as the map appears - in the
-	 * vertical blank, like every other write into the bitmap. */
-	if (show && !s_mapVisible) {
-		/* SCREEN_0 too: the viewport is drawn into SCREEN_1 and never
-		 * copied, so the old screen would otherwise stay there and come
-		 * back over the map with the next copy of those rows */
-		uint8 *p = s_framebuffer + 40 * SCREEN_WIDTH;
-		int row;
+	/* The game asks for the map when it switches to a mission's selection,
+	 * which comes before the screen is drawn - and often before a load.
+	 * The layers wait for the viewport's first drawing (Video_MapFlush), so
+	 * the map does not show through whatever screen is still up. */
+	s_mapWanted = show;
+	if (show || !s_mapVisible) return;
 
-		for (row = 0; row < 160; row++, p += SCREEN_WIDTH) memset(p, 0, 240);
-		s_clearViewport = true;
+	/* Hidden, the map leaves its last picture in the viewport, as the
+	 * original's screen kept it until the next one covered it: drawn into
+	 * SCREEN_0 from the tiles (the units go; the bitmap is in front of them
+	 * anyway once its colour 0 is opaque again). */
+	{
+		int x, y;
+
+		for (y = 40; y < 200; y++) {
+			uint8 *p = s_framebuffer + y * SCREEN_WIDTH;
+
+			for (x = 0; x < 240; x++) p[x] = Video_MapPixel(x, y);
+		}
+		GFX_Screen_SetDirty(SCREEN_0, 0, 40, 240, 200);
+		Video_Repaint();
 	}
-#endif
-	s_mapVisible = show;
-#if SATURN_HW_MAP
-	Vdp2_MapShow(show);
+	s_mapVisible = false;
+	Vdp2_MapShow(0);
 #else
 	VARIABLE_NOT_USED(show);
 #endif
@@ -585,10 +592,39 @@ void Video_MapShow(bool show)
 	 * rebuild the command list and the last mission's sprites would stay
 	 * on VDP1 for ever. Commit an empty list: VDP1 then erases the frame
 	 * buffer to the transparent colour every frame. */
-	if (!show) {
-		Vdp1_ListBegin();
-		Vdp1_ListCommit();
-	}
+	Vdp1_ListBegin();
+	Vdp1_ListCommit();
+#endif
+}
+
+/**
+ * Switch the map's layers on, the first time the viewport is drawn after
+ * the game asked for the map.
+ */
+static void Video_MapAppear(void)
+{
+#if SATURN_HW_MAP
+	/* Showing the map over a bitmap that still holds the previous screen
+	 * (a briefing, say) would leave that screen covering the map, because
+	 * NBG0 is opaque where it is not colour 0 and the viewport rows are no
+	 * longer copied. Clear that area once, as the map appears - SCREEN_0
+	 * too: the viewport is drawn into SCREEN_1 and never copied, so the old
+	 * screen would otherwise stay there and come back over the map with the
+	 * next copy of those rows. The bitmap's clear and the layers' switch
+	 * happen together in the vertical blank. */
+	uint8 *p = s_framebuffer + 40 * SCREEN_WIDTH;
+	int row;
+	uint32 sr;
+
+	if (!s_mapWanted || s_mapVisible) return;
+
+	for (row = 0; row < 160; row++, p += SCREEN_WIDTH) memset(p, 0, 240);
+	sr = Cpu_DisableInterrupts();
+	if (!s_clearViewport) s_clearFill = 0;
+	s_clearViewport = true;
+	Cpu_RestoreInterrupts(sr);
+	s_mapVisible = true;
+	Vdp2_MapShow(1);
 #endif
 }
 
@@ -1406,6 +1442,7 @@ void Video_MapSpritesBegin(void)
 void Video_MapFlush(void)
 {
 	Vdp1_ListCommit();
+	Video_MapAppear();
 }
 
 /**
