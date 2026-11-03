@@ -914,10 +914,12 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 
 #if defined(SATURN) && SATURN_HW_MAP && SATURN_HW_SPRITES
 				/* The viewport buffer is normally empty - the map is on
-				 * VDP2 and the sprites are on VDP1 - but a sprite the
-				 * hardware could not take (a zoomed one) is drawn here in
-				 * software, and that does have to reach SCREEN_0. */
-				if (g_videoSpriteFallback == 0) {
+				 * VDP2 and the sprites are on VDP1 - but two things are
+				 * still drawn here in software and have to reach SCREEN_0:
+				 * a sprite the hardware could not take, and the viewport
+				 * message in row 6 (its background is colour 0, so on the
+				 * bitmap only the letters cover the map). */
+				if (g_videoSpriteFallback == 0 && i != 6) {
 					VARIABLE_NOT_USED(x);
 					VARIABLE_NOT_USED(y);
 					VARIABLE_NOT_USED(width);
