@@ -137,6 +137,13 @@ static void Timer_InterruptRun(int arg)
 #if defined(TOS) || defined(DOS) || defined(SATURN)
 void SleepAndProcessBackgroundTasks(void)
 {
+#if defined(SATURN)
+	/* Nothing else throttles the loop on the Saturn: the hardware draws the
+	 * map and the sprites, so a pass costs a fraction of a frame and would
+	 * rebuild the sprite list many times per picture. Wait for the frame;
+	 * the timers below catch up by the time that passed. */
+	SaturnTimer_WaitFrame();
+#endif
 	Timer_InterruptRun(0);
 }
 

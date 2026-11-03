@@ -14,6 +14,7 @@ static volatile uint32_t s_frames;
 static volatile uint16_t s_frameStart; /*!< free-running timer at the last VBlank */
 static uint32_t s_frameRate = 60;
 static void (*volatile s_vblankHook)(void);
+static volatile int s_waiting;  /*!< the main loop is parked in SaturnTimer_WaitFrame() */
 
 static uint16_t SaturnTimer_FrtRead(void);
 
@@ -128,6 +129,32 @@ uint64_t SaturnTimer_Us(void)
 	last = now;
 	Cpu_RestoreInterrupts(sr);
 	return now;
+}
+
+/**
+ * Wait for the next VBlank-in interrupt to have run. While the display is
+ * off no interrupt may come, so give up after far longer than a frame.
+ */
+void SaturnTimer_WaitFrame(void)
+{
+	uint32_t frame = s_frames;
+	uint32_t polls;
+
+	s_waiting = 1;
+	for (polls = 0; polls < 2000000UL && s_frames == frame; polls++) {}
+	s_waiting = 0;
+}
+
+/**
+ * Whether the main loop is parked in SaturnTimer_WaitFrame(): asked by the
+ * VBlank hook, which may then read what the loop draws without catching it
+ * half done.
+ *
+ * @return True if it is.
+ */
+int SaturnTimer_MainWaiting(void)
+{
+	return s_waiting;
 }
 
 /**

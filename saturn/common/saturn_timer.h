@@ -15,6 +15,10 @@ extern uint64_t SaturnTimer_Us(void);
 
 extern void SaturnTimer_DelayUs(uint32_t us);
 
+extern void SaturnTimer_WaitFrame(void);
+
+extern int SaturnTimer_MainWaiting(void);
+
 extern void SaturnTimer_SetVBlankHook(void (*hook)(void));
 
 #endif /*!< SATURN_TIMER_H */
