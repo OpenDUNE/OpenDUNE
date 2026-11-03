@@ -67,8 +67,6 @@ static volatile uint32 s_paletteAfter = 0; /*!< the palette waits for this s_row
 static int s_paletteHeld = 0;              /*!< blanks the palette has waited */
 static uint32 s_mainBusySince = 0;         /*!< frame the main loop was last parked */
 static uint32 s_busyRepaint = 0;           /*!< frame the busy loop's screen was last queued whole */
-static bool s_clearViewport = false;       /*!< the map appeared: clear its area */
-static uint32 s_clearFill = 0;             /*!< to this, four pixels at a time */
 
 /* The hook's share of the vertical blank: 39 lines on NTSC (about 2.5 ms),
  * 57 on PAL (3.6 ms); the rest is left for its other work and lateness. */
@@ -165,18 +163,6 @@ static void Video_CopyPending(void)
 		Video_QueueRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 
-	if (s_clearViewport) {
-		/* the map appeared: its area of the bitmap goes transparent */
-		volatile uint32 *p = (volatile uint32 *)(VDP2_BITMAP + (s_top + 40) * VDP2_BITMAP_PITCH);
-		int row, n;
-
-		for (row = 0; row < 160; row++, p += VDP2_BITMAP_PITCH / 4) {
-			for (n = 0; n < 240 / 4; n++) p[n] = s_clearFill;
-		}
-		s_clearViewport = false;
-		s_clearFill = 0;
-	}
-
 	while (s_rowsPending > 0 && done < SCREEN_HEIGHT) {
 		int y = s_rowCursor;
 
@@ -243,7 +229,7 @@ static void Video_VBlank(void)
 	if (s_framebuffer != NULL) Video_CopyPending();
 	/* the map's layers switch once its area of the bitmap is clear, so the
 	 * old screen does not show through for a frame */
-	if (!s_clearViewport) Vdp2_LayersVBlank();
+	Vdp2_LayersVBlank();
 	Video_PalettePending();
 
 	/* write the queued pattern names while the display isn't reading VRAM */
@@ -530,24 +516,39 @@ bool Video_MapIsShown(void)
 }
 
 /**
- * Cover the map's viewport with opaque black on SCREEN_0 and the bitmap, for
- * the mission's fade-in to uncover block by block.
+ * Fill the map's viewport, on SCREEN_0 and on the bitmap at once, and switch
+ * the map's layers on (from the next vertical blank, by when the bitmap is
+ * filled). Written straight into the bitmap rather than left to a later
+ * blank: what is copied over it meanwhile (the fade's first blocks) would
+ * otherwise be covered again.
+ *
+ * @param fill The colour: 0 shows the map, 12 covers it in black.
+ */
+static void Video_MapAppearFilled(uint8 fill)
+{
+	uint32 fill4 = fill * 0x01010101U;
+	int row;
+
+	for (row = 40; row < 200; row++) {
+		volatile uint32 *dst = (volatile uint32 *)(VDP2_BITMAP + (s_top + row) * VDP2_BITMAP_PITCH);
+		int n;
+
+		memset(s_framebuffer + row * SCREEN_WIDTH, fill, 240);
+		for (n = 0; n < 240 / 4; n++) dst[n] = fill4;
+	}
+	s_mapVisible = true;
+	Vdp2_MapShow(1);
+}
+
+/**
+ * Cover the map's viewport with opaque black (12, the veil's colour) and
+ * switch the map on behind it, for the mission's fade-in to uncover block by
+ * block.
  */
 void Video_MapMask(void)
 {
-	uint8 *p = s_framebuffer + 40 * SCREEN_WIDTH;
-	uint32 sr;
-	int row;
-
-	/* 12 is black in every game palette (the veil's colour) */
-	for (row = 0; row < 160; row++, p += SCREEN_WIDTH) memset(p, 12, 240);
-
-	/* the hook's clear lays it on the bitmap, in the blank the map's
-	 * layers switch in, so the map never shows before the fade */
-	sr = Cpu_DisableInterrupts();
-	s_clearFill = 0x0C0C0C0CU;
-	s_clearViewport = true;
-	Cpu_RestoreInterrupts(sr);
+	s_mapWanted = true;
+	Video_MapAppearFilled(12);
 }
 
 /**
@@ -599,32 +600,22 @@ void Video_MapShow(bool show)
 
 /**
  * Switch the map's layers on, the first time the viewport is drawn after
- * the game asked for the map.
+ * the game asked for the map - unless the mission's fade-in is still to
+ * come, which covers the viewport and switches them on itself
+ * (Video_MapMask).
  */
 static void Video_MapAppear(void)
 {
 #if SATURN_HW_MAP
 	/* Showing the map over a bitmap that still holds the previous screen
 	 * (a briefing, say) would leave that screen covering the map, because
-	 * NBG0 is opaque where it is not colour 0 and the viewport rows are no
-	 * longer copied. Clear that area once, as the map appears - SCREEN_0
-	 * too: the viewport is drawn into SCREEN_1 and never copied, so the old
-	 * screen would otherwise stay there and come back over the map with the
-	 * next copy of those rows. The bitmap's clear and the layers' switch
-	 * happen together in the vertical blank. */
-	uint8 *p = s_framebuffer + 40 * SCREEN_WIDTH;
-	int row;
-	uint32 sr;
+	 * NBG0 is opaque where it is not colour 0. Clear that area as the map
+	 * appears - SCREEN_0 too: the viewport is drawn into SCREEN_1 and never
+	 * copied, so the old screen would otherwise come back over the map with
+	 * the next copy of those rows. */
+	if (!s_mapWanted || s_mapVisible || g_viewport_fadein) return;
 
-	if (!s_mapWanted || s_mapVisible) return;
-
-	for (row = 0; row < 160; row++, p += SCREEN_WIDTH) memset(p, 0, 240);
-	sr = Cpu_DisableInterrupts();
-	if (!s_clearViewport) s_clearFill = 0;
-	s_clearViewport = true;
-	Cpu_RestoreInterrupts(sr);
-	s_mapVisible = true;
-	Vdp2_MapShow(1);
+	Video_MapAppearFilled(0);
 #endif
 }
 

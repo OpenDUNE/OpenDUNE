@@ -883,8 +883,8 @@ void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMai
 			 * colour 0 then uncover the map and the sprites in the
 			 * original's order and time. The sprites go up now, under
 			 * the cover. */
-			Video_MapFlush();
 			Video_MapMask();
+			Video_MapFlush();
 #else
 			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 			if (g_dune2_enhanced) {
