@@ -36,7 +36,7 @@
 enum {
 	VDP2_BITMAP_PITCH = 512, /*!< NBG0 bitmap is 512x256, 1 byte per pixel */
 	VDP2_DISPLAY_W = 320,
-	VDP2_DISPLAY_H = 224,
+	VDP2_CONSOLE_H = 224, /*!< the console's lines, on either standard */
 	VDP2_OVERLAY_OFFSET = 0x60000, /*!< NBG1 in VRAM: bank B1 */
 	/* overlay colours (0 is transparent) */
 	VDP2_OVERLAY_CLEAR = 0,
@@ -60,6 +60,11 @@ enum {
 
 /* Pixel (0, 0) of the NBG0 bitmap in VRAM. */
 #define VDP2_BITMAP ((volatile uint8_t *)0x25E00000UL)
+
+/*! The lines the display shows: 224 on NTSC, 256 on PAL. Set by
+ * Vdp2_BitmapInit() from the broadcast standard, before anything places the
+ * picture or its border. */
+extern int g_vdp2DisplayH;
 
 extern void Vdp2_BitmapInit(void);
 extern void Vdp2_DisplayOn(void);

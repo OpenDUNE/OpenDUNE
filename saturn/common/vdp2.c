@@ -9,6 +9,8 @@
 #include "saturn_hw.h"
 #include "vdp2.h"
 
+int g_vdp2DisplayH = 224;
+
 /* far more polls than a frame takes */
 #define VBLANK_POLLS_MAX 1000000UL
 
@@ -67,6 +69,10 @@ void Vdp2_BitmapInit(void)
 	 * one once it is off would wait in vain) */
 	Vdp2_VBlankWait();
 	VDP2_TVMD = 0x0000;
+
+	/* the broadcast standard decides the line count; on PAL the picture
+	 * is centred in 256 lines (Vdp2_DisplayOn) */
+	g_vdp2DisplayH = (VDP2_TVSTAT & VDP2_TVSTAT_PAL) ? 256 : 224;
 
 	/* Everything else as at power on: a boot menu (SAROO's, a cartridge's)
 	 * leaves its colour offset, colour calculation, windows, line scroll
@@ -225,7 +231,8 @@ void Vdp2_OverlayPixel(int x, int y, int colour)
 void Vdp2_DisplayOn(void)
 {
 	/* DISP on, border shows the back screen, 320x224 non-interlaced */
-	VDP2_TVMD = 0x8000 | 0x0100;
+	/* VRESO = 10b: 256 lines, PAL only */
+	VDP2_TVMD = 0x8000 | 0x0100 | ((g_vdp2DisplayH == 256) ? (2 << 4) : 0);
 }
 
 /**

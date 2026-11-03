@@ -20,7 +20,7 @@ enum {
 	LENGTH = 10,       /*!< "LOADING..." */
 	/* right-aligned in the border under the 320x200 picture (lines 212-223) */
 	TEXT_X = VDP2_DISPLAY_W - 8 - LENGTH * 8,
-	TEXT_Y = VDP2_DISPLAY_H - 10
+	TEXT_BOTTOM = 10 /*!< lines from the display's bottom */
 };
 
 static volatile uint32_t s_alive = 0;   /*!< frame of the last video tick, 0 before the first */
@@ -45,7 +45,7 @@ static void Loading_DrawText(const char *text, int colour)
 		const uint8_t *glyph = Console_Glyph(text[i]);
 		for (y = 0; y < 8; y++) {
 			for (x = 0; x < 8; x++) {
-				Vdp2_OverlayPixel(TEXT_X + i * 8 + x, TEXT_Y + y, ((glyph[y] >> x) & 1) ? colour : VDP2_OVERLAY_CLEAR);
+				Vdp2_OverlayPixel(TEXT_X + i * 8 + x, g_vdp2DisplayH - TEXT_BOTTOM + y, ((glyph[y] >> x) & 1) ? colour : VDP2_OVERLAY_CLEAR);
 			}
 		}
 	}

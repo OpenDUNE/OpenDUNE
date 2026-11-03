@@ -32,8 +32,10 @@
 #include "vdp1.h"
 #include "vdp2.h"
 
+/* the border above the 320x200 picture: 12 lines on NTSC, 28 on PAL */
+static int s_top = (224 - 200) / 2;
+
 enum {
-	TOP = (VDP2_DISPLAY_H - SCREEN_HEIGHT) / 2,
 	EXTRA_LINES = 4 /*!< Video_SetOffset() shows up to 4 lines further down */
 };
 
@@ -125,7 +127,7 @@ static void Video_CopyRow(int y)
 	int left = s_rowLeft[y];
 	int right = s_rowRight[y];
 	const uint32 *src = (const uint32 *)(s_framebuffer + y * SCREEN_WIDTH + left);
-	volatile uint32 *dst = (volatile uint32 *)(VDP2_BITMAP + (TOP + y) * VDP2_BITMAP_PITCH + left);
+	volatile uint32 *dst = (volatile uint32 *)(VDP2_BITMAP + (s_top + y) * VDP2_BITMAP_PITCH + left);
 	int n;
 
 	for (n = (right - left) >> 2; n > 0; n--) *dst++ = *src++;
@@ -154,7 +156,7 @@ static void Video_CopyPending(void)
 
 	if (s_clearViewport) {
 		/* the map appeared: its area of the bitmap goes transparent */
-		volatile uint32 *p = (volatile uint32 *)(VDP2_BITMAP + (TOP + 40) * VDP2_BITMAP_PITCH);
+		volatile uint32 *p = (volatile uint32 *)(VDP2_BITMAP + (s_top + 40) * VDP2_BITMAP_PITCH);
 		int row, n;
 
 		for (row = 0; row < 160; row++, p += VDP2_BITMAP_PITCH / 4) {
@@ -277,10 +279,12 @@ bool Video_Init(int screen_magnification, VideoScaleFilter filter)
 	if (VDP2_TVSTAT & VDP2_TVSTAT_PAL) s_vblankBudgetUs = VBLANK_BUDGET_US_PAL;
 	SaturnTimer_SetVBlankHook(Video_VBlank);
 	Vdp2_BitmapInit();
-	Vdp1_Init();
+	s_top = (g_vdp2DisplayH - SCREEN_HEIGHT) / 2;
+	/* the sprites reach down to the viewport's bottom, at game y 199 */
+	Vdp1_Init(s_top + 199);
 	Vdp2_MapInit();
 	/* window the map planes to the viewport: 240x160 at game y 40 */
-	Vdp2_MapWindow(0, TOP + 40, 239, TOP + 40 + 159);
+	Vdp2_MapWindow(0, s_top + 40, 239, s_top + 40 + 159);
 	Vdp2_DisplayOn();
 	s_repaintAll = true;
 	return true;
@@ -698,7 +702,7 @@ void Video_MapRedrawAll(void)
 void Video_MapScroll(int viewportX, int viewportY)
 {
 	int x = viewportX * 16;
-	int y = viewportY * 16 - (TOP + 40);
+	int y = viewportY * 16 - (s_top + 40);
 	uint32 sr;
 
 	if (s_mapScrollX == x && s_mapScrollY == y) return;
@@ -847,7 +851,7 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	/* the vertex coordinate is a 10-bit signed integer, its sign
 	 * extended over the top six bits; there is no fractional part */
 	cmd->xa = screenX;
-	cmd->ya = (int16)(screenY + TOP);
+	cmd->ya = (int16)(screenY + s_top);
 
 	/* A pattern's rows are padded to 16 pixels with the spare columns on
 	 * the right, so a horizontal flip moves the live pixels pitch - width
@@ -922,9 +926,9 @@ void Video_MapLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 	cmd->pmod = VDP1_PMOD_COLOR_16; /* non-textured: CMDCOLR is the colour */
 	cmd->colr = colour;
 	cmd->xa = x1;
-	cmd->ya = (int16)(y1 + TOP);
+	cmd->ya = (int16)(y1 + s_top);
 	cmd->xb = x2;
-	cmd->yb = (int16)(y2 + TOP);
+	cmd->yb = (int16)(y2 + s_top);
 }
 
 /**

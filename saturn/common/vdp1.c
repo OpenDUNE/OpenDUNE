@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "vdp1.h"
+#include "vdp2.h"
 
 enum {
 	/* the jump command is 32 bytes at 0, then two command lists of 0x47E0
@@ -30,6 +31,7 @@ static uint32_t s_listBuild;  /*!< the list the game loop fills */
 static uint32_t s_listActive; /*!< the list VDP1 draws */
 static int s_listCount;       /*!< commands in the build list */
 static bool s_listPending;    /*!< a finished list waits for the vertical blank */
+static int s_clipBottom = 211; /*!< the system clip's last line */
 static int16_t s_localY = 0;  /*!< the local coordinate every list starts with */
 
 static uint32_t s_patternNext; /*!< next free byte in the pattern area */
@@ -48,7 +50,7 @@ uint32_t g_vdp1AddTrace[8];    /*!< diagnostics: commands added since the last b
  * Set VDP1 up: a 16 bpp one-cycle frame buffer, erased to colour 0 over the
  * whole picture, drawing automatically each frame from an empty command list.
  */
-void Vdp1_Init(void)
+void Vdp1_Init(int clipBottom)
 {
 	Vdp1Cmd *jump;
 
@@ -60,11 +62,12 @@ void Vdp1_Init(void)
 	/* one-cycle frame buffer, changes each field */
 	VDP1_FBCR = 0x0000;
 
-	/* erase to colour 0 (transparent) from (0, 0) to (320, 223); the
-	 * horizontal coordinates are in units of 8 pixels */
+	/* erase to colour 0 (transparent) over the whole display: (0, 0) to
+	 * (319, last line); the horizontal coordinates are in units of 8 pixels */
 	VDP1_EWDR = 0x0000;
 	VDP1_EWLR = 0x0000;
-	VDP1_EWRR = (40 << 9) | 223;
+	VDP1_EWRR = (40 << 9) | (g_vdp2DisplayH - 1);
+	s_clipBottom = clipBottom;
 
 	/* draw automatically at the start of every frame (PTM = 10B) */
 	VDP1_PTMR = 0x0002;
@@ -119,7 +122,7 @@ void Vdp1_ListBegin(void)
 	memset(clip, 0, sizeof(*clip));
 	clip->ctrl = 0x0009; /* system clipping coordinate set */
 	clip->xc = 239; /* the viewport is 240x160 at display (0,52) */
-	clip->yc = 211;
+	clip->yc = s_clipBottom;
 	/* The clipping area's upper left is fixed at (0,0) whoever we are, but
 	 * VDP1 leaves a stray pixel at the command's vertex, so put that
 	 * vertex off the picture. */

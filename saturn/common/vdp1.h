@@ -92,7 +92,7 @@ enum {
 
 /* The command list is built while the previous one is drawn; the CPU switches
  * to the one it just built in the vertical blank. */
-extern void Vdp1_Init(void);
+extern void Vdp1_Init(int clipBottom);
 extern void Vdp1_ListBegin(void);
 extern Vdp1Cmd *Vdp1_ListAdd(void);
 extern void Vdp1_ListCommit(void);

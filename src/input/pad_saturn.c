@@ -99,7 +99,6 @@ enum {
 	CAMERA_X = 7 * 16 + 8,
 	CAMERA_Y = 40 + 5 * 16 + 8,
 	/* the 320x200 picture is centred in the 224 lines shown (video_saturn.c) */
-	OVERLAY_TOP = (VDP2_DISPLAY_H - SCREEN_HEIGHT) / 2,
 	/* the map view, for the free camera's cursor: off the strips along its
 	 * left, top and bottom edges (widgets 39-42, edges included), where the
 	 * engine scrolls the map for a mouse resting there; pushing against
@@ -768,7 +767,7 @@ static void PadSaturn_Brackets(int x, int y, int w, int h, int light, int dark)
 
 	/* just outside the rectangle, clear of what's written in it */
 	x -= 3;
-	y += OVERLAY_TOP - 3;
+	y += (g_vdp2DisplayH - SCREEN_HEIGHT) / 2 - 3;
 	x1 = x + w + 5;
 	y1 = y + h + 5;
 
