@@ -701,10 +701,16 @@ void Video_MapScroll(int viewportX, int viewportY)
 
 /* --- VDP1 sprites -------------------------------------------------------- */
 
-#define SPRITE_CACHE_MAX 512
+/* The pattern cache: an open-addressing hash table, since every sprite of
+ * every frame looks its pattern up here. When it or the pattern space is
+ * full, the least recently used pattern that no list VDP1 may still draw is
+ * rebuilt in its place (same address, new contents) - the allocator never
+ * frees. */
+#define SPRITE_CACHE_MAX 512  /*!< patterns kept */
+#define SPRITE_HASH_MAX 1024  /*!< table slots: at most half full, so probes stay short */
 
 typedef struct SpritePattern {
-	const uint8 *sprite;  /*!< the sprite this pattern was baked from */
+	const uint8 *sprite;  /*!< the sprite this pattern was baked from; NULL: a free slot */
 	const uint8 *remap;
 	int remapCount;
 	bool shadow;          /*!< a VDP2 normal shadow's silhouette, not the
@@ -714,10 +720,12 @@ typedef struct SpritePattern {
 	                       * stack buffer in for every house, so the pointer
 	                       * alone cannot tell two houses apart */
 	uint32 address;
+	uint32 bytes;         /*!< the VRAM the pattern's space holds */
 	uint16 pitch;
+	uint32 gen;           /*!< the last command list that used it */
 } SpritePattern;
 
-static SpritePattern s_spriteCache[SPRITE_CACHE_MAX];
+static SpritePattern s_spriteCache[SPRITE_HASH_MAX];
 static int s_spriteCacheCount = 0;
 
 /* diagnostics for the VDP1 sprite path */
@@ -725,43 +733,181 @@ uint32 g_vdp1SpriteCalls;
 uint32 g_vdp1SpriteQueued;
 uint32 g_vdp1SpriteRejected;
 uint32 g_vdp1SpriteDropped; /*!< sprites a full command list had no room for */
+uint32 g_vdp1SpriteRebuilt; /*!< patterns rebuilt over an evicted one */
+
+/**
+ * Whether the draw flags make an air unit's shadow: the remap and blur pair,
+ * which the software path draws by darkening the ground under the sprite.
+ */
+static bool Video_SpriteIsShadow(uint16 flags)
+{
+	return (flags & (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR)) ==
+	       (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR);
+}
+
+/**
+ * The home slot of a pattern's key. The palette's ends take part, so two
+ * houses sharing a sprite start apart.
+ */
+static uint32 SpritePatternHash(const uint8 *sprite, const uint8 *remap, int remapCount, const uint8 *palette, bool shadow)
+{
+	uint32 h = (uint32)(size_t)sprite;
+
+	h ^= h >> 15;
+	h *= 0x2545F491U;
+	h ^= (uint32)(size_t)remap + (uint32)remapCount;
+	h *= 0x2545F491U;
+	if (palette != NULL) h ^= (uint32)(palette[1] | (palette[15] << 8)) * 0x9E3779B1U;
+	if (shadow) h ^= 0x55555555U;
+	h ^= h >> 13;
+	return h & (SPRITE_HASH_MAX - 1);
+}
+
+/**
+ * Whether an entry was baked from this key.
+ */
+static bool SpritePatternMatch(const SpritePattern *e, const uint8 *sprite, const uint8 *remap, int remapCount, const uint8 *palette, bool shadow)
+{
+	if (e->sprite != sprite || e->shadow != shadow) return false;
+	if (e->remap != remap || e->remapCount != remapCount) return false;
+	if (e->hasPalette != (palette != NULL)) return false;
+	return palette == NULL || memcmp(e->palette, palette, 16) == 0;
+}
+
+/**
+ * The slot holding this key, or the free slot it would take.
+ */
+static uint32 SpritePatternProbe(const uint8 *sprite, const uint8 *remap, int remapCount, const uint8 *palette, bool shadow)
+{
+	uint32 slot = SpritePatternHash(sprite, remap, remapCount, palette, shadow);
+
+	while (s_spriteCache[slot].sprite != NULL &&
+	       !SpritePatternMatch(&s_spriteCache[slot], sprite, remap, remapCount, palette, shadow)) {
+		slot = (slot + 1) & (SPRITE_HASH_MAX - 1);
+	}
+	return slot;
+}
+
+/**
+ * Take an entry out of the table, moving the entries after it in its probe
+ * run back so every key stays reachable from its home slot.
+ */
+static void SpritePatternRemove(uint32 slot)
+{
+	uint32 next = slot;
+
+	s_spriteCache[slot].sprite = NULL;
+	for (;;) {
+		uint32 home;
+
+		next = (next + 1) & (SPRITE_HASH_MAX - 1);
+		if (s_spriteCache[next].sprite == NULL) break;
+
+		home = SpritePatternHash(s_spriteCache[next].sprite, s_spriteCache[next].remap, s_spriteCache[next].remapCount,
+		                         s_spriteCache[next].hasPalette ? s_spriteCache[next].palette : NULL, s_spriteCache[next].shadow);
+		/* leave it if its home lies cyclically in (slot, next] */
+		if (((next - home) & (SPRITE_HASH_MAX - 1)) < ((next - slot) & (SPRITE_HASH_MAX - 1))) continue;
+
+		s_spriteCache[slot] = s_spriteCache[next];
+		s_spriteCache[next].sprite = NULL;
+		slot = next;
+	}
+	s_spriteCacheCount--;
+}
+
+/**
+ * Evict the least recently used pattern of at least the given size that no
+ * list VDP1 may still draw.
+ *
+ * @param need The bytes wanted.
+ * @param bytesOut Filled with the space the evicted pattern held.
+ * @return Its address, or 0 when nothing may go.
+ */
+static uint32 SpritePatternEvict(uint32 need, uint32 *bytesOut)
+{
+	int oldest = -1;
+	uint32 address;
+	int i;
+
+	for (i = 0; i < SPRITE_HASH_MAX; i++) {
+		const SpritePattern *e = &s_spriteCache[i];
+
+		if (e->sprite == NULL || e->bytes < need) continue;
+		if (Vdp1_ListInUse(e->gen)) continue;
+		if (oldest < 0 || (int32)(e->gen - s_spriteCache[oldest].gen) < 0) oldest = i;
+	}
+	if (oldest < 0) return 0;
+
+	address = s_spriteCache[oldest].address;
+	*bytesOut = s_spriteCache[oldest].bytes;
+	SpritePatternRemove((uint32)oldest);
+	g_vdp1SpriteRebuilt++;
+	return address;
+}
+
+/**
+ * The pattern of a sprite seen before, found without decoding the sprite:
+ * the key is its original pointer, the remap and the palette, all known from
+ * its header.
+ *
+ * @param sprite The sprite, as the caller holds it.
+ * @param palette The effective palette, or NULL.
+ * @param remap The remap table, or NULL.
+ * @param remapCount How many remap passes.
+ * @param flags The draw flags.
+ * @param pitchOut Filled with the pattern's row pitch.
+ * @return The pattern's VRAM address, or 0 when it is not cached.
+ */
+uint32 Video_SpriteLookup(const uint8 *sprite, const uint8 *palette, const uint8 *remap, int remapCount,
+                          uint16 flags, uint16 *pitchOut)
+{
+	SpritePattern *e = &s_spriteCache[SpritePatternProbe(sprite, remap, remapCount, palette, Video_SpriteIsShadow(flags))];
+
+	if (e->sprite == NULL) return 0;
+
+	/* the list being built uses it: it must stay while VDP1 may draw that */
+	e->gen = Vdp1_ListGeneration();
+	*pitchOut = e->pitch;
+	return e->address;
+}
 
 /**
  * Bake a sprite (already expanded to its colour indices) into a linear 8 bpp
- * VDP1 pattern, colour 0 transparent, the width padded to a multiple of 8.
+ * VDP1 pattern, colour 0 transparent, the width padded to 16 pixels.
  *
- * @return The pattern's VRAM address, or 0.
+ * @return The pattern's VRAM address, or 0 when there is no room.
  */
 static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int width, int height,
-                                  const uint8 *palette, const uint8 *remap, int remapCount, int *pitchOut,
+                                  const uint8 *palette, const uint8 *remap, int remapCount, uint16 *pitchOut,
                                   bool shadow)
 {
-	/* For 256 colour patterns the VDP1 size field counts 16 pixel units,
-	 * so the pattern row must be padded to 16 pixels; a row padded to 8
-	 * makes the hardware read across into the next pattern. */
+	/* (pitch / 16) << 9 lands pitch / 8 in the size field's 8-pixel units
+	 * only if the pitch is a multiple of 16 */
 	int pitch = (width + 15) & ~15;
+	uint32 need = (uint32)(pitch * height);
+	uint32 bytes = need;
 	int i, x, y;
-	uint32 address;
+	uint32 address = 0;
+	uint32 slot;
 	volatile uint8 *dst;
 	SpritePattern *entry;
 
-	for (i = 0; i < s_spriteCacheCount; i++) {
-		entry = &s_spriteCache[i];
-
-		if (entry->sprite != sprite) continue;
-		if (entry->shadow != shadow) continue;
-		if (entry->remap != remap || entry->remapCount != remapCount) continue;
-		if (entry->hasPalette != (palette != NULL)) continue;
-		if (palette != NULL && memcmp(entry->palette, palette, 16) != 0) continue;
-
+	slot = SpritePatternProbe(sprite, remap, remapCount, palette, shadow);
+	entry = &s_spriteCache[slot];
+	if (entry->sprite != NULL) {
+		entry->gen = Vdp1_ListGeneration();
 		*pitchOut = entry->pitch;
 		return entry->address;
 	}
 
-	if (s_spriteCacheCount >= SPRITE_CACHE_MAX) return 0;
-
-	address = Vdp1_PatternAlloc(pitch * height);
-	if (address == 0) return 0;
+	if (s_spriteCacheCount < SPRITE_CACHE_MAX) address = Vdp1_PatternAlloc((int)need);
+	if (address == 0) {
+		address = SpritePatternEvict(need, &bytes);
+		if (address == 0) return 0;
+		/* the removal moved entries: find the key's free slot again */
+		slot = SpritePatternProbe(sprite, remap, remapCount, palette, shadow);
+		entry = &s_spriteCache[slot];
+	}
 
 	dst = (volatile uint8 *)(VDP1_VRAM + address);
 	for (y = 0; y < height; y++) {
@@ -786,8 +932,6 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 		dst += pitch;
 	}
 
-
-	entry = &s_spriteCache[s_spriteCacheCount++];
 	entry->sprite = sprite;
 	entry->remap = remap;
 	entry->remapCount = remapCount;
@@ -795,37 +939,26 @@ static uint32 Video_SpritePattern(const uint8 *sprite, const uint8 *data, int wi
 	entry->hasPalette = (palette != NULL);
 	if (palette != NULL) memcpy(entry->palette, palette, 16);
 	entry->address = address;
+	entry->bytes = bytes;
 	entry->pitch = (uint16)pitch;
+	entry->gen = Vdp1_ListGeneration();
+	s_spriteCacheCount++;
 
-	*pitchOut = pitch;
+	*pitchOut = (uint16)pitch;
 	return address;
 }
 
 /**
- * Queue a normal-sprite command for one viewport sprite.
+ * Queue the command for a viewport sprite whose pattern is in VRAM.
  *
- * @return True if the hardware took it, false to fall back to software.
+ * @return True if the hardware took it (or dropped it), false to fall back
+ *  to software.
  */
-bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 height,
-                     int16 screenX, int16 screenY, const uint8 *palette, const uint8 *remap,
-                     int remapCount, uint16 flags)
+bool Video_MapSpritePattern(uint32 pattern, uint16 pitch, int16 width, int16 height,
+                            int16 screenX, int16 screenY, uint16 flags)
 {
-	uint32 pattern;
-	int pitch;
 	Vdp1Cmd *cmd;
-	/* the remap and blur pair is an air unit's shadow: the software path
-	 * darkens the ground under the sprite through the shadow palette */
-	bool shadow = (flags & (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR)) ==
-	              (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR);
-
-	g_vdp1SpriteCalls++;
-
-
-	if (width <= 0 || height <= 0) return true;
-	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
-
-	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch, shadow);
-	if (pattern == 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
+	bool shadow = Video_SpriteIsShadow(flags);
 
 	cmd = Vdp1_ListAdd();
 	if (cmd == NULL) {
@@ -852,8 +985,8 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	cmd->srca = VDP1_CHAR_ADDR(pattern);
 	cmd->size = (uint16)(((pitch / 16) << 9) | (height & 0x1FF));
 
-	/* the vertex coordinate is a 10-bit signed integer, its sign
-	 * extended over the top six bits; there is no fractional part */
+	/* the vertex coordinate is an 11-bit signed integer (-1024 to 1023),
+	 * its sign extended over the top bits; there is no fractional part */
 	cmd->xa = screenX;
 	cmd->ya = (int16)(screenY + s_top);
 
@@ -867,6 +1000,30 @@ bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 
 	if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0) cmd->ctrl |= VDP1_DIR_VFLIP;
 
 	return true;
+}
+
+/**
+ * Bake a viewport sprite's pattern if need be and queue its command.
+ *
+ * @return True if the hardware took it, false to fall back to software.
+ */
+bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 height,
+                     int16 screenX, int16 screenY, const uint8 *palette, const uint8 *remap,
+                     int remapCount, uint16 flags)
+{
+	uint32 pattern;
+	uint16 pitch;
+
+	g_vdp1SpriteCalls++;
+
+	if (width <= 0 || height <= 0) return true;
+	if ((flags & DRAWSPRITE_FLAG_ZOOM) != 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
+
+	pattern = Video_SpritePattern(sprite, data, width, height, palette, remap, remapCount, &pitch,
+	                              Video_SpriteIsShadow(flags));
+	if (pattern == 0) { g_vdp1SpriteRejected++; g_videoSpriteFallback = 1; return false; }
+
+	return Video_MapSpritePattern(pattern, pitch, width, height, screenX, screenY, flags);
 }
 
 /**
@@ -969,6 +1126,7 @@ void Video_MapFlush(void)
  */
 void Video_MapSpritesReset(void)
 {
+	memset(s_spriteCache, 0, sizeof(s_spriteCache));
 	s_spriteCacheCount = 0;
 	Vdp1_PatternReset();
 }

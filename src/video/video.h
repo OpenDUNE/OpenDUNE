@@ -35,6 +35,10 @@ extern void Video_MapScroll(int viewportX, int viewportY);
 extern bool Video_MapSprite(const uint8 *sprite, const uint8 *data, int16 width, int16 height,
                             int16 x, int16 y, const uint8 *palette, const uint8 *remap,
                             int remapCount, uint16 flags);
+extern uint32 Video_SpriteLookup(const uint8 *sprite, const uint8 *palette, const uint8 *remap, int remapCount,
+                                 uint16 flags, uint16 *pitch);
+extern bool Video_MapSpritePattern(uint32 pattern, uint16 pitch, int16 width, int16 height,
+                                   int16 x, int16 y, uint16 flags);
 extern void Video_MapSpritesBegin(void);
 extern uint32 g_videoSpriteFallback;
 extern void Video_MapFlush(void);

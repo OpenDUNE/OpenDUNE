@@ -15,6 +15,7 @@
 
 #include "vdp1.h"
 #include "vdp2.h"
+#include "saturn_timer.h"
 
 enum {
 	/* the jump command is 32 bytes at 0, then two command lists of 0x47E0
@@ -32,7 +33,17 @@ static uint32_t s_listActive; /*!< the list VDP1 draws */
 static int s_listCount;       /*!< commands in the build list */
 static bool s_listPending;    /*!< a finished list waits for the vertical blank */
 static int s_clipBottom = 211; /*!< the system clip's last line */
-static int16_t s_localY = 0;  /*!< the local coordinate every list starts with */
+static int16_t s_localY = 0;
+
+/* Lists are numbered as they are begun. A pattern a list uses must stay
+ * until VDP1 can no longer draw that list: VDP1 redraws the active list at
+ * every frame change until another is switched in, and the one switched out
+ * at a blank is still drawn until the frame change at that blank's end. */
+static uint32_t s_buildGen = 1;      /*!< the list being built */
+static uint32_t s_committedGen = 0;  /*!< the list waiting for the blank */
+static volatile uint32_t s_activeGen = 0;   /*!< the list VDP1 draws */
+static volatile uint32_t s_previousGen = 0; /*!< the one before it */
+static volatile uint32_t s_switchFrame = 0; /*!< the frame it was switched in */  /*!< the local coordinate every list starts with */
 
 static uint32_t s_patternNext; /*!< next free byte in the pattern area */
 
@@ -113,6 +124,7 @@ void Vdp1_ListBegin(void)
 
 	s_listCount = 0;
 	s_listPending = false;
+	s_buildGen++;
 	g_vdp1BeginCount++;
 
 	/* The system clipping area is undefined until a command sets it, so
@@ -185,6 +197,7 @@ void Vdp1_ListCommit(void)
 	g_vdp1CommitTrace[g_vdp1TracePos & 7] = (uint32_t)s_listCount;
 	g_vdp1AddTrace[g_vdp1TracePos & 7] = g_vdp1Commands;
 	g_vdp1TracePos++;
+	s_committedGen = s_buildGen;
 	s_listPending = true;
 }
 
@@ -200,9 +213,36 @@ void Vdp1_ListVBlank(void)
 	jump = (Vdp1Cmd *)VDP1_VRAM;
 	jump->link = (uint16_t)(s_listBuild >> 3);
 
+	s_previousGen = s_activeGen;
+	s_activeGen = s_committedGen;
+	s_switchFrame = SaturnTimer_Frames();
 	s_listActive = s_listBuild;
 	s_listBuild = (s_listBuild == VDP1_LIST_A) ? VDP1_LIST_B : VDP1_LIST_A;
 	s_listPending = false;
+}
+
+/**
+ * The number of the list being built, to stamp the patterns it uses with.
+ *
+ * @return The number.
+ */
+uint32_t Vdp1_ListGeneration(void)
+{
+	return s_buildGen;
+}
+
+/**
+ * Whether VDP1 may still draw a list of the given number, so the patterns
+ * it uses must stay as they are.
+ *
+ * @param gen The list's number.
+ * @return True if it may.
+ */
+int Vdp1_ListInUse(uint32_t gen)
+{
+	uint32_t oldest = (SaturnTimer_Frames() != s_switchFrame) ? s_activeGen : s_previousGen;
+
+	return gen >= oldest;
 }
 
 /**
