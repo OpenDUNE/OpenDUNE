@@ -87,12 +87,18 @@ static bool s_mapScrollDirty = true;
 #define HOUSE_CHAR_SLOTS 119
 static int16 s_houseCharMap[512 * 6]; /*!< (tileID * 6 + houseID) -> slot + 1 */
 static int s_houseCharCount = 0;
+static volatile bool s_houseCharFull = false;  /*!< a structure fell back to its unremapped colours */
+static bool s_houseCharWarned = false;
 
 /* pattern names changed by the game loop, written in the vertical blank so
- * the CPU only touches VDP2's VRAM when the display isn't reading it */
+ * the CPU only touches VDP2's VRAM when the display isn't reading it. A ring
+ * (each tile is in it at most once), drained a capped number at a time so a
+ * whole-map redraw spreads over several blanks instead of outlasting one. */
+#define MAP_NAMES_PER_VBLANK 256
 static uint16 s_mapNameQueue[64 * 64];
 static uint8 s_mapNameQueued[512];
-static int s_mapNameCount = 0;
+static int s_mapNameHead = 0;
+static volatile int s_mapNameCount = 0;
 
 static void MapWriteTile(uint16 packed);
 
@@ -212,13 +218,15 @@ static void Video_VBlank(void)
 	if (s_mapVisible) Vdp2_SetColor(VDP1_PATTERN_MAX, s_palette[255]);
 
 	/* write the queued pattern names while the display isn't reading VRAM */
-	for (i = 0; i < s_mapNameCount; i++) {
-		uint16 packed = s_mapNameQueue[i];
+	for (i = 0; i < MAP_NAMES_PER_VBLANK && s_mapNameCount > 0; i++) {
+		uint16 packed = s_mapNameQueue[s_mapNameHead];
 
+		if (SaturnTimer_SinceFrameUs() >= s_vblankBudgetUs) break;
 		MapWriteTile(packed);
 		s_mapNameQueued[packed >> 3] &= ~(1 << (packed & 7));
+		s_mapNameHead = (s_mapNameHead + 1) & (64 * 64 - 1);
+		s_mapNameCount--;
 	}
-	s_mapNameCount = 0;
 
 	Smpc_VBlank();
 	Loading_VBlank();
@@ -354,6 +362,11 @@ void Video_Tick(void)
 	PadSaturn_Tick();
 
 	if (Video_QueueDirty()) Loading_ScreenChanged();
+
+	if (s_houseCharFull && !s_houseCharWarned) {
+		s_houseCharWarned = true;
+		Warning("House characters exhausted: %d slots used\n", s_houseCharCount);
+	}
 }
 
 /**
@@ -529,7 +542,9 @@ static int MapTileChar(int tileID, int houseID)
 	stored = s_houseCharMap[tileID * 6 + houseID];
 	if (stored == 0) {
 		if (s_houseCharCount >= HOUSE_CHAR_SLOTS) {
-			/* out of room: fall back to the unremapped character */
+			/* out of room: fall back to the unremapped character, and
+			 * say so (from Video_Tick(): this may run in the interrupt) */
+			s_houseCharFull = true;
 			return 0x1000 + (tileID + VDP2_MAP_CHAR_TILE) * 8;
 		}
 		slot = s_houseCharCount++;
@@ -565,6 +580,8 @@ void Video_MapLoadTiles(int tileCount)
 	/* the house characters are baked afresh for each scenario's houses */
 	memset(s_houseCharMap, 0, sizeof(s_houseCharMap));
 	s_houseCharCount = 0;
+	s_houseCharFull = false;
+	s_houseCharWarned = false;
 }
 
 /**
@@ -612,7 +629,8 @@ void Video_MapSetTile(uint16 packed)
 	sr = Cpu_DisableInterrupts();
 	if ((s_mapNameQueued[byte] & bit) == 0) {
 		s_mapNameQueued[byte] |= bit;
-		s_mapNameQueue[s_mapNameCount++] = packed;
+		s_mapNameQueue[(s_mapNameHead + s_mapNameCount) & (64 * 64 - 1)] = packed;
+		s_mapNameCount++;
 	}
 	Cpu_RestoreInterrupts(sr);
 }
@@ -624,6 +642,16 @@ void Video_MapSetTile(uint16 packed)
 void Video_MapRedrawAll(void)
 {
 	int packed;
+
+	/* bake the house-coloured characters the map needs now, in the game
+	 * loop, rather than dozens at a time inside the vertical blank */
+	for (packed = 0; packed < 64 * 64; packed++) {
+		const Tile *t = &g_map[packed];
+
+		/* veiled tiles too: most of the map starts veiled */
+		MapTileChar(t->groundTileID, t->houseID);
+		if (t->overlayTileID != 0 && t->overlayTileID != g_veiledTileID) MapTileChar(t->overlayTileID, t->houseID);
+	}
 
 	for (packed = 0; packed < 64 * 64; packed++) Video_MapSetTile((uint16)packed);
 }
