@@ -21,8 +21,8 @@
  * here reaches the screen a screen later than a VDP2 register change.
  *
  *   0x00020  command list A (VDP1_LIST_A)
- *   0x04000  command list B (VDP1_LIST_B)
- *   0x08000  cached sprite patterns
+ *   0x04800  command list B (VDP1_LIST_B)
+ *   0x09000  cached sprite patterns
  *   0x40000  the CD sector cache (files.c)
  *
  * Rules learned the hard way, all following from the VDP1 manual:
@@ -39,7 +39,7 @@
  *    the vertex of the jump, clipping and end commands is put off-screen.
  */
 enum {
-	VDP1_PATTERNS = 0x8000,  /*!< cached sprite patterns, 8 bpp */
+	VDP1_PATTERNS = 0x9000,  /*!< cached sprite patterns, 8 bpp, after list B */
 	VDP1_CD_CACHE = 0x40000  /*!< the CD sector cache */
 };
 

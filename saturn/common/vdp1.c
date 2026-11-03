@@ -16,10 +16,14 @@
 #include "vdp1.h"
 
 enum {
-	/* the jump command is 32 bytes at 0, then two command lists */
+	/* the jump command is 32 bytes at 0, then two command lists of 0x47E0
+	 * bytes each, ending where the sprite patterns start (VDP1_PATTERNS).
+	 * The last slot of each is kept for the draw end command: written one
+	 * further, list A's end would land on list B's first command and VDP1
+	 * would run on into it. */
 	VDP1_LIST_A = 0x00020,
-	VDP1_LIST_B = 0x04000,
-	VDP1_LIST_COMMANDS = (VDP1_LIST_B - VDP1_LIST_A) / 32 /* leave 0x20 for the end */
+	VDP1_LIST_B = 0x04800,
+	VDP1_LIST_COMMANDS = (VDP1_LIST_B - VDP1_LIST_A) / 32 - 1
 };
 
 static uint32_t s_listBuild;  /*!< the list the game loop fills */
