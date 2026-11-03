@@ -70,6 +70,7 @@ extern void Vdp2_SetScrollY(int y);
 extern void Vdp2_OverlayShow(int show);
 extern void Vdp2_OverlayPixel(int x, int y, int colour);
 extern void Vdp2_MapShow(int show);
+extern void Vdp2_LayersVBlank(void);
 
 extern void Vdp2_MapInit(void);
 extern void Vdp2_MapWindow(int left, int top, int right, int bottom);

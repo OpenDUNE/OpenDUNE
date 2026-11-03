@@ -174,16 +174,27 @@ void Vdp2_OverlayShow(int show)
 	Vdp2_BgonUpdate();
 }
 
+static volatile int s_mapShowNext = 0; /*!< what Vdp2_MapShow() asked for */
+
 /**
  * Make NBG0's colour 0 transparent so the map planes show through, or opaque
- * so colour 0 draws.
+ * so colour 0 draws - from the next Vdp2_LayersVBlank(), so the layers do
+ * not switch partway down the picture.
  *
  * @param show Whether the map is shown.
  */
 void Vdp2_MapShow(int show)
 {
-	if (s_mapShow == show) return;
-	s_mapShow = show;
+	s_mapShowNext = show;
+}
+
+/**
+ * The vertical blank: switch the map's layers as Vdp2_MapShow() asked.
+ */
+void Vdp2_LayersVBlank(void)
+{
+	if (s_mapShow == s_mapShowNext) return;
+	s_mapShow = s_mapShowNext;
 	Vdp2_BgonUpdate();
 }
 

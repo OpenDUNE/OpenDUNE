@@ -202,6 +202,9 @@ static void Video_VBlank(void)
 	/* the bitmap rows before the colours, so a picture and its palette land
 	 * together */
 	if (s_framebuffer != NULL) Video_CopyPending();
+	/* the map's layers switch once its area of the bitmap is clear, so the
+	 * old screen does not show through for a frame */
+	if (!s_clearViewport) Vdp2_LayersVBlank();
 	Video_PalettePending();
 
 	/* the selection colour animates every few frames: keep its stand-in
