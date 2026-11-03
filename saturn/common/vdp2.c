@@ -29,17 +29,21 @@ int g_vdp2DisplayH = 224;
  * BGON into CPU slots - so with the map hidden, the planes' slots would
  * surround the other layers' reads with CPU slots. The real hardware shows
  * stripes then (Ymir does not model it), so the planes' slots are set to
- * "no access" explicitly while the map is hidden. The CPU gets T6 and T7 in
- * every bank; the bulk writes are made in the vertical blank anyway.
+ * "no access" explicitly while the map is hidden. Bank B gives the CPU T6
+ * and T7; bank A, which the screen copies write during the picture, as many
+ * slots as the display leaves.
  *
  * @param mapShow Whether NBG2 and NBG3 are shown.
  */
 static void Vdp2_CyclesUpdate(int mapShow)
 {
-	VDP2_CYCA0L = 0x44FF;
-	VDP2_CYCA0U = 0xFFEE;
-	VDP2_CYCA1L = mapShow ? 0x6677 : 0xFFFF;
-	VDP2_CYCA1U = 0xFFEE;
+	/* bank A (the bitmap, written during the picture too): the CPU from T3
+	 * while the map is hidden, from T5 while its characters take A1's T0-T3,
+	 * with "no access" in both banks just before */
+	VDP2_CYCA0L = mapShow ? 0x44FF : 0x44FE;
+	VDP2_CYCA0U = mapShow ? 0xFEEE : 0xEEEE;
+	VDP2_CYCA1L = mapShow ? 0x6677 : 0xFFFE;
+	VDP2_CYCA1U = mapShow ? 0xFEEE : 0xEEEE;
 	VDP2_CYCB0L = mapShow ? 0x23FF : 0xFFFF;
 	VDP2_CYCB0U = 0xFFEE;
 	VDP2_CYCB1L = 0xFF5F;
