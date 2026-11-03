@@ -432,7 +432,16 @@ void Video_MapShow(bool show)
 	 * NBG0 is opaque where it is not colour 0 and the viewport rows are no
 	 * longer copied. Clear that area once, as the map appears - in the
 	 * vertical blank, like every other write into the bitmap. */
-	if (show && !s_mapVisible) s_clearViewport = true;
+	if (show && !s_mapVisible) {
+		/* SCREEN_0 too: the viewport is drawn into SCREEN_1 and never
+		 * copied, so the old screen would otherwise stay there and come
+		 * back over the map with the next copy of those rows */
+		uint8 *p = s_framebuffer + 40 * SCREEN_WIDTH;
+		int row;
+
+		for (row = 0; row < 160; row++, p += SCREEN_WIDTH) memset(p, 0, 240);
+		s_clearViewport = true;
+	}
 #endif
 	s_mapVisible = show;
 #if SATURN_HW_MAP
