@@ -35,12 +35,14 @@ static __inline__ void Cpu_EnableInterrupts(void)
 	uint32_t sr;
 	__asm__ volatile ("stc sr, %0" : "=r" (sr));
 	sr &= ~0xF0u;
-	__asm__ volatile ("ldc %0, sr" : : "r" (sr));
+	__asm__ volatile ("ldc %0, sr" : : "r" (sr) : "memory");
 }
 
 /**
  * Mask all interrupts on the calling SH-2; returns the old SR for
- * Cpu_RestoreInterrupts().
+ * Cpu_RestoreInterrupts(). Both are compiler barriers too ("memory"): without
+ * that, GCC may move the stores they guard past them, and the VBlank hook
+ * then finds a queue whose count is ahead of its contents.
  *
  * @return The old SR.
  */
@@ -48,7 +50,7 @@ static __inline__ uint32_t Cpu_DisableInterrupts(void)
 {
 	uint32_t sr;
 	__asm__ volatile ("stc sr, %0" : "=r" (sr));
-	__asm__ volatile ("ldc %0, sr" : : "r" (sr | 0xF0u));
+	__asm__ volatile ("ldc %0, sr" : : "r" (sr | 0xF0u) : "memory");
 	return sr;
 }
 
@@ -59,7 +61,7 @@ static __inline__ uint32_t Cpu_DisableInterrupts(void)
  */
 static __inline__ void Cpu_RestoreInterrupts(uint32_t sr)
 {
-	__asm__ volatile ("ldc %0, sr" : : "r" (sr));
+	__asm__ volatile ("ldc %0, sr" : : "r" (sr) : "memory");
 }
 
 /**
