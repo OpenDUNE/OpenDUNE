@@ -106,7 +106,8 @@ extern void Vdp1_LocalVBlank(int16_t y);
 extern uint32_t Vdp1_ListGeneration(void);
 extern int Vdp1_ListInUse(uint32_t gen);
 
-/* Sprite patterns are baked into VDP1 VRAM on demand, resetting each frame. */
+/* Sprite patterns are baked into VDP1 VRAM on demand, kept until a scenario
+ * load (Vdp1_PatternReset). */
 extern void Vdp1_PatternReset(void);
 extern uint32_t Vdp1_PatternAlloc(int bytes);
 

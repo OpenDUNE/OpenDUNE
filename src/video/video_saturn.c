@@ -573,7 +573,7 @@ static bool MapTileHasHouseColour(int tileID)
 }
 
 /* The character number of a tile, its house colour baked in if the house
- * remaps it. House-coloured characters are built on demand into bank B1. */
+ * remaps it. House-coloured characters are built on demand into bank A1. */
 static int MapTileChar(int tileID, int houseID)
 {
 	int stored;

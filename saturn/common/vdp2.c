@@ -1,9 +1,10 @@
 /** @file saturn/common/vdp2.c VDP2 set up as an 8bpp bitmap (NBG0) and an overlay.
  *
  * NBG0 is a 512x256 bitmap of 256 colours at the start of VRAM (bank A),
- * shown in a 320x224 non-interlaced display. NBG1, in front of it, is a
- * 512x256 bitmap of 16 colours in bank B, colour 0 transparent, using its
- * own colours (colour RAM 256 on) for marks drawn over the picture.
+ * shown in a 320x224 (NTSC) or 320x256 (PAL) non-interlaced display. NBG1,
+ * in front of it, is a 512x256 bitmap of 16 colours in bank B1, colour 0
+ * transparent, using its own colours (colour RAM 256 on) for marks drawn
+ * over the picture.
  * Register values follow the VDP2 User's Manual. */
 
 #include "saturn_hw.h"
@@ -226,11 +227,11 @@ void Vdp2_OverlayPixel(int x, int y, int colour)
 }
 
 /**
- * Turn the display on, 320x224.
+ * Turn the display on: 320 wide, the broadcast standard's line count.
  */
 void Vdp2_DisplayOn(void)
 {
-	/* DISP on, border shows the back screen, 320x224 non-interlaced */
+	/* DISP on, border shows the back screen, non-interlaced */
 	/* VRESO = 10b: 256 lines, PAL only */
 	VDP2_TVMD = 0x8000 | 0x0100 | ((g_vdp2DisplayH == 256) ? (2 << 4) : 0);
 }
@@ -288,7 +289,7 @@ void Vdp2_MapInit(void)
 	VDP2_PLSZ = 0;
 
 	/* pattern name tables: NBG2 pages at 0x50000, NBG3 at 0x54000 (pages
-	 * 0x1000 apart); the NBG1 overlay bitmap stays at 0x40000. The map
+	 * 0x1000 apart), alone in bank B0. The map
 	 * registers hold the low six bits of each page number, MPOFN the top. */
 	VDP2_MPOFN = (VDP2_OVERLAY_OFFSET / 0x20000) << 4  /* N1MP = 3 */
 	           | (1 << 8)                             /* N2MP = 1 */

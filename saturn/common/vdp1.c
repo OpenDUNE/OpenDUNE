@@ -2,7 +2,7 @@
  *
  * VDP1 draws into a 16 bpp frame buffer that VDP2 shows as its sprite layer.
  * A one-cycle frame buffer is erased to the transparent colour over the whole
- * 320x224 picture each frame, and drawing restarts from the command list at
+ * display each frame, and drawing restarts from the command list at
  * the start of VDP1's VRAM with each frame change.
  *
  * The command list is double buffered: the game loop fills one list while
@@ -67,7 +67,7 @@ void Vdp1_Init(int clipBottom)
 
 	g_vdp1Magic = 0xA5A5A5A5;
 
-	/* 16 bpp, normal 320x224, no V-blank erase; erase over the whole picture */
+	/* 16 bpp, normal 320 wide, no V-blank erase; erase over the whole picture */
 	VDP1_TVMR = 0x0000;
 
 	/* one-cycle frame buffer, changes each field */

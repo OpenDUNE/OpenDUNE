@@ -46,7 +46,7 @@ enum {
 
 /* The map's cell planes (NBG2 ground, NBG3 overlay), all in VRAM: the
  * character patterns in bank A1, the pattern name tables (pages A-D, 0x1000
- * apart) in bank B0 after the NBG1 overlay. */
+ * apart) in bank B0; the NBG1 overlay is in B1. */
 enum {
 	VDP2_MAP_PATTERNS = 0x20000, /*!< 16x16 8bpp tile characters */
 	VDP2_MAP_HOUSES = 0x38900,   /*!< house-coloured characters, after the tiles in A1 */
