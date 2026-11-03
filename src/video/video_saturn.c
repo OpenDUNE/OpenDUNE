@@ -1,12 +1,12 @@
 /** @file src/video/video_saturn.c Sega Saturn video driver.
  *
- * SCREEN_0 lives in work RAM; every tick the parts marked dirty are queued,
- * and the vertical blank hook copies them into the VDP2 NBG0 bitmap (512x256,
- * 8bpp), with the 320x200 picture centred in the display's lines. Like the
- * palette, the scroll and the map's pattern names, the bitmap is written only
- * in the vertical blank: VRAM and colour RAM written while the picture is
- * drawn show stripes and stray dots on the hardware. The pad is read here too
- * (input/pad_saturn.c), as other drivers read events. */
+ * SCREEN_0 lives in work RAM; every tick the parts marked dirty are copied
+ * into the VDP2 NBG0 bitmap (512x256, 8bpp), with the 320x200 picture
+ * centred in the display's lines - during the picture, in bank A's CPU slots
+ * (vdp2.c), which is legal as long as the cycle patterns are. What a busy
+ * game loop leaves queued, the vertical blank hook copies. The palette, the
+ * scroll and the map's pattern names are written in the vertical blank. The
+ * pad is read here too (input/pad_saturn.c), as other drivers read events. */
 
 #include <stdlib.h>
 #include <string.h>
@@ -368,15 +368,60 @@ static bool Video_QueueDirty(void)
 }
 
 /**
- * Bring the bitmap up to date as soon as possible, instead of waiting for
- * the next tick: the vertical blank copies what is queued, and the palette
- * changed after this waits for those rows.
+ * Copy every queued row now, from the game loop at a point where nothing is
+ * half drawn (a tick, a repaint). With legal VRAM cycle patterns the CPU may
+ * write the bitmap during the picture, in bank A's CPU slots; leaving it all
+ * to the vertical blank made a window open and close over several frames.
+ * Each row is taken off the queue before it is copied, so the hook never
+ * copies it too.
+ */
+static void Video_CopyNow(void)
+{
+	int y;
+
+	if (s_rowsPending == 0) return;
+
+	for (y = 0; y < SCREEN_HEIGHT; y++) {
+		uint16 left, right;
+		uint32 sr;
+		const uint32 *src;
+		volatile uint32 *dst;
+		int n;
+
+		if (s_rowRight[y] == 0) continue;
+
+		sr = Cpu_DisableInterrupts();
+		left = s_rowLeft[y];
+		right = s_rowRight[y];
+		if (right != 0) {
+			s_rowRight[y] = 0;
+			s_rowsPending--;
+		}
+		Cpu_RestoreInterrupts(sr);
+		if (right == 0) continue;
+
+		src = (const uint32 *)(s_framebuffer + y * SCREEN_WIDTH + left);
+		dst = (volatile uint32 *)(VDP2_BITMAP + (s_top + y) * VDP2_BITMAP_PITCH + left);
+		for (n = (right - left) >> 2; n > 0; n--) *dst++ = *src++;
+	}
+
+	{
+		uint32 sr = Cpu_DisableInterrupts();
+
+		if (s_rowsPending == 0) s_rowsLanded = s_rowsQueued;
+		Cpu_RestoreInterrupts(sr);
+	}
+}
+
+/**
+ * Bring the bitmap up to date now, instead of waiting for the next tick.
  */
 void Video_Repaint(void)
 {
 	if (s_framebuffer == NULL) return;
 
 	Video_QueueDirty();
+	Video_CopyNow();
 }
 
 /**
@@ -391,6 +436,7 @@ void Video_Tick(void)
 	PadSaturn_Tick();
 
 	if (Video_QueueDirty()) Loading_ScreenChanged();
+	Video_CopyNow();
 
 	if (s_houseCharFull && !s_houseCharWarned) {
 		s_houseCharWarned = true;
@@ -417,6 +463,7 @@ void Video_SetPalette(void *palette, int from, int length)
 	 * them to colour RAM */
 	/* the rows drawn so far go to the screen before these colours do */
 	Video_QueueDirty();
+	Video_CopyNow();
 
 	sr = Cpu_DisableInterrupts();
 	for (i = from; i < from + length; i++, p += 3) {
