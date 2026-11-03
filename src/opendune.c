@@ -1173,6 +1173,12 @@ static void GameLoop_Main(void)
 	GFX_Screen_SetActive(SCREEN_1);
 
 	GFX_ClearScreen(SCREEN_1);
+#if defined(SATURN) && SATURN_HW_MAP
+	/* Colour 0 on the bitmap is transparent while the map is shown, so a
+	 * dissolve to colour 0 would open holes onto the map and the units
+	 * instead of covering them. Dissolve to the veil's opaque black. */
+	if (Video_MapIsShown()) memset(GFX_Screen_Get_ByIndex(SCREEN_1), 12, SCREEN_WIDTH * SCREEN_HEIGHT);
+#endif
 
 	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, SCREEN_1, SCREEN_0);
 }
