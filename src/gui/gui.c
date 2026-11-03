@@ -2596,6 +2596,8 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 		}
 	}
 
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, min(x1, x2), min(y1, y2), max(x1, x2) + 1, max(y1, y2) + 1);
+
 	y2 -= y1;
 
 	if (y2 == 0) {
@@ -4277,6 +4279,7 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
 
 	screen = GFX_Screen_GetActive();
 	screen += top * SCREEN_WIDTH + left;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, left + width, top + height);
 
 	for (; height > 0; height--) {
 		int i = width;
@@ -4337,6 +4340,7 @@ void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 heigh
 {
 	uint8 *screen = GFX_Screen_Get_ByIndex(screenID);
 
+	GFX_Screen_SetDirty(screenID, left, top, left + width, top + height);
 	screen += top * SCREEN_WIDTH + left;
 	for (; height > 0; height--) {
 		int i;
@@ -4679,6 +4683,7 @@ void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom
 	screen += left + top * SCREEN_WIDTH;
 	width = right - left + 1;
 	height = bottom - top + 1;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, left, top, right + 1, bottom + 1);
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < width; x++) {
 			*screen++ ^= colour;

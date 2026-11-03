@@ -251,6 +251,7 @@ void GFX_DrawTile(uint16 tileID, uint16 x, uint16 y, uint8 houseID)
 
 	wptr = GFX_Screen_GetActive();
 	wptr += y * SCREEN_WIDTH + x;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, x, y, x + s_tileWidth * 2, y + s_tileHeight);
 	rptr = g_tilesPixels + (tileID * s_tileByteSize);
 
 	/* tiles with transparent pixels : [1 : 33] U [108 : 122] and 124
@@ -323,6 +324,7 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 	if (x >= SCREEN_WIDTH) return;
 
 	*((uint8 *)GFX_Screen_GetActive() + y * SCREEN_WIDTH + x) = colour;
+	GFX_Screen_SetDirty(SCREEN_ACTIVE, x, y, x + 1, y + 1);
 }
 
 /**
